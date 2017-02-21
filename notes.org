@@ -1044,6 +1044,7 @@ you should place your code here."
 2. =spc g s= magit-status
 3. =s-1= goto unstaged section
 **** commits in action
+this is a test
 **** branching basics
 **** rebase
 **** pull push and send pull request
