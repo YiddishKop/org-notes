@@ -1041,6 +1041,9 @@ you should place your code here."
 
 ** Spcemacs Rocks - some tips
 *** magit workflow
+    Normally, =M-x: magit-init= to init git control in current directory
+    then,     =spc g s=         to enter the git-view of stage state.
+    then,     =h=               to see *any hotkey* you want
 **** magit init, commit and commit messages
 1. =spc g i= magit init
 2. =spc g s= magit-status
