@@ -1061,11 +1061,13 @@ you should place your code here."
       2. ----
       3. ----
 3. =l l= to see the commit log
-4. squash unpushed commits
-5. reset commits
-6. selecct a few line to commits
-7. discard changes, file wide or line wide
-8. revert commits
+4. =M a= to add remote git server
+5. =p=   to push
+6. squash unpushed commits
+7. reset commits
+8. selecct a few line to commits
+9. discard changes, file wide or line wide
+10. revert commits
 **** branching basics
 **** rebase
 **** pull push and send pull request
