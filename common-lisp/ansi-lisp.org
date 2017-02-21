@@ -1,0 +1,316 @@
+* ANSI  lisp 
+** grammer
+ 
+*** what is symbol
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+有两个通常在别的语言所找不到的 Lisp 数据类型是符号（symbol）与列表（lists），符号是英语的单词 (words)。无论你怎么输入，通常会被转换为大写：
+
+> 'Artichoke
+ARTICHOKE
+符号（通常）不对自身求值，所以要是想引用符号，应该像上例那样用 ' 引用它。
+
+#+END_QUOTE
+*** list and function
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+列表是由被括号包住的零个或多个元素来表示。元素可以是任何类型，包含列表本身。使用列表必须要引用，不然 Lisp 会以为这是个函数调用：
+
+> '(my 3 "Sons")
+(MY 3 "Sons")
+> '(the list (a b c) has 3 elements)
+(THE LIST (A B C) HAS 3 ELEMENTS)
+注意引号保护了整个表达式（包含内部的子表达式）被求值。
+#+END_QUOTE
+*** side-effect of function
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+如果这些表达式没有副作用，你没有任何理由告诉 Lisp ，为什么要去对它们求值。
+#+END_QUOTE
+seems like print() in python. what we use is the side-effect of this function.
+注意到有两个东西被打印出来。第一行是 format 印出来的。第二行是调用 format 函数的返回值，就像平常顶层会打印出来的一样。通常像 format 这种函数不会直接在顶层调用，而是在程序内部里使用，所以返回值不会被看到。
+
+*** naming the global variable 
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+我们已经看过的这些变量都叫做局部变量。
+
+它们只在特定的上下文里有效。
+
+另外还有一种变量叫做全局变量（global variable），是在任何地方都是可视的。
+
+你可以给 defparameter 传入符号和值，来创建一个全局变量：
+
+通常我们在给全局变量命名时，以星号作开始与结束。刚才我们创造的变量可以念作 “星-glob-星” (star-glob-star)。
+
+
+也就是说，通过赋值，你可以隐式地创建全局变量。 不过，一般来说，还是使用 defparameter 明确地创建全局变量比较好。
+*** never modify and interactive testing
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+举例来说，函数 remove 接受一个对象和一个列表，返回不含这个对象的新列表：
+
+> (setf lst '(c a r a t))
+(C A R A T)
+> (remove 'a lst)
+(C R T)
+为什么不干脆说 remove 从列表里移除一个对象？因为它不是这么做的。原来的表没有被改变：
+
+> lst
+(C A R A T)
+若你真的想从列表里移除某些东西怎么办？在 Lisp 通常你这么做，把这个列表当作实参，传入某个函数，并使用 setf 来处理返回值
+要移除所有在列表 x 的 a ，我们可以说：
+
+(setf x (remove 'a x))
+
+函数式编程本质上意味着避免使用如 setf 的函数。起初可能觉得这根本不可能，更遑论去做了。怎么可以只凭返回值来建立程序？
+
+完全不用到副作用是很不方便的。然而，随着你进一步阅读，会惊讶地发现需要用到副作用的地方很少。副作用用得越少，你就更上一层楼。
+
+函数式编程最重要的优点之一是，它允许交互式测试（interactive testing）。
+在纯函数式的程序里，你可以测试每个你写的函数。如果它返回你预期的值，你可以有信心它是对的。
+这额外的信心，集结起来，会产生巨大的差别。当你改动了程序里的任何一个地方，会得到即时的改变。
+而这种即时的改变，使我们有一种新的编程风格。类比于电话与信件，让我们有一种新的通讯方式。
+
+#+END_QUOTE
+*** recursive and iteration
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+当我们想重复做一些事情时，迭代比递归来得更自然。典型的例子是用迭代来产生某种表格。这个函数
+
+(defun show-squares (start end)
+  (do ((i start (+ i 1)))
+      ((> i end) 'done)
+    (format t "~A ~A~%" i (* i i))))
+列印从 start 到 end 之间的整数的平方：
+
+
+作为对比，以下是递归版本的 show-squares ：
+
+(defun show-squares (i end)
+   (if (> i end)
+     'done
+     (progn
+       (format t "~A ~A~%" i (* i i))
+       (show-squares (+ i 1) end))))
+#+END_QUOTE
+*** function is symbol
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+函数在 Lisp 里，和符号、字符串或列表一样，是稀松平常的对象。如果我们把函数的名字传给 function ，它会返回相关联的对象。和 quote 类似， function 是一个特殊操作符，所以我们无需引用（quote）它的实参：
+
+> (function +)
+#<Compiled-Function + 17BA4E>
+这看起来很奇怪的返回值，是在典型的 Common Lisp 实现里，函数可能的打印表示法。
+
+#+END_QUOTE
+*** inner-type of lisp
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+Common Lisp 的内置类型，组成了一个类别的层级。对象总是不止属于一个类型。举例来说，数字 27 的类型，依普遍性的增加排序，依序是 fixnum 、 integer 、 rational 、 real 、 number 、 atom 和 t 类型。（数值类型将在第 9 章讨论。）类型 t 是所有类型的基类（supertype）。 *所以每个对象都属于 t 类型。* 
+
+函数 typep 接受一个对象和一个类型，然后判定对象是否为该类型，是的话就返回真：
+
+> (typep 27 'integer)
+T
+#+END_QUOTE
+
+你不但在语言之中编程，还把 *语言改善成适合程序的语言* (which makes me exciting) 。如果你想了解 Lisp 编程的本质，理解这个概念是个好的开始。
+*** rule of compute in lisp 
+Common Lisp 函数调用的求值规则： 依序对实参从左至右求值，接着把它们的值传入由操作符表示的函数。
+quote 操作符有自己的求值规则，它完封不动地返回实参。
+*** list function expression are the same thing
+除了一般的数据类型， Lisp 还有符号跟列表。由于 Lisp 程序是用列表来表示的，很轻松就能写出能编程的程序。
+
+Lisp 程序由表达式组成。表达式可以是原子，或一个由操作符跟着零个或多个实参的列表。前序表示法代表操作符可以有任意数量的实参。
+
+ Lisp 主要由函数所组成。可以用 defun 来定义新的函数。
+函数式编程代表避免产生副作用，也是 Lisp 的主导思维。
+函数是 Lisp 的对象。可以被当成实参传入，并且可以用 lambda 表达式来表示。
+自己调用自己的函数是递归的。一个递归函数应该要被想成是过程，而不是机器。
+
+#+END_QUOTE
+** functions
+*** lisp -typep
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+函数 typep 接受一个对象和一个类型，然后判定对象是否为该类型，是的话就返回真：
+
+> (typep 27 'integer)
+#+END_QUOTE
+*** lisp -lambda
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+一个 lambda 表达式是一个列表，列表包含符号 lambda ，接着是形参列表，以及由零个或多个表达式所组成的函数体
+#+END_QUOTE
+*** lisp -funcall & apply
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+函数 funcall 做的是一样的事情，但不需要把实参包装成列表。
+
+> (funcall #'+ 1 2 3)
+6
+
+
+apply 接受一个函数和实参列表，并返回把传入函数应用在实参列表的结果：
+
+> (apply #'+ '(1 2 3))
+6
+> (+ 1 2 3)
+6
+apply 可以接受任意数量的实参，只要最后一个实参是列表即可：
+
+> (apply #'+ 1 2 '(3 4 5))
+15
+#+END_QUOTE
+*** lisp -quote & function
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+如同我们可以用 ' 作为 quote 的缩写，也可以用 #' 作为 function 的缩写
+Lisp 提供 quote 作为一种保护表达式不被求值的方式
+ quote 操作符接受一个实参，并完封不动地返回它。
+
+> (quote (+ 3 5))
+贴上一个 ' ，与调用 quote 是同样的效果：
+
+> '(+ 3 5)
+#+END_QUOTE
+*** lisp -progn
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+progn 接受任意数量的表达式，依序求值，并返回最后一个表达式的值。
+#+END_QUOTE
+*** lisp -dolist
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+(defun our-length (lst)
+  (let ((len 0))
+    (dolist (obj lst)
+      (setf len (+ len 1)))
+    len))
+    
+ 这里 dolist 接受这样形式的实参(variable expression)，跟着一个具有表达式的函数主体。函数主体会被求值，而变量相继与表达式所返回的列表元素绑定
+
+**** dolist do tail-recursion default  
+ #+END_QUOTE
+*** lisp -do
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+do 宏是 Common Lisp 里最基本的迭代操作符。和 let 类似， do 可以创建变量，而第一个实参是一组变量的规格说明列表。每个元素可以是以下的形式
+
+(variable initial update)
+其中 variable 是一个符号， initial 和 update 是表达式。最初每个变量会被赋予 initial 表达式的值；每一次迭代时，会被赋予 update 表达式的值。在 show-squares 函数里， do 只创建了一个变量 i 。第一次迭代时， i 被赋与 start 的值，在接下来的迭代里， i 的值每次增加 1 。
+
+第二个传给 do 的实参可包含一个或多个表达式。第一个表达式用来测试迭代是否结束。在上面的例子中，测试表达式是 (> i end) 。接下来在列表中的表达式会依序被求值，直到迭代结束。而最后一个值会被当作 do 的返回值来返回。所以 show-squares 总是返回 done 。
+
+do 的剩余参数组成了循环的函数体。在每次迭代时，函数体会依序被求值。在每次迭代过程里，变量被更新，检查终止测试条件，接着（若测试失败）求值函数体。
+#+END_QUOTE
+*** lisp -remove
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+要移除所有在列表 x 的 a ，我们可以说：
+
+(setf x (remove 'a x))
+#+END_QUOTE
+*** lisp -setf 
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+setf 的第一个实参几乎可以是任何引用到特定位置的表达式。所有这样的操作符在附录 D 中被标注为 “可设置的”（“settable”）。你可以给 setf 传入（偶数）个实参。一个这样的表达式
+
+(setf a 'b
+      c 'd
+      e 'f)
+
+传入 setf 的第一个实参，还可以是表达式或变量名。在这种情况下，第二个实参的值被插入至第一个实参所引用的位置：
+
+如果 setf 的第一个实参是符号（symbol），且符号不是某个局部变量的名字，则 setf 把这个符号设为全局变量
+ #+END_QUOTE
+*** lisp -boundp
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+如果你想要检查某些符号，是否为一个全局变量或常量，使用 boundp 函数：
+
+> (boundp '*glob*)
+T
+#+END_QUOTE
+*** lisp -let
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+一个 let 表达式有两个部分。第一个部分是一组创建新变量的指令，指令的形式为 (variable expression) 。
+
+一组变量与数值之后，是一个有表达式的函数体，表达式依序被求值
+#+END_QUOTE
+*** lisp -defconstant
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+用 defconstant 来定义一个全局的常量：
+
+(defconstant limit (+ *glob* 1))
+#+END_QUOTE
+*** lisp -defparameter
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+给 defparameter 传入符号和值，来创建一个全局变量：
+
+> (defparameter *glob* 99)
+*GLOB*
+#+END_QUOTE
+*** lisp -numberp 
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+numberp 是一个谓词，测试它的实参是否为数字
+#+END_QUOTE
+*** lisp -format
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+format 的第一个实参 t ，表示输出被送到缺省的地方去。通常是顶层。第二个实参是一个用作输出模版的字符串。在这字符串里，每一个 ~A 表示了被填入的位置，而 ~% 表示一个换行。这些被填入的位置依序由后面的实参填入。
+
+(defun show-squares (start end)
+  (do ((i start (+ i 1)))
+      ((> i end) 'done)
+    (format t "~A ~A~%" i (* i i))))
+列印从 start 到 end 之间的整数的平方：
+
+> (show-squares 2 5)
+2 4
+3 9
+4 16
+5 25
+DONE
+> (format t "~A plus ~A equals ~A. ~%" 2 3 (+ 2 3))
+2 plus 3 equals 5.
+NIL
+ #+END_QUOTE
+*** lisp -if 
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+与 quote 相同， if 是特殊的操作符。不能用函数来实现，因为实参在函数调用时永远会被求值，而 if 的特点是，只有最后两个实参的其中一个会被求值。 if 的最后一个实参是选择性的。如果忽略它的话，缺省值是 nil 
+#+END_QUOTE
+
+(defun ask-number ()
+ (format t "Please enter a number. ")
+ (let ((val (read)))
+   (if (numberp val)
+       val
+       (ask-number))))
+注意这里, if的 express 可以是函数.
+
+在 lisp 中, 函数 函数返回值 表达式 值(value), 异名同体.
+
+这里把 if 作为一个函数看待,后面三个都是if的实参. 实际上发现这非常的混乱,lisp的表达似乎总是词不达意. 也似乎总是能出乎意料.
+
+这就是函数式编程,尤其是lisp 这种用列表作为表达单元,带来的阵痛,混乱,因为在这里,原本其它函数发展处的分支概念,在这里需要回家了. 
+ 
+*** lisp -list
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+你可以调用 list 来创建列表。由于 list 是函数，所以它的实参会被求值。这里我们看一个在函数 list 调用里面，调用 + 函数的例子：
+
+> (list 'my (+ 2 1) "Sons")
+(MY 3 "Sons")
+#+END_QUOTE
+*** lisp -listp 
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+ (listp '(a b c))
+T
+ #+END_QUOTE

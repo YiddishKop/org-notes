@@ -1,0 +1,1142 @@
+* Quick notes
+** TODO 理解anaconda
+   - anaconda是一个用于数据分析的py包的库,维护了几百个可用的py包.
+   - anaconda-mode 是专门为emacs的python-mode编写的自动补全pkg,专门用来从一个本地服务器匹配补全.
+     - anaconda-mode:其工作需要本地端有factory-service的支持,用于获取自动补全的内容(可以通过pip安装)
+     - Jedi:是一个自动补全和静态分析python库的工具,anaconda-mode依赖了这个包(可以通过pip安装) 
+   - company-mode 提供了更好的ui和更多的补全设置,eg 很多类型的backends. 可以配合anaconda-mode提供的backends使用
+*** 安装过程出现的问题
+    1. Server error: ValueError('need more than 0 values to unpack',)
+       有人提出这个问题,但是anaconda-mode作者说,这是jedi的bug [[https://github.com/proofit404/anaconda-mode/issues/224][jedi的bug?]]
+    2. 
+** Git 学习
+   1. 我在使用spacemacs的官方版本,但是出现问题了.这个问题被提出在 issue 中,并且被另一个人修复且提request了.
+   2. 这时,我还想使用spacemacs的这功能,怎么办?
+   3. 直接fetch 这个问题解决人的repo的这个分支(分支名称可以在pull request页面查询到)
+   4. teminal会这么显示: : *branch spacemacs-sover -> FETCH_HEAD : 其中fetch_head是git自动给的名字
+   5. 这个时候checkout出来一个分支,用来保护master分支代码 : git checkout -branch <取个分支名:eg fixUpStream> FETCH_HEAD
+** Git 学习
+   1. 默认从远程仓库clone下来的repo,具有默认的仓库代号origin,这个名字就代表其作者所创建的repo
+   2. 当你从spasemacs官方git clone下来一个版本后,你加入了自己的修改,想保存在自己的git上
+      你就可以,添加一个仓库(repo) git remote add, 顺便添加自己给取的一个代号(eg. yid).
+   3. git remote -v 看到的就是: repo在你本地的代号 和 具体的git repo网址
+** Git:[[http://learngitbranching.js.org/][An interesting web for git-study]]   
+*** git checkout 的本质就是移动HEAD
+*** git status -s
+    这个命令会只获取stage中改变的部分
+*** git commits :delta
+    Git Commits
+
+    Git 仓库中的一次提交（commit）记录目录下所有文件的快照。感觉像是大量的复制和粘贴，但 Git 做的不只这么简单！
+
+    Git 希望提交记录尽可能地轻量，所以每次进行提交时，它不会简单地复制整个目录。条件允许的情况下，Git 会把提交压缩成从代码库的一个版本到下一个版本的变化合集，也叫“增量（delta）”。
+
+    Git 还维护了“提交的创建时间”的历史记录，因此，大部分提交都有祖先 -- 我们会在图示中用箭头来表示这种关系。对于项目的成员来说，这份提交历史对大家都有好处。
+*** git branch:  another pointer
+    Git Branches
+
+    Git 的分支非常轻量。它们只是简单地指向某个提交纪录——仅此而已.
+
+*** commit 是前移pointer, branch 是创建pointer
+*** git merge : 隐式的 delta+pointer  
+    git merge xxx (to me)
+
+*** git rebase: 一次搬好几个
+    Rebasing 就是取出一系列的提交记录，"复制"它们，然后在别的某个地方放下来。
+    git rebase (me to) xxx
+    更快捷的方式是:
+    git rebase <to> <from>, 之后分支在source上.
+    Git Rebase
+
+*** 分离 HEAD 
+    git checkout (Head to) <commit>
+    HEAD 就是指针的指针,原来指向的是 分支名指针,分离head,就是把二级指针降级为一级指针
+    一般情况: HEAD -> <分支名> -> <commit> :分离HEAD: HEAD -> commit <- master
+    HEAD 通常指向分支名（比如 bugFix）。你提交时，改变了 bugFix 的状态，这一变化通过 HEAD 变得可见。
+
+*** git log: 查看commit hash值
+
+*** 相对引用
+    
+    使用 ^ ,HEAD向上移动1个位置: 
+    master^ 相当于 "master 的父提交"
+    master^^ 是 master 的父父提交（上上代祖先）
+    使用 ~<num> 向上移动多个位置:
+    git checkout HEAD~4
+    git branch -f master C4 (强行移动master分支到C4 commit)
+
+*** 撤销 Git 里面的变动: revert(远端) reset(本地)
+
+    在 Git 里撤销修改的方法很多。和 commit 一样，在 Git 里撤销变动同时具有底层部分（暂存一些独立的文件或者片段）和高层部分（具体到变动是究竟怎么被撤销的）。我们这个应用主要关注后者。
+
+    在 Git 里主要用两种方法来撤销变动 —— 一种是 git reset，另外一种是 git revert。让我们在下一个窗口逐一了解它们。 
+    git reset 把分支记录回退到上一个提交记录来实现撤销改动。
+    git reset HEAD~1
+    回退代表什么,代表原来的delta(变化部分)没有了,所以代码库还是没改之前的.
+    为了撤销更改并传播给别人，我们需要使用 git revert。举个例子
+    git revert HEAD (通过提交来传播撤销)
+    
+    因为 HEAD 是二级指针,指向当前branch, 所以只要不分离HEAD,移动当前分支就是移动HEAD.
+
+*** cherry-pick: 转移工作区: 拉新排序
+    本系列的第一个命令是 git cherry-pick, 命令形式为:
+
+    git cherry-pick <Commit1,2,3...> (to my branch)
+    我们会在下一个概念中涉及'转移工作区', 换句话说, 这是开发者表达 --- 我想要把这个工作放这里, 那个工作也放这里
+
+    现在有一个仓库, 我们想将 side 分支下的工作复制到 master 分支, 我们可以通过 rebase 完成这一点(已经学过了哈), 但是这里我们想通过 cherry-pick 来完成.
+
+*** Git Interactive Rebase: 拉新排序
+    注意每次rebase,都会从更高的父节点创建新分支,所以不用担心原节点的树结构被打破
+    git rebase -i (my)<HEAD~n>(to)XXX 
+    如果你知道你所需要的提交对象(相应的 hash), 那用 Git cherry-pick 就非常方便了 -- 很难有简单的方式了
+    但是如果你不清楚你想要的提交对象的 hash 呢? 幸好 Git 帮你想到了这一点, 我们可以利用交互 rebase -- 如果你想衍合一系列的提交, 这就是最方便的方法了
+    git rebase -i HEAD~4 //from current HEAD(default point to branch) interactively rebase 4 commits before.
+
+*** 本地栈式提交 (Locally stacked commits)
+
+    设想一下一个经常发生的场景：[0/0]我在追踪一个有点棘手的 bug，为了更好地排查，我添加了一些调试命令和打印语句。
+
+    所有的这些调试和打印语句都只在它们自己的分支里。最终我终于找到这个 bug，揪出来 fix 掉，然后撒花庆祝！
+
+    现在唯一的问题就是要把我在 bugFix 分支里的工作合并回 master 分支。我可以简单地把 master 分支快进（fast-forward），但这样的话 master 分支就会包含我这些调试语句了。
+
+*** 为了保证printf_to_debug语句彻底独立,应该新建branch
+
+*** 提交变换戏法
+
+    下面这种情况也是经常出现的。例如你之前已经在 newImage 分支上做了一些提交，然后又在 caption 分支上做了一些相关的提交，因此它们看起来是一个连一个的（stacked on top of each other in your repository）。
+    
+    有点棘手的就是有时候你又想往先前的提交里做些小改动。呐，现在就是设计师想要我们去轻微改变下 newImage 的内容（change the dimensions slightly），尽管那个提交是很久很久以前的了。
+    为了实现他的愿望，我们可以按照下面的方法来做：[0/0]
+
+    先用 git rebase -i 将提交重新排序，然后把我们想要修改的提交挪到最前
+    然后用 commit --amend 来进行一些小修改 , git commit --amend 用来修改提交,而不在提交树上继续生成.
+    接着再用 git rebase -i 来将他们按最开始的顺序重新排好
+    最后我们把 master 移到修改的最前端（用你自己喜欢的方法），就大功告成啦！
+    当然还有许多方法可以完成这个任务（我知道你在看 cherry-pick 啦），之后我们会多点关注这些技巧啦，但现在暂时只专注上面这种方法。
+
+    啊最后还要提醒你一下最终的形式 —— 因为我们把这个提交移动了两次，所以会分别产生一个省略提交（both get an apostrophe appended）。还有一个省略提交是因为我们为了实现最终效果去修改提交而添加的。
+
+*** 提交变换戏法 #2
+
+    如你在上一关所见，我们使用 rebase -i 来重排那些提交。只要把我们想要的提交挪到最顶端，我们就可以很容易地改变它，然后把它们重新排成我们想要的顺序。
+
+    但唯一的问题就是这样做就要排很多次，有可能造成衍合冲突（rebase conflicts）。下面就看看用另外一种方法 git cherry-pick 是怎么做的吧。
+
+*** git tag : 永远固定的标签
+    git tag <tag-name> <commit>
+
+    就像你之前学到的一样，branch 很容易被移动，而且当有新的 commit 时，又会再移动，branch 经常指向不同的 commit，branch 很容易改变。
+
+    你可能会有疑问，有没有什么方法可以永远有一个指向 commit 的记号，例如，表示重大的软体释出，或者是修正很大的 bug，有没有其它比 branch 更好的方法，可以永远地指向这些 commit？
+
+    你说对了！git tag 可以解决这个问题，它们可以永远地指向某个特定的 commit，就像是表示一个"里程碑"一样。
+
+    更重要的是，当有新的 commit 时，它们也不会移动，你不可以 "checkout" 到 tag 上面 commit，tag 的存在就像是一个在 commit tree 上的表示特定讯息的一个锚。
+
+    让我们来实际看一下 tag 长什么样子...
+
+*** git describe
+
+    因为 tag 在 commit tree 上表示的是一个锚点，Git 有一个指令可以用来显示离你最近的锚点（也就是 tag），而且这个指令叫做 git describe！
+
+    当你已经完成了一个 git bisect（一个找寻有 bug 的 commit 的指令），或者是当你使用的是你跑去度假的同事的电脑时， git describe 可以帮助你了解你离最近的 tag 差了多少个 commit。
+    git describe 的​​使用方式：[0/0]
+
+    git describe <ref>
+
+    <ref> 是任何一个可以被 Git 解读成 commit 的位置，如果你没有指定的话，Git 会以你目前所在的位置为准（HEAD）。
+
+    指令的输出就像这样：[0/0]
+
+    <tag>_<numCommits>_g<hash>
+
+    <tag> 表示的是离 <ref> 最近的 tag， numCommits 是表示这个 tag 离 <ref> 有多少个 commit， <hash> 表示的是你所给定的 <ref> 所表示的 commit 的前七个 id。
+
+*** 多分支 rebase
+
+    呐，现在我们有很多分支啦！让我们 rebase 这些分支的工作到 master 分支上吧。
+
+    但是你的头头找了点麻烦 —— 他们希望得到有序的提交历史，也就是我们最终的结果是 C7' 在最底部，C6' 在它上面，以此类推。
+
+    假如你搞砸了，没所谓的（虽然我不会告诉你用 reset 可以重新开始）。记得看看我们提供的答案，看你能否使用更少的命令完成任务！
+
+*** 选择父提交
+    ~n 垂直;
+    ^n 水平;
+    git checkout HEAD~^2~2
+
+    和 ~ 修改符一样，^ 修改符之后也可以跟一个（可选的）数字。
+
+    这不是用来指定向上返回几代（~ 的作用），^ 后的数字指定跟随合并提交记录的哪一个父提交。还记得一个合并提交有多个父提交吧，所有选择哪条路径不是那么清晰。
+
+    Git 默认选择跟随合并提交的"第一个"父提交，使用 ^ 后跟一个数字来改变这一默认行为。
+
+    废话不多说，举个例子。
+
+*** Branch Spaghetti
+
+    哇塞大神！这关我们要来点不同的！
+
+    现在我们的 master 分支是比 one two 和 three 要多几个提交。出于某种原因，我们需要把其他三个分支更新到 master 分支上新近的几个不同提交上。（update these three other brances with modified versions of the last few commits on master）
+
+    分支 one 需要重新排序和撤销， two 需要完全重排，而 three 只需要提交一次。
+
+    慢慢摸索会找到答案的 —— 你完事记得用 show solution 看看我们的答案哦。
+
+*** Git 远端分支
+
+    现在你看过 git clone 的执行了, 让我们深入下去看看发生了什么?
+
+    第一件事, 你应该注意到在我们的本地仓库出现了一个新的分支 o/master , 这种类型的分支叫 remote branch (就叫远端分支好了), 远端分支拥有一些用于特别目的的特殊属性.
+
+    远程分支反映了远端仓库的状态(你上次和远端仓库通信的时刻). 这会帮助你理解本地工作与公共工作的不同 -- 这是你与别人分享工作前很重要的一步.
+
+    检出远端分支时, 有一个特别的属性 -- 你会被置于一个分离式的 HEAD. 因为你不能在这些分支上直接操作, 你必须在别的地方完成你的工作, 再与远端分享你的工作.
+
+**** 什么是 o/？
+
+     你可能想知道这些远端分支的头 o/ 意味着什么. 好吧, 远端分支有一个全名规范 -- 它们以这样的格式显示:
+
+     <remote name>/<branch name>
+     提示, 如果你看到一个分支命名为 o/master, 那分支名就是 master, 远端的名就是 o.
+
+     大多数的开发者会将它们的远端命名为 origin, 而非 o. 这是如此的普遍, 以致于当你用 git clone 时,得到的仓库名就是 origin
+
+     不幸的是, 我们的UI不适用 origin, 我们使用缩写 o, :) 记住, 当你使用真正的 Git 时, 你的远程仓库很可能被命名为 origin!
+
+
+**** 如果检出 remote(o/master) 分支, 会发生什么呢?
+     如果检出本地的master,就是把HEAD指向master分支.
+     如果检出远端的master,HEAD就不会指向o/master,而是指向o/master所指的commit
+     git checkout o/master; git commit
+
+     正如你所见, Git 处于了分离 HEAD, 当添加新的提交时, o/master 不被更新, 这是因为 o/master 仅伴随远端更新而更新.
+
+*** Git Fetch: 拉新,更新,不管本地
+
+    git remote 可以归结为向其它仓库推送/拉取数据. 只要我们能回溯或前推提交, 我们就可以分享任何类型的被 Git 跟踪的更新(工作, 新想法, 情书等等)
+
+    本节课我们将学习 如何从远端仓库获取数据 -- 这个命令叫 git fetch
+
+    你会注意到当我们更新远端的仓库时, 我们的远端分支也会更新 并映射到最新的远端仓库. 
+    What fetch does
+
+****    git fetch 完成了两步:
+
+    下载本地仓库未包含的提交对象
+    更新我们的远端分支点(如, o/master)
+    git fetch 实际上将本地对远端的映射 做了同步更新
+
+    如果你还记得之前的课程, 我们说过远端分支映射了远端仓库的状态(你最后与远端通信的那一刻), git fetch 是你与远端交流的方式!
+
+    git fetch 通常通过互联网(像 http:// or git://) 与远端仓库通信.
+
+**** fetch 不能做的事
+
+git fetch, 不能改变你的本地状态. 你不会更新你的 master 或者 任何与文件系统相关的东西.
+
+所以, 你可以将git fetch 的执行 视为下载
+
+*** Git Pull :拉远合近 = fetch and merge
+   
+    git fetch 是不管你当前在哪个分支的(HEAD指向),它就只看o/master在哪,然后拉一个新分支出来
+    但是git pull/push 都是要看HEAD指向的. 换言之,
+    git pull --rebase  = 从远端master fetch and rebase me to o/master
+    
+现在我们已经知道了如何用 git fetch 获取远端的变化, 现在我们学习如果将这些变化更新到我们的工作.
+
+其实有很多方法的 -- 只要我在本地有新的提交, 你可以像合并其它分支那样合并远端分支. 具体说就是你可以执行以下命令:
+
+git cherry-pick o/master
+git rebase o/master
+git merge o/master
+etc, etc
+实际上, fetch / merge 变更是这样的普通, 以至于git 提供了一个实现你两个功能的命令 -- git pull.
+
+*** Simulating collaboration
+    git fakeTeamwork
+    So here is the tricky thing -- for some of these upcoming lessons, we need to teach you how to pull down changes that were introduced in the remote.
+
+    That means we need to essentially "pretend" that the remote was updated by one of your coworkers / friends / collaborators, sometimes on a specific branch or a certain number of commits.
+
+    In order to do this, we introduced the aptly-named command git fakeTeamwork! It's pretty self explanatory, let's see a demo...
+
+*** Git Push
+
+    Ok, so I've fetched changes from remote and incorporated them into my work locally. That's great and all... but how do I share my awesome work with everyone else?
+
+    Well, the way to upload shared work is the opposite of downloading shared work. And what's the opposite of git pull? git push!
+
+    git push is responsible for uploading your changes to a specified remote and updating that remote to incorporate your new commits. Once git push completes, all your friends can then download your work from the remote.
+
+    You can think of git push as a command to "publish" your work. It has a bunch of subtleties that we will get into shortly, but let's start with baby steps...
+
+    note -- the behavior of git push with no arguments varies depending on one of git's settings called push.default. The default value for this setting depends on the version of git you're using, but we are going to use the upstream value in our lessons. This isn't a huge deal, but it's worth checking your settings before pushing in your own projects.
+
+*** Diverged Work
+
+So far we've seen how to pull down commits from others and how to push up our own changes. It seems pretty simple, so how can people get so confused?
+
+The difficulty comes in when the history of the repository diverges. Before discussing the details of this, let's see an example...
+
+**** How do you resolve this situation?
+
+It's easy, all you need to do is base your work off of the most recent version of the remote branch.
+
+There are a few ways to do this, but the most straightforward is to *move your work via rebasing*.
+
+Let's go ahead and see what that looks like.
+
+***** git fetch; git rebase o/master; git push
+
+      Boom! We updated our local representation of the remote with git fetch, rebased our work to reflect the new changes in the remote, and then pushed them with git push
+***** git fetch; git merge o/master; git pushBoom!
+      We updated our local representation of the remote with git fetch, merged the new work into our work (to reflect the new changes in the remote), and then pushed them with git push
+***** git pull --rebase
+      is shorthand for a fetch and a rebase!
+*** Merging feature branches
+
+Now that you're comfortable with fetching, pulling, and pushing, lets put these skills to the test with a new workflow.
+
+It's common for developers on big projects to do all their work on *feature branches* (off of master) and then integrate that work only once it's ready. This is similar to the previous lesson (where side branches get pushed to the remote), but here we introduce one more step.
+
+Some developers only push and pull when on the master branch -- that way master always stays updated to what is on the remote (o/master).
+
+So for this workflow we combine two things:
+
+integrating feature branch work onto master, and
+pushing and pulling from the remote
+
+1. 先fetch 一个新的远端分支出来
+2. 而后将本地feature 分支逐一,rebase上去(rebase <from> <to>)
+*** Why not merge?
+
+
+In order to push new updates to the remote, all you need to do is incorporate the latest changes from the remote. That means you can either rebase or merge in the remote branch (e.g. o/master).
+So if you can do either method, why have the lessons focused on rebasing so far? Why is there no love for merge when working with remotes?
+
+There's a lot of debate about the tradeoffs between merging and rebasing in the development community. Here are the general pros / cons of rebasing:
+
+Pros:
+
+Rebasing makes your commit tree look very clean since everything is in a straight line
+Cons:
+
+Rebasing modifies the (apparent) history of the commit tree.
+For example, commit C1 can be rebased past C3. It then appears that the work for C1' came after C3 when in reality it was completed beforehand.
+
+Some developers love to preserve history and thus prefer merging. Others (like myself) prefer having a clean commit tree and prefer rebasing. It all comes down to preferences :D
+*** Remote-Tracking branches
+
+One thing that might have seemed "magical" about the last few lessons is that git knew the master branch was related to o/master. Sure these branches have similar names and it might make logical sense to connect the master branch on the remote to the local master branch, but this connection is demonstrated clearly in two scenarios:
+
+During a pull operation, commits are downloaded onto o/master and then merged into the master branch. The implied target of the merge is determined from this connection.
+During a push operation, work from the master branch was pushed onto the remote's master branch (which was then represented by o/master locally). The destination of the push is determined from the connection between master and o/master.
+Remote tracking
+
+Long story short, *this connection between master and o/master is explained simply by the "remote tracking"* property of branches. The master branch is set to track o/master -- this means there is an implied merge target and implied push destination for the master branch.
+
+You may be wondering how this property got set on the master branch when you didn't run any commands to specify it. Well, when you clone a repository with git, this property is actually set for you automatically.
+
+During a clone, git creates a remote branch for every branch on the remote (aka branches like o/master). It then creates a local branch that tracks the currently active branch on the remote, which is master in most cases.
+
+Once git clone is complete, you only have one local branch (so you aren't overwhelmed) but you can see all the different branches on the remote (if you happen to be very curious). It's the best of both worlds!
+
+This also explains why you may see the following command output when cloning:
+
+local branch "master" set to track remote branch "o/master"
+**** Can I specify this myself?
+
+ Yes you can! You can make any arbitrary branch track o/master, and if you do so, that branch will have the same implied push destination and merge target as master. This means you can run git push on a branch named totallyNotMaster and have your work pushed to the master branch on the remote!
+
+ There are two ways to set this property. The first is to checkout a new branch by using a remote branch as the specified ref. Running
+***** way#1
+      *git checkout -b totallyNotMaster o/master*
+
+      Creates a new branch named totallyNotMaster and sets it to track o/master.
+***** Way #2
+
+      Another way to set remote tracking on a branch is to simply use the git branch -u option. Running
+
+      *git branch -u o/master foo*
+
+      will set the foo branch to track o/master. If foo is currently checked out you can even leave it off:
+
+      *git branch -u o/master*
+*** 从本地分支push,在远端会新建一个这样的分支 
+**** 有个本地分支,一直在开发,然后想push到远程上也作为分支,怎么做? 
+     直接在本地建好分支一直开发,不用track,然后直接push
+*** Push arguments
+
+    Great! Now that you know about remote tracking branches we can start to uncover some of the mystery behind how git push, fetch, and pull work. We're going to tackle one command at a time but the concepts between them are very similar.
+
+    First we'll look at git push. You learned in the remote tracking lesson that git figured out the remote and the branch to push to by looking at the properties of the currently checked out branch (the remote that it "tracks"). This is the behavior with no arguments specified, but git push can optionally take arguments in the form of:
+
+    *git push <repo> <branch:from>*
+    这个命令的好处是,直接推送到远端repo中的相关联分支中,如果远端没有这个分支,那么会在远端建立并直接关联.
+**** what is a <place> parameter you say?
+     好用就好用在,即便现在是另一个分支上,也可以通过指明从谁那push来做到推送内容,而不用一直切来切去,跟rebase <to><from> 一样
+     We'll dive into the specifics soon, but first an example. Issuing the command:
+
+     *git push origin master*
+
+     translates to this in English:
+     
+     Go to the branch named "master" in my repository, grab all the commits, and then go to the branch "master" on the remote named "origin." Place whatever commits are missing on that branch and then tell me when you're done.
+     
+     By specifying master as the "place" argument, we told git where the commits will come from and where the commits will go. It's essentially the "place" or "location" to synchronize between the two repositories.
+     
+     Keep in mind that since we told git everything it needs to know (by specifying both arguments), it totally ignores where we are checked out!
+*** <place> argument details
+    
+    上一节是说,要推送的关联(remote track)的分支上.
+    而这一节更加灵活可以指定位置推送,不仅仅可以指定远端分支位置,还可以指定本地分支位置.通过相对定位符来指定位置.
+
+    也就是说,push origin语句,如果不加参数默认是找关联(git push origin master),如果加参数那就直接找参数(git push origin master:foo)
+
+    还记得之前课程说的吧, 当为 git push 指定 master 为 place 时, 我们可以设置 要提交的来源 和 提交到目的地.
+
+    你可能想知道 -- 如果来源和目的地不一样呢?
+
+    好吧, 很不幸 Git 不可能做到... 只是个玩笑! 当然是可能的啦 :) ... Git 拥有超强的灵活性(几乎不能再多了)
+
+    我们看看下一个幻灯片...要为 <place> 指定 source 和 destination, 只需要用冒号 : 将二者联结.
+
+    git push origin <source>:<destination>
+
+    这通常被称为 <colon refspec>, refspec 是一个奇特的名 -- 用于 Git 能识别的位置(比如分支 foo 或者 HEAD~1)
+
+    一旦你指定了独立的来源和目的地, 你就可以得到花哨而精确的远程命令, 让我们看看演示!
+    记住, source 是 Git 能理解的任何位置:
+
+    git push origin foo^:master
+
+    这是个很迷幻的命令, 但它是合理的 -- Git 将 foo^ 解析为一个位置, 上传新提交到远端的目的地.
+*** Git fetch arguments : 跟push 参数命令方向相反
+
+我们刚学习了 git push 的参数, 特别是 <place> 参数, 更特别的冒号分隔(<source>:<destination>). 这些参数可以用于 git fetch 吗?
+
+你猜中了! git fetch 的参数和 git push 相当相似. 都是相同的概念, 但是方向相反(因为现在你是下载 而非上传)
+
+让我们逐个讨论下这些概念..
+<place> 参数
+
+你可以像如下命令这样为 git fetch 设置 <place>
+
+git fetch origin foo
+
+Git 会来到远端的 foo 分支, 然后抓取所有不在本地的新提交, 放到本地的分支 o/foo
+
+我们看看这个动作(这像是更新器)
+git fetch origin foo~1:bar
+
+哇! 看见了吧, Git 将 foo~1 解析成一个 origin 的位置, 然后下载到了本地 bar. 注意 foo 和 o/foo 都没有得到更新 (因为我们指定了 destination).
+没有参数呢?
+
+如果 git fetch 没有参数, 它会下载所有远端分支..
+
+git fetch
+
+相当简单, 但是仅需更新一次，很值!
+*** 奇葩的 <source>
+
+有两种罕见的情况, Git 不需要 <source>. 这基于这样一个事实 -- 技术上说就是你不指定 <source>. 这是通过空参数实现的
+
+git push origin :side
+git fetch origin :bugFix
+我们看看这是怎么进行的..
+如果给 push 传一个空参数会如何呢? 远端会删除分支!
+
+git push origin :foo
+就是这样子, 我们通过给 push 传空值 source, 成功删除了远端的 foo 分支, 这真有意思..
+
+如果给 fetch 传空 <source>, 那本地会创建一个新分支.
+
+git fetch origin :bar
+
+*** Git pull 参数
+
+现在你知道关于 fetch/push 几乎所有的东西了, 不过 pull 也有一个 "nothing" 呢! :)
+
+因为 git pull 就是 fetch 后跟 merge 的缩写. 我可以认为执行 git fetch 用了相同的参数, 然后再 merge 你所 fetch 的提交 (commit)
+
+这可以和其它更复杂的参数一起使用, 看看例子
+以下命令在 Git 中是等价的:
+
+git pull origin foo 相当于：[0/0]
+
+git fetch origin foo; git merge o/foo
+
+还有...
+
+git pull origin bar~1:bugFix 相当于：[0/0]
+
+git fetch origin bar~1:bugFix; git merge bugFix
+
+看到了? git pull 实际上就是 fetch + merge 的缩写, git pull 在乎的是提交在哪里结束(也就是 git fetch 所确定的 destination)
+
+一起来看个例子吧：[0/0]
+git pull origin master
+
+看! 通过指定 master 我们更新了 o/master. 然后我们 merge o/master 到我们的检出分支(当前检出的任意分支).
+:: 这里要注意,是当前分支,就是你执行命令的分支,所以这个命令执行要小心当前分支
+git pull origin master:foo
+
+哇, 这就一个命令. 我们在本地创建了一个叫 foo 的分支, 远端的 master 分支, 被下载到了本地 foo 分支. 然后再 merge 到我们的当前分支. 终于完啦! 9000!!!
+*** 如何在ubuntu安装字体
+    Ubuntu 14.04:
+
+[ -d /usr/share/fonts/opentype ] || sudo mkdir /usr/share/fonts/opentype
+sudo git clone https://github.com/adobe-fonts/source-code-pro.git /usr/share/fonts/opentype/scp
+sudo fc-cache -f -v
+*** oh-my-zsh 配置别名
+    cat ~/.oh-my-zsh/plugins/git/git.plugin.zsh
+    发现是一堆alias
+
+    alias g='git'
+
+    alias ga='git add'
+    alias gaa='git add --all'
+    alias gapa='git add --patch'
+
+    alias gb='git branch'
+    alias gba='git branch -a'
+    alias gbda='git branch --merged | command grep -vE "^(\*|\s*master\s*$)" | command xargs -n 1 git branch -d'
+    alias gbl='git blame -b -w'
+    alias gbnm='git branch --no-merged'
+    alias gbr='git branch --remote'
+    alias gbs='git bisect'
+    alias gbsb='git bisect bad'
+    alias gbsg='git bisect good'
+    alias gbsr='git bisect reset'
+    alias gbss='git bisect start'
+** [#C] Spacemacs Rocks s2 day10 
+*** fix previous issues
+**** usa-package
+***** use-package 是更安全的require
+  上面是 use-package 通过macroexpand展开的内容. 注意提示符message Cannot load %s.这个经常在emacs编译 init.el 时出现.
+***** use-package a-pkg分成多个部分
+      - :init 是表示在require a-pkg之前定义
+      - :config 是表示在require a-pkg之后定义
+       	[tips] 我们尽量少的使用require整个pkg,而是应当通过autoload来事先加载一部分功能,从而使用需要的命令
+      - :commands 是usepackage声明autoload的方法.
+      - :bind 用来绑定快捷键,甚至可以制定 mode-map
+      - :ensure 保证在use-packge执行之前,从源中下载最新版
+      - :pin 如果想下载另一个源,可以在这里指定
+       
+**** cask
+***** 如何通过cask回退 older-version pkg?
+      1. melpa 是通过pkg源码的github,抓取最新release.github上每个release都有自己的commit号和MD5码.
+      2. 可以通过 ~/.emacs.d/cask 文件来管理 *下载源* *每个包的下载commit号*
+	 *格式: (depends-on "pkg-name" :git "pkgpage-in-github" :reg "commit-code")*
+	 - pkgpage 是melpa中每个pkg的github页;
+	 - commit-code 可以在该github页上通过release找到稳定版, 通过commit找到提交版.
+         eg: (depends-on "monokai-theme" :git "https://github.com/oneKelvinSmith/monokai-emacs" :ref "61c0ff7")
+      3. (不要通过emacs package删除) *通过terminal删除要回退的包* 
+      4. 通过terminal cask install 安装 cask 文件中指定的版本 
+	 这样是可以安装回任意版本的pkg.但是重启emacs之后, *不要* 去package-list中更新.因为还是会更新最新的.
+	 
+*** how company-mode works?
+    1. backend for the completion sources and front end to display the condidates
+       #+BEGIN_SRC 
+       Its value is (company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files
+	      (company-dabbrev-code company-gtags company-etags company-keywords)
+	      company-oddmuse company-dabbrev)
+       #+END_SRC
+       - 从前到后,依次查看所有 *backend* 是否适合当前输入的文字
+       - 可以从buffer状态栏查看当前使用的 *backend* (会根据文本自动切换backend)
+       - 也可以手动通过 M-x <input backend-name> 来手动激活该backend的自动补全
+    2. *C-h v company-bakends*
+    3. try company-file and company-ispell, M-x
+    4. *C-h C-f* to view the backend implementation
+*** why my company sucks
+**** 为什么我的company会失效?
+     1. 失效如何定位?
+	首先看补全package是否需要 server 端,还是只有本地 backends.
+	我的ubuntu就是因为没有安装python-pip,所以一直显示 "can't install anaconda-server"
+	安装之后,又提示jedi有什么问题.
+     2. 然后确定自己是否使用了正确的 backends
+	
+**** 如何指定某个backend
+     我们可以自己写个函数来给某些mode添加backend
+     比如默认python中可能是没有 company-anaconda backend的
+     我们可以这样
+     #+BEGIN_SRC emacs-lisp
+     (add-hook 'python-mode-hook
+       (lambda()
+         (set (make-local-variable 'company-bakcends)  '(company-anaconda))))
+     #+END_SRC
+**** 两种补全方式
+     1. [本地]就是在本地存有很多backends.然后根据本地backends补全.
+     2. [远程]就是 company-(anaconda/jedi/ycmd/tern) 的补全方式,需要安装服务器端.
+	
+*** TODO group backend
+*** TODO write a simple company backend
+*** TODO write a simple company
+[cask] 目前学习了两种安装方式,一个是cask一个是非cask的. 非cask是首先检查initpackage列表中的pkg是否都安装了?如果没有会安装他们,之后才开始进行一些列的init.el配置. cask的方式,是要通过设定你的export path来设置 emacs默认启动版本和cask的安装路径,来通过 cask install 来安装. 这之后才会执行一些init.el配置.   这里都是先装包,再配置. 这样做的目的只有一个: 再一个新的环境中,下载我们的配置,直接使用.  或称: 配置,正确迁移.
+[progn] 是将多条语句捆绑成一条. 经常用在只允许一条语句的地方.
+[pp] 是 pretty print .
+[macroexpand] 用来展开一个宏,注意在后面加 quote--- '
+** [#C] day10
+
+[tips]try your best to use cask to manage your pkgs
+[]
+Author teaches how to make your emacs more stronger by cask.
+
+company-backends 有很多.其中最后一个,就是前面都匹配不到了,最后一个是compnay-Deabbre  ,他会匹配你当前打开的所有buffer中的词项.
+company-File 这是另一个backend, 是负责输入文件目录.'/' 触发.
+** Spacemacs Rocks s2 day11
+   | 1 | 打开dired目录                                   | SPC f j     | file-jump          |
+   | 2 | 打开spacemacs配置                               | SPC f e d   | open init.el       |
+   | 4 | 保存配置并应用更新                              | SPC f e r   | file-refresh       |
+   | 3 | kill-ring粘贴                                   | C-n/p       | copy next/previous |
+   |   | 文档内搜索                                      | SPC s j     | search jump        |
+   |   | 查看layer所安装的pkgs                           | SPC h SPC   | pkgs of this layer |
+   |   | 切换输入法                                      | C-\         |                    |
+   |   | 整行上下移动                                    | M-shift-j/k |                    |
+   |   | 上下移动org分支                                 | M-j/k       |                    |
+   |   | 在高亮字符后/前粘贴                             | vim下 p/P   |                    |
+   |   | 前进/后退一个单词                               | " " e/b     |                    |
+   |   | 前进/后退一个单词带连词符                       | " " E/B     |                    |
+   |   | 查看spacemacs的所有layer pkgs                   | spc-h-spc   |                    |
+   |   | helm-find-files                                 | spc-f-f     |                    |
+   |   | helm-ag 搜索工程内的所有源文件,变量名函数名等   | spc-s-p     |                    |
+   |   | 收起一个函数                                    | (vim-n)z-a  |                    |
+   |   | 收起所有函数                                    | (vim-n)z-m  |                    |
+   |   | 替换一个字符                                    | (vim-n)r    |                    |
+   |   | enter terminal in dired-mode                    | `           |                    |
+   |   | reload a mode by diminish-undo                  |             |                    |
+   |   | go to the location last modified                | (vim-n)g;   |                    |
+   |   | capture org tempalte                            | spc C c     |                    |
+   |   | delete all the blank line                       | :g/^$/d     |                    |
+   |   | delete all the line with only blank space in it | :g/^\s*$/d  |                    |
+*** installation
+    1. 
+    2. 
+    3. 
+    4. make your config in .spacemacs.d folder and use Github to manage it 
+*** add some built-in layers
+    
+    dotspacemacs-configuration-layers 
+*** little tweak 
+    fullscreen
+*** exclude some unwanted packages 
+    - 我想查看 SPC fed congfig 下某个layer都安装了哪些package.怎么做?
+      在 dotspacemacs-configuration-layers 下面的某个layer名字上 SPC-h-SPC 
+      查询到package后, SPC-fed ,配置文件里有个 "dotspacemacs-exclude-packages '()" 名字放到括号里即可
+      然后选择一个进去,可以看到整个layer的配置.
+    - 如果spacemacs启动的时候某个pkg报错,实在找不到原因,也可以通过上面的方法删除之.
+***  每一个layer的配置文件(通过 SPC h SPC 进入)
+    每一个layer的配置文件的同层目录中(spc f j) 都存放了一个 readme文件,详细介绍了这个layer中所有包的说明及安装方式/hotkeys
+*** 自己需要额外安装的package,不可以通过package-install来安装 
+    spc f e d 下面 dotspacemacs-additional-packages '() 列表中
+*** 自己原来的emacs的配置怎么办?
+    spc f e d 下面 dotspacemacs/user-congfig() 函数里
+*** 如何通过 customize-group 对某个包进行个性化定制?
+    最好通过下面的语句,这样会在 init.el 同层目录生成一个custom.el文件,用来存放这些个性化配置
+    (setq custom-file (expand-file-name "custom.el" dotspacemacs-directory))
+    (load custom-file 'no-error 'no-message)
+*** 如何配置字体和主题 
+    spc fed dotspacemacs-default-font 里面
+*** how to use multiple-cursor-mode and cua-mode in emacs edit-mode?
+ it is so annoying to make this list of checkboxes, I refer =cua-mode= , =multiple-cursor-mode= , but both are not execute very well in
+ evil edit-mode ,so i frequently swich emacs-mode and evil-mode by =C-z= .
+1. I copy all the text from onenote from the chrome;
+2. I get how to toggle the check-box between SOLVED and UNSOLVED, by =C-z= ;
+3. I add '[]' to the head of all lines by cua-mode in evil-mode, FAILED!
+4. I googled a mode which pre-installed in zilong'configurations--- =multiple-cursor-mode= ;
+5. it also sucks in evil-mode.
+6. I find the configuration and hotkey re-defined by zilong ,in =/.spacemacs.d/layers/zilongshanren-misc/packages.el=
+   1. switch to emacs-mode
+   2. =C-spc= to select several chars , then =C-s-f= to mark all the identical highlight
+   3. =C-spc= again to cancel the highlight state, then you get MULTIPLE CURSOR
+   4. now, its your fasion time!
+** Spacemacs Rocks s2 day12 
+   每一个layer 都有很多变量, 这些变量都在readme里面有介绍.
+   每一个layer 的文件夹内,都存有config.el, 其中的配置可以在(layer层配置的variables配置),
+   当加载这个layer的时候,会配置config.el
+   
+   直接在 init.el 文件的configuration-layer中的layer对应位置:
+   #+BEGIN_SRC 
+   (better-defaults :variable better-defaults-move-to-end-of-code-first t)
+   #+END_SRC
+** 问题查找与解决
+*** 如何查找自己需要的pkg或layer说明?  
+    通过 SPC-h-R 来查找所有spacemacs doc 匹配关键字.
+*** 如何在user-config 中定义按键,覆盖evil-state-map中的按键.
+(defun dotspacemacs/user-init ()
+  "Initialization function for user code.
+It is called immediately after `dotspacemacs/init', before layer configuration
+executes.
+ This function is mostly useful for variables that need to be set
+before packages are loaded. If you are unsure, you should try in setting them in
+`dotspacemacs/user-config' first."
+	(setq configuration-layer--elpa-archives
+   	 '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
+     	 ("org-cn"   . "http://elpa.emacs-china.org/org/")
+     	 ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
+
+  (setq tramp-ssh-controlmaster-options
+        "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
+  )
+
+;;; 有一个待解决问题, 在.emacs.d/elpa/evil/evil-commands.el中定义了下滑函数,evil-maps.el定义了其绑定键C-e.
+;;; 期待以后能学到改变方法.
+;;; DONE 上面这个问题解决了,就是user-init主要放置初始化内容.user-config是启动最后才做的事情.
+;;;      我的解决方法仅仅是规避原来的C-e按键.放在 user-config中定义.
+(defun dotspacemacs/user-config ()
+  "Configuration function for user code.
+This function is called at the very end of Spacemacs initialization after
+layers configuration.
+This is the place where most of your configurations should be done. Unless it is
+explicitly specified that a variable should be set before a package is loaded,
+you should place your code here."
+  (setcdr evil-insert-state-map nil) ;; 拷贝自子龙山人视频,不理解
+  (define-key evil-insert-state-map [escape] 'evil-normal-state);; 拷贝自子龙山人视频,不理解
+  (define-key evil-insert-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
+  (define-key evil-motion-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
+  )
+*** 如何通过命令行修改某些参数的值 
+    SPC SPC, counsel-set-variable, 中查询你要修改的变量修改即可
+*** 如何创建自己的layer(从原来的emacs配置拷贝) 
+**** layer基本配置
+     1. spc spc , configuration-layer/create-layer. 简单配置自己的layer的一些元素.(参考spc h R 中提供的layer相关结构文档).
+     2. 其中结构中packages.el(安装的包,以及进行包相关配置).funcs.el主要定义一些函数*(其实也可以定义在packages.el的user-packages函数里)funcs.el中尽量定义全局函数.
+     3. 定义hotkeys就放在keybindings.el里面.
+     4. config.el 一些与layers相关的配置
+     5. layers. 声明额外的layers.
+**** pkg初始化函数
+     1. 每一个安装在 defconst yiddi-packages 函数中的pkg,都对应一个(defun yiddi/init-<pkgName>())函数来进行一些hotkey等的初始化
+     2. spacemacs/set-leader-keys 通过这个函数设置hotkey(除去SPC的部分),并绑定对应启动的功能函数
+*** 三种方式更改pkg参数 
+    1. 包安装位置有 packages.el 里面会有部分配置.
+    2. 在init.el中有user-config.
+    3. 在自定义layer的配置文件中,有config.el,里面也有
+*** 如何在某个minor-mode的编辑模式下用evil的快捷键,kjhl? 
+    evilified-state-evilify-map 函数, refer to doc for how to use it.
+*** 如何知道目前的编辑模式是 evil 还是 emacs?
+    看mode-line 哪一行,
+    - 浅黄色 : 简化版evilmode
+    - 深黄色 : evil-normal
+    - 绿色   : evil-insert
+    - 灰色   : evil-visual
+*** 遇到配置配了,spc feR 也生效了,但是重启后就出error 
+    这种问题一般都是 spacemacs 启动加载顺序造成的.
+    1. 重启之前emacs中所有符号都已经加载(赋值了)
+    2. 重启之后有加载顺序,很有可能你的配置中的某个函数的所属库是在你当前配置之后加载的.
+    3. 这时spacemacs肯定就启动不了了.
+    4. [解决] 理论上initel -> user-config 函数中的配置是最后加载的.
+    5. 所以最懒,最安全,最不美的做法,就是统统放进user-config里.
+*** 对于spacemacs默认安装的包的配置如何做更改? 
+    1. 首先在你的layer->packages.el-><layer-name>-packages 函数中,添加该包名
+    2. 比如 auto-complete layer, company包,默认给两个字符才会启用自动补全,我希望是1个就启动
+    3. 这时候我可以在我的自定义layer的package.el中配置.
+    #+BEGIN_SRC emacs-lisp
+    (defun yiddi/post-init-company()
+      (setq company-minimum-prefix-length 1))
+    #+END_SRC
+    我们不想直接改company的原始配置,因为他在.emacs.d文件夹里,我们没必要管理emacs的200
+    多个包,所以没有git 整个文件夹,而是git了另一个.spacemacs.d里的自己的配置.
+*** 一般的安装和配置包的过程是这样的 
+    1. 首先spc h spc查看有没有安装这个包,如果有
+    2. 不用安装,直接在自己的layer-> packages.el 中对其进行更改即可
+       #+BEGIN_SRC emacs-lisp
+       (defun <layer-name>/<post-init-pkgname>()
+         (setq <pkg-variable> <value>)
+       #+END_SRC
+*** 自定义layer package.el 配置三剑客函数
+    1. pre-init-<pkg-name>
+    2. init-<pkg-name>
+    3. post-init-<pkg-name>
+    就是按上面的顺序,在spacemacs启动时会调用三个函数.
+*** 如何安装自己需要的包
+    在 spc fed --> additional package() 直接添加自己需要的包名
+*** how to find file you want?
+    1. spc f f -- find file from directory
+    2. spc f r -- find file from records of files recently opened
+    3. spc p l -- choose the git-project root file
+    4. spc p f -- find file in git-project
+    5. spc s p -- find text of file by helm-ag in current directory
+*** how to find keywords you want in a file / from the direcory?
+    1. Out of a file, =spc s p= you can find the keywords by =spc s p=, which will traverse all files under root directory, list the keyword you want.
+    2. In a file,     =M-s-o=   you can list the words you want in a new window, and can edit it.
+*** how to find the hotkey of some package?
+    1. find the package setting files from spc h spc
+    2. find the package.el, hotekys offen defined in it
+*** how to reload a mode without closing the emacs
+    spc :  (m-x) input diminish-undo, then input eg. company-mode. it will reload company-mode in current buffer
+*** how to get the source code of the package?
+    many methods can make it:
+1. =M-x: helm locate library=  load all the library code(includes the .el which not load in current emacs)
+2.
+** ELisp examples for programming
+***
+** Spacemacs Rocks s2 day13
+*** Fix ivy 0.8 issue
+*** post-init and pre-init
+*** location:build, elpa and github
+*** layers.el---如何大量配置包参数
+    通过自定义的layer->packages.el->post-init-pkgname()去进行简单的pkg参数
+    调教是没问题的,但是如果我对大部分参数都不满意,参数又多达几百个,这种方法不适用.
+    1. 自己layer下,定义 layer.el,用于移除掉一些layer.
+    2. 比如Chinese layer下有个youdao字典的包,我不想要.
+       #+BEGIN_SRC emacs-lisp
+       (configuration-layer/remove-layer 'youdao-dictionary)
+       #+END_SRC
+*** 如何安装不在melpa的包(自己写的包)
+    1. 查看该包github网站,获得其.el文件中的provide 值-->也就是具体包名
+    2. 自己layer的packages函数中包含该名,并加参数
+       #+BEGIN_SRC emacs-lisp
+       (<pkgName> :location (recipe :fetch github :repo "<URLofpkgInGithub>"))
+       #+END_SRC
+    3. 配置该包的init函数
+** Spcemacs Rocks s2 day 14
+*** 文件操作
+    1. =spc f f= find file from current directory(C-h to gu up-level of directory)
+    2. =spc p f= 在当前项目中查找文件 三种主要pkg counsel-git / projectile/ ido-find-file
+    3. =spc f L= find file across the whole ubuntu system
+    4. =spc f l= find file literally (对编码格式不是本系统的有用)
+    5. =spc f h= find file in hex mode
+    6. =spc f o= 使用外部文件打开,必须先用spacemacs打开之后方可使用
+    7. =spc f E= sudo edit
+    8. =spc f D= delete current file and buffer
+    9. =spc f j= file jump the current file
+    10. =spc f r= recent files
+    11. =spc f R= rename file
+    12. =spc f v= add local variable
+    13. =spc f y= yank current buffer's full path
+    14. =spc f a d= find the current visited directory with fasd(from chenbin)
+    15. =spc f C d/u= conver file between unix and dos
+    16. =spc f e d= find the .spacemacs/init.el
+    17. =spc f e i= find .emacs.d/init.el
+    18. =spc f e l= helm locate library file(all .el file)
+    19. =spc f c= copy file
+    20. =spc f b= show bookmarsk
+    21. =spc f s= save/create buffers
+*** buffer related operations 
+    1. =spc b .= buffer micro state, allways active until enter(supported by hydra)
+    2. =spc b b= switch buffers
+    3. =spc b d= kill buffer
+    4. =spc b f= find buffer file in finder(only for MAC)
+    5. =spc b B/i= I bind it to ibuffer
+    6. =spc b k= kill matching buffers
+    7. =spc b N= new empty buffer
+    8. =spc b m= kill others
+    9. =spc b h= go to home
+    10. =spc b R= safe revert buffer
+    11. =spc b s= switch to scratch buffer
+    12. =spc b w= toggle buffer readonly
+    13. =spc b Y= copy the whole buffer to clipboard
+    14. =spc b p= paste to the whole buffer
+    15. =spc <tab>= switch between the current buffer and the last opened buffer
+** Spcemacs Rocks s2 day 15
+   Topic: window, project and layout operation
+*** layout
+    WORKFLOW:
+             1) use =spc l L= to choose a layout file from directory, in which store a num of layout, then you will load all the layout(include all the buffer) in emacs.
+             2) use =spc l l= to choose a layout by name from the layous in the layout file
+             3) use =spc l n/p= to switch the layout between all the layout in the layout file
+             4) use =spc l r= to remove a buffer from a layout
+             5) use =spc l d= to delete current layout from layout file
+             6) use =spc l D= to delete a layout by name from the layout file
+             7) use =spc l R= to rename a layout
+             8) use =spc l s= to save all the modification of all the layouts of current layout file
+    ATTENTION: your layout file will be saved in .emacs.d/.cache/layouts/
+    Most important facility is: you can save and switch freely between your different layouts.
+    1. =spc l L= load layout file
+    2. =spc l l= to switch between layouts
+    3. =spc l s= to save layout to file
+    4. =spc l <tab>= switch between the last layout and the current one
+    5. =spc l o= custom layout
+    6. =spc l R= rename layout
+    7. =spc l ?= to open the help window, learn more operations about layout
+*** window related operations
+    1. =spc w -= split window below
+    2. =spc w /= split window right
+    3. =spc w .= window micro state
+    4. =spc w 2/3 = use predefined window layout
+    5. =spc w == balance window
+    6. =spc w b= switch to mini buffer
+    7. =spc w d= delete current buffer
+    8. =spc w m= maximize window
+    9. =spc w u/U= window undo/redo
+    10. =spc w h/j/k/l= move to window
+    11. =spc w H/J/K/L= move window to position left/down/up/right
+    12. =spc w F= make a new frame
+    13. =spc w o= switch to other frame
+    14. =spc w 1/2/3/4= goto window with num
+    15. =spc w w= goto other window one by one
+    16. =spc w W= ace window
+    17. =spc t g= toggle golden ratio
+    18. =spc t -= make current always the center of this window
+*** project related opreations
+    1. =spc p f= visit files in project
+    2. =spc p b= visit buffers in project
+    3. =spc p p= switch to project
+    4. =spc p l= switch to project and create a new layout
+    5. find-file-in-project is a really handy package
+** Spcemacs Rocks s2 day 16
+*** why use ctags auto completion?
+
+**** how to make ctags available for some source file?
+     =$ ctags -e a.js= ctags for a file of emacs
+     =$ ctags -eR filename= ctags for a directory of emacs
+**** how to know where is the tags list file the current buffer used?
+     1. by spc h d v, find the variable description of =tags-table-list=, it will show you the path of the tags file.
+     2. =spc o (= you can enter a ELisp ELPA
+     3. by elisp ELPA (steq-default tags-table-list "some-path"), you can set your own ctags file temporary.
+**** what's the defect of tags in emacs?
+**** how set the tags file for current buffer?
+     =tags-table-list= don't make a tags file respectively for different language. so you must set it by your own.
+     =M-x visit-tags-table= can let you do it.
+     but there is some annoying error when build TAGS in terminal
+     [[http://stackoverflow.com/questions/2580313/ctags-doesnt-undestand-e-option-no-exuberant-tags-option][About error when input: ctags -e]]
+     #+BEGIN_QUOTE
+     etags is short for "Emacs tags", not "exuberant ctags". It sounds like you have Emacs' etags command installed, not exuberant-ctags'.
+     #+END_QUOTE
+     its better to try =etangs file= to build TAGS file instead of =ctags -e=
+**** when open a source code file ,emacs will find TAGS file automatically from current file-path to root.
+
+*** how to configure ctags and auto completion?
+*** how to use ctags effectively?
+    1. project wide configurations for auto generating the Tags file.
+    2. Configure the ctags rules for generate more tags
+    3. use etags-select to quickly navigate a large code base
+
+       it's inconvinent for everytime you update/modify your code, you must build Tags file again.
+       here is a tricks from CHEN BIN.
+    4. ~/.spacemacs.d/layers/zilongshanren-programming/funcs.el
+      in which defined a lot of functions to automatically rebuild TAGS files
+*** how to jump-to-definition place in zilong'configurations?
+    =g ]= -> etags-select-find-tag-at-point
+*** how to enable etags or ctags of other major-mode?
+    the source code of company : =company-etags.el= defined a variable : company-etags-mode ,
+    it is a list of major-modes ,in which will funcional the etags for complemention. you can
+    add some major-mode to it
+** Spacemacs Packages Intro
+*** restclient
+    This is a tool to manually explore and test HTTP REST webservices.
+    Runs queries from a plain-text query sheet, displays results as a pretty-printed XML, JSON and even images.
+**** video introduction
+     [[http://emacsrocks.com/e05.html][Rocks Emacs - restclient]]
+** Spcemacs Rocks s2 day 17
+*** Introduction to Lispy
+    1. lispy: vi-like paredit
+    2. it even has some IDE features
+       1. jump-to-def
+       2. debug
+    3. how to install
+*** Basic usage of Lispy
+    1. barf and slurp
+        move bracket () very smartly,
+       1) by =d= switch between '(' and ')'
+       2) by =[= =]= you can move '(' ')'
+    2. raise sexp
+       1) =r= make left-bracket of sexp you want to raise heightlight selected,press 'r',then amazing happen.
+       2) =u= lisp undo
+    3. kill/copy/yank
+       1) =C-k= redefined in lispy-mode ,only will kill the pair-bracket content after cursor
+       2) =m= to select and highlight the content in pair-bracket
+       3) =C-w= to kill the selected content and the matched pair-backet, use =C-y= to yank
+       4) =c= locate the right bracket, and press =c=, it will copy pair-bracket and content in it to a new line
+    4. ace, like vi-extension in chrome
+       1) =a= use =d= to locate the right bracket, and press =a=, and press the char he mark,you can go there directly.
+       2) if only one pair of bracket, =a= means select
+       3) =i= press to select content or content with brackets where amazing happens.
+    5. swipe
+       1) =w= =s= can switch the position between same level sexp. like (let ((sexp1)(sexp2)) when cursor
+    6. navigate: h/j/k/l/ f/b :move cursor between brakets
+       1) =f/b= will go further and backward to the same half of bracket,like a flow of right-half or left-half: 1st ( -f-> ( -f-> (
+       2) =j/k= will go up and down between the same level brackets
+       3) =h/l= will go left and right of brakctes, the largest range is -- function range
+    7. doc: display the documment of this function
+       1) =C-1= display doc
+       2) =C-2= display base structure
+    8. split
+       1) =M-j= locate cursor head of sexp, can split inner-sexp from outter-sexp
+       2) =s-j= can delete the brackets of inner-sexp
+    9. wrap
+       1) =s-(= locate cursor head of a word, can wrap the whole word by brackts,both sides
+    10. format
+        1. =M= format func to muli-line
+        2. =O= format func to one-line
+    11. sexp goto
+        1. =t= triger a map, which mark many places, you can cut the sexp nearest the cursor to anywhere
+    12. jump to def
+        1. =F= jump to the definition
+        2. =C-o= jump back
+    13. [ ] jump to tag  *need study*
+        1. =G= jump to the tags file
+    14. debug
+        1. =F= locate cursor to one bracket of the sexp(which will call a func), press =F= to jump to its definition.
+        2. =xe= locate cursor to the one of bracket of the function, and press =xe=
+        3. =C-o= esc to normal-state, and press =C-o= to jump back to the sexp(which will call a func).
+        4. =e= press =e=, enter debug window.
+        5. =n= press =n= to go next
+
+** Spcemacs Rocks s2 day 18
+
+*** I want a feature from other editors, how could i implement it in emacs?
+    emacs is a collection of packages, every package is a collection of tools.
+    she also gives you the way to re-organize them to fit you well.
+
+   - FIRST RULE, you must know what are the tools in your bag
+                 read all the doc of packages, get the knowledge of all the core functions.
+                 these functions are the tools,gears to composite your weapon.
+   - SECOND RULE, you must know how to combine them in emacs
+                 emacs is like a traslator to transport information between different packages.
+                 you need to know the node and tube, the methods how to use them.
+
+*** emacs dont behavior like the other editors i used before
+
+*** i have a full time job, i cant bear the efficiency lose when editing with emacs
+
+*** dont try to make the prefect GTD tool with org-mode
+
+*** some tips for debug emacs
+
+**** emacs is frozen
+    use a comman in terminal to display the call stack in emacs
+    #+BEGIN_SRC sh
+    pkill -SIGUSR2 -i emacs
+    =M-x: toggle-debug-on-quit=
+    #+END_SRC
+
+**** emacs is slow
+     use the following two commands to profile the CPU
+     #+BEGIN_SRC sh
+     profiler-start
+     profiler-report
+     #+END_SRC
+
+**** emacs start-up time is long
+     use the following command
+     #+BEGIN_SRC sh
+     $PAHT_TO_EMACS/emacs --timed-requires --profile
+     #+END_SRC
+     =spc b b= to find a buffer called "*load time*", can you find the threshold package
+
+** Spcemacs Rocks s2 day 19
+*** Generic tips
+**** hooks
+     hook is a *collection of funcions* will execute after certain mode start.
+     #+BEGIN_SRC lisp
+     (add-hook 'org-mode-hook '())
+     #+END_SRC
+**** wirte elisp functions
+
+** Spcemacs Rocks s2 day 21
+
+*** the new layer design
+1. one aggregate layer with five other layers
+2. the generic keybindings are all in one places
+3. keep 'user-config' minimal
+4. update constantly with the upstream
+
+*** revisit my configs layer by layer
+
+** Spcemacs Rocks - some tips
+*** magit workflow
+**** magit init, commit and commit messages
+1. =spc g i= magit init
+2. =spc g s= magit-status
+3. =s-1= goto unstaged section
+**** commits in action
+**** branching basics
+**** rebase
+**** pull push and send pull request
+**** Misc
+** Emacs introduction and demonstrattion
+   [[https://www.youtube.com/watch?v=B6jfrrwR10k][intro to emacs with elisp]]
+
+   who would put up alanguage without functions?
+   dont put up with editors you cant craft.
+
+   repeat something? either:
+   - make a macro of keystrokes
+   - create a function of action
+
+   hitting 'ctrl O' instert a line beneath the cursor.
+#+BEGIN_SRC emacs-lisp
+;; yiddi comment
+;; 1. cache current state of emacs
+;; 2. move to the head of line
+;; 3. newline
+;; 1 and 4 -> save-excursion
+(defun my/insert-line-befor ()
+  "Insert a newline above the line containing the cursor."
+  (interactive)
+  (save-excursion ;; save the state before run this funtion
+    (move-beginning-of-line 1)
+    (newline)) ;; <-- Hrm..
+  ;; go back to where i started
+  )
+#+END_SRC
+   lets create a function to insert a blank line above the cursror
+
+*** Easy Automations
+    all editors have arcane keystrokes that invoke magical spells
+    to alter your text... what i will show you isn't necessarily
+    unique for Emacs... however.. ever tried playing vim golf?
+**** multiple cursors
+**** language connections
+**** expand regions
+**** templates
+**  TODO fangwu wenti [7/11]
+ #+BEGIN_QUOTE
+  it is so annoying to make this list of checkboxes, I refer =cua-mode= , =multiple-cursor-mode= , but both are not execute very well in
+  evil edit-mode ,so i frequently swich emacs-mode and evil-mode by =C-z= .
+ 1. I copy all the text from onenote from the chrome;
+ 2. I get how to toggle the check-box between SOLVED and UNSOLVED, by =C-z= ;
+ 3. I add '[]' to the head of all lines by cua-mode in evil-mode, FAILED!
+ 4. I googled a mode which pre-installed in zilong'configurations--- =multiple-cursor-mode= ;
+ 5. it also sucks in evil-mode.
+ 6. I find the configuration and hotkey re-defined by zilong ,in =/.spacemacs.d/layers/zilongshanren-misc/packages.el=
+    1. switch to *emacs-mode*
+    2. =C-spc= to select several chars , then =C-s-f= to mark all the identical highlight
+    3. =C-spc= again to cancel the highlight state, then you get MULTIPLE CURSOR
+    4. now, its your fasion time!
+ #+END_QUOTE
+ 1) [ ] 进户门：[0/3]
+    - [ ] 门正面有划痕，左下角变形；
+    - [ ] 门锁侧立面变形、掉漆；
+    - [ ] 内门框有划痕；
+ 2) [X] 进户走廊：[2/2]
+    - [X] 空调开关标识错，标到倒数第二个挂机标识上；
+    - [X] 门口可视化对讲机底座松弛；
+ 3) [-] 厨房：[6/7]
+    - [X] 所有插座未进漏电保护；
+    - [ ] 厨房窗户明显歪斜；
+    - [X] 厨房门关不上；窗把手太松；
+    - [X] 门套下墙起皮，外右门套边缝隙较大，有划痕；
+    - [X] 消毒柜两侧柜门摩擦柜体木板；消毒柜右边柜门右下铰链送了；
+    - [X] 窗顶扣板不平，对缝不齐；
+    - [X] 西墙砖勾缝不齐整；
+ 4) [X] 客厅：[1/1]
+    - [X] 客厅空调柜机插座现为10A插座，应改为16A大插座；
+ 5) [ ] 阳台：[0/4]
+    - [ ] 空调外机位地漏堵塞严重，下水很慢；
+    - [ ] 阳台水池边地漏堵塞，下水很慢；
+    - [ ] 墙面色差，顶面不平；
+    - [ ] 外机位门有色差；
+ 6) [X] 卫生间：[6/6]
+    - [X] 马桶插座火线零线接错；
+    - [X] 毛巾架太松驰；
+    - [X] 地漏内操有砂浆块，下水很慢；
+    - [X] 马桶地漏较粗糙，上扣板不平；
+    - [X] 干区洗漱台盆下墙砖未勾缝；镜柜下墙体粗糙未整平，未上漆；开关松动翘起；
+    - [X] 卫生间推拉门门锁正反面有漏缝；门正面污渍明显；
+ 7) [ ] 浴室：[0/1]
+    - [ ] 浴室玻璃门下部两侧漏水严重。
+ 8) [X] 南次卧：[2/2]
+    - [X] 门破损且关不上；保险关不上（槽片挡住导致）；
+    - [X] 南地板破损，划痕；
+ 9) [X] 主卧：[2/2]
+    - [X] 门关不上，门锁保险关不上（门框槽片挡住导致）；
+    - [X] 过门石打胶粗糙；
+ 10) [X] 书房：[1/1]
+     - [X] 门右下角破损；地板划痕严重；
+ 11) [X] 所有墙体：[1/1]
+     - [X] 房屋内所有乳胶漆墙面出现多出裂痕（已经在墙上标明）；

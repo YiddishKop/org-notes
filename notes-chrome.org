@@ -1,0 +1,168 @@
+* Chome Inbox
+**  [[http://orgmode.org/worg/org-tutorials/org-protocol-custom-handler.html][Defining custom handlers for use with org-protocol]] :emacs:org-protocol:capture: 
+Captured On: [2017-02-14 二 15:02]
+**  [[https://github.com/sprig/org-capture-extension][sprig/org-capture-extension: A Chrome extension facilitating org-capture in emacs]] :emacs:org-protocol:capture: 
+ 
+Captured On: [2017-02-14 二 15:02]
+**  [[http://orgmode.org/worg/org-contrib/org-protocol.html][org-protocol.el – Intercept calls from emacsclient to trigger custom actions]] :emacs:org-protocol:capture: 
+
+Captured On: [2017-02-14 二 15:03]
+**  [[http://orgmode.org/worg/org-contrib/org-protocol.html#acrobat-reader-setup][org-protocol.el – Intercept calls from emacsclient to trigger custom actions]]  :emacs:org-protocol:capture: 
+Captured On: [2017-02-14 二 15:04]
+Captured On: [2017-02-14 二 15:32]
+** [[http://lifehacker.com/add-custom-keyboard-shortcuts-to-chrome-extensions-for-1595322121][Add Custom Keyboard Shortcuts to Chrome Extensions for Quick Launching]] :chrome:
+Source: [2017-02-14 二], [[http://lifehacker.com/add-custom-keyboard-shortcuts-to-chrome-extensions-for-1595322121][Add Custom Keyboard Shortcuts to Chrome Extensions for Quick Launching]]
+ #+BEGIN_QUOTE
+Chrome: Chrome has all kinds of great keyboard shortcuts to make browsing quick and easy, but they're not really customizable. Digital Inspiration reminds us that you can also set custom keyboard shortcuts for certain extensions.
+
+Just head to chrome://extensions/ in your browser's address bar to open up the extensions page. Scroll down to the bottom and you'll see a Keyboard Shortcuts option. Click it, and you can set up custom shortcuts for some of you extensions.
+#+END_QUOTE
+**  [[http://cn.linux.vbird.org/linux_basic/0310vi.php][鸟哥的 Linux 私房菜 -- vim 程序编辑器]] :vim: 
+Captured On: [2017-02-14 二 16:00]
+** [[http://heartnheart.github.io/blog/2015/01/15/SogouIME_on_English_Ubuntu_14.04/][在Emacs 24.3 Ubuntu14.04英文版中使用搜狗输入法 - org-page]]  :emacs:input-method: 
+Source: [2017-02-14 二], [[http://heartnheart.github.io/blog/2015/01/15/SogouIME_on_English_Ubuntu_14.04/][在Emacs 24.3 Ubuntu14.04英文版中使用搜狗输入法 - org-page]]
+ #+BEGIN_QUOTE
+在Emacs 24.3 Ubuntu14.04英文版中使用搜狗输入法
+
+从命令行启动
+
+LC_CTYPE='zh_CN.UTF-8' emacs
+从Dash（搜索框）启动
+
+重命名默认启动的emacs24-x
+sudo mv /usr/bin/emac24-x /usr/bin/emacs24-x_original
+创建新的名为emacs24-x的脚本
+echo "LC_CTYPE='zh_CN.UTF-8' emacs24-x_original" | sudo tee /usr/bin/emacs24-x
+sudo chmod a+x /usr/bin/emacs24-x
+#+END_QUOTE
+**    In macro    , expression as the variable will be the last  to expand and compute.
+   In function , expression as the variable will be the first to expand and comupte. 
+
+Source: [2017-02-15 三],
+
+In macro    , expression as the variable will be the last  to expand and compute.
+
+In function , expression as the variable will be the first to expand and comupte. 
+
+ #+BEGIN_QUOTE
+
+#+END_QUOTE
+** 完美解决emacs输入法无效问题 
+Source: [2017-02-15 三], [[http://stackoverflow.com/questions/2901541/which-coding-system-should-i-use-in-emacs][character encoding - Which coding system should I use in Emacs? - Stack Overflow]]
+ #+BEGIN_QUOTE
+Here's a pretty comprehensive group of magic invocations to make Emacs use UTF-8 everywhere by default:
+
+  (setq utf-translate-cjk-mode nil) ; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
+  (set-language-environment 'utf-8)
+  (set-keyboard-coding-system 'utf-8-mac) ; For old Carbon emacs on OS X only
+  (setq locale-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (unless (eq system-type 'windows-nt)
+   (set-selection-coding-system 'utf-8))
+  (prefer-coding-system 'utf-8)
+#+END_QUOTE
+** [[http://xmodulo.com/how-to-configure-http-proxy-exceptions.html][How to configure http proxy exceptions on Linux - Xmodulo]]
+Source: [2017-02-16 四], [[http://xmodulo.com/how-to-configure-http-proxy-exceptions.html][How to configure http proxy exceptions on Linux - Xmodulo]]
+ #+BEGIN_QUOTE
+How to configure http proxy exceptions on Linux
+Last updated on December 4, 2012 Authored by Dan Nanni  1 Comment
+When you are behind HTTP proxy, you need to configure proxy settings for your applications in one way or another. Typically you define http_proxy environment variable pointing to your proxy, so that all HTTP requests go through the proxy. But what if you want to bypass HTTP proxy for specific destination web servers? That's when you need to configure HTTP proxy exceptions.
+
+On Linux, you can define HTTP proxy exceptions via "no_proxy" environment variable. In "no_proxy" variable, you specify a list of domain names or IP addresses for which HTTP proxy should not be used. Along with domain names or IP addresses, you can also specify port number if necessary.
+
+If you would like to define HTTP proxy exceptions system wide, do the following.
+
+On Ubuntu, Debian or Mint:
+
+$ sudo vi /etc/environment
+http_proxy="http://proxy.com:8000"
+no_proxy="127.0.0.1, localhost, *.cnn.com, 192.168.1.10, domain.com:8080"
+On CentOS, Fedora or RHEL:
+
+$ sudo vi /etc/profile.d/proxy.sh
+export http_proxy="http://proxy.com:8000"
+export no_proxy="127.0.0.1, localhost, *.cnn.com, 192.168.1.10, domain.com:8080"
+The above example means that if you are reaching local host (e.g., 127.0.0.1, localhost), *.cnn.com, domain.com:8080, or a host with IP address 192.168.1.10, you will not use HTTP proxy. For all other destinations, you will use the designated HTTP proxy (proxy.com:8000).
+#+END_QUOTE
+** [[http://www.powerxing.com/linux-environment-variable/][设置Linux环境变量的方法和区别_Ubuntu_给力星]]
+Source: [2017-02-16 四], [[http://www.powerxing.com/linux-environment-variable/][设置Linux环境变量的方法和区别_Ubuntu_给力星]]
+ #+BEGIN_QUOTE
+设置Linux环境变量的方法和区别_Ubuntu
+ 2014-10-15 (updated: 2016-01-18) 25927 7
+设置 Linux 环境变量可以通过 export 实现，也可以通过修改几个文件来实现，有必要弄清楚这两种方法以及这几个文件的区别。
+
+
+通过文件设置 Linux 环境变量
+首先是设置全局环境变量，对所有用户都会生效：
+
+etc/profile: 此文件为系统的每个用户设置环境信息。当用户登录时，该文件被执行一次，并从 /etc/profile.d 目录的配置文件中搜集shell 的设置。一般用于设置所有用户使用的全局变量。
+/etc/bashrc: 当 bash shell 被打开时，该文件被读取。也就是说，每次新打开一个终端 shell，该文件就会被读取。
+接着是与上述两个文件对应，但只对单个用户生效：
+
+~/.bash_profile 或 ~/.profile: 只对单个用户生效，当用户登录时该文件仅执行一次。用户可使用该文件添加自己使用的 shell 变量信息。另外在不同的LINUX操作系统下，这个文件可能是不同的，可能是 ~/.bash_profile， ~/.bash_login 或 ~/.profile 其中的一种或几种，如果存在几种的话，那么执行的顺序便是：~/.bash_profile、 ~/.bash_login、 ~/.profile。比如 Ubuntu 系统一般是 ~/.profile 文件。
+~/.bashrc: 只对单个用户生效，当登录以及每次打开新的 shell 时，该文件被读取。
+此外，修改 /etc/environment 这个文件也能实现环境变量的设置。/etc/environment 设置的也是全局变量，从文件本身的作用上来说， /etc/environment 设置的是整个系统的环境，而/etc/profile是设置所有用户的环境。有几点需注意：
+
+系统先读取 etc/profile 再读取 /etc/environment（还是反过来？）
+/etc/environment 中不能包含命令，即直接通过 VAR="..." 的方式设置，不使用 export 。
+使用 source /etc/environment 可以使变量设置在当前窗口立即生效，需注销/重启之后，才能对每个新终端窗口都生效。
+修改 Linux 环境变量实例
+以 Ubuntu 为例，修改 ~/.profile 文件：
+
+vim ~/.profile
+Shell 命令
+如果该文件存在，则在文件的最后看到如下代码，PATH 变量的值使用冒号(:)隔开的：
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+Shell
+在最后加上代码 PATH="$PATH:/usr/local/hadoop/bin"，注意等号(=)两边不要有空格，即：
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+PATH="$PATH:/usr/local/hadoop/bin"
+Shell
+因为这个文件是在用户登陆是才读取一次的，所以需要重启才会生效（修改 /etc/profile、/etc/environment 也是如此）。但可以使用命令 source ./.profile 使其立即生效。通过 echo $PATH 可以看到修改后的变量值：
+
+source ./.profile
+echo $PATH
+Shell 命令
+通过 Shell 命令 export 修改 Linux 环境变量
+另一种修改 Linux 环境变量的方式就是通过 Shell 命令 export，注意变量名不要有美元号 $，赋值语句中才需要有：
+
+export PATH=$PATH:/usr/local/hadoop/bin
+Shell 命令
+export 方式只对当前终端 Shell 有效
+使用 export 设置的变量，只对当前终端 Shell 有效，也就是说如果新打开一个终端，那这个 export 设置的变量在新终端中使无法读取到的。适合设置一些临时变量。
+
+根据变量所需，选择设置方式，例如 JAVA_HOME 这类变量，就适合将其设为为全局变量，可在 /etc/environment 中设置。
+
+
+
+文章很给力？微信扫一扫给作者打赏2元 :)
+~感谢赞助者~
+
+ http://www.powerxing.com/linux-environment-variable/
+ 笔记Linux, Linux操作, Ubuntu
+#+END_QUOTE
+[]
+** TODO [[http://vim.wikia.com/wiki/Search_and_replace][Search and replace | Vim Tips Wiki | Fandom powered by Wikia]]    :vim:
+ Source: [2017-02-20 一], [[http://vim.wikia.com/wiki/Search_and_replace][Search and replace | Vim Tips Wiki | Fandom powered by Wikia]]
+  #+BEGIN_QUOTE
+ :s/foo/bar/g    Change each 'foo' to 'bar' in the current line.
+ :%s/foo/bar/g   Change each 'foo' to 'bar' in all the lines.
+ :5,12s/foo/bar/g    Change each 'foo' to 'bar' for all lines from line 5 to line 12 (inclusive).
+ :'a,'bs/foo/bar/g   Change each 'foo' to 'bar' for all lines from mark a to mark b inclusive (see Note below).
+ :'<,'>s/foo/bar/g   When compiled with +visual, change each 'foo' to 'bar' for all lines within a visual selection. Vim automatically appends the visual selection range ('<,'>) for any ex command when you select an area and enter :. Also, see Note below.
+ :.,$s/foo/bar/g Change each 'foo' to 'bar' for all lines from the current line (.) to the last line ($) inclusive.
+ :.,+2s/foo/bar/g    Change each 'foo' to 'bar' for the current line (.) and the two next lines (+2).
+ :g/^baz/s/foo/bar/g Change each 'foo' to 'bar' in each line starting with 'baz'.
+ Note: As of Vim 7.3, substitutions applied to a range defined by marks or a visual selection (which uses a special type of marks '< and '>) are not bounded by the column position of the marks by default. Instead, Vim applies the substitution to the entire line on which each mark appears unless the \%V atom is used in the pattern like: :'<,'>s/\%Vfoo/bar/g.
+ #+END_QUOTE
+** TODO   [[file://home/yiddi/Dropbox/evil.pdf][]]
+ Captured On: [2017-02-20 一 21:53]
