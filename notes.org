@@ -1068,10 +1068,6 @@ you should place your code here."
    you can *squash unpushed commits*
    1. Actually, its a kind of rebase, use command: =rebase -i=
 7. reset commits
-
-8. selecct a few line to commits
-9. discard changes, file wide or line wide
-10. revert commits
    =O=
    - reset hard,   local-repo/stage/file  undo the modification, means nothing happen
    - reset mixed,  local-repo/stage       undo the modification, means modification unstage now
@@ -1080,6 +1076,9 @@ you should place your code here."
 8. how to discard the stage area(clear stage,and undo the modification in file)
    =x= discard the stage area
 9. *selecct a few line to commits*
+   +++++++++++++/// do some bug, dont commit
+10. discard changes, file wide or line wide
+11. revert commits
 **** branching basics
 **** rebase
 **** pull push and send pull request
