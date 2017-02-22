@@ -1076,7 +1076,6 @@ you should place your code here."
 8. how to discard the stage area(clear stage,and undo the modification in file)
    =x= discard the stage area
 9. *selecct a few line to commits*
-   +++++++++++++/// do some bug, dont commit
 10. discard changes, file wide or line wide
 11. revert commits
 **** branching basics
