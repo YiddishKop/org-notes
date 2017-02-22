@@ -1081,8 +1081,12 @@ you should place your code here."
     =v/V= to switch evil-state to VISUAL-MODE, and select the content,and press =s=.
     then you can store selected content in stage-area
 11. revert commits
+    =_= =O= revert a commit, will make a new commit automatically (which means revert will keep the older commit)
 
 **** branching basics
+1. b B to create branch
+2. m m to merge
+3. b b to switch branch
 **** rebase
 **** pull push and send pull request
 **** Misc
