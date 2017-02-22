@@ -1072,6 +1072,14 @@ you should place your code here."
 8. selecct a few line to commits
 9. discard changes, file wide or line wide
 10. revert commits
+   =O=
+   - reset hard,   local-repo/stage/file  undo the modification, means nothing happen
+   - reset mixed,  local-repo/stage       undo the modification, means modification unstage now
+   - reset soft,   local-repo             undo the modification, means modification uncommit now
+   - reset index,  stage                  undo the modification, means can use =x= to clear stage
+8. how to discard the stage area(clear stage,and undo the modification in file)
+   =x= discard the stage area
+9. *selecct a few line to commits*
 **** branching basics
 **** rebase
 **** pull push and send pull request
