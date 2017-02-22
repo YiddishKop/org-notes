@@ -1081,7 +1081,7 @@ you should place your code here."
     =v/V= to switch evil-state to VISUAL-MODE, and select the content,and press =s=.
     then you can store selected content in stage-area
 11. revert commits
-    ////bug here////
+
 **** branching basics
 **** rebase
 **** pull push and send pull request
