@@ -1090,6 +1090,35 @@ you should place your code here."
 **** rebase
 **** pull push and send pull request
 **** Misc
+*** org mode
+**** org-agenda is your friend
+Never start to do anything before looking at the agenda view.
+why agenda matters?
+every successful people almost have a secret who will organize your time and maximize the value of your time.
+this is the key to long term success.
+remember how many time you waste on wechat
+
+**** what should be in org agenda view?
+1. important and emergency things goes first, they got A priority, along with important and not evergency tasks.
+2. a few habits to keep you update to date. good habit always makes you a good person.
+3. Like: health, reading, blogging, family and friendship
+**** when you start to do a task in the org-agenda view ,dont foget to clock in with pomodoro
+1. this way you could track your time and effect.
+2. all the goodness of the pomodoro technicals
+
+**** weekly review and adjust th priority of todo items and weekly archive done items
+you need only one gtd.org file, and many files in org agendafiles.
+
+**** keep an eye on what you have spent on each day, each week and each month
+show it in my gtd.org file
+**** demonstration the usage of org capture
+1. capture a todo with priority and tags.
+2. capture a chrome links for later reading.
+3. capture a task with a source code file
+**** a few tips
+1. embed pdf links to todo items such that you could easily access them.
+2. insert the current chrome tab into place
+3. learn GTD method now!
 ** Emacs introduction and demonstrattion
    [[https://www.youtube.com/watch?v=B6jfrrwR10k][intro to emacs with elisp]]
 
