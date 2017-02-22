@@ -1077,7 +1077,11 @@ you should place your code here."
    =x= discard the stage area
 9. *selecct a few line to commits*
 10. discard changes, file wide or line wide
+    =v/V/<table>/s= when in magit-view, =<table>= to open the detail of modification,
+    =v/V= to switch evil-state to VISUAL-MODE, and select the content,and press =s=.
+    then you can store selected content in stage-area
 11. revert commits
+
 **** branching basics
 **** rebase
 **** pull push and send pull request
