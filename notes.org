@@ -1,3 +1,4 @@
+#+ARCHIVE: myarchive.org::
 * Quick notes
 ** TODO 理解anaconda
    - anaconda是一个用于数据分析的py包的库,维护了几百个可用的py包.
@@ -225,19 +226,19 @@
 
 ****    git fetch 完成了两步:
 
-    下载本地仓库未包含的提交对象
-    更新我们的远端分支点(如, o/master)
-    git fetch 实际上将本地对远端的映射 做了同步更新
+     下载本地仓库未包含的提交对象
+     更新我们的远端分支点(如, o/master)
+     git fetch 实际上将本地对远端的映射 做了同步更新
 
-    如果你还记得之前的课程, 我们说过远端分支映射了远端仓库的状态(你最后与远端通信的那一刻), git fetch 是你与远端交流的方式!
+     如果你还记得之前的课程, 我们说过远端分支映射了远端仓库的状态(你最后与远端通信的那一刻), git fetch 是你与远端交流的方式!
 
-    git fetch 通常通过互联网(像 http:// or git://) 与远端仓库通信.
+     git fetch 通常通过互联网(像 http:// or git://) 与远端仓库通信.
 
 **** fetch 不能做的事
 
-git fetch, 不能改变你的本地状态. 你不会更新你的 master 或者 任何与文件系统相关的东西.
+     git fetch, 不能改变你的本地状态. 你不会更新你的 master 或者 任何与文件系统相关的东西.
 
-所以, 你可以将git fetch 的执行 视为下载
+     所以, 你可以将git fetch 的执行 视为下载
 
 *** Git Pull :拉远合近 = fetch and merge
    
@@ -245,15 +246,15 @@ git fetch, 不能改变你的本地状态. 你不会更新你的 master 或者 �
     但是git pull/push 都是要看HEAD指向的. 换言之,
     git pull --rebase  = 从远端master fetch and rebase me to o/master
     
-现在我们已经知道了如何用 git fetch 获取远端的变化, 现在我们学习如果将这些变化更新到我们的工作.
+    现在我们已经知道了如何用 git fetch 获取远端的变化, 现在我们学习如果将这些变化更新到我们的工作.
 
-其实有很多方法的 -- 只要我在本地有新的提交, 你可以像合并其它分支那样合并远端分支. 具体说就是你可以执行以下命令:
+    其实有很多方法的 -- 只要我在本地有新的提交, 你可以像合并其它分支那样合并远端分支. 具体说就是你可以执行以下命令:
 
-git cherry-pick o/master
-git rebase o/master
-git merge o/master
-etc, etc
-实际上, fetch / merge 变更是这样的普通, 以至于git 提供了一个实现你两个功能的命令 -- git pull.
+    git cherry-pick o/master
+    git rebase o/master
+    git merge o/master
+    etc, etc
+    实际上, fetch / merge 变更是这样的普通, 以至于git 提供了一个实现你两个功能的命令 -- git pull.
 
 *** Simulating collaboration
     git fakeTeamwork
@@ -277,17 +278,17 @@ etc, etc
 
 *** Diverged Work
 
-So far we've seen how to pull down commits from others and how to push up our own changes. It seems pretty simple, so how can people get so confused?
+    So far we've seen how to pull down commits from others and how to push up our own changes. It seems pretty simple, so how can people get so confused?
 
-The difficulty comes in when the history of the repository diverges. Before discussing the details of this, let's see an example...
+    The difficulty comes in when the history of the repository diverges. Before discussing the details of this, let's see an example...
 
 **** How do you resolve this situation?
 
-It's easy, all you need to do is base your work off of the most recent version of the remote branch.
+     It's easy, all you need to do is base your work off of the most recent version of the remote branch.
 
-There are a few ways to do this, but the most straightforward is to *move your work via rebasing*.
+     There are a few ways to do this, but the most straightforward is to *move your work via rebasing*.
 
-Let's go ahead and see what that looks like.
+     Let's go ahead and see what that looks like.
 
 ***** git fetch; git rebase o/master; git push
 
@@ -298,60 +299,60 @@ Let's go ahead and see what that looks like.
       is shorthand for a fetch and a rebase!
 *** Merging feature branches
 
-Now that you're comfortable with fetching, pulling, and pushing, lets put these skills to the test with a new workflow.
+    Now that you're comfortable with fetching, pulling, and pushing, lets put these skills to the test with a new workflow.
 
-It's common for developers on big projects to do all their work on *feature branches* (off of master) and then integrate that work only once it's ready. This is similar to the previous lesson (where side branches get pushed to the remote), but here we introduce one more step.
+    It's common for developers on big projects to do all their work on *feature branches* (off of master) and then integrate that work only once it's ready. This is similar to the previous lesson (where side branches get pushed to the remote), but here we introduce one more step.
 
-Some developers only push and pull when on the master branch -- that way master always stays updated to what is on the remote (o/master).
+    Some developers only push and pull when on the master branch -- that way master always stays updated to what is on the remote (o/master).
 
-So for this workflow we combine two things:
+    So for this workflow we combine two things:
 
-integrating feature branch work onto master, and
-pushing and pulling from the remote
+    integrating feature branch work onto master, and
+    pushing and pulling from the remote
 
-1. 先fetch 一个新的远端分支出来
-2. 而后将本地feature 分支逐一,rebase上去(rebase <from> <to>)
+    1. 先fetch 一个新的远端分支出来
+    2. 而后将本地feature 分支逐一,rebase上去(rebase <from> <to>)
 *** Why not merge?
 
 
-In order to push new updates to the remote, all you need to do is incorporate the latest changes from the remote. That means you can either rebase or merge in the remote branch (e.g. o/master).
-So if you can do either method, why have the lessons focused on rebasing so far? Why is there no love for merge when working with remotes?
+    In order to push new updates to the remote, all you need to do is incorporate the latest changes from the remote. That means you can either rebase or merge in the remote branch (e.g. o/master).
+    So if you can do either method, why have the lessons focused on rebasing so far? Why is there no love for merge when working with remotes?
 
-There's a lot of debate about the tradeoffs between merging and rebasing in the development community. Here are the general pros / cons of rebasing:
+    There's a lot of debate about the tradeoffs between merging and rebasing in the development community. Here are the general pros / cons of rebasing:
 
-Pros:
+    Pros:
 
-Rebasing makes your commit tree look very clean since everything is in a straight line
-Cons:
+    Rebasing makes your commit tree look very clean since everything is in a straight line
+    Cons:
 
-Rebasing modifies the (apparent) history of the commit tree.
-For example, commit C1 can be rebased past C3. It then appears that the work for C1' came after C3 when in reality it was completed beforehand.
+    Rebasing modifies the (apparent) history of the commit tree.
+    For example, commit C1 can be rebased past C3. It then appears that the work for C1' came after C3 when in reality it was completed beforehand.
 
-Some developers love to preserve history and thus prefer merging. Others (like myself) prefer having a clean commit tree and prefer rebasing. It all comes down to preferences :D
+    Some developers love to preserve history and thus prefer merging. Others (like myself) prefer having a clean commit tree and prefer rebasing. It all comes down to preferences :D
 *** Remote-Tracking branches
 
-One thing that might have seemed "magical" about the last few lessons is that git knew the master branch was related to o/master. Sure these branches have similar names and it might make logical sense to connect the master branch on the remote to the local master branch, but this connection is demonstrated clearly in two scenarios:
+    One thing that might have seemed "magical" about the last few lessons is that git knew the master branch was related to o/master. Sure these branches have similar names and it might make logical sense to connect the master branch on the remote to the local master branch, but this connection is demonstrated clearly in two scenarios:
 
-During a pull operation, commits are downloaded onto o/master and then merged into the master branch. The implied target of the merge is determined from this connection.
-During a push operation, work from the master branch was pushed onto the remote's master branch (which was then represented by o/master locally). The destination of the push is determined from the connection between master and o/master.
-Remote tracking
+    During a pull operation, commits are downloaded onto o/master and then merged into the master branch. The implied target of the merge is determined from this connection.
+    During a push operation, work from the master branch was pushed onto the remote's master branch (which was then represented by o/master locally). The destination of the push is determined from the connection between master and o/master.
+    Remote tracking
 
-Long story short, *this connection between master and o/master is explained simply by the "remote tracking"* property of branches. The master branch is set to track o/master -- this means there is an implied merge target and implied push destination for the master branch.
+    Long story short, *this connection between master and o/master is explained simply by the "remote tracking"* property of branches. The master branch is set to track o/master -- this means there is an implied merge target and implied push destination for the master branch.
 
-You may be wondering how this property got set on the master branch when you didn't run any commands to specify it. Well, when you clone a repository with git, this property is actually set for you automatically.
+    You may be wondering how this property got set on the master branch when you didn't run any commands to specify it. Well, when you clone a repository with git, this property is actually set for you automatically.
 
-During a clone, git creates a remote branch for every branch on the remote (aka branches like o/master). It then creates a local branch that tracks the currently active branch on the remote, which is master in most cases.
+    During a clone, git creates a remote branch for every branch on the remote (aka branches like o/master). It then creates a local branch that tracks the currently active branch on the remote, which is master in most cases.
 
-Once git clone is complete, you only have one local branch (so you aren't overwhelmed) but you can see all the different branches on the remote (if you happen to be very curious). It's the best of both worlds!
+    Once git clone is complete, you only have one local branch (so you aren't overwhelmed) but you can see all the different branches on the remote (if you happen to be very curious). It's the best of both worlds!
 
-This also explains why you may see the following command output when cloning:
+    This also explains why you may see the following command output when cloning:
 
-local branch "master" set to track remote branch "o/master"
+    local branch "master" set to track remote branch "o/master"
 **** Can I specify this myself?
 
- Yes you can! You can make any arbitrary branch track o/master, and if you do so, that branch will have the same implied push destination and merge target as master. This means you can run git push on a branch named totallyNotMaster and have your work pushed to the master branch on the remote!
+     Yes you can! You can make any arbitrary branch track o/master, and if you do so, that branch will have the same implied push destination and merge target as master. This means you can run git push on a branch named totallyNotMaster and have your work pushed to the master branch on the remote!
 
- There are two ways to set this property. The first is to checkout a new branch by using a remote branch as the specified ref. Running
+     There are two ways to set this property. The first is to checkout a new branch by using a remote branch as the specified ref. Running
 ***** way#1
       *git checkout -b totallyNotMaster o/master*
 
@@ -416,81 +417,81 @@ local branch "master" set to track remote branch "o/master"
     这是个很迷幻的命令, 但它是合理的 -- Git 将 foo^ 解析为一个位置, 上传新提交到远端的目的地.
 *** Git fetch arguments : 跟push 参数命令方向相反
 
-我们刚学习了 git push 的参数, 特别是 <place> 参数, 更特别的冒号分隔(<source>:<destination>). 这些参数可以用于 git fetch 吗?
+    我们刚学习了 git push 的参数, 特别是 <place> 参数, 更特别的冒号分隔(<source>:<destination>). 这些参数可以用于 git fetch 吗?
 
-你猜中了! git fetch 的参数和 git push 相当相似. 都是相同的概念, 但是方向相反(因为现在你是下载 而非上传)
+    你猜中了! git fetch 的参数和 git push 相当相似. 都是相同的概念, 但是方向相反(因为现在你是下载 而非上传)
 
-让我们逐个讨论下这些概念..
-<place> 参数
+    让我们逐个讨论下这些概念..
+    <place> 参数
 
-你可以像如下命令这样为 git fetch 设置 <place>
+    你可以像如下命令这样为 git fetch 设置 <place>
 
-git fetch origin foo
+    git fetch origin foo
 
-Git 会来到远端的 foo 分支, 然后抓取所有不在本地的新提交, 放到本地的分支 o/foo
+    Git 会来到远端的 foo 分支, 然后抓取所有不在本地的新提交, 放到本地的分支 o/foo
 
-我们看看这个动作(这像是更新器)
-git fetch origin foo~1:bar
+    我们看看这个动作(这像是更新器)
+    git fetch origin foo~1:bar
 
-哇! 看见了吧, Git 将 foo~1 解析成一个 origin 的位置, 然后下载到了本地 bar. 注意 foo 和 o/foo 都没有得到更新 (因为我们指定了 destination).
-没有参数呢?
+    哇! 看见了吧, Git 将 foo~1 解析成一个 origin 的位置, 然后下载到了本地 bar. 注意 foo 和 o/foo 都没有得到更新 (因为我们指定了 destination).
+    没有参数呢?
 
-如果 git fetch 没有参数, 它会下载所有远端分支..
+    如果 git fetch 没有参数, 它会下载所有远端分支..
 
-git fetch
+    git fetch
 
-相当简单, 但是仅需更新一次，很值!
+    相当简单, 但是仅需更新一次，很值!
 *** 奇葩的 <source>
 
-有两种罕见的情况, Git 不需要 <source>. 这基于这样一个事实 -- 技术上说就是你不指定 <source>. 这是通过空参数实现的
+    有两种罕见的情况, Git 不需要 <source>. 这基于这样一个事实 -- 技术上说就是你不指定 <source>. 这是通过空参数实现的
 
-git push origin :side
-git fetch origin :bugFix
-我们看看这是怎么进行的..
-如果给 push 传一个空参数会如何呢? 远端会删除分支!
+    git push origin :side
+    git fetch origin :bugFix
+    我们看看这是怎么进行的..
+    如果给 push 传一个空参数会如何呢? 远端会删除分支!
 
-git push origin :foo
-就是这样子, 我们通过给 push 传空值 source, 成功删除了远端的 foo 分支, 这真有意思..
+    git push origin :foo
+    就是这样子, 我们通过给 push 传空值 source, 成功删除了远端的 foo 分支, 这真有意思..
 
-如果给 fetch 传空 <source>, 那本地会创建一个新分支.
+    如果给 fetch 传空 <source>, 那本地会创建一个新分支.
 
-git fetch origin :bar
+    git fetch origin :bar
 
 *** Git pull 参数
 
-现在你知道关于 fetch/push 几乎所有的东西了, 不过 pull 也有一个 "nothing" 呢! :)
+    现在你知道关于 fetch/push 几乎所有的东西了, 不过 pull 也有一个 "nothing" 呢! :)
 
-因为 git pull 就是 fetch 后跟 merge 的缩写. 我可以认为执行 git fetch 用了相同的参数, 然后再 merge 你所 fetch 的提交 (commit)
+    因为 git pull 就是 fetch 后跟 merge 的缩写. 我可以认为执行 git fetch 用了相同的参数, 然后再 merge 你所 fetch 的提交 (commit)
 
-这可以和其它更复杂的参数一起使用, 看看例子
-以下命令在 Git 中是等价的:
+    这可以和其它更复杂的参数一起使用, 看看例子
+    以下命令在 Git 中是等价的:
 
-git pull origin foo 相当于：[0/0]
+    git pull origin foo 相当于：[0/0]
 
-git fetch origin foo; git merge o/foo
+    git fetch origin foo; git merge o/foo
 
-还有...
+    还有...
 
-git pull origin bar~1:bugFix 相当于：[0/0]
+    git pull origin bar~1:bugFix 相当于：[0/0]
 
-git fetch origin bar~1:bugFix; git merge bugFix
+    git fetch origin bar~1:bugFix; git merge bugFix
 
-看到了? git pull 实际上就是 fetch + merge 的缩写, git pull 在乎的是提交在哪里结束(也就是 git fetch 所确定的 destination)
+    看到了? git pull 实际上就是 fetch + merge 的缩写, git pull 在乎的是提交在哪里结束(也就是 git fetch 所确定的 destination)
 
-一起来看个例子吧：[0/0]
-git pull origin master
+    一起来看个例子吧：[0/0]
+    git pull origin master
 
-看! 通过指定 master 我们更新了 o/master. 然后我们 merge o/master 到我们的检出分支(当前检出的任意分支).
-:: 这里要注意,是当前分支,就是你执行命令的分支,所以这个命令执行要小心当前分支
-git pull origin master:foo
+    看! 通过指定 master 我们更新了 o/master. 然后我们 merge o/master 到我们的检出分支(当前检出的任意分支).
+    :: 这里要注意,是当前分支,就是你执行命令的分支,所以这个命令执行要小心当前分支
+    git pull origin master:foo
 
-哇, 这就一个命令. 我们在本地创建了一个叫 foo 的分支, 远端的 master 分支, 被下载到了本地 foo 分支. 然后再 merge 到我们的当前分支. 终于完啦! 9000!!!
+    哇, 这就一个命令. 我们在本地创建了一个叫 foo 的分支, 远端的 master 分支, 被下载到了本地 foo 分支. 然后再 merge 到我们的当前分支. 终于完啦! 9000!!!
 *** 如何在ubuntu安装字体
     Ubuntu 14.04:
 
-[ -d /usr/share/fonts/opentype ] || sudo mkdir /usr/share/fonts/opentype
-sudo git clone https://github.com/adobe-fonts/source-code-pro.git /usr/share/fonts/opentype/scp
-sudo fc-cache -f -v
+    [ -d /usr/share/fonts/opentype ] || sudo mkdir /usr/share/fonts/opentype
+    sudo git clone https://github.com/adobe-fonts/source-code-pro.git /usr/share/fonts/opentype/scp
+    sudo fc-cache -f -v
 *** oh-my-zsh 配置别名
     cat ~/.oh-my-zsh/plugins/git/git.plugin.zsh
     发现是一堆alias
@@ -516,7 +517,7 @@ sudo fc-cache -f -v
 *** fix previous issues
 **** usa-package
 ***** use-package 是更安全的require
-  上面是 use-package 通过macroexpand展开的内容. 注意提示符message Cannot load %s.这个经常在emacs编译 init.el 时出现.
+      上面是 use-package 通过macroexpand展开的内容. 注意提示符message Cannot load %s.这个经常在emacs编译 init.el 时出现.
 ***** use-package a-pkg分成多个部分
       - :init 是表示在require a-pkg之前定义
       - :config 是表示在require a-pkg之后定义
@@ -530,13 +531,13 @@ sudo fc-cache -f -v
 ***** 如何通过cask回退 older-version pkg?
       1. melpa 是通过pkg源码的github,抓取最新release.github上每个release都有自己的commit号和MD5码.
       2. 可以通过 ~/.emacs.d/cask 文件来管理 *下载源* *每个包的下载commit号*
-	 *格式: (depends-on "pkg-name" :git "pkgpage-in-github" :reg "commit-code")*
-	 - pkgpage 是melpa中每个pkg的github页;
-	 - commit-code 可以在该github页上通过release找到稳定版, 通过commit找到提交版.
-         eg: (depends-on "monokai-theme" :git "https://github.com/oneKelvinSmith/monokai-emacs" :ref "61c0ff7")
-      3. (不要通过emacs package删除) *通过terminal删除要回退的包* 
-      4. 通过terminal cask install 安装 cask 文件中指定的版本 
-	 这样是可以安装回任意版本的pkg.但是重启emacs之后, *不要* 去package-list中更新.因为还是会更新最新的.
+	  *格式: (depends-on "pkg-name" :git "pkgpage-in-github" :reg "commit-code")*
+      - pkgpage 是melpa中每个pkg的github页;
+      - commit-code 可以在该github页上通过release找到稳定版, 通过commit找到提交版.
+        eg: (depends-on "monokai-theme" :git "https://github.com/oneKelvinSmith/monokai-emacs" :ref "61c0ff7")
+        3. (不要通过emacs package删除) *通过terminal删除要回退的包*
+        4. 通过terminal cask install 安装 cask 文件中指定的版本
+	  这样是可以安装回任意版本的pkg.但是重启emacs之后, *不要* 去package-list中更新.因为还是会更新最新的.
 	 
 *** how company-mode works?
     1. backend for the completion sources and front end to display the condidates
@@ -554,9 +555,9 @@ sudo fc-cache -f -v
 *** why my company sucks
 **** 为什么我的company会失效?
      1. 失效如何定位?
-	首先看补全package是否需要 server 端,还是只有本地 backends.
-	我的ubuntu就是因为没有安装python-pip,所以一直显示 "can't install anaconda-server"
-	安装之后,又提示jedi有什么问题.
+	 首先看补全package是否需要 server 端,还是只有本地 backends.
+	 我的ubuntu就是因为没有安装python-pip,所以一直显示 "can't install anaconda-server"
+	 安装之后,又提示jedi有什么问题.
      2. 然后确定自己是否使用了正确的 backends
 	
 **** 如何指定某个backend
@@ -575,43 +576,59 @@ sudo fc-cache -f -v
 *** TODO group backend
 *** TODO write a simple company backend
 *** TODO write a simple company
-[cask] 目前学习了两种安装方式,一个是cask一个是非cask的. 非cask是首先检查initpackage列表中的pkg是否都安装了?如果没有会安装他们,之后才开始进行一些列的init.el配置. cask的方式,是要通过设定你的export path来设置 emacs默认启动版本和cask的安装路径,来通过 cask install 来安装. 这之后才会执行一些init.el配置.   这里都是先装包,再配置. 这样做的目的只有一个: 再一个新的环境中,下载我们的配置,直接使用.  或称: 配置,正确迁移.
-[progn] 是将多条语句捆绑成一条. 经常用在只允许一条语句的地方.
-[pp] 是 pretty print .
-[macroexpand] 用来展开一个宏,注意在后面加 quote--- '
+    [cask] 目前学习了两种安装方式,一个是cask一个是非cask的. 非cask是首先检查initpackage列表中的pkg是否都安装了?如果没有会安装他们,之后才开始进行一些列的init.el配置. cask的方式,是要通过设定你的export path来设置 emacs默认启动版本和cask的安装路径,来通过 cask install 来安装. 这之后才会执行一些init.el配置.   这里都是先装包,再配置. 这样做的目的只有一个: 再一个新的环境中,下载我们的配置,直接使用.  或称: 配置,正确迁移.
+    [progn] 是将多条语句捆绑成一条. 经常用在只允许一条语句的地方.
+    [pp] 是 pretty print .
+    [macroexpand] 用来展开一个宏,注意在后面加 quote--- '
 ** [#C] day10
 
-[tips]try your best to use cask to manage your pkgs
-[]
-Author teaches how to make your emacs more stronger by cask.
+   [tips]try your best to use cask to manage your pkgs
+   []
+   Author teaches how to make your emacs more stronger by cask.
 
-company-backends 有很多.其中最后一个,就是前面都匹配不到了,最后一个是compnay-Deabbre  ,他会匹配你当前打开的所有buffer中的词项.
-company-File 这是另一个backend, 是负责输入文件目录.'/' 触发.
+   company-backends 有很多.其中最后一个,就是前面都匹配不到了,最后一个是compnay-Deabbre  ,他会匹配你当前打开的所有buffer中的词项.
+   company-File 这是另一个backend, 是负责输入文件目录.'/' 触发.
 ** Spacemacs Rocks s2 day11
-   | 1 | 打开dired目录                                   | SPC f j     | file-jump          |
-   | 2 | 打开spacemacs配置                               | SPC f e d   | open init.el       |
-   | 4 | 保存配置并应用更新                              | SPC f e r   | file-refresh       |
-   | 3 | kill-ring粘贴                                   | C-n/p       | copy next/previous |
-   |   | 文档内搜索                                      | SPC s j     | search jump        |
-   |   | 查看layer所安装的pkgs                           | SPC h SPC   | pkgs of this layer |
-   |   | 切换输入法                                      | C-\         |                    |
-   |   | 整行上下移动                                    | M-shift-j/k |                    |
-   |   | 上下移动org分支                                 | M-j/k       |                    |
-   |   | 在高亮字符后/前粘贴                             | vim下 p/P   |                    |
-   |   | 前进/后退一个单词                               | " " e/b     |                    |
-   |   | 前进/后退一个单词带连词符                       | " " E/B     |                    |
-   |   | 查看spacemacs的所有layer pkgs                   | spc-h-spc   |                    |
-   |   | helm-find-files                                 | spc-f-f     |                    |
-   |   | helm-ag 搜索工程内的所有源文件,变量名函数名等   | spc-s-p     |                    |
-   |   | 收起一个函数                                    | (vim-n)z-a  |                    |
-   |   | 收起所有函数                                    | (vim-n)z-m  |                    |
-   |   | 替换一个字符                                    | (vim-n)r    |                    |
-   |   | enter terminal in dired-mode                    | `           |                    |
-   |   | reload a mode by diminish-undo                  |             |                    |
-   |   | go to the location last modified                | (vim-n)g;   |                    |
-   |   | capture org tempalte                            | spc C c     |                    |
-   |   | delete all the blank line                       | :g/^$/d     |                    |
-   |   | delete all the line with only blank space in it | :g/^\s*$/d  |                    |
+   | 1 | open dired-mode in current file                       | SPC f j           | file-jump          |
+   | 2 | open spacemacs configuration file                     | SPC f e d         | open init.el       |
+   | 4 | save and apply new configuration                      | SPC f e r         | file-refresh       |
+   | 3 | kill-ring paste                                       | C-n/p             | copy next/previous |
+   |   | search in document                                    | SPC s j           | search jump        |
+   |   | list all the layers installed                         | SPC h SPC         | pkgs of this layer |
+   |   | switch input-method                                   | C-\               |                    |
+   |   | move line up/down                                     | (vim-c):m +/- num |                    |
+   |   | move org branch up/down                               | M-j/k             |                    |
+   |   | paste after/before selected char                      | (vim-n) p/P       |                    |
+   |   | move backward/forward a word                          | " " e/b           |                    |
+   |   | move backward/forward a word with dash                | " " E/B           |                    |
+   |   | helm-find-files                                       | spc-f-f           |                    |
+   |   | helm-ag search all func-name variable in proj         | spc-s-p           |                    |
+   |   | toggle a function                                     | (vim-n)z-a        |                    |
+   |   | toggle all functions                                  | (vim-n)z-m        |                    |
+   |   | subtitute                                             | (vim-n)r          |                    |
+   |   | enter terminal in dired-mode                          | `                 |                    |
+   |   | reload a mode by diminish-undo                        |                   |                    |
+   |   | go to the location last modified                      | (vim-n)g;         |                    |
+   |   | capture org tempalte                                  | spc C c           |                    |
+   |   | delete all the blank line                             | :g/^$/d           |                    |
+   |   | delete all the line with only blank space in it       | :g/^\s*$/d        |                    |
+   |   | org change state of a task                            | C-c C-t           |                    |
+   |   | org take note in LOGBOOK                              | C-c C-z           |                    |
+   |   | toggle a org entry and set archive tag                | C-c C-x a         |                    |
+   |   | archive this branch file to achive org file           | C-c C-x C-a       |                    |
+   |   | some org-mode handler                                 | ,                 |                    |
+   |   | org-mode clock in                                     | , I               |                    |
+   |   | org-mode clock out                                    | , O               |                    |
+   |   | jump to clocked task (can jump out from current file) | C-C C-x C-j       |                    |
+   |   | org-mode switch index  1) + - 1.                      | -                 |                    |
+   |   | org-mode add TODO tag                                 | t                 |                    |
+   |   | toggle org todo dependency                            | C-c C-x o         |                    |
+   |   | org column view                                       | C-c C-x C-c       |                    |
+   |   | org attachment                                        | C-c C-a           |                    |
+   |   | org clock reporting(position on headline)             | C-c C-x C-r       |                    |
+
+
+
 *** installation
     1. 
     2. 
@@ -641,18 +658,18 @@ company-File 这是另一个backend, 是负责输入文件目录.'/' 触发.
 *** 如何配置字体和主题 
     spc fed dotspacemacs-default-font 里面
 *** how to use multiple-cursor-mode and cua-mode in emacs edit-mode?
- it is so annoying to make this list of checkboxes, I refer =cua-mode= , =multiple-cursor-mode= , but both are not execute very well in
- evil edit-mode ,so i frequently swich emacs-mode and evil-mode by =C-z= .
-1. I copy all the text from onenote from the chrome;
-2. I get how to toggle the check-box between SOLVED and UNSOLVED, by =C-z= ;
-3. I add '[]' to the head of all lines by cua-mode in evil-mode, FAILED!
-4. I googled a mode which pre-installed in zilong'configurations--- =multiple-cursor-mode= ;
-5. it also sucks in evil-mode.
-6. I find the configuration and hotkey re-defined by zilong ,in =/.spacemacs.d/layers/zilongshanren-misc/packages.el=
-   1. switch to emacs-mode
-   2. =C-spc= to select several chars , then =C-s-f= to mark all the identical highlight
-   3. =C-spc= again to cancel the highlight state, then you get MULTIPLE CURSOR
-   4. now, its your fasion time!
+    it is so annoying to make this list of checkboxes, I refer =cua-mode= , =multiple-cursor-mode= , but both are not execute very well in
+    evil edit-mode ,so i frequently swich emacs-mode and evil-mode by =C-z= .
+    1. I copy all the text from onenote from the chrome;
+    2. I get how to toggle the check-box between SOLVED and UNSOLVED, by =C-z= ;
+    3. I add '[]' to the head of all lines by cua-mode in evil-mode, FAILED!
+    4. I googled a mode which pre-installed in zilong'configurations--- =multiple-cursor-mode= ;
+    5. it also sucks in evil-mode.
+    6. I find the configuration and hotkey re-defined by zilong ,in =/.spacemacs.d/layers/zilongshanren-misc/packages.el=
+       1. switch to emacs-mode
+       2. =C-spc= to select several chars , then =C-s-f= to mark all the identical highlight
+       3. =C-spc= again to cancel the highlight state, then you get MULTIPLE CURSOR
+       4. now, its your fasion time!
 ** Spacemacs Rocks s2 day12 
    每一个layer 都有很多变量, 这些变量都在readme里面有介绍.
    每一个layer 的文件夹内,都存有config.el, 其中的配置可以在(layer层配置的variables配置),
@@ -666,38 +683,38 @@ company-File 这是另一个backend, 是负责输入文件目录.'/' 触发.
 *** 如何查找自己需要的pkg或layer说明?  
     通过 SPC-h-R 来查找所有spacemacs doc 匹配关键字.
 *** 如何在user-config 中定义按键,覆盖evil-state-map中的按键.
-(defun dotspacemacs/user-init ()
-  "Initialization function for user code.
-It is called immediately after `dotspacemacs/init', before layer configuration
-executes.
- This function is mostly useful for variables that need to be set
-before packages are loaded. If you are unsure, you should try in setting them in
-`dotspacemacs/user-config' first."
+    (defun dotspacemacs/user-init ()
+    "Initialization function for user code.
+    It is called immediately after `dotspacemacs/init', before layer configuration
+    executes.
+    This function is mostly useful for variables that need to be set
+    before packages are loaded. If you are unsure, you should try in setting them in
+    `dotspacemacs/user-config' first."
 	(setq configuration-layer--elpa-archives
-   	 '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
-     	 ("org-cn"   . "http://elpa.emacs-china.org/org/")
-     	 ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
+   	'(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
+    ("org-cn"   . "http://elpa.emacs-china.org/org/")
+    ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
 
-  (setq tramp-ssh-controlmaster-options
-        "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
-  )
+    (setq tramp-ssh-controlmaster-options
+    "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
+    )
 
-;;; 有一个待解决问题, 在.emacs.d/elpa/evil/evil-commands.el中定义了下滑函数,evil-maps.el定义了其绑定键C-e.
-;;; 期待以后能学到改变方法.
-;;; DONE 上面这个问题解决了,就是user-init主要放置初始化内容.user-config是启动最后才做的事情.
-;;;      我的解决方法仅仅是规避原来的C-e按键.放在 user-config中定义.
-(defun dotspacemacs/user-config ()
-  "Configuration function for user code.
-This function is called at the very end of Spacemacs initialization after
-layers configuration.
-This is the place where most of your configurations should be done. Unless it is
-explicitly specified that a variable should be set before a package is loaded,
-you should place your code here."
-  (setcdr evil-insert-state-map nil) ;; 拷贝自子龙山人视频,不理解
-  (define-key evil-insert-state-map [escape] 'evil-normal-state);; 拷贝自子龙山人视频,不理解
-  (define-key evil-insert-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
-  (define-key evil-motion-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
-  )
+    ;;; 有一个待解决问题, 在.emacs.d/elpa/evil/evil-commands.el中定义了下滑函数,evil-maps.el定义了其绑定键C-e.
+    ;;; 期待以后能学到改变方法.
+    ;;; DONE 上面这个问题解决了,就是user-init主要放置初始化内容.user-config是启动最后才做的事情.
+    ;;;      我的解决方法仅仅是规避原来的C-e按键.放在 user-config中定义.
+    (defun dotspacemacs/user-config ()
+    "Configuration function for user code.
+    This function is called at the very end of Spacemacs initialization after
+    layers configuration.
+    This is the place where most of your configurations should be done. Unless it is
+    explicitly specified that a variable should be set before a package is loaded,
+    you should place your code here."
+    (setcdr evil-insert-state-map nil) ;; 拷贝自子龙山人视频,不理解
+    (define-key evil-insert-state-map [escape] 'evil-normal-state);; 拷贝自子龙山人视频,不理解
+    (define-key evil-insert-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
+    (define-key evil-motion-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
+    )
 *** 如何通过命令行修改某些参数的值 
     SPC SPC, counsel-set-variable, 中查询你要修改的变量修改即可
 *** 如何创建自己的layer(从原来的emacs配置拷贝) 
@@ -769,10 +786,12 @@ you should place your code here."
     spc :  (m-x) input diminish-undo, then input eg. company-mode. it will reload company-mode in current buffer
 *** how to get the source code of the package?
     many methods can make it:
-1. =M-x: helm locate library=  load all the library code(includes the .el which not load in current emacs)
-2.
+    1. =M-x: helm locate library=  load all the library code(includes the .el which not load in current emacs)
+    2.
+*** how to setup other module of org, like org-protocol?
+    =M-x customize-variable= then =org-modules=
 ** ELisp examples for programming
-***
+   ***
 ** Spacemacs Rocks s2 day13
 *** Fix ivy 0.8 issue
 *** post-init and pre-init
@@ -835,14 +854,14 @@ you should place your code here."
    Topic: window, project and layout operation
 *** layout
     WORKFLOW:
-             1) use =spc l L= to choose a layout file from directory, in which store a num of layout, then you will load all the layout(include all the buffer) in emacs.
-             2) use =spc l l= to choose a layout by name from the layous in the layout file
-             3) use =spc l n/p= to switch the layout between all the layout in the layout file
-             4) use =spc l r= to remove a buffer from a layout
-             5) use =spc l d= to delete current layout from layout file
-             6) use =spc l D= to delete a layout by name from the layout file
-             7) use =spc l R= to rename a layout
-             8) use =spc l s= to save all the modification of all the layouts of current layout file
+    1) use =spc l L= to choose a layout file from directory, in which store a num of layout, then you will load all the layout(include all the buffer) in emacs.
+    2) use =spc l l= to choose a layout by name from the layous in the layout file
+    3) use =spc l n/p= to switch the layout between all the layout in the layout file
+    4) use =spc l r= to remove a buffer from a layout
+    5) use =spc l d= to delete current layout from layout file
+    6) use =spc l D= to delete a layout by name from the layout file
+    7) use =spc l R= to rename a layout
+    8) use =spc l s= to save all the modification of all the layouts of current layout file
     ATTENTION: your layout file will be saved in .emacs.d/.cache/layouts/
     Most important facility is: you can save and switch freely between your different layouts.
     1. =spc l L= load layout file
@@ -908,7 +927,7 @@ you should place your code here."
        it's inconvinent for everytime you update/modify your code, you must build Tags file again.
        here is a tricks from CHEN BIN.
     4. ~/.spacemacs.d/layers/zilongshanren-programming/funcs.el
-      in which defined a lot of functions to automatically rebuild TAGS files
+       in which defined a lot of functions to automatically rebuild TAGS files
 *** how to jump-to-definition place in zilong'configurations?
     =g ]= -> etags-select-find-tag-at-point
 *** how to enable etags or ctags of other major-mode?
@@ -930,7 +949,7 @@ you should place your code here."
     3. how to install
 *** Basic usage of Lispy
     1. barf and slurp
-        move bracket () very smartly,
+       move bracket () very smartly,
        1) by =d= switch between '(' and ')'
        2) by =[= =]= you can move '(' ')'
     2. raise sexp
@@ -982,12 +1001,12 @@ you should place your code here."
     emacs is a collection of packages, every package is a collection of tools.
     she also gives you the way to re-organize them to fit you well.
 
-   - FIRST RULE, you must know what are the tools in your bag
-                 read all the doc of packages, get the knowledge of all the core functions.
-                 these functions are the tools,gears to composite your weapon.
-   - SECOND RULE, you must know how to combine them in emacs
-                 emacs is like a traslator to transport information between different packages.
-                 you need to know the node and tube, the methods how to use them.
+    - FIRST RULE, you must know what are the tools in your bag
+      read all the doc of packages, get the knowledge of all the core functions.
+      these functions are the tools,gears to composite your weapon.
+    - SECOND RULE, you must know how to combine them in emacs
+      emacs is like a traslator to transport information between different packages.
+      you need to know the node and tube, the methods how to use them.
 
 *** emacs dont behavior like the other editors i used before
 
@@ -998,11 +1017,11 @@ you should place your code here."
 *** some tips for debug emacs
 
 **** emacs is frozen
-    use a comman in terminal to display the call stack in emacs
-    #+BEGIN_SRC sh
+     use a comman in terminal to display the call stack in emacs
+     #+BEGIN_SRC sh
     pkill -SIGUSR2 -i emacs
     =M-x: toggle-debug-on-quit=
-    #+END_SRC
+     #+END_SRC
 
 **** emacs is slow
      use the following two commands to profile the CPU
@@ -1032,10 +1051,10 @@ you should place your code here."
 ** Spcemacs Rocks s2 day 21
 
 *** the new layer design
-1. one aggregate layer with five other layers
-2. the generic keybindings are all in one places
-3. keep 'user-config' minimal
-4. update constantly with the upstream
+    1. one aggregate layer with five other layers
+    2. the generic keybindings are all in one places
+    3. keep 'user-config' minimal
+    4. update constantly with the upstream
 
 *** revisit my configs layer by layer
 
@@ -1045,80 +1064,467 @@ you should place your code here."
     then,     =spc g s=         to enter the git-view of stage state.
     then,     =h=               to see *any hotkey* you want
 **** magit init, commit and commit messages
-1. =spc g i= magit init
-2. =spc g s= magit-status
-3. =s-1=     goto unstaged section
-4. =tab=     to view diffs(code review)
-5. =s=       stage all changes
-6. =c= *2    commit
+     1. =spc g i= magit init
+     2. =spc g s= magit-status
+     3. =s-1=     goto unstaged section
+     4. =tab=     to view diffs(code review)
+     5. =s=       stage all changes
+     6. =c= *2    commit
 **** commits in action
-1. =c a= ammend, stage all modification to one commit
-2. write good commit messages
-   1) 1st line, commit summary
-   2) ----blank line----
-   3) the modification in detail
-      1. ----
-      2. ----
-      3. ----
-3. =l l= to see the commit log
-4. =M a= to add remote git server
-5. =p=   to push
-6. squash unpushed commits
-   when you want to combine two or more commits to one commit
-   you can *squash unpushed commits*
-   1. Actually, its a kind of rebase, use command: =rebase -i=
-7. reset commits
-   =O=
-   - reset hard,   local-repo/stage/file  undo the modification, means nothing happen
-   - reset mixed,  local-repo/stage       undo the modification, means modification unstage now
-   - reset soft,   local-repo             undo the modification, means modification uncommit now
-   - reset index,  stage                  undo the modification, means can use =x= to clear stage
-8. how to discard the stage area(clear stage,and undo the modification in file)
-   =x= discard the stage area
-9. *selecct a few line to commits*
-10. discard changes, file wide or line wide
-    =v/V/<table>/s= when in magit-view, =<table>= to open the detail of modification,
-    =v/V= to switch evil-state to VISUAL-MODE, and select the content,and press =s=.
-    then you can store selected content in stage-area
-11. revert commits
-    =_= =O= revert a commit, will make a new commit automatically (which means revert will keep the older commit)
+     1. =c a= ammend, stage all modification to one commit
+     2. write good commit messages
+        1) 1st line, commit summary
+        2) ----blank line----
+        3) the modification in detail
+           1. ----
+           2. ----
+           3. ----
+     3. =l l= to see the commit log
+     4. =M a= to add remote git server
+     5. =p=   to push
+     6. squash unpushed commits
+        when you want to combine two or more commits to one commit
+        you can *squash unpushed commits*
+        1. Actually, its a kind of rebase, use command: =rebase -i=
+     7. reset commits
+        =O=
+        - reset hard,   local-repo/stage/file  undo the modification, means nothing happen
+        - reset mixed,  local-repo/stage       undo the modification, means modification unstage now
+        - reset soft,   local-repo             undo the modification, means modification uncommit now
+        - reset index,  stage                  undo the modification, means can use =x= to clear stage
+     8. how to discard the stage area(clear stage,and undo the modification in file)
+        =x= discard the stage area
+     9. *selecct a few line to commits*
+     10. discard changes, file wide or line wide
+         =v/V/<table>/s= when in magit-view, =<table>= to open the detail of modification,
+         =v/V= to switch evil-state to VISUAL-MODE, and select the content,and press =s=.
+         then you can store selected content in stage-area
+     11. revert commits
+         =_= =O= revert a commit, will make a new commit automatically (which means revert will keep the older commit)
 
 **** branching basics
-1. b B to create branch
-2. m m to merge
-3. b b to switch branch
+     1. b B to create branch
+     2. m m to merge
+     3. b b to switch branch
 **** rebase
 **** pull push and send pull request
 **** Misc
-*** org mode
+*** org mode                                                            :ORG:
 **** org-agenda is your friend
-Never start to do anything before looking at the agenda view.
-why agenda matters?
-every successful people almost have a secret who will organize your time and maximize the value of your time.
-this is the key to long term success.
-remember how many time you waste on wechat
+     Never start to do anything before looking at the agenda view.
+     why agenda matters?
+     every successful people almost have a secret who will organize your time and maximize the value of your time.
+     this is the key to long term success.
+     remember how many time you waste on wechat
 
 **** what should be in org agenda view?
-1. important and emergency things goes first, they got A priority, along with important and not evergency tasks.
-2. a few habits to keep you update to date. good habit always makes you a good person.
-3. Like: health, reading, blogging, family and friendship
+     1. important and emergency things goes first, they got A priority, along with important and not evergency tasks.
+     2. a few habits to keep you update to date. good habit always makes you a good person.
+     3. Like: health, reading, blogging, family and friendship
 **** when you start to do a task in the org-agenda view ,dont foget to clock in with pomodoro
-1. this way you could track your time and effect.
-2. all the goodness of the pomodoro technicals
+     1. this way you could track your time and effect.
+     2. all the goodness of the pomodoro technicals
 
 **** weekly review and adjust th priority of todo items and weekly archive done items
-you need only one gtd.org file, and many files in org agendafiles.
+     you need only one gtd.org file, and many files in org agendafiles.
 
 **** keep an eye on what you have spent on each day, each week and each month
-show it in my gtd.org file
+     show it in my gtd.org file
 **** demonstration the usage of org capture
-1. capture a todo with priority and tags.
-2. capture a chrome links for later reading.
-3. capture a task with a source code file
+     1. capture a todo with priority and tags.
+     2. capture a chrome links for later reading.
+     3. capture a task with a source code file
 **** a few tips
-1. embed pdf links to todo items such that you could easily access them.
-2. insert the current chrome tab into place
-3. learn GTD method now!
+     1. embed pdf links to todo items such that you could easily access them.
+     2. insert the current chrome tab into place
+     3. learn GTD method now!
+**** org agenda .+1w and +1w
+     the big diff between =.+1w= and =+1w= is *when is the next time to do this task*
+     - =.+1w= means planning next schedule-time according to the *finished time*
+     - =+1w=  means planning next schedule-time according to the *last schedule time*
+
+     - =+1w=  will set the schedule-time to the *same day of a week*.
+     - =.+1w= will set the *same time-gap* between two schedule-time.
+**** add tags to org-agenda
+     =C-c C-q= to add tags for current branch of org file
+**** use follow-mode to see different TODO tasks in different files
+     =F= when in *week-agenda-view*, we can dinamically see them in source file by press =F=
+     by this method, we can jump directly to that file where current task located.
+**** how to customize the agenda view
+     1. =C-c a= enter agenda-view, and press =C= to enter customize-view.
+     2. every node has 4 items: value menu, access key, description, component
+     3. =value menu= has 3 choose items
+        - =single command= means locate a single char in agenda-view and type it will get the results
+        - =prefix= means locate a single char in agenda-view and type it will enter another choose-view
+          - =access key= must contain the prefix char
+        - =command series= means locate a single char in agenda-view and will give many group of results
+     4. =access key= hot key for typing to choose this view
+     5. =description= a text for describe this view
+     6. =component= contains some matching conditions and matching form
+**** how to set tags/ todo-items/ and drawers for a org file?
+     1. =#+SEQ_TODO=
+     2. =#+TAGS=
+     3. drawers start with a line =:<DRAWERNAME>:= end with next line =:END:=
+        1) customize =org-log-into-drawer= to LOGBOOK
+        2) =C-c C-z= to add a note in this branch of org file, you can note everything
+           when you do this task.
+**** how to add note to a branch of org file
+     =C-c C-z= will add a LOGBOOK drawer in this branch, and you can note anything when
+     you do this task.
+**** how to clutter up your org file, archive?
+     1. =#+ARCHIVE: <filename>.org::= set archive file for local file
+**** how to archive to different org file?
+     1. in a branch of org file, =:ARCHIVE: <filename>.org::* <Father-node-name>=
+     2. eg
+        #+BEGIN_SRC org
+        * Books
+        :PROPERTIES:
+        :ARCHIVE: track-books.org::* Read books
+        :END:
+        #+END_SRC
+     3. =* <Father-node-name>= indicate the father node name in archive file
+**** STARTED timer in org                                             :TIMER:
+     :LOGBOOK:
+     CLOCK: [2017-02-28 二 09:05]--[2017-02-28 二 09:30] =>  0:25
+     CLOCK: [2017-02-27 一 21:41]--[2017-02-27 一 21:42] =>  0:01
+     CLOCK: [2017-02-27 一 21:32]--[2017-02-27 一 21:33] =>  0:01
+     :END:
+     In spacemacs, many org related commands are lead by hotkey =,=
+     includes *timer* *priority* *tag* *archive* *capture* *Drawer* *sparse-tree* *pomodoro*
+     1) =,I= record the start time of this org branch
+     2) =,O= record the end time of this org branch
+     3) =C-c C-x <tab>= record the start time of this org branch
+     4) =C-c C-x C-o=   record the end time of this org branch
+**** automatic logging of status changes
+*****     Goal: get a logbook entry whenever a TODO keyword chenges
+      #+BEGIN_SRC org
+     #+SEQ_TODO:TODO(t@/!)
+     t - hotkey assigned to that TODO keyword
+     @ - log a timestamp and note when this is entered
+     ! - log a timestamp when you leave that keyword
+      #+END_SRC
+      the configuration of TODO should be:
+      #+BEGIN_QUOTE
+      #+SEQ_TODO: NEXT(n/!) TODO(t@/!) WAITING(w@/!) SOMEDAY(s/!) PROJ(p) | DONE(d@) CANCLE(c@)
+      #+END_QUOTE
+***** Goal: log a "CLOSED" timestamp when something is done
+      customize variable =org-log-done=
+***** Goal: log a note with a timestamp every time something is rescheduled
+      customize variable =org-log-reschedule=
+**** how to add CLOCKING drawer automatically when clock in/out?      :TIMER:
+     add ='(org-clock-into-drawer "CLOCKING")=
+**** Function: the :PROPERTIES: drawer
+     the :PROPERTIES: drawer stores task specific settings and user defined attributes.
+     *Important* : the :PROPERTIES: drawer must immediately follow the headline!
+***** Goal: you dont want to create a log entry every time a repeating task is done
+      recipe: define a :LOGGING: property with value nil
+      matching properties in agenda views is possible too.
+**** how to setup a template for reading books in org file  :PROPERTY:DRAWER:
+     #+BEGIN_SRC org
+     * SOMEDAY %^{Author} - %^{Title}
+     :PROPERTIES:
+     :PAGES: %^{Pages}
+     :GENRE: %^{Genre}
+     :END:
+     - Recommended by %^{recommended by}
+     :LOGBOOK:
+     - Added: %U
+     :END:
+
+     #+END_SRC
+**** [tips] org-agenda view can match TAGS/PROP/TODO
+     so, TAGS PROP TODO can be searched as an index.
+     you should orgnize your PROP properly.
+     you can search PROP like =<PROP-ITEM>=XX=
+**** Function ordered tasks
+***** Goal: task should be completed one after one
+      Recipe: define an :ORDERED: property with value 't'
+      Toggle the :ORDERED: with =C-c C-x o=
+      Customizing variables:
+      '(org-enforce-todo-dependencies t)
+      '(org-track-ordered-property-with-tag t)
+      More customization:
+      org-agenda-dim-blocked-tasks
+      org-enforce-todo-checkbox-dependencies
+**** Column view in org
+***** Goal: show your org file in columns
+***** Recipe : define columns that
+      =#+COLUMNS: %7TODO(To Do) %58ITEM(Task)...=
+      Column view can set locally with the :COLUMNS: property in a property drawer
+      Show column view =C-c C-x C-c=
+      Leave view =q=
+**** Effort estimates                                                :EFFORT:
+***** Goal: Estimate the effort that your task will need
+***** Recipe: effort estimates are stored in a property
+      setup: add definition to head of org file
+      #+COLUMNS: %7TODO(To y Do) %40ITEM(Task) %TAGS(Tags) %6CLOCKSUM(Clock) %8Effort(Effort){:} %7Rating(Rating)
+      =#+PROPERTY: Effort_ALL 0:05 0:10 0:15 0:20 0:30 1:00 2:00 4:00 6:00=
+      =#+PROPERTY: Rating_ALL + ++ +++ ++++ +++++=
+      and then possible values. add this to column view with
+      =%8Effort(Effort){:}=
+      . The {:} menas sum up times.
+      Increase Effort : =Shift ->=
+      Decrease Effort : =Shift <-=
+**** Rating the importance of org TODO items                         :RATING:
+     setup: add definition to head of org file
+     #+COLUMNS: %7TODO(To y Do) %40ITEM(Task) %TAGS(Tags) %6CLOCKSUM(Clock) %8Effort(Effort){:} %7Rating(Rating)
+     #+PROPERTY: Rating_ALL + ++ +++ ++++ +++++
+     press =C-c C-x C-c= to enter org column view
+     step into the unit-box of "Rating", and press
+     =Shift <-= =Shift ->=
+     to give the Rating to certain org branch
+**** Linking to other items in actual file                             :LINK:
+     Goal:     Link to other items in the actual file
+     Recipe:   A link looks like that
+     \[\[ target\]\]
+     [[Function ordered tasks]]
+     Targets:
+     A headline - *link name should identical with head name*
+     *Any place* in the document with a =#+NAME: <target name>=
+     An item with a =:CUSTOM_ID: <ID>= in =:PROPERTIES:=, with =[[#<ID>]=
+     Special:
+     Radio targets that look like this <<<target>>> create links ont the fly
+     Key combinations:
+     Edit links with =C-c C-l=
+     Follow link with =C-c C-o=
+     Return to previous position =C-c &=
+**** linking to other items somewhere in the world                     :LINK:
+     Goal:     link to other items some where in the world
+     Recipe:   \[\[XXXX\]\]
+     Target:   protocol:location
+     [[file:/home/yiddi/...]
+     [[http://www.youtube.com]
+     [[bbdb:Susan Jones]
+     Special:
+     Linking to items with an ID property
+     ID is an UUID that you can create with
+     =M-x org-id-get-create=
+     Customizing:
+     copy the code from the video description to
+     the end of your ~/.emacs file
+     org-id-locations-file stores in what file
+     orgmode should look for IDS
+**** Attachments                                                     :ATTACH:
+     - Goal
+       Attach some files to your task
+     - Recipe
+       Call the attachment system with =C-c C-a=
+       - s : set a specific directory for task attachment
+       - l : inherit the attachment directory to the children of task
+       The attachments are usually stored under *./data/* and then a
+       structure based on the ID property
+       - a : attach file with the method configured in org-attach-method
+       - c : attach file by copying
+       - m : attach file by moving(deletes original file)
+       - l : attach file by creating a hard link
+       - y : attach file by creating a symbolic link
+       - o : open attachment, if more than one ask for the name
+       - O : open attachment in emacs
+       - f : open the tasks attachment directory
+       - F : open th tasks attachment directory by dired in emacs
+       - d : select and delete a single attachment
+       - D : delete all attachments
+       - n : create a new attachment
+       - z : synchronize the task with its attachment directory
+**** Priority                                                      :PRIORITY:
+     :LOGBOOK:
+     - State "NEXT"       from "TODO"       [2017-02-28 二 16:06]
+     :END:
+     set priority of org branch
+     org-mode priority are usually ABC
+     you can change them by a configuration line:
+     #+PRIORITIES: 1 5 3
+**** Export                                                          :EXPORT:
+     Export org files to HTML or PDF
+     =C-c C-e=
+     customization:
+     Setting =org-file-apps= determines the application to open files.
+     Add a line with =#+OPTIONS:= to fine tune the output
+     d:t    show the contents of drawers
+     \n:t   perserve line breaks
+     p:t    Export planing information(SCHEDULE/DEADLINE)
+     todo:t Include TODO keywords into exprorted text
+**** Advanced org export                                             :EXPORT:
+     by =M-x customize-group= choose =org-export= you can customize many items.
+     or
+     by add some text head of org file:
+     ------------------------------------
+     +AUTHOR: name the author of the document
+     +TITLE: to define a title
+     +SUBTITLE: to define a subtitle
+     +DESCRIPTION: produces meta data, no output by default
+     +BEAMER_THEME: select a beamer theme, goolge for "latex beamer themes" to get an idea what is avaible
+     +BEAMER_FONT_THEME: select a font for the beamer slides
+     ------------------------------------
+     followed by =#+OPTIONS:=
+     | option                     | what does it do?               |
+     | toc                        | enable table of contents       |
+     | ^                          | enable sub/superscripting      |
+     | tags                       | export tags                    |
+     | f                          | export footnotes               |
+     | \n                         | toggle line break preservation |
+     | @@latex:\textbackslash n@@ | toggle line bread preservation |
+     ------------------------------------------
+     Even if org-mode offers several export backends, your file si ususally defined for one sepcial
+     backend.
+     The beamer backend is nice for standardized outline slides, but its lacking of desing and images.
+     SO there is a good chance that your presentation is boring.
+     *Book recommondation: Garr Reynolds - Presentation Zen*
+**** Publish org to extenal server(like bolg)                        :EXPORT:
+     1. Customize your web server
+        Enable user directory public_html (eg. On Debian 8 this is done as root user by)
+        # cd /etc/apache2/mods_enable
+        # ln -sf ../mods_available/userdir.conf userdir.conf
+        # ln -sf ../mods_available/userdir.load userdir.load
+        # systemctl restart apache2.service
+     2. Customize your ~/.emacs file
+        #+BEGIN_SRC emacs-lisp
+          (setq org-publish-project-alist
+                '(("org"
+                   :base-directory "~/org/"
+                   :publishing-directory "~/public_html"
+                   :publishing-function org-html-publish-to-html
+                   :section-numbers nil
+                   :with-toc nil
+                   )))
+        #+END_SRC
+     3. Try the export function
+        - Open your webbrouser and go to http://loacalhost/~joe/
+        - Call the export dispatcher with C-c C-e
+        - Press "P" for Publish
+        - Choose what to publish
+     4. Additional information
+        OrgMode is keeping timestamps of the exported files in ~/.org-timestamps/
+        delete this directory if you delete public_html, otherwise only files
+        changed since the last run will be exported
+**** Reporting clock time in org                          :TIMER:CLOCK_TABLE:
+     1. Gereral info on dynamic blocks
+        - A dynamic block calls a function to create content dynamically
+        - A dynamic block starts with a line =#+BEGIN: name=
+          - The name is the name of function to call
+        - A dynamic block can have =:parameters=
+          - Parameters are written as =:parameter1 value1=
+        - A dynamic block ends with a line =#+END:=
+        - Some predefined functions are available
+          - *clocktable* to build a time accounting table
+          - *columnview* do capture a columnview inside a document
+     2. Building a clock table
+        - We add a clock table to it:
+          - position on the headline and press =C-c C-x C-r=
+          - adjust =:scope= for the scope : subree,file,file-with-archives ... etc.
+          - adjust depth by changing =:maxlevel=
+        - Update the table at any time with C-c C-c
+          - Cursor needs to be on the line with =#+BEGIN:=
+          - You will see the time of the latest update in the caption line
+**** Advanced clocktable
+     Add *some config* at the end of =#+BEGIN: clocktable...=
+     - Use =:block thismonth= to show a block of time for a month
+       - move forward with type =Shift ->= immediately after =:block thismonth=
+       - move backward with =Shift <-= immediately after =:block thismonth=
+     - Use =:step week= to show weekly values
+     - Use =:tstart= and =:tend= to specify a time range
+       - Date specifiers inside double quotes "<2017-2-28>"(you must type in by org-time-stamp)
+       - org-time-stamp ususally =,.= or =C-c .=
+**** Capture column view                                        :COLUMN_VIEW:
+
+     "Since column view is just an overlay over a buffer, it cannot be
+     exported or printed directly" (The org menual)
+
+     - But you can create a dynamic block with a column view
+     - Place your cursor where you want the block to be and press =C-c C-x i=
+     - You will be asked for a value of the parameter =:id=
+       - local : uses the tree in which the block is located
+       - global : uses all headings in the file
+       - "path-to-file" : uses the whole file
+       - "ID" : uses the subtree with this :ID: property
+**** Bulk agenda actions                                             :AGENDA:
+     1. Setting marks in agenda view
+        | Key | Action                                    |
+        | m   | mark entry at point                       |
+        | u   | unmakr entry at point                     |
+        | *   | makr all entries                          |
+        | U   | unmark all entries                        |
+        | M-m | toggle mark at point                      |
+        | M-* | toggle all marks                          |
+        | %   | mark enties base don a regular expression |
+     2. Bulk actions in agenda view
+        - Call for bulk actions by pressing =B=
+          - then choose what action to preform
+          - after the action is performed the marks are removed
+          - you can toggle persistent marks with *
+        - Archiving entries
+          - =$= archive all marked entries to their archive files
+          - =A= archive entries by moving them to their reprctive siblings
+     3. Bulk actions: Change and refile entries
+        | Key | Meaning                                                   |
+        | t   | change TODO state                                         |
+        | +   | Add a tag to all selected entries                         |
+        | -   | remove a tag from all selected entries                    |
+        | f   | apply a function to marked entries.see menual for details |
+        | r   | prompt for a single refile target and move all entries    |
+        |     |                                                           |
+**** Tacking Habit                                             :AGENDA:HABIT:
+     1. what is a habit?
+        Habits are recurring tasks that you do frequently. Examples:
+        - Brush your teeth everyday
+        - Water your plants in the house every second day
+        - Go to gym every week
+     2. Once habit are really *installed* in your brain you dont need
+        a remainder to do them
+     3. Prerequisites to track habits
+        - You need to enable the *habits module* in org-modules
+          - =M-x customize-variable= then =org-modules=
+        - Your habit is a recurring item with a TODO keyword representing an "open" state
+        - You need to define a property *STYLE: habit*
+        - The syntax for repetitions is a bit different:
+          *'.2d/3d' means you do the task at least every three days, at most every days*
+        - Important: Logging of changes to DONE needs do be enbaled
+          - *when you mark the current occurence done dont kill the log entry with C-c C-k!*
+     4. Real life example
+        - Play the bass for 10min everyday
+          - recurring task with repetition interval '.+1d'
+          - Style "habit" defined as a property
+        - Play guitar every 3rd day at least, better every 2nd day
+          - recurring task with repetition interval '.+2d/3d'
+          - Style "habit" defined as a property
+     5. How does a habit look in an angenda view?
+        - looks like a scheduled task, but with a block graph at the end.
+          - The "!" marks the actual date
+          - Every "*" marks a completed task on that day
+          - Background color meanning:
+            - Blue: task was to be done yet on that day
+            - Green: task could have been done on that day
+            - Yellow: task will be overdue the next day
+            - Red: task is overdue on that day
+     6. Additional tips
+        1. customize =org-habit-show-habits-only-for-today= if you want to
+           see habits that are not due today
+        2. Habit tracking tracks just the successful completion of your habit
+           so, if you use it like we did in our example define another task
+           to track your progress
+        3. Once a habit is successfully installed(usually around 3 weeks)
+           you could also delete the habit tracking task
+**** Tables in org                                                    :TABLE:
+***** Organize reference material in tables
+      - Separate columns with "|"
+      - Start rows with "|-" and press =tab=
+      - Move columns with =Alt <-= or =Alt ->=
+        - spacemacs: =Alt h/j/k/l= move column/row up/down/left/right
+      - Delete/insert column with =Alt shift <-=  =Alt shift ->=
+        - spacemacs: =Alt shift h/j/k/l= insert/delete column/row
+      - Insert a horizontal line with =Ctrl c -=
+      - Define constants with =#+CONSTANTS:=
+      - Define forumulas =#+TBLFM:=
+        + Columns referenced by =$= column-num
+        + Rows referenced by =@= row-num
+      - eg.
+
+      #+CONSTANTS: skbios=string("1.15.0")
+      |       |        |     | curr | new    |        |
+      | Board | System | CPU | BIOS | BIOS   | action |
+      |-------+--------+-----+------+--------+--------|
+      |       |        |     |      | 1.15.0 | update |
+      #+TBLFM: $5=$skbios; :: $6=if("$5" == "$4", string(""), update);
 ** Emacs introduction and demonstrattion
    [[https://www.youtube.com/watch?v=B6jfrrwR10k][intro to emacs with elisp]]
 
@@ -1130,7 +1536,7 @@ show it in my gtd.org file
    - create a function of action
 
    hitting 'ctrl O' instert a line beneath the cursor.
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 ;; yiddi comment
 ;; 1. cache current state of emacs
 ;; 2. move to the head of line
@@ -1144,7 +1550,7 @@ show it in my gtd.org file
     (newline)) ;; <-- Hrm..
   ;; go back to where i started
   )
-#+END_SRC
+   #+END_SRC
    lets create a function to insert a blank line above the cursror
 
 *** Easy Automations
@@ -1156,58 +1562,58 @@ show it in my gtd.org file
 **** expand regions
 **** templates
 **  TODO fangwu wenti [7/11]
- #+BEGIN_QUOTE
-  it is so annoying to make this list of checkboxes, I refer =cua-mode= , =multiple-cursor-mode= , but both are not execute very well in
-  evil edit-mode ,so i frequently swich emacs-mode and evil-mode by =C-z= .
- 1. I copy all the text from onenote from the chrome;
- 2. I get how to toggle the check-box between SOLVED and UNSOLVED, by =C-z= ;
- 3. I add '[]' to the head of all lines by cua-mode in evil-mode, FAILED!
- 4. I googled a mode which pre-installed in zilong'configurations--- =multiple-cursor-mode= ;
- 5. it also sucks in evil-mode.
- 6. I find the configuration and hotkey re-defined by zilong ,in =/.spacemacs.d/layers/zilongshanren-misc/packages.el=
-    1. switch to *emacs-mode*
-    2. =C-spc= to select several chars , then =C-s-f= to mark all the identical highlight
-    3. =C-spc= again to cancel the highlight state, then you get MULTIPLE CURSOR
-    4. now, its your fasion time!
- #+END_QUOTE
- 1) [ ] 进户门：[0/3]
-    - [ ] 门正面有划痕，左下角变形；
-    - [ ] 门锁侧立面变形、掉漆；
-    - [ ] 内门框有划痕；
- 2) [X] 进户走廊：[2/2]
-    - [X] 空调开关标识错，标到倒数第二个挂机标识上；
-    - [X] 门口可视化对讲机底座松弛；
- 3) [-] 厨房：[6/7]
-    - [X] 所有插座未进漏电保护；
-    - [ ] 厨房窗户明显歪斜；
-    - [X] 厨房门关不上；窗把手太松；
-    - [X] 门套下墙起皮，外右门套边缝隙较大，有划痕；
-    - [X] 消毒柜两侧柜门摩擦柜体木板；消毒柜右边柜门右下铰链送了；
-    - [X] 窗顶扣板不平，对缝不齐；
-    - [X] 西墙砖勾缝不齐整；
- 4) [X] 客厅：[1/1]
-    - [X] 客厅空调柜机插座现为10A插座，应改为16A大插座；
- 5) [ ] 阳台：[0/4]
-    - [ ] 空调外机位地漏堵塞严重，下水很慢；
-    - [ ] 阳台水池边地漏堵塞，下水很慢；
-    - [ ] 墙面色差，顶面不平；
-    - [ ] 外机位门有色差；
- 6) [X] 卫生间：[6/6]
-    - [X] 马桶插座火线零线接错；
-    - [X] 毛巾架太松驰；
-    - [X] 地漏内操有砂浆块，下水很慢；
-    - [X] 马桶地漏较粗糙，上扣板不平；
-    - [X] 干区洗漱台盆下墙砖未勾缝；镜柜下墙体粗糙未整平，未上漆；开关松动翘起；
-    - [X] 卫生间推拉门门锁正反面有漏缝；门正面污渍明显；
- 7) [ ] 浴室：[0/1]
-    - [ ] 浴室玻璃门下部两侧漏水严重。
- 8) [X] 南次卧：[2/2]
-    - [X] 门破损且关不上；保险关不上（槽片挡住导致）；
-    - [X] 南地板破损，划痕；
- 9) [X] 主卧：[2/2]
-    - [X] 门关不上，门锁保险关不上（门框槽片挡住导致）；
-    - [X] 过门石打胶粗糙；
- 10) [X] 书房：[1/1]
-     - [X] 门右下角破损；地板划痕严重；
- 11) [X] 所有墙体：[1/1]
-     - [X] 房屋内所有乳胶漆墙面出现多出裂痕（已经在墙上标明）；
+   #+BEGIN_QUOTE
+   it is so annoying to make this list of checkboxes, I refer =cua-mode= , =multiple-cursor-mode= , but both are not execute very well in
+   evil edit-mode ,so i frequently swich emacs-mode and evil-mode by =C-z= .
+   1. I copy all the text from onenote from the chrome;
+   2. I get how to toggle the check-box between SOLVED and UNSOLVED, by =C-z= ;
+   3. I add '[]' to the head of all lines by cua-mode in evil-mode, FAILED!
+   4. I googled a mode which pre-installed in zilong'configurations--- =multiple-cursor-mode= ;
+   5. it also sucks in evil-mode.
+   6. I find the configuration and hotkey re-defined by zilong ,in =/.spacemacs.d/layers/zilongshanren-misc/packages.el=
+      1. switch to *emacs-mode*
+      2. =C-spc= to select several chars , then =C-s-f= to mark all the identical highlight
+      3. =C-spc= again to cancel the highlight state, then you get MULTIPLE CURSOR
+      4. now, its your fasion time!
+   #+END_QUOTE
+   1) [ ] 进户门：[0/3]
+      - [ ] 门正面有划痕，左下角变形；
+      - [ ] 门锁侧立面变形、掉漆；
+      - [ ] 内门框有划痕；
+   2) [X] 进户走廊：[2/2]
+      - [X] 空调开关标识错，标到倒数第二个挂机标识上；
+      - [X] 门口可视化对讲机底座松弛；
+   3) [-] 厨房：[6/7]
+      - [X] 所有插座未进漏电保护；
+      - [ ] 厨房窗户明显歪斜；
+      - [X] 厨房门关不上；窗把手太松；
+      - [X] 门套下墙起皮，外右门套边缝隙较大，有划痕；
+      - [X] 消毒柜两侧柜门摩擦柜体木板；消毒柜右边柜门右下铰链送了；
+      - [X] 窗顶扣板不平，对缝不齐；
+      - [X] 西墙砖勾缝不齐整；
+   4) [X] 客厅：[1/1]
+      - [X] 客厅空调柜机插座现为10A插座，应改为16A大插座；
+   5) [ ] 阳台：[0/4]
+      - [ ] 空调外机位地漏堵塞严重，下水很慢；
+      - [ ] 阳台水池边地漏堵塞，下水很慢；
+      - [ ] 墙面色差，顶面不平；
+      - [ ] 外机位门有色差；
+   6) [X] 卫生间：[6/6]
+      - [X] 马桶插座火线零线接错；
+      - [X] 毛巾架太松驰；
+      - [X] 地漏内操有砂浆块，下水很慢；
+      - [X] 马桶地漏较粗糙，上扣板不平；
+      - [X] 干区洗漱台盆下墙砖未勾缝；镜柜下墙体粗糙未整平，未上漆；开关松动翘起；
+      - [X] 卫生间推拉门门锁正反面有漏缝；门正面污渍明显；
+   7) [ ] 浴室：[0/1]
+      - [ ] 浴室玻璃门下部两侧漏水严重。
+   8) [X] 南次卧：[2/2]
+      - [X] 门破损且关不上；保险关不上（槽片挡住导致）；
+      - [X] 南地板破损，划痕；
+   9) [X] 主卧：[2/2]
+      - [X] 门关不上，门锁保险关不上（门框槽片挡住导致）；
+      - [X] 过门石打胶粗糙；
+   10) [X] 书房：[1/1]
+       - [X] 门右下角破损；地板划痕严重；
+   11) [X] 所有墙体：[1/1]
+       - [X] 房屋内所有乳胶漆墙面出现多出裂痕（已经在墙上标明）；

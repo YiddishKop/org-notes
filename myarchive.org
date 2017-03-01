@@ -1,0 +1,21 @@
+
+Archived entries from file /home/yiddi/Documents/org-notes/notes.org
+
+
+* this is test for archiving
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-02-27 一 20:01
+  :ARCHIVE_FILE: ~/Documents/org-notes/notes.org
+  :ARCHIVE_OLPATH: Quick notes/Spcemacs Rocks - some tips/org mode
+  :ARCHIVE_CATEGORY: notes
+  :ARCHIVE_ITAGS: ORG
+  :END:
+
+* this is test for archiving
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-02-27 一 20:02
+  :ARCHIVE_FILE: ~/Documents/org-notes/notes.org
+  :ARCHIVE_OLPATH: Quick notes/Spcemacs Rocks - some tips/org mode
+  :ARCHIVE_CATEGORY: notes
+  :ARCHIVE_ITAGS: ORG
+  :END:

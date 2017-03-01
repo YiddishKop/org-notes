@@ -1,0 +1,39 @@
+
+Archived entries from file /home/yiddi/Documents/org-notes/notes.org
+
+
+* Yiddishkop
+
+** DONE test for local archive file
+   :PROPERTIES:
+   :ARCHIVE:  track-books.org::* Yiddishkop
+   :ARCHIVE_TIME: 2017-02-27 一 20:18
+   :ARCHIVE_FILE: ~/Documents/org-notes/notes.org
+   :ARCHIVE_OLPATH: Quick notes/Spcemacs Rocks - some tips/org mode
+   :ARCHIVE_CATEGORY: notes
+   :ARCHIVE_TODO: DONE
+   :ARCHIVE_ITAGS: ORG
+   :END:
+
+   CLOSED: [2017-02-27 一 20:17]
+   :LOGBOOK:
+   - State "DONE"       from "WAITING"    [2017-02-27 一 20:17]
+   - State "DONE"       from "STARTED"    [2017-02-27 一 20:16]
+   :END:
+
+** READ yiddi
+
+*** DONE test for local org file
+    :PROPERTIES:
+    :ARCHIVE:  track-books.org::** READ yiddi
+    :ARCHIVE_TIME: 2017-02-27 一 20:21
+    :ARCHIVE_FILE: ~/Documents/org-notes/notes.org
+    :ARCHIVE_OLPATH: Quick notes/Spcemacs Rocks - some tips/org mode
+    :ARCHIVE_CATEGORY: notes
+    :ARCHIVE_TODO: DONE
+    :ARCHIVE_ITAGS: ORG
+    :END:
+    CLOSED: [2017-02-27 一 20:20]
+    :LOGBOOK:
+    - State "DONE"       from              [2017-02-27 一 20:20]
+    :END:
