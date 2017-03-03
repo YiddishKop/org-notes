@@ -680,7 +680,7 @@
    (better-defaults :variable better-defaults-move-to-end-of-code-first t)
    #+END_SRC
 ** 问题查找与解决
-*** 如何查找自己需要的pkg或layer说明?  
+*** 如何查找自己需要的pkg或layer说明?
     通过 SPC-h-R 来查找所有spacemacs doc 匹配关键字.
 *** 如何在user-config 中定义按键,覆盖evil-state-map中的按键.
     (defun dotspacemacs/user-init ()
@@ -790,6 +790,66 @@
     2.
 *** how to setup other module of org, like org-protocol?
     =M-x customize-variable= then =org-modules=
+*** how to find the built-in help doc of some packages?
+    =M-x: describe-package=
+    =spc h d p=
+*** how to select fly-checker?
+    you can choose *Tools* from menu bar at top of emacs window
+    *Tools* -> *syntax check* -> *select syntax checker*
+    emacs will give you a list of syntax checker in mini-buffer.
+    then choose one you want , if it pop a windwo and give a msg "can't use this checker" something like that
+    you can google for tips to install it in your OS,
+    like *pylint*, you must install it from pip
+    =sudo pip install pylint=
+*** how to set python enviroment and how to use it?
+    =C-c C-p= in .py file to open a python shell
+    =C-c C-c= in .py file to run and send buffer to python shell
+   #+BEGIN_SRC python
+     import random
+     for i in range(10):
+         print random.randrange(1, 10)
+     def f(x):
+         return 2*x
+   #+END_SRC
+*** How to install virtualenv for python development?
+    1. =pip install virtualenv= install virtualenv
+    2. =virtualevn <ENV-name>= create a virtual enviroment for python
+       - =virtualenv --system-site-packages <ENV-name>= create a virtual enviroment inherient all the system's pkgs
+       - =virtualenv --no-site-packages <ENV-name>= create a enviroment without inherient.
+       - =virtualenv -p /usr/bin/pythonx.x <ENV-name>= indicate a version of python
+    3. =source ./bin/activate= activate the current python env
+    4. =./bin/deactivate= deactivate the current python env
+    5. =pip list= display all the pkgs installed in current virtual env
+    6. =pip freeze= display all dependence in current virtual env
+    7. =pip freeze > requirement.txt= can export all the requirements to a file
+    8. =pip install -r requirement.txt= install all the dependence automatically
+*** how to setup enviroment for exporting org to pdf
+    1. install texlive
+    2. install texlive cjk extension
+    3. install latexpdf
+    4. do some setting of ctex
+*** how to split a long long line into a paragraph?            :Org:TextEdit:
+    =M-q= will work well for that
+*** how to set/jump to bookmark?                                      :Emacs:
+    emacs: =C-x r m= set
+           =C-x r b= jump
+    spacemacs: =spc b m s= set
+               =spc b m j= jump
+*** how to find file in ubuntu?
+    [[http://www.tecmint.com/35-practical-examples-of-linux-find-command/][find command tutorial]]
+    find is very helpfu in searching file in linux.
+    eg. i want to use etags to =TAG= all .java file in a directory with different depth.
+    =find . -type f -name "*.java"=
+    + '-type' can followed
+      'f' for file
+      'd' for directory
+    + '-name' must followed double quote wrapping the file name
+      ""
+*** how to transform 'html' to 'pdf'                            :Ubuntu:tool:
+    we can use *wkhtmltopdf* to do this job and use the command:
+    =wkhtmltopdf <URL_of_page> <name.pdf>=
+    and, this tool has many ARGS which can be used very handy.
+    google for wkhtmltopdf
 ** ELisp examples for programming
    ***
 ** Spacemacs Rocks s2 day13
@@ -902,8 +962,15 @@
 **** how to make ctags available for some source file?
      =$ ctags -e a.js= ctags for a file of emacs
      =$ ctags -eR filename= ctags for a directory of emacs
+     etags has no =-R= argument for recursive search directory.
+     so we can handle it ,with 3 methods:
+     [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Etags-Regexps.html#Etags-Regexps][use regex file as etags' argument]]
+     [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Create-Tags-Table.html][use find command to pipline to etags]]
+     1. add =--regex="<regex>"= directly after =etags= command
+     2. add regex to a file, and add this file as argument of =etags= command
+     3. use =find= to find the targets and pipline to =find XXX -print | etags=
 **** how to know where is the tags list file the current buffer used?
-     1. by spc h d v, find the variable description of =tags-table-list=, it will show you the path of the tags file.
+     1. by =spc h d v= , find the variable description of =tags-table-list=, it will show you the path of the tags file.
      2. =spc o (= you can enter a ELisp ELPA
      3. by elisp ELPA (steq-default tags-table-list "some-path"), you can set your own ctags file temporary.
 **** what's the defect of tags in emacs?
@@ -915,18 +982,17 @@
      #+BEGIN_QUOTE
      etags is short for "Emacs tags", not "exuberant ctags". It sounds like you have Emacs' etags command installed, not exuberant-ctags'.
      #+END_QUOTE
-     its better to try =etangs file= to build TAGS file instead of =ctags -e=
+     its better to try =etags file= to build TAGS file instead of =ctags -e=
 **** when open a source code file ,emacs will find TAGS file automatically from current file-path to root.
 
 *** how to configure ctags and auto completion?
-*** how to use ctags effectively?
     1. project wide configurations for auto generating the Tags file.
     2. Configure the ctags rules for generate more tags
     3. use etags-select to quickly navigate a large code base
 
        it's inconvinent for everytime you update/modify your code, you must build Tags file again.
        here is a tricks from CHEN BIN.
-    4. ~/.spacemacs.d/layers/zilongshanren-programming/funcs.el
+    5. ~/.spacemacs.d/layers/zilongshanren-programming/funcs.el
        in which defined a lot of functions to automatically rebuild TAGS files
 *** how to jump-to-definition place in zilong'configurations?
     =g ]= -> etags-select-find-tag-at-point
@@ -1134,6 +1200,10 @@
      1. capture a todo with priority and tags.
      2. capture a chrome links for later reading.
      3. capture a task with a source code file
+**** vinum extension in chrom to select txt                   :Chrome:vimium:
+     i know that now, vimer prefer using "/" searching and locating cursor to moveing cursor to locate.
+     Likely in vinum extension of chrome, user should use "/" to locate and switch to *visual-mode* to
+     select and =y= to copy
 **** a few tips
      1. embed pdf links to todo items such that you could easily access them.
      2. insert the current chrome tab into place
@@ -1426,6 +1496,7 @@
        - Date specifiers inside double quotes "<2017-2-28>"(you must type in by org-time-stamp)
        - org-time-stamp ususally =,.= or =C-c .=
 **** Capture column view                                        :COLUMN_VIEW:
+     Goal: export column-view (to another file)
 
      "Since column view is just an overlay over a buffer, it cannot be
      exported or printed directly" (The org menual)
@@ -1525,6 +1596,26 @@
       |-------+--------+-----+------+--------+--------|
       |       |        |     |      | 1.15.0 | update |
       #+TBLFM: $5=$skbios; :: $6=if("$5" == "$4", string(""), update);
+**** Code Snippets in OrgMode                                          :CODE:
+     Programming in org SRC block,
+     - we can use =<s <tab>= to create this block automatically.
+     - when code in that block, we can use =,'= to enter a *special-edit-window* and
+       use =,c= to commit it.
+     - we also can add *line-num* and *reference* to that block, by just add =-n= and
+       =-r= to end of the =#+BEGIN_SRC= line.
+     - we can ref to certain line by add =(ref: <ref-name>)= to end of that line.
+       and =C-c C-l= to link to that =<ref-name>=
+     - eg.
+       #+BEGIN_SRC python -n -r
+     @bottle.route('/'):
+     def blog_index():
+        cookie = bottle.request.get_cookie("session")
+        username = sessions.get_username(cookie)               (ref:username)
+        if not username:
+            username = "Unknown"
+        # snip
+        return bottle.template('blog_template', dict(username=username))
+       #+END_SRC
 ** Emacs introduction and demonstrattion
    [[https://www.youtube.com/watch?v=B6jfrrwR10k][intro to emacs with elisp]]
 
@@ -1562,7 +1653,7 @@
 **** expand regions
 **** templates
 **  TODO fangwu wenti [7/11]
-   #+BEGIN_QUOTE
+   :LOGBOOK:
    it is so annoying to make this list of checkboxes, I refer =cua-mode= , =multiple-cursor-mode= , but both are not execute very well in
    evil edit-mode ,so i frequently swich emacs-mode and evil-mode by =C-z= .
    1. I copy all the text from onenote from the chrome;
@@ -1575,7 +1666,7 @@
       2. =C-spc= to select several chars , then =C-s-f= to mark all the identical highlight
       3. =C-spc= again to cancel the highlight state, then you get MULTIPLE CURSOR
       4. now, its your fasion time!
-   #+END_QUOTE
+   :END:
    1) [ ] 进户门：[0/3]
       - [ ] 门正面有划痕，左下角变形；
       - [ ] 门锁侧立面变形、掉漆；
@@ -1617,3 +1708,66 @@
        - [X] 门右下角破损；地板划痕严重；
    11) [X] 所有墙体：[1/1]
        - [X] 房屋内所有乳胶漆墙面出现多出裂痕（已经在墙上标明）；
+* Using Emacs
+** start emacs
+   #+BEGIN_SRC emacs-lisp -n
+     ;; -------------------lesson1
+     (setq inhibit-startup-message t)
+     (require 'package)
+     (setq package-enable-at-startup nil)
+     (add-to-list 'package-archives
+                  '("melpa" . "https://melpa.org/packages/"))
+     (package-initialize)
+     (unless (package-installed-p 'use-package)
+       (package-refresh-contents)
+       (package-install 'use-package))
+
+     (use-package try
+       :ensure t)
+     (use-package which-key
+       :ensure t
+       :config (which-key-mode))
+     ;; ------------------lesson2
+     ;; Org-mode stuff
+     (use-package org-bullets
+       :ensure t
+       :config
+       (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
+   #+END_SRC
+   #+BEGIN_SRC python
+     import
+     for i in range(10):
+         print random.randrange(1, 10)
+     # C-c C-p in .py file to open a python shell
+     # C-c C-c in .py file to run and send buffer to python shell
+
+     def f(x):
+         return 2*x
+
+   #+END_SRC
+   #+BEGIN_SRC python
+     import os
+     form datetime import datetime
+     def open_file(name):
+         with open(name, "r") as f:
+             s = f.readlines()
+             f.close()
+             print("hello")
+     def another(name):
+         open_file("yiddi")
+   #+END_SRC
+*** lesson 1
+    Introducing the series and setting up package manager
+    - Show melpa
+    - set up melpa
+    - installed use-package
+    - installed try
+    - installed which-key
+    -
+
+*** lesson 2
+    Show some org-mode
+    - review init.el
+    - setup Readme.org
+
+*** links

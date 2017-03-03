@@ -166,3 +166,340 @@ export 方式只对当前终端 Shell 有效
  #+END_QUOTE
 ** TODO   [[file://home/yiddi/Dropbox/evil.pdf][]]
  Captured On: [2017-02-20 一 21:53]
+** TODO [[http://www.ctex.org/TeX][TeX 简介:CTEX]]
+ Source: [2017-03-01 三], [[http://www.ctex.org/TeX][TeX 简介:CTEX]]
+  #+BEGIN_QUOTE
+
+ 　　TeX 提供了一套功能强大并且十分灵活的排版语言，它多达 900 多条指令，并且 TeX 有宏功能，用户可以不断地定义自己适用的新命令来扩展 TeX 系统的功能。许多人利用 TeX 提供的宏定义功能对 TeX 进行了二次开发，其中比较著名的有美国数学学会推荐的非常适合于数学家使用的 AMSTeX AMS-TeX 以及适合于一般文章、报告、书籍的 LaTeX 系统。
+
+ #+END_QUOTE
+
+
+ TeX 的另一个重要的特征就是它的输出是与设备无关的。TeX 的输出文件称为 DVI 文件，即是“Device Independent”。一旦 TeX 处理了你的文件，你所得到的 DVI 文件就可以被送到任何输出设备如打印机，屏幕等并且总会得到相同的结果，而这与这些输出设备的限制没有任何关系。这说明 DVI 文件中所有的元素，从页面设置到文本中字符的位置都被固定，不能更改。
+** TODO   [[http://aty.sdsu.edu/bibliog/latex/LaTeXtoPDF.html][LaTeX to PDF]]
+ Captured On: [2017-03-01 三 10:29]
+** TODO   [[http://zchrissirhcz.github.io/blog/latex-in-linux/][在Linux下使用Latex | zchrissirhcz.github.io]]
+ Captured On: [2017-03-01 三 10:36]
+** TODO   [[http://www.mikewootc.com/wiki/tool/doc_process/latex_chinese_ubuntu_setup.html][LaTex Ubuntu中文环境安装与使用]]
+ Captured On: [2017-03-01 三 10:37]
+** TODO   [[http://www.jianshu.com/p/08c657bd34f1][Python--Virtualenv简明教程 - 简书]]
+ Captured On: [2017-03-01 三 13:31]
+** TODO   [[https://virtualenv.pypa.io/en/stable/installation/][Installation — virtualenv 15.1.0 documentation]]
+ Captured On: [2017-03-01 三 13:36]
+** TODO   [[http://www.jianshu.com/p/08c657bd34f1][Python--Virtualenv简明教程 - 简书]]
+ Captured On: [2017-03-01 三 13:56]
+** TODO [[https://github.com/proofit404/anaconda-mode/issues/164][Anaconda mode opening new windows with errors · Issue #164 · proofit404/anaconda-mode]]
+ Source: [2017-03-01 三], [[https://github.com/proofit404/anaconda-mode/issues/164][Anaconda mode opening new windows with errors · Issue #164 · proofit404/anaconda-mode]]
+  #+BEGIN_QUOTE
+ I need the value of python-shell-interpreter and python-shell-virtualenv-path variables. Does minibuffer contain some error messages? What is the content of *anaconda-mode* buffer?
+ #+END_QUOTE
+** TODO [[https://my.oschina.net/u/89296/blog/42393][Python 和 egg 文件 - 甄码农]]
+ Source: [2017-03-01 三], [[https://my.oschina.net/u/89296/blog/42393][Python 和 egg 文件 - 甄码农]]
+  #+BEGIN_QUOTE
+ 4. 相关知识：egg包和setup tools
+
+ python的egg文件有点像java中的jar文件，是一个工程打包文件，便于安装部署，仅此一点，给多少pythoner带来了多少激动。而setup tools就是一个提供包管理的工具或者说是软件。
+
+ egg 是一个包含所有包数据的文件包。在理想情况中，egg 是一个使用 zip 压缩的文件，其中包括了所有需要的包文件。但是在某些情况下，setuptools 会决定（或被开关告知）包不应该是 zip 压缩的。在这些情况下，egg 只是一个简单的未曾压缩的子目录，但是里面的内容是相同的。使用单一的版本可以方便地进行转换，并可以节省一点磁盘空间，但是 egg 目录从功能和组织结构上来说都是相同的。
+
+ 安装package是经常碰到事情, 而且安装也比较繁琐，最头疼就是包依赖的问题，有时候一个上午可能就为了安装一个包，就像我今天这样的。在Java里面有这样的包管理软件，那就是Maven了， 他会帮助你找到所依赖的包. 据说其他语言,比如, php, ruby, perl等 也有类似的工具软件.
+ #+END_QUOTE
+** TODO   [[https://my.oschina.net/u/89296/blog/42393][Python 和 egg 文件 - 甄码农]]
+ Captured On: [2017-03-01 三 20:45]
+** TODO [[http://www.cnblogs.com/Tommy-Yu/p/4991853.html][python egg文件解压 - tommy.yu - 博客园]]
+ Source: [2017-03-01 三], [[http://www.cnblogs.com/Tommy-Yu/p/4991853.html][python egg文件解压 - tommy.yu - 博客园]]
+  #+BEGIN_QUOTE
+ python egg文件解压
+
+ unzip 就可以了。
+
+  
+
+ 由于项目需要将某些版本的库打包，然后 sys.path.insert方式引用（避免升级包导致某些旧的系统崩掉）。
+
+ 在将egg文件打包时，发现不可用。但相关模块的__path__属性显示， 这些内容在egg里面，于是想到可能这只是个压缩包。
+
+ 谷歌了一番，找到了解压的方法：https://mail.python.org/pipermail/chicago/2007-July/002301.html
+
+ 即用unzip指令就可一了。
+
+  
+
+  
+
+ ======后记===========
+
+ python的egg文件有点像java中的jar文件，是一个工程打包文件，便于安装部署，仅此一点，给多少pythoner带来了多少激动。而setup tools就是一个提供包管理的工具或者说是软件。
+
+ egg 是一个包含所有包数据的文件包。在理想情况中，egg 是一个使用 zip 压缩的文件，其中包括了所有需要的包文件。但是在某些情况下，setuptools 会决定（或被开关告知）包不应该是 zip 压缩的。在这些情况下，egg 只是一个简单的未曾压缩的子目录，但是里面的内容是相同的。使用单一的版本可以方便地进行转换，并可以节省一点磁盘空间，但是 egg 目录从功能和组织结构上来说都是相同的。
+ #+END_QUOTE
+** TODO [[http://www.ibm.com/developerworks/cn/linux/l-cppeak3.html][可爱的 Python: 使用 setuptools 孵化 Python egg]]
+ Source: [2017-03-01 三], [[http://www.ibm.com/developerworks/cn/linux/l-cppeak3.html][可爱的 Python: 使用 setuptools 孵化 Python egg]]
+  #+BEGIN_QUOTE
+ 可爱的 Python: 使用 setuptools 孵化 Python egg
+ 改进安装和包管理后的 PEAK
+ David 在本文中将带领我们了解一下 setuptools 框架，它是 Python Enterprise Application Kit（PEAK）的一个副项目。 setuptools 替换了标准的 distutils 库，并为 Python 添加了版本化的包和依赖性管理。Perl 用户比较熟悉 CPAN，而 Ruby 用户则比较熟悉 Gems；引导 setuptools 的 ez_setup 工具和随之而生的扩展后的 easy_install 与 “Cheeseshop”（Python Package Index，也称为 “PyPI”）一起工作来实现相同的功能。另外，setuptools 还让我们可以将自己的库包装成一个称为 “egg” 的包，它与 Java™ 的 JAR 文件类似，不过是用于 Python 的。
+ 查看本系列更多内容 | 1 评论
+ David Mertz (mertz@gnosis.cx), 开发人员, Gnosis Software, Inc.
+ 2006 年 11 月 30 日
+
+ 内容
+
+ 在 IBM Bluemix 云平台上开发并部署您的下一个应用。
+ 开始您的试用
+ Python Enterprise Application Kit（PEAK）的基础知识在本专栏的前两部分中已经进行了介绍：“可爱的 Python: Python Enterprise Application Kit” 和 “深入 PEAK 的新特性”。简而言之，PEAK 是用来在 Python 中进行快速组件开发和代码重用的强大框架。
+ 本文介绍了 setuptools 框架的内容，它是 PEAK 的一个副项目，它提供了比 distutils 更加简单的包管理和发行功能。
+ 开始
+ setuptools 模块很会 “规避”。例如，如果我们下载一个使用 setuptools 而不是使用 distutils 构建的包，那么安装就应该可以像我们期望的一样工作：通常使用 python setup.py install 就可以。为了实现这种功能，使用 setuptools 绑定在一起的包就会在归档文件中包含一个很小的引导模块 ez_setup.py。此处惟一需要注意的是 ez_setup.py 试图在后台下载并安装所需要的 setuptools —— 当然，这需要有一个连接网络的机器。如果 setuptools 早已在本地机器上安装了，那么这个后台步骤就不再需要执行；但是如果它需要手工进行安装，那么很多透明性就都丢失了。不过，大部分系统现在都有一个 Internet 连接了；为没有连接网络的机器多执行几个特殊步骤也并非特别麻烦。
+ setuptools 的真正优点并不在于实现 distutils 所能实现的功能 —— 尽管它 的确 增强了 distutils 的功能并简化了 setup.py 脚本中的内容。setuptools 最大的优势是它在包管理能力方面的增强。它可以使用一种更加透明的方法来查找、下载并安装依赖包；并可以在一个包的多个版本中自由进行切换，这些版本都安装在同一个系统上；也可以声明对某个包的特定版本的需求；还可以只使用一个简单的命令就能更新到某个包的最新版本。给人印象最为深刻的是，即使有些包的开发人员可能还从未考虑过任何 setuptools 兼容性问题，我们依然可以使用这些包。
+ 下面让我们详细探讨一下。
+ 回页首
+ 引导
+ 工具 ez_setup.py 是一个简单的脚本，它可以引导 setuptools 中其余部分。有点让人困惑的是，完整 setuptools 包中所提供的 easy_install 脚本与 ez_setup.py 所实现的功能是相同的。不过前者假设 setuptools 早已安装了，因此它会跳过幕后的安装过程。这两个版本都可以接受相同的参数和开关。
+ 这个过程中的第一个步骤是下载一个小脚本 ez_setup.py：
+ 清单 1. 下载引导脚本
+ % wget -q http://peak.telecommunity.com/dist/ez_setup.py
+ 然后，就可以不带任何参数运行脚本来安装 setuptools 中其余部分了（如果不作为一个单独的步骤来执行这个步骤，在首次安装其他包时，它还是会被完成）。会看到类似于下面的内容（当然，这要取决于所使用的版本）：
+ 清单 2. 引导 setuptools
+ % python ez_setup.py
+ Downloading http://cheeseshop.python.org/packages/2.4/s/
+   setuptools/setuptools-0.6b1-py2.4.egg#md5=b79a8a403e4502fbb85ee3f1941735cb
+ Processing setuptools-0.6b1-py2.4.egg
+ creating /sw/lib/python2.4/site-packages/setuptools-0.6b1-py2.4.egg
+ Extracting setuptools-0.6b1-py2.4.egg to /sw/lib/python2.4/site-packages
+ Removing setuptools 0.6a11 from easy-install.pth file
+ Adding setuptools 0.6b1 to easy-install.pth file
+ Installing easy_install script to /sw/bin
+ Installing easy_install-2.4 script to /sw/bin
+
+ Installed /sw/lib/python2.4/site-packages/setuptools-0.6b1-py2.4.egg
+ Processing dependencies for setuptools
+ 完毕。这就是我们需要确保在系统上安装 setuptools 而需要做的工作。
+ 回页首
+ 安装包
+ 对于很多 Python 包来说，要安装这些包，需要做的就是将这些包的名字作为一个参数传递给 ez_setup.py 或 easy_install。既然目前已经使用引导脚本加载了 setuptools，那就可以使用内部更加简化的 easy_install（实际上它与我们选择的版本的区别很小）了。
+ 例如，假设希望安装 SQLObject 包。过程非常简单，如清单 3 所示。注意消息中说 SQLObject 依赖于一个名为 FormEncode 的包；所幸的是，这会被很好地解决：
+ 清单 3. 安装一个典型的包
+ % easy_install SQLObject
+ Searching for SQLObject
+ Reading http://www.python.org/pypi/SQLObject/
+ Reading http://sqlobject.org
+ Best match: SQLObject 0.7.0
+ Downloading http://cheeseshop.python.org/packages/2.4/S/
+   SQLObject/SQLObject-0.7.0-py2.4.egg#md5=71830b26083afc6ea7c53b99478e1b6a
+ Processing SQLObject-0.7.0-py2.4.egg
+ creating /sw/lib/python2.4/site-packages/SQLObject-0.7.0-py2.4.egg
+ Extracting SQLObject-0.7.0-py2.4.egg to /sw/lib/python2.4/site-packages
+ Adding SQLObject 0.7.0 to easy-install.pth file
+ Installing sqlobject-admin script to /sw/bin
+
+ Installed /sw/lib/python2.4/site-packages/SQLObject-0.7.0-py2.4.egg
+ Processing dependencies for SQLObject
+ Searching for FormEncode>=0.2.2
+ Reading http://www.python.org/pypi/FormEncode/
+ Reading http://formencode.org
+ Best match: FormEncode 0.5.1
+ Downloading http://cheeseshop.python.org/packages/2.4/F/
+   FormEncode/FormEncode-0.5.1-py2.4.egg#md5=f8a19cbe95d0ed1b9d1759b033b7760d
+ Processing FormEncode-0.5.1-py2.4.egg
+ creating /sw/lib/python2.4/site-packages/FormEncode-0.5.1-py2.4.egg
+ Extracting FormEncode-0.5.1-py2.4.egg to /sw/lib/python2.4/site-packages
+ Adding FormEncode 0.5.1 to easy-install.pth file
+
+ Installed /sw/lib/python2.4/site-packages/FormEncode-0.5.1-py2.4.egg
+ 正如可以从这些消息中看到的一样，easy_install 要在 www.python.org/pypi/ 上查找有关这个包的信息，然后查找真正可以下载它的地方（此处 egg 包就在 cheeseshop.python.org 上；后面将介绍有关 egg 的更多内容）。
+ 现在不仅仅可以安装某个包的最新版本（这是默认操作）。如果愿意，还可以为 easy_install 提供一个特定的版本需求。现在让我们尝试安装 SQLObject 的一个 post-beta 版本。
+ 清单 4. 安装某个包的最小版本
+ % easy_install 'SQLObject>=1.0'
+ Searching for SQLObject>=1.0
+ Reading http://www.python.org/pypi/SQLObject/
+ Reading http://sqlobject.org
+ No local packages or download links found for SQLObject>=1.0
+ error: Could not find suitable distribution for
+   Requirement.parse('SQLObject>=1.0')
+ 如果（在本文编写时情况就是如此）SQLObject 的最新版本小于 1.0，那么这会什么也不安装。
+ 回页首
+ 安装 “naive” 包
+ SQLObject 是可以识别 setuptools 的；但是如果要安装一个尚未兼容 setuptools 的包又该如何呢？例如，在本文之前，我从没有对自己的 “Gnosis Utilities” 使用过 setuptools。不过，现在让我们来尝试安装一下这个包，已知的只有它所在的 HTTP（或 FTP、SVN、CVS）位置（setuptools 可以理解所有这些协议）。我的下载 Web 站点上有各个 Gnosis Utilities 的版本，它们的命名采用了常见的版本风格：
+ 清单 5. 安装不识别 setuptools 的包
+ % easy_install -f http://gnosis.cx/download/Gnosis_Utils.More/ Gnosis_Utils
+ Searching for Gnosis-Utils
+ Reading http://gnosis.cx/download/Gnosis_Utils.More/
+ Best match: Gnosis-Utils 1.2.1
+ Downloading http://gnosis.cx/download/Gnosis_Utils.More/
+   Gnosis_Utils-1.2.1.zip
+ Processing Gnosis_Utils-1.2.1.zip
+ Running Gnosis_Utils-1.2.1/setup.py -q bdist_egg --dist-dir
+   /tmp/easy_install-CCrXEs/Gnosis_Utils-1.2.1/egg-dist-tmp-Sh4DW1
+ zip_safe flag not set; analyzing archive contents...
+ gnosis.__init__: module references __file__
+ gnosis.magic.__init__: module references __file__
+ gnosis.xml.objectify.doc.__init__: module references __file__
+ gnosis.xml.pickle.doc.__init__: module references __file__
+ gnosis.xml.pickle.test.test_zdump: module references __file__
+ Adding Gnosis-Utils 1.2.1 to easy-install.pth file
+
+ Installed /sw/lib/python2.4/site-packages/Gnosis_Utils-1.2.1-py2.4.egg
+ Processing dependencies for Gnosis-Utils
+ 所幸的是 easy_install 可以把这一切都完成得很好。它会查看给定的下载目录，识别出可用的最高版本，展开这个包，然后将其重新打包为 “egg” 格式，后者就可以用来进行安装了。导入 gnosis 现在可以在一个脚本中运行。但是假设现在需要对 Gnosis Utilities 之前的某个特定版本来测试一个脚本又该怎么做呢？这也非常简单：
+ 清单 6. 安装一个 “naive” 包的特定版本
+ % easy_install -f http://gnosis.cx/download/Gnosis_Utils.More/
+   "Gnosis_Utils==1.2.0"
+ Searching for Gnosis-Utils==1.2.0
+ Reading http://gnosis.cx/download/Gnosis_Utils.More/
+ Best match: Gnosis-Utils 1.2.0
+ Downloading http://gnosis.cx/download/Gnosis_Utils.More/
+   Gnosis_Utils-1.2.0.zip
+ [...]
+ Removing Gnosis-Utils 1.2.1 from easy-install.pth file
+ Adding Gnosis-Utils 1.2.0 to easy-install.pth file
+
+ Installed /sw/lib/python2.4/site-packages/Gnosis_Utils-1.2.0-py2.4.egg
+ Processing dependencies for Gnosis-Utils==1.2.0
+ 现在通常已经安装了两个版本的 Gnosis Utilities，当前活动版本是 1.2.0。将活动版本切换回 1.2.1 也非常简单：
+ 清单 7. 在系统范围修改 “活动” 版本
+ % easy_install "Gnosis_Utils==1.2.1"
+ Searching for Gnosis-Utils==1.2.1
+ Best match: Gnosis-Utils 1.2.1
+ Processing Gnosis_Utils-1.2.1-py2.4.egg
+ Removing Gnosis-Utils 1.2.0 from easy-install.pth file
+ Adding Gnosis-Utils 1.2.1 to easy-install.pth file
+
+ Using /sw/lib/python2.4/site-packages/Gnosis_Utils-1.2.1-py2.4.egg
+ Processing dependencies for Gnosis-Utils==1.2.1
+ 当然，这一次只能使一个版本是活动的。不过通过在各个脚本上面放上这样两行类似内容，就可以让脚本选择自己希望使用的版本：
+ 清单 8. 在脚本中使用某个版本的包
+ from pkg_resources import require
+ require("Gnosis_Utils==1.2.0")
+ 通过使用上述要求，setuptools 就可以在运行 import 语句时添加一个特定的版本（如果指定了大于比较，就是最新的可用版本）。
+ 回页首
+ 让包可以识别 setuptools
+ 我会更希望让用户不需要知道 Gnosis Utilities 的下载目录就可以安装它。这 通常都可以 工作，因为 Gnosis Utilities 在 Python Cheeseshop 上有一个信息清单。不幸的是，因为没有考虑 setuptools ，所以我在 python.org 上为我的 Gnosis Utilities 建立了一个 “不匹配” 的入口 http://www.python.org/pypi/Gnosis%20Utilities/1.2.1。具体地说，这个归档文件是根据类似于 Gnosis_Utils-N.N.N.tar.gz 的模式进行命名的（这些工具也打包成了 .zip 和 .tar.bz2 文件，最新的几个版本还打包成了 win32.exe 的安装程序，所有这些文件 setuptools 都可以很好地处理）。不过 Cheeseshop 上的项目名的拼写与 “Gnosis Utilities” 稍微有点不同。实际上，在 Cheeseshop 的一个很小的管理版本的更改就会将 http://www.python.org/pypi/Gnosis_Utils/1.2.1-a 创建为一个发布后版本。发行版归档文件本身并没有什么变化，不过是在 Cheeseshop 里增加了一点元数据。只需要少量努力，就可以使用更加简单的安装程序（注意，出于测试目的，我运行了一个 easy_install -m 来删除所安装的包）。
+ 清单 9. 简单增加对 setuptools 的识别
+ % easy_install Gnosis_Utils
+ Searching for Gnosis-Utils
+ Reading http://www.python.org/pypi/Gnosis_Utils/
+ Reading http://www.gnosis.cx/download/Gnosis_Utils.ANNOUNCE
+ Reading http://gnosis.cx/download/Gnosis_Utils.More/
+ Best match: Gnosis-Utils 1.2.1
+ Downloading [...]
+ 我把这个过程剩余的部分忽略掉了，因为这与您前面看到的内容没什么两样。惟一的区别在于 easy_install 要在 Cheeseshop（换言之 www.python.org/pypi/）上寻找可以匹配指定名字的元数据，并使用这些信息来查找真正的下载位置。在这种情况中，所列出的 .ANNOUNCE 文件没有包含任何有帮助的内容，不过 easy_install 还会继续查看另一个所列的 URL，这会证明它是一个下载目录。
+ 回页首
+ 关于 egg
+ egg 是一个包含所有包数据的文件包。在理想情况中，egg 是一个使用 zip 压缩的文件，其中包括了所有需要的包文件。但是在某些情况下，setuptools 会决定（或被开关告知）包不应该是 zip 压缩的。在这些情况下，egg 只是一个简单的未曾压缩的子目录，但是里面的内容是相同的。使用单一的版本可以方便地进行转换，并可以节省一点磁盘空间，但是 egg 目录从功能和组织结构上来说都是相同的。一直使用 JAR 文件的 Java™ 技术的用户会发现 egg 非常熟悉。
+ 由于最新的 Python 版本中（需要 2.3.5+ 或 2.4）导入挂钩的更改，可以简单地通过设置 PYTHONPATH 或 sys.path 并像往常一样导入相应的包来使用 egg。如果希望采用这种方法，就不需要使用 setuptools 或 ez_setup.py 了。例如，在本文使用的工作目录中，我就为 PyYAML 包放入了一个 egg。现在我就可以使用这个包了，方法如下：
+ 清单 10. PYTHONPATH 上的 egg
+ % export PYTHONPATH=~/work/dW/PyYAML-3.01-py2.4.egg
+ % python -c 'import yaml; print yaml.dump({"foo":"bar",1:[2,3]})'
+ 1: [2, 3]
+ foo: bar
+ 不过，PYTHONPATH 的（或者脚本或 Python shell 会话内的 sys.path的）这种操作有些脆弱。egg 的发现最好是在新一点的 .pth 文件中进行。在 site-packages/ 或 PYTHONPATH 中的任何 .pth 文件都会进行解析来执行其他导入操作，其方法类似于检查可能包含包的那些目录位置一样。如果使用 setuptools 来处理包的管理功能，那么在安装、更新、删除包时，就需要修改一个名为 easy-install.pth 的文件。而且可以按照自己喜欢的方式对这个 .pth 进行命名（只要其扩展名是 .pth 即可）。例如，下面是我的 easy-install.pth 文件的内容：
+ 清单 11. 用作 egg 位置配置的 .pth 文件
+ % cat /sw/lib/python2.4/site-packages/easy-install.pth
+ import sys; sys.__plen = len(sys.path)
+ setuptools-0.6b1-py2.4.egg
+ SQLObject-0.7.0-py2.4.egg
+ FormEncode-0.5.1-py2.4.egg
+ Gnosis_Utils-1.2.1-py2.4.egg
+ import sys; new=sys.path[sys.__plen:]; del sys.path[sys.__plen:];
+   p=getattr(sys,'__egginsert',0); sys.path[p:p]=new;
+   sys.__egginsert = p+len(new)
+ 这种格式有点特殊：它近似于一个 Python 脚本，但却不完全是。需要说明的是，可以在那里添加额外列出的 egg；更好的情况是，easy_install 会在运行时实现这种功能。也可以在 site-packages/ 下创建任意多个 .pth 文件；每个都可以列出有哪些 egg 是可用的。
+ 回页首
+ 增强安装脚本
+ 上面所述的这种安装 setuptools naive 包的能力（请参阅 清单 6）只部分有效。也就是说，包 Gnosis_Utils 的确安装上了，但是并不完整。所有常见的功能都可以工作，但是在自动生成 egg 时却忽略了很多支持文件 —— 大部分是扩展名为 .txt 的文档和扩展名为 .xml 的测试文件（还有一些其他的 README、.rnc、.rng、.xsl 和围绕子包的文件）。在安装时，所有这些支持文件都 “最好要有”，而没有严格要求一定要有。不过，我们仍然希望能够包含所有的支持文件。
+ Gnosis_Utils 使用的 setup.py 脚本实际上非常复杂。除了列出基本的元数据之外，在第 467 行代码中，它还对 Python 版本的功能和 bug 进行完整测试；解决旧版本的 distutils 中的一些故障；回溯跳过对不支持部分的安装（例如，如果 pyexpat 在 Python 发行版中并没有包括）；处理 OS 行结束符的转换；创建多个归档/安装程序类型；根据测试结果重新构建 MANIFEST 文件。能够实现处理这些工作的能力要感谢此包的另外一个维护人员 Frank McIngvale；这些能力可以让 Gnosis_Utils 能成功安装回 Python 1.5.1 的版本，当然前提是需要这么做（早期版本中的功能没有这么丰富）。不过此处我要向大家展示的脚本并没有像 distutils 脚本一样做这么复杂的事情：它只是简单地假设系统中已经安装了一个 “普通的” 最新版本的 Python。即使这么讲，setuptools 能让安装脚本变得如此简单还是非常吸引人。
+ 在第一次尝试时，让我们来创建一个 setup.py 脚本，它是从 setuptools 手册中借用的，并试图使用它来创建一个 egg：
+ 清单 12. setuptools setup.py 脚本
+ % cat setup.py
+ from setuptools import setup, find_packages
+ setup(
+     name = "Gnosis_Utils",
+     version = "1.2.2",
+     packages = find_packages(),
+ )
+ % python setup.py -q bdist_egg
+ zip_safe flag not set; analyzing archive contents...
+ gnosis.__init__: module references __file__
+ gnosis.doc.__init__: module references __file__
+ gnosis.magic.__init__: module references __file__
+ gnosis.xml.objectify.doc.__init__: module references __file__
+ gnosis.xml.pickle.doc.__init__: module references __file__
+ gnosis.xml.pickle.test.test_zdump: module references __file__
+ 这点努力就已经可以起作用；至少可以部分地起作用。使用这几行内容的确可以创建一个 egg，不过这个 egg 与使用 easy_install 创建的 egg 有一些相似的缺点：缺乏对不使用 .py 命名的文件的支持。因此让我们再试一次，只是需要稍微再努力一点：
+ 清单 13. 添加缺少的 package_data
+ from setuptools import setup, find_packages
+ setup(
+     name = "Gnosis_Utils",
+     version = "1.2.2",
+     package_data = {'':['*.*']},
+     packages = find_packages(),
+ )
+ 这就是需要做的所有操作。当然，根据实际情况，通常希望对它进行一些调整。例如，它可能会列出下面的内容：
+ 清单 14. 打包特定类型文件类型
+ package_data = {'doc':['*.txt'], 'xml':['*.xml', 'relax/*.rnc']}
+ 这段内容翻译一下就是：将 .txt 文件包括在 doc/ 子包中，将 .xml 文件包括在 xml/ 子包中，将所有 .rnc 文件包括在 xml/relax/ 子包中。
+ 回页首
+ 结束语
+ 本文实际上只介绍了用支持 setuptools 的发行版可以执行的定制操作的表层的知识。例如，假设您现在有一个发行版（可以是首选的 egg 格式或另外一种归档类型），您就可以使用一个命令将这个归档文件和元数据上载到 Cheeseshop 上。显然，完整的 setup.py 脚本应该包含旧版本 distutils 脚本中所包含的同样详细的元数据；为了简单起见，本文跳过了这些内容，但是其参数名与 distutils 是兼容的。
+ 尽管要完全适应 setuptools 所提供的巨大功能需要一些时间，但是实际上它确实可以让维护您自己的包和安装外来包都要比 distutils 更加简单。如果您所关心的内容仅仅是安装包，那么您所需要了解的内容在本文的介绍中已经全部包括了；只是您在描述您自己的包时可能会发现一些复杂性，不过仍然没有使用 distutils 那么复杂。
+ #+END_QUOTE
+** TODO [[http://www.cnblogs.com/mnzlichunyu/p/5982981.html][{spacemacs}anaconda自动补全不工作 - 剑客西门吹雪 - 博客园]]
+ Source: [2017-03-01 三], [[http://www.cnblogs.com/mnzlichunyu/p/5982981.html][{spacemacs}anaconda自动补全不工作 - 剑客西门吹雪 - 博客园]]
+  #+BEGIN_QUOTE
+ [spacemacs]anaconda自动补全不工作
+ spacemacs打开python源文件自动补全不工作，打开anaconda-mode buffer看到以下信息：
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+ 10
+ 11
+ 12
+ Traceback (most recent call last):
+   File "/Users/matthew/.emacs.d/.cache/anaconda-mode/0.1.5/service_factory-0.1.4-py2.7.egg/service_factory/providers/basehttp.py", line 40, in do_POST
+     status, response = self.server.service(data)
+   File "/Users/matthew/.emacs.d/.cache/anaconda-mode/0.1.5/service_factory-0.1.4-py2.7.egg/service_factory/service.py", line 50, in __call__
+     result = self.apply(method, args)
+   File "/Users/matthew/.emacs.d/.cache/anaconda-mode/0.1.5/service_factory-0.1.4-py2.7.egg/service_factory/service.py", line 105, in apply
+     server_error(args['id'], error)
+   File "/Users/matthew/.emacs.d/.cache/anaconda-mode/0.1.5/service_factory-0.1.4-py2.7.egg/service_factory/errors.py", line 91, in server_error
+  
+     raise ServiceException(500, dumps(response))
+ ServiceException: (500, '{"jsonrpc": "2.0", "id": 1, "error": {"message": "Server error", "code": -32000, "data": "IOError(20, \'no such file or directory\')"}}')
+ 　　
+
+ 环境：
+ OS：windows 7 ，
+ emacs：emacs-w64-25.1
+  
+ 原因：
+ 推测因为jedi以egg文件（一个zip文件）文件安装导致IOError。
+  
+ 解决方法：
+ 进入目录C:\Users\<your user name>\.emacs.d\.cache\anaconda-mode\0.1.6\，解压jedi-0.9.0-py2.7.egg到当前目录
+ ，然后把解压出来的文件夹改名为 jedi-0.9.0-py2.7.egg, 删除或者把以前的egg文件重命名为 jedi-0.9.0-py2.7.egg.bak。
+ python补全就可以正常工作了。 
+  
+ #+END_QUOTE
+** TODO [[https://emacs-china.org/t/2016mbp-quickhelp/1644/16][新入了2016mbp，无法安装quickhelp了，求解答 - Spacemacs - Emacs China]]
+ Source: [2017-03-01 三], [[https://emacs-china.org/t/2016mbp-quickhelp/1644/16][新入了2016mbp，无法安装quickhelp了，求解答 - Spacemacs - Emacs China]]
+  #+BEGIN_QUOTE
+在你的配置中, 应该需要这样添加 auto-completion layer 才可以使得 company-quickhelp 生效.
+
+     (auto-completion :variables
+                      auto-completion-enable-sort-by-usage t
+                      auto-completion-enable-help-tooltip t
+                      auto-completion-enable-snippets-in-popup t)
+
+ 设定 auto-completion-enable-help-tooltip 为 t 之后 spacemacs 就会为你安装 company-quickhelp 的，不需要再在其它地方添加任何设置。
+
+ 对我而言，没有很大的补全需求，macOS 和 Linux 在 emacs-lisp-mode 都可以用我给出的 auto-completion 的配置给出 tool-tip的。
+ #+END_QUOTE
+** TODO   [[http://wkhtmltopdf.org/][wkhtmltopdf]]
+ Captured On: [2017-03-02 四 14:43]
