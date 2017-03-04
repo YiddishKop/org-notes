@@ -1,9 +1,0 @@
-import
-for i in range(10):
-    print random.randrange(1, 10)
-# C-c C-p in .py file to open a python shell
-# C-c C-c in .py file to run and send buffer to python shell
-
-def f(x):
-    return 2*x
-
