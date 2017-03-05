@@ -850,6 +850,8 @@
     =wkhtmltopdf <URL_of_page> <name.pdf>=
     and, this tool has many ARGS which can be used very handy.
     google for wkhtmltopdf
+*** how to open debug message in emacs
+    =spc t D=
 ** ELisp examples for programming
    ***
 ** Spacemacs Rocks s2 day13
