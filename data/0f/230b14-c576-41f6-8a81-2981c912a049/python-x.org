@@ -1,0 +1,78 @@
+* Org-babel with python programming style
+:URL:
+http://python.net/~goodger/projects/pycon/2007/idiomatic/handout.html#module-structure
+:END:
+
+  Following the structure outlined in Code Like a Pythonista, construct the
+  python source file in sections:
+  1. imports
+  2. constants
+  3. exception classes
+  4. interface functions
+  5. classes
+  6. internal functions & classes
+
+  #+BEGIN_SRC python :noweb yes :tangle HelloWorld.py :exports none
+"""This is a hello world example document"""
+# imports
+import sys
+<<helloworld-main-imports>>
+# constants
+
+# exception classes
+
+# interface functions
+
+# classes
+<<HelloWorld-defn>>
+# internal functions & classes
+<<helloworld-main>>
+
+if __name__ == '__main__':
+    status = main()
+    sys.exit(status)
+  #+END_SRC
+
+  When M-x org-babel-tangle is run within emacs, the :tangle HelloWorld.py line
+  will cause it to generate a the file HelloWorld.py from the contents of the code
+  blocks.
+  The bracketed lines (helloworld-classes, for example) are code fragments that
+  will be defined later. org-mode will automatically substitute these blocks when
+  createing the HelloWorld.py file.
+  Define the HelloWorld class thus:
+
+  #+NAME: HelloWorld-defn
+  #+BEGIN_SRC python
+  class HelloWorld(object):
+      def __init__(self, who):
+          self.who = who
+
+      def say_hello(self):
+          print "Hello %s" % self.who
+  #+END_SRC
+
+  It's usually a good idea to have an argument parser in main. Start by creating a
+  code block the performs the required imports:
+
+  #+NAME: helloworld-main-imports
+  #+BEGIN_SRC python
+from argparse import ArgumentParser
+  #+END_SRC
+
+  #+NAME: helloworld-main
+  #+BEGIN_SRC python
+  def main():
+      parser = ArgumentParser(description="Say hi")
+      parser.add_argument("-w", "--who",
+                          type=str,
+                          default="world",
+                          help="Who to say hello to")
+      args = parser.parse_args()
+
+      who = args.who
+
+      greeter = HelloWorld(who)
+      greeter.say_hello()
+
+      return 0
+  #+END_SRC
