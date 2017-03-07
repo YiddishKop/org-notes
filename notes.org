@@ -1906,3 +1906,149 @@ return fname
 * By now, The KENG in ubuntu 16.10
 ** emacs 25.1
 ** sub-wifi : Ralink 2870
+** agent-pc sufer net by sharing the server-laptop's wirless netcard
+
+   one pc without wireless net-card, one laptop with two net-cards: wired and wireless.
+   so i want to make pc surfer net by sharing laptop's wireless net-card, using the NAT
+   tech.
+   step-by-step, as follow note:
+*** Set
+
+    sudo iptables -A FORWARD -o wlp8s0 -i enp7s0 -s 10.42.0.1/24 -m conntrack --ctstate NEW -j ACCEPT
+    sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+    sudo iptables -t nat -F POSTROUTING
+    sudo iptables -t nat -A POSTROUTING -o wlp8s0 -j MASQUERADE
+*** URLS
+    http://qujunorz.blog.51cto.com/6378776/1868602
+    https://bbs.archlinux.org/viewtopic.php?id=147790
+    https://www.linuxbabe.com/linux-server/how-to-enable-etcrc-local-with-systemd
+*** about systemd
+    换了一台新笔记本，于是装上了最新的Ubuntu 1610,结果从旧机器导文件过来的时候发
+    现系统里没有rc.local，一下感觉醉醉的。google查了下，原来是1610把rc.local服务
+    化了，看来systemd已经决心独立了。。话说这个sysvinit流传的下来的东东生命力确实顽
+    强，而且真的很好用啊。解决方法： 首先创建systemd的服务脚本
+*** How to write systemd script
+    1. create systemd-script in =/etc/systemd/system/=
+    2. vim this script, add some items like below
+       #+BEGIN_SRC systemd-script
+       [Unit]
+       Description=/etc/rc.local Compatibility
+       ConditionPathExists=/etc/rc.local
+       [Service]
+       Type=forking
+       ExecStart=/etc/rc.local start
+       TimeoutSec=0
+       StandardOutput=tty
+       RemainAfterExit=yes
+       SysVStartPriority=99
+       [Install]
+       WantedBy=multi-user.target
+       #+END_SRC
+    3. create the sh-commands-file in a file which sytemd-script point
+
+*** when enable rc-local.service in /etc/systemd/system/, failed
+    If you are running a Linux distro that use Systemd, then you may find that your
+    command in /etc/rc.local file would not run on system boot. This guide explains
+    how to enable /etc/rc.local script to run on system start.
+
+    The problem
+
+    If you type the following command in terminal:
+
+    sudo systemctl status rc-local
+    You may get this output:
+
+    ● rc-local.service - /etc/rc.local Compatibility
+    Loaded: loaded (/lib/systemd/system/rc-local.service; static; vendor preset: enabled)
+    Active: failed (Result: exit-code) since Thu 2015-11-26 23:54:58 CST; 59s ago
+    Process: 1001 ExecStart=/etc/rc.local start (code=exited, status=1/FAILURE)
+    Nov 26 23:54:57 vivid rc.local[1001]: File "/usr/lib/python2.7/dist-packages/pkg_resources/__init__.py", line 920, in require
+    Nov 26 23:54:57 vivid rc.local[1001]: needed = self.resolve(parse_requirements(requirements))
+    Nov 26 23:54:57 vivid rc.local[1001]: File "/usr/lib/python2.7/dist-packages/pkg_resources/__init__.py", line 807, in resolve
+    Nov 26 23:54:57 vivid rc.local[1001]: raise DistributionNotFound(req)
+    Nov 26 23:54:57 vivid rc.local[1001]: pkg_resources.DistributionNotFound: shadowsocks==2.8.2
+    Nov 26 23:54:58 vivid sudo[1008]: pam_unix(sudo:session): session closed for user root
+    Nov 26 23:54:58 vivid systemd[1]: rc-local.service: control process exited, code=exited status=1
+    Nov 26 23:54:58 vivid systemd[1]: Failed to start /etc/rc.local Compatibility.
+    Nov 26 23:54:58 vivid systemd[1]: Unit rc-local.service entered failed state.
+    Nov 26 23:54:58 vivid systemd[1]: rc-local.service failed.
+    And if you try to enable /etc/rc.local to run on system boot with the command:
+
+    sudo systemctl enable rc-local
+    You may get:
+
+    The unit files have no [Install] section. They are not meant to be enabled
+    using systemctl.
+    Possible reasons for having this kind of units are:
+    1) A unit may be statically enabled by being symlinked from another unit's
+    .wants/ or .requires/ directory.
+    2) A unit's purpose may be to act as a helper for some other unit which has
+    a requirement dependency on it.
+    3) A unit may be started when needed via activation (socket, path, timer,
+    D-Bus, udev, scripted systemctl call, ...).
+    The solution
+
+    As you can see from above, The unit file have no [Install] section. As such
+    Systemd can not enable it. First we need to create a file:
+
+    sudo vi /etc/systemd/system/rc-local.service
+    Then add the following content to it.
+    #+BEGIN_SRC systemd-script
+[Unit]
+Description=/etc/rc.local Compatibility
+ConditionPathExists=/etc/rc.local
+[Service]
+Type=forking
+ExecStart=/etc/rc.local start
+TimeoutSec=0
+StandardOutput=tty
+RemainAfterExit=yes
+SysVStartPriority=99
+[Install]
+WantedBy=multi-user.target
+    #+END_SRC
+
+    Save and close the file. Make sure /etc/rc.local file is executable.
+
+    =sudo chmod +x /etc/rc.local=
+    After that, enable the service on system boot:
+
+    =sudo systemctl enable rc-local=
+    Output:
+
+    Created symlink from
+    /etc/systemd/system/multi-user.target.wants/rc-local.service to
+    /etc/systemd/system/rc-local.service. Now start the service and check its
+    status:
+
+    sudo systemctl start rc-local.service
+    sudo systemctl status rc-local.service
+    Output:
+
+    ● rc-local.service - /etc/rc.local Compatibility
+    Loaded: loaded (/etc/systemd/system/rc-local.service; enabled; vendor preset: enabled)
+    Active: active (running) since Fri 2015-11-27 00:32:56 CST; 14min ago
+    Process: 879 ExecStart=/etc/rc.local start (code=exited, status=0/SUCCESS)
+    Main PID: 880 (watch)
+    CGroup: /system.slice/rc-local.service
+    Cron @reboot
+
+    If the above method does not work for you, or you just want some simple commands
+    to be executed on system boot, then you can also use the @reboot feature in cron
+    to automatically execute command on system boot. For example, I want
+    my shadowsocks client to auto start, so I open the root user’s cron file:
+
+    sudo crontab -e
+    And put the following line at the end of it.
+
+    @reboot /usr/bin/sslocal -c /etc/shadowsocks.json -d start
+    Save and close the file.
+
+    In some Linux distributions such as archlinux, the cron daemon is not enabled by
+    default. So you have to manually enable it. To enable it on archlinux, enter the
+    following command in the terminal.
+
+    sudo systemctl enable cronie Shadowsocks is a socks5 proxy that can be used to
+    bypass Internet firewalls, If you are interested, click the link below to learn
+    how to setup your own shadowsocks server.
+** how to run start-up script in ubuntu                     :Ubuntu:auto:run:
