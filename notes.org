@@ -1906,18 +1906,90 @@ return fname
 * By now, The KENG in ubuntu 16.10
 ** emacs 25.1
 ** sub-wifi : Ralink 2870
-** agent-pc sufer net by sharing the server-laptop's wirless netcard
+** agent-pc sufer net by sharing the server-laptop's wirless netcard :Ubuntu:net:
+   one pc without wireless net-card, one laptop with two net-cards: wired and
+   wireless. so i want to make pc surfer net by sharing laptop's wireless
+   net-card, using the NAT tech. step-by-step, as follow note:
+*** Configuration
+**** setting share in inner netcard
+最简单的办法解决问题（此方法简单容易，非常类似于windows下的“共享”，只是windows
+下是在外网网卡上点击“共享”，而ubuntu是在内网网卡上选择“与其他计算机共享”）：
+打开 系统设置->网络设置->选中内网网卡(这里是eth1)->点击“选项”->点击ipv4设
+置->在“方法”的下拉框中选中“与其他计算机共享”->保存，立即OK！
+**** setting NAT
+　　本文介绍如何使用iptables来实现NAT转发，事实上就是将一台机器作为网关（gateway）
+来使用。我们假设充当网关的机器至少有网卡eth0和eth1，使用eth0表示连接到外网的网卡，
+使用eth1表示连接到内网交换机上的网卡，内部子网为10.0.0.0，通过NAT机制，内网中的
+机器可以通过网关机器访问Internet，而不需要额外的公网IP。
 
-   one pc without wireless net-card, one laptop with two net-cards: wired and wireless.
-   so i want to make pc surfer net by sharing laptop's wireless net-card, using the NAT
-   tech.
-   step-by-step, as follow note:
-*** Set
+　　本文中的配置值需要根据具体环境适当更改。
+***** Gateway端
 
-    sudo iptables -A FORWARD -o wlp8s0 -i enp7s0 -s 10.42.0.1/24 -m conntrack --ctstate NEW -j ACCEPT
-    sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
-    sudo iptables -t nat -F POSTROUTING
-    sudo iptables -t nat -A POSTROUTING -o wlp8s0 -j MASQUERADE
+　　1. 给内网网卡配置静态IP（此前确保另一张外网网卡eth0已经能够正常访问Internet。
+已经为eth1配置过内网静态IP的可以跳过本步）
+sudo ip addr add 10.0.0.11/24 dev eth1
+　　这里假设eth1的IP为10.0.0.11,。
+　　2. 配置NAT规则
+sudo iptables -A FORWARD -o eth0 -i eth1 -s 10.0.0.0/24 -m conntrack --ctstate NEW -j ACCEPT
+sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+sudo iptables -t nat -F POSTROUTING
+sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+　　第一条规则允许转发初始网络包，第二条规则允许转发已经建立连接后的网络包，第三
+条则设置NAT。
+　　接下来需要保存iptables规则，确保每次重启时能够加载NAT规则：
+
+　　2.1 保存iptables规则
+sudo iptables-save | sudo tee /etc/iptables.sav
+　　2.2 编辑/etc/rc.local文件，将下面的一行添加到“exit 0”之前：
+iptables-restore < /etc/iptables.sav
+　　这样以后每次重启机器时都会自动加载NAT相关的iptables规则。　　
+
+　　3 启用路由转发，编辑/etc/sysctl.conf 文件，删除起始的“#”，解除
+#net.ipv4.ip_forward=1
+　　的注释。然后使其生效：
+sudo sysctl -p
+　　这样我们就完成了网关一端的设置。
+
+***** Client端
+
+　　一旦网关机器设置完成，任何OS的客户端都能够通过连接到网关而访问外部网络。这里以Ubuntu Server作为client为例，假设client的eth0连接到网关eth1所在的内网10.0.0.0上，
+　　1. 为eth0指派静态IP（需与server端的eth1在同一网段，如果已经配置过则可以跳过本步），编辑/etc/network/interfaces文件：
+        auto eth0
+        iface eth0 inet static
+        address 10.0.0.31
+        netmask 255.255.255.0
+        gateway 10.0.0.11
+        dns-nameservers YourDNSServer
+　　因为我们的网关服务端并没有充当DNS服务器，此处需要额外指定client的DNS服务器，
+通常从网络服务提供商（ISP）那里获得。
+　　2. 接下来配置路由网关
+sudo route add default gw 10.0.0.11 dev eth0
+　　使网关配置生效，如果以前已经生成过/etc/resolv.conf文件中的nameserver字段，那么这时client应该已经能够访问外部网络了，否则需要编辑/etc/resolv.conf，添加字段：
+nameserver YourDNSServer
+　　由于在/etc/network/interfaces文件中已经配置过dns-nameservers，所以重新启动client机器时不会影响DNS配置。
+　　此时client已经能够通过网关机器访问外网，如果不知道ISP的DNS服务器地址，可以使用OpenDNS作为替代。
+****  高级Gateway配置
+
+　　可以为gateway机器配置DHCP和DNS服务器功能，从而简化客户端机器的联网配置，同时
+省却为client配置DNS的过程；
+
+　　1. 安装dnsmasq
+sudo aptitude install dnsmasq
+　　2. 备份dnsmasq的配置文件以备参考
+sudo cp /etc/dnsmasq.conf /etc/dnsmasq.conf-backup
+　　3. 编辑dnsmasq的配置文件/etc/dnsmasq.conf，添加下面两行：
+interface=eth1
+dhcp-range=10.0.0.100,10.0.0.250,72h
+　　注意这是为gateway机器配置DHCP/DNS，interface字段需要设为该机器连接到内网的那个网卡，同时DHCP的IP池应该在我们之前配置的那个网段中。
+　　4. 重启dnsmasq服务
+sudo /etc/init.d/dnsmasq restart
+　　这样client端就能够获取动态IP和自动解析域名了。
+#+BEGIN_SRC shell
+sudo iptables -AFORWARD -o wlp8s0 -i enp7s0 -s 10.42.0.1/24 -m conntrack --ctstate NEW -j ACCEPT
+sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+sudo iptables -t nat -F POSTROUTING
+sudo iptables -t nat -A POSTROUTING -o wlp8s0 -j MASQUERADE
+#+END_SRC
 *** URLS
     http://qujunorz.blog.51cto.com/6378776/1868602
     https://bbs.archlinux.org/viewtopic.php?id=147790
@@ -2052,3 +2124,26 @@ WantedBy=multi-user.target
     bypass Internet firewalls, If you are interested, click the link below to learn
     how to setup your own shadowsocks server.
 ** how to run start-up script in ubuntu                     :Ubuntu:auto:run:
+*** ubuntu16.10
+**** make a systemd script in /etc/systemd/sytem/xxx.service, link to /etc/rc.local
+       #+BEGIN_SRC systemd-script
+       [Unit]
+       Description=/etc/rc.local Compatibility
+       ConditionPathExists=/etc/rc.local
+       [Service]
+       Type=forking
+       ExecStart=/etc/rc.local start
+       TimeoutSec=0
+       StandardOutput=tty
+       RemainAfterExit=yes
+       SysVStartPriority=99
+       [Install]
+       WantedBy=multi-user.target
+       #+END_SRC
+**** add some sh commands in /etc/rc.local
+     1. make your sh file executable(sudo chmod 755 <file-path>)
+     2. then , add some sh commands in it,like this
+     #+BEGIN_SRC shell
+     #!/bin/sh          (ensure first line like this)
+     iptables-restore < /etc/iptables.sav
+     #+END_SRC
