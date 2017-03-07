@@ -626,6 +626,15 @@
    |   | org column view                                       | C-c C-x C-c       |                    |
    |   | org attachment                                        | C-c C-a           |                    |
    |   | org clock reporting(position on headline)             | C-c C-x C-r       |                    |
+   |   | debug on error open/closed                            | spc t D           |                    |
+   |   | avy-goto-char, a very handy way to locate cursor      | spc j j           |                    |
+   |   | avy-goto-line,                                        | spc j l           |                    |
+   |   | indent ONE line text to proper number of lines        | M-q               |                    |
+   |   | narrow a branch of org file                           | , n               |                    |
+   |   | widden a branch of org file                           | , N               |                    |
+   |   | Org make id                                           | org-id-get-create |                    |
+   |   | Org attanch file                                      | C-c C-a           |                    |
+
 
 
 
@@ -804,13 +813,13 @@
 *** how to set python enviroment and how to use it?
     =C-c C-p= in .py file to open a python shell
     =C-c C-c= in .py file to run and send buffer to python shell
-   #+BEGIN_SRC python
+    #+BEGIN_SRC python
      import random
      for i in range(10):
          print random.randrange(1, 10)
      def f(x):
          return 2*x
-   #+END_SRC
+    #+END_SRC
 *** How to install virtualenv for python development?
     1. =pip install virtualenv= install virtualenv
     2. =virtualevn <ENV-name>= create a virtual enviroment for python
@@ -832,9 +841,9 @@
     =M-q= will work well for that
 *** how to set/jump to bookmark?                                      :Emacs:
     emacs: =C-x r m= set
-           =C-x r b= jump
+    =C-x r b= jump
     spacemacs: =spc b m s= set
-               =spc b m j= jump
+    =spc b m j= jump
 *** how to find file in ubuntu?
     [[http://www.tecmint.com/35-practical-examples-of-linux-find-command/][find command tutorial]]
     find is very helpfu in searching file in linux.
@@ -852,6 +861,9 @@
     google for wkhtmltopdf
 *** how to open debug message in emacs
     =spc t D=
+*** [error-fix] fix a requirements of helm-ag                      :ErrorFix:
+    need a requirement: silver-searcher
+    [[https://github.com/ggreer/the_silver_searcher][silver-searcher]]
 ** ELisp examples for programming
    ***
 ** Spacemacs Rocks s2 day13
@@ -1618,6 +1630,91 @@
         # snip
         return bottle.template('blog_template', dict(username=username))
        #+END_SRC
+**** Table of contents in org         :Export:Table of Content:
+     TOC is normally inserted directly *before the headline of the file*.
+***** choose the depth of TOC
+      #+BEGIN_SRC
+      ---------------------
+      #+OPTIONS: toc:2
+      #+OPTIONS: toc:nil  (no TOC)
+      ---------------------
+      #+END_SRC
+***** choose the location of TOC
+      #+BEGIN_SRC
+      ---------------------
+      #+OPTIONS: toc:nil  (no default TOC)
+      #+TOC: headlines 2  (insert TOC here, with two headline levels)
+      ---------------------
+      #+END_SRC
+***** generate a list of tables or listing
+      you can also add a TOC to all the *tables* created in your org files
+      #+BEGIN_SRC
+      ---------------------
+      #+TOC: listings     (build a list of listing)
+      #+TOC: tables       (build a list of tables)
+      ---------------------
+      #+END_SRC
+**** Org-babel with programming                                   :org:babel:
+***** Calculation using a formula
+
+      :URL:
+      [[http://home.fnal.gov/~neilsen/notebook/orgExamples/org-examples.html#sec-15][Emacs org-mode example and cookbook]]
+      :END:
+
+      =:exports= will export the source-code and result
+      #+BEGIN_SRC python :results output :exports both
+      def times_two(x):
+          y = x*2
+          return y
+      print times_two(5)
+      #+END_SRC
+
+      #+RESULTS:
+      : 10
+      -------------------------------------
+      #+HEADERS: :classname HelloWorld :cmdline "-cp ."
+      #+BEGIN_SRC java :results output :exports both
+              public class HelloWorld {
+                  public static void main(String[] args) {
+                      System.out.println("hello,world");
+                  }
+              }
+      #+END_SRC
+
+      #+RESULTS:
+      : hello,world
+      -------------------------------------
+      #+tblname: delsee
+      | airmass | zenith_seeing | delivered_seeing |
+      |---------+---------------+------------------|
+      |     1.3 |          0.95 |        1.1119612 |
+      |     1.3 |           1.0 |        1.1704854 |
+      |     1.3 |           1.1 |        1.2875340 |
+      |     1.3 |           1.2 |        1.4045825 |
+      #+TBLFM: $3=$2*($1**0.6)
+
+      #+BEGIN_SRC python :var delsee=delsee :results output
+print delsee
+      #+END_SRC
+
+      #+RESULTS:
+      : [[1.3, 0.95, 1.1119612], [1.3, 1.0, 1.1704854], [1.3, 1.1, 1.287534], [1.3, 1.2, 1.4045825]]
+      #+BEGIN_SRC python :var fname="delseepy.png" :var delsee=delsee :results file
+import matplotlib.pyplot as plt
+x, y, z = zip(*delsee)
+fig = plt.figure()
+axes = fig.add_subplot(1,1,1)
+axes.plot(y, z, marker='o')
+fig.savefig(fname)
+
+return fname
+      #+END_SRC
+
+      #+RESULTS:
+      [[file:]]
+***** python in org-babel
+      [[file:~/Documents/org-notes/Python/python-x.org]]
+
 ** Emacs introduction and demonstrattion
    [[https://www.youtube.com/watch?v=B6jfrrwR10k][intro to emacs with elisp]]
 
@@ -1654,7 +1751,7 @@
 **** language connections
 **** expand regions
 **** templates
-**  TODO fangwu wenti [7/11]
+** TODO fangwu wenti [7/11]
    :LOGBOOK:
    it is so annoying to make this list of checkboxes, I refer =cua-mode= , =multiple-cursor-mode= , but both are not execute very well in
    evil edit-mode ,so i frequently swich emacs-mode and evil-mode by =C-z= .
@@ -1773,3 +1870,39 @@
     - setup Readme.org
 
 *** links
+* Emacs org-mode examples and cookbook                                  :ORG:
+* By now, The KENG in spacemacs
+** how to solve cannot run code in SRC block
+   [[http://emacs.stackexchange.com/questions/28441/org-mode-9-unable-to-eval-code-blocks][Org-mode 9: unable to eval code-blocks]]
+   I solved it in spacemacs, just by removing all the .elc files
+   in org-plus-contrib, and restart spacemacs
+** helm-ag failed
+   need to install =silver-seracher= in your os,(as for me it's ubuntu 16.10)
+** Fail to run sh in org src block
+   [[https://lists.gnu.org/archive/html/emacs-orgmode/2016-04/msg00298.html][fail to run sh command in src block]]
+   in =~/.spacemacs.d/layer/zilongshanren-org/packages.el=
+   #+BEGIN_SRC emacs-lisp
+      ;; https://lists.gnu.org/archive/html/emacs-orgmode/2016-04/msg00298.html
+      ;; DONE solve shell <- sh
+      (org-babel-do-load-languages
+       'org-babel-load-languages
+       '((perl . t)
+         (ruby . t)
+         ;; yiddi:comment
+         ;; (sh . t)
+         ;; yiddi:add
+         (shell . t)
+         (dot . t)
+         (js . t)
+         (latex .t)
+         (python . t)
+         (emacs-lisp . t)
+         (plantuml . t)
+         (C . t)
+         (ditaa . t)
+         ;; yiddi:add
+         (calc . t)))
+   #+END_SRC
+* By now, The KENG in ubuntu 16.10
+** emacs 25.1
+** sub-wifi : Ralink 2870

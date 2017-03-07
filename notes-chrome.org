@@ -503,3 +503,78 @@ export 方式只对当前终端 Shell 有效
  #+END_QUOTE
 ** TODO   [[http://wkhtmltopdf.org/][wkhtmltopdf]]
  Captured On: [2017-03-02 四 14:43]
+** TODO [[http://www.ubuntu-tw.org/modules/newbb/viewtopic.php?topic_id=62598][如何知道自己有哪些硬體驅動程式沒有安裝？ {論壇 - 新手村} | Ubuntu 正體中文站]]
+ Source: [2017-03-06 一], [[http://www.ubuntu-tw.org/modules/newbb/viewtopic.php?topic_id=62598][如何知道自己有哪些硬體驅動程式沒有安裝？ {論壇 - 新手村} | Ubuntu 正體中文站]]
+  #+BEGIN_QUOTE
+ 一般裝置 分爲 pci 裝置 及 usb 裝置
+ 1. lspci -cvv # 兩個 v
+ 可以看出 有沒有 kernel module in use
+ 如果 有 表示已經 驅動
+ 如果 看不出來 是什麼裝置
+ 可以到
+ PCI Vendor and Device Lists
+ 查閱
+
+ 2. lsusb -v
+ 可以看出 有沒有 kernel module in use
+ 如果 有 表示已經 驅動
+ 如果 看不出來 是什麼裝置
+ 可以到
+ The USB ID Repository
+ 查閱
+ #+END_QUOTE
+** TODO [[https://ubuntuforums.org/showthread.php?t=2011446][{ubuntu} mount point for wifi usb card]]             :ubuntu:error:fix:
+ Source: [2017-03-06 一], [[https://ubuntuforums.org/showthread.php?t=2011446][{ubuntu} mount point for wifi usb card]]
+  #+BEGIN_QUOTE
+ Hi
+
+ Udev should create a device node for it in /dev. Take a look in there.
+
+ You can also see all the connected USB devices using (from the terminal)
+
+ Code:
+  *lsusb*
+ You can check to see what the kernel did when mounting it by opeing a terminal and typing
+
+ Code:
+
+  *tail -f /var/log/syslog*
+ Then plug the device in. As the kernel recognises the devices it will display a number of log messages that can tell you information about the device.
+
+ That should get you started.
+
+ Kind regards
+
+ #+END_QUOTE
+** TODO   [[https://my.oschina.net/kursk/blog/7896][ubuntu下无线网卡解决经历 - yeyelei]]               :ubuntu:error:fix:
+ Captured On: [2017-03-06 一 19:10]
+** TODO   [[https://lists.gnu.org/archive/html/emacs-orgmode/2016-04/msg00298.html][Re: [O] [BUG] Failure to run sh source block]] :org:babel:
+ Captured On: [2017-03-06 一 19:13]
+** TODO   [[http://emacs.stackexchange.com/questions/28441/org-mode-9-unable-to-eval-code-blocks][org babel - Org-mode 9: unable to eval code-blocks - Emacs Stack Exchange]] :org:capture:
+ Captured On: [2017-03-06 一 19:13]
+** TODO [[http://emacs.stackexchange.com/questions/10549/org-mode-how-to-export-underscore-as-underscore-instead-of-highlight-in-html][org-mode: How to export underscore as underscore instead of highlight in HTML? - Emacs Stack Exchange]]
+ Source: [2017-03-06 一], [[http://emacs.stackexchange.com/questions/10549/org-mode-how-to-export-underscore-as-underscore-instead-of-highlight-in-html][org-mode: How to export underscore as underscore instead of highlight in HTML? - Emacs Stack Exchange]]
+  #+BEGIN_QUOTE
+ org-mode exports _ as subscripts and ^ as superscripts
+
+ The default export behavior can be customized using the menus Org -> Customize -> Browse Org Group. To update the default behavior for subscripts & superscripts, choose:
+
+ [-]-\ Group Org Export
+ [-]-\ Group Org Export General
+ — Option Org Export With Sub Superscripts
+ Org Export With Sub Superscripts Examples
+
+ Examples
+
+ *** Interpret them - Default
+ Underscore_subscript becomes Underscoresubscript
+ Hat^superscript becomes Hatsuperscript
+ *** Curly brackets only
+ Underscore_WithCurlyBrackets_{subscript} becomes Underscore_WithCurlyBracketssubscript
+ Hat^WithCurlyBrackets^{superscript} becomes Hat^WithCurlyBracketssuperscript
+ *** Do not interpret them
+ Underscore_subscript becomes Underscore_subscript
+ Hat^superscript becomes Hat^superscript
+ Underscore_WithCurlyBrackets_{subscript} becomes Underscore_WithCurlyBrackets_{subscript}
+ Hat^WithCurlyBrackets^{superscript} becomes Hat^WithCurlyBrackets^{superscript}
+ #+END_QUOTE
