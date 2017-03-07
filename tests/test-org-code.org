@@ -1,0 +1,70 @@
+#+TITLE:   Code Snippets in Org Mode
+#+AUTHOR:  Yiddish.kop
+#+EMAIL:   yiddishkop@163.com
+#+DATE:    <2017-03-01 三>
+
+* Main Header
+  #+BEGIN_SRC python -n -r
+    @bottle.route('/'):
+    def blog_index():
+        cookie = bottle.request.get_cookie("session")
+        username = sessions.get_username(cookie)               (ref:username)
+
+        if not username:
+            username = "Unknown"
+        # snip
+
+        return bottle.template('blog_template', dict(username=username))
+
+  #+END_SRC
+
+we retrieve the username at line [[(username)]]
+
+* Kanban Board
+| Backlog         | Analysis | Implementing | Debugging/Testing | Done |
+|-----------------+----------+--------------+-------------------+------|
+| [[Product Story 1]] |          |              |                   |      |
+| [[Product Story 2]] |          |              |                   |      |
+| [[Product Story 3]] |          |              |                   |      |
+| [[Product Story 4]] |          |              |                   |      |
+
+* [#A]<<Product Story 1>>                                    :BACKLOG:STORY:
+** ACTION Sub-task 1                                                   :TASK:
+*** History
+** ACTION Sub-task 2                                                   :TASK:
+*** History
+
+* [#A]<<Product Story 2>>                                    :BACKLOG:STORY:
+** ACTION Sub-task 1                                                   :TASK:
+*** History
+<2017-03-05 日>
+- Update spec, verification plan.
+- Disc. w/ joe: looks good.
+<2017-03-08 三>
+- Started implementing class X.
+** ACTION Sub-task 2                                                   :TASK:
+*** History
+
+* [#A]<<Product Story 3>>                                    :BACKLOG:STORY:
+** ACTION Sub-task 1                                                   :TASK:
+*** History
+** ACTION Sub-task 2                                                   :TASK:
+*** History
+
+* STARTED [#A]<<Product Story 4>>                            :BACKLOG:STORY:
+  :LOGBOOK:
+  CLOCK: [2017-03-05 日 15:56]--[2017-03-05 日 16:39] =>  0:43
+  :END:
+
+** DONE ACTION Sub-task 1                                              :TASK:
+   CLOSED: [2017-03-05 日 15:57]
+   :LOGBOOK:
+   - State "DONE"       from              [2017-03-05 日 15:57]
+   :END:
+*** History
+** DONE ACTION Sub-task 2                                              :TASK:
+   CLOSED: [2017-03-05 日 15:57]
+   :LOGBOOK:
+   - State "DONE"       from              [2017-03-05 日 15:57]
+   :END:
+*** History

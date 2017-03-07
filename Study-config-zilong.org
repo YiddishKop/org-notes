@@ -1,0 +1,91 @@
+* zilongshanren-org
+  config.el
+  funcs.el
+  packages.el
+** packages.el
+*** org-todo-keywords
+    #+BEGIN_SRC
+
+    #+END_SRC
+*** some trick
+Projects :Complex activities are projects, and are marked with the prj tag. They
+are supposed to contain todo items, and are considered stuck unless they do. The
+prj tag should not be inheritable, because otherwise its tasks will appear as
+projects:
+#+BEGIN_SRC emacs-lisp
+(setq org-tags-exclude-from-inheritance '("prj")
+      org-stuck-projects '("+prj/-MAYBE-DONE"
+                           ("TODO" "TASK") ()))
+#+END_SRC
+*** Agenda custom commands
+ _what should attract my attention is that, the guy who can oganize the project
+management by hack org-agenda-custom-commands, the same way, zilonghack org to
+fit the 4fields working method._
+
+ With all this we are ready to define the custom
+commands. The cjr tag marks personal todo items in my case; change to whatever
+suits you.
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-custom-commands
+      '(("h" "Work todos" tags-todo
+         "-personal-doat={.+}-dowith={.+}/!-TASK"
+         ((org-agenda-todo-ignore-scheduled t)))
+        ("H" "All work todos" tags-todo "-personal/!-TASK-MAYBE"
+         ((org-agenda-todo-ignore-scheduled nil)))
+        ("A" "Work todos with doat or dowith" tags-todo
+         "-personal+doat={.+}|dowith={.+}/!-TASK"
+         ((org-agenda-todo-ignore-scheduled nil)))
+        ("j" "TODO dowith and TASK with"
+         ((org-sec-with-view "TODO dowith")
+          (org-sec-where-view "TODO doat")
+          (org-sec-assigned-with-view "TASK with")
+          (org-sec-stuck-with-view "STUCK with")))
+        ("J" "Interactive TODO dowith and TASK with"
+         ((org-sec-who-view "TODO dowith")))))
+#+END_SRC
+downside, is the settings of zilong,
+#+BEGIN_SRC emacs-lisp
+      (setq org-agenda-custom-commands
+            '(
+              ("w" . "任务安排")
+              ("wa" "重要且紧急的任务" tags-todo "+PRIORITY=\"A\"")
+              ("wb" "重要且不紧急的任务" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
+              ("wc" "不重要且紧急的任务" tags-todo "+PRIORITY=\"C\"")
+              ("b" "Blog" tags-todo "BLOG")
+              ("p" . "项目安排")
+              ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"cocos2d-x\"")
+              ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"zilongshanren\"")
+              ("W" "Weekly Review"
+               ((stuck "") ;; review stuck projects as designated by org-stuck-projects
+                (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
+                ))))
+#+END_SRC
+BTW, all this settings can be set graphically in start page of agend view
+=, a C=
+*** Task and prj ownership
+Task and project ownership Ownership is managed with tags, one for each team
+member. When somebody owns a project his or her name will tag the project
+definition line, together with prj, and it will be inherited by all the TASK
+todo items belonging to the project. When a TASK todo item does not belong to a
+project it has at least a person's name tag.
+*** org-babel settings
+    #+BEGIN_SRC emacs-lisp
+      ;; yiddi:add
+      ;; http://emacs.stackexchange.com/questions/28441/org-mode-9-unable-to-eval-code-blocks
+      ;; solve org9.0 babel cannot work
+      (org-babel-do-load-languages
+       'org-babel-load-languages
+       '((perl . t)
+         (ruby . t)
+         (sh . t)
+         (dot . t)
+         (js . t)
+         (latex .t)
+         (python . t)
+         (emacs-lisp . t)
+         (plantuml . t)
+         (C . t)
+         (ditaa . t)
+         ;; yiddi:add
+         (calc . t)))
+    #+END_SRC
