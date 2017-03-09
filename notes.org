@@ -588,7 +588,7 @@
 
    company-backends 有很多.其中最后一个,就是前面都匹配不到了,最后一个是compnay-Deabbre  ,他会匹配你当前打开的所有buffer中的词项.
    company-File 这是另一个backend, 是负责输入文件目录.'/' 触发.
-** Spacemacs Rocks s2 day11
+** Spacemacs Rocks s2 day11-[Spacemacs]
    | 1 | open dired-mode in current file                       | SPC f j           | file-jump          |
    | 2 | open spacemacs configuration file                     | SPC f e d         | open init.el       |
    | 4 | save and apply new configuration                      | SPC f e r         | file-refresh       |
@@ -634,9 +634,11 @@
    |   | widden a branch of org file                           | , N               |                    |
    |   | Org make id                                           | org-id-get-create |                    |
    |   | Org attanch file                                      | C-c C-a           |                    |
+   |   | discover major-mode key bindings                      | Spc ?             |                    |
 
 
-
+** Spacemacs Rocks s2 day11-[Ubuntu]
+   |   | window always on top | M spc |   |
 
 *** installation
     1. 
@@ -1714,7 +1716,120 @@ return fname
       [[file:]]
 ***** python in org-babel
       [[file:~/Documents/org-notes/Python/python-x.org]]
+***** Interactive with python
 
+      Contents:
+      23.1 Using an org-mode table in python
+      23.2 Plotting with python
+      --------------------------------------
+      23.1 Using an org-mode table in python
+
+      #+tblname: delsee
+      | airmass | zenith_seeing | delivered_seeing |
+      |---------+---------------+------------------|
+      |     1.3 |          0.95 |        1.1119612 |
+      |     1.3 |           1.0 |        1.1704854 |
+      |     1.3 |           1.1 |        1.2875340 |
+      |     1.3 |           1.2 |        1.4045825 |
+      #+TBLFM: $3=$2*($1**0.6)
+
+      #+BEGIN_SRC python :var delsee=delsee :results output
+print delsee
+      #+END_SRC
+
+      #+RESULTS:
+      : [[1.3, 0.95, 1.1119612], [1.3, 1.0, 1.1704854], [1.3, 1.1, 1.287534], [1.3, 1.2, 1.4045825]]
+
+      23.2 Plotting with python
+
+      This:
+
+      #+tblname: delsee
+      | airmass | zenith_seeing | delivered_seeing |
+      |---------+---------------+------------------|
+      |     1.3 |          0.95 |        1.1119612 |
+      |     1.3 |           1.0 |        1.1704854 |
+      |     1.3 |           1.1 |        1.2875340 |
+      |     1.3 |           1.2 |        1.4045825 |
+      #+TBLFM: $3=$2*($1**0.6)
+
+      #+BEGIN_SRC python :var fname="delseepy.png" :var delsee=delsee :results file
+
+import matplotlib.pyplot as plt
+x, y, z = zip(*delsee)
+fig = plt.figure()
+axes = fig.add_subplot(1,1,1)
+axes.plot(y, z, marker='o')
+fig.savefig(fname)
+return fname
+
+      #+END_SRC
+
+      #+RESULTS:
+      [[file:delseepy.png]]
+***** Running Test
+      You can run the doctests from with org-mode with this bash code snippet:
+
+      #+NAME: bashrun-helloworld-doctest
+      #+BEGIN_SRC sh :results output :exports both
+python -m doctest test_HelloWorld.txt 2>&1
+true
+      #+END_SRC
+
+      If the test succeeds, it will produce no output
+
+***** Defining unittest tests
+      Define the unit test like any other piece of python code:
+
+      #+NAME: unittest-foo
+      #+BEGIN_SRC python
+   class TestFoo(unittest.TestCase):
+       def test_foo(self):
+           greeter = HelloWorld('foo')
+           self.assertEqual(greeter.who, 'foo')
+      #+END_SRC
+***** Making TestHelloWorld.py
+      Define the main testing module like this:
+
+      #+BEGIN_SRC python :noweb yes :tangle TestHelloWorld.py :exports none
+   import sys
+   import unittest
+   from doctest import DocFileSuite
+   from HelloWorld import *
+
+   <<unittest-foo>>
+
+   def main():
+       suite = unittest.TestSuite()
+       suite.addTests( DocFileSuite('test_HelloWorld.txt') )
+       suite.addTests(
+           unittest.defaultTestLoader.loadTestsFromModule(sys.modules[__name__]))
+       unittest.TextTestRunner(verbosity=2).run(suite)
+       return 0
+
+   if __name__ == '__main__':
+       status = main()
+       sys.exit(status)
+      #+END_SRC
+
+***** Running all tests
+      Use this bash source block to run all tests:
+
+      #+NAME: bashrun-helloworld-alltest
+      #+BEGIN_SRC sh :results output :exports both
+ python -m doctest test_HelloWorld.py 2>&1
+      #+END_SRC
+      The output looks like this:
+
+      python TestHelloWorld.py 2>&1
+      test_HelloWorld.txt
+      Doctest: test_HelloWorld.txt ... ok
+      test_foo (__main__.TestFoo) ... ok
+
+      ----------------------------------------------------------------------
+      Ran 2 tests in 0.004s
+
+      OK
 ** Emacs introduction and demonstrattion
    [[https://www.youtube.com/watch?v=B6jfrrwR10k][intro to emacs with elisp]]
 
@@ -1751,62 +1866,6 @@ return fname
 **** language connections
 **** expand regions
 **** templates
-** TODO fangwu wenti [7/11]
-   :LOGBOOK:
-   it is so annoying to make this list of checkboxes, I refer =cua-mode= , =multiple-cursor-mode= , but both are not execute very well in
-   evil edit-mode ,so i frequently swich emacs-mode and evil-mode by =C-z= .
-   1. I copy all the text from onenote from the chrome;
-   2. I get how to toggle the check-box between SOLVED and UNSOLVED, by =C-z= ;
-   3. I add '[]' to the head of all lines by cua-mode in evil-mode, FAILED!
-   4. I googled a mode which pre-installed in zilong'configurations--- =multiple-cursor-mode= ;
-   5. it also sucks in evil-mode.
-   6. I find the configuration and hotkey re-defined by zilong ,in =/.spacemacs.d/layers/zilongshanren-misc/packages.el=
-      1. switch to *emacs-mode*
-      2. =C-spc= to select several chars , then =C-s-f= to mark all the identical highlight
-      3. =C-spc= again to cancel the highlight state, then you get MULTIPLE CURSOR
-      4. now, its your fasion time!
-   :END:
-   1) [ ] 进户门：[0/3]
-      - [ ] 门正面有划痕，左下角变形；
-      - [ ] 门锁侧立面变形、掉漆；
-      - [ ] 内门框有划痕；
-   2) [X] 进户走廊：[2/2]
-      - [X] 空调开关标识错，标到倒数第二个挂机标识上；
-      - [X] 门口可视化对讲机底座松弛；
-   3) [-] 厨房：[6/7]
-      - [X] 所有插座未进漏电保护；
-      - [ ] 厨房窗户明显歪斜；
-      - [X] 厨房门关不上；窗把手太松；
-      - [X] 门套下墙起皮，外右门套边缝隙较大，有划痕；
-      - [X] 消毒柜两侧柜门摩擦柜体木板；消毒柜右边柜门右下铰链送了；
-      - [X] 窗顶扣板不平，对缝不齐；
-      - [X] 西墙砖勾缝不齐整；
-   4) [X] 客厅：[1/1]
-      - [X] 客厅空调柜机插座现为10A插座，应改为16A大插座；
-   5) [ ] 阳台：[0/4]
-      - [ ] 空调外机位地漏堵塞严重，下水很慢；
-      - [ ] 阳台水池边地漏堵塞，下水很慢；
-      - [ ] 墙面色差，顶面不平；
-      - [ ] 外机位门有色差；
-   6) [X] 卫生间：[6/6]
-      - [X] 马桶插座火线零线接错；
-      - [X] 毛巾架太松驰；
-      - [X] 地漏内操有砂浆块，下水很慢；
-      - [X] 马桶地漏较粗糙，上扣板不平；
-      - [X] 干区洗漱台盆下墙砖未勾缝；镜柜下墙体粗糙未整平，未上漆；开关松动翘起；
-      - [X] 卫生间推拉门门锁正反面有漏缝；门正面污渍明显；
-   7) [ ] 浴室：[0/1]
-      - [ ] 浴室玻璃门下部两侧漏水严重。
-   8) [X] 南次卧：[2/2]
-      - [X] 门破损且关不上；保险关不上（槽片挡住导致）；
-      - [X] 南地板破损，划痕；
-   9) [X] 主卧：[2/2]
-      - [X] 门关不上，门锁保险关不上（门框槽片挡住导致）；
-      - [X] 过门石打胶粗糙；
-   10) [X] 书房：[1/1]
-       - [X] 门右下角破损；地板划痕严重；
-   11) [X] 所有墙体：[1/1]
-       - [X] 房屋内所有乳胶漆墙面出现多出裂痕（已经在墙上标明）；
 * Using Emacs
 ** start emacs
    #+BEGIN_SRC emacs-lisp -n
@@ -1912,84 +1971,84 @@ return fname
    net-card, using the NAT tech. step-by-step, as follow note:
 *** Configuration
 **** setting share in inner netcard
-最简单的办法解决问题（此方法简单容易，非常类似于windows下的“共享”，只是windows
-下是在外网网卡上点击“共享”，而ubuntu是在内网网卡上选择“与其他计算机共享”）：
-打开 系统设置->网络设置->选中内网网卡(这里是eth1)->点击“选项”->点击ipv4设
-置->在“方法”的下拉框中选中“与其他计算机共享”->保存，立即OK！
+     最简单的办法解决问题（此方法简单容易，非常类似于windows下的“共享”，只是windows
+     下是在外网网卡上点击“共享”，而ubuntu是在内网网卡上选择“与其他计算机共享”）：
+     打开 系统设置->网络设置->选中内网网卡(这里是eth1)->点击“选项”->点击ipv4设
+     置->在“方法”的下拉框中选中“与其他计算机共享”->保存，立即OK！
 **** setting NAT
-　　本文介绍如何使用iptables来实现NAT转发，事实上就是将一台机器作为网关（gateway）
-来使用。我们假设充当网关的机器至少有网卡eth0和eth1，使用eth0表示连接到外网的网卡，
-使用eth1表示连接到内网交换机上的网卡，内部子网为10.0.0.0，通过NAT机制，内网中的
-机器可以通过网关机器访问Internet，而不需要额外的公网IP。
+     　　本文介绍如何使用iptables来实现NAT转发，事实上就是将一台机器作为网关（gateway）
+     来使用。我们假设充当网关的机器至少有网卡eth0和eth1，使用eth0表示连接到外网的网卡，
+     使用eth1表示连接到内网交换机上的网卡，内部子网为10.0.0.0，通过NAT机制，内网中的
+     机器可以通过网关机器访问Internet，而不需要额外的公网IP。
 
-　　本文中的配置值需要根据具体环境适当更改。
+     　　本文中的配置值需要根据具体环境适当更改。
 ***** Gateway端
 
-　　1. 给内网网卡配置静态IP（此前确保另一张外网网卡eth0已经能够正常访问Internet。
-已经为eth1配置过内网静态IP的可以跳过本步）
-sudo ip addr add 10.0.0.11/24 dev eth1
-　　这里假设eth1的IP为10.0.0.11,。
-　　2. 配置NAT规则
-sudo iptables -A FORWARD -o eth0 -i eth1 -s 10.0.0.0/24 -m conntrack --ctstate NEW -j ACCEPT
-sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
-sudo iptables -t nat -F POSTROUTING
-sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-　　第一条规则允许转发初始网络包，第二条规则允许转发已经建立连接后的网络包，第三
-条则设置NAT。
-　　接下来需要保存iptables规则，确保每次重启时能够加载NAT规则：
+      　　1. 给内网网卡配置静态IP（此前确保另一张外网网卡eth0已经能够正常访问Internet。
+      已经为eth1配置过内网静态IP的可以跳过本步）
+      sudo ip addr add 10.0.0.11/24 dev eth1
+      　　这里假设eth1的IP为10.0.0.11,。
+      　　2. 配置NAT规则
+      sudo iptables -A FORWARD -o eth0 -i eth1 -s 10.0.0.0/24 -m conntrack --ctstate NEW -j ACCEPT
+      sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+      sudo iptables -t nat -F POSTROUTING
+      sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+      　　第一条规则允许转发初始网络包，第二条规则允许转发已经建立连接后的网络包，第三
+      条则设置NAT。
+      　　接下来需要保存iptables规则，确保每次重启时能够加载NAT规则：
 
-　　2.1 保存iptables规则
-sudo iptables-save | sudo tee /etc/iptables.sav
-　　2.2 编辑/etc/rc.local文件，将下面的一行添加到“exit 0”之前：
-iptables-restore < /etc/iptables.sav
-　　这样以后每次重启机器时都会自动加载NAT相关的iptables规则。　　
+      　　2.1 保存iptables规则
+      sudo iptables-save | sudo tee /etc/iptables.sav
+      　　2.2 编辑/etc/rc.local文件，将下面的一行添加到“exit 0”之前：
+      iptables-restore < /etc/iptables.sav
+      　　这样以后每次重启机器时都会自动加载NAT相关的iptables规则。　　
 
-　　3 启用路由转发，编辑/etc/sysctl.conf 文件，删除起始的“#”，解除
-#net.ipv4.ip_forward=1
-　　的注释。然后使其生效：
-sudo sysctl -p
-　　这样我们就完成了网关一端的设置。
+      　　3 启用路由转发，编辑/etc/sysctl.conf 文件，删除起始的“#”，解除
+      #net.ipv4.ip_forward=1
+      　　的注释。然后使其生效：
+      sudo sysctl -p
+      　　这样我们就完成了网关一端的设置。
 
 ***** Client端
 
-　　一旦网关机器设置完成，任何OS的客户端都能够通过连接到网关而访问外部网络。这里以Ubuntu Server作为client为例，假设client的eth0连接到网关eth1所在的内网10.0.0.0上，
-　　1. 为eth0指派静态IP（需与server端的eth1在同一网段，如果已经配置过则可以跳过本步），编辑/etc/network/interfaces文件：
-        auto eth0
-        iface eth0 inet static
-        address 10.0.0.31
-        netmask 255.255.255.0
-        gateway 10.0.0.11
-        dns-nameservers YourDNSServer
-　　因为我们的网关服务端并没有充当DNS服务器，此处需要额外指定client的DNS服务器，
-通常从网络服务提供商（ISP）那里获得。
-　　2. 接下来配置路由网关
-sudo route add default gw 10.0.0.11 dev eth0
-　　使网关配置生效，如果以前已经生成过/etc/resolv.conf文件中的nameserver字段，那么这时client应该已经能够访问外部网络了，否则需要编辑/etc/resolv.conf，添加字段：
-nameserver YourDNSServer
-　　由于在/etc/network/interfaces文件中已经配置过dns-nameservers，所以重新启动client机器时不会影响DNS配置。
-　　此时client已经能够通过网关机器访问外网，如果不知道ISP的DNS服务器地址，可以使用OpenDNS作为替代。
+      　　一旦网关机器设置完成，任何OS的客户端都能够通过连接到网关而访问外部网络。这里以Ubuntu Server作为client为例，假设client的eth0连接到网关eth1所在的内网10.0.0.0上，
+      　　1. 为eth0指派静态IP（需与server端的eth1在同一网段，如果已经配置过则可以跳过本步），编辑/etc/network/interfaces文件：
+      auto eth0
+      iface eth0 inet static
+      address 10.0.0.31
+      netmask 255.255.255.0
+      gateway 10.0.0.11
+      dns-nameservers YourDNSServer
+      　　因为我们的网关服务端并没有充当DNS服务器，此处需要额外指定client的DNS服务器，
+      通常从网络服务提供商（ISP）那里获得。
+      　　2. 接下来配置路由网关
+      sudo route add default gw 10.0.0.11 dev eth0
+      　　使网关配置生效，如果以前已经生成过/etc/resolv.conf文件中的nameserver字段，那么这时client应该已经能够访问外部网络了，否则需要编辑/etc/resolv.conf，添加字段：
+      nameserver YourDNSServer
+      　　由于在/etc/network/interfaces文件中已经配置过dns-nameservers，所以重新启动client机器时不会影响DNS配置。
+      　　此时client已经能够通过网关机器访问外网，如果不知道ISP的DNS服务器地址，可以使用OpenDNS作为替代。
 ****  高级Gateway配置
 
-　　可以为gateway机器配置DHCP和DNS服务器功能，从而简化客户端机器的联网配置，同时
-省却为client配置DNS的过程；
+     　　可以为gateway机器配置DHCP和DNS服务器功能，从而简化客户端机器的联网配置，同时
+     省却为client配置DNS的过程；
 
-　　1. 安装dnsmasq
-sudo aptitude install dnsmasq
-　　2. 备份dnsmasq的配置文件以备参考
-sudo cp /etc/dnsmasq.conf /etc/dnsmasq.conf-backup
-　　3. 编辑dnsmasq的配置文件/etc/dnsmasq.conf，添加下面两行：
-interface=eth1
-dhcp-range=10.0.0.100,10.0.0.250,72h
-　　注意这是为gateway机器配置DHCP/DNS，interface字段需要设为该机器连接到内网的那个网卡，同时DHCP的IP池应该在我们之前配置的那个网段中。
-　　4. 重启dnsmasq服务
-sudo /etc/init.d/dnsmasq restart
-　　这样client端就能够获取动态IP和自动解析域名了。
-#+BEGIN_SRC shell
+     　　1. 安装dnsmasq
+     sudo aptitude install dnsmasq
+     　　2. 备份dnsmasq的配置文件以备参考
+     sudo cp /etc/dnsmasq.conf /etc/dnsmasq.conf-backup
+     　　3. 编辑dnsmasq的配置文件/etc/dnsmasq.conf，添加下面两行：
+     interface=eth1
+     dhcp-range=10.0.0.100,10.0.0.250,72h
+     　　注意这是为gateway机器配置DHCP/DNS，interface字段需要设为该机器连接到内网的那个网卡，同时DHCP的IP池应该在我们之前配置的那个网段中。
+     　　4. 重启dnsmasq服务
+     sudo /etc/init.d/dnsmasq restart
+     　　这样client端就能够获取动态IP和自动解析域名了。
+     #+BEGIN_SRC shell
 sudo iptables -AFORWARD -o wlp8s0 -i enp7s0 -s 10.42.0.1/24 -m conntrack --ctstate NEW -j ACCEPT
 sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 sudo iptables -t nat -F POSTROUTING
 sudo iptables -t nat -A POSTROUTING -o wlp8s0 -j MASQUERADE
-#+END_SRC
+     #+END_SRC
 *** URLS
     http://qujunorz.blog.51cto.com/6378776/1868602
     https://bbs.archlinux.org/viewtopic.php?id=147790
@@ -2126,7 +2185,7 @@ WantedBy=multi-user.target
 ** how to run start-up script in ubuntu                     :Ubuntu:auto:run:
 *** ubuntu16.10
 **** make a systemd script in /etc/systemd/sytem/xxx.service, link to /etc/rc.local
-       #+BEGIN_SRC systemd-script
+     #+BEGIN_SRC systemd-script
        [Unit]
        Description=/etc/rc.local Compatibility
        ConditionPathExists=/etc/rc.local
@@ -2139,7 +2198,7 @@ WantedBy=multi-user.target
        SysVStartPriority=99
        [Install]
        WantedBy=multi-user.target
-       #+END_SRC
+     #+END_SRC
 **** add some sh commands in /etc/rc.local
      1. make your sh file executable(sudo chmod 755 <file-path>)
      2. then , add some sh commands in it,like this
@@ -2147,3 +2206,4 @@ WantedBy=multi-user.target
      #!/bin/sh          (ensure first line like this)
      iptables-restore < /etc/iptables.sav
      #+END_SRC
+* Study Elfeed

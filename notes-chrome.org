@@ -578,3 +578,122 @@ export 方式只对当前终端 Shell 有效
  Underscore_WithCurlyBrackets_{subscript} becomes Underscore_WithCurlyBrackets_{subscript}
  Hat^WithCurlyBrackets^{superscript} becomes Hat^WithCurlyBrackets^{superscript}
  #+END_QUOTE
+** TODO   [[https://my.oschina.net/kursk/blog/7896][ubuntu下无线网卡解决经历 - yeyelei]]
+ Captured On: [2017-03-07 二 13:56]
+ This text gives an introduction to the relationship between:
+ hardware/driver/modules/load-modules
+** TODO   [[http://www.draisberghof.de/usb_modeswitch/#download][Draisberghof - Software - USB_ModeSwitch]]
+ Captured On: [2017-03-07 二 14:11]
+
+ maybe used in later
+** DONE [[https://m.baidu.com/from=844b/bd_page_type=1/ssid=0/uid=0/pu=usm%25400%252Csz%2540320_1001%252Cta%2540iphone_2_6.0_3_537/baiduid=FC1029C2B8CDDBB36A1A41EB34A5A170/w=0_10_/t=iphone/l=3/tc?ref=www_iphone&lid=13779130330335403338&order=1&fm=alop&tj=www_normal_1_0_10_title&vit=osres&m=8&srd=1&cltj=cloud_title&asres=1&title=Linuxsecureboot%2528%25E5%25AE%2589%25E5%2585%25A8%25E5%2590%25AF%25E5%258A%25A8%2529%25E6%2597%25B6%25E6%25B7%25BB%25E5%258A%25A0Nvidia%25E6%2598%25BE..._%25E5%258D%259A%25E5%25AE%25A2%25E5%259B%25AD&dict=30&w_qd=IlPT2AEptyoA_yimGUCsCSZsvQnMReGgEBuZLCzRqugrRwYyRVpn98C&sec=19275&di=4423311c9e5d9848&bdenc=1&tch=124.0.300.139.0.0&nsrc=IlPT2AEptyoA_yixCFOxXnANedT62v3IEQGG_ytK1DK6mlrte4viZQRAZiHqMXK4E587umP0sqdFtXLR_7Em9RJCrLIwdzZz&eqid=bf394e07cd73e0001000000258b8e53d&wd=&clk_info=%257B%2522srcid%2522%253A%25221599%2522%252C%2522tplname%2522%253A%2522www_normal%2522%252C%2522t%2522%253A1488512324271%252C%2522xpath%2522%253A%2522div-a-h3-em3%2522%257D][Linux secure boot(安全启动)时添加Nvidia显卡驱动 - 诸葛孔明没灯 - 博客园]] :ubuntu:nvidia:
+   CLOSED: [2017-03-07 二 17:28]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-07 二 17:28]
+   :END:
+ Source: [2017-03-07 二], [[https://m.baidu.com/from=844b/bd_page_type=1/ssid=0/uid=0/pu=usm%25400%252Csz%2540320_1001%252Cta%2540iphone_2_6.0_3_537/baiduid=FC1029C2B8CDDBB36A1A41EB34A5A170/w=0_10_/t=iphone/l=3/tc?ref=www_iphone&lid=13779130330335403338&order=1&fm=alop&tj=www_normal_1_0_10_title&vit=osres&m=8&srd=1&cltj=cloud_title&asres=1&title=Linuxsecureboot%2528%25E5%25AE%2589%25E5%2585%25A8%25E5%2590%25AF%25E5%258A%25A8%2529%25E6%2597%25B6%25E6%25B7%25BB%25E5%258A%25A0Nvidia%25E6%2598%25BE..._%25E5%258D%259A%25E5%25AE%25A2%25E5%259B%25AD&dict=30&w_qd=IlPT2AEptyoA_yimGUCsCSZsvQnMReGgEBuZLCzRqugrRwYyRVpn98C&sec=19275&di=4423311c9e5d9848&bdenc=1&tch=124.0.300.139.0.0&nsrc=IlPT2AEptyoA_yixCFOxXnANedT62v3IEQGG_ytK1DK6mlrte4viZQRAZiHqMXK4E587umP0sqdFtXLR_7Em9RJCrLIwdzZz&eqid=bf394e07cd73e0001000000258b8e53d&wd=&clk_info=%257B%2522srcid%2522%253A%25221599%2522%252C%2522tplname%2522%253A%2522www_normal%2522%252C%2522t%2522%253A1488512324271%252C%2522xpath%2522%253A%2522div-a-h3-em3%2522%257D][Linux secure boot(安全启动)时添加Nvidia显卡驱动 - 诸葛孔明没灯 - 博客园]]
+  #+BEGIN_QUOTE
+ Linux secure boot(安全启动)时添加Nvidia显卡驱动
+ 开启Secure boot情况下，在Fedora 21下安装Nvidia 显卡驱动的方法。
+ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
+ 下载后添加可执行权限：
+ #chmod +x NVIDIA-Linux*.run
+ 注意，安装Nvidia显卡需要满足的两个条件是
+ 1. nouveau（默认的显卡驱动）驱动程序必须禁用
+ 2. Xserver（图形界面） 要停止运行
+ 以上两个问题的解决方法如下：
+
+ 首先按Ctrl + Alt + F2进入终端
+ 输入root的帐号和密码后执行以下操作
+
+ 1. 禁用nouveau显卡驱动
+ #dracut --omit-drivers nouveau /boot/initramfs-$(uname -r).img $(uname -r) --force
+
+ 2. 停止Xserver
+ #service gdm stop
+ #service lightgdm stop
+ 3. 安装编译所需的程序
+ #yum install gcc kernel-devel
+
+ 然后进入放NVIDIA-linux*.run的目录，执行该文件，按照提示进行操作。
+ 由于我这台机器已经安装好了驱动程序，就不再执行了（所以截图也就没有了）。
+ 注意在执行过程中，会出现提示是否使用dkms，由于在secure boot下使用dkms会导致无法开机，这里选择NO(否)。
+ 经过编译后会提示是否sign the kernel module（为内核模块签名），这里要选择是。接下来会继续问使用已有的密钥给模块签名还是重新生成。
+ 这里选在重新生成密钥。继续下去之后，密钥会在/usr/share/nvidia/下生成一个nvidia*.der（私钥）文件和nvidia*.key（公钥）文件，当提示是否删除已生成的密钥文件时，选择否，
+ 因为之后要用到这两个文件。继续安装程序到最后会提示无法启动模块。这是因为生成的密钥还没有添加到内核的信任库中。
+ 添加密钥到内核的信任列表中：
+
+ #mokutil --import /usr/share/nvidia/nvida*.der
+
+ 接下来会提示输入密码，两次输入密码后重启系统。
+ #reboot
+
+ 重启进入bootloader之后，由于进行了添加密钥操作，会触发shim，shim会要求输入上一步输入的密码来导入密钥。按步骤操作。
+
+ 导入密钥之后，启动时内核就可以成功加载编译过的Nvidia显卡驱动了。
+
+ 启动进入系统后，就可以正常使用了。需要注意的是，由于生成的密钥添加到了内核的信任列表中，所以对生成的私钥和公钥一定要妥善保管。
+ #+END_QUOTE
+** DONE [[http://luveelin.blog.163.com/blog/static/119492341201251943213676/][GoldenDict - luveelin的日志 - 网易博客]]                   :ubuntu:app:
+   CLOSED: [2017-03-08 三 09:38]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-08 三 09:38]
+   :END:
+ Source: [2017-03-08 三], [[http://luveelin.blog.163.com/blog/static/119492341201251943213676/][GoldenDict - luveelin的日志 - 网易博客]]
+  #+BEGIN_QUOTE
+ GoldenDict
+ =sudo apt-get install goldendict=
+ #+END_QUOTE
+** DONE [[http://luveelin.blog.163.com/blog/static/119492341201251943213676/][GoldenDict - luveelin的日志 - 网易博客]]
+   CLOSED: [2017-03-08 三 09:39]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-08 三 09:39]
+   :END:
+ Source: [2017-03-08 三], [[http://luveelin.blog.163.com/blog/static/119492341201251943213676/][GoldenDict - luveelin的日志 - 网易博客]]
+  #+BEGIN_QUOTE
+ GoldenDict  
+ how to setup dictionaries for goldendict
+ #+END_QUOTE
+** DONE [[http://www.jb51.net/LINUXjishu/501994.html][linux下.run文件的安装与卸载方法_LINUX_操作系统_脚本之家]] :ubuntu:command:
+   CLOSED: [2017-03-08 三 10:19]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-08 三 10:19]
+   :END:
+ Source: [2017-03-08 三], [[http://www.jb51.net/LINUXjishu/501994.html][linux下.run文件的安装与卸载方法_LINUX_操作系统_脚本之家]]
+  #+BEGIN_QUOTE
+ 比如安装QT编程软件
+ 安装方法如下
+ 命令第一步： chmod +x qt-unified-linux-x64-2.0.2-2-online.run
+ 命令第二步：./qt-unified-linux-x64-2.0.2-2-online.run
+ 之后就出现QT安装的可视化界面
+
+ 安装完后就可以用了 ,chmod实际上是加权限命令 。＋x表示可以执行
+
+ chmod [-cfvR] [--help] [--version] mode file...
+
+ 说明 : Linux/Unix 的档案调用权限分为三级 : 档案拥有者、群组、其他。利用 chmod 可以藉以控制档案如何被他人所调用。
+
+ 参数 :
+ mode : 权限设定字串，格式如下 : [ugoa...][[+-=][rwxX]...][,...]，其中
+ u 表示该档案的拥有者，g 表示与该档案的拥有者属于同一个群体(group)者，o 表示其他以外的人，a 表示这三者皆是。
+ + 表示增加权限、- 表示取消权限、= 表示唯一设定权限。
+ r 表示可读取，w 表示可写入，x 表示可执行，X 表示只有当该档案是个子目录或者该档案已经被设定过为可执行。
+ -c : 若该档案权限确实已经更改，才显示其更改动作
+ -f : 若该档案权限无法被更改也不要显示错误讯息
+ -v : 显示权限变更的详细资料
+ -R : 对目前目录下的所有档案与子目录进行相同的权限变更(即以递回的方式逐个变更)
+ --help : 显示辅助说明
+ --version : 显示版本 linux
+ #+END_QUOTE
+** DONE [[http://blog.csdn.net/ningzb/article/details/7174087][无法在模块路径中找到主题引擎 pixmap解决办法 - ningzb的专栏 - 博客频道 - CSDN.NET]] :ubuntu:error:
+   CLOSED: [2017-03-08 三 10:42]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-08 三 10:42]
+   :END:
+ Captured On: [2017-03-08 三 10:36]
+** DONE [[https://bbs.deepin.org/forum.php?mod=viewthread&tid=42163&extra=][无法在模块路径中找到主题引擎 adwaita-深度科技论坛|深度操作系统正在为全世界的电脑提供强劲动力！]] :ubuntu:error:
+   CLOSED: [2017-03-08 三 10:42]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-08 三 10:42]
+   :END:
+ Captured On: [2017-03-08 三 10:39]
