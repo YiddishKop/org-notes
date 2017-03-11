@@ -589,52 +589,72 @@
    company-backends 有很多.其中最后一个,就是前面都匹配不到了,最后一个是compnay-Deabbre  ,他会匹配你当前打开的所有buffer中的词项.
    company-File 这是另一个backend, 是负责输入文件目录.'/' 触发.
 ** Spacemacs Rocks s2 day11-[Spacemacs]
-   | 1 | open dired-mode in current file                       | SPC f j           | file-jump          |
-   | 2 | open spacemacs configuration file                     | SPC f e d         | open init.el       |
-   | 4 | save and apply new configuration                      | SPC f e r         | file-refresh       |
-   | 3 | kill-ring paste                                       | C-n/p             | copy next/previous |
-   |   | search in document                                    | SPC s j           | search jump        |
-   |   | list all the layers installed                         | SPC h SPC         | pkgs of this layer |
-   |   | switch input-method                                   | C-\               |                    |
-   |   | move line up/down                                     | (vim-c):m +/- num |                    |
-   |   | move org branch up/down                               | M-j/k             |                    |
-   |   | paste after/before selected char                      | (vim-n) p/P       |                    |
-   |   | move backward/forward a word                          | " " e/b           |                    |
-   |   | move backward/forward a word with dash                | " " E/B           |                    |
-   |   | helm-find-files                                       | spc-f-f           |                    |
-   |   | helm-ag search all func-name variable in proj         | spc-s-p           |                    |
-   |   | toggle a function                                     | (vim-n)z-a        |                    |
-   |   | toggle all functions                                  | (vim-n)z-m        |                    |
-   |   | subtitute                                             | (vim-n)r          |                    |
-   |   | enter terminal in dired-mode                          | `                 |                    |
-   |   | reload a mode by diminish-undo                        |                   |                    |
-   |   | go to the location last modified                      | (vim-n)g;         |                    |
-   |   | capture org tempalte                                  | spc C c           |                    |
-   |   | delete all the blank line                             | :g/^$/d           |                    |
-   |   | delete all the line with only blank space in it       | :g/^\s*$/d        |                    |
-   |   | org change state of a task                            | C-c C-t           |                    |
-   |   | org take note in LOGBOOK                              | C-c C-z           |                    |
-   |   | toggle a org entry and set archive tag                | C-c C-x a         |                    |
-   |   | archive this branch file to achive org file           | C-c C-x C-a       |                    |
-   |   | some org-mode handler                                 | ,                 |                    |
-   |   | org-mode clock in                                     | , I               |                    |
-   |   | org-mode clock out                                    | , O               |                    |
-   |   | jump to clocked task (can jump out from current file) | C-C C-x C-j       |                    |
-   |   | org-mode switch index  1) + - 1.                      | -                 |                    |
-   |   | org-mode add TODO tag                                 | t                 |                    |
-   |   | toggle org todo dependency                            | C-c C-x o         |                    |
-   |   | org column view                                       | C-c C-x C-c       |                    |
-   |   | org attachment                                        | C-c C-a           |                    |
-   |   | org clock reporting(position on headline)             | C-c C-x C-r       |                    |
-   |   | debug on error open/closed                            | spc t D           |                    |
-   |   | avy-goto-char, a very handy way to locate cursor      | spc j j           |                    |
-   |   | avy-goto-line,                                        | spc j l           |                    |
-   |   | indent ONE line text to proper number of lines        | M-q               |                    |
-   |   | narrow a branch of org file                           | , n               |                    |
-   |   | widden a branch of org file                           | , N               |                    |
-   |   | Org make id                                           | org-id-get-create |                    |
-   |   | Org attanch file                                      | C-c C-a           |                    |
-   |   | discover major-mode key bindings                      | Spc ?             |                    |
+   |---+------------------------------------------------------------------+-------------------------+--------------------|
+   |   | <spe:dired>open dired-mode in current file                       | SPC f j                 | file-jump          |
+   |   | <spe:dired>open spacemacs configuration file                     | SPC f e d               | open init.el       |
+   |   | <spe:dired>enter zshell in dired-mode(need zsh installed)        | `                       |                    |
+   |   | <spe:dired> dired-mode hide tetail                               | )                       |                    |
+   |   | <spe:dired>dired-mode omit-mode                                  | (                       |                    |
+   |---+------------------------------------------------------------------+-------------------------+--------------------|
+   |   | <spe>discover major-mode key bindings                            | Spc ?                   |                    |
+   |   | <spe>save and apply new configuration                            | SPC f e r               | file-refresh       |
+   |   | <spe>search in document                                          | SPC s j                 | search jump        |
+   |   | <spe> open/closed debug info buffer                              | spc t D                 |                    |
+   |   | <spe>list all the layers installed                               | SPC h SPC               | pkgs of this layer |
+   |   | <spe>reload a mode by diminish-undo                              | (M-x:)dimish-undo       |                    |
+   |   | <spe>kill-ring paste                                             | C-n/p                   | copy next/previous |
+   |   | <spe>switch input-method                                         | C-\                     |                    |
+   |---+------------------------------------------------------------------+-------------------------+--------------------|
+   |   | <helm> helm-find-files                                           | spc-f-f                 |                    |
+   |   | <helm> helm-ag search all func-name variable in proj             | spc-s-p                 |                    |
+   |---+------------------------------------------------------------------+-------------------------+--------------------|
+   |   | <evil>move backward/forward a word                               | " " e/b                 |                    |
+   |   | <evil>move backward/forward a word with dash                     | " " E/B                 |                    |
+   |   | <evil>move line up/down                                          | (vim-c):m +/- num       |                    |
+   |   | <evil>paste after/before selected char                           | (vim-n) p/P             |                    |
+   |   | <evil>narrow a function                                          | (vim-n)z-a              |                    |
+   |   | <evil>narrow all functions                                       | (vim-n)z-m              |                    |
+   |   | <evil>modify a char                                              | (vim-n)r                |                    |
+   |   | <evil>mark the current line as <num>th mark                      | (vim-n)m <num>          |                    |
+   |   | <evil>goto <num>th mark                                          | (vim-n)` <num>          |                    |
+   |   | <evil>evil-find-char: find next occurance of typed char          | (vim-n) f               |                    |
+   |   | <evil>goto the location last modified                            | (vim-n)g;               |                    |
+   |   | <evil:format> let rest chars of a line to next line              | C j                     |                    |
+   |   | <evil:format>let rest chars of next line to current line         | shift j                 |                    |
+   |   | <evil:format>scroll window to make current line middle of window | z z                     |                    |
+   |   | <vim>delete all the blank line                                   | :g/^$/d                 |                    |
+   |   | <vim>delete all the line with only blank space in it             | :g/^\s*$/d              |                    |
+   |---+------------------------------------------------------------------+-------------------------+--------------------|
+   |   | <spe:org>capture org tempalte                                    | spc C c                 |                    |
+   |   | <spe:org>some org-mode handler                                   | ,                       |                    |
+   |   | <spe:org>org-mode clock in                                       | , I                     |                    |
+   |   | <spe:org>org-mode clock out                                      | , O                     |                    |
+   |   | <spe:org>org-mode switch index  1) + - 1.                        | -                       |                    |
+   |   | <spe:org>org-mode add TODO tag                                   | t                       |                    |
+   |   | <spe:org> quick insert todo items                                | F9                      |                    |
+   |   | <spe:org>indent ONE line text to proper number of lines          | M-q                     |                    |
+   |   | <spe:org>narrow a branch of org file                             | , n                     |                    |
+   |   | <spe:org>widden a branch of org file                             | , N                     |                    |
+   |   | <spe:org>move org branch up/down                                 | M-j/k                   |                    |
+   |   | <em:org>toggle org todo dependency                               | C-c C-x o               |                    |
+   |   | <em:org> jump to clocked task (can jump out from current file)   | C-C C-x C-j             |                    |
+   |   | <em:org>org column view                                          | C-c C-x C-c             |                    |
+   |   | <em:org>org attachment                                           | C-c C-a                 |                    |
+   |   | <em:org>org clock reporting(position on headline)                | C-c C-x C-r             |                    |
+   |   | <em:org>Org make id                                              | (M-x:)org-id-get-create |                    |
+   |   | <em:org>Org attanch file                                         | C-c C-a                 |                    |
+   |   | <em:org>org change state of a task                               | C-c C-t                 |                    |
+   |   | <em:org>org take note in LOGBOOK                                 | C-c C-z                 |                    |
+   |   | <em:org>toggle a org entry and set archive tag                   | C-c C-x a               |                    |
+   |   | <em:org>archive this branch file to achive org file              | C-c C-x C-a             |                    |
+   |---+------------------------------------------------------------------+-------------------------+--------------------|
+   |   | <spe:avy:format>avy-goto-char, a very handy way to locate cursor | spc j j                 |                    |
+   |   | <spe:avy:format>avy-goto-line,                                   | spc j l                 |                    |
+   |---+------------------------------------------------------------------+-------------------------+--------------------|
+   |   | <spe:misc> YouDao dict                                           | Spc o y                 |                    |
+   |---+------------------------------------------------------------------+-------------------------+--------------------|
+   |   |                                                                  |                         |                    |
+
 
 
 ** Spacemacs Rocks s2 day11-[Ubuntu]
@@ -646,8 +666,7 @@
     3. 
     4. make your config in .spacemacs.d folder and use Github to manage it 
 *** add some built-in layers
-    
-    dotspacemacs-configuration-layers 
+    dotspacemacs-configuration-layers
 *** little tweak 
     fullscreen
 *** exclude some unwanted packages 
@@ -953,7 +972,7 @@
     3. =spc w .= window micro state
     4. =spc w 2/3 = use predefined window layout
     5. =spc w == balance window
-    6. =spc w b= switch to mini buffer
+    6. =spc w b= switch to minibuffer
     7. =spc w d= delete current buffer
     8. =spc w m= maximize window
     9. =spc w u/U= window undo/redo
@@ -1281,7 +1300,7 @@
      2) =,O= record the end time of this org branch
      3) =C-c C-x <tab>= record the start time of this org branch
      4) =C-c C-x C-o=   record the end time of this org branch
-**** automatic logging of status changes
+**** automatic logging of status changes                                :LOG:
 *****     Goal: get a logbook entry whenever a TODO keyword chenges
       #+BEGIN_SRC org
      #+SEQ_TODO:TODO(t@/!)
@@ -1866,6 +1885,8 @@ true
 **** language connections
 **** expand regions
 **** templates
+
+
 * Using Emacs
 ** start emacs
    #+BEGIN_SRC emacs-lisp -n
@@ -1937,6 +1958,7 @@ true
    in org-plus-contrib, and restart spacemacs
 ** helm-ag failed
    need to install =silver-seracher= in your os,(as for me it's ubuntu 16.10)
+   https://github.com/ggreer/the_silver_searcher
 ** Fail to run sh in org src block
    [[https://lists.gnu.org/archive/html/emacs-orgmode/2016-04/msg00298.html][fail to run sh command in src block]]
    in =~/.spacemacs.d/layer/zilongshanren-org/packages.el=
@@ -1962,6 +1984,10 @@ true
          ;; yiddi:add
          (calc . t)))
    #+END_SRC
+** zshell not runnint in dired-mode
+   when type =`= in dired mode , it will invoke zsh in another buffer, but
+   *you must install zsh in your OS*
+   =apt install zsh=
 * By now, The KENG in ubuntu 16.10
 ** emacs 25.1
 ** sub-wifi : Ralink 2870
@@ -2207,3 +2233,23 @@ WantedBy=multi-user.target
      iptables-restore < /etc/iptables.sav
      #+END_SRC
 * Study Elfeed
+
+* hack plan for emacs
+
+** TODO [#C] org + w3m + hash-reading-method
+*** hash-reading-method 读书法
+    condition - familiar with content >? 30%
+    target    - hold the core concept of text
+    interpre  - log the most frequency *one* word in front of note --- *major-core*.
+                log the most frequency *2~4* words occur around it --- *minor-cores*.
+		log all the *sentences* include words below.
+		connect the *chapter-titles* with these *sentences*.
+		interpret the *relationship* between chapter-titles and sentences by your current knowledge.
+		write the *fake-relationship* down in note.
+		readings in detail to find the *true-relationship*.
+		compair the true and fake one.
+                pin the *true-relationship chapter-titles and major/minor* in your knowledge map.
+*** hack emacs
+    like org-protocol --- capture content between chrome and emacs-org, I think it is more convinient to hack
+    emacs to make has-reading-method apply smoothly.
+* Blog Ideas

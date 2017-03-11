@@ -1,0 +1,2554 @@
+* Chome Inbox
+** DONE [[http://askubuntu.com/questions/684169/gtk-message-failed-to-load-module-pantheon-filechooser-module][Gtk-Message: Failed to load module "pantheon-filechooser-module" - Ask Ubuntu]]
+   CLOSED: [2017-03-09 Thu 10:57]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-09 Thu 10:57]
+   :END:
+ Captured On: [2017-03-09 Thu 10:57]
+ when i start emacs from command line ,appear this warnning, and i found this URL to solve
+** DONE [[https://github.com/YiddishKop/org-capture-extension][YiddishKop/org-capture-extension: A Chrome extension facilitating org-capture in emacs]]
+   CLOSED: [2017-03-09 Thu 11:00]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-09 Thu 11:00]
+   :END:
+ Captured On: [2017-03-09 Thu 10:59]
+ how to add org-capture functionality in ubuntu. by add this to ~/.local/share/application
+
+**  [[http://orgmode.org/worg/org-tutorials/org-protocol-custom-handler.html][Defining custom handlers for use with org-protocol]] :emacs:org-protocol:capture:
+Captured On: [2017-02-14 二 15:02]
+**  [[https://github.com/sprig/org-capture-extension][sprig/org-capture-extension: A Chrome extension facilitating org-capture in emacs]] :emacs:org-protocol:capture:
+
+Captured On: [2017-02-14 二 15:02]
+**  [[http://orgmode.org/worg/org-contrib/org-protocol.html][org-protocol.el – Intercept calls from emacsclient to trigger custom actions]] :emacs:org-protocol:capture:
+
+Captured On: [2017-02-14 二 15:03]
+**  [[http://orgmode.org/worg/org-contrib/org-protocol.html#acrobat-reader-setup][org-protocol.el – Intercept calls from emacsclient to trigger custom actions]]  :emacs:org-protocol:capture:
+Captured On: [2017-02-14 二 15:04]
+Captured On: [2017-02-14 二 15:32]
+** [[http://lifehacker.com/add-custom-keyboard-shortcuts-to-chrome-extensions-for-1595322121][Add Custom Keyboard Shortcuts to Chrome Extensions for Quick Launching]] :chrome:
+Source: [2017-02-14 二], [[http://lifehacker.com/add-custom-keyboard-shortcuts-to-chrome-extensions-for-1595322121][Add Custom Keyboard Shortcuts to Chrome Extensions for Quick Launching]]
+ #+BEGIN_QUOTE
+Chrome: Chrome has all kinds of great keyboard shortcuts to make browsing quick and easy, but they're not really customizable. Digital Inspiration reminds us that you can also set custom keyboard shortcuts for certain extensions.
+
+Just head to chrome://extensions/ in your browser's address bar to open up the extensions page. Scroll down to the bottom and you'll see a Keyboard Shortcuts option. Click it, and you can set up custom shortcuts for some of you extensions.
+#+END_QUOTE
+**  [[http://cn.linux.vbird.org/linux_basic/0310vi.php][鸟哥的 Linux 私房菜 -- vim 程序编辑器]] :vim:
+Captured On: [2017-02-14 二 16:00]
+** [[http://heartnheart.github.io/blog/2015/01/15/SogouIME_on_English_Ubuntu_14.04/][在Emacs 24.3 Ubuntu14.04英文版中使用搜狗输入法 - org-page]]  :emacs:input-method:
+Source: [2017-02-14 二], [[http://heartnheart.github.io/blog/2015/01/15/SogouIME_on_English_Ubuntu_14.04/][在Emacs 24.3 Ubuntu14.04英文版中使用搜狗输入法 - org-page]]
+ #+BEGIN_QUOTE
+在Emacs 24.3 Ubuntu14.04英文版中使用搜狗输入法
+
+从命令行启动
+
+LC_CTYPE='zh_CN.UTF-8' emacs
+从Dash（搜索框）启动
+
+重命名默认启动的emacs24-x
+sudo mv /usr/bin/emac24-x /usr/bin/emacs24-x_original
+创建新的名为emacs24-x的脚本
+echo "LC_CTYPE='zh_CN.UTF-8' emacs24-x_original" | sudo tee /usr/bin/emacs24-x
+sudo chmod a+x /usr/bin/emacs24-x
+#+END_QUOTE
+**    In macro    , expression as the variable will be the last  to expand and compute.
+   In function , expression as the variable will be the first to expand and comupte.
+
+Source: [2017-02-15 三],
+
+In macro    , expression as the variable will be the last  to expand and compute.
+
+In function , expression as the variable will be the first to expand and comupte.
+
+ #+BEGIN_QUOTE
+
+#+END_QUOTE
+** 完美解决emacs输入法无效问题
+Source: [2017-02-15 三], [[http://stackoverflow.com/questions/2901541/which-coding-system-should-i-use-in-emacs][character encoding - Which coding system should I use in Emacs? - Stack Overflow]]
+ #+BEGIN_QUOTE
+Here's a pretty comprehensive group of magic invocations to make Emacs use UTF-8 everywhere by default:
+
+  (setq utf-translate-cjk-mode nil) ; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
+  (set-language-environment 'utf-8)
+  (set-keyboard-coding-system 'utf-8-mac) ; For old Carbon emacs on OS X only
+  (setq locale-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (unless (eq system-type 'windows-nt)
+   (set-selection-coding-system 'utf-8))
+  (prefer-coding-system 'utf-8)
+#+END_QUOTE
+** [[http://xmodulo.com/how-to-configure-http-proxy-exceptions.html][How to configure http proxy exceptions on Linux - Xmodulo]]
+Source: [2017-02-16 四], [[http://xmodulo.com/how-to-configure-http-proxy-exceptions.html][How to configure http proxy exceptions on Linux - Xmodulo]]
+ #+BEGIN_QUOTE
+How to configure http proxy exceptions on Linux
+Last updated on December 4, 2012 Authored by Dan Nanni  1 Comment
+When you are behind HTTP proxy, you need to configure proxy settings for your applications in one way or another. Typically you define http_proxy environment variable pointing to your proxy, so that all HTTP requests go through the proxy. But what if you want to bypass HTTP proxy for specific destination web servers? That's when you need to configure HTTP proxy exceptions.
+
+On Linux, you can define HTTP proxy exceptions via "no_proxy" environment variable. In "no_proxy" variable, you specify a list of domain names or IP addresses for which HTTP proxy should not be used. Along with domain names or IP addresses, you can also specify port number if necessary.
+
+If you would like to define HTTP proxy exceptions system wide, do the following.
+
+On Ubuntu, Debian or Mint:
+
+$ sudo vi /etc/environment
+http_proxy="http://proxy.com:8000"
+no_proxy="127.0.0.1, localhost, *.cnn.com, 192.168.1.10, domain.com:8080"
+On CentOS, Fedora or RHEL:
+
+$ sudo vi /etc/profile.d/proxy.sh
+export http_proxy="http://proxy.com:8000"
+export no_proxy="127.0.0.1, localhost, *.cnn.com, 192.168.1.10, domain.com:8080"
+The above example means that if you are reaching local host (e.g., 127.0.0.1, localhost), *.cnn.com, domain.com:8080, or a host with IP address 192.168.1.10, you will not use HTTP proxy. For all other destinations, you will use the designated HTTP proxy (proxy.com:8000).
+#+END_QUOTE
+** [[http://www.powerxing.com/linux-environment-variable/][设置Linux环境变量的方法和区别_Ubuntu_给力星]]
+Source: [2017-02-16 四], [[http://www.powerxing.com/linux-environment-variable/][设置Linux环境变量的方法和区别_Ubuntu_给力星]]
+ #+BEGIN_QUOTE
+设置Linux环境变量的方法和区别_Ubuntu
+ 2014-10-15 (updated: 2016-01-18) 25927 7
+设置 Linux 环境变量可以通过 export 实现，也可以通过修改几个文件来实现，有必要弄清楚这两种方法以及这几个文件的区别。
+
+
+通过文件设置 Linux 环境变量
+首先是设置全局环境变量，对所有用户都会生效：
+
+etc/profile: 此文件为系统的每个用户设置环境信息。当用户登录时，该文件被执行一次，并从 /etc/profile.d 目录的配置文件中搜集shell 的设置。一般用于设置所有用户使用的全局变量。
+/etc/bashrc: 当 bash shell 被打开时，该文件被读取。也就是说，每次新打开一个终端 shell，该文件就会被读取。
+接着是与上述两个文件对应，但只对单个用户生效：
+
+~/.bash_profile 或 ~/.profile: 只对单个用户生效，当用户登录时该文件仅执行一次。用户可使用该文件添加自己使用的 shell 变量信息。另外在不同的LINUX操作系统下，这个文件可能是不同的，可能是 ~/.bash_profile， ~/.bash_login 或 ~/.profile 其中的一种或几种，如果存在几种的话，那么执行的顺序便是：~/.bash_profile、 ~/.bash_login、 ~/.profile。比如 Ubuntu 系统一般是 ~/.profile 文件。
+~/.bashrc: 只对单个用户生效，当登录以及每次打开新的 shell 时，该文件被读取。
+此外，修改 /etc/environment 这个文件也能实现环境变量的设置。/etc/environment 设置的也是全局变量，从文件本身的作用上来说， /etc/environment 设置的是整个系统的环境，而/etc/profile是设置所有用户的环境。有几点需注意：
+
+系统先读取 etc/profile 再读取 /etc/environment（还是反过来？）
+/etc/environment 中不能包含命令，即直接通过 VAR="..." 的方式设置，不使用 export 。
+使用 source /etc/environment 可以使变量设置在当前窗口立即生效，需注销/重启之后，才能对每个新终端窗口都生效。
+修改 Linux 环境变量实例
+以 Ubuntu 为例，修改 ~/.profile 文件：
+
+vim ~/.profile
+Shell 命令
+如果该文件存在，则在文件的最后看到如下代码，PATH 变量的值使用冒号(:)隔开的：
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+Shell
+在最后加上代码 PATH="$PATH:/usr/local/hadoop/bin"，注意等号(=)两边不要有空格，即：
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+PATH="$PATH:/usr/local/hadoop/bin"
+Shell
+因为这个文件是在用户登陆是才读取一次的，所以需要重启才会生效（修改 /etc/profile、/etc/environment 也是如此）。但可以使用命令 source ./.profile 使其立即生效。通过 echo $PATH 可以看到修改后的变量值：
+
+source ./.profile
+echo $PATH
+Shell 命令
+通过 Shell 命令 export 修改 Linux 环境变量
+另一种修改 Linux 环境变量的方式就是通过 Shell 命令 export，注意变量名不要有美元号 $，赋值语句中才需要有：
+
+export PATH=$PATH:/usr/local/hadoop/bin
+Shell 命令
+export 方式只对当前终端 Shell 有效
+使用 export 设置的变量，只对当前终端 Shell 有效，也就是说如果新打开一个终端，那这个 export 设置的变量在新终端中使无法读取到的。适合设置一些临时变量。
+
+根据变量所需，选择设置方式，例如 JAVA_HOME 这类变量，就适合将其设为为全局变量，可在 /etc/environment 中设置。
+
+
+
+文章很给力？微信扫一扫给作者打赏2元 :)
+~感谢赞助者~
+
+ http://www.powerxing.com/linux-environment-variable/
+ 笔记Linux, Linux操作, Ubuntu
+#+END_QUOTE
+[]
+** TODO [[http://vim.wikia.com/wiki/Search_and_replace][Search and replace | Vim Tips Wiki | Fandom powered by Wikia]]    :vim:
+ Source: [2017-02-20 一], [[http://vim.wikia.com/wiki/Search_and_replace][Search and replace | Vim Tips Wiki | Fandom powered by Wikia]]
+  #+BEGIN_QUOTE
+ :s/foo/bar/g    Change each 'foo' to 'bar' in the current line.
+ :%s/foo/bar/g   Change each 'foo' to 'bar' in all the lines.
+ :5,12s/foo/bar/g    Change each 'foo' to 'bar' for all lines from line 5 to line 12 (inclusive).
+ :'a,'bs/foo/bar/g   Change each 'foo' to 'bar' for all lines from mark a to mark b inclusive (see Note below).
+ :'<,'>s/foo/bar/g   When compiled with +visual, change each 'foo' to 'bar' for all lines within a visual selection. Vim automatically appends the visual selection range ('<,'>) for any ex command when you select an area and enter :. Also, see Note below.
+ :.,$s/foo/bar/g Change each 'foo' to 'bar' for all lines from the current line (.) to the last line ($) inclusive.
+ :.,+2s/foo/bar/g    Change each 'foo' to 'bar' for the current line (.) and the two next lines (+2).
+ :g/^baz/s/foo/bar/g Change each 'foo' to 'bar' in each line starting with 'baz'.
+ Note: As of Vim 7.3, substitutions applied to a range defined by marks or a visual selection (which uses a special type of marks '< and '>) are not bounded by the column position of the marks by default. Instead, Vim applies the substitution to the entire line on which each mark appears unless the \%V atom is used in the pattern like: :'<,'>s/\%Vfoo/bar/g.
+ #+END_QUOTE
+** TODO   [[file://home/yiddi/Dropbox/evil.pdf][]]
+ Captured On: [2017-02-20 一 21:53]
+** TODO [[http://www.ctex.org/TeX][TeX 简介:CTEX]]
+ Source: [2017-03-01 三], [[http://www.ctex.org/TeX][TeX 简介:CTEX]]
+  #+BEGIN_QUOTE
+
+ 　　TeX 提供了一套功能强大并且十分灵活的排版语言，它多达 900 多条指令，并且 TeX 有宏功能，用户可以不断地定义自己适用的新命令来扩展 TeX 系统的功能。许多人利用 TeX 提供的宏定义功能对 TeX 进行了二次开发，其中比较著名的有美国数学学会推荐的非常适合于数学家使用的 AMSTeX AMS-TeX 以及适合于一般文章、报告、书籍的 LaTeX 系统。
+
+ #+END_QUOTE
+
+
+ TeX 的另一个重要的特征就是它的输出是与设备无关的。TeX 的输出文件称为 DVI 文件，即是“Device Independent”。一旦 TeX 处理了你的文件，你所得到的 DVI 文件就可以被送到任何输出设备如打印机，屏幕等并且总会得到相同的结果，而这与这些输出设备的限制没有任何关系。这说明 DVI 文件中所有的元素，从页面设置到文本中字符的位置都被固定，不能更改。
+** TODO   [[http://aty.sdsu.edu/bibliog/latex/LaTeXtoPDF.html][LaTeX to PDF]]
+ Captured On: [2017-03-01 三 10:29]
+** TODO   [[http://zchrissirhcz.github.io/blog/latex-in-linux/][在Linux下使用Latex | zchrissirhcz.github.io]]
+ Captured On: [2017-03-01 三 10:36]
+** TODO   [[http://www.mikewootc.com/wiki/tool/doc_process/latex_chinese_ubuntu_setup.html][LaTex Ubuntu中文环境安装与使用]]
+ Captured On: [2017-03-01 三 10:37]
+** TODO   [[http://www.jianshu.com/p/08c657bd34f1][Python--Virtualenv简明教程 - 简书]]
+ Captured On: [2017-03-01 三 13:31]
+** TODO   [[https://virtualenv.pypa.io/en/stable/installation/][Installation — virtualenv 15.1.0 documentation]]
+ Captured On: [2017-03-01 三 13:36]
+** TODO   [[http://www.jianshu.com/p/08c657bd34f1][Python--Virtualenv简明教程 - 简书]]
+ Captured On: [2017-03-01 三 13:56]
+** TODO [[https://github.com/proofit404/anaconda-mode/issues/164][Anaconda mode opening new windows with errors · Issue #164 · proofit404/anaconda-mode]]
+ Source: [2017-03-01 三], [[https://github.com/proofit404/anaconda-mode/issues/164][Anaconda mode opening new windows with errors · Issue #164 · proofit404/anaconda-mode]]
+  #+BEGIN_QUOTE
+ I need the value of python-shell-interpreter and python-shell-virtualenv-path variables. Does minibuffer contain some error messages? What is the content of *anaconda-mode* buffer?
+ #+END_QUOTE
+** TODO [[https://my.oschina.net/u/89296/blog/42393][Python 和 egg 文件 - 甄码农]]
+ Source: [2017-03-01 三], [[https://my.oschina.net/u/89296/blog/42393][Python 和 egg 文件 - 甄码农]]
+  #+BEGIN_QUOTE
+ 4. 相关知识：egg包和setup tools
+
+ python的egg文件有点像java中的jar文件，是一个工程打包文件，便于安装部署，仅此一点，给多少pythoner带来了多少激动。而setup tools就是一个提供包管理的工具或者说是软件。
+
+ egg 是一个包含所有包数据的文件包。在理想情况中，egg 是一个使用 zip 压缩的文件，其中包括了所有需要的包文件。但是在某些情况下，setuptools 会决定（或被开关告知）包不应该是 zip 压缩的。在这些情况下，egg 只是一个简单的未曾压缩的子目录，但是里面的内容是相同的。使用单一的版本可以方便地进行转换，并可以节省一点磁盘空间，但是 egg 目录从功能和组织结构上来说都是相同的。
+
+ 安装package是经常碰到事情, 而且安装也比较繁琐，最头疼就是包依赖的问题，有时候一个上午可能就为了安装一个包，就像我今天这样的。在Java里面有这样的包管理软件，那就是Maven了， 他会帮助你找到所依赖的包. 据说其他语言,比如, php, ruby, perl等 也有类似的工具软件.
+ #+END_QUOTE
+** TODO   [[https://my.oschina.net/u/89296/blog/42393][Python 和 egg 文件 - 甄码农]]
+ Captured On: [2017-03-01 三 20:45]
+** TODO [[http://www.cnblogs.com/Tommy-Yu/p/4991853.html][python egg文件解压 - tommy.yu - 博客园]]
+ Source: [2017-03-01 三], [[http://www.cnblogs.com/Tommy-Yu/p/4991853.html][python egg文件解压 - tommy.yu - 博客园]]
+  #+BEGIN_QUOTE
+ python egg文件解压
+
+ unzip 就可以了。
+
+  
+
+ 由于项目需要将某些版本的库打包，然后 sys.path.insert方式引用（避免升级包导致某些旧的系统崩掉）。
+
+ 在将egg文件打包时，发现不可用。但相关模块的__path__属性显示， 这些内容在egg里面，于是想到可能这只是个压缩包。
+
+ 谷歌了一番，找到了解压的方法：https://mail.python.org/pipermail/chicago/2007-July/002301.html
+
+ 即用unzip指令就可一了。
+
+  
+
+  
+
+ ======后记===========
+
+ python的egg文件有点像java中的jar文件，是一个工程打包文件，便于安装部署，仅此一点，给多少pythoner带来了多少激动。而setup tools就是一个提供包管理的工具或者说是软件。
+
+ egg 是一个包含所有包数据的文件包。在理想情况中，egg 是一个使用 zip 压缩的文件，其中包括了所有需要的包文件。但是在某些情况下，setuptools 会决定（或被开关告知）包不应该是 zip 压缩的。在这些情况下，egg 只是一个简单的未曾压缩的子目录，但是里面的内容是相同的。使用单一的版本可以方便地进行转换，并可以节省一点磁盘空间，但是 egg 目录从功能和组织结构上来说都是相同的。
+ #+END_QUOTE
+** TODO [[http://www.ibm.com/developerworks/cn/linux/l-cppeak3.html][可爱的 Python: 使用 setuptools 孵化 Python egg]]
+ Source: [2017-03-01 三], [[http://www.ibm.com/developerworks/cn/linux/l-cppeak3.html][可爱的 Python: 使用 setuptools 孵化 Python egg]]
+  #+BEGIN_QUOTE
+ 可爱的 Python: 使用 setuptools 孵化 Python egg
+ 改进安装和包管理后的 PEAK
+ David 在本文中将带领我们了解一下 setuptools 框架，它是 Python Enterprise Application Kit（PEAK）的一个副项目。 setuptools 替换了标准的 distutils 库，并为 Python 添加了版本化的包和依赖性管理。Perl 用户比较熟悉 CPAN，而 Ruby 用户则比较熟悉 Gems；引导 setuptools 的 ez_setup 工具和随之而生的扩展后的 easy_install 与 “Cheeseshop”（Python Package Index，也称为 “PyPI”）一起工作来实现相同的功能。另外，setuptools 还让我们可以将自己的库包装成一个称为 “egg” 的包，它与 Java™ 的 JAR 文件类似，不过是用于 Python 的。
+ 查看本系列更多内容 | 1 评论
+ David Mertz (mertz@gnosis.cx), 开发人员, Gnosis Software, Inc.
+ 2006 年 11 月 30 日
+
+ 内容
+
+ 在 IBM Bluemix 云平台上开发并部署您的下一个应用。
+ 开始您的试用
+ Python Enterprise Application Kit（PEAK）的基础知识在本专栏的前两部分中已经进行了介绍：“可爱的 Python: Python Enterprise Application Kit” 和 “深入 PEAK 的新特性”。简而言之，PEAK 是用来在 Python 中进行快速组件开发和代码重用的强大框架。
+ 本文介绍了 setuptools 框架的内容，它是 PEAK 的一个副项目，它提供了比 distutils 更加简单的包管理和发行功能。
+ 开始
+ setuptools 模块很会 “规避”。例如，如果我们下载一个使用 setuptools 而不是使用 distutils 构建的包，那么安装就应该可以像我们期望的一样工作：通常使用 python setup.py install 就可以。为了实现这种功能，使用 setuptools 绑定在一起的包就会在归档文件中包含一个很小的引导模块 ez_setup.py。此处惟一需要注意的是 ez_setup.py 试图在后台下载并安装所需要的 setuptools —— 当然，这需要有一个连接网络的机器。如果 setuptools 早已在本地机器上安装了，那么这个后台步骤就不再需要执行；但是如果它需要手工进行安装，那么很多透明性就都丢失了。不过，大部分系统现在都有一个 Internet 连接了；为没有连接网络的机器多执行几个特殊步骤也并非特别麻烦。
+ setuptools 的真正优点并不在于实现 distutils 所能实现的功能 —— 尽管它 的确 增强了 distutils 的功能并简化了 setup.py 脚本中的内容。setuptools 最大的优势是它在包管理能力方面的增强。它可以使用一种更加透明的方法来查找、下载并安装依赖包；并可以在一个包的多个版本中自由进行切换，这些版本都安装在同一个系统上；也可以声明对某个包的特定版本的需求；还可以只使用一个简单的命令就能更新到某个包的最新版本。给人印象最为深刻的是，即使有些包的开发人员可能还从未考虑过任何 setuptools 兼容性问题，我们依然可以使用这些包。
+ 下面让我们详细探讨一下。
+ 回页首
+ 引导
+ 工具 ez_setup.py 是一个简单的脚本，它可以引导 setuptools 中其余部分。有点让人困惑的是，完整 setuptools 包中所提供的 easy_install 脚本与 ez_setup.py 所实现的功能是相同的。不过前者假设 setuptools 早已安装了，因此它会跳过幕后的安装过程。这两个版本都可以接受相同的参数和开关。
+ 这个过程中的第一个步骤是下载一个小脚本 ez_setup.py：
+ 清单 1. 下载引导脚本
+ % wget -q http://peak.telecommunity.com/dist/ez_setup.py
+ 然后，就可以不带任何参数运行脚本来安装 setuptools 中其余部分了（如果不作为一个单独的步骤来执行这个步骤，在首次安装其他包时，它还是会被完成）。会看到类似于下面的内容（当然，这要取决于所使用的版本）：
+ 清单 2. 引导 setuptools
+ % python ez_setup.py
+ Downloading http://cheeseshop.python.org/packages/2.4/s/
+   setuptools/setuptools-0.6b1-py2.4.egg#md5=b79a8a403e4502fbb85ee3f1941735cb
+ Processing setuptools-0.6b1-py2.4.egg
+ creating /sw/lib/python2.4/site-packages/setuptools-0.6b1-py2.4.egg
+ Extracting setuptools-0.6b1-py2.4.egg to /sw/lib/python2.4/site-packages
+ Removing setuptools 0.6a11 from easy-install.pth file
+ Adding setuptools 0.6b1 to easy-install.pth file
+ Installing easy_install script to /sw/bin
+ Installing easy_install-2.4 script to /sw/bin
+
+ Installed /sw/lib/python2.4/site-packages/setuptools-0.6b1-py2.4.egg
+ Processing dependencies for setuptools
+ 完毕。这就是我们需要确保在系统上安装 setuptools 而需要做的工作。
+ 回页首
+ 安装包
+ 对于很多 Python 包来说，要安装这些包，需要做的就是将这些包的名字作为一个参数传递给 ez_setup.py 或 easy_install。既然目前已经使用引导脚本加载了 setuptools，那就可以使用内部更加简化的 easy_install（实际上它与我们选择的版本的区别很小）了。
+ 例如，假设希望安装 SQLObject 包。过程非常简单，如清单 3 所示。注意消息中说 SQLObject 依赖于一个名为 FormEncode 的包；所幸的是，这会被很好地解决：
+ 清单 3. 安装一个典型的包
+ % easy_install SQLObject
+ Searching for SQLObject
+ Reading http://www.python.org/pypi/SQLObject/
+ Reading http://sqlobject.org
+ Best match: SQLObject 0.7.0
+ Downloading http://cheeseshop.python.org/packages/2.4/S/
+   SQLObject/SQLObject-0.7.0-py2.4.egg#md5=71830b26083afc6ea7c53b99478e1b6a
+ Processing SQLObject-0.7.0-py2.4.egg
+ creating /sw/lib/python2.4/site-packages/SQLObject-0.7.0-py2.4.egg
+ Extracting SQLObject-0.7.0-py2.4.egg to /sw/lib/python2.4/site-packages
+ Adding SQLObject 0.7.0 to easy-install.pth file
+ Installing sqlobject-admin script to /sw/bin
+
+ Installed /sw/lib/python2.4/site-packages/SQLObject-0.7.0-py2.4.egg
+ Processing dependencies for SQLObject
+ Searching for FormEncode>=0.2.2
+ Reading http://www.python.org/pypi/FormEncode/
+ Reading http://formencode.org
+ Best match: FormEncode 0.5.1
+ Downloading http://cheeseshop.python.org/packages/2.4/F/
+   FormEncode/FormEncode-0.5.1-py2.4.egg#md5=f8a19cbe95d0ed1b9d1759b033b7760d
+ Processing FormEncode-0.5.1-py2.4.egg
+ creating /sw/lib/python2.4/site-packages/FormEncode-0.5.1-py2.4.egg
+ Extracting FormEncode-0.5.1-py2.4.egg to /sw/lib/python2.4/site-packages
+ Adding FormEncode 0.5.1 to easy-install.pth file
+
+ Installed /sw/lib/python2.4/site-packages/FormEncode-0.5.1-py2.4.egg
+ 正如可以从这些消息中看到的一样，easy_install 要在 www.python.org/pypi/ 上查找有关这个包的信息，然后查找真正可以下载它的地方（此处 egg 包就在 cheeseshop.python.org 上；后面将介绍有关 egg 的更多内容）。
+ 现在不仅仅可以安装某个包的最新版本（这是默认操作）。如果愿意，还可以为 easy_install 提供一个特定的版本需求。现在让我们尝试安装 SQLObject 的一个 post-beta 版本。
+ 清单 4. 安装某个包的最小版本
+ % easy_install 'SQLObject>=1.0'
+ Searching for SQLObject>=1.0
+ Reading http://www.python.org/pypi/SQLObject/
+ Reading http://sqlobject.org
+ No local packages or download links found for SQLObject>=1.0
+ error: Could not find suitable distribution for
+   Requirement.parse('SQLObject>=1.0')
+ 如果（在本文编写时情况就是如此）SQLObject 的最新版本小于 1.0，那么这会什么也不安装。
+ 回页首
+ 安装 “naive” 包
+ SQLObject 是可以识别 setuptools 的；但是如果要安装一个尚未兼容 setuptools 的包又该如何呢？例如，在本文之前，我从没有对自己的 “Gnosis Utilities” 使用过 setuptools。不过，现在让我们来尝试安装一下这个包，已知的只有它所在的 HTTP（或 FTP、SVN、CVS）位置（setuptools 可以理解所有这些协议）。我的下载 Web 站点上有各个 Gnosis Utilities 的版本，它们的命名采用了常见的版本风格：
+ 清单 5. 安装不识别 setuptools 的包
+ % easy_install -f http://gnosis.cx/download/Gnosis_Utils.More/ Gnosis_Utils
+ Searching for Gnosis-Utils
+ Reading http://gnosis.cx/download/Gnosis_Utils.More/
+ Best match: Gnosis-Utils 1.2.1
+ Downloading http://gnosis.cx/download/Gnosis_Utils.More/
+   Gnosis_Utils-1.2.1.zip
+ Processing Gnosis_Utils-1.2.1.zip
+ Running Gnosis_Utils-1.2.1/setup.py -q bdist_egg --dist-dir
+   /tmp/easy_install-CCrXEs/Gnosis_Utils-1.2.1/egg-dist-tmp-Sh4DW1
+ zip_safe flag not set; analyzing archive contents...
+ gnosis.__init__: module references __file__
+ gnosis.magic.__init__: module references __file__
+ gnosis.xml.objectify.doc.__init__: module references __file__
+ gnosis.xml.pickle.doc.__init__: module references __file__
+ gnosis.xml.pickle.test.test_zdump: module references __file__
+ Adding Gnosis-Utils 1.2.1 to easy-install.pth file
+
+ Installed /sw/lib/python2.4/site-packages/Gnosis_Utils-1.2.1-py2.4.egg
+ Processing dependencies for Gnosis-Utils
+ 所幸的是 easy_install 可以把这一切都完成得很好。它会查看给定的下载目录，识别出可用的最高版本，展开这个包，然后将其重新打包为 “egg” 格式，后者就可以用来进行安装了。导入 gnosis 现在可以在一个脚本中运行。但是假设现在需要对 Gnosis Utilities 之前的某个特定版本来测试一个脚本又该怎么做呢？这也非常简单：
+ 清单 6. 安装一个 “naive” 包的特定版本
+ % easy_install -f http://gnosis.cx/download/Gnosis_Utils.More/
+   "Gnosis_Utils==1.2.0"
+ Searching for Gnosis-Utils==1.2.0
+ Reading http://gnosis.cx/download/Gnosis_Utils.More/
+ Best match: Gnosis-Utils 1.2.0
+ Downloading http://gnosis.cx/download/Gnosis_Utils.More/
+   Gnosis_Utils-1.2.0.zip
+ [...]
+ Removing Gnosis-Utils 1.2.1 from easy-install.pth file
+ Adding Gnosis-Utils 1.2.0 to easy-install.pth file
+
+ Installed /sw/lib/python2.4/site-packages/Gnosis_Utils-1.2.0-py2.4.egg
+ Processing dependencies for Gnosis-Utils==1.2.0
+ 现在通常已经安装了两个版本的 Gnosis Utilities，当前活动版本是 1.2.0。将活动版本切换回 1.2.1 也非常简单：
+ 清单 7. 在系统范围修改 “活动” 版本
+ % easy_install "Gnosis_Utils==1.2.1"
+ Searching for Gnosis-Utils==1.2.1
+ Best match: Gnosis-Utils 1.2.1
+ Processing Gnosis_Utils-1.2.1-py2.4.egg
+ Removing Gnosis-Utils 1.2.0 from easy-install.pth file
+ Adding Gnosis-Utils 1.2.1 to easy-install.pth file
+
+ Using /sw/lib/python2.4/site-packages/Gnosis_Utils-1.2.1-py2.4.egg
+ Processing dependencies for Gnosis-Utils==1.2.1
+ 当然，这一次只能使一个版本是活动的。不过通过在各个脚本上面放上这样两行类似内容，就可以让脚本选择自己希望使用的版本：
+ 清单 8. 在脚本中使用某个版本的包
+ from pkg_resources import require
+ require("Gnosis_Utils==1.2.0")
+ 通过使用上述要求，setuptools 就可以在运行 import 语句时添加一个特定的版本（如果指定了大于比较，就是最新的可用版本）。
+ 回页首
+ 让包可以识别 setuptools
+ 我会更希望让用户不需要知道 Gnosis Utilities 的下载目录就可以安装它。这 通常都可以 工作，因为 Gnosis Utilities 在 Python Cheeseshop 上有一个信息清单。不幸的是，因为没有考虑 setuptools ，所以我在 python.org 上为我的 Gnosis Utilities 建立了一个 “不匹配” 的入口 http://www.python.org/pypi/Gnosis%20Utilities/1.2.1。具体地说，这个归档文件是根据类似于 Gnosis_Utils-N.N.N.tar.gz 的模式进行命名的（这些工具也打包成了 .zip 和 .tar.bz2 文件，最新的几个版本还打包成了 win32.exe 的安装程序，所有这些文件 setuptools 都可以很好地处理）。不过 Cheeseshop 上的项目名的拼写与 “Gnosis Utilities” 稍微有点不同。实际上，在 Cheeseshop 的一个很小的管理版本的更改就会将 http://www.python.org/pypi/Gnosis_Utils/1.2.1-a 创建为一个发布后版本。发行版归档文件本身并没有什么变化，不过是在 Cheeseshop 里增加了一点元数据。只需要少量努力，就可以使用更加简单的安装程序（注意，出于测试目的，我运行了一个 easy_install -m 来删除所安装的包）。
+ 清单 9. 简单增加对 setuptools 的识别
+ % easy_install Gnosis_Utils
+ Searching for Gnosis-Utils
+ Reading http://www.python.org/pypi/Gnosis_Utils/
+ Reading http://www.gnosis.cx/download/Gnosis_Utils.ANNOUNCE
+ Reading http://gnosis.cx/download/Gnosis_Utils.More/
+ Best match: Gnosis-Utils 1.2.1
+ Downloading [...]
+ 我把这个过程剩余的部分忽略掉了，因为这与您前面看到的内容没什么两样。惟一的区别在于 easy_install 要在 Cheeseshop（换言之 www.python.org/pypi/）上寻找可以匹配指定名字的元数据，并使用这些信息来查找真正的下载位置。在这种情况中，所列出的 .ANNOUNCE 文件没有包含任何有帮助的内容，不过 easy_install 还会继续查看另一个所列的 URL，这会证明它是一个下载目录。
+ 回页首
+ 关于 egg
+ egg 是一个包含所有包数据的文件包。在理想情况中，egg 是一个使用 zip 压缩的文件，其中包括了所有需要的包文件。但是在某些情况下，setuptools 会决定（或被开关告知）包不应该是 zip 压缩的。在这些情况下，egg 只是一个简单的未曾压缩的子目录，但是里面的内容是相同的。使用单一的版本可以方便地进行转换，并可以节省一点磁盘空间，但是 egg 目录从功能和组织结构上来说都是相同的。一直使用 JAR 文件的 Java™ 技术的用户会发现 egg 非常熟悉。
+ 由于最新的 Python 版本中（需要 2.3.5+ 或 2.4）导入挂钩的更改，可以简单地通过设置 PYTHONPATH 或 sys.path 并像往常一样导入相应的包来使用 egg。如果希望采用这种方法，就不需要使用 setuptools 或 ez_setup.py 了。例如，在本文使用的工作目录中，我就为 PyYAML 包放入了一个 egg。现在我就可以使用这个包了，方法如下：
+ 清单 10. PYTHONPATH 上的 egg
+ % export PYTHONPATH=~/work/dW/PyYAML-3.01-py2.4.egg
+ % python -c 'import yaml; print yaml.dump({"foo":"bar",1:[2,3]})'
+ 1: [2, 3]
+ foo: bar
+ 不过，PYTHONPATH 的（或者脚本或 Python shell 会话内的 sys.path的）这种操作有些脆弱。egg 的发现最好是在新一点的 .pth 文件中进行。在 site-packages/ 或 PYTHONPATH 中的任何 .pth 文件都会进行解析来执行其他导入操作，其方法类似于检查可能包含包的那些目录位置一样。如果使用 setuptools 来处理包的管理功能，那么在安装、更新、删除包时，就需要修改一个名为 easy-install.pth 的文件。而且可以按照自己喜欢的方式对这个 .pth 进行命名（只要其扩展名是 .pth 即可）。例如，下面是我的 easy-install.pth 文件的内容：
+ 清单 11. 用作 egg 位置配置的 .pth 文件
+ % cat /sw/lib/python2.4/site-packages/easy-install.pth
+ import sys; sys.__plen = len(sys.path)
+ setuptools-0.6b1-py2.4.egg
+ SQLObject-0.7.0-py2.4.egg
+ FormEncode-0.5.1-py2.4.egg
+ Gnosis_Utils-1.2.1-py2.4.egg
+ import sys; new=sys.path[sys.__plen:]; del sys.path[sys.__plen:];
+   p=getattr(sys,'__egginsert',0); sys.path[p:p]=new;
+   sys.__egginsert = p+len(new)
+ 这种格式有点特殊：它近似于一个 Python 脚本，但却不完全是。需要说明的是，可以在那里添加额外列出的 egg；更好的情况是，easy_install 会在运行时实现这种功能。也可以在 site-packages/ 下创建任意多个 .pth 文件；每个都可以列出有哪些 egg 是可用的。
+ 回页首
+ 增强安装脚本
+ 上面所述的这种安装 setuptools naive 包的能力（请参阅 清单 6）只部分有效。也就是说，包 Gnosis_Utils 的确安装上了，但是并不完整。所有常见的功能都可以工作，但是在自动生成 egg 时却忽略了很多支持文件 —— 大部分是扩展名为 .txt 的文档和扩展名为 .xml 的测试文件（还有一些其他的 README、.rnc、.rng、.xsl 和围绕子包的文件）。在安装时，所有这些支持文件都 “最好要有”，而没有严格要求一定要有。不过，我们仍然希望能够包含所有的支持文件。
+ Gnosis_Utils 使用的 setup.py 脚本实际上非常复杂。除了列出基本的元数据之外，在第 467 行代码中，它还对 Python 版本的功能和 bug 进行完整测试；解决旧版本的 distutils 中的一些故障；回溯跳过对不支持部分的安装（例如，如果 pyexpat 在 Python 发行版中并没有包括）；处理 OS 行结束符的转换；创建多个归档/安装程序类型；根据测试结果重新构建 MANIFEST 文件。能够实现处理这些工作的能力要感谢此包的另外一个维护人员 Frank McIngvale；这些能力可以让 Gnosis_Utils 能成功安装回 Python 1.5.1 的版本，当然前提是需要这么做（早期版本中的功能没有这么丰富）。不过此处我要向大家展示的脚本并没有像 distutils 脚本一样做这么复杂的事情：它只是简单地假设系统中已经安装了一个 “普通的” 最新版本的 Python。即使这么讲，setuptools 能让安装脚本变得如此简单还是非常吸引人。
+ 在第一次尝试时，让我们来创建一个 setup.py 脚本，它是从 setuptools 手册中借用的，并试图使用它来创建一个 egg：
+ 清单 12. setuptools setup.py 脚本
+ % cat setup.py
+ from setuptools import setup, find_packages
+ setup(
+     name = "Gnosis_Utils",
+     version = "1.2.2",
+     packages = find_packages(),
+ )
+ % python setup.py -q bdist_egg
+ zip_safe flag not set; analyzing archive contents...
+ gnosis.__init__: module references __file__
+ gnosis.doc.__init__: module references __file__
+ gnosis.magic.__init__: module references __file__
+ gnosis.xml.objectify.doc.__init__: module references __file__
+ gnosis.xml.pickle.doc.__init__: module references __file__
+ gnosis.xml.pickle.test.test_zdump: module references __file__
+ 这点努力就已经可以起作用；至少可以部分地起作用。使用这几行内容的确可以创建一个 egg，不过这个 egg 与使用 easy_install 创建的 egg 有一些相似的缺点：缺乏对不使用 .py 命名的文件的支持。因此让我们再试一次，只是需要稍微再努力一点：
+ 清单 13. 添加缺少的 package_data
+ from setuptools import setup, find_packages
+ setup(
+     name = "Gnosis_Utils",
+     version = "1.2.2",
+     package_data = {'':['*.*']},
+     packages = find_packages(),
+ )
+ 这就是需要做的所有操作。当然，根据实际情况，通常希望对它进行一些调整。例如，它可能会列出下面的内容：
+ 清单 14. 打包特定类型文件类型
+ package_data = {'doc':['*.txt'], 'xml':['*.xml', 'relax/*.rnc']}
+ 这段内容翻译一下就是：将 .txt 文件包括在 doc/ 子包中，将 .xml 文件包括在 xml/ 子包中，将所有 .rnc 文件包括在 xml/relax/ 子包中。
+ 回页首
+ 结束语
+ 本文实际上只介绍了用支持 setuptools 的发行版可以执行的定制操作的表层的知识。例如，假设您现在有一个发行版（可以是首选的 egg 格式或另外一种归档类型），您就可以使用一个命令将这个归档文件和元数据上载到 Cheeseshop 上。显然，完整的 setup.py 脚本应该包含旧版本 distutils 脚本中所包含的同样详细的元数据；为了简单起见，本文跳过了这些内容，但是其参数名与 distutils 是兼容的。
+ 尽管要完全适应 setuptools 所提供的巨大功能需要一些时间，但是实际上它确实可以让维护您自己的包和安装外来包都要比 distutils 更加简单。如果您所关心的内容仅仅是安装包，那么您所需要了解的内容在本文的介绍中已经全部包括了；只是您在描述您自己的包时可能会发现一些复杂性，不过仍然没有使用 distutils 那么复杂。
+ #+END_QUOTE
+** TODO [[http://www.cnblogs.com/mnzlichunyu/p/5982981.html][{spacemacs}anaconda自动补全不工作 - 剑客西门吹雪 - 博客园]]
+ Source: [2017-03-01 三], [[http://www.cnblogs.com/mnzlichunyu/p/5982981.html][{spacemacs}anaconda自动补全不工作 - 剑客西门吹雪 - 博客园]]
+  #+BEGIN_QUOTE
+ [spacemacs]anaconda自动补全不工作
+ spacemacs打开python源文件自动补全不工作，打开anaconda-mode buffer看到以下信息：
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+ 10
+ 11
+ 12
+ Traceback (most recent call last):
+   File "/Users/matthew/.emacs.d/.cache/anaconda-mode/0.1.5/service_factory-0.1.4-py2.7.egg/service_factory/providers/basehttp.py", line 40, in do_POST
+     status, response = self.server.service(data)
+   File "/Users/matthew/.emacs.d/.cache/anaconda-mode/0.1.5/service_factory-0.1.4-py2.7.egg/service_factory/service.py", line 50, in __call__
+     result = self.apply(method, args)
+   File "/Users/matthew/.emacs.d/.cache/anaconda-mode/0.1.5/service_factory-0.1.4-py2.7.egg/service_factory/service.py", line 105, in apply
+     server_error(args['id'], error)
+   File "/Users/matthew/.emacs.d/.cache/anaconda-mode/0.1.5/service_factory-0.1.4-py2.7.egg/service_factory/errors.py", line 91, in server_error
+  
+     raise ServiceException(500, dumps(response))
+ ServiceException: (500, '{"jsonrpc": "2.0", "id": 1, "error": {"message": "Server error", "code": -32000, "data": "IOError(20, \'no such file or directory\')"}}')
+ 　　
+
+ 环境：
+ OS：windows 7 ，
+ emacs：emacs-w64-25.1
+  
+ 原因：
+ 推测因为jedi以egg文件（一个zip文件）文件安装导致IOError。
+  
+ 解决方法：
+ 进入目录C:\Users\<your user name>\.emacs.d\.cache\anaconda-mode\0.1.6\，解压jedi-0.9.0-py2.7.egg到当前目录
+ ，然后把解压出来的文件夹改名为 jedi-0.9.0-py2.7.egg, 删除或者把以前的egg文件重命名为 jedi-0.9.0-py2.7.egg.bak。
+ python补全就可以正常工作了。 
+  
+ #+END_QUOTE
+** TODO [[https://emacs-china.org/t/2016mbp-quickhelp/1644/16][新入了2016mbp，无法安装quickhelp了，求解答 - Spacemacs - Emacs China]]
+ Source: [2017-03-01 三], [[https://emacs-china.org/t/2016mbp-quickhelp/1644/16][新入了2016mbp，无法安装quickhelp了，求解答 - Spacemacs - Emacs China]]
+  #+BEGIN_QUOTE
+在你的配置中, 应该需要这样添加 auto-completion layer 才可以使得 company-quickhelp 生效.
+
+     (auto-completion :variables
+                      auto-completion-enable-sort-by-usage t
+                      auto-completion-enable-help-tooltip t
+                      auto-completion-enable-snippets-in-popup t)
+
+ 设定 auto-completion-enable-help-tooltip 为 t 之后 spacemacs 就会为你安装 company-quickhelp 的，不需要再在其它地方添加任何设置。
+
+ 对我而言，没有很大的补全需求，macOS 和 Linux 在 emacs-lisp-mode 都可以用我给出的 auto-completion 的配置给出 tool-tip的。
+ #+END_QUOTE
+** TODO   [[http://wkhtmltopdf.org/][wkhtmltopdf]]
+ Captured On: [2017-03-02 四 14:43]
+** TODO [[http://www.ubuntu-tw.org/modules/newbb/viewtopic.php?topic_id=62598][如何知道自己有哪些硬體驅動程式沒有安裝？ {論壇 - 新手村} | Ubuntu 正體中文站]]
+ Source: [2017-03-06 一], [[http://www.ubuntu-tw.org/modules/newbb/viewtopic.php?topic_id=62598][如何知道自己有哪些硬體驅動程式沒有安裝？ {論壇 - 新手村} | Ubuntu 正體中文站]]
+  #+BEGIN_QUOTE
+ 一般裝置 分爲 pci 裝置 及 usb 裝置
+ 1. lspci -cvv # 兩個 v
+ 可以看出 有沒有 kernel module in use
+ 如果 有 表示已經 驅動
+ 如果 看不出來 是什麼裝置
+ 可以到
+ PCI Vendor and Device Lists
+ 查閱
+
+ 2. lsusb -v
+ 可以看出 有沒有 kernel module in use
+ 如果 有 表示已經 驅動
+ 如果 看不出來 是什麼裝置
+ 可以到
+ The USB ID Repository
+ 查閱
+ #+END_QUOTE
+** TODO [[https://ubuntuforums.org/showthread.php?t=2011446][{ubuntu} mount point for wifi usb card]]             :ubuntu:error:fix:
+ Source: [2017-03-06 一], [[https://ubuntuforums.org/showthread.php?t=2011446][{ubuntu} mount point for wifi usb card]]
+  #+BEGIN_QUOTE
+ Hi
+
+ Udev should create a device node for it in /dev. Take a look in there.
+
+ You can also see all the connected USB devices using (from the terminal)
+
+ Code:
+  *lsusb*
+ You can check to see what the kernel did when mounting it by opeing a terminal and typing
+
+ Code:
+
+  *tail -f /var/log/syslog*
+ Then plug the device in. As the kernel recognises the devices it will display a number of log messages that can tell you information about the device.
+
+ That should get you started.
+
+ Kind regards
+
+ #+END_QUOTE
+** TODO   [[https://my.oschina.net/kursk/blog/7896][ubuntu下无线网卡解决经历 - yeyelei]]               :ubuntu:error:fix:
+ Captured On: [2017-03-06 一 19:10]
+** TODO   [[https://lists.gnu.org/archive/html/emacs-orgmode/2016-04/msg00298.html][Re: [O] [BUG] Failure to run sh source block]] :org:babel:
+ Captured On: [2017-03-06 一 19:13]
+** TODO   [[http://emacs.stackexchange.com/questions/28441/org-mode-9-unable-to-eval-code-blocks][org babel - Org-mode 9: unable to eval code-blocks - Emacs Stack Exchange]] :org:capture:
+ Captured On: [2017-03-06 一 19:13]
+** TODO [[http://emacs.stackexchange.com/questions/10549/org-mode-how-to-export-underscore-as-underscore-instead-of-highlight-in-html][org-mode: How to export underscore as underscore instead of highlight in HTML? - Emacs Stack Exchange]]
+ Source: [2017-03-06 一], [[http://emacs.stackexchange.com/questions/10549/org-mode-how-to-export-underscore-as-underscore-instead-of-highlight-in-html][org-mode: How to export underscore as underscore instead of highlight in HTML? - Emacs Stack Exchange]]
+  #+BEGIN_QUOTE
+ org-mode exports _ as subscripts and ^ as superscripts
+
+ The default export behavior can be customized using the menus Org -> Customize -> Browse Org Group. To update the default behavior for subscripts & superscripts, choose:
+
+ [-]-\ Group Org Export
+ [-]-\ Group Org Export General
+ — Option Org Export With Sub Superscripts
+ Org Export With Sub Superscripts Examples
+
+ Examples
+
+ *** Interpret them - Default
+ Underscore_subscript becomes Underscoresubscript
+ Hat^superscript becomes Hatsuperscript
+ *** Curly brackets only
+ Underscore_WithCurlyBrackets_{subscript} becomes Underscore_WithCurlyBracketssubscript
+ Hat^WithCurlyBrackets^{superscript} becomes Hat^WithCurlyBracketssuperscript
+ *** Do not interpret them
+ Underscore_subscript becomes Underscore_subscript
+ Hat^superscript becomes Hat^superscript
+ Underscore_WithCurlyBrackets_{subscript} becomes Underscore_WithCurlyBrackets_{subscript}
+ Hat^WithCurlyBrackets^{superscript} becomes Hat^WithCurlyBrackets^{superscript}
+ #+END_QUOTE
+** TODO   [[https://my.oschina.net/kursk/blog/7896][ubuntu下无线网卡解决经历 - yeyelei]]
+ Captured On: [2017-03-07 二 13:56]
+ This text gives an introduction to the relationship between:
+ hardware/driver/modules/load-modules
+** TODO   [[http://www.draisberghof.de/usb_modeswitch/#download][Draisberghof - Software - USB_ModeSwitch]]
+ Captured On: [2017-03-07 二 14:11]
+
+ maybe used in later
+** DONE [[https://m.baidu.com/from=844b/bd_page_type=1/ssid=0/uid=0/pu=usm%25400%252Csz%2540320_1001%252Cta%2540iphone_2_6.0_3_537/baiduid=FC1029C2B8CDDBB36A1A41EB34A5A170/w=0_10_/t=iphone/l=3/tc?ref=www_iphone&lid=13779130330335403338&order=1&fm=alop&tj=www_normal_1_0_10_title&vit=osres&m=8&srd=1&cltj=cloud_title&asres=1&title=Linuxsecureboot%2528%25E5%25AE%2589%25E5%2585%25A8%25E5%2590%25AF%25E5%258A%25A8%2529%25E6%2597%25B6%25E6%25B7%25BB%25E5%258A%25A0Nvidia%25E6%2598%25BE..._%25E5%258D%259A%25E5%25AE%25A2%25E5%259B%25AD&dict=30&w_qd=IlPT2AEptyoA_yimGUCsCSZsvQnMReGgEBuZLCzRqugrRwYyRVpn98C&sec=19275&di=4423311c9e5d9848&bdenc=1&tch=124.0.300.139.0.0&nsrc=IlPT2AEptyoA_yixCFOxXnANedT62v3IEQGG_ytK1DK6mlrte4viZQRAZiHqMXK4E587umP0sqdFtXLR_7Em9RJCrLIwdzZz&eqid=bf394e07cd73e0001000000258b8e53d&wd=&clk_info=%257B%2522srcid%2522%253A%25221599%2522%252C%2522tplname%2522%253A%2522www_normal%2522%252C%2522t%2522%253A1488512324271%252C%2522xpath%2522%253A%2522div-a-h3-em3%2522%257D][Linux secure boot(安全启动)时添加Nvidia显卡驱动 - 诸葛孔明没灯 - 博客园]] :ubuntu:nvidia:
+   CLOSED: [2017-03-07 二 17:28]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-07 二 17:28]
+   :END:
+ Source: [2017-03-07 二], [[https://m.baidu.com/from=844b/bd_page_type=1/ssid=0/uid=0/pu=usm%25400%252Csz%2540320_1001%252Cta%2540iphone_2_6.0_3_537/baiduid=FC1029C2B8CDDBB36A1A41EB34A5A170/w=0_10_/t=iphone/l=3/tc?ref=www_iphone&lid=13779130330335403338&order=1&fm=alop&tj=www_normal_1_0_10_title&vit=osres&m=8&srd=1&cltj=cloud_title&asres=1&title=Linuxsecureboot%2528%25E5%25AE%2589%25E5%2585%25A8%25E5%2590%25AF%25E5%258A%25A8%2529%25E6%2597%25B6%25E6%25B7%25BB%25E5%258A%25A0Nvidia%25E6%2598%25BE..._%25E5%258D%259A%25E5%25AE%25A2%25E5%259B%25AD&dict=30&w_qd=IlPT2AEptyoA_yimGUCsCSZsvQnMReGgEBuZLCzRqugrRwYyRVpn98C&sec=19275&di=4423311c9e5d9848&bdenc=1&tch=124.0.300.139.0.0&nsrc=IlPT2AEptyoA_yixCFOxXnANedT62v3IEQGG_ytK1DK6mlrte4viZQRAZiHqMXK4E587umP0sqdFtXLR_7Em9RJCrLIwdzZz&eqid=bf394e07cd73e0001000000258b8e53d&wd=&clk_info=%257B%2522srcid%2522%253A%25221599%2522%252C%2522tplname%2522%253A%2522www_normal%2522%252C%2522t%2522%253A1488512324271%252C%2522xpath%2522%253A%2522div-a-h3-em3%2522%257D][Linux secure boot(安全启动)时添加Nvidia显卡驱动 - 诸葛孔明没灯 - 博客园]]
+  #+BEGIN_QUOTE
+ Linux secure boot(安全启动)时添加Nvidia显卡驱动
+ 开启Secure boot情况下，在Fedora 21下安装Nvidia 显卡驱动的方法。
+ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
+ 下载后添加可执行权限：
+ #chmod +x NVIDIA-Linux*.run
+ 注意，安装Nvidia显卡需要满足的两个条件是
+ 1. nouveau（默认的显卡驱动）驱动程序必须禁用
+ 2. Xserver（图形界面） 要停止运行
+ 以上两个问题的解决方法如下：
+
+ 首先按Ctrl + Alt + F2进入终端
+ 输入root的帐号和密码后执行以下操作
+
+ 1. 禁用nouveau显卡驱动
+ #dracut --omit-drivers nouveau /boot/initramfs-$(uname -r).img $(uname -r) --force
+
+ 2. 停止Xserver
+ #service gdm stop
+ #service lightgdm stop
+ 3. 安装编译所需的程序
+ #yum install gcc kernel-devel
+
+ 然后进入放NVIDIA-linux*.run的目录，执行该文件，按照提示进行操作。
+ 由于我这台机器已经安装好了驱动程序，就不再执行了（所以截图也就没有了）。
+ 注意在执行过程中，会出现提示是否使用dkms，由于在secure boot下使用dkms会导致无法开机，这里选择NO(否)。
+ 经过编译后会提示是否sign the kernel module（为内核模块签名），这里要选择是。接下来会继续问使用已有的密钥给模块签名还是重新生成。
+ 这里选在重新生成密钥。继续下去之后，密钥会在/usr/share/nvidia/下生成一个nvidia*.der（私钥）文件和nvidia*.key（公钥）文件，当提示是否删除已生成的密钥文件时，选择否，
+ 因为之后要用到这两个文件。继续安装程序到最后会提示无法启动模块。这是因为生成的密钥还没有添加到内核的信任库中。
+ 添加密钥到内核的信任列表中：
+
+ #mokutil --import /usr/share/nvidia/nvida*.der
+
+ 接下来会提示输入密码，两次输入密码后重启系统。
+ #reboot
+
+ 重启进入bootloader之后，由于进行了添加密钥操作，会触发shim，shim会要求输入上一步输入的密码来导入密钥。按步骤操作。
+
+ 导入密钥之后，启动时内核就可以成功加载编译过的Nvidia显卡驱动了。
+
+ 启动进入系统后，就可以正常使用了。需要注意的是，由于生成的密钥添加到了内核的信任列表中，所以对生成的私钥和公钥一定要妥善保管。
+ #+END_QUOTE
+** DONE [[http://luveelin.blog.163.com/blog/static/119492341201251943213676/][GoldenDict - luveelin的日志 - 网易博客]]                   :ubuntu:app:
+   CLOSED: [2017-03-08 三 09:38]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-08 三 09:38]
+   :END:
+ Source: [2017-03-08 三], [[http://luveelin.blog.163.com/blog/static/119492341201251943213676/][GoldenDict - luveelin的日志 - 网易博客]]
+  #+BEGIN_QUOTE
+ GoldenDict
+ =sudo apt-get install goldendict=
+ #+END_QUOTE
+** DONE [[http://luveelin.blog.163.com/blog/static/119492341201251943213676/][GoldenDict - luveelin的日志 - 网易博客]]
+   CLOSED: [2017-03-08 三 09:39]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-08 三 09:39]
+   :END:
+ Source: [2017-03-08 三], [[http://luveelin.blog.163.com/blog/static/119492341201251943213676/][GoldenDict - luveelin的日志 - 网易博客]]
+  #+BEGIN_QUOTE
+ GoldenDict  
+ how to setup dictionaries for goldendict
+ #+END_QUOTE
+** DONE [[http://www.jb51.net/LINUXjishu/501994.html][linux下.run文件的安装与卸载方法_LINUX_操作系统_脚本之家]] :ubuntu:command:
+   CLOSED: [2017-03-08 三 10:19]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-08 三 10:19]
+   :END:
+ Source: [2017-03-08 三], [[http://www.jb51.net/LINUXjishu/501994.html][linux下.run文件的安装与卸载方法_LINUX_操作系统_脚本之家]]
+  #+BEGIN_QUOTE
+ 比如安装QT编程软件
+ 安装方法如下
+ 命令第一步： chmod +x qt-unified-linux-x64-2.0.2-2-online.run
+ 命令第二步：./qt-unified-linux-x64-2.0.2-2-online.run
+ 之后就出现QT安装的可视化界面
+
+ 安装完后就可以用了 ,chmod实际上是加权限命令 。＋x表示可以执行
+
+ chmod [-cfvR] [--help] [--version] mode file...
+
+ 说明 : Linux/Unix 的档案调用权限分为三级 : 档案拥有者、群组、其他。利用 chmod 可以藉以控制档案如何被他人所调用。
+
+ 参数 :
+ mode : 权限设定字串，格式如下 : [ugoa...][[+-=][rwxX]...][,...]，其中
+ u 表示该档案的拥有者，g 表示与该档案的拥有者属于同一个群体(group)者，o 表示其他以外的人，a 表示这三者皆是。
+ + 表示增加权限、- 表示取消权限、= 表示唯一设定权限。
+ r 表示可读取，w 表示可写入，x 表示可执行，X 表示只有当该档案是个子目录或者该档案已经被设定过为可执行。
+ -c : 若该档案权限确实已经更改，才显示其更改动作
+ -f : 若该档案权限无法被更改也不要显示错误讯息
+ -v : 显示权限变更的详细资料
+ -R : 对目前目录下的所有档案与子目录进行相同的权限变更(即以递回的方式逐个变更)
+ --help : 显示辅助说明
+ --version : 显示版本 linux
+ #+END_QUOTE
+** DONE [[http://blog.csdn.net/ningzb/article/details/7174087][无法在模块路径中找到主题引擎 pixmap解决办法 - ningzb的专栏 - 博客频道 - CSDN.NET]] :ubuntu:error:
+   CLOSED: [2017-03-08 三 10:42]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-08 三 10:42]
+   :END:
+ Captured On: [2017-03-08 三 10:36]
+** DONE [[https://bbs.deepin.org/forum.php?mod=viewthread&tid=42163&extra=][无法在模块路径中找到主题引擎 adwaita-深度科技论坛|深度操作系统正在为全世界的电脑提供强劲动力！]] :ubuntu:error:
+   CLOSED: [2017-03-08 三 10:42]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-08 三 10:42]
+   :END:
+ Captured On: [2017-03-08 三 10:39]
+** TODO [[http://blog.csdn.net/bill_chuang/article/details/18087307][修改Chrome打开mms链接的默认程序 - bill_chuang的专栏 - 博客频道 - CSDN.NET]]
+ Source: [2017-03-09 Thu], [[http://blog.csdn.net/bill_chuang/article/details/18087307][修改Chrome打开mms链接的默认程序 - bill_chuang的专栏 - 博客频道 - CSDN.NET]]
+  #+BEGIN_QUOTE
+*the principle of org-capture extension in chrome*
+ CentOS中如果在Chrome中要打开mms：//的链接，默认是用totem打开的，但是众所周知totem是比较搓的，所以我想用smplayer打开，怎么办呢？由于在点击mms：//的链接是会弹出一个对话框让你启动应用程序，注意到Chrome是用xdg-open命令来打开外部程序的，由于xdg-open是一个shell程序，那么就我们修改一下xdg-open命令。
+
+ #vi /usr/bin/xdg-open
+
+ 由于CentOS用的gnome，所以找到open_gnome()函数，其他桌面的找对应的函数，如下
+
+ open_gnome()
+ {
+     if gvfs-open --help 2>/dev/null 1>&2; then
+         gvfs-open "$1"
+     else
+         gnome-open "$1"
+     fi
+     if [ $? -eq 0 ]; then
+         exit_success
+     else
+         exit_failure_operation_failed
+     fi
+ }
+ 可以在函数体前面添加一段判断语句，改成
+
+ open_gnome()
+ {
+ if  echo "$1" | grep -q 'mms://'; then
+     smplayer "$1"
+ else
+     if gvfs-open --help 2>/dev/null 1>&2; then
+            totem "$1"
+     else
+            gnome-open "$1"
+     fi
+ fi
+ if [ $? -eq 0 ]; then
+     exit_success
+ else
+     exit_failure_operation_failed
+ fi
+ }
+ 然后保存，这样Chrome就可以用smplayer打开mms链接了
+
+
+ #+END_QUOTE
+** TODO [[http://blog.csdn.net/lidonghat/article/details/52891439][{emacs}dired mode - 烂笔头 - 博客频道 - CSDN.NET]]
+ Source: [2017-03-09 Thu], [[http://blog.csdn.net/lidonghat/article/details/52891439][{emacs}dired mode - 烂笔头 - 博客频道 - CSDN.NET]]
+  #+BEGIN_QUOTE
+ 应用实例：dired-mode 交互查找替换多个文件中的字符串
+
+ Call dired to list files in dir, or call find-dired if you need all sub directories;
+ Mark the files you want. You can mark by regex by typing 【% m】.
+ Type Q to call “dired-do-query-replace-regexp”.
+ Type your find regex and replace string.
+ For each occurrence,
+ y to replace
+ n to skip
+ Ctrl+g to abort the whole operation
+ ! to replace all occurrences in current file without asking
+ N to skip all possible replacement for rest of the current file
+ YTo do the replacement on all files without further asking
+ Call ibuffer to list all opened files. Type * u to mark all unsaved files, type S to save all marked files, type D to close them all.
+
+ #+END_QUOTE
+** TODO [[https://github.com/YiddishKop/org-capture-extension][YiddishKop/org-capture-extension: A Chrome extension facilitating org-capture in emacs]]
+ Source: [2017-03-09 Thu], [[https://github.com/YiddishKop/org-capture-extension][YiddishKop/org-capture-extension: A Chrome extension facilitating org-capture in emacs]]
+  #+BEGIN_QUOTE
+ cat > "${HOME}/.local/share/applications/org-protocol.desktop" << EOF
+ [Desktop Entry]
+ Name=org-protocol
+ Exec=emacsclient %u
+ Type=Application
+ Terminal=false
+ Categories=System;
+ MimeType=x-scheme-handler/org-protocol;
+ EOF
+ And then (for non-KDE)
+
+ update-desktop-database ~/.local/share/applications/
+ #+END_QUOTE
+** DONE [[https://github.com/zsh-users/zsh-autosuggestions][zsh-users/zsh-autosuggestions: Fish-like autosuggestions for zsh]] :ubuntu:ohmyzsh:
+   CLOSED: [2017-03-09 Thu 13:20]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-09 Thu 13:20]
+   :END:
+ Source: [2017-03-09 Thu], [[https://github.com/zsh-users/zsh-autosuggestions][zsh-users/zsh-autosuggestions: Fish-like autosuggestions for zsh]]
+  #+BEGIN_QUOTE
+ Oh My Zsh
+
+ Clone this repository into $ZSH_CUSTOM/plugins (by default ~/.oh-my-zsh/custom/plugins)
+
+ git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+ Add the plugin to the list of plugins for Oh My Zsh to load:
+
+ plugins=(zsh-autosuggestions)
+ Start a new terminal session.
+ #+END_QUOTE
+** DONE [[https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md][zsh-syntax-highlighting/INSTALL.md at master · zsh-users/zsh-syntax-highlighting]] :ubuntu:ohmyzsh:
+   CLOSED: [2017-03-09 Thu 13:19]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-09 Thu 13:19]
+   :END:
+ Source: [2017-03-09 Thu], [[https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md][zsh-syntax-highlighting/INSTALL.md at master · zsh-users/zsh-syntax-highlighting]]
+  #+BEGIN_QUOTE
+ Oh-my-zsh
+
+ Clone this repository in oh-my-zsh's plugins directory:
+
+ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+ Activate the plugin in ~/.zshrc:
+
+ plugins=( [plugins...] zsh-syntax-highlighting)
+ Source ~/.zshrc to take changes into account:
+
+ source ~/.zshrc
+ #+END_QUOTE
+** DONE [[https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md][zsh-syntax-highlighting/INSTALL.md at master · zsh-users/zsh-syntax-highlighting]] :ubuntu:ohmyzsh:
+   CLOSED: [2017-03-09 Thu 13:18]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-09 Thu 13:18]
+   :END:
+  #+BEGIN_QUOTE
+ Oh-my-zsh
+
+ Clone this repository in oh-my-zsh's plugins directory:
+
+ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+ Activate the plugin in ~/.zshrc:
+
+ plugins=( [plugins...] zsh-syntax-highlighting)
+ Source ~/.zshrc to take changes into account:
+
+ source ~/.zshrc
+ #+END_QUOTE
+** DONE Link directly to Server pc to surfer internet, but can not access google.com by chrom :ubuntu:network:dns:
+   CLOSED: [2017-03-09 Thu 14:55]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-09 Thu 14:55]
+   :END:
+ Source: [2017-03-09 Thu], [[http://www.phillip.hk/?p=3852][我似朝露降人间 » Ubuntu14.04修改/etc/resolv.conf]]
+  #+BEGIN_QUOTE
+ Ubuntu 14.04手动修改/etc/resolv.conf文件后，然后重启，发现修改并未生效。发现/etc/resolv.conf文件头有以下文字:
+
+ 1
+ 2
+ # Dynamic resolv.conf(5) file for glibc resolver(3) generated by resolvconf(8)
+ #     DO NOT EDIT THIS FILE BY HAND -- YOUR CHANGES WILL BE OVERWRITTEN
+ 网上找到一则有效的方法，先使用以下命令创建文件
+
+ 1
+ # vim /etc/resolvconf/resolv.conf.d/tail
+ 然后加入要添加的DNS服务器,
+
+ 1
+ nameserver 202.96.134.133
+ 保存退出，然后重启resolvconf服务即可。
+
+ 1
+ #/etc/init.d/resolvconf restart
+ #+END_QUOTE
+** DONE [[http://www.cnblogs.com/zhenfei/p/6144892.html][ubuntu 如何 su 到 root（作为 root 用户操作） - 震撼起飞 - 博客园]] :ubuntu:su:
+   CLOSED: [2017-03-09 Thu 17:41]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-09 Thu 17:41]
+   :END:
+ Source: [2017-03-09 Thu], [[http://www.cnblogs.com/zhenfei/p/6144892.html][ubuntu 如何 su 到 root（作为 root 用户操作） - 震撼起飞 - 博客园]]
+  #+BEGIN_QUOTE
+ ubuntu 如何 su 到 root（作为 root 用户操作）
+ ubuntu 安装后，root用户默认被锁定，不允许登录，也不允许“su”到 root。对于桌面用户来说，这样安全性更高一些，但对于服务器可以设置成“允许 su 到root，但不允许root用户直接登录”。为了开发时的方便，我们常希望都采用这种方式，那么我们应该怎么办呢？请参考本文讨论的方法与建议
+
+ 允许 su 到 root
+
+ 非常简单，下面是设置的方法：
+
+ ~$ sudo passwd root
+ Password: <--- 输入安装时那个用户的密码
+ Enter new UNIX password: <--- 新的Root用户密码
+ Retype new UNIX password: <--- 重复新的Root用户密码
+ passwd：已成功更新密码  
+ #+END_QUOTE
+** TODO root 與 普通用戶的切換，以及用戶組的概念            :ubuntu:su:group:
+ Source: [2017-03-09 Thu], [[http://www.2cto.com/os/201401/271643.html][{Linux}用户切换-su和sudo - Linux操作系统：Ubuntu_Centos_Debian - 红黑联盟]]
+  #+BEGIN_QUOTE
+ su
+ 如果你当前的身份是root，则可以通过su命令切换到其它任何用户（无需密码），如下所示：
+ [root@lx200 ~]# su - oracle
+ [oracle@lx200 ~ ]$
+ 如果你当前的身份不是root（即普通用户），想通过su切换成root，则必须输入root的密码：
+ [oracle@lx15 ~ ]$ su -
+ Password:
+ [root@lx15 ~ ]#
+ 当我们的Linux是多人管理时，如果通过su切换root，则每个人都需要知道root密码，这非常不安全，因此su这种方式虽然简单，但实际使用中很少使用。
+ sudo
+ sudo可以让普通用户在不需要知道root密码的情况下切换成root用户，首先我们需要通过配置/etc/sudoers，如下所示：
+ Defaults visiblepw
+ User_Alias ADMIN = root,admin
+ ADMIN   ALL=(ALL) NOPASSWD: ALL
+ 首先，我们定义了一个用户组（注意：用户组名必须大写），该用户组包含root和admin用户这个文件最重要的是第三行，下面分别解释它的意思： 1）第1列：用户账号，表示哪个账号可以使用sudo这个命令 2）第2列：限制登录这的来源主机名，ALL表示不做限制 3）第3列：可切换的身份，ALL表示可以切换成任何身份，NOPASSWD表示免密码输入（如果没有NOPASSWD，则每次切换都要输入自己的密码） 4）第4列：可执行的命令，ALL表示所有命令，如果要对命令进行限制，可以采用如下定义：
+ zabbix  ALL=(ALL) NOPASSWD: /sbin/fuser, /usr/sbin/lsof, /usr/sbin/dmidecode, /sbin/mii-tool, /usr/sbin/iptstate
+ 注意：不要通过vi直接编辑/etc/sudoers，应该通过执行visudo命令编辑该文件，因为在结束离开时，系统会去检查/etc/sudoers的语法。
+ 通过上面的配置，admin用户就可以通过执行sudo su - 命令免密码切换至root，是不是很方便呢。
+ #+END_QUOTE
+** DONE [[http://www.jb51.net/LINUXjishu/152395.html][Linux traceroute命令详解和使用例子（追踪路由信息）_LINUX_操作系统_脚本之家]] :ubuntu:network:traceroute:
+   CLOSED: [2017-03-10 Fri 09:25]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-10 Fri 09:25]
+   :END:
+ Source: [2017-03-10 Fri], [[http://www.jb51.net/LINUXjishu/152395.html][Linux traceroute命令详解和使用例子（追踪路由信息）_LINUX_操作系统_脚本之家]]
+  #+BEGIN_QUOTE
+ Linux traceroute命令详解和使用例子（追踪路由信息）
+
+ 作者：佚名 字体：[增加 减小] 来源：互联网 时间：04-10 15:38:10 我要评论
+ 通过traceroute我们可以知道信息从你的计算机到互联网另一端的主机是走的什么路径。当然每次数据包由某一同样的出发点（source）到达某一同样的目的地(destination)走的路径可能会不一样，但基本上来说大部分时候所走的路由是相同的
+
+ linux系统中，我们称之为traceroute,在MS Windows中为tracert。 traceroute通过发送小的数据包到目的设备直到其返回，来测量其需要多长时间。一条路径上的每个设备traceroute要测3次。输出结果中包括每次测试的时间(ms)和设备的名称（如有的话）及其IP地址。
+ 在大多数情况下，我们会在linux主机系统下，直接执行命令行：traceroute hostname
+ 而在Windows系统下是执行tracert的命令： tracert hostname
+ 1.命令格式：
+ traceroute[参数][主机]
+ 2.命令功能：
+ traceroute指令让你追踪网络数据包的路由途径，预设数据包大小是40Bytes，用户可另行设置。
+ 具体参数格式：traceroute [-dFlnrvx][-f<存活数值>][-g<网关>...][-i<网络界面>][-m<存活数值>][-p<通信端口>][-s<来源地址>][-t<服务类型>][-w<超时秒数>][主机名称或IP地址][数据包大小]
+ 3.命令参数：
+ -d 使用Socket层级的排错功能。
+ -f 设置第一个检测数据包的存活数值TTL的大小。
+ -F 设置勿离断位。
+ -g 设置来源路由网关，最多可设置8个。
+ -i 使用指定的网络界面送出数据包。
+ -I 使用ICMP回应取代UDP资料信息。
+ -m 设置检测数据包的最大存活数值TTL的大小。
+ -n 直接使用IP地址而非主机名称。
+ -p 设置UDP传输协议的通信端口。
+ -r 忽略普通的Routing Table，直接将数据包送到远端主机上。
+ -s 设置本地主机送出数据包的IP地址。
+ -t 设置检测数据包的TOS数值。
+ -v 详细显示指令的执行过程。
+ -w 设置等待远端主机回报的时间。
+ -x 开启或关闭数据包的正确性检验。
+ 4.使用实例：
+ 实例1：traceroute 用法简单、最常用的用法
+ 命令：traceroute www.baidu.com 
+ 输出：
+
+ 复制代码代码如下:
+
+ [root@localhost ~]# traceroute www.baidu.com
+ traceroute to www.baidu.com (61.135.169.125), 30 hops max, 40 byte packets
+ 1 192.168.74.2 (192.168.74.2) 2.606 ms 2.771 ms 2.950 ms
+ 2 211.151.56.57 (211.151.56.57) 0.596 ms 0.598 ms 0.591 ms
+ 3 211.151.227.206 (211.151.227.206) 0.546 ms 0.544 ms 0.538 ms
+ 4 210.77.139.145 (210.77.139.145) 0.710 ms 0.748 ms 0.801 ms
+ 5 202.106.42.101 (202.106.42.101) 6.759 ms 6.945 ms 7.107 ms
+ 6 61.148.154.97 (61.148.154.97) 718.908 ms * bt-228-025.bta.net.cn (202.106.228.25) 5.177 ms
+ 7 124.65.58.213 (124.65.58.213) 4.343 ms 4.336 ms 4.367 ms
+ 8 202.106.35.190 (202.106.35.190) 1.795 ms 61.148.156.138 (61.148.156.138) 1.899 ms 1.951 ms
+ 9 * * *
+ 30 * * *
+ [root@localhost ~]#
+ 说明：
+ 记录按序列号从1开始，每个纪录就是一跳 ，每跳表示一个网关，我们看到每行有三个时间，单位是 ms，其实就是-q的默认参数。探测数据包向每个网关发送三个数据包后，网关响应后返回的时间；如果您用 traceroute -q 4 www.58.com ，表示向每个网关发送4个数据包。
+ 有时我们traceroute 一台主机时，会看到有一些行是以星号表示的。出现这样的情况，可能是防火墙封掉了ICMP的返回信息，所以我们得不到什么相关的数据包返回数据。
+ 有时我们在某一网关处延时比较长，有可能是某台网关比较阻塞，也可能是物理设备本身的原因。当然如果某台DNS出现问题时，不能解析主机名、域名时，也会 有延时长的现象；您可以加-n 参数来避免DNS解析，以IP格式输出数据。
+ 如果在局域网中的不同网段之间，我们可以通过traceroute 来排查问题所在，是主机的问题还是网关的问题。如果我们通过远程来访问某台服务器遇到问题时，我们用到traceroute 追踪数据包所经过的网关，提交IDC服务商，也有助于解决问题；但目前看来在国内解决这样的问题是比较困难的，就是我们发现问题所在，IDC服务商也不可能帮助我们解决。
+ #+END_QUOTE
+** DONE [[https://github.com/adobe-fonts/source-code-pro/issues/17#issuecomment-8967116][Add font installation instructions for Linux · Issue #17 · adobe-fonts/source-code-pro]] :ubuntu:font:
+   CLOSED: [2017-03-10 Fri 10:21]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-10 Fri 10:21]
+   :END:
+ Captured On: [2017-03-10 Fri 09:43]
+** DONE [[http://linux.vbird.org/linux_basic/0240tarcompress.php#untar][鳥哥的 Linux 私房菜 -- 第八章、檔案與檔案系統的壓縮,打包與備份]] :ubuntu:backup:vbird:
+   CLOSED: [2017-03-10 Fri 10:19]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-10 Fri 10:19]
+   :END:
+   Source: [2017-03-10 Fri], [[http://linux.vbird.org/linux_basic/0240tarcompress.php#untar][鳥哥的 Linux 私房菜 -- 第八章、檔案與檔案系統的壓縮,打包與備份]]
+
+   8.1 壓縮檔案的用途與技術
+
+   你是否有過文件檔案太大，導致無法以正常的 email 方式發送出去 (很多 email 都有
+   容量大約 25MB 每封信的限制啊！)？ 又或者學校、廠商要求使用 CD 或 DVD 來傳遞歸
+   檔用的資料，但是你的單一檔案卻都比這些傳統的一次性儲存媒體還要大！那怎麼分成
+   多片來燒錄呢？ 還有，你是否有過要備份某些重要資料，偏偏這些資料量太大了，耗掉
+   了你很多的磁碟空間呢？ 這個時候，那個好用的『檔案壓縮』技術可就派的上用場了！
+
+   因為這些比較大型的檔案透過所謂的檔案壓縮技術之後，可以將他的磁碟使用量降低，
+   可以達到減低檔案容量的效果。此外，有的壓縮程式還可以進行容量限制， 使一個大型
+   檔案可以分割成為數個小型檔案，以方便軟碟片攜帶呢！
+
+   那麼什麼是『檔案壓縮』呢？我們來稍微談一談他的原理好了。目前我們使用的電腦系
+   統中都是使用所謂的 bytes 單位來計量的！不過，事實上，電腦最小的計量單位應該是
+   bits 才對啊。此外，我們也知道 1 byte = 8 bits 。但是如果今天我們只是記憶一個
+   數字，亦即是 1 這個數字呢？他會如何記錄？假設一個 byte 可以看成底下的模樣：
+
+   □□□□□□□□
+
+   Tips由於 1 byte = 8 bits ，所以每個 byte 當中會有 8 個空格，
+   而每個空格可以是 0, 1 ，這裡僅是做為一個約略的介紹， 更多的詳細資料請參考第零
+   章的計算機概論吧！
+
+   由於我們記錄數字是 1 ，考慮電腦所謂的二進位喔，如此一來， 1 會在最右邊佔據 1
+   個 bit ，而其他的 7 個 bits 將會自動的被填上 0 囉！你看看，其實在這樣的例子中，
+   那 7 個 bits 應該是『空的』才對！不過，為了要滿足目前我們的作業系統資料的存取，
+   所以就會將該資料轉為 byte 的型態來記錄了！而一些聰明的電腦工程師就利用一些複
+   雜的計算方式， 將這些沒有使用到的空間『丟』出來，以讓檔案佔用的空間變小！這就
+   是壓縮的技術啦！
+
+   另外一種壓縮技術也很有趣，他是將重複的資料進行統計記錄的。舉例來說，如果你的
+   資料為『111....』共有100個1時， 那麼壓縮技術會記錄為『100個1』而不是真的有100
+   個1的位元存在！這樣也能夠精簡檔案記錄的容量呢！ 非常有趣吧！
+
+   簡單的說，你可以將他想成，其實檔案裡面有相當多的『空間』存在，並不是完全填滿
+   的， 而『壓縮』的技術就是將這些『空間』填滿，以讓整個檔案佔用的容量下降！ 不
+   過，這些『壓縮過的檔案』並無法直接被我們的作業系統所使用的，因此， 若要使用這
+   些被壓縮過的檔案資料，則必須將他『還原』回來未壓縮前的模樣， 那就是所謂的『解
+   壓縮』囉！而至於壓縮後與壓縮的檔案所佔用的磁碟空間大小， 就可以被稱為是『壓縮
+   比』囉！更多的技術文件或許你可以參考一下：
+
+   RFC 1952 文件：http://www.ietf.org/rfc/rfc1952.txt鳥哥站上的備份：
+   http://linux.vbird.org/linux_basic/0240tarcompress/0240tarcompress_gzip.php
+
+   這個『壓縮』與『解壓縮』的動作有什麼好處呢？最大的好處就是壓縮過的檔案容量變小
+   了， 所以你的硬碟容量無形之中就可以容納更多的資料。此外，在一些網路資料的傳輸
+   中，也會由於資料量的降低， 好讓網路頻寬可以用來作更多的工作！而不是老是卡在一
+   些大型的檔案傳輸上面呢！目前很多的 WWW 網站也是利用檔案壓縮的技術來進行資料的
+   傳送，好讓網站頻寬的可利用率上升喔！
+
+   Tips上述的WWW網站壓縮技術蠻有趣的！他讓你網站上面『看的到的資料』在經過網路傳
+   輸時，使用的是『壓縮過的資料』， 等到這些壓縮過的資料到達你的電腦主機時，再進
+   行解壓縮，由於目前的電腦運算速度相當的快速， 因此其實在網頁瀏覽的時候，時間都
+   是花在『資料的傳輸』上面，而不是 CPU 的運算啦！如此一來，由於壓縮過的資料量降
+   低了，自然傳送的速度就會增快不少！
+
+   若你是一位軟體工程師，那麼相信你也會喜歡將你自己的軟體壓縮之後提供大家下載來
+   使用， 畢竟沒有人喜歡自己的網站天天都是頻寬滿載的吧？舉個例子來說， Linux
+   3.10.81 (CentOS 7 用的延伸版本) 完整的核心大小約有 570 MB 左右，而由於核心主
+   要多是 ASCII code 的純文字型態檔案，這種檔案的『多餘空間』最多了。而一個提供
+   下載的壓縮過的 3.10.81 核心大約僅有 76MB 左右，差了幾倍呢？你可以自己算一算喔！
+
+***  8.2 Linux 系統常見的壓縮指令
+
+   在Linux的環境中，壓縮檔案的副檔名大多是：『*.tar, *.tar.gz, *.tgz, *.gz, *.Z,
+   *.bz2, *.xz』，為什麼會有這樣的副檔名呢？不是說 Linux 的副檔名沒有什麼作用嗎？
+
+   這是因為 Linux 支援的壓縮指令非常多，且不同的指令所用的壓縮技術並不相同，當然
+   彼此之間可能就無法互通壓縮/解壓縮檔案囉。 所以，當你下載到某個壓縮檔時，自然
+   就需要知道該檔案是由哪種壓縮指令所製作出來的，好用來對照著解壓縮啊！ 也就是說，
+   雖然 Linux 檔案的屬性基本上是與檔名沒有絕對關係的， 但是為了幫助我們人類小小
+   的腦袋瓜子，所以適當的副檔名還是必要的！ 底下我們就列出幾個常見的壓縮檔案副檔
+   名吧：
+
+    .Z compress 程式壓縮的檔案；
+    .zip zip 程式壓縮的檔案；
+    .gz gzip 程式壓縮的檔案；
+    .bz2 bzip2 程式壓縮的檔案；
+    .xz xz 程式壓縮的檔案；
+    .tar tar 程式打包的資料，並沒有壓縮過；
+    .tar.gz tar 程式打包的檔案，其中並且經過 gzip 的壓縮
+    .tar.bz2.tar 程式打包的檔案，其中並且經過 bzip2 的壓縮
+    .tar.xz tar 程式打包的檔案，其中並且經過 xz 的壓縮
+
+   Linux上常見的壓縮指令就是 gzip, bzip2 以及最新的 xz ，至於 compress 已經退流
+   行了。為了支援 windows 常見的 zip，其實 Linux 也早就有 zip 指令了！ gzip 是由
+   GNU 計畫所開發出來的壓縮指令，該指令已經取代了 compress 。 後來 GNU 又開發出
+   bzip2 及 xz 這幾個壓縮比更好的壓縮指令！不過，這些指令通常僅能針對一個檔案來
+   壓縮與解壓縮，如此一來， 每次壓縮與解壓縮都要一大堆檔案，豈不煩人？此時，那個
+   所謂的『打包軟體, tar』就顯的很重要啦！
+
+   這個 tar 可以將很多檔案『打包』成為一個檔案！甚至是目錄也可以這麼玩。不過，單
+   純的 tar 功能僅是『打包』而已，亦即是將很多檔案集結成為一個檔案， 事實上，他
+   並沒有提供壓縮的功能，後來，GNU 計畫中，將整個 tar 與壓縮的功能結合在一起，如
+   此一來提供使用者更方便並且更強大的壓縮與打包功能！ 底下我們就來談一談這些在
+   Linux 底下基本的壓縮指令吧！
+
+****   Top 8.2.1 gzip, zcat/zmore/zless/zgrep
+
+   gzip 可以說是應用度最廣的壓縮指令了！目前 gzip 可以解開 compress, zip 與 gzip
+   等軟體所壓縮的檔案。 至於 gzip 所建立的壓縮檔為 *.gz 的檔名喔！讓我們來看看這
+   個指令的語法吧：
+
+   [dmtsai@study ~]$ gzip [-cdtv#] 檔名
+   [dmtsai@study ~]$ zcat 檔名.gz選項與參數：
+   -c ：將壓縮的資料輸出到螢幕上，可透過資料流重導向來處理；
+   -d ：解壓縮的參數；
+   -t ：可以用來檢驗一個壓縮檔的一致性～看看檔案有無錯誤；
+   -v ：可以顯示出原檔案/壓縮檔案的壓縮比等資訊；
+   -# ：# 為數字的意思，代表壓縮等級，-1 最快，但是壓縮比最差、-9 最慢，但是壓縮比最好！預設是 -6
+
+   範例一：找出 /etc 底下 (不含子目錄) 容量最大的檔案，並將它複製到 /tmp ，然後以 gzip 壓縮
+   [dmtsai@study ~]$ ls -ldSr /etc/*
+   # 忘記選項意義？請自行 man 囉！.....(前面省略).....
+   -rw-r--r--. 1 root root 25213 Jun 10 2014 /etc/dnsmasq.conf
+   -rw-r--r--. 1 root root 69768 May 4 17:55 /etc/ld.so.cache
+   -rw-r--r--. 1 root root 670293 Jun 7 2013 /etc/services
+
+   [dmtsai@study ~]$ cd /tmp
+   [dmtsai@study tmp]$ cp /etc/services .
+   [dmtsai@study tmp]$ gzip -v services
+   services: 79.7% -- replaced with services.gz
+   [dmtsai@study tmp]$ ll /etc/services /tmp/services*
+   -rw-r--r--. 1 root   root   670293 Jun 7 2013 /etc/services
+   -rw-r--r--. 1 dmtsai dmtsai 136088 Jun 30 18:40 /tmp/services.gz
+   當你使用 gzip 進行壓縮時，在預設的狀態下原本的檔
+   案會被壓縮成為 .gz 的檔名，原始檔案就不再存在了。 這點與一般習慣使用 windows
+   做壓縮的朋友所熟悉的情況不同喔！要注意！要注意！ 此外，使用 gzip 壓縮的檔案在
+   Windows 系統中，竟然可以被 WinRAR/7zip 這個軟體解壓縮呢！很好用吧！至於其他的
+   用法如下：
+
+   範例二：由於 services 是文字檔，請將範例一的壓縮檔的內容讀出來！
+   [dmtsai@study tmp]$ zcat services.gz
+   # 由於 services 這個原本的檔案是是文字檔，因此我們可以嘗試使用 zcat/zmore/zless 去讀取！
+   # 此時螢幕上會顯示 servcies.gz 解壓縮之後的原始檔案內容！
+
+   範例三：將範例一的檔案解壓縮
+   [dmtsai@study tmp]$ gzip -d services.gz
+   # 鳥哥不要使用 gunzip 這個指令，不好背！使用 gzip -d 來進行解壓縮！
+   # 與 gzip 相反， gzip -d 會將原本的 .gz 刪除，回復到原本的 services 檔案。
+
+   範例四：將範例三解開的 services 用最佳的壓縮比壓縮，並保留原本的檔案
+   [dmtsai@study tmp]$ gzip -9 -c services > services.gz
+
+   範例五：由範例四再次建立的 services.gz 中，找出 http 這個關鍵字在哪幾行？
+   [dmtsai@study tmp]$ zgrep -n 'http' services.gz 14:#
+   http://www.iana.org/assignments/port-numbers 89:http 80/tcp www www-http #
+   WorldWideWeb HTTP 90:http 80/udp www www-http # HyperText Transfer Protocol
+   .....(底下省略)..... 其實 gzip 的壓縮已經最佳化過了，所以雖然 gzip 提供 1~9
+   的壓縮等級，不過使用預設的 6 就非常好用了！ 因此上述的範例四可以不要加入那個
+   -9 的選項。範例四的重點在那個 -c 與 > 的使用囉！-c 可以將原本要轉成壓縮檔的資
+   料內容，將它變成文字類型從螢幕輸出， 然後我們可以透過大於 (>) 這個符號，將原
+   本應該由螢幕輸出的資料，轉成輸出到檔案而不是螢幕，所以就能夠建立出壓縮擋了。
+   只是檔名也要自己寫， 當然最好還是遵循 gzip 的壓縮檔名要求較佳喔！！更多的 >
+   這個符號的應用，我們會在 bash 章節再次提及！
+
+   cat/more/less 可以使用不同的方式來讀取純文字檔，那個 zcat/zmore/zless 則可以
+   對應於 cat/more/less 的方式來讀取純文字檔被壓縮後的壓縮檔！ 由於 gzip 這個壓
+   縮指令主要想要用來取代 compress 的，所以不但 compress 的壓縮檔案可以使用 gzip
+   來解開，同時 zcat 這個指令可以同時讀取 compress 與 gzip 的壓縮檔呦！
+
+   另外，如果你還想要從文字壓縮檔當中找資料的話，可以透過 zgrep 來搜尋關鍵字喔！
+   而不需要將壓縮檔解開才以 grep 進行！ 這對查詢備份中的文字檔資料相當有用！
+
+   Tips時至今日，應該也沒有人愛用 compress 這個老老的指令了！因此，這一章已經拿
+   掉了 compress 的介紹～而如果你還有備份資料使用的是 compress 建置出來的 .Z 檔
+   案，那也無須擔心，使用 znew 可以將該檔案轉成 gzip 的格示喔！
+
+
+
+****   Top 8.2.2 bzip2, bzcat/bzmore/bzless/bzgrep
+
+   若說 gzip 是為了取代 compress 並提供更好的壓縮比而成立的，那麼 bzip2 則是為了
+   取代 gzip 並提供更佳的壓縮比而來的。 bzip2 真是很不錯用的東西～這玩意的壓縮比
+   竟然比 gzip 還要好～至於 bzip2 的用法幾乎與 gzip 相同！看看底下的用法吧！
+
+   [dmtsai@study ~]$ bzip2 [-cdkzv#] 檔名
+   [dmtsai@study ~]$ bzcat 檔名.bz2選項與
+   參數：
+   -c ：將壓縮的過程產生的資料輸出到螢幕上！
+   -d ：解壓縮的參數
+   -k ：保留原始檔案，而不會刪除原始的檔案喔！
+   -z ：壓縮的參數 (預設值，可以不加)
+   -v ：可以顯示出原檔案/壓縮檔案的壓縮比等資訊；
+   -# ：與 gzip 同樣的，都是在計算壓縮比的參數， -9 最佳， -1 最快！
+
+   範例一：將剛剛 gzip 範例留下來的 /tmp/services 以 bzip2 壓縮[dmtsai@study
+   tmp]$ bzip2 -v services services: 5.409:1, 1.479 bits/byte, 81.51% saved,
+   670293 in, 123932 out. [dmtsai@study tmp]$ ls -l services* -rw-r--r--. 1
+   dmtsai dmtsai 123932 Jun 30 18:40 services.bz2 -rw-rw-r--. 1 dmtsai dmtsai
+   135489 Jun 30 18:46 services.gz
+   # 此時 services 會變成 services.bz2 之外，你也可以發現 bzip2 的壓縮比要較 gzip 好喔！！
+   # 壓縮率由 gzip 的 79% 提升到 bzip2 的 81% 哩！
+
+   範例二：將範例一的檔案內容讀出來！[dmtsai@study tmp]$ bzcat services.bz2
+
+   範例三：將範例一的檔案解壓縮[dmtsai@study tmp]$ bzip2 -d services.bz2
+
+   範例四：將範例三解開的 services 用最佳的壓縮比壓縮，並保留原本的檔案
+   [dmtsai@study tmp]$ bzip2 -9 -c services > services.bz2
+   看上面的範例，你會發現 到 bzip2 連選項與參數都跟 gzip 一模一樣！只是副檔名由 .gz 變成 .bz2 而已！其
+   他的用法都大同小異，所以鳥哥就不一一介紹了！ 你也可以發現到 bzip2 的壓縮率確
+   實比 gzip 要好些！不過，對於大容量檔案來說，bzip2 壓縮時間會花比較久喔！至少
+   比 gzip 要久的多！ 這沒辦法～要有更多可用容量，就得要花費相對應的時間！還 OK
+   啊！
+
+
+
+****   Top 8.2.3 xz, xzcat/xzmore/xzless/xzgrep
+
+   雖然 bzip2 已經具有很棒的壓縮比，不過顯然某些自由軟體開發者還不滿足，因此後來
+   還推出了 xz 這個壓縮比更高的軟體！這個軟體的用法也跟 gzip/bzip2 幾乎一模一樣！
+   那我們就來瞧一瞧！
+
+   [dmtsai@study ~]$ xz [-dtlkc#] 檔名
+   [dmtsai@study ~]$ xcat 檔名.xz選項與參數：
+   -d ：就是解壓縮啊！
+   -t ：測試壓縮檔的完整性，看有沒有錯誤
+   -l ：列出壓縮檔的相關資訊
+   -k ：保留原本的檔案不刪除～
+   -c ：同樣的，就是將資料由螢幕上輸出的意思！
+   -# ：同樣的，也有較佳的壓縮比的意思！
+
+   範例一：將剛剛由 bzip2 所遺留下來的 /tmp/services 透過 xz 來壓縮！
+   [dmtsai@study tmp]$ xz -v services
+   services (1/1) 100 % 97.3 KiB / 654.6 KiB = 0.149
+
+   [dmtsai@study tmp]$ ls -l services*
+   -rw-rw-r--. 1 dmtsai dmtsai 123932 Jun 30 19:09 services.bz2
+   -rw-rw-r--. 1 dmtsai dmtsai 135489 Jun 30 18:46 services.gz
+   -rw-r--r--. 1 dmtsai dmtsai 99608 Jun 30 18:40 services.xz
+   # 各位觀眾！看到沒有啊！！容量又進一步下降的更多耶！好棒的壓縮比！
+
+   範例二：列出這個壓縮檔的資訊，然後讀出這個壓縮檔的內容[dmtsai@study tmp]$ xz -l services.xz
+   Strms Blocks Compressed Uncompressed Ratio Check Filename
+   1     1      97.3 KiB   654.6 KiB    0.149 CRC64 services.xz
+   # 竟然可以列出這個檔案的壓縮前後的容量，真是太人性化了！這樣觀察就方便多了！
+
+   [dmtsai@study tmp]$ xzcat services.xz
+
+   範例三：將他解壓縮吧！
+   [dmtsai@study tmp]$ xz -d services.xz
+
+   範例四：保留原檔案的檔名，並且建立壓縮檔！
+   [dmtsai@study tmp]$ xz -k services
+   雖然 xz 這個壓縮比真的好太多太多了！以鳥哥選擇的這個 services 檔案為範例，他
+   可以將 gzip 壓縮比 (壓縮後/壓縮前) 的 21% 更進一步優化到 15% 耶！ 差非常非常
+   多！不過， xz 最大的問題是...時間花太久了！如果你曾經使用過 xz 的話，應該會有
+   發現，他的運算時間真的比 gzip 久很多喔！
+
+   鳥哥以自己的系統，透過『 time [gzip|bzip2|xz] -c services > services.[gz|bz2|xz] 』
+   去執行運算結果，結果發現這三個指令的執行時間依序是：
+   0.019s, 0.042s, 0.261s， 看最後一個數字！差了 10 倍的時間耶！所以，如果你並不
+   覺得時間是你的成本考量，那麼使用 xz 會比較好！如果時間是你的重要成本，那麼
+   gzip 恐怕是比較適合的壓縮軟體喔！
+
+
+***   8.3 打包指令： tar
+
+   前一小節談到的指令大多僅能針對單一檔案來進行壓縮，雖然 gzip, bzip2, xz 也能夠
+   針對目錄來進行壓縮，不過， 這兩個指令對目錄的壓縮指的是『將目錄內的所有檔案 "
+   分別" 進行壓縮』的動作！而不像在 Windows 的系統，可以使用類似 WinRAR 這一類的
+   壓縮軟體來將好多資料『包成一個檔案』的樣式。
+
+   這種將多個檔案或目錄包成一個大檔案的指令功能，我們可以稱呼他是一種『打包指令』
+   啦！ 那 Linux 有沒有這種打包指令呢？是有的！那就是鼎鼎大名的 tar 這個玩意兒了！
+   tar 可以將多個目錄或檔案打包成一個大檔案，同時還可以透過 gzip/bzip2/xz 的支援，
+   將該檔案同時進行壓縮！ 更有趣的是，由於 tar 的使用太廣泛了，目前 Windows 的
+   WinRAR 也支援 .tar.gz 檔名的解壓縮呢！ 很不錯吧！所以底下我們就來玩一玩這個咚
+   咚！
+
+****   Top 8.3.1 tar
+
+   tar 的選項與參數非常的多！我們只講幾個常用的選項，更多選項您可以自行 man tar
+   查詢囉！
+
+   [dmtsai@study ~]$ tar [-z|-j|-J] [cv] [-f 待建立的新檔名] filename... <==打包與壓縮
+   [dmtsai@study ~]$ tar [-z|-j|-J] [tv] [-f 既有的 tar檔名] <==察看檔名
+   [dmtsai@study ~]$ tar [-z|-j|-J] [xv] [-f 既有的 tar檔名] [-C 目錄] <==解壓縮
+   選項與參數：
+   -c ：建立打包檔案，可搭配 -v 來察看過程中被打包的檔名(filename)
+   -t ：察看打包檔案的內容含有哪些檔名，重點在察看『檔名』就是了；
+   -x ：解打包或解壓縮的功能，可以搭配 -C (大寫) 在特定目錄解開特別留意的是， -c, -t, -x 不可同時出現在一串指令列中。
+   -z ：透過 gzip 的支援進行壓縮/解壓縮：此時檔名最好為 *.tar.gz
+   -j ：透過 bzip2 的支援進行壓縮/解壓縮：此時檔名最好為 *.tar.bz2
+   -J ：透過 xz 的支援進行壓縮/解壓縮：此時檔名最好為 *.tar.xz特別留意， -z, -j, -J 不可以同時出現在一串指令列中
+   -v ：在壓縮/解壓縮的過程中，將正在處理的檔名顯示出來！
+   -f filename：-f 後面要立刻接要被處理的檔名！建議 -f 單獨寫一個選項囉！ (比較不會忘記)
+   -C 目錄 ：這個選項用在解壓縮，若要在特定目錄解壓縮，可以使用這個選項。
+
+   其他後續練習會使用到的選項介紹：
+   -p(小寫) ：保留備份資料的原本權限與屬性，常用於備份(-c)重要的設定檔
+   -P(大寫) ：保留絕對路徑，亦即允許備份資料中含有根目錄存在之意；
+   --exclude=FILE：在壓縮的過程中，不要將 FILE 打包！ 其實最簡單的使用 tar 就只要記憶底下的方式即可：
+
+   壓　縮：tar -jcv -f filename.tar.bz2
+   要被壓縮的檔案或目錄名稱查詢：tar -jtv -f filename.tar.bz2
+   解壓縮：tar -jxv -f filename.tar.bz2 -C 欲解壓縮的目錄
+
+   那個 filename.tar.bz2 是我們自己取的檔名，tar 並不會主動的產生建立的檔名喔！我們要
+   自訂啦！ 所以副檔名就顯的很重要了！如果不加 [-z|-j|-J] 的話，檔名最好取為
+   *.tar 即可。如果是 -j 選項，代表有 bzip2 的支援，因此檔名最好就取為 *.tar.bz2
+   ，因為 bzip2 會產生 .bz2 的副檔名之故！ 至於如果是加上了 -z 的 gzip 的支援，
+   那檔名最好取為 *.tar.gz 喔！瞭解乎？
+
+   另外，由於『 -f filename 』是緊接在一起的，過去很多文章常會寫成『-jcvf
+   filename』，這樣是對的， 但由於選項的順序理論上是可以變換的，所以很多讀者會誤
+   認為『-jvfc filename』也可以～事實上這樣會導致產生的檔名變成 c ！ 因為 -fc 嘛！
+   所以囉，建議您在學習 tar 時，將『 -f filename 』與其他選項獨立出來，會比較不
+   容易發生問題。
+
+   閒話少說，讓我們來測試幾個常用的 tar 方法吧！
+
+   使用 tar 加入 -z, -j 或 -J 的參數備份 /etc/ 目錄有事沒事備份一下 /etc 這個目
+   錄是件好事！備份 /etc 最簡單的方法就是使用 tar 囉！讓我們來玩玩先：
+
+   [dmtsai@study ~]$ su -
+   # 因為備份 /etc 需要 root 的權限，否則會出現一堆錯誤
+   [root@study ~]# time tar -zpcv -f /root/etc.tar.gz /etc
+
+   tar: Removing leading `/' from member names <==注意這個警告訊息/etc/ ....(中間省略)....
+   /etc/hostname /etc/aliases.db
+
+   real 0m0.799s
+   # 多了 time 會顯示程式運作的時間！看 real 就好了！花去了 0.799s user 0m0.767s sys 0m0.046s
+   # 由於加上 -v 這個選項，因此正在作用中的檔名就會顯示在螢幕上。
+   # 如果你可以翻到第一頁，會發現出現上面的錯誤訊息！底下會講解。
+   # 至於 -p 的選項，重點在於『保留原本檔案的權限與屬性』之意。
+
+   [root@study ~]# time tar -jpcv -f /root/etc.tar.bz2 /etc
+   ....(前面省略)....
+   real 0m1.913s user 0m1.881s sys 0m0.038s
+
+   [root@study ~]# time tar -Jpcv -f /root/etc.tar.xz /etc
+   ....(前面省略)....
+   real 0m9.023s user 0m8.984s sys 0m0.086s
+   # 顯示的訊息會跟上面一模一樣囉！不過時間會花比較多！使用了 -J 時，會花更多時間
+
+   [root@study ~]# ll /root/etc*
+   -rw-r--r--. 1 root root 6721809 Jul 1 00:16 /root/etc.tar.bz2
+   -rw-r--r--. 1 root root 7758826 Jul 1 00:14 /root/etc.tar.gz
+   -rw-r--r--. 1 root root 5511500 Jul 1 00:16 /root/etc.tar.xz
+   [root@study ~]# du -sm /etc 28 /etc
+   # 實際目錄約佔有 28MB 的意思！壓縮比越好
+   當然要花費的運算時間越多！我們從上面可以看到，雖然使用 gzip 的速度相當快，總
+   時間花費不到 1 秒鐘，但是壓縮率最糟糕！ 如果使用 xz 的話，雖然壓縮比最佳！不
+   過竟然花了 9 秒鐘的時間耶！這還僅是備份 28MBytes 的 /etc 而已，如果備份的資料
+   是很大容量的， 那你真的要考量時間成本才行！
+
+   至於加上『 -p 』這個選項的原因是為了保存原本檔案的權限與屬性！我們曾在第六章
+   的 cp 指令介紹時談到權限與檔案類型(例如連結檔)對複製的不同影響。 同樣的，在備
+   份重要的系統資料時，這些原本檔案的權限需要做完整的備份比較好。此時 -p 這個選
+   項就派的上用場了。 接下來讓我們看看打包檔案內有什麼資料存在？
+
+   查閱 tar 檔案的資料內容 (可察看檔名)，與備份檔名有否根目錄的意義要察看由 tar
+   所建立的打包檔案內部的檔名非常的簡單！可以這樣做：
+
+   [root@study ~]# tar -jtv -f /root/etc.tar.bz2
+   ....(前面省略)....
+   -rw-r--r-- root/root 131 2015-05-25 17:48 etc/locale.conf
+   -rw-r--r-- root/root 19 2015-05-04 17:56 etc/hostname
+   -rw-r--r-- root/root 12288 2015-05-04 17:59 etc/aliases.db
+   如果加上 -v 這個選項時，詳細的檔案權限/屬性都會被列出來！如果只
+   是想要知道檔名而已， 那麼就將 -v 拿掉即可。從上面的資料我們可以發現一件很有趣
+   的事情，那就是每個檔名都沒了根目錄了！這也是上一個練習中出現的那個警告訊息
+   『tar: Removing leading `/' from member names(移除了檔名開頭的 `/' )』所告知
+   的情況！
+
+   那為什麼要拿掉根目錄呢？主要是為了安全！我們使用 tar 備份的資料可能會需要解壓
+   縮回來使用， 在 tar 所記錄的檔名 (就是我們剛剛使用 tar -jtvf 所察看到的檔名)
+   那就是解壓縮後的實際檔名。 如果拿掉了根目錄，假設你將備份資料在 /tmp 解開，那
+   麼解壓縮的檔名就會變成『/tmp/etc/xxx』。 但『如果沒有拿掉根目錄，解壓縮後的檔
+   名就會是絕對路徑， 亦即解壓縮後的資料一定會被放置到 /etc/xxx 去！』如此一來，
+   你的原本的 /etc/ 底下的資料， 就會被備份資料所覆蓋過去了！
+
+   Tips你會說：『既然是備份資料，那麼還原回來也沒有什麼問題吧？』想像一個狀況，
+   你備份的資料是兩年前的舊版 CentOS 6.x， 你只是想要瞭解一下過去的備份內容究竟
+   有哪些資料而已，結果一解開該檔案，卻發現你目前新版的 CentOS 7.x 底下的 /etc
+   被舊版的備份資料覆蓋了！此時你該如何是好？大概除了哭哭你也不能做啥事吧？所以
+   囉，當然是拿掉根目錄比較安全一些的。
+
+   如果你確定你就是需要備份根目錄到 tar 的檔案中，那可以使用 -P (大寫) 這個選項，
+   請看底下的例子分析：
+
+   範例：將檔名中的(根)目錄也備份下來，並察看一下備份檔的內容檔名
+
+   [root@study ~]# tar -jpPcv -f /root/etc.and.root.tar.bz2 /etc
+   [root@study ~]# tar -jtf /root/etc.and.root.tar.bz2 /etc/locale.conf /etc/hostname /etc/aliases.db
+
+   # 這次查閱檔名不含 -v 選項，所以僅有檔名而已！沒有詳細屬性/權限等參數。
+   有發現不同點了吧？如果加上 -P 選項，那麼檔名內的根目錄就會存在喔！不過，鳥哥
+   個人建議，還是不要加上 -P 這個選項來備份！ 畢竟很多時候，我們備份是為了要未來
+   追蹤問題用的，倒不一定需要還原回原本的系統中！ 所以拿掉根目錄後，備份資料的應
+   用會比較有彈性！也比較安全呢！
+
+   將備份的資料解壓縮，並考慮特定目錄的解壓縮動作 (-C 選項的應用)那如果想要解打
+   包呢？很簡單的動作就是直接進行解打包嘛！
+
+   [root@study ~]# tar -jxv -f /root/etc.tar.bz2
+   [root@study ~]# ll
+   ....(前面省 略)....
+   drwxr-xr-x. 131 root root 8192 Jun 26 22:14 etc
+   ....(後面省略)....
+   此時該打包檔案會在『本目錄下進行解壓縮』的動作！ 所以，你等一下就會在家目錄底下
+   發現一個名為 etc 的目錄囉！所以囉，如果你想要將該檔案在 /tmp 底下解開， 可以
+   cd /tmp 後，再下達上述的指令即可。不過，這樣好像很麻煩呢～有沒有更簡單的方法
+   可以『指定欲解開的目錄』呢？ 有的，可以使用 -C 這個選項喔！舉例來說：
+
+   [root@study ~]# tar -jxv -f /root/etc.tar.bz2 -C /tmp
+   [root@study ~]# ll /tmp
+   ....(前面省略)....
+   drwxr-xr-x. 131 root root 8192 Jun 26 22:14 etc
+   ....(後面 省略)....
+   這樣一來，你就能夠將該檔案在不同的目錄解開囉！鳥哥個人是認為，這個
+   -C 的選項務必要記憶一下的！ 好了，處理完畢後，請記得將這兩個目錄刪除一下呢！
+
+   [root@study ~]# rm -rf /root/etc /tmp/etc
+   再次強調，這個『 rm -rf 』是很危險的指令！下達時請務必要確認一下後面接的檔名。我們要刪除的是 /root/etc 與
+   /tmp/etc， 您可不要將 /etc/ 刪除掉了！系統會死掉的～ ^_^
+
+   僅解開單一檔案的方法剛剛上頭我們解壓縮都是將整個打包檔案的內容全部解開！想像
+   一個情況，如果我只想要解開打包檔案內的其中一個檔案而已， 那該如何做呢？很簡單
+   的，你只要使用 -jtv 找到你要的檔名，然後將該檔名解開即可。 我們用底下的例子來
+   說明一下：
+
+   # 1. 先找到我們要的檔名，假設解開 shadow 檔案好了：
+   [root@study ~]# tar -jtv -f /root/etc.tar.bz2 | grep 'shadow' ----------
+   root/root 721 2015-06-17 00:20 etc/gshadow ---------- root/root 1183
+   2015-06-17 00:20 etc/shadow- ---------- root/root 1210 2015-06-17 00:20
+   etc/shadow <==這是我們要的！---------- root/root 707 2015-06-17 00:20
+   etc/gshadow-
+   # 先搜尋重要的檔名！其中那個 grep 是『擷取』關鍵字的功能！我們會在第三篇說明！
+   # 這裡您先有個概念即可！那個管線 | 配合 grep 可以擷取關鍵字的意思！
+
+   # 2. 將該檔案解開！語法與實際作法如下：
+   [root@study ~]# tar -jxv -f 打包檔.tar.bz2 待解開檔名[root@study ~]# tar -jxv
+   -f /root/etc.tar.bz2 etc/shadow etc/shadow [root@study ~]# ll etc total 4
+   ----------. 1 root root 1210 Jun 17 00:20 shadow
+   # 很有趣！此時只會解開一個檔案而已！不過，重點是那個檔名！你要找到正確的檔名。
+   # 在本例中，你不能寫成 /etc/shadow ！因為記錄在 etc.tar.bz2 內的並沒有 / 之故！
+   Tips在這個練習之前，你可能要先將前面練習所產生的 /root/etc 刪除才行！不然
+   /root/etc/shadow 會重複存在，而其他的前面實驗的檔案也會存在， 那就看不出什麼
+   鬼～
+
+   打包某目錄，但不含該目錄下的某些檔案之作法假設我們想要打包 /etc/ /root 這幾個
+   重要的目錄，但卻不想要打包 /root/etc* 開頭的檔案，因為該檔案都是剛剛我們才建
+   立的備份檔嘛！ 而且假設這個新的打包檔案要放置成為 /root/system.tar.bz2 ，當然
+   這個檔案自己不要打包自己 (因為這個檔案放置在 /root 底下啊！)，此時我們可以透
+   過 --exclude 的幫忙！ 那個 exclude 就是不包含的意思！所以你可以這樣做：
+
+   [root@study ~]# tar -jcv -f /root/system.tar.bz2 --exclude=/root/etc* \
+   > --exclude=/root/system.tar.bz2 /etc /root
+
+   上面的指令是一整列的～其實你可以打成：
+
+   『tar -jcv -f /root/system.tar.bz2 --exclude=/root/etc* --exclude=/root/system.tar.bz2 /etc /root』
+
+   如果想要兩行輸入時，最後面加上反 斜線 (\) 並立刻按下 [enter] ， 就能夠到第二行繼續輸入了。這個指令下達的方式我
+   們會在第三章再仔細說明。 透過這個 --exclude="file" 的動作，我們可以將幾個特殊
+   的檔案或目錄移除在打包之列，讓打包的動作變的更簡便喔！^_^
+
+   僅備份比某個時刻還要新的檔案某些情況下你會想要備份新的檔案而已，並不想要備份
+   舊檔案！此時 --newer-mtime 這個選項就粉重要啦！ 其實有兩個選項啦，一個是
+   『 --newer 』另一個就是『 --newer-mtime 』，這兩個選項有何不同呢？ 我們在 第
+   六章的 touch 介紹中談到過三種不同的時間參數， 當使用 --newer 時，表示後續的日
+   期包含『 mtime 與 ctime 』，而 --newer-mtime 則僅是 mtime 而已！ 這樣知道了吧！
+   ^_^ 。那就讓我們來嘗試處理一下囉！
+
+   # 1. 先由 find 找出比 /etc/passwd 還要新的檔案
+   [root@study ~]# find /etc -newer /etc/passwd ....(過程省略)....
+   # 此時會顯示出比 /etc/passwd 這個檔案的 mtime 還要新的檔名，
+   # 這個結果在每部主機都不相同！您先自行查閱自己的主機即可，不會跟鳥哥一樣！
+
+   [root@study ~]# ll /etc/passwd
+   -rw-r--r--. 1 root root 2092 Jun 17 00:20 /etc/passwd
+
+   # 2. 好了，那麼使用 tar 來進行打包吧！日期為上面看到的 2015/06/17
+   [root@study ~]# tar -jcv -f /root/etc.newer.then.passwd.tar.bz2 \
+   > --newer-mtime="2015/06/17" /etc/*
+
+   tar: Option --newer-mtime: Treating date `2015/06/17' as 2015-06-17 00:00:00
+   tar: Removing leading `/' from member names /etc/abrt/
+   ....(中間省略)....
+   /etc/alsa/ /etc/yum.repos.d/
+   ....(中間省 略)....
+   tar: /etc/yum.repos.d/CentOS-fasttrack.repo: file is unchanged; not dumped
+   # 最後行顯示的是『沒有被備份的』，亦即 not dumped 的意思！
+
+   # 3. 顯示出檔案即可
+   [root@study ~]# tar -jtv -f /root/etc.newer.then.passwd.tar.bz2 | grep -v '/$'
+   # 透過這個指令可以呼叫出 tar.bz2 內的結尾非 / 的檔名！就是我們要的啦！
+   現在你知道這個指令的好用了吧！甚至可以進行差異檔案的記錄與備份呢～ 這樣子的備
+   份就會顯的更容易囉！你可以這樣想像，如果我在一個月前才進行過一次完整的資料備
+   份， 那麼這個月想要備份時，當然可以僅備份上個月進行備份的那個時間點之後的更新
+   的檔案即可！ 為什麼呢？因為原本的檔案已經有備份了嘛！幹嘛還要進行一次？只要備
+   份新資料即可。這樣可以降低備份的容量啊！
+
+   基本名稱： tarfile, tarball ？另外值得一提的是，tar 打包出來的檔案有沒有進行
+   壓縮所得到檔案稱呼不同喔！ 如果僅是打包而已，就是『 tar -cv -f file.tar 』而
+   已，這個檔案我們稱呼為 tarfile 。 如果還有進行壓縮的支援，例如『 tar -jcv -f
+   file.tar.bz2 』時，我們就稱呼為 tarball (tar 球？)！這只是一個基本的稱謂而已，
+   不過很多書籍與網路都會使用到這個 tarball 的名稱！所以得要跟您介紹介紹。
+
+   此外，tar 除了可以將資料打包成為檔案之外，還能夠將檔案打包到某些特別的裝置去，
+   舉例來說， 磁帶機 (tape) 就是一個常見的例子。磁帶機由於是一次性讀取/寫入的裝
+   置，因此我們不能夠使用類似 cp 等指令來複製的！ 那如果想要將 /home, /root,
+   /etc 備份到磁帶機 (/dev/st0) 時，就可以使用：『tar -cv -f /dev/st0 /home
+   /root /etc』，很簡單容易吧！ 磁帶機用在備份 (尤其是企業應用) 是很常見的工作喔！
+
+   特殊應用：利用管線命令與資料流在 tar 的使用中，有一種方式最特殊，那就是透過標
+   準輸入輸出的資料流重導向(standard input/standard output)， 以及管線命令
+   (pipe) 的方式，將待處理的檔案一邊打包一邊解壓縮到目標目錄去。 關於資料流重導
+   向與管線命令更詳細的資料我們會在第十章 bash 再跟大家介紹， 底下先來看一個例子
+   吧！
+
+   # 1. 將 /etc 整個目錄一邊打包一邊在 /tmp 解開
+   [root@study ~]# cd /tmp [root@study tmp]# tar -cvf - /etc | tar -xvf -
+   # 這個動作有點像是 cp -r /etc /tmp 啦～依舊是有其有用途的！
+   # 要注意的地方在於輸出檔變成 - 而輸入檔也變成 - ，又有一個 | 存在～
+   # 這分別代表 standard output, standard input 與管線命令啦！
+   # 簡單的想法中，你可以將 - 想成是在記憶體中的一個裝置(緩衝區)。
+   # 更詳細的資料流與管線命令，請翻到 bash 章節囉！
+   在上面的例子中，我們想要『將 /etc 底下的資料直接 copy 到目前所在的路徑，也就
+   是 /tmp 底下』，但是又覺得使用 cp -r 有點麻煩，那麼就直接以這個打包的方式來打
+   包，其中，指令裡面的 - 就是表示那個被打包的檔案啦！ 由於我們不想要讓中間檔案
+   存在，所以就以這一個方式來進行複製的行為啦！
+
+   例題：系統備份範例系統上有非常多的重要目錄需要進行備份，而且其實我們也不建議
+   你將備份資料放置到 /root 目錄下！ 假設目前你已經知道重要的目錄有底下這幾個：
+
+   /etc/ (設定檔) /home/ (使用者的家目錄) /var/spool/mail/ (系統中，所有帳號的郵
+   件信箱) /var/spool/cron/ (所有帳號的工作排成設定檔) /root (系統管理員的家目錄)然
+   後我們也知道，由於第七章曾經做過的練習的關係， /home/loop* 不需要備份，而且
+   /root 底下的壓縮檔也不需要備份，另外假設你要將備份的資料放置到 /backups ，並
+   且該目錄僅有 root 有權限進入！ 此外，每次備份的檔名都希望不相同，例如使用：
+   backup-system-20150701.tar.bz2 之類的檔名來處理。 那你該如何處理這個備份資料
+   呢？(請先動手作看看，再來察看一下底下的參考解答！)
+
+   # 1. 先處理要放置備份資料的目錄與權限：
+   [root@study ~]# mkdir /backups [root@study ~]# chmod 700 /backups [root@study
+   ~]# ll -d /backups drwx------. 2 root root 6 Jul 1 17:25 /backups
+
+   # 2. 假設今天是 2015/07/01 ，則建立備份的方式如下：
+   [root@study ~]# tar -jcv -f /backups/backup-system-20150701.tar.bz2 \ >
+   --exclude=/root/*.bz2 --exclude=/root/*.gz --exclude=/home/loop* \ > /etc
+   /home /var/spool/mail /var/spool/cron /root ....(過程省略)....
+
+   [root@study ~]# ll -h /backups/ -rw-r--r--. 1 root root 21M Jul 1 17:26
+   backup-system-20150701.tar.bz2解壓縮後的 SELinux 課題如果，鳥哥是說如果，如果
+   因為某些緣故，所以你的系統必須要以備份的資料來回填到原本的系統中，那麼得要特
+   別注意復原後的系統的 SELinux 問題！ 尤其是在系統檔上面！例如 /etc 底下的檔案
+   群。SELinux 是比較特別的細部權限設定，相關的介紹我們會在 16 章好好的介紹一下。
+   在這裡，你只要先知道，SELinux 的權限問題『可能會讓你的系統無法存取某些設定檔
+   內容，導致影響到系統的正常使用權』。
+
+   這兩天 (2015/07) 接到一個網友的 email，他說他使用鳥哥介紹的方法透過 tar 去備
+   份了 /etc 的資料，然後嘗試在另一部系統上面復原回來。 復原倒是沒問題，但是復原
+   完畢之後，無論如何就是無法正常的登入系統！明明使用單人維護模式去操作系統時，
+   看起來一切正常～但就是無法順利登入。 其實這個問題倒是很常見！大部分原因就是因
+   為 /etc/shadow 這個密碼檔案的 SELinux 類型在還原時被更改了！導致系統的登入程
+   序無法順利的存取它， 才造成無法登入的窘境。
+
+   那如何處理呢？簡單的處理方式有這幾個：
+
+   透過各種可行的救援方式登入系統，然後修改 /etc/selinux/config 檔案，將 SELinux
+   改成 permissive 模式，重新開機後系統就正常了；在第一次復原系統後，不要立即重
+   新開機！先使用 restorecon -Rv /etc 自動修復一下 SELinux 的類型即可。透過各種
+   可行的方式登入系統，建立 /.autorelabel 檔案，重新開機後系統會自動修復 SELinux
+   的類型，並且又會再次重新開機，之後就正常了！鳥哥個人是比較偏好第 2 個方法，不
+   過如果忘記了該步驟就重新開機呢？那鳥哥比較偏向使用第 3 個方案來處理，這樣就能
+   夠解決復原後的 SELinux 問題囉！ 至於更詳細的 SELinux ，我們得要講完程序
+   (process) 之後，你才會有比較清楚的認知，因此還請慢慢學習，到第 16 章你就知道
+   問題點了！ ^_^
+** DONE [[http://duplicity.nongnu.org/index.html][duplicity: Main]]                                  :ubuntu:backup:tool:
+   CLOSED: [2017-03-10 Fri 10:54]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-10 Fri 10:54]
+   :END:
+ Captured On: [2017-03-10 Fri 10:50]
+** DONE [[http://www.nongnu.org/rdiff-backup/index.html][rdiff-backup: Main]]                               :ubuntu:backup:tool:
+   CLOSED: [2017-03-10 Fri 10:54]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-10 Fri 10:54]
+   :END:
+ Captured On: [2017-03-10 Fri 10:50]
+** DONE [[http://www.2cto.com/os/201406/307246.html][linux下修改文件的用户组chgrp和文件所有者chown - Linux操作系统：Ubuntu_Centos_Debian - 红黑联盟]] :ubuntu:su:
+   CLOSED: [2017-03-10 Fri 11:15]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-10 Fri 11:15]
+   :END:
+ Source: [2017-03-10 Fri], [[http://www.2cto.com/os/201406/307246.html][linux下修改文件的用户组chgrp和文件所有者chown - Linux操作系统：Ubuntu_Centos_Debian - 红黑联盟]]
+  #+BEGIN_QUOTE
+ 1. linux下修改文件用户组
+
+ chgrp： change group的简写，修改文件所属的用户组。
+ chgrp users test.log
+ 修改后查看 ls -l
+ -rwxrwx---  1 work users 0 Jun  8 15:46 test.log
+ 如果要修改该目录下所有文件和目录，使用-R参数。
+ chgrp -R users test
+ 要被改变的group名，必须在 /etc/group 文件中。 /etc/group文件记录系统中所有的组名称。
+ 2. linux下修改文件所有者
+
+ chown ：change owner的简写， 修改文件的所有者。
+ chown [-R] 账号名称  文件或目录
+ -R 递归，将子目录下文件全部修改。
+ 将文件所有者修改bin
+ chown bin test.log
+ 修改的用户必须在/etc/passwd文件中 /etc/passwd记录用户信息。
+ chown还可以修改组名称
+ chown root:root test.log
+ 将所有者和组名称都修改为root。
+ #+END_QUOTE
+** DONE [[https://zhidao.baidu.com/question/1511453925736908820.html][PDFLaTeX和XeLaTeX有什么区别_百度知道]]    :ubuntu:org:export:pdf:latex:
+   CLOSED: [2017-03-10 Fri 22:25]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-10 Fri 22:25]
+   :END:
+ Source: [2017-03-10 Fri], [[https://zhidao.baidu.com/question/1511453925736908820.html][PDFLaTeX和XeLaTeX有什么区别_百度知道]]
+  #+BEGIN_QUOTE
+ pdfLaTeX是比较原始的版本，对Unicode的支持不是很好，所以显示汉字需要使用CJK宏包。
+ 它不支持操作系统的truetype字体(*.ttf)，只能使用type1字体。优点是支持的宏包比较
+ 多，有些老一点的宏包必须用pdfLaTeX来编译。
+
+ XeLaTeX是新的Unicode版本，内建支持Unicode(UTF-8)，自然也包括汉字在内，而且可以
+ 调用操作系统的truetype字体。如果你的文档有汉字，那么推荐用XeLaTeX。缺点是不支持
+ 某一些宏包。
+
+ #+END_QUOTE
+** DONE [[https://tieba.baidu.com/p/3230241781][ubuntu linux系统按键互换_我用linux吧_百度贴吧]]     :switch:key:ubuntu:
+   CLOSED: [2017-03-11 Sat 10:06]
+   :LOGBOOK:
+   - State "DONE"       from "DONE"       [2017-03-11 Sat 10:08]
+   - State "DONE"       from "TODO"       [2017-03-11 Sat 10:06]
+   :END:
+ Source: [2017-03-11 Sat], [[https://tieba.baidu.com/p/3230241781][ubuntu linux系统按键互换_我用linux吧_百度贴吧]]
+  #+BEGIN_QUOTE
+
+ *以下按键的互换在图形界面上才起作用*
+
+ 1、首先用xmodmap -pke命令，得到一份各个按键代码及其作用：
+ keycode 9 = Escape NoSymbol Escape
+ keycode 10 = 1 exclam 1 exclam
+ keycode 11 = 2 at 2 at
+ keycode 12 = 3 numbersign 3 numbersign
+ keycode 13 = 4 dollar 4 dollar
+ keycode 14 = 5 percent 5 percent
+ keycode 15 = 6 asciicircum 6 asciicircu
+ ……
+
+ 2、然后用xev |grep keycode命令，查看物理按键的代码。
+ 例如：
+ 按下左ctrl键是：
+ state 0x0, keycode 37 (keysym 0xffe3, Control_L), same_screen YES
+ 按下左Alt键是
+ state 0x0, keycode 64 (keysym 0xffe9, Alt_L), same_screen YES,
+
+ 3、查第一步的列表，得出按键代码 37、64 的完整表述：
+ keycode 37 = Control_L NoSymbol Control_L
+ keycode 64 = Alt_L Meta_L Alt_L Meta_L
+
+ 4、如果要交换左Ctrl和左Alt键，可以将37、64交换，变成下面的样子：
+ keycode 64 = Control_L NoSymbol Control_L
+ keycode 37 = Alt_L Meta_L Alt_L Meta_L
+
+ 5、可以使用xmodmap使之立即生效：
+ /usr/bin/xmodmap -e "keycode 64 = Control_L NoSymbol Control_L"
+ /usr/bin/xmodmap -e "keycode 37 = Alt_L Meta_L Alt_L Meta_L"
+
+ 6、也可把上面两行保存为文件如 ~/.Xmodmaprc，
+ 然后用 xmodmap ~/.Xmodmaprc 生效
+ 可以把 xmodmap ~/.Xmodmaprc 命令放到 ~/.profile 开机时生效
+ 放在 ~/.bashrc 中打开终端时生效，
+
+ ----------- ~/.Xmodmaprc ----------------
+ ! 以下是一个联想笔记本的键盘替换（home/pgup、end/pgdn、delete/pause）
+ ! xmodmap -pke && xmodmap && xev |grep keycode &&
+ ! xmodmap ~/.Xmodmaprc
+ ! place in ~/.profile
+ keycode 110 = Prior NoSymbol Prior
+ keycode 112 = Home NoSymbol Home
+ keycode 115 = Next NoSymbol Next
+ keycode 117 = End NoSymbol End
+ keycode 127 = Delete NoSymbol Delete
+ keycode 119 = Pause Break Pause Break
+
+ ---------------- ~/.keymap --------------------
+ 推荐写成脚本，把文件名放入~/.profile 中
+ sleep 7的作用是等待图形界面加载完毕再交换按键。
+ echo到/tmp以检查脚本是否在开机时已运行。
+
+ #!/bin/bash
+ # xmodmap -pke && xmodmap && xev |grep keycode &&
+ # xmodmap ~/.Xmodmaprc
+ # filename ~/.keymap
+ # place in ~/.profile
+ sleep 7
+ /usr/bin/xmodmap -e "keycode 110 = Prior NoSymbol Prior"
+ echo "key start 1" > /tmp/keymap.txt
+ /usr/bin/xmodmap -e "keycode 112 = Home NoSymbol Home"
+ /usr/bin/xmodmap -e "keycode 115 = Next NoSymbol Next"
+ /usr/bin/xmodmap -e "keycode 117 = End NoSymbol End"
+ /usr/bin/xmodmap -e "keycode 127 = Delete NoSymbol Delete"
+ /usr/bin/xmodmap -e "keycode 119 = Pause Break Pause Break
+ echo "key stop" >> /tmp/keymap.txt
+ #+END_QUOTE
+** DONE xmodmap is obsoleted, Don't use  :ubuntu:obsolete:xmodmap:key:switch:
+   CLOSED: [2017-03-11 Sat 10:24]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-11 Sat 10:24]
+   :END:
+   Source: [2017-03-11 Sat], [[http://blog.csdn.net/kl28978113/article/details/44778415][Ubuntu 下 Swap left ctrl and alt - Bingo - 博客频道 - CSDN.NET]]
+  #+BEGIN_QUOTE
+ 摘要 传统xmodmap已被废弃，只好setxkbmap，自造option解决
+ *So, Do not use xmodmap to switch ctrl and caps*
+ #+END_QUOTE
+** DONE xev命令可以用来捕捉键盘按键事件。                 :ubuntu:key:switch:
+   CLOSED: [2017-03-11 Sat 10:35]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-11 Sat 10:35]
+   :END:
+ Source: [2017-03-11 Sat], [[http://blog.csdn.net/kl28978113/article/details/42325139][在Ubuntu下交换Esc和Caps Lock按键 - Bingo - 博客频道 - CSDN.NET]]
+  #+BEGIN_QUOTE
+ p.s. 另外xev命令可以用来捕捉键盘按键事件。
+ #+END_QUOTE
+** DONE how to setup env for org export to pdf :ubuntu:org:export:latex:latex:cjk:
+   CLOSED: [2017-03-11 Sat 10:58]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-11 Sat 10:58]
+   :END:
+ Source: [2017-03-11 Sat], [[http://www.th7.cn/system/lin/201601/151318.shtml][ubuntu14.04 安装xelatex以及实现中文输入_Linux_第七城市]]
+  #+BEGIN_QUOTE
+ 安装 texlive-xelatex
+ =sudo apt-get install texlive-xetex latex-cjk-all=
+ #+END_QUOTE
+** DONE [[https://www.foxitsoftware.com/downloads/thanks.php?product=Foxit-Reader&platform=Linux-64-bit&version=2.3.0.2174&package_type=run&language=English][Thank You for Downloading | Foxit Software]]  :ubuntu:pdf:foxit:reader:
+   CLOSED: [2017-03-11 Sat 11:04]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-11 Sat 11:04]
+   :END:
+ Source: [2017-03-11 Sat], [[https://www.foxitsoftware.com/downloads/thanks.php?product=Foxit-Reader&platform=Linux-64-bit&version=2.3.0.2174&package_type=run&language=English][Thank You for Downloading | Foxit Software]]
+  #+BEGIN_QUOTE
+ Please follow the steps below to install Foxit Reader for Linux:
+
+ Change to the directory containing the downloaded file (used /tmp as the example):
+ # cd /tmp
+ Uncompress the executable:
+ # gzip -d 'FoxitReader_version_Setup.run.tar.gz'
+ Untar the .tar file:
+ # tar xvf 'FoxitReader_version_Setup.run.tar'
+ Run the installer:
+ # ./'FoxitReader_version_Setup.run'
+ Follow the steps on the screen to complete the installation
+ #+END_QUOTE
+** DONE [[http://cs2.swfc.edu.cn/~wx672/lecture_notes/linux/latex/latex_tutorial.html][Emacs + LaTeX 快速上手]]  :emacs:latex:pdf:tutorial***:
+   CLOSED: [2017-03-11 Sat 11:09]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-11 Sat 11:09]
+   :END:
+ Captured On: [2017-03-11 Sat 11:09]
+** TODO how to setting up helo-hotspot
+
+   #+BEGIN_SRC emacs-lisp
+   (defun zilongshanren//hotspots-sources ()
+   "Construct the helm sources for my hotspots"
+   `((name . "Mail and News")
+     (candidates . (("Calendar" . (lambda ()  (browse-url "https://www.google.com/calendar/render")))
+                    ("RSS" . elfeed)
+                    ("Blog" . org-octopress)
+                    ("Github" . (lambda() (helm-github-stars)))
+                    ("Calculator" . (lambda () (helm-calcul-expression)))
+                    ("Run current flie" . (lambda () (zilongshanren/run-current-file)))
+                    ("Agenda" . (lambda () (org-agenda "" "a")))
+                    ("sicp" . (lambda() (browse-url "http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start")))))
+     (candidate-number-limit)
+     (action . (("Open" . (lambda (x) (funcall x)))))))
+   #+END_SRC
+* 列表
+  |数据结构| -> 指针/内存
+
+
+  Lisp 程序开发通常呼应着开发 Lisp 语言自身
+  列表  ->  多种数据结构
+
+** major-core 数据结构
+当你赋一个值给变量或将这个值存在数据结构中，其实被储存的是指向这个值的指针。当你要取得变量的值，或是存在数据结构中的内容时， Lisp 返回指向这个值的指针。
+东西放在任何地方。除非你声明你不愿这么做，不然你能够在任何的数据结构，存放任何类型的对象，包括结构本身
+。在 Common Lisp 里，无论何时你使用一个数字来参照一个数据结构中的元素时，都是从 0 开始编号的。
+这不是个好名字，因为非正规列表的 Cons 对象通常不是用来表示列表： (a . b) 只是一个有两部分的数据结构
+。当程序进化时，你可以在代码的关键部分使用破坏性函数以及/或别种
+*** minor-core 指针
+两部分的对象，称之为 Cons 对象。概念上来说，一个 Cons 是一对指针；第一个是 car ，第二个是 cdr 。
+Cons 所组成，见图 3.1。这种表达 Cons 的方式叫做箱子表示法 (box notation)，因为每一个 Cons 是用一个箱子表示，内含一个 car 和 cdr 的指针。当我们调用 car 与 cdr 时
+，当我们调用 car 与 cdr 时，我们得到指针指向的地方：
+
+> (car x)
+A
+> (cdr x)
+NIL
+在一个有多个元素的列表中， car 指针让你取得元素，而 cdr 让你取得列表内其余的东西。
+当这种情况发生时，它的结构如图 3.3 所示；第二个 Cons 的 car 指针也指向一个列表：
+
+> (car (cdr z))
+(B C)
+
+每一次你调用 cons 时， Lisp 会配置一块新的内存给两个指针。
+一个理解 Lisp 的秘密之一是意识到变量是有值的，就像列表有元素一样。如同 Cons 对象有指针指向他们的元素，变量有指针指向他们的值。
+
+你可能在别的语言中使用过显式指针 (explicitly pointer)。在 Lisp，你永远不用这么做，因为语言帮你处理好指针了。
+
+当我们把 x 的值赋给 y 时，究竟发生什么事呢？内存中与 x 有关的位置并没有包含这个列表，而是一个指针指向它。当我们给 y 赋一个相同的值时， Lisp 复制的是指针，而不是列表
+电脑内部里， Cons 对象倾向于用指针表示，所以走访一个列表意味着走访一系列的指针，而不是简单地像数组一样增加索引值。但这两个所花的代价与配置及回收 Cons 核 (cons cells)比起来小多了。
+
+一开始我们调用 list ， list 调用 cons ，在堆上配置了一个新的 Cons 对象。在这个情况我们创出三个 Cons 对象。之后当我们把 lst 设为 nil ，我们没有任何方法可以再存取 lst ，列表 (a b c) 。 [5]
+
+因为我们没有任何方法再存取列表，它也有可能是不存在的。我们不再有任何方式可以存取的对象叫做垃圾。系统可以安全地重新使用这三个 Cons 核。
+
+这种管理內存的方法，给程序员带来极大的便利性。你不用显式地配置 (allocate)或释放 (dellocate)內存。这也表示了你不需要处理因为这么做而可能产生的臭虫。內存泄漏 (Memory leaks)以及迷途指针 (dangling pointer)在 Lisp 中根本不可能发生。
+*** minor-core 内存
+ 每一次你调用 cons 时， Lisp 会配置一块新的内存给两个指针。所以如果我们用同样的参数调用 cons 两次，我们得到两个数值看起来一样，但实际上是两个不同的对象：
+
+> (eql (cons 'a nil) (cons 'a nil))
+NIL
+
+举例来说，因为一个小整数所需的内存空间，少于一个指针所需的空间，一个 Lisp 实现可能会直接处理这个小整数，而不是用指针来处理。但基本要点是，程序员预设可以把任何东西放在任何地方
+
+自动内存管理(Automatic memory management)是 Lisp 最有价值的特色之一。 Lisp 系统维护着一段內存称之为堆(Heap)。系统持续追踪堆当中没有使用的内存，把这些内存发放给新产生的对象
+
+举例来说，函数 cons ，返回一个新配置的 Cons 对象。从堆中配置内存有时候通称为 consing 。
+
+所以系统必须周期性地通过搜索堆 (heap)，寻找不需要再使用的内存。
+
+*** minor-core cons
+1. cons 真正所做的事情是，把两个对象结合成一个有两部分的对象，称之为 Cons 对象。
+2. 概念上来说，一个 Cons 是一对指针；第一个是 car ，第二个是 cdr
+3. Cons 对象提供了一个方便的表示法，来表示任何类型的对象。
+
+
+** 构造
+** 等式
+** why no pointers
+** 建立列表
+** 示例:压缩
+** 存取
+** 映射函数
+** 树
+** 理解递归
+** 集合
+** 序列
+** 栈
+** 点状列表
+** 关联列表
+** 示例:最短路径
+** 垃圾回收
+** 总结
+* zilongshanren-org
+  config.el
+  funcs.el
+  packages.el
+** packages.el
+*** org-todo-keywords
+    #+BEGIN_SRC
+
+    #+END_SRC
+*** some trick
+Projects :Complex activities are projects, and are marked with the prj tag. They
+are supposed to contain todo items, and are considered stuck unless they do. The
+prj tag should not be inheritable, because otherwise its tasks will appear as
+projects:
+#+BEGIN_SRC emacs-lisp
+(setq org-tags-exclude-from-inheritance '("prj")
+      org-stuck-projects '("+prj/-MAYBE-DONE"
+                           ("TODO" "TASK") ()))
+#+END_SRC
+*** Agenda custom commands
+ _what should attract my attention is that, the guy who can oganize the project
+management by hack org-agenda-custom-commands, the same way, zilonghack org to
+fit the 4fields working method._
+
+ With all this we are ready to define the custom
+commands. The cjr tag marks personal todo items in my case; change to whatever
+suits you.
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-custom-commands
+      '(("h" "Work todos" tags-todo
+         "-personal-doat={.+}-dowith={.+}/!-TASK"
+         ((org-agenda-todo-ignore-scheduled t)))
+        ("H" "All work todos" tags-todo "-personal/!-TASK-MAYBE"
+         ((org-agenda-todo-ignore-scheduled nil)))
+        ("A" "Work todos with doat or dowith" tags-todo
+         "-personal+doat={.+}|dowith={.+}/!-TASK"
+         ((org-agenda-todo-ignore-scheduled nil)))
+        ("j" "TODO dowith and TASK with"
+         ((org-sec-with-view "TODO dowith")
+          (org-sec-where-view "TODO doat")
+          (org-sec-assigned-with-view "TASK with")
+          (org-sec-stuck-with-view "STUCK with")))
+        ("J" "Interactive TODO dowith and TASK with"
+         ((org-sec-who-view "TODO dowith")))))
+#+END_SRC
+downside, is the settings of zilong,
+#+BEGIN_SRC emacs-lisp
+      (setq org-agenda-custom-commands
+            '(
+              ("w" . "任务安排")
+              ("wa" "重要且紧急的任务" tags-todo "+PRIORITY=\"A\"")
+              ("wb" "重要且不紧急的任务" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
+              ("wc" "不重要且紧急的任务" tags-todo "+PRIORITY=\"C\"")
+              ("b" "Blog" tags-todo "BLOG")
+              ("p" . "项目安排")
+              ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"cocos2d-x\"")
+              ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"zilongshanren\"")
+              ("W" "Weekly Review"
+               ((stuck "") ;; review stuck projects as designated by org-stuck-projects
+                (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
+                ))))
+#+END_SRC
+BTW, all this settings can be set graphically in start page of agend view
+=, a C=
+*** Task and prj ownership
+Task and project ownership Ownership is managed with tags, one for each team
+member. When somebody owns a project his or her name will tag the project
+definition line, together with prj, and it will be inherited by all the TASK
+todo items belonging to the project. When a TASK todo item does not belong to a
+project it has at least a person's name tag.
+*** org-babel settings
+    #+BEGIN_SRC emacs-lisp
+      ;; yiddi:add
+      ;; http://emacs.stackexchange.com/questions/28441/org-mode-9-unable-to-eval-code-blocks
+      ;; solve org9.0 babel cannot work
+      (org-babel-do-load-languages
+       'org-babel-load-languages
+       '((perl . t)
+         (ruby . t)
+         (sh . t)
+         (dot . t)
+         (js . t)
+         (latex .t)
+         (python . t)
+         (emacs-lisp . t)
+         (plantuml . t)
+         (C . t)
+         (ditaa . t)
+         ;; yiddi:add
+         (calc . t)))
+    #+END_SRC
+* Org-babel with python programming style
+  :PROPERTIES:
+  :ID:       2e20c923-540e-449a-afdb-670449e0cf46
+  :END:
+  :URL:
+  http://python.net/~goodger/projects/pycon/2007/idiomatic/handout.html#module-structure
+  :END:
+
+  Following the structure outlined in Code Like a Pythonista, construct the
+  python source file in sections:
+  1. imports
+  2. constants
+  3. exception classes
+  4. interface functions
+  5. classes
+  6. internal functions & classes
+
+  #+BEGIN_SRC python :noweb yes :tangle HelloWorld.py :exports none
+"""This is a hello world example document"""
+# imports
+import sys
+<<helloworld-main-imports>>
+# constants
+
+# exception classes
+
+# interface functions
+
+# classes
+<<HelloWorld-defn>>
+# internal functions & classes
+<<helloworld-main>>
+
+if __name__ == '__main__':
+    status = main()
+    sys.exit(status)
+  #+END_SRC
+
+  When M-x org-babel-tangle is run within emacs, the :tangle HelloWorld.py line
+  will cause it to generate a the file HelloWorld.py from the contents of the code
+  blocks.
+  The bracketed lines (helloworld-classes, for example) are code fragments that
+  will be defined later. org-mode will automatically substitute these blocks when
+  createing the HelloWorld.py file.
+  Define the HelloWorld class thus:
+
+  #+NAME: HelloWorld-defn
+  #+BEGIN_SRC python
+  class HelloWorld(object):
+      def __init__(self, who):
+          self.who = who
+
+      def say_hello(self):
+          print "Hello %s" % self.who
+  #+END_SRC
+
+  It's usually a good idea to have an argument parser in main. Start by creating a
+  code block the performs the required imports:
+
+  #+NAME: helloworld-main-imports
+  #+BEGIN_SRC python
+from argparse import ArgumentParser
+  #+END_SRC
+
+  #+NAME: helloworld-main
+  #+BEGIN_SRC python
+  def main():
+      parser = ArgumentParser(description="Say hi")
+      parser.add_argument("-w", "--who",
+                          type=str,
+                          default="world",
+                          help="Who to say hello to")
+      args = parser.parse_args()
+
+      who = args.who
+
+      greeter = HelloWorld(who)
+      greeter.say_hello()
+
+      return 0
+  #+END_SRC
+
+* English capture
+** 1
+“The struggle of literature is in fact a struggle to escape from the confines
+of language; it stretches out from the utmost limits of what can be said; what
+stirs literature is the call and attraction of what is not in the
+dictionary.” - Italo Calvino
+<2017-03-05 日>
+** 2
+“There comes a point in life when you realize everything you know about yourself, it's all just conditioning. It's the rare man who truly know who he is.” - Brian Buckner
+
+* ANSI  lisp
+** grammer
+
+*** what is symbol
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+有两个通常在别的语言所找不到的 Lisp 数据类型是符号（symbol）与列表（lists），符号是英语的单词 (words)。无论你怎么输入，通常会被转换为大写：
+
+> 'Artichoke
+ARTICHOKE
+符号（通常）不对自身求值，所以要是想引用符号，应该像上例那样用 ' 引用它。
+
+#+END_QUOTE
+*** list and function
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+列表是由被括号包住的零个或多个元素来表示。元素可以是任何类型，包含列表本身。使用列表必须要引用，不然 Lisp 会以为这是个函数调用：
+
+> '(my 3 "Sons")
+(MY 3 "Sons")
+> '(the list (a b c) has 3 elements)
+(THE LIST (A B C) HAS 3 ELEMENTS)
+注意引号保护了整个表达式（包含内部的子表达式）被求值。
+#+END_QUOTE
+*** side-effect of function
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+如果这些表达式没有副作用，你没有任何理由告诉 Lisp ，为什么要去对它们求值。
+#+END_QUOTE
+seems like print() in python. what we use is the side-effect of this function.
+注意到有两个东西被打印出来。第一行是 format 印出来的。第二行是调用 format 函数的返回值，就像平常顶层会打印出来的一样。通常像 format 这种函数不会直接在顶层调用，而是在程序内部里使用，所以返回值不会被看到。
+
+*** naming the global variable
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+我们已经看过的这些变量都叫做局部变量。
+
+它们只在特定的上下文里有效。
+
+另外还有一种变量叫做全局变量（global variable），是在任何地方都是可视的。
+
+你可以给 defparameter 传入符号和值，来创建一个全局变量：
+
+通常我们在给全局变量命名时，以星号作开始与结束。刚才我们创造的变量可以念作 “星-glob-星” (star-glob-star)。
+
+
+也就是说，通过赋值，你可以隐式地创建全局变量。 不过，一般来说，还是使用 defparameter 明确地创建全局变量比较好。
+*** never modify and interactive testing
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+举例来说，函数 remove 接受一个对象和一个列表，返回不含这个对象的新列表：
+
+> (setf lst '(c a r a t))
+(C A R A T)
+> (remove 'a lst)
+(C R T)
+为什么不干脆说 remove 从列表里移除一个对象？因为它不是这么做的。原来的表没有被改变：
+
+> lst
+(C A R A T)
+若你真的想从列表里移除某些东西怎么办？在 Lisp 通常你这么做，把这个列表当作实参，传入某个函数，并使用 setf 来处理返回值
+要移除所有在列表 x 的 a ，我们可以说：
+
+(setf x (remove 'a x))
+
+函数式编程本质上意味着避免使用如 setf 的函数。起初可能觉得这根本不可能，更遑论去做了。怎么可以只凭返回值来建立程序？
+
+完全不用到副作用是很不方便的。然而，随着你进一步阅读，会惊讶地发现需要用到副作用的地方很少。副作用用得越少，你就更上一层楼。
+
+函数式编程最重要的优点之一是，它允许交互式测试（interactive testing）。
+在纯函数式的程序里，你可以测试每个你写的函数。如果它返回你预期的值，你可以有信心它是对的。
+这额外的信心，集结起来，会产生巨大的差别。当你改动了程序里的任何一个地方，会得到即时的改变。
+而这种即时的改变，使我们有一种新的编程风格。类比于电话与信件，让我们有一种新的通讯方式。
+
+#+END_QUOTE
+*** recursive and iteration
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+当我们想重复做一些事情时，迭代比递归来得更自然。典型的例子是用迭代来产生某种表格。这个函数
+
+(defun show-squares (start end)
+  (do ((i start (+ i 1)))
+      ((> i end) 'done)
+    (format t "~A ~A~%" i (* i i))))
+列印从 start 到 end 之间的整数的平方：
+
+
+作为对比，以下是递归版本的 show-squares ：
+
+(defun show-squares (i end)
+   (if (> i end)
+     'done
+     (progn
+       (format t "~A ~A~%" i (* i i))
+       (show-squares (+ i 1) end))))
+#+END_QUOTE
+*** function is symbol
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+函数在 Lisp 里，和符号、字符串或列表一样，是稀松平常的对象。如果我们把函数的名字传给 function ，它会返回相关联的对象。和 quote 类似， function 是一个特殊操作符，所以我们无需引用（quote）它的实参：
+
+> (function +)
+#<Compiled-Function + 17BA4E>
+这看起来很奇怪的返回值，是在典型的 Common Lisp 实现里，函数可能的打印表示法。
+
+#+END_QUOTE
+*** inner-type of lisp
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+Common Lisp 的内置类型，组成了一个类别的层级。对象总是不止属于一个类型。举例来说，数字 27 的类型，依普遍性的增加排序，依序是 fixnum 、 integer 、 rational 、 real 、 number 、 atom 和 t 类型。（数值类型将在第 9 章讨论。）类型 t 是所有类型的基类（supertype）。 *所以每个对象都属于 t 类型。*
+
+函数 typep 接受一个对象和一个类型，然后判定对象是否为该类型，是的话就返回真：
+
+> (typep 27 'integer)
+T
+#+END_QUOTE
+
+你不但在语言之中编程，还把 *语言改善成适合程序的语言* (which makes me exciting) 。如果你想了解 Lisp 编程的本质，理解这个概念是个好的开始。
+*** rule of compute in lisp
+Common Lisp 函数调用的求值规则： 依序对实参从左至右求值，接着把它们的值传入由操作符表示的函数。
+quote 操作符有自己的求值规则，它完封不动地返回实参。
+*** list function expression are the same thing
+除了一般的数据类型， Lisp 还有符号跟列表。由于 Lisp 程序是用列表来表示的，很轻松就能写出能编程的程序。
+
+Lisp 程序由表达式组成。表达式可以是原子，或一个由操作符跟着零个或多个实参的列表。前序表示法代表操作符可以有任意数量的实参。
+
+ Lisp 主要由函数所组成。可以用 defun 来定义新的函数。
+函数式编程代表避免产生副作用，也是 Lisp 的主导思维。
+函数是 Lisp 的对象。可以被当成实参传入，并且可以用 lambda 表达式来表示。
+自己调用自己的函数是递归的。一个递归函数应该要被想成是过程，而不是机器。
+
+#+END_QUOTE
+** functions
+*** lisp -typep
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+函数 typep 接受一个对象和一个类型，然后判定对象是否为该类型，是的话就返回真：
+
+> (typep 27 'integer)
+#+END_QUOTE
+*** lisp -lambda
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+一个 lambda 表达式是一个列表，列表包含符号 lambda ，接着是形参列表，以及由零个或多个表达式所组成的函数体
+#+END_QUOTE
+*** lisp -funcall & apply
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+函数 funcall 做的是一样的事情，但不需要把实参包装成列表。
+
+> (funcall #'+ 1 2 3)
+6
+
+
+apply 接受一个函数和实参列表，并返回把传入函数应用在实参列表的结果：
+
+> (apply #'+ '(1 2 3))
+6
+> (+ 1 2 3)
+6
+apply 可以接受任意数量的实参，只要最后一个实参是列表即可：
+
+> (apply #'+ 1 2 '(3 4 5))
+15
+#+END_QUOTE
+*** lisp -quote & function
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+如同我们可以用 ' 作为 quote 的缩写，也可以用 #' 作为 function 的缩写
+Lisp 提供 quote 作为一种保护表达式不被求值的方式
+ quote 操作符接受一个实参，并完封不动地返回它。
+
+> (quote (+ 3 5))
+贴上一个 ' ，与调用 quote 是同样的效果：
+
+> '(+ 3 5)
+#+END_QUOTE
+*** lisp -progn
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+progn 接受任意数量的表达式，依序求值，并返回最后一个表达式的值。
+#+END_QUOTE
+*** lisp -dolist
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+(defun our-length (lst)
+  (let ((len 0))
+    (dolist (obj lst)
+      (setf len (+ len 1)))
+    len))
+
+ 这里 dolist 接受这样形式的实参(variable expression)，跟着一个具有表达式的函数主体。函数主体会被求值，而变量相继与表达式所返回的列表元素绑定
+
+**** dolist do tail-recursion default
+ #+END_QUOTE
+*** lisp -do
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+do 宏是 Common Lisp 里最基本的迭代操作符。和 let 类似， do 可以创建变量，而第一个实参是一组变量的规格说明列表。每个元素可以是以下的形式
+
+(variable initial update)
+其中 variable 是一个符号， initial 和 update 是表达式。最初每个变量会被赋予 initial 表达式的值；每一次迭代时，会被赋予 update 表达式的值。在 show-squares 函数里， do 只创建了一个变量 i 。第一次迭代时， i 被赋与 start 的值，在接下来的迭代里， i 的值每次增加 1 。
+
+第二个传给 do 的实参可包含一个或多个表达式。第一个表达式用来测试迭代是否结束。在上面的例子中，测试表达式是 (> i end) 。接下来在列表中的表达式会依序被求值，直到迭代结束。而最后一个值会被当作 do 的返回值来返回。所以 show-squares 总是返回 done 。
+
+do 的剩余参数组成了循环的函数体。在每次迭代时，函数体会依序被求值。在每次迭代过程里，变量被更新，检查终止测试条件，接着（若测试失败）求值函数体。
+#+END_QUOTE
+*** lisp -remove
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+要移除所有在列表 x 的 a ，我们可以说：
+
+(setf x (remove 'a x))
+#+END_QUOTE
+*** lisp -setf
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+setf 的第一个实参几乎可以是任何引用到特定位置的表达式。所有这样的操作符在附录 D 中被标注为 “可设置的”（“settable”）。你可以给 setf 传入（偶数）个实参。一个这样的表达式
+
+(setf a 'b
+      c 'd
+      e 'f)
+
+传入 setf 的第一个实参，还可以是表达式或变量名。在这种情况下，第二个实参的值被插入至第一个实参所引用的位置：
+
+如果 setf 的第一个实参是符号（symbol），且符号不是某个局部变量的名字，则 setf 把这个符号设为全局变量
+ #+END_QUOTE
+*** lisp -boundp
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+如果你想要检查某些符号，是否为一个全局变量或常量，使用 boundp 函数：
+
+> (boundp '*glob*)
+T
+#+END_QUOTE
+*** lisp -let
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+一个 let 表达式有两个部分。第一个部分是一组创建新变量的指令，指令的形式为 (variable expression) 。
+
+一组变量与数值之后，是一个有表达式的函数体，表达式依序被求值
+#+END_QUOTE
+*** lisp -defconstant
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+用 defconstant 来定义一个全局的常量：
+
+(defconstant limit (+ *glob* 1))
+#+END_QUOTE
+*** lisp -defparameter
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+给 defparameter 传入符号和值，来创建一个全局变量：
+
+> (defparameter *glob* 99)
+*GLOB*
+#+END_QUOTE
+*** lisp -numberp
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+numberp 是一个谓词，测试它的实参是否为数字
+#+END_QUOTE
+*** lisp -format
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+format 的第一个实参 t ，表示输出被送到缺省的地方去。通常是顶层。第二个实参是一个用作输出模版的字符串。在这字符串里，每一个 ~A 表示了被填入的位置，而 ~% 表示一个换行。这些被填入的位置依序由后面的实参填入。
+
+(defun show-squares (start end)
+  (do ((i start (+ i 1)))
+      ((> i end) 'done)
+    (format t "~A ~A~%" i (* i i))))
+列印从 start 到 end 之间的整数的平方：
+
+> (show-squares 2 5)
+2 4
+3 9
+4 16
+5 25
+DONE
+> (format t "~A plus ~A equals ~A. ~%" 2 3 (+ 2 3))
+2 plus 3 equals 5.
+NIL
+ #+END_QUOTE
+*** lisp -if
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+与 quote 相同， if 是特殊的操作符。不能用函数来实现，因为实参在函数调用时永远会被求值，而 if 的特点是，只有最后两个实参的其中一个会被求值。 if 的最后一个实参是选择性的。如果忽略它的话，缺省值是 nil
+#+END_QUOTE
+
+(defun ask-number ()
+ (format t "Please enter a number. ")
+ (let ((val (read)))
+   (if (numberp val)
+       val
+       (ask-number))))
+注意这里, if的 express 可以是函数.
+
+在 lisp 中, 函数 函数返回值 表达式 值(value), 异名同体.
+
+这里把 if 作为一个函数看待,后面三个都是if的实参. 实际上发现这非常的混乱,lisp的表达似乎总是词不达意. 也似乎总是能出乎意料.
+
+这就是函数式编程,尤其是lisp 这种用列表作为表达单元,带来的阵痛,混乱,因为在这里,原本其它函数发展处的分支概念,在这里需要回家了.
+
+*** lisp -list
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+你可以调用 list 来创建列表。由于 list 是函数，所以它的实参会被求值。这里我们看一个在函数 list 调用里面，调用 + 函数的例子：
+
+> (list 'my (+ 2 1) "Sons")
+(MY 3 "Sons")
+#+END_QUOTE
+*** lisp -listp
+Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
+ #+BEGIN_QUOTE
+ (listp '(a b c))
+T
+ #+END_QUOTE
+* ubuntu settings
+** [[http://www.davidpai.tw/ubuntu/2011/ubuntu-set-locale/][{Ubuntu} 如何設定語系locale | David's Blog]] :ubuntu settings:
+Source: [2017-02-14 二], [[http://www.davidpai.tw/ubuntu/2011/ubuntu-set-locale/][{Ubuntu} 如何設定語系locale | David's Blog]]
+ #+BEGIN_QUOTE
+*** 關於語系
+
+所謂的語系(locale)，其實包含語言及地區的設定，因為除了語言之外，國家與國家的日期表示方式、數字格式、貨幣符號、度量單位可能都不一樣，所以才會有了這個locale的發明，依照國家和語言給予分類編號，再加上語言編碼，就構成了locale。
+
+zh_TW 表示 繁體中文 台灣
+zh_CN 表示 簡體中文 中國
+en_US 表示 英文 美國
+然後再加上語言編碼
+zh_TW.UTF-8 表示 繁體中文 台灣 UTF-8編碼
+zh_TW.Big5 表示 繁體中文 台灣 Big5編碼
+zh_CN.UTF-8 表示 簡體中文 中國 UTF-8編碼
+zh_CN.GB2312 表示 簡體中文 中國 GB2312編碼
+en_US.UTF-8 代表 英文 美國 UTF-8編碼
+…
+等等還有好多好多，Ubuntu所有支援的語系和編碼，可以看這個檔案:
+/usr/share/i18n/SUPPORTED
+設定語系
+
+*** 列出已安裝的語系
+
+首先要先看看我們自己的系統上安裝了哪些語系:
+$ locale -a
+C
+POSIX
+C和POSIX是系統預設的，看來這台機器三比八，什麼都沒有裝…(囧)
+列出目前的語系設定
+
+*** 再來看看我們現在的語系設定是怎樣:
+$ locale
+LANG=
+LC_CTYPE="POSIX"
+LC_NUMERIC="POSIX"
+LC_TIME="POSIX"
+LC_COLLATE="POSIX"
+LC_MONETARY="POSIX"
+LC_MESSAGES="POSIX"
+LC_PAPER="POSIX"
+LC_NAME="POSIX"
+LC_ADDRESS="POSIX"
+LC_TELEPHONE="POSIX"
+LC_MEASUREMENT="POSIX"
+LC_IDENTIFICATION="POSIX"
+LC_ALL=
+果然，全部也是預設的POSIX…(囧)
+
+*那這裡面一堆LC_xxx的就是我們上面所說的，關於日期、度量單位、貨幣符號等等各種的設定，其實它就是我們系統的環境變數，可以用 export 指令來看*
+
+挑幾個重點來講:
+LC_CTYPE 這會影響字元的分類和轉換，若要能輸入中文，就是設定這裡
+LC_TIME 這就是日期和時間的顯示格式囉
+LC_MONETARY 這會影響貨幣單位的符號和表示
+LC_MESSAGES 這會影響系統訊息的顯示，若想要顯示中文，就是設定這裡
+LANG 這是預設，如果上面有沒設定的，就會用這裡的設定
+LC_ALL 這是強制全部使用這裡的設定，如果這裡設定了，那麼上面的都沒用，全部以這裡的為準
+基本上我們會全部都用同一個國家語系，但不表示全部就要設相同的，你可以日期設成中國、度量設成台灣、貨幣設成美國都OK，隨你高興，只是…沒有人會這樣做吧= =”
+
+*** 產生語系檔案
+
+要設定語系，必須先有語系檔案，我們可以用locale-gen這個指令來產生
+$ sudo locale-gen zh_TW zh_TW.UTF-8 zh_CN.UTF-8 en_US.UTF-8
+Generating locales...
+en_US.UTF-8... done
+zh_CN.UTF-8... done
+zh_TW.BIG5... done
+zh_TW.UTF-8... done
+Generation complete.
+這樣就產生了4種語系檔案，由於Big5是zh_TW的預設編碼，所以下指令時不需要寫成zh_TW.Big5
+檔案就放在 /usr/lib/locale 目錄下，會產生與語系同名的目錄:
+$ ls -l /usr/lib/locale
+drwxr-xr-x 3 root root 4096 2011-10-15 17:27 en_US.utf8
+drwxr-xr-x 3 root root 4096 2011-10-15 17:27 zh_CN.utf8
+drwxr-xr-x 3 root root 4096 2011-10-15 17:18 zh_TW
+drwxr-xr-x 3 root root 4096 2011-10-15 17:18 zh_TW.utf8
+另外我們也可以在 /var/lib/locales/supported.d/ 底下建一個 local 檔，裡面寫上妳要產生的語系，格式與我們上面提到的 /usr/share/i18n/SUPPORTED 這個檔案裡面列出的相同，例如:
+$ sudo vim /var/lib/locales/supported.d/local
+zh_TW.UTF-8 UTF-8
+zh_CN.UTF-8 UTF-8
+en_US.UTF-8 UTF-8
+zh_TW BIG5
+一行一個語系，有了這個檔案，以後只要下 locale-gen 指令，不指定語系，它會自己去找這裡面寫的語系去產生檔案
+$ sudo locale-gen
+Generating locales...
+en_US.UTF-8... up-to-date
+zh_CN.UTF-8... up-to-date
+zh_TW.BIG5... up-to-date
+zh_TW.UTF-8... up-to-date
+Generation complete.
+
+*** 更改語系設定
+
+若只是要暫時更改語系設定，直接下 export 指令更改環境變數即可
+先看一下日期格式:
+$ date
+Sat Oct 15 17:44:37 CST 2011
+然後設定，再看一下日期:
+$ export LC_TIME=zh_TW.UTF-8
+$ date
+六 10月 15 17:50:58 CST 2011
+唷~ 變中文了耶，喔耶~~ 不過這種格式其實我不是很喜歡，所以下面我要把它改回英文…
+若只要變更自己帳號登入的語系設定，那麼編輯家目錄下的.bashrc檔，在最後面加上，例如:
+$ vim ~/.bashrc
+...(略)...
+export LC_CTYPE=zh_TW.UTF-8 # 可以輸入UTF-8中文
+export LC_MESSAGES=zh_TW.UTF-8 # 可以顯示UTF-8中文
+export LC_TIME=en_US.UTF-8 # 日期格式還是用美式的
+然後重新登入，噹噹~~就生效了
+若要變更的是系統全域設定，那麼就把設定寫在 /etc/default/locale 這個檔案裡
+$ sudo vim /etc/default/locale
+LC_CTYPE=zh_TW.UTF-8
+LC_MESSAGES=zh_TW.UTF-8
+LC_TIME=zh_TW.UTF-8
+或者加到環境變數的設定檔 /etc/environment 最後面
+$ sudo vim /etc/environment
+....(略)...
+LC_CTYPE=zh_TW.UTF-8
+LC_MESSAGES=zh_TW.UTF-8
+LC_TIME=en_US.UTF-8
+相關檔案目錄
+/usr/share/i18n/SUPPORTED
+/usr/lib/locale/
+/var/lib/locales/supported.d/local
+~/.bashrc
+/etc/default/locale
+/etc/environment
+相關指令
+local
+local-gen
+#+END_QUOTE
+** wget 使用小結
+   直接下載： =wget <http://xxxxx>=
+   下載到指定文件： =wget -O - <http://xxxxx> > yyy.txt= ,注意在 =-O= 後面有個 =-=
+* Funiture Installation
+** cost of Installation in Nanjing and Xuzhou
+   | Furniture                | Xu-cost | Nan-cost |
+   |--------------------------+---------+----------|
+   | Bed-1.8/1.5-HydraulicRoc |  50-100 |       80 |
+   | Bed-1.8/1.5              |      50 |       50 |
+   | Bureau *4doors           |     100 |      100 |
+   | Bureau *3doors           |      90 |       90 |
+   | Dressing table           |      50 |       50 |
+   | Night table              |      15 |       15 |
+   |--------------------------+---------+----------|
+** TODO fangwu wenti [7/12]
+   :LOGBOOK:
+   it is so annoying to make this list of checkboxes, I refer =cua-mode= , =multiple-cursor-mode= , but both are not execute very well in
+   evil edit-mode ,so i frequently swich emacs-mode and evil-mode by =C-z= .
+   1. I copy all the text from onenote from the chrome;
+   2. I get how to toggle the check-box between SOLVED and UNSOLVED, by =C-z= ;
+   3. I add '[]' to the head of all lines by cua-mode in evil-mode, FAILED!
+   4. I googled a mode which pre-installed in zilong'configurations--- =multiple-cursor-mode= ;
+   5. it also sucks in evil-mode.
+   6. I find the configuration and hotkey re-defined by zilong ,in =/.spacemacs.d/layers/zilongshanren-misc/packages.el=
+      1. switch to *emacs-mode*
+      2. =C-spc= to select several chars , then =C-s-f= to mark all the identical highlight
+      3. =C-spc= again to cancel the highlight state, then you get MULTIPLE CURSOR
+      4. now, its your fasion time!
+   :END:
+   1) [X] 进户门：[3/3]
+      - [X] 门正面有划痕，左下角变形；
+      - [X] 门锁侧立面变形、掉漆；
+      - [X] 内门框有划痕；
+   2) [X] 进户走廊：[2/2]
+      - [X] 空调开关标识错，标到倒数第二个挂机标识上；
+      - [X] 门口可视化对讲机底座松弛；
+   3) [-] 厨房：[6/7]
+      - [X] 所有插座未进漏电保护；
+      - [ ] 厨房窗户明显歪斜；
+      - [X] 厨房门关不上；窗把手太松；
+      - [X] 门套下墙起皮，外右门套边缝隙较大，有划痕；
+      - [X] 消毒柜两侧柜门摩擦柜体木板；消毒柜右边柜门右下铰链送了；
+      - [X] 窗顶扣板不平，对缝不齐；
+      - [X] 西墙砖勾缝不齐整；
+   4) [X] 客厅：[1/1]
+      - [X] 客厅空调柜机插座现为10A插座，应改为16A大插座；
+   5) [ ] 阳台：[0/4]
+      - [ ] 空调外机位地漏堵塞严重，下水很慢；
+      - [ ] 阳台水池边地漏堵塞，下水很慢；
+      - [ ] 墙面色差，顶面不平;   :2:
+      - [ ] 外机位门有色差；
+   6) [X] 卫生间：[6/6]
+      - [X] 马桶插座火线零线接错；
+      - [X] 毛巾架太松驰；
+      - [X] 地漏内操有砂浆块，下水很慢；
+      - [X] 马桶地漏较粗糙，上扣板不平；
+      - [X] 干区洗漱台盆下墙砖未勾缝；镜柜下墙体粗糙未整平，未上漆；开关松动翘起；
+      - [X] 卫生间推拉门门锁正反面有漏缝；门正面污渍明显；
+   7) [ ] 浴室：[0/1]
+      - [ ] 浴室玻璃门下部两侧漏水严重 :2:
+   8) [X] 南次卧：[2/2]
+      - [X] 门破损且关不上；保险关不上（槽片挡住导致）；
+      - [X] 南地板破损，划痕；
+   9) [X] 主卧：[2/2]
+      - [X] 门关不上，门锁保险关不上（门框槽片挡住导致）；
+      - [X] 过门石打胶粗糙；
+   10) [X] 书房：[1/1]
+       - [X] 门右下角破损；地板划痕严重；
+   11) [ ] 所有墙体：[0/1]
+       - [ ] 房屋内所有乳胶漆墙面出现多出裂痕（已经在墙上标明）；
+   12) [ ] xiegui, dengguan wei guding
+* 2017
+** 2017-03 March
+*** 2017-03-11 Saturday
+
+**** 定制 org capture 就是定制 org-capture-template 這個變量

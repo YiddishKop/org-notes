@@ -1,0 +1,18 @@
+* Workspace
+
+** TODO [#B] make sure which item affect the connection in my /etc/resolv.conf
+   in my /etc/reslov.conf , i added 4 items, i wana know which really make my chrome
+   connect to google.
+   1. commant "search vpn"?
+   2. commant "8.8.8.8"
+   3. ...
+
+
+** TODO [#B] http://cs2.swfc.edu.cn/~wx672/lecture_notes/linux/latex/latex_tutorial.html
+   a good intro to latex and emacs
+
+* Family
+
+** TODO [#A] need a test
+
+  [2017-03-11 Sat 11:38]
