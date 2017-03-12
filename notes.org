@@ -622,6 +622,7 @@
    |   | <evil:format> let rest chars of a line to next line              | C j                     |                    |
    |   | <evil:format>let rest chars of next line to current line         | shift j                 |                    |
    |   | <evil:format>scroll window to make current line middle of window | z z                     |                    |
+   |   | <evil:elisp> find the doc of current function                    | K                       |                    |
    |   | <vim>delete all the blank line                                   | :g/^$/d                 |                    |
    |   | <vim>delete all the line with only blank space in it             | :g/^\s*$/d              |                    |
    |---+------------------------------------------------------------------+-------------------------+--------------------|
@@ -1331,6 +1332,7 @@
      :PAGES: %^{Pages}
      :GENRE: %^{Genre}
      :END:
+
      - Recommended by %^{recommended by}
      :LOGBOOK:
      - Added: %U
@@ -2252,4 +2254,3 @@ WantedBy=multi-user.target
 *** hack emacs
     like org-protocol --- capture content between chrome and emacs-org, I think it is more convinient to hack
     emacs to make has-reading-method apply smoothly.
-* Blog Ideas

@@ -1,0 +1,181 @@
+
+
+
+
+&lt;p&gt;
+Polynomials are convenient for fitting to data. Frequently we need to derive some properties of the data from the fit, e.g. the minimum value, or the slope, etc&amp;#x2026; Since we are fitting data, there is uncertainty in the polynomial parameters, and corresponding uncertainty in any properties derived from those parameters. 
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is our data.
+&lt;/p&gt;
+
+&lt;table id="data" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="right"/&gt;
+
+&lt;col class="right"/&gt;
+&lt;/colgroup&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="right"&gt;-3.00&lt;/td&gt;
+&lt;td class="right"&gt;8.10&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="right"&gt;-2.33&lt;/td&gt;
+&lt;td class="right"&gt;4.49&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="right"&gt;-1.67&lt;/td&gt;
+&lt;td class="right"&gt;1.73&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="right"&gt;-1.00&lt;/td&gt;
+&lt;td class="right"&gt;-0.02&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="right"&gt;-0.33&lt;/td&gt;
+&lt;td class="right"&gt;-0.90&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="right"&gt;0.33&lt;/td&gt;
+&lt;td class="right"&gt;-0.83&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="right"&gt;1.00&lt;/td&gt;
+&lt;td class="right"&gt;0.04&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="right"&gt;1.67&lt;/td&gt;
+&lt;td class="right"&gt;1.78&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="right"&gt;2.33&lt;/td&gt;
+&lt;td class="right"&gt;4.43&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="right"&gt;3.00&lt;/td&gt;
+&lt;td class="right"&gt;7.95&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre class="src src-python"&gt;&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; matplotlib.pyplot &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; plt
+
+x = [a[0] &lt;span style="color: #8b0000;"&gt;for&lt;/span&gt; a &lt;span style="color: #8b0000;"&gt;in&lt;/span&gt; data]
+y = [a[1] &lt;span style="color: #8b0000;"&gt;for&lt;/span&gt; a &lt;span style="color: #8b0000;"&gt;in&lt;/span&gt; data]
+plt.plot(x, y)
+plt.savefig(&lt;span style="color: #228b22;"&gt;'images/uncertain-roots.png'&lt;/span&gt;)
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src="/img/./images/uncertain-roots.png"&gt;&lt;p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre class="src src-python"&gt;&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; matplotlib.pyplot &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; plt
+&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; numpy &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; np
+&lt;span style="color: #8b0000;"&gt;from&lt;/span&gt; pycse &lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; regress
+
+x = np.array([a[0] &lt;span style="color: #8b0000;"&gt;for&lt;/span&gt; a &lt;span style="color: #8b0000;"&gt;in&lt;/span&gt; data])
+y = [a[1] &lt;span style="color: #8b0000;"&gt;for&lt;/span&gt; a &lt;span style="color: #8b0000;"&gt;in&lt;/span&gt; data]
+
+A = np.column_stack([x**0, x**1, x**2])
+
+p, pint, se = regress(A, y, alpha=0.05)
+
+&lt;span style="color: #8b0000;"&gt;print&lt;/span&gt; p
+
+&lt;span style="color: #8b0000;"&gt;print&lt;/span&gt; pint
+
+&lt;span style="color: #8b0000;"&gt;print&lt;/span&gt; se
+
+plt.plot(x, y, &lt;span style="color: #228b22;"&gt;'bo '&lt;/span&gt;)
+
+xfit = np.linspace(x.min(), x.max())
+plt.plot(xfit, np.dot(np.column_stack([xfit**0, xfit**1, xfit**2]), p), &lt;span style="color: #228b22;"&gt;'b-'&lt;/span&gt;)
+plt.savefig(&lt;span style="color: #228b22;"&gt;'images/uncertain-roots-1.png'&lt;/span&gt;)
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+[-0.99526746 -0.011546    1.00188999]
+[[-1.05418017 -0.93635474]
+ [-0.03188236  0.00879037]
+ [ 0.98982737  1.01395261]]
+[ 0.0249142   0.00860025  0.00510128]
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src="/img/./images/uncertain-roots-1.png"&gt;&lt;p&gt;
+
+&lt;p&gt;
+Since this is a quadratic equation, we know the roots analytically: \(x = \frac{-b \pm \sqrt{b^2 - 4 a c}{2 a}\). So, we can use the uncertainties package to directly compute the uncertainties in the roots. 
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre class="src src-python"&gt;&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; numpy &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; np
+&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; uncertainties &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; u
+
+c, b, a = [-0.99526746, -0.011546,    1.00188999]
+sc, sb, sa = [ 0.0249142,   0.00860025,  0.00510128]
+
+A = u.ufloat((a, sa))
+B = u.ufloat((b, sb))
+C = u.ufloat((c, sc))
+
+&lt;span style="color: #ff0000; font-weight: bold;"&gt;# np.sqrt does not work with uncertainity&lt;/span&gt;
+r1 = (-B + (B**2 - 4 * A * C)**0.5) / (2 * A)
+r2 = (-B - (B**2 - 4 * A * C)**0.5) / (2 * A)
+
+&lt;span style="color: #8b0000;"&gt;print&lt;/span&gt; r1
+&lt;span style="color: #8b0000;"&gt;print&lt;/span&gt; r2
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+1.00246826738+/-0.0134477390832
+-0.990944048037+/-0.0134208013339
+&lt;/pre&gt;
+
+&lt;p&gt;
+The minimum is also straightforward to analyze here. The derivative of the polynomial is \(2 a x + b\) and it is equal to zero at \(x = -b / (2 a)\).
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre class="src src-python"&gt;&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; numpy &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; np
+&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; uncertainties &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; u
+
+c, b, a = [-0.99526746, -0.011546,    1.00188999]
+sc, sb, sa = [ 0.0249142,   0.00860025,  0.00510128]
+
+A = u.ufloat((a, sa))
+B = u.ufloat((b, sb))
+
+zero = -B / (2 * A)
+&lt;span style="color: #8b0000;"&gt;print&lt;/span&gt; &lt;span style="color: #228b22;"&gt;'The minimum is at {0}.'&lt;/span&gt;.format(zero)
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+The minimum is at 0.00576210967034+/-0.00429211341136.
+&lt;/pre&gt;
+
+&lt;p&gt;
+You can see there is uncertainty in both the roots of the original polynomial, as well as the minimum of the data. The approach here worked well because the polynomials were low order (quadratic or linear) where we know the formulas for the roots. Consequently, we can take advantage of the uncertainties module with little effort to propagate the errors. For higher order polynomials, we would probably have to do some wrapping of functions to propagate uncertainties.
+&lt;/p&gt;
+&lt;p&gt;Copyright (C) 2013 by John Kitchin. See the &lt;a href="/copying.html"&gt;License&lt;/a&gt; for information about copying.&lt;p&gt;&lt;p&gt;&lt;a href="/org/2013/07/05/Uncertainty-in-polynomial-roots.org"&gt;org-mode source&lt;/a&gt;&lt;p&gt;

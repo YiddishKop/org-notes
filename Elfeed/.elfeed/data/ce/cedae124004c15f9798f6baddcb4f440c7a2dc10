@@ -1,0 +1,73 @@
+
+
+
+&lt;p&gt;
+Our objective here is to fit a quadratic function in the least squares sense to some data, but we want to constrain the fit so that the function has specific values at the end-points. The application is to fit a function to the lattice constant of an alloy at different compositions. We constrain the fit because we know the lattice constant of the pure metals, which are at the end-points of the fit and we want these to be correct. 
+&lt;/p&gt;
+
+&lt;p&gt;
+We define the alloy composition in terms of the mole fraction of one species, e.g. \(A_xB_{1-x}\). For \(x=0\), the alloy is pure B, whereas for \(x=1\) the alloy is pure A. According to Vegard's law the lattice constant is a linear composition weighted average of the pure component lattice constants, but sometimes small deviations are observed. Here we will fit a quadratic function that is constrained to give the pure metal component lattice constants at the end points. 
+&lt;/p&gt;
+
+&lt;p&gt;
+The quadratic function is \(y = a x^2 + b x + c\). One constraint is at \(x=0\) where \(y = c\), or \(c\) is the lattice constant of pure B. The second constraint is at \(x=1\), where \(a + b + c\) is equal to the lattice constant of pure A. Thus, there is only one degree of freedom. \(c = LC_B\), and \(b = LC_A - c - a\), so \(a\) is our only variable.
+&lt;/p&gt;
+
+&lt;p&gt;
+We will solve this problem by minimizing the summed squared error between the fit and the data. We use the &lt;code&gt;fmin&lt;/code&gt; function in &lt;code&gt;scipy.optimize&lt;/code&gt;. First we create a fit function that encodes the constraints. Then we create an objective function that will be minimized. We have to make a guess about the value of \(a\) that minimizes the summed squared error. A line fits the data moderately well, so we guess a small value, i.e. near zero, for \(a\). Here is the solution.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre class="src src-python"&gt;&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; numpy &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; np
+&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; matplotlib.pyplot &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; plt
+
+&lt;span style="color: #ff0000; font-weight: bold;"&gt;# &lt;/span&gt;&lt;span style="color: #ff0000; font-weight: bold;"&gt;Data to fit to&lt;/span&gt;
+&lt;span style="color: #ff0000; font-weight: bold;"&gt;# &lt;/span&gt;&lt;span style="color: #ff0000; font-weight: bold;"&gt;x=0 is pure B&lt;/span&gt;
+&lt;span style="color: #ff0000; font-weight: bold;"&gt;# &lt;/span&gt;&lt;span style="color: #ff0000; font-weight: bold;"&gt;x=1 is pure A&lt;/span&gt;
+X = np.array([0.0, 0.1,  0.25, 0.5,  0.6,  0.8,  1.0])
+Y = np.array([3.9, 3.89, 3.87, 3.78, 3.75, 3.69, 3.6])
+
+&lt;span style="color: #8b0000;"&gt;def&lt;/span&gt; &lt;span style="color: #8b2323;"&gt;func&lt;/span&gt;(a, XX):
+    LC_A = 3.6
+    LC_B = 3.9
+
+    c = LC_B
+    b = LC_A - c - a
+
+    yfit = a * XX**2 + b * XX + c
+    &lt;span style="color: #8b0000;"&gt;return&lt;/span&gt; yfit
+
+&lt;span style="color: #8b0000;"&gt;def&lt;/span&gt; &lt;span style="color: #8b2323;"&gt;objective&lt;/span&gt;(a):
+    &lt;span style="color: #228b22;"&gt;'function to minimize'&lt;/span&gt;
+    SSE = np.sum((Y - func(a, X))**2)
+    &lt;span style="color: #8b0000;"&gt;return&lt;/span&gt; SSE
+
+
+&lt;span style="color: #8b0000;"&gt;from&lt;/span&gt; scipy.optimize &lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; fmin
+
+a_fit = fmin(objective, 0)
+plt.plot(X, Y, &lt;span style="color: #228b22;"&gt;'bo '&lt;/span&gt;)
+
+x = np.linspace(0, 1)
+plt.plot(x, func(a_fit, x))
+plt.savefig(&lt;span style="color: #228b22;"&gt;'images/constrained-quadratic-fit.png'&lt;/span&gt;)
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+Optimization terminated successfully.
+         Current function value: 0.000445
+         Iterations: 19
+         Function evaluations: 38
+&lt;/pre&gt;
+
+&lt;p&gt;
+Here is the result:
+&lt;p&gt;&lt;img src="/img/./images/constrained-quadratic-fit.png"&gt;&lt;p&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+You can see that the end points go through the end-points as prescribed. 
+&lt;/p&gt;
+&lt;p&gt;Copyright (C) 2013 by John Kitchin. See the &lt;a href="/copying.html"&gt;License&lt;/a&gt; for information about copying.&lt;p&gt;&lt;p&gt;&lt;a href="/org/2013/06/11/Constrained-fits-to-data.org"&gt;org-mode source&lt;/a&gt;&lt;p&gt;

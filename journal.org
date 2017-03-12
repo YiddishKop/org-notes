@@ -1767,6 +1767,10 @@ export 方式只对当前终端 Shell 有效
      (candidate-number-limit)
      (action . (("Open" . (lambda (x) (funcall x)))))))
    #+END_SRC
+**  [[https://apps.ubuntu.com/cat/applications/precise/variety/][Variety — Ubuntu Apps Directory]]              :ubuntu:app:wallpaper:quote:
+ Captured On: [2017-03-12 Sun 10:18]
+**  [[http://stackoverflow.com/questions/3684212/using-strftime-function-in-mawk][awk - Using strftime function in mawk - Stack Overflow]] :ical2org:org:google:calendar:
+ Captured On: [2017-03-12 Sun 12:55]
 * 列表
   |数据结构| -> 指针/内存
 
@@ -2552,3 +2556,350 @@ local-gen
 *** 2017-03-11 Saturday
 
 **** 定制 org capture 就是定制 org-capture-template 這個變量
+
+
+*** Template expansion                                 :org:capture:tempalte:
+
+In the template itself, special %-escapes1 allow dynamic insertion of content. The templates are expanded in the order given here:
+
+    | %[file]     |Insert the contents of the file given by file.
+    | %(sexp)     |Evaluate Elisp sexp and replace with the result.
+    |             |      For convenience, %:keyword (see below) placeholders
+    |             |      within the expression will be expanded prior to this.
+    |             |      The sexp must return a string.
+    | %<...>      |The result of format-time-string on the ... format specification.
+    | %t          |Timestamp, date only.會在agenda中記錄出來
+    | %T          |Timestamp, with date and time.會在agenda中記錄出來
+    | %u, %U      |Like the above, but inactive timestamps.不會在agenda中記錄出來
+    | %i          |Initial content, the region when capture is called while the
+    |             |region is active.
+    |             |The entire text will be indented like %i itself.
+    | %a          |Annotation, normally the link created with org-store-link.
+    | %A          |Like %a, but prompt for the description part.
+    | %l          |Like %a, but only insert the literal link.
+    | %c          |Current kill ring head.
+    | %x          |Content of the X clipboard.
+    | %k          |Title of the currently clocked task.
+    | %K          |Link to the currently clocked task.
+    | %n          |User name (taken from user-full-name).
+    | %f          |File visited by current buffer when org-capture was called.
+    | %F          |Full path of the file or directory visited by current buffer.
+    | %:keyword   |Specific information for certain link types, see below.
+    | %^g         |Prompt for tags, with completion on tags in target file.
+    | %^G         |Prompt for tags, with completion all tags in all agenda files.
+    | %^t         |Like %t, but prompt for date.  Similarly %^T, %^u, %^U.
+    |             |You may define a prompt like *%^{Birthday}t*.會在agenda中記錄出來，而且帶提示符
+    | %^C         |Interactive selection of which kill or clip to use.
+    | %^L         |Like %^C, but insert as link.
+    | %^{prop}p   |Prompt the user for a value for property prop.
+    | %^{prompt}  |prompt the user for a string and replace this sequence with it.
+    |             |You may specify a default value and a completion table with
+    |             |%^{prompt|default|completion2|completion3...}.
+    |             |The arrow keys access a prompt-specific history. minibuffer中要求你輸入,輸入的內容會出現在這些符號的位置
+    | %\1 ... %\N |Insert the text entered at the Nth %^{prompt}, where N is
+    |             |a number, starting from 1.
+    | %?          |After completing the template, position cursor here.光標最後會回到的地方
+
+* Chome Clip Inbox
+** 9.1.3 Capture templates
+ Source: [2017-03-11 Sat], [[http://orgmode.org/manual/Capture-templates.html][Capture templates - The Org Manual]]
+  #+BEGIN_QUOTE
+ 9.1.3 Capture templates
+
+ You can use templates for different types of capture items, and for different
+ target locations. The easiest way to create such templates is through the
+ customize interface.
+
+ C-c c C Customize the variable org-capture-templates. Before we give the formal
+ description of template definitions, let's look at an example. Say you would
+ like to use one template to create general TODO entries, and you want to put
+ these entries under the heading ‘Tasks’ in your file ~/org/gtd.org. Also, a
+ date tree in the file journal.org should capture journal entries. A possible
+ configuration would look like:
+
+#+BEGIN_SRC emacs-lisp
+
+      (setq org-capture-templates
+       '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
+              "* TODO %?\n  %i\n  %a")
+         ("j" "Journal" entry (file+datetree "~/org/journal.org")
+              "* %?\nEntered on %U\n  %i\n  %a")))
+#+END_SRC
+
+ If you then press C-c c t, Org will prepare the template for you like this:
+
+      * TODO
+        [[file:link to where you initiated capture]]
+ During expansion of the template, %a has been replaced by a link to the
+ location from where you called the capture command. This can be extremely
+ useful for deriving tasks from emails, for example. You fill in the task
+ definition, press C-c C-c and Org returns you to the same place where you
+ started the capture process.
+
+ To define special keys to capture to a particular template without going
+ through the interactive template selection, you can create your key binding
+ like this:
+
+      (define-key global-map "\C-cx"
+         (lambda () (interactive) (org-capture nil "x")))
+ #+END_QUOTE
+*** Template elements
+ Source: [2017-03-11 Sat], [[http://orgmode.org/manual/Template-elements.html#Template-elements][Template elements - The Org Manual]]
+  #+BEGIN_QUOTE
+
+ Now lets look at the elements of a template definition. Each entry in org-capture-templates is a list with the following items:
+
+ keys
+ The keys that will select the template, as a string, characters only, for example "a" for a template to be selected with a single key, or "bt" for selection with two keys. When using several keys, keys using the same prefix key must be sequential in the list and preceded by a 2-element entry explaining the prefix key, for example
+                    ("b" "Templates for marking stuff to buy")
+ If you do not define a template for the C key, this key will be used to open the customize buffer for this complex variable.
+
+ description
+ A short string describing the template, which will be shown during selection.
+ type
+ The type of entry, a symbol. Valid values are:
+ entry
+ An Org mode node, with a headline. Will be filed as the child of the target entry or as a top-level entry. The target file should be an Org mode file.
+ item
+ A plain list item, placed in the first plain list at the target location. Again the target file should be an Org file.
+ checkitem
+ A checkbox item. This only differs from the plain list item by the default template.
+ table-line
+ a new line in the first table at the target location. Where exactly the line will be inserted depends on the properties :prepend and :table-line-pos (see below).
+ plain
+ Text to be inserted as it is.
+
+ target
+ Specification of where the captured item should be placed. In Org mode files, targets usually define a node. Entries will become children of this node. Other types will be added to the table or list in the body of this node. Most target specifications contain a file name. If that file name is the empty string, it defaults to org-default-notes-file. A file can also be given as a variable or as a function called with no argument. When an absolute path is not specified for a target, it is taken as relative to org-directory.
+ Valid values are:
+
+ (file "path/to/file") Text will be placed at the beginning or end of that file.
+ (id "id of existing org entry") Filing as child of this entry, or in the body of the entry.
+ (file+headline "path/to/file" "node headline") Fast configuration if the target heading is unique in the file.
+ (file+olp "path/to/file" "Level 1 heading" "Level 2" ...) For non-unique headings, the full path is safer.
+ (file+regexp "path/to/file" "regexp to find location") Use a regular expression to position the cursor.
+ (file+datetree "path/to/file") Will create a heading in a date tree for today's date1.
+ (file+datetree+prompt "path/to/file") Will create a heading in a date tree, but will prompt for the date.
+ (file+weektree "path/to/file") Will create a heading in a week tree for today's date. Week trees are sorted by week and not by month unlike datetrees.
+ (file+weektree+prompt "path/to/file") Will create a heading in a week tree, but will prompt for the date.
+ (file+function "path/to/file" function-finding-location) A function to find the right location in the file.
+ (clock) File to the entry that is currently being clocked.
+ (function function-finding-location) Most general way: write your own function which both visits the file and moves point to the right location.
+
+ template
+ The template for creating the capture item. If you leave this empty,
+ an appropriate default template will be used. Otherwise this is a string with
+ escape codes, which will be replaced depending on time and context of the
+ capture call. The string with escapes may be loaded from a template file, using
+ the special syntax (file "path/to/template"). See below for more details.
+
+ properties The rest of the entry is a property list of additional options.
+ Recognized properties are:
+ :prepend           Normally new captured information will be appended at the target location (last child, last table line, last list item...). Setting this property will change that.
+ :immediate-finish When set, do not offer to edit the information, just file it away immediately. This makes sense if the template only needs information that can be added automatically.
+ :empty-lines Set this to the number of lines to insert before and after the new item. Default 0, only common other value is 1.
+ :clock-in Start the clock in this item.
+ :clock-keep Keep the clock running when filing the captured entry.
+ :clock-resume If starting the capture interrupted a clock, restart that clock when finished with the capture. Note that :clock-keep has precedence over :clock-resume. When setting both to t, the current clock will run and the previous one will not be resumed.
+ :unnarrowed Do not narrow the target buffer, simply show the full buffer. Default is to narrow it so that you only see the new material.
+ :table-line-pos Specification of the location in the table where the new line should be inserted. It can be a string, a variable holding a string or a function returning a string. The string should look like "II-3" meaning that the new line should become the third line before the second horizontal separator line.
+ :kill-buffer If the target file was not yet visited when capture was invoked, kill the buffer again after capture is completed.
+ #+END_QUOTE
+
+** come up with sth, get to do sth, manually                        :ENGLISH:
+ Source: [2017-03-12 Sun], [[https://github.com/rejeep/prodigy.el][rejeep/prodigy.el: Manage external services from within Emacs]]
+  #+BEGIN_QUOTE
+ I *came up with* the idea when I *got to* work one Monday morning and before I
+ could start working I had to *manually* start ten or so services.
+ #+END_QUOTE
+
+** get rid of sth, tedious                                          :ENGLISH:
+ Source: [2017-03-12 Sun], [[https://github.com/rejeep/prodigy.el][rejeep/prodigy.el: Manage external services from within Emacs]]
+
+
+  #+BEGIN_QUOTE
+ *To get rid of* this *tedious* work, I started working on this Emacs plugin, which provides a nice and simple GUI to manage services.
+ #+END_QUOTE
+
+** how to get the place some lib installed      :ubuntu:lib:ldconfig:command:
+ Source: [2017-03-12 Sun], [[http://www.linuxquestions.org/questions/linux-software-2/installing-emacs-24-4-1-with-libxml2-4175535781/][{SOLVED} Installing Emacs 24.4.1 with libxml2]]
+
+  #+BEGIN_QUOTE
+ Code:
+ ldconfig -p | grep libxml2
+ outputs:
+ Code:
+ libxml2.so.2 (libc6,x86-64) => /usr/lib/x86_64-linux-gnu/libxml2.so.2
+ libxml2.so.2 (libc6) => /usr/lib/i386-linux-gnu/libxml2.so.2
+ #+END_QUOTE
+
+* QuickNotes
+
+** Embedding Youtube videos with org-mode links
+ The Power of Org-links post series
+
+ Use Org-Mode Links for Anything
+ Embedding Youtube videos with org-mode links
+ Markdown style link IDs in org-mode
+
+ If you’re a frequent reader, no doubt you noticed an embedded Youtube video on
+ a post a couple of weeks ago. Youtube makes it pretty simple to embed videos,
+ they give you the entire iframe HTML code to use, but this wouldn’t really be
+ Emacs if we couldn’t make things just a little bit easier. Just add the snippet
+ below to your init file, and you’re good to go.
+
+ #+BEGIN_SRC emacs-lisp
+
+ (defvar yt-iframe-format
+   ;; You may want to change your width and height.
+   (concat "<iframe width=\"440\""
+           " height=\"335\""
+           " src=\"https://www.youtube.com/embed/%s\""
+           " frameborder=\"0\""
+           " allowfullscreen>%s</iframe>"))
+
+ (org-add-link-type
+  "yt"
+  (lambda (handle)
+    (browse-url
+     (concat "https://www.youtube.com/embed/"
+             handle)))
+  (lambda (path desc backend)
+    (cl-case backend
+      (html (format yt-iframe-format
+                    path (or desc "")))
+      (latex (format "\href{%s}{%s}"
+                     path (or desc "video"))))))
+
+ #+END_SRC
+
+ To use this, just write your org links in the following way (optionally adding a
+ description).
+
+ [[yt:A3JAlWM8qRM]]
+
+ When you export to HTML, this will produce that same inlined snippet that
+ Youtube specifies. The advantage (over simply writing out the iframe) is that
+ this link can be clicked in org-mode, and can be exported to other formats as
+ well.
+** Use org-mode links for anything
+   強大到可怕的 org-mode link 功能。
+   我的個天！
+
+   One little-know feature of org-mode is that you can define new types of links
+   with the aptly named ~org-add-link-type~. The applications of this virtue are
+   many. One might, for instance, write links which search an entire code base for
+   an expression.
+
+   *先運行下面的代碼，再點擊headling的鏈接*
+   運行過上面的代碼之後，點擊下面的鏈接，會彈出所有被找到的文件列表，通過他們可以直接跳轉。
+*** TODO refactor [[grep:.pdf][pdf file]] into another place
+    #+BEGIN_SRC emacs-lisp
+
+    (org-add-link-type
+  "grep" 'endless/follow-grep-link)
+
+ (defun endless/follow-grep-link (regexp)
+   "Run `rgrep' with REGEXP as argument."
+   (grep-compute-defaults)
+   (rgrep regexp "*" (expand-file-name "./")))
+
+    #+END_SRC
+
+
+*** TODO find all org headline with [[tag:ubuntu][ubuntu]] tag
+
+    #+BEGIN_SRC emacs-lisp
+ (org-add-link-type
+  "tag" 'endless/follow-tag-link)
+ (defun endless/follow-tag-link (tag)
+   "Display a list of TODO headlines with tag TAG.
+ With prefix argument, also display headlines without a TODO keyword."
+   (org-tags-view (null current-prefix-arg) tag))
+    #+END_SRC
+
+
+    Then, merely write your links as
+
+    The syntax allowed, described here, is the same used for the org-tags-view command.
+** org-store-link can store the precise location of a file in it :PRIVAT:ARBEIT:
+   and in another place you can insert this link by =org-insert-link=
+   which have precise loaction info, where you called =org-store-link=
+  [2017-03-11 Sat 20:16]
+
+** 激活態和非激活態的時間戳                              :org:timestamp:todo:
+   | active   | time wrapped by =<>= | will display in agenda-view |
+   |----------+----------------------+-----------------------------|
+   | inactive | time wrapped by =[]= | DONT display in agenda-view |
+
+
+  [2017-03-11 Sat 22:09]
+
+** representing my system                                           :org:gtd:
+  work ------------------ home ----------------  finacial
+  work.org                private.org            ths.org
+  schedule.org
+ |                          |                       |
+ |                          |                       |
+ w                          p                       v
+ |                                      f
+ |                                      |
+plan-work.org                       plan-free.org
+
+
+private.org -> plan-free.org -> review -> archives
+logbook     -> journal       -> review -> archives
+
+作者在這裏，用了一個 plan-free.org 去記錄了每一天做的事情。用checkbox
+#+BEGIN_SRC org
+ * 2016
+ ** 2016-01 January
+ *** 2016-01-01 Mon [/]
+     - [ ] xxx （is a link to the org branch node）
+     - [ ] yyy（is a link to the org branch node）
+     - [ ] zzz（is a link to the org branch node）
+
+#+END_SRC
+
+最好對每一個org文件使用定制化的PROPERTY：#+,來根據自己的需要定制。
+
+About TAGS
+比如 自己的知識收集，就要定制一些tags： #+TAGS: LEARN(l) QUESTION(q)
+用ARCHIVE(a)標記可以存檔的知識
+
+About ARCHIVE file
+定義 #+ARCHIVE： 指定存檔文件
+  [2017-03-12 Sun 11:05]
+
+** 有兩種方法你可以對spacemacs內置layer的某個包進行定制化設定 :spacemacs:zilong:
+   方法1: [[file:~/.spacemacs.d/init.el::(elfeed%20:variables][configuration-layers中進行變量配置]]
+   方法2: [[file:~/.spacemacs.d/init.el::prodigy][在configuration-layers中僅生命layer名字]] , [[file:~/.spacemacs.d/layers/zilongshanren-misc/packages.el::prodigy][重新在自定義的layer的packages中聲明]] ,[[file:~/.spacemacs.d/layers/zilongshanren-misc/packages.el::(defun%20zilongshanren-misc/post-init-prodigy%20()][並且在這裏進行具體配置]]
+  [2017-03-12 Sun 15:25]
+
+** 學習了 prodigy 是個什麼東西,以及最基本的配置       :emacs:package:prodigy:
+   簡單說,prodigy就是 一個從emacs來開啓外部機器service的東西.
+   作者是每天都要 mannually 開啓十幾個服務,所以寫了這麼個東西,
+   記錄的原因是,希望以後可以參考其源代碼,做一些自己的<依靠emacs控制linux>的想法
+*** 基本用法
+    在 [[file:~/.spacemacs.d/layers/zilongshanren-misc/packages.el::;;%20yiddi:add%20to%20test%20how%20prodigy%20works-----][zilongshanren misc]] 配置
+    #+BEGIN_SRC emacs-lisp
+    (prodigy-define-service
+      :name "yiddi test"
+      :command "pip"
+      :args '("list" "--format=columns")
+      :cwd "~/"
+      :tags '(yiddi)
+      :kill-signal 'sigkill
+      :kill-process-buffer-on-stop t)
+    #+END_SRC
+    他大概的樣子:
+       Debug Fireball                                      work
+       Hexo Deploy                                         hexo, deploy
+       Hexo Server                                         hexo, server
+       Org wiki preview                                    org-mode
+       Preview cocos2d-x web                               work
+       Preview creator engine                              work
+       yiddi test                          Failed          yiddi
+     在每一條目前面, 按 ~$~ 可以查看其執行的信息
+
+  [2017-03-12 Sun 16:07]

@@ -1,18 +1,69 @@
-* Workspace
-
+* Work                                                            :work:
 ** TODO [#B] make sure which item affect the connection in my /etc/resolv.conf
    in my /etc/reslov.conf , i added 4 items, i wana know which really make my chrome
    connect to google.
    1. commant "search vpn"?
    2. commant "8.8.8.8"
    3. ...
-
-
 ** TODO [#B] http://cs2.swfc.edu.cn/~wx672/lecture_notes/linux/latex/latex_tutorial.html
    a good intro to latex and emacs
 
-* Family
+** TODO [#B] test calendar in emacs
+   SCHEDULED: <2017-03-11 Sat 21:00>
 
-** TODO [#A] need a test
+* Family                                                             :family:
+** TODO [#B] 下午房子砸牆，陽臺
+   SCHEDULED: <2017-03-12 Sun 16:00>
 
-  [2017-03-11 Sat 11:38]
+** STARTED [#C] 溝通解決新城窗戶莊歪問題
+   SCHEDULED: <2017-03-12 Sun 13:00>
+
+** DONE 在家看電影
+   CLOSED: [2017-03-12 Sun 10:49]
+   :PROPERTIES:
+   :PERSON:   自己，陳紅旗，二新
+   :WHERE:    家
+   :WHEN:     <2017-03-12 Sun 09:00>
+   :END:
+                - Recommended by 袁龍
+                :LOGBOOK:
+                - State "DONE"       from "SOMEDAY"    [2017-03-12 Sun 10:49]
+                - Added: [2017-03-11 Sat 20:23]
+                :END:
+
+* Personal                                                         :personal:
+* Trifles                                                           :trifles:
+** DONE [#C] this is a test
+   CLOSED: [2017-03-11 Sat 22:00]
+   :LOGBOOK:
+   - State "DONE"       from "STARTED"    [2017-03-11 Sat 22:00]
+   :END:
+
+  [2017-03-11 Sat 21:48]
+** STARTED [#C] test little things
+
+  [2017-03-11 Sat 22:06]
+** DONE [#C] 3rd test little thing
+   CLOSED: [2017-03-11 Sat 22:08]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-11 Sat 22:08]
+   :END:
+
+
+  <2017-03-11 Sat 22:08>
+| sdfs | h    | ss     |
+** TODO [#C] triflex enter
+ triflex enter
+  <2017-03-12 Sun 10:44>
+* Inbox
+
+** STARTED [#B] need todo thing1
+   1. need step1
+   2. need step2
+   3. need step3
+   :LOGBOOK:
+   CLOCK: [2017-03-12 Sun 10:47]
+   CLOCK: [2017-03-12 Sun 10:43]--[2017-03-12 Sun 10:47] =>  0:04
+   :END:
+
+** SOMEDAY [#B] 通讀子龍的emacs配置                               :spacemacs:

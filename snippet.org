@@ -63,8 +63,11 @@
 
 #+END_SRC
 File:/home/yiddi/.spacemacs.d/layers/zilongshanren-org/packages.el
-Time:<2017-03-11 Sat 15:24>
-* some code snippet                                  :zilong:org:property:
+* DONE some code snippet                                :zilong:org:property:
+  CLOSED: [2017-03-12 Sun 09:55]
+  :LOGBOOK:
+  - State "DONE"       from "MEETING"    [2017-03-12 Sun 09:56]
+  :END:
 #+BEGIN_SRC org
 #+TITLE:   Code Snippets in Org Mode
 #+AUTHOR:  Yiddish.kop
@@ -73,7 +76,6 @@ Time:<2017-03-11 Sat 15:24>
 
 #+END_SRC
 File:/home/yiddi/Documents/org-notes/Tests/test-org-code.org
-Time:<2017-03-11 Sat 15:27>
 * 定制化org-capture界面的模板快捷鍵                      :zilong:org:capture:
 #+BEGIN_SRC emacs-lisp
       (setq org-agenda-custom-commands
@@ -94,4 +96,27 @@ Time:<2017-03-11 Sat 15:27>
 #+END_SRC
 Link:   [[file:~/.spacemacs.d/layers/zilongshanren-org/packages.el]]
 File:   /home/yiddi/.spacemacs.d/layers/zilongshanren-org/packages.el
-Time:   <2017-03-11 Sat 15:31>
+* what is 'stuck' means in org                               :org:stuck:todo:
+#+BEGIN_SRC org
+      (setq org-stuck-projects
+            '("TODO={.+}/-DONE" nil nil "SCHEDULED:\\|DEADLINE:"))
+
+#+END_SRC
+Link:   [[file:~/.spacemacs.d/layers/zilongshanren-org/packages.el::'("TODO={.+}/-DONE"%20nil%20nil%20"SCHEDULED:\\|DEADLINE:"))]]
+File:   /home/yiddi/.spacemacs.d/layers/zilongshanren-org/packages.el
+* org capture 模板實例                                     :org:capture:todo:
+     #+BEGIN_SRC org
+     * SOMEDAY %^{Author} - %^{Title}
+     :PROPERTIES:
+     :PAGES: %^{Pages}
+     :GENRE: %^{Genre}
+     :END:
+
+     - Recommended by %^{recommended by}
+     :LOGBOOK:
+     - Added: %U
+     :END:
+
+     #+END_SRC
+Link:   [[file:~/.spacemacs.d/layers/zilongshanren-org/packages.el:::empty-lines%201)]]
+File:   /home/yiddi/.spacemacs.d/layers/zilongshanren-org/packages.el

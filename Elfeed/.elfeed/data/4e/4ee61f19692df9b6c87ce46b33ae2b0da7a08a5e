@@ -1,0 +1,68 @@
+
+
+
+&lt;p&gt;
+&lt;a href="http://matlab.cheme.cmu.edu/2011/08/04/fit-a-line-to-numerical-data/" &gt;Matlab post&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+We want to fit a line to this data:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre class="src src-python"&gt;x = [0, 0.5, 1, 1.5, 2.0, 3.0, 4.0, 6.0, 10]
+y = [0, -0.157, -0.315, -0.472, -0.629, -0.942, -1.255, -1.884, -3.147]
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+We use the polyfit(x, y, n) command where n is the polynomial order, n=1 for a line.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre class="src src-python"&gt;&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; numpy &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; np
+
+p = np.polyfit(x, y, 1)
+&lt;span style="color: #8b0000;"&gt;print&lt;/span&gt; p
+slope, intercept = p
+&lt;span style="color: #8b0000;"&gt;print&lt;/span&gt; slope, intercept
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+&amp;gt;&amp;gt;&amp;gt; &amp;gt;&amp;gt;&amp;gt; [-0.31452218  0.00062457]
+&amp;gt;&amp;gt;&amp;gt; -0.3145221843 0.00062457337884
+&lt;/pre&gt;
+
+&lt;p&gt;
+To show the fit, we can use numpy.polyval to evaluate the fit at many points.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre class="src src-python"&gt;&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; matplotlib.pyplot &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; plt
+
+xfit = np.linspace(0, 10)
+yfit = np.polyval(p, xfit)
+
+plt.plot(x, y, &lt;span style="color: #228b22;"&gt;'bo'&lt;/span&gt;, label=&lt;span style="color: #228b22;"&gt;'raw data'&lt;/span&gt;)
+plt.plot(xfit, yfit, &lt;span style="color: #228b22;"&gt;'r-'&lt;/span&gt;, label=&lt;span style="color: #228b22;"&gt;'fit'&lt;/span&gt;)
+plt.xlabel(&lt;span style="color: #228b22;"&gt;'x'&lt;/span&gt;)
+plt.ylabel(&lt;span style="color: #228b22;"&gt;'y'&lt;/span&gt;)
+plt.legend()
+plt.savefig(&lt;span style="color: #228b22;"&gt;'images/linefit-1.png'&lt;/span&gt;)
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+&amp;gt;&amp;gt;&amp;gt; &amp;gt;&amp;gt;&amp;gt; &amp;gt;&amp;gt;&amp;gt; &amp;gt;&amp;gt;&amp;gt; [&amp;lt;matplotlib.lines.Line2D object at 0x053C1790&amp;gt;]
+[&amp;lt;matplotlib.lines.Line2D object at 0x0313C610&amp;gt;]
+&amp;lt;matplotlib.text.Text object at 0x052A4950&amp;gt;
+&amp;lt;matplotlib.text.Text object at 0x052B9A10&amp;gt;
+&amp;lt;matplotlib.legend.Legend object at 0x053C1CD0&amp;gt;
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src="/img/./images/linefit-1.png"&gt;&lt;p&gt;
+&lt;p&gt;Copyright (C) 2013 by John Kitchin. See the &lt;a href="/copying.html"&gt;License&lt;/a&gt; for information about copying.&lt;p&gt;&lt;p&gt;&lt;a href="/org/2013/02/18/Fit-a-line-to-numerical-data.org"&gt;org-mode source&lt;/a&gt;&lt;p&gt;

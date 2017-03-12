@@ -1,0 +1,231 @@
+
+
+
+
+&lt;p&gt;
+Suppose we have two functions described by this data:
+&lt;/p&gt;
+
+&lt;table id="data" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="right"/&gt;
+
+&lt;col class="right"/&gt;
+
+&lt;col class="right"/&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="right"&gt;T(K)&lt;/th&gt;
+&lt;th scope="col" class="right"&gt;E1&lt;/th&gt;
+&lt;th scope="col" class="right"&gt;E2&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="right"&gt;300&lt;/td&gt;
+&lt;td class="right"&gt;-208&lt;/td&gt;
+&lt;td class="right"&gt;-218&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="right"&gt;400&lt;/td&gt;
+&lt;td class="right"&gt;-212&lt;/td&gt;
+&lt;td class="right"&gt;-221&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="right"&gt;500&lt;/td&gt;
+&lt;td class="right"&gt;-215&lt;/td&gt;
+&lt;td class="right"&gt;-220&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="right"&gt;600&lt;/td&gt;
+&lt;td class="right"&gt;-218&lt;/td&gt;
+&lt;td class="right"&gt;-222&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="right"&gt;700&lt;/td&gt;
+&lt;td class="right"&gt;-220&lt;/td&gt;
+&lt;td class="right"&gt;-222&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="right"&gt;800&lt;/td&gt;
+&lt;td class="right"&gt;-223&lt;/td&gt;
+&lt;td class="right"&gt;-224&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="right"&gt;900&lt;/td&gt;
+&lt;td class="right"&gt;-227&lt;/td&gt;
+&lt;td class="right"&gt;-225&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="right"&gt;1000&lt;/td&gt;
+&lt;td class="right"&gt;-229&lt;/td&gt;
+&lt;td class="right"&gt;-227&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="right"&gt;1100&lt;/td&gt;
+&lt;td class="right"&gt;-233&lt;/td&gt;
+&lt;td class="right"&gt;-228&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="right"&gt;1200&lt;/td&gt;
+&lt;td class="right"&gt;-235&lt;/td&gt;
+&lt;td class="right"&gt;-227&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="right"&gt;1300&lt;/td&gt;
+&lt;td class="right"&gt;-240&lt;/td&gt;
+&lt;td class="right"&gt;-229&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;
+We want to determine the temperature at which they intersect, and more importantly what the uncertainty on the intersection is. There is noise in the data, which means there is uncertainty in any function that could be fit to it, and that uncertainty would propagate to the intersection. Let us examine the data.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre class="src src-python"&gt;&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; matplotlib.pyplot &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; plt
+
+T = [x[0] &lt;span style="color: #8b0000;"&gt;for&lt;/span&gt; x &lt;span style="color: #8b0000;"&gt;in&lt;/span&gt; data]
+E1 = [x[1] &lt;span style="color: #8b0000;"&gt;for&lt;/span&gt; x &lt;span style="color: #8b0000;"&gt;in&lt;/span&gt; data]
+E2 = [x[2] &lt;span style="color: #8b0000;"&gt;for&lt;/span&gt; x &lt;span style="color: #8b0000;"&gt;in&lt;/span&gt; data]
+
+plt.plot(T, E1, T, E2)
+plt.legend([&lt;span style="color: #228b22;"&gt;'E1'&lt;/span&gt;, &lt;span style="color: #228b22;"&gt;'E2'&lt;/span&gt;])
+plt.savefig(&lt;span style="color: #228b22;"&gt;'images/intersection-0.png'&lt;/span&gt;)
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src="/img/./images/intersection-0.png"&gt;&lt;p&gt;
+
+&lt;p&gt;
+Our strategy is going to be to fit functions to each data set, and get the confidence intervals on the parameters of the fit. Then, we will solve the equations to find where they are equal to each other and propagate the uncertainties in the parameters to the answer.
+&lt;/p&gt;
+
+&lt;p&gt;
+These functions look approximately linear, so we will fit lines to each function. We use the regress function in pycse to get the uncertainties on the fits. Then, we use the uncertainties package to propagate the uncertainties in the analytical solution to the intersection of two lines.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre class="src src-python"&gt;&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; numpy &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; np
+&lt;span style="color: #8b0000;"&gt;from&lt;/span&gt; pycse &lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; regress
+&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; matplotlib.pyplot &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; plt
+&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; uncertainties &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; u
+
+T = np.array([x[0] &lt;span style="color: #8b0000;"&gt;for&lt;/span&gt; x &lt;span style="color: #8b0000;"&gt;in&lt;/span&gt; data])
+E1 = np.array([x[1] &lt;span style="color: #8b0000;"&gt;for&lt;/span&gt; x &lt;span style="color: #8b0000;"&gt;in&lt;/span&gt; data])
+E2 = np.array([x[2] &lt;span style="color: #8b0000;"&gt;for&lt;/span&gt; x &lt;span style="color: #8b0000;"&gt;in&lt;/span&gt; data])
+
+&lt;span style="color: #ff0000; font-weight: bold;"&gt;# &lt;/span&gt;&lt;span style="color: #ff0000; font-weight: bold;"&gt;columns of the x-values for a line: constant, T&lt;/span&gt;
+A = np.column_stack([T**0, T])
+
+p1, pint1, se1 = regress(A, E1, alpha=0.05)
+
+p2, pint2, se2 = regress(A, E2, alpha=0.05)
+
+&lt;span style="color: #ff0000; font-weight: bold;"&gt;# &lt;/span&gt;&lt;span style="color: #ff0000; font-weight: bold;"&gt;Now we have two lines: y1 = m1*T + b1 and y2 = m2*T + b2&lt;/span&gt;
+&lt;span style="color: #ff0000; font-weight: bold;"&gt;# &lt;/span&gt;&lt;span style="color: #ff0000; font-weight: bold;"&gt;they intersect at m1*T + b1 = m2*T + b2&lt;/span&gt;
+&lt;span style="color: #ff0000; font-weight: bold;"&gt;# &lt;/span&gt;&lt;span style="color: #ff0000; font-weight: bold;"&gt;or at T = (b2 - b1) / (m1 - m2)&lt;/span&gt;
+b1 = u.ufloat((p1[0], se1[0]))
+m1 = u.ufloat((p1[1], se1[1]))
+
+b2 = u.ufloat((p2[0], se2[0]))
+m2 = u.ufloat((p2[1], se2[1]))
+
+T_intersection = (b2 - b1) / (m1 - m2)
+&lt;span style="color: #8b0000;"&gt;print&lt;/span&gt; T_intersection
+
+&lt;span style="color: #ff0000; font-weight: bold;"&gt;# &lt;/span&gt;&lt;span style="color: #ff0000; font-weight: bold;"&gt;plot the data, the fits and the intersection and \pm 2 \sigma.&lt;/span&gt;
+plt.plot(T, E1, &lt;span style="color: #228b22;"&gt;'bo '&lt;/span&gt;, label=&lt;span style="color: #228b22;"&gt;'E1'&lt;/span&gt;)
+plt.plot(T, np.dot(A,p1), &lt;span style="color: #228b22;"&gt;'b-'&lt;/span&gt;)
+plt.plot(T, E2, &lt;span style="color: #228b22;"&gt;'ro '&lt;/span&gt;, label=&lt;span style="color: #228b22;"&gt;'E2'&lt;/span&gt;)
+plt.plot(T, np.dot(A,p2), &lt;span style="color: #228b22;"&gt;'r-'&lt;/span&gt;)
+
+plt.plot(T_intersection.nominal_value,
+        (b1 + m1*T_intersection).nominal_value, &lt;span style="color: #228b22;"&gt;'go'&lt;/span&gt;,
+        ms=13, alpha=0.2, label=&lt;span style="color: #228b22;"&gt;'Intersection'&lt;/span&gt;)
+plt.plot([T_intersection.nominal_value - 2*T_intersection.std_dev(),
+          T_intersection.nominal_value + 2*T_intersection.std_dev()],
+         [(b1 + m1*T_intersection).nominal_value, 
+          (b1 + m1*T_intersection).nominal_value],
+         &lt;span style="color: #228b22;"&gt;'g-'&lt;/span&gt;, lw=3, label=&lt;span style="color: #228b22;"&gt;'$\pm 2 \sigma$'&lt;/span&gt;)
+       
+plt.legend(loc=&lt;span style="color: #228b22;"&gt;'best'&lt;/span&gt;)
+plt.savefig(&lt;span style="color: #228b22;"&gt;'images/intersection-1.png'&lt;/span&gt;)
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+813.698630137+/-62.407180552
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src="/img/./images/intersection-1.png"&gt;&lt;p&gt;
+
+&lt;p&gt;
+You can see there is a substantial uncertainty in the temperature at approximately the 90% confidence level (&amp;plusmn; 2 &amp;sigma;).
+&lt;/p&gt;
+
+
+&lt;p&gt;
+&lt;span class="underline"&gt;Update 7-7-2013&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+After a suggestion from Prateek, here we subtract the two data sets, fit a line to that data, and then use fsolve to find the zero. We &lt;a href="http://pythonhosted.org/uncertainties/user_guide.html#making-custom-functions-accept-numbers-with-uncertainties"&gt;wrap&lt;/a&gt; fsolve in the uncertainties package to directly get the uncertainty on the root. 
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre class="src src-python"&gt;&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; numpy &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; np
+&lt;span style="color: #8b0000;"&gt;from&lt;/span&gt; pycse &lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; regress
+&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; matplotlib.pyplot &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; plt
+&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; uncertainties &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; u
+&lt;span style="color: #8b0000;"&gt;from&lt;/span&gt; scipy.optimize &lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; fsolve
+
+
+T = np.array([x[0] &lt;span style="color: #8b0000;"&gt;for&lt;/span&gt; x &lt;span style="color: #8b0000;"&gt;in&lt;/span&gt; data])
+E1 = np.array([x[1] &lt;span style="color: #8b0000;"&gt;for&lt;/span&gt; x &lt;span style="color: #8b0000;"&gt;in&lt;/span&gt; data])
+E2 = np.array([x[2] &lt;span style="color: #8b0000;"&gt;for&lt;/span&gt; x &lt;span style="color: #8b0000;"&gt;in&lt;/span&gt; data])
+
+E = E1 - E2
+
+&lt;span style="color: #ff0000; font-weight: bold;"&gt;# &lt;/span&gt;&lt;span style="color: #ff0000; font-weight: bold;"&gt;columns of the x-values for a line: constant, T&lt;/span&gt;
+A = np.column_stack([T**0, T])
+
+p, pint, se = regress(A, E, alpha=0.05)
+
+b = u.ufloat((p[0], se[0]))
+m = u.ufloat((p[1], se[1]))
+
+@u.wrap
+&lt;span style="color: #8b0000;"&gt;def&lt;/span&gt; &lt;span style="color: #8b2323;"&gt;f&lt;/span&gt;(b, m):
+    X, = fsolve(&lt;span style="color: #8b0000;"&gt;lambda&lt;/span&gt; x: b + m * x, 800)
+    &lt;span style="color: #8b0000;"&gt;return&lt;/span&gt; X
+
+&lt;span style="color: #8b0000;"&gt;print&lt;/span&gt; f(b, m)
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+813.698630137+/-54.0386903923
+&lt;/pre&gt;
+
+&lt;p&gt;
+Interesting that this uncertainty is a little smaller than the previously computed uncertainty. Here you can see we have to wrap the function in a peculiar way. The function must return a single float number, and take arguments with uncertainty. We define the polynomial fit (a line in this case) in a lambda function inside the function. It works ok.
+&lt;/p&gt;
+&lt;p&gt;Copyright (C) 2013 by John Kitchin. See the &lt;a href="/copying.html"&gt;License&lt;/a&gt; for information about copying.&lt;p&gt;&lt;p&gt;&lt;a href="/org/2013/07/04/Estimating-where-two-functions-intersect-using-data.org"&gt;org-mode source&lt;/a&gt;&lt;p&gt;

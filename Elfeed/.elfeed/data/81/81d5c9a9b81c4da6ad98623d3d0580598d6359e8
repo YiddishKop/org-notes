@@ -1,0 +1,175 @@
+
+
+
+&lt;p&gt;
+We previously looked at uncertainty in polynomial roots where we had an analytical formula for the roots of the polynomial, and we knew the uncertainties in the polynomial parameters. It would be inconvenient to try this for a cubic polynomial, although there may be formulas for the roots. I do not know of there are general formulas for the roots of a 4&lt;sup&gt;th&lt;/sup&gt; order polynomial or higher. 
+&lt;/p&gt;
+
+&lt;p&gt;
+Unfortunately, we cannot use the uncertainties package out of the box directly here.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre class="src src-python"&gt;&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; uncertainties &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; u
+&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; numpy &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; np
+c, b, a = [-0.99526746, -0.011546,    1.00188999]
+sc, sb, sa = [ 0.0249142,   0.00860025,  0.00510128]
+
+A = u.ufloat((a, sa))
+B = u.ufloat((b, sb))
+C = u.ufloat((c, sc))
+
+&lt;span style="color: #8b0000;"&gt;print&lt;/span&gt; np.roots([A, B, C])
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+&amp;gt;&amp;gt;&amp;gt; &amp;gt;&amp;gt;&amp;gt; &amp;gt;&amp;gt;&amp;gt; &amp;gt;&amp;gt;&amp;gt; &amp;gt;&amp;gt;&amp;gt; &amp;gt;&amp;gt;&amp;gt; &amp;gt;&amp;gt;&amp;gt; &amp;gt;&amp;gt;&amp;gt; Traceback (most recent call last):
+  File "&amp;lt;stdin&amp;gt;", line 1, in &amp;lt;module&amp;gt;
+  File "c:\Users\jkitchin\AppData\Local\Enthought\Canopy\User\lib\site-packages\numpy\lib\polynomial.py", line 218, in roots
+    p = p.astype(float)
+  File "c:\Users\jkitchin\AppData\Local\Enthought\Canopy\User\lib\site-packages\uncertainties\__init__.py", line 1257, in raise_error
+    % (self.__class__, coercion_type))
+TypeError: can't convert an affine function (&amp;lt;class 'uncertainties.Variable'&amp;gt;) to float; use x.nominal_value
+&lt;/pre&gt;
+
+&lt;p&gt;
+To make some progress, we have to understand how the &lt;a href="https://github.com/numpy/numpy/blob/v1.7.0/numpy/lib/polynomial.py#L149"&gt;numpy.roots&lt;/a&gt; function works. It constructs a &lt;a href="http://en.wikipedia.org/wiki/Companion_matrix"&gt;Companion matrix&lt;/a&gt;, and the eigenvalues of that matrix are the same as the roots of the polynomial.  
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre class="src src-python"&gt;&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; numpy &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; np
+
+c0, c1, c2 = [-0.99526746, -0.011546,    1.00188999]
+
+p = np.array([c2, c1, c0])
+N = &lt;span style="color: #8b0000;"&gt;len&lt;/span&gt;(p)
+
+&lt;span style="color: #ff0000; font-weight: bold;"&gt;# we construct the companion matrix like this&lt;/span&gt;
+&lt;span style="color: #ff0000; font-weight: bold;"&gt;# see https://github.com/numpy/numpy/blob/v1.7.0/numpy/lib/polynomial.py#L220&lt;/span&gt;
+&lt;span style="color: #ff0000; font-weight: bold;"&gt;# for this code.&lt;/span&gt;
+&lt;span style="color: #ff0000; font-weight: bold;"&gt;# build companion matrix and find its eigenvalues (the roots)&lt;/span&gt;
+A = np.diag(np.ones((N-2,), p.dtype), -1)
+A[0, :] = -p[1:] / p[0]
+
+&lt;span style="color: #8b0000;"&gt;print&lt;/span&gt; A
+
+roots = np.linalg.eigvals(A)
+&lt;span style="color: #8b0000;"&gt;print&lt;/span&gt; roots
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+[[ 0.01152422  0.99338996]
+ [ 1.          0.        ]]
+[ 1.00246827 -0.99094405]
+&lt;/pre&gt;
+
+&lt;p&gt;
+This definition of the companion matrix is a little different than the one &lt;a href="http://en.wikipedia.org/wiki/Companion_matrix"&gt;here&lt;/a&gt;, but primarily in the scaling of the coefficients. That does not seem to change the eigenvalues, or the roots. 
+&lt;/p&gt;
+
+&lt;p&gt;
+Now, we have a path to estimate the uncertainty in the roots. Since we know the polynomial coefficients and their uncertainties from the fit, we can use Monte Carlo sampling to estimate the uncertainty in the roots. 
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre class="src src-python"&gt;&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; numpy &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; np
+&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; uncertainties &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; u
+
+c, b, a = [-0.99526746, -0.011546,    1.00188999]
+sc, sb, sa = [ 0.0249142,   0.00860025,  0.00510128]
+
+NSAMPLES = 100000
+A = np.random.normal(a, sa, (NSAMPLES, ))
+B = np.random.normal(b, sb, (NSAMPLES, ))
+C = np.random.normal(c, sc, (NSAMPLES, ))
+
+roots = [[] &lt;span style="color: #8b0000;"&gt;for&lt;/span&gt; i &lt;span style="color: #8b0000;"&gt;in&lt;/span&gt; &lt;span style="color: #8b0000;"&gt;range&lt;/span&gt;(NSAMPLES)]
+
+&lt;span style="color: #8b0000;"&gt;for&lt;/span&gt; i &lt;span style="color: #8b0000;"&gt;in&lt;/span&gt; &lt;span style="color: #8b0000;"&gt;range&lt;/span&gt;(NSAMPLES):
+    p = np.array([A[i], B[i], C[i]])
+    N = &lt;span style="color: #8b0000;"&gt;len&lt;/span&gt;(p)
+    
+    M = np.diag(np.ones((N-2,), p.dtype), -1)
+    M[0, :] = -p[1:] / p[0]
+    r = np.linalg.eigvals(M)
+    r.sort()  &lt;span style="color: #ff0000; font-weight: bold;"&gt;# there is no telling what order the values come out in&lt;/span&gt;
+    roots[i] = r
+    
+avg = np.average(roots, axis=0)
+std = np.std(roots, axis=0)
+
+&lt;span style="color: #8b0000;"&gt;for&lt;/span&gt; r, s &lt;span style="color: #8b0000;"&gt;in&lt;/span&gt; &lt;span style="color: #8b0000;"&gt;zip&lt;/span&gt;(avg, std):
+    &lt;span style="color: #8b0000;"&gt;print&lt;/span&gt; &lt;span style="color: #228b22;"&gt;'{0: f} +/- {1: f}'&lt;/span&gt;.format(r, s)
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+-0.990949 +/-  0.013435
+ 1.002443 +/-  0.013462
+&lt;/pre&gt;
+
+&lt;p&gt;
+Compared to our previous approach with the uncertainties package where we got:
+&lt;/p&gt;
+
+&lt;pre class="example"&gt;
+: -0.990944048037+/-0.0134208013339
+:  1.00246826738 +/-0.0134477390832
+&lt;/pre&gt;
+
+&lt;p&gt;
+the agreement is quite good! The advantage of this approach is that we do not have to know the formula for the roots of higher order polynomials to estimate the uncertainty in the roots. The downside is we have to evaluate the eigenvalues of a matrix a large number of times to get good estimates of the uncertainty. For high power polynomials this could be problematic. I do not currently see a way around this, unless it becomes possible to get the uncertainties package to propagate through the numpy.eigvals function. It is possible to &lt;a href="http://pythonhosted.org/uncertainties/user_guide.html#making-custom-functions-accept-numbers-with-uncertainties"&gt;wrap&lt;/a&gt; some functions with uncertainties, but so far only functions that return a single number.
+&lt;/p&gt;
+
+&lt;p&gt;
+There are some other potential problems with this approach.  It is assumed that the accuracy of the eigenvalue solver is much better than the uncertainty in the polynomial parameters. You have to use some judgment in using these uncertainties. We are approximating the uncertainties of a nonlinear problem. In other words, the uncertainties of the roots are not linearly dependent on the uncertainties of the polynomial coefficients.  
+&lt;/p&gt;
+
+&lt;p&gt;
+It is possible to &lt;a href="http://pythonhosted.org/uncertainties/user_guide.html#making-custom-functions-accept-numbers-with-uncertainties"&gt;wrap&lt;/a&gt; some functions with uncertainties, but so far only functions that return a single number. Here is an example of getting the n&lt;sup&gt;th&lt;/sup&gt; root and its uncertainty.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre class="src src-python"&gt;&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; uncertainties &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; u
+&lt;span style="color: #8b0000;"&gt;import&lt;/span&gt; numpy &lt;span style="color: #8b0000;"&gt;as&lt;/span&gt; np
+
+@u.wrap
+&lt;span style="color: #8b0000;"&gt;def&lt;/span&gt; &lt;span style="color: #8b2323;"&gt;f&lt;/span&gt;(n=0, *P):
+    &lt;span style="color: #228b22;"&gt;''' compute the nth root of the polynomial P and the uncertainty of the root'''&lt;/span&gt;
+    p =  np.array(P)
+    N = &lt;span style="color: #8b0000;"&gt;len&lt;/span&gt;(p)
+    
+    M = np.diag(np.ones((N-2,), p.dtype), -1)
+    M[0, :] = -p[1:] / p[0]
+    r = np.linalg.eigvals(M)
+    r.sort()  &lt;span style="color: #ff0000; font-weight: bold;"&gt;# there is no telling what order the values come out in&lt;/span&gt;
+    &lt;span style="color: #8b0000;"&gt;return&lt;/span&gt; r[n]
+
+&lt;span style="color: #ff0000; font-weight: bold;"&gt;# our polynomial coefficients and standard errors&lt;/span&gt;
+c, b, a = [-0.99526746, -0.011546,    1.00188999]
+sc, sb, sa = [ 0.0249142,   0.00860025,  0.00510128]
+
+A = u.ufloat((a, sa))
+B = u.ufloat((b, sb))
+C = u.ufloat((c, sc))
+
+&lt;span style="color: #8b0000;"&gt;for&lt;/span&gt; result &lt;span style="color: #8b0000;"&gt;in&lt;/span&gt; [f(n, A, B, C) &lt;span style="color: #8b0000;"&gt;for&lt;/span&gt; n &lt;span style="color: #8b0000;"&gt;in&lt;/span&gt; [0, 1]]:
+    &lt;span style="color: #8b0000;"&gt;print&lt;/span&gt; result
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+-0.990944048037+/-0.013420800377
+1.00246826738+/-0.0134477388218
+&lt;/pre&gt;
+
+&lt;p&gt;
+It is good to see this is the same result we got earlier, with &lt;i&gt;a lot less work&lt;/i&gt; (although we do have to solve it for each root, which is a bit redundant)! It is a bit more abstract though, and requires a specific formulation of the function for the wrapper to work.
+&lt;/p&gt;
+&lt;p&gt;Copyright (C) 2013 by John Kitchin. See the &lt;a href="/copying.html"&gt;License&lt;/a&gt; for information about copying.&lt;p&gt;&lt;p&gt;&lt;a href="/org/2013/07/06/Uncertainty-in-polynomial-roots---Part-II.org"&gt;org-mode source&lt;/a&gt;&lt;p&gt;

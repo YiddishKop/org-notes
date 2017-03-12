@@ -1,0 +1,191 @@
+
+
+
+&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="#orgb1ee49d"&gt;1. autopep8&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#orgcca807a"&gt;2. pylint&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;
+About a year ago I posted some code to run org-babel python blocks &lt;a href="http://kitchingroup.cheme.cmu.edu/blog/2015/11/20/Asynchronously-running-python-blocks-in-org-mode/"&gt;asynchronously&lt;/a&gt;. This year, my students asked for some enhancements related to debugging. Basically, they were frustrated by a few things when they got errors. First, they found it difficult to find the line number in the Traceback in the src block because there are no line numbers in the block, and it is annoying to do a special edit just for line numbers.  
+&lt;/p&gt;
+
+&lt;p&gt;
+I thought about this, and figured out how to significantly improve the situation. The async python code in scimax now has the following features:
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;When you get a Traceback, it goes in the results, and each file listed in it is hyperlinked to the source file and line so it is easy to get to them.&lt;/li&gt;
+&lt;li&gt;The cursor jumps to the last line in the code block that is listed in the Traceback, and a beacon shines to show you the line&lt;/li&gt;
+&lt;li&gt;You can turn on temporary line numbers in the code block to see where the lines are in the block, and these disappear when you start typing. This is done in the variable `org-babel-async-python-show-line-numbers'.&lt;/li&gt;
+&lt;li&gt;You can control whether a buffer of the results shows or not via the variable `org-babel-async-python-show-results'.&lt;/li&gt;
+&lt;li&gt;When you run the block, you get a clickable link in the RESULTS section to kill the process.&lt;/li&gt;
+&lt;li&gt;You may also find the `autopep8' and `pylint' functions helpful.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+The code for this is currently found here:
+&lt;a href="https://github.com/jkitchin/scimax/blob/org-9/scimax-org-babel-python.el"&gt;https://github.com/jkitchin/scimax/blob/org-9/scimax-org-babel-python.el&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Eventually, I will merge this into master, after I am sure about all the changes needed for org 9.0. That is not likely to happen until the semester ends, so I do not mess up my students who use scimax in class. So, sometime mid-December it will make into master.
+&lt;/p&gt;
+
+&lt;p&gt;
+To make async the default way to run a python block use this code, so that you can use C-c C-c to run them:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+&lt;pre class="src src-emacs-lisp"&gt;(&lt;span style="color: #0000FF;"&gt;require&lt;/span&gt; '&lt;span style="color: #D0372D;"&gt;scimax-org-babel-python&lt;/span&gt;)
+(add-to-list 'org-ctrl-c-ctrl-c-hook 'org-babel-async-execute:python)
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+As with the past few posts, this video will make it much more clear what the post is about: 
+&lt;/p&gt;
+
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/m4vCXM7_p_o" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
+
+
+&lt;p&gt;
+Here is a prototypical example that shows how it works. While it runs you can view the progress if you click on the link to show the results.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+&lt;pre class="src src-python"&gt;&lt;span style="color: #0000FF;"&gt;import&lt;/span&gt; time
+
+&lt;span style="color: #0000FF;"&gt;for&lt;/span&gt; i &lt;span style="color: #0000FF;"&gt;in&lt;/span&gt; &lt;span style="color: #006FE0;"&gt;range&lt;/span&gt;(5):
+&lt;span style="color: #9B9B9B; background-color: #EDEDED;"&gt; &lt;/span&gt;   &lt;span style="color: #0000FF;"&gt;print&lt;/span&gt;(i)
+&lt;span style="color: #9B9B9B; background-color: #EDEDED;"&gt; &lt;/span&gt;   time.sleep(2)
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+0
+1
+2
+3
+4
+Traceback (most recent call last):
+  File "Org SRC", line 5, in &amp;lt;module&amp;gt;
+    time.sleep(2)
+KeyboardInterrupt
+&lt;/p&gt;
+
+
+
+
+&lt;p&gt;
+This block has a pretty obvious issue when we run it. The cursor jumps right to the problem!
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+&lt;pre class="src src-python"&gt;&lt;span style="color: #0000FF;"&gt;print&lt;/span&gt;(&lt;span style="color: #008000;"&gt;'This line is ok'&lt;/span&gt;)
+&lt;span style="color: #8D8D84;"&gt;# &lt;/span&gt;&lt;span style="color: #8D8D84; font-style: italic;"&gt;5 / 0&lt;/span&gt;
+&lt;span style="color: #0000FF;"&gt;print&lt;/span&gt;(&lt;span style="color: #008000;"&gt;'We will not see this'&lt;/span&gt;)
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+This line is ok
+We will not see this
+&lt;/p&gt;
+
+
+
+&lt;p&gt;
+This block shows we can access any of the links in the Traceback. Here we have an error in calling a function that is raised in an external file.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+&lt;pre class="src src-python"&gt;&lt;span style="color: #0000FF;"&gt;import&lt;/span&gt; numpy &lt;span style="color: #0000FF;"&gt;as&lt;/span&gt; np
+&lt;span style="color: #0000FF;"&gt;from&lt;/span&gt; scipy.integrate &lt;span style="color: #0000FF;"&gt;import&lt;/span&gt; odeint
+
+&lt;span style="color: #BA36A5;"&gt;Vspan&lt;/span&gt; = np.linspace(0, 2) &lt;span style="color: #8D8D84;"&gt;# &lt;/span&gt;&lt;span style="color: #8D8D84; font-style: italic;"&gt;L&lt;/span&gt;
+
+&lt;span style="color: #8D8D84;"&gt;# &lt;/span&gt;&lt;span style="color: #8D8D84; font-style: italic;"&gt;dF/dV = F&lt;/span&gt;
+&lt;span style="color: #0000FF;"&gt;def&lt;/span&gt; &lt;span style="color: #006699;"&gt;dFdV&lt;/span&gt;(F, V, v0):
+&lt;span style="color: #9B9B9B; background-color: #EDEDED;"&gt; &lt;/span&gt;   &lt;span style="color: #0000FF;"&gt;return&lt;/span&gt; F
+
+
+&lt;span style="color: #0000FF;"&gt;print&lt;/span&gt;(odeint(dFdV, 1.0, Vspan))
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+Traceback (most recent call last):
+  File "Org SRC", line 11, in &amp;lt;module&amp;gt;
+    print(odeint(dFdV, 1.0, Vspan))
+  File "/Users/jkitchin/anaconda3/lib/python3.5/site-packages/scipy/integrate/odepack.py", line 215, in odeint
+    ixpr, mxstep, mxhnil, mxordn, mxords)
+TypeError: dFdV() missing 1 required positional argument: 'v0'
+&lt;/p&gt;
+
+
+&lt;p&gt;
+Here we show how nice it is to be able to kill a process. This block will not end on its own.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+&lt;pre class="src src-python"&gt;&lt;span style="color: #0000FF;"&gt;while&lt;/span&gt; &lt;span style="color: #D0372D;"&gt;True&lt;/span&gt;:
+&lt;span style="color: #9B9B9B; background-color: #EDEDED;"&gt; &lt;/span&gt;   &lt;span style="color: #0000FF;"&gt;pass&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+Traceback (most recent call last):
+  File "Org SRC", line 2, in &amp;lt;module&amp;gt;
+    pass
+KeyboardInterrupt
+&lt;/p&gt;
+
+&lt;div id="outline-container-orgb1ee49d" class="outline-2"&gt;
+&lt;h2 id="orgb1ee49d"&gt;&lt;span class="section-number-2"&gt;1&lt;/span&gt; autopep8&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+&lt;a href="https://pypi.python.org/pypi/autopep8"&gt;autopep8&lt;/a&gt; is a tool for reformatting Python code. We wrapped this into an Emacs command so you can quickly reformat a Python code block. 
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+&lt;pre class="src src-python"&gt;&lt;span style="color: #BA36A5;"&gt;a&lt;/span&gt; = 4
+&lt;span style="color: #BA36A5;"&gt;b&lt;/span&gt; = 5
+&lt;span style="color: #BA36A5;"&gt;c&lt;/span&gt; = a * b  &lt;span style="color: #8D8D84;"&gt;# &lt;/span&gt;&lt;span style="color: #8D8D84; font-style: italic;"&gt;comment&lt;/span&gt;
+&lt;span style="color: #8D8D84;"&gt;# &lt;/span&gt;&lt;span style="color: #8D8D84; font-style: italic;"&gt;another comment&lt;/span&gt;
+
+
+&lt;span style="color: #0000FF;"&gt;def&lt;/span&gt; &lt;span style="color: #006699;"&gt;f&lt;/span&gt;(x):
+&lt;span style="color: #9B9B9B; background-color: #EDEDED;"&gt; &lt;/span&gt;   &lt;span style="color: #0000FF;"&gt;return&lt;/span&gt; x
+&lt;span style="color: #0000FF;"&gt;print&lt;/span&gt;(f(5))
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgcca807a" class="outline-2"&gt;
+&lt;h2 id="orgcca807a"&gt;&lt;span class="section-number-2"&gt;2&lt;/span&gt; pylint&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;p&gt;
+&lt;a href="https://www.pylint.org"&gt;pylint&lt;/a&gt; is a great tool for checking your Python code for errors, style and conventions. We also wrapped this into an Emacs command so you can run it on a Python src block. The report that is generated had clickable links to help you get right to the lines in your code block with problems.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+&lt;pre class="src src-python"&gt;&lt;span style="color: #0000FF;"&gt;import&lt;/span&gt; numpy &lt;span style="color: #0000FF;"&gt;as&lt;/span&gt; np
+
+&lt;span style="color: #BA36A5;"&gt;a&lt;/span&gt; = np.array(5, 5)
+
+&lt;span style="color: #0000FF;"&gt;def&lt;/span&gt; &lt;span style="color: #006699;"&gt;f&lt;/span&gt;(x): &lt;span style="color: #0000FF;"&gt;return&lt;/span&gt; x
+
+&lt;span style="color: #0000FF;"&gt;print&lt;/span&gt;(f(6))
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Copyright (C) 2016 by John Kitchin. See the &lt;a href="/copying.html"&gt;License&lt;/a&gt; for information about copying.&lt;p&gt;
+&lt;p&gt;&lt;a href="/org/2016/11/09/New-and-improved-asynchronous-org-babel-python-blocks.org"&gt;org-mode source&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Org-mode version = 9.0&lt;/p&gt;
