@@ -1,0 +1,225 @@
+<p>Some of my more ambitious machine-learning colleagues often have a tendency to
+get misty-eyed and talk about language as the &ldquo;next frontier&rdquo; of artificial
+intelligence. I can completely agree at a high level: building practical
+language-enabled agents which can use real language with real people will be a
+huge breakthrough for our field.</p>
+
+<p>But too frequently people seem to see language as a mere box to be checked
+along the way to general artificial intelligence. As soon as we break through
+some perplexity floor on our language models, apparently, we&rsquo;ll have dialogue
+agents that can communicate just like we do.</p>
+
+<p>I&rsquo;ve been exposed to this exhausting view often enough<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> that I&rsquo;ve decided to
+start working to actively counter it.</p>
+
+<h2 id="what-does-it-mean-to-solve-language">What does it mean to &ldquo;solve language?&rdquo;</h2>
+
+<p>I&rsquo;m not even sure what people are trying to say when they talk about
+&ldquo;solving language.&rdquo; It&rsquo;s as vague and underspecified as the quest to &ldquo;solve
+AI&rdquo; as a whole. We already have <a href="https://www.rebellionresearch.com/">systems that build investment strategies by
+reading the news</a>, <a href="http://www.apple.com/ios/siri/">intelligent personal assistants</a>, and <a href="https://x2.ai/">automated
+psychologists which aid the clinically depressed</a>. Are we done?</p>
+
+<p>It depends on your measure of done-ness, I suppose. I&rsquo;m partial to a
+utilitarian stopping criterion here. That is, we&rsquo;ve &ldquo;solved language&rdquo; &mdash; we&rsquo;ve
+built an agent which &ldquo;understands language&rdquo; &mdash; when the agent can embed itself
+into any <strong>real-world</strong> environment and interact with us humans via language to
+make us more productive.<sup id="fnref:3"><a href="#fn:3" class="footnote">2</a></sup></p>
+
+<p>On that measure we&rsquo;ve actually made some good progress, as shown by the linked
+examples above. But there&rsquo;s plenty of room for improvement which will likely
+amount to decades of collaborative work.</p>
+
+<p>If you can show me how your favorite NLP/NLU task connects directly to this
+measure of progress, then that&rsquo;s great. I unfortunately don&rsquo;t think this is the
+case for much current work, including several of the tasks popular in deep
+learning for NLP.</p>
+
+<p><small>(See the <a href="#addenda">addenda</a> to the post for some juicy follow-up to
+        the claims in this section.)</small></p>
+
+<h2 id="situated-language-use">Situated language use</h2>
+
+<p>If I believe in the definition of &ldquo;solving language&rdquo; given above, I am led to
+focus on tasks of <strong>situated language use</strong>: cases where agents are
+influencing or being influenced by other actors in grounded scenarios through
+language.</p>
+
+<p>This setting seems extremely fertile for new language problems that aren&rsquo;t
+currently seriously considered as major tasks of understanding. I&rsquo;ll end this
+post with a simple thought experiment demonstrating how far behind we are on
+real situated tasks &mdash; or rather, how much exciting work there still is to be
+done!</p>
+
+<h2 id="generalization-in-reference-games">Generalization in reference games</h2>
+
+<p>Here&rsquo;s a simple example of situated learning that should reveal the great
+complexity of language we have yet really to start solving.</p>
+
+<p>Consider a <a href="https://en.wikipedia.org/wiki/Language-game_(philosophy)">Wittgensteinian reference game</a> with two agents, <em>Alexa</em> and
+<em>Bill</em>. Alexa is using words that Bill doesn&rsquo;t know to pick out referents in
+their environment. It&rsquo;s a cooperative game: Alexa tries to use words that will
+make Bill most successful, Bill knows that Alexa is cooperating, Alexa knows
+that Bill knows that she is cooperating, and so on.</p>
+
+<h3 id="round-1">Round 1</h3>
+
+<p>Alexa selects some object in the environment and speaks a word to Bill, say,
+<em>BLOOP</em>. Here&rsquo;s what Bill has observed in this first round of the game:</p>
+
+<div style="text-align:center">
+<h4>Possible referents:</h4>
+<div style="margin-top:10px">
+<div style="width:50%;float:left;"><img src="http://www.foldl.me/uploads/2016/reference-game/glass.png" style="border:none" /></div>
+<div style="width:50%;float:left;"><img src="http://www.foldl.me/uploads/2016/reference-game/pen.png" style="border:none;" /></div>
+</div>
+<br style="clear:left" />
+<h4>Alexa said: <em>BLOOP</em></h4>
+</div>
+
+<p>Now Bill has to select the object he thinks Alexa was referring to. The
+dialogue is a &ldquo;success&rdquo; if Alexa and Bill pick the same object.</p>
+
+<p>Suppose Bill has to predict some distribution over the objects given Alexa&rsquo;s
+utterance \(\pi(o \mid u)\). Since Bill doesn&rsquo;t know any of Alexa&rsquo;s words
+in the first round, we would expect his distribution then to be roughly
+uniform:<sup id="fnref:5"><a href="#fn:5" class="footnote">3</a></sup></p>
+
+<figure class="image"><img class="noborder" src="http://www.foldl.me//uploads/2016/reference-game/round1-policy.png" alt="" /><figcaption></figcaption></figure>
+
+<p>Let&rsquo;s say he randomly chooses the cup, and the two are informed that they have
+succeeded. That means Alexa used <em>BLOOP</em> to refer to the cup. Both internalize
+that information and proceed to the next round.</p>
+
+<h3 id="round-2">Round 2</h3>
+
+<p>Now suppose we begin round 2 with different objects. Alexa, still trying to
+maximize the chance that Bill understands what she is referring to, makes
+<strong>the same utterance</strong>: <em>BLOOP</em>.</p>
+
+<div style="text-align:center">
+<h4>Possible referents:</h4>
+<div style="margin-top:10px">
+<div style="width:50%;float:left;"><img src="http://www.foldl.me/uploads/2016/reference-game/mug.png" style="border:none" /></div>
+<div style="width:50%;float:left;"><img src="http://www.foldl.me/uploads/2016/reference-game/rabbit.png" style="border:none;" /></div>
+</div>
+<br style="clear:left" />
+<h4>Alexa said: <em>BLOOP</em></h4>
+</div>
+
+<p>I would argue that, despite the fact that <strong>both objects are novel</strong> (at least
+at a perceptual level), Bill&rsquo;s probabilities would look something like this:</p>
+
+<figure class="image"><img class="noborder" src="http://www.foldl.me//uploads/2016/reference-game/round2-policy.png" alt="" /><figcaption></figcaption></figure>
+
+<p>What happened? Bill learned something about Alexa&rsquo;s language in round 1: that
+her word <em>BLOOP</em> can refer to a glass. In round 2, he was forced to
+<strong>generalize</strong> that information and use it to pick the most cup-like object
+among the referents.</p>
+
+<h3 id="what-just-happened">What just happened?</h3>
+
+<p>How do we model this? There&rsquo;s a lot going on. Here are the three most important
+properties I can recognize.</p>
+
+<ol>
+  <li>As is often the case in reference game examples, Bill had to reason
+<strong>pragmatically</strong> in round 2 in order to understand what Alexa might mean.</li>
+  <li>This pragmatic reasoning relied on a <strong>model of the world</strong>. Bill had to
+reason that the mug was similar to the cup, not because they look alike but
+because they are both used for drinking.<sup id="fnref:6"><a href="#fn:6" class="footnote">4</a></sup></li>
+  <li>Bill made his inference using <strong>a single previous example</strong>. This inductive
+inference relied mostly on his model of the world, as opposed to an enormous
+dataset of in-domain examples.</li>
+</ol>
+
+<p>These are three basic properties of Bill the language agent. These are three
+properties that we haven&rsquo;t come anywhere close to solving in a general way.</p>
+
+<p>(These goals have been recognized in the past, of course; there&rsquo;s been some
+ <a href="https://arxiv.org/abs/1604.00562">good</a> <a href="http://www.mit.edu/~rplevy/papers/potts-levy-2015-bls.pdf">recent</a> <a href="https://papers.nips.cc/paper/4929-learning-and-using-language-via-recursive-pragmatic-reasoning-about-other-agents">work</a> on the specific problems above. But I think
+ these objectives should get much more focus under the utilitarian motivation
+ underlying this post.)</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>That rather long example was my first stab at picking out <strong>situated</strong> learning
+problems, where language is a mean rather than an end in itself. It&rsquo;s just one
+sample from what I see as a large space of underexplored problems. Any language
+researcher worth her salt could engineer a quick solution to this particular
+scenario. The real challenge is to tackle the whole problem class with an
+integrated solution. Why don&rsquo;t we start working on <em>that?</em></p>
+
+<p>Keep posted for updates in this space &mdash; I&rsquo;m working hard every day
+on projects related to this goal at <a href="https://openai.com">OpenAI</a>. If you&rsquo;re interested in
+collaborating or sharing experiences, feel free to get in touch via the
+comments below or via email.</p>
+
+<h4 id="acknowledgements">Acknowledgements</h4>
+
+<p><small>
+I&rsquo;ve been mulling these ideas over for most of the summer, and a whole lot of
+people from several institutions have helped me to sharpen my thinking: Gabor
+Angeli, Phil Blunsom, Sam Bowman, Arun Chaganty, Danqi Chen, Kevin Clark,
+    Prafulla Dhariwal, Chris Dyer, Jonathan Ho, Rafal Jozefowicz, Nal
+    Kalchbrenner, Andrej Karpathy, Percy Liang, Alireza Makhzani, Christopher
+    Manning, Igor Mordatch, Allen Nie, Craig Quiter, Alec Radford, Zain Shah,
+    Ilya Sutskever, Sida Wang, and Keenon Werling.
+</small></p>
+
+<p><small>
+Special thanks to Gabor Angeli, Sam Bowman, Roger Levy, Christopher Manning,
+Sida Wang, and a majority of the OpenAI team for reviewing early drafts of
+this post.
+</small></p>
+
+<p><small>
+The sketch images in the post are taken from the <a href="http://cybertron.cg.tu-berlin.de/eitz/projects/classifysketch/">TU Berlin human sketching
+dataset</a>.
+</small></p>
+
+<h3 id="addenda">Addenda</h3>
+
+<p>Many of my trusted colleagues who reviewed this post made interesting and
+relevant points which are worth mentioning. I&rsquo;ve included them in a separate
+section in order to prevent the main post from getting too long and full of
+hedging clauses.</p>
+
+<ol>
+  <li>I claimed in this post that work in natural language understanding often
+seems too disconnected from the real downstream utilitarian goal&mdash;in the
+case of our field, to actually <strong>use language</strong> in order to cooperate with
+human beings. <a href="http://www.mit.edu/~rplevy/">Roger</a> and <a href="https://www.nyu.edu/projects/bowman/">Sam</a> pointed out that many people in
+the field do feel this to be true at a broader scale &mdash; that is, there are
+several such related divergences (e.g. the divergence between modern NLP and
+its computational linguistics roots) that ought to be unified.</li>
+  <li><a href="http://nlp.stanford.edu/manning/">Chris</a> pointed out that there are other uses of language which could
+be used to likewise argue for different lines of research. For example,
+language also functions as an information storage mechanism, and my
+situated approach doesn&rsquo;t capture this. We can actually use this
+information-storage view to motivate many of the tasks central to NLP or,
+more specifically, information extraction.</li>
+</ol>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<script type="text/javascript">
+MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } } });
+</script>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>It&rsquo;s a view that&rsquo;s quite hard to escape in Silicon Valley for sure. I actually wasn&rsquo;t able to find the clarity to write this post until now, after a week of travel and late-night conference discussions in Europe.&nbsp;<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>I&rsquo;m aware this is not only a utilitarian aim but also an <em>anthropocentric</em> one. I&rsquo;m not sure it&rsquo;s totally right, and am certainly open to belief updates from my readers.&nbsp;<a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:5">
+      <p>Interestingly, if both Alexa and Bill have English as a native language, I would guess that phonaesthetic effects would lead Bill to prefer the round object over the long, pointy one. That&rsquo;s how I would behave, anyway. Don&rsquo;t ask me how to model that.&nbsp;<a href="#fnref:5" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:6">
+      <p>Importantly, this is more than a linguistic model. The facts which Bill exploits are nonlinguistic properties learned from embodied experience.&nbsp;<a href="#fnref:6" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div><img src="http://feeds.feedburner.com/~r/foldl/rss/~4/EGvhKKnb-ZE" height="1" width="1" alt=""/>

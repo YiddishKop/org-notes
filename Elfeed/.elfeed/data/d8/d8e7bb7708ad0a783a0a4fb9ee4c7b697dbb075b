@@ -1,0 +1,42 @@
+<p id="how-to-recover-lost-python-source-code-if-its-still-resident-in-memory">I read this on <a href="https://gist.github.com/simonw/8aa492e59265c1a021f5c5618f9e6b12">GitHub Gist</a> the other day. I don&#8217;t know whether I will ever use it but I am still putting this on my blog for the sake of bookmarking it. Who knows? Someone from the audience might end up using it!</p>
+<p>I screwed up using git (“git checkout –” on the wrong file) and managed to delete the code I had just written… but it was still running in a process in a docker container. <span id="more-1073"></span>Here’s how I got it back, using <a href="https://pypi.python.org/pypi/pyrasite/" rel="nofollow">https://pypi.python.org/pypi/pyrasite/</a> and <a href="https://pypi.python.org/pypi/uncompyle6" rel="nofollow">https://pypi.python.org/pypi/uncompyle6</a></p>
+<h3>Attach a shell to the docker container</h3>
+<hr />
+<p id="install-gdb-needed-by-pyrasite"><strong>Install GDB (needed by pyrasite)</strong></p>
+<pre><code>apt-get update &amp;&amp; apt-get install gdb</code></pre>
+<p id="install-pyrasite---this-will-let-you-attach-a-python-shell-to-the-still-running-process"><strong>Install pyrasite &#8211; this will let you attach a Python shell to the still-running process</strong></p>
+<pre><code>pip install pyrasite</code></pre>
+<p id="install-uncompyle6-which-will-let-you-get-python-source-code-back-from-in-memory-code-objects"><strong>Install uncompyle6, which will let you get Python source code back from in-memory code objects</strong></p>
+<pre><code>pip install uncompyle6</code></pre>
+<p id="find-the-pid-of-the-process-that-is-still-running"><strong>Find the PID of the process that is still running</strong></p>
+<pre><code>ps aux | grep python</code></pre>
+<p id="attach-an-interactive-prompt-using-pyrasite"><strong>Attach an interactive prompt using pyrasite</strong></p>
+<pre><code>pyrasite-shell &lt;PID&gt;</code></pre>
+<p id="now-youre-in-an-interactive-prompt-import-the-code-you-need-to-recover"><strong>Now you’re in an interactive prompt! Import the code you need to recover</strong></p>
+<pre><code>&gt;&gt;&gt; from my_package import my_module</code></pre>
+<p id="figure-out-which-functions-and-classes-you-need-to-recover"><strong>Figure out which functions and classes you need to recover</strong></p>
+<pre><code>&gt;&gt;&gt; dir(my_module)
+['MyClass', 'my_function']</code></pre>
+<p id="decompile-the-function-into-source-code"><strong>Decompile the function into source code</strong></p>
+<pre><code>&gt;&gt;&gt; import uncompyle6
+&gt;&gt;&gt; import sys
+&gt;&gt;&gt; uncompyle6.main.uncompyle(
+    2.7, my_module.my_function.func_code, sys.stdout
+)
+# uncompyle6 version 2.9.10
+# Python bytecode 2.7
+# Decompiled from: Python 2.7.12 (default, Nov 19 2016, 06:48:10) 
+# [GCC 5.4.0 20160609]
+# Embedded file name: /srv/my_package/my_module.py
+function_body = "appears here"</code></pre>
+<p id="for-the-class-youll-need-to-decompile-each-method-in-turn"><strong>For the class, you’ll need to decompile each method in turn</strong></p>
+<pre><code>&gt;&gt;&gt; uncompyle6.main.uncompyle(
+    2.7, my_module.MyClass.my_method.im_func.func_code, sys.stdout
+)
+# uncompyle6 version 2.9.10
+# Python bytecode 2.7
+# Decompiled from: Python 2.7.12 (default, Nov 19 2016, 06:48:10) 
+# [GCC 5.4.0 20160609]
+# Embedded file name: /srv/my_package/my_module.py
+class_method_body = "appears here"</code></pre>
+<p>I hope you guys like this post. Stay tuned for the next one in the upcoming days.</p><br />  <a rel="nofollow" href="http://feeds.wordpress.com/1.0/gocomments/freepythontips.wordpress.com/1073/"><img alt="" border="0" src="http://feeds.wordpress.com/1.0/comments/freepythontips.wordpress.com/1073/" /></a> <img alt="" border="0" src="https://pixel.wp.com/b.gif?host=pythontips.com&blog=55796613&post=1073&subd=freepythontips&ref=&feed=1" width="1" height="1" />

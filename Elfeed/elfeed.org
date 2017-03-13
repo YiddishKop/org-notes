@@ -1,0 +1,21 @@
+* Blogs                                                              :elfeed:
+** EMACS                                                              :emacs:
+*** http://nullprogram.com/feed/                                    :elfeed:
+*** http://pragmaticemacs.com/feed/                                    :tips:
+*** http://planet.emacsen.org/atom.xml                            :blogGroup:
+*** http://blog.binchen.org/rss.xml                             :hacker:blog:
+*** http://kitchingroup.cheme.cmu.edu/blog/category/emacs/feed/ :hacker:blog:
+*** http://emacs.stackexchange.com/feeds                                 :Q and A:
+*** http://sachachua.com/blog/feed/                        :hacker:lady:blog:
+*** http://endlessparentheses.com/atom.xml                      :hacker:blog:
+** TEACHER BLOG                                                :teacher:blog:
+*** http://www.ruanyifeng.com/feed.html
+** LANGUAGE                                                        :language:
+*** http://planetpython.org/rss20.xml                             :blogGroup:
+** ML                                                                    :ml:
+*** https://culurciello.github.io/feed.xml
+*** http://feeds.feedburner.com/foldl/rss                          :stu:blog:
+*** http://karpathy.github.io/feed.xml                            :blogGroup:
+*** https://calculatedcontent.com/feed/
+** LINUX
+*** https://feedly.com/i/subscription/feed/http://www.tecmint.com/feed/

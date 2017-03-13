@@ -1,0 +1,8 @@
+
+            
+
+            <p>I'm having trouble with the <code>S</code> and <code>U</code> commands in magit. Whenever I try to select "stage all" or "unstage" all, I get asked to confirm the action with <code>y</code> or <code>n</code>. The problem is, when I hit <code>y</code>, nothing happens. Any idea what the issue could be?</p>
+
+<p>(I'm not sure if this is relevant, but I <em>can</em> successfully abort the "stage all" operation with <code>n</code>. However, I can't do this for "unstage all".)</p>
+
+        

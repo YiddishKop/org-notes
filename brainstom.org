@@ -1,0 +1,17 @@
+* Brainstom
+** IMAGING [#C] org + w3m + hash-reading-method
+*** hash-reading-method 读书法
+    condition - familiar with content >? 30%
+    target    - hold the core concept of text
+    interpre  - log the most frequency *one* word in front of note --- *major-core*.
+    log the most frequency *2~4* words occur around it --- *minor-cores*.
+	log all the *sentences* include words below.
+	connect the *chapter-titles* with these *sentences*.
+	interpret the *relationship* between chapter-titles and sentences by your current knowledge.
+	write the *fake-relationship* down in note.
+	readings in detail to find the *true-relationship*.
+	compair the true and fake one.
+    pin the *true-relationship chapter-titles and major/minor* in your knowledge map.
+*** hack emacs
+    like org-protocol --- capture content between chrome and emacs-org, I think it is more convinient to hack
+    emacs to make has-reading-method apply smoothly.

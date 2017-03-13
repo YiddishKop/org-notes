@@ -1,0 +1,8 @@
+
+            
+
+            <p>I have a large set of tagged tasks in an org file and I want to shift all their dates by one week. Dates could be scheduled, deadlines, or plain dates. What is the easiest way to do this?</p>
+
+<p>I attempted to do this using bulk actions via the agenda tag view, but I get a warning message about tag views not beings supported when I attempt to apply my custom <code>org-agenda-date-later 7</code> function. I don't know how to do this in agenda without the tag view.</p>
+
+        

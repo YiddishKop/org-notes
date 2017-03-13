@@ -1,3 +1,9 @@
+*Tips*
+1. 這這裏是收集知識用的org
+2. 盡他應該維持的特點是:
+   1. 便捷, 快速, 自由
+   2.
+--------------------------
 * Chome Inbox
 ** DONE [[http://askubuntu.com/questions/684169/gtk-message-failed-to-load-module-pantheon-filechooser-module][Gtk-Message: Failed to load module "pantheon-filechooser-module" - Ask Ubuntu]]
    CLOSED: [2017-03-09 Thu 10:57]
@@ -2551,54 +2557,6 @@ local-gen
    11) [ ] 所有墙体：[0/1]
        - [ ] 房屋内所有乳胶漆墙面出现多出裂痕（已经在墙上标明）；
    12) [ ] xiegui, dengguan wei guding
-* 2017
-** 2017-03 March
-*** 2017-03-11 Saturday
-
-**** 定制 org capture 就是定制 org-capture-template 這個變量
-
-
-*** Template expansion                                 :org:capture:tempalte:
-
-In the template itself, special %-escapes1 allow dynamic insertion of content. The templates are expanded in the order given here:
-
-    | %[file]     |Insert the contents of the file given by file.
-    | %(sexp)     |Evaluate Elisp sexp and replace with the result.
-    |             |      For convenience, %:keyword (see below) placeholders
-    |             |      within the expression will be expanded prior to this.
-    |             |      The sexp must return a string.
-    | %<...>      |The result of format-time-string on the ... format specification.
-    | %t          |Timestamp, date only.會在agenda中記錄出來
-    | %T          |Timestamp, with date and time.會在agenda中記錄出來
-    | %u, %U      |Like the above, but inactive timestamps.不會在agenda中記錄出來
-    | %i          |Initial content, the region when capture is called while the
-    |             |region is active.
-    |             |The entire text will be indented like %i itself.
-    | %a          |Annotation, normally the link created with org-store-link.
-    | %A          |Like %a, but prompt for the description part.
-    | %l          |Like %a, but only insert the literal link.
-    | %c          |Current kill ring head.
-    | %x          |Content of the X clipboard.
-    | %k          |Title of the currently clocked task.
-    | %K          |Link to the currently clocked task.
-    | %n          |User name (taken from user-full-name).
-    | %f          |File visited by current buffer when org-capture was called.
-    | %F          |Full path of the file or directory visited by current buffer.
-    | %:keyword   |Specific information for certain link types, see below.
-    | %^g         |Prompt for tags, with completion on tags in target file.
-    | %^G         |Prompt for tags, with completion all tags in all agenda files.
-    | %^t         |Like %t, but prompt for date.  Similarly %^T, %^u, %^U.
-    |             |You may define a prompt like *%^{Birthday}t*.會在agenda中記錄出來，而且帶提示符
-    | %^C         |Interactive selection of which kill or clip to use.
-    | %^L         |Like %^C, but insert as link.
-    | %^{prop}p   |Prompt the user for a value for property prop.
-    | %^{prompt}  |prompt the user for a string and replace this sequence with it.
-    |             |You may specify a default value and a completion table with
-    |             |%^{prompt|default|completion2|completion3...}.
-    |             |The arrow keys access a prompt-specific history. minibuffer中要求你輸入,輸入的內容會出現在這些符號的位置
-    | %\1 ... %\N |Insert the text entered at the Nth %^{prompt}, where N is
-    |             |a number, starting from 1.
-    | %?          |After completing the template, position cursor here.光標最後會回到的地方
 
 * Chome Clip Inbox
 ** 9.1.3 Capture templates
@@ -2656,35 +2614,35 @@ In the template itself, special %-escapes1 allow dynamic insertion of content. T
 
  description
  A short string describing the template, which will be shown during selection.
- type
- The type of entry, a symbol. Valid values are:
- entry
- An Org mode node, with a headline. Will be filed as the child of the target entry or as a top-level entry. The target file should be an Org mode file.
- item
- A plain list item, placed in the first plain list at the target location. Again the target file should be an Org file.
- checkitem
- A checkbox item. This only differs from the plain list item by the default template.
- table-line
- a new line in the first table at the target location. Where exactly the line will be inserted depends on the properties :prepend and :table-line-pos (see below).
- plain
- Text to be inserted as it is.
+| type       | The type of entry, a symbol. Valid values are:                                                                                                                    |
+| entry      | An Org mode node, with a headline. Will be filed as the child of the target entry or as a top-level entry. The target file should be an Org mode file.            |
+| item       | A plain list item, placed in the first plain list at the target location. Again the target file should be an Org file.                                            |
+| checkitem  | A checkbox item. This only differs from the plain list item by the default template.                                                                              |
+| table-line | a new line in the first table at the target location. Where exactly the line will be inserted depends on the properties :prepend and :table-line-pos (see below). |
+| plain Text | to be inserted as it is.                                                                                                                                          |
 
  target
- Specification of where the captured item should be placed. In Org mode files, targets usually define a node. Entries will become children of this node. Other types will be added to the table or list in the body of this node. Most target specifications contain a file name. If that file name is the empty string, it defaults to org-default-notes-file. A file can also be given as a variable or as a function called with no argument. When an absolute path is not specified for a target, it is taken as relative to org-directory.
- Valid values are:
 
- (file "path/to/file") Text will be placed at the beginning or end of that file.
- (id "id of existing org entry") Filing as child of this entry, or in the body of the entry.
- (file+headline "path/to/file" "node headline") Fast configuration if the target heading is unique in the file.
- (file+olp "path/to/file" "Level 1 heading" "Level 2" ...) For non-unique headings, the full path is safer.
- (file+regexp "path/to/file" "regexp to find location") Use a regular expression to position the cursor.
- (file+datetree "path/to/file") Will create a heading in a date tree for today's date1.
- (file+datetree+prompt "path/to/file") Will create a heading in a date tree, but will prompt for the date.
- (file+weektree "path/to/file") Will create a heading in a week tree for today's date. Week trees are sorted by week and not by month unlike datetrees.
- (file+weektree+prompt "path/to/file") Will create a heading in a week tree, but will prompt for the date.
- (file+function "path/to/file" function-finding-location) A function to find the right location in the file.
- (clock) File to the entry that is currently being clocked.
- (function function-finding-location) Most general way: write your own function which both visits the file and moves point to the right location.
+Specification of where the captured item should be placed. In Org mode files,
+targets usually define a node. Entries will become children of this node. Other
+types will be added to the table or list in the body of this node. Most target
+specifications contain a file name. If that file name is the empty string, it
+defaults to org-default-notes-file. A file can also be given as a variable or as
+a function called with no argument. When an absolute path is not specified for a
+target, it is taken as relative to org-directory. Valid values are:
+
+| (file "path/to/file")                                     | Text will be placed at the beginning or end of that file.                                                               |
+| (id "id of existing org entry")                           | Filing as child of this entry, or in the body of the entry.                                                             |
+| (file+headline "path/to/file" "node headline")            | Fast configuration if the target heading is unique in the file.                                                         |
+| (file+olp "path/to/file" "Level 1 heading" "Level 2" ...) | For non-unique headings, the full path is safer.                                                                        |
+| (file+regexp "path/to/file" "regexp to find location")    | Use a regular expression to position the cursor.                                                                        |
+| (file+datetree "path/to/file")                            | Will create a heading in a date tree for today's date1.                                                                 |
+| (file+datetree+prompt "path/to/file")                     | Will create a heading in a date tree, but will prompt for the date.                                                     |
+| (file+weektree "path/to/file")                            | Will create a heading in a week tree for today's date. Week trees are sorted by week and not by month unlike datetrees. |
+| (file+weektree+prompt "path/to/file")                     | Will create a heading in a week tree, but will prompt for the date.                                                     |
+| (file+function "path/to/file" function-finding-location)  | A function to find the right location in the file.                                                                      |
+| (clock)                                                   | File to the entry that is currently being clocked.                                                                      |
+| (function function-finding-location)                      | Most general way: write your own function which both visits the file and moves point to the right location.             |
 
  template
  The template for creating the capture item. If you leave this empty,
@@ -2695,16 +2653,58 @@ In the template itself, special %-escapes1 allow dynamic insertion of content. T
 
  properties The rest of the entry is a property list of additional options.
  Recognized properties are:
- :prepend           Normally new captured information will be appended at the target location (last child, last table line, last list item...). Setting this property will change that.
- :immediate-finish When set, do not offer to edit the information, just file it away immediately. This makes sense if the template only needs information that can be added automatically.
- :empty-lines Set this to the number of lines to insert before and after the new item. Default 0, only common other value is 1.
- :clock-in Start the clock in this item.
- :clock-keep Keep the clock running when filing the captured entry.
- :clock-resume If starting the capture interrupted a clock, restart that clock when finished with the capture. Note that :clock-keep has precedence over :clock-resume. When setting both to t, the current clock will run and the previous one will not be resumed.
- :unnarrowed Do not narrow the target buffer, simply show the full buffer. Default is to narrow it so that you only see the new material.
- :table-line-pos Specification of the location in the table where the new line should be inserted. It can be a string, a variable holding a string or a function returning a string. The string should look like "II-3" meaning that the new line should become the third line before the second horizontal separator line.
- :kill-buffer If the target file was not yet visited when capture was invoked, kill the buffer again after capture is completed.
+| :prepend          | Normally new captured information will be appended at the target location (last child, last table line, last list item...). Setting this property will change that.                                                                                                                                        |
+| :immediate-finish | When set, do not offer to edit the information, just file it away immediately. This makes sense if the template only needs information that can be added automatically.                                                                                                                                    |
+| :empty-lines      | Set this to the number of lines to insert before and after the new item. Default 0, only common other value is 1.                                                                                                                                                                                          |
+| :clock-in         | Start the clock in this item.                                                                                                                                                                                                                                                                              |
+| :clock-keep       | Keep the clock running when filing the captured entry.                                                                                                                                                                                                                                                     |
+| :clock-resume     | If starting the capture interrupted a clock, restart that clock when finished with the capture. Note that :clock-keep has precedence over :clock-resume. When setting both to t, the current clock will run and the previous one will not be resumed.                                                      |
+| :unnarrowed       | Do not narrow the target buffer, simply show the full buffer. Default is to narrow it so that you only see the new material.                                                                                                                                                                               |
+| :table-line-pos   | Specification of the location in the table where the new line should be inserted. It can be a string, a variable holding a string or a function returning a string. The string should look like "II-3" meaning that the new line should become the third line before the second horizontal separator line. |
+| :kill-buffer      | If the target file was not yet visited when capture was invoked, kill the buffer again after capture is completed.                                                                                                                                                                                         |
  #+END_QUOTE
+
+*** Template expansion                                 :org:capture:tempalte:
+
+In the template itself, special %-escapes1 allow dynamic insertion of content. The templates are expanded in the order given here:
+
+    | %[file]     |Insert the contents of the file given by file.
+    | %(sexp)     |Evaluate Elisp sexp and replace with the result.
+    |             |      For convenience, %:keyword (see below) placeholders
+    |             |      within the expression will be expanded prior to this.
+    |             |      The sexp must return a string.
+    | %<...>      |The result of format-time-string on the ... format specification.
+    | %t          |Timestamp, date only.會在agenda中記錄出來
+    | %T          |Timestamp, with date and time.會在agenda中記錄出來
+    | %u, %U      |Like the above, but inactive timestamps.不會在agenda中記錄出來
+    | %i          |Initial content, the region when capture is called while the
+    |             |region is active.
+    |             |The entire text will be indented like %i itself.
+    | %a          |Annotation, normally the link created with org-store-link.
+    | %A          |Like %a, but prompt for the description part.
+    | %l          |Like %a, but only insert the literal link.
+    | %c          |Current kill ring head.
+    | %x          |Content of the X clipboard.
+    | %k          |Title of the currently clocked task.
+    | %K          |Link to the currently clocked task.
+    | %n          |User name (taken from user-full-name).
+    | %f          |File visited by current buffer when org-capture was called.
+    | %F          |Full path of the file or directory visited by current buffer.
+    | %:keyword   |Specific information for certain link types, see below.
+    | %^g         |Prompt for tags, with completion on tags in target file.
+    | %^G         |Prompt for tags, with completion all tags in all agenda files.
+    | %^t         |Like %t, but prompt for date.  Similarly %^T, %^u, %^U.
+    |             |You may define a prompt like *%^{Birthday}t*.會在agenda中記錄出來，而且帶提示符
+    | %^C         |Interactive selection of which kill or clip to use.
+    | %^L         |Like %^C, but insert as link.
+    | %^{prop}p   |Prompt the user for a value for property prop.
+    | %^{prompt}  |prompt the user for a string and replace this sequence with it.
+    |             |You may specify a default value and a completion table with
+    |             |%^{prompt|default|completion2|completion3...}.
+    |             |The arrow keys access a prompt-specific history. minibuffer中要求你輸入,輸入的內容會出現在這些符號的位置
+    | %\1 ... %\N |Insert the text entered at the Nth %^{prompt}, where N is
+    |             |a number, starting from 1.
+    | %?          |After completing the template, position cursor here.光標最後會回到的地方
 
 ** come up with sth, get to do sth, manually                        :ENGLISH:
  Source: [2017-03-12 Sun], [[https://github.com/rejeep/prodigy.el][rejeep/prodigy.el: Manage external services from within Emacs]]
@@ -2733,8 +2733,245 @@ In the template itself, special %-escapes1 allow dynamic insertion of content. T
  libxml2.so.2 (libc6) => /usr/lib/i386-linux-gnu/libxml2.so.2
  #+END_QUOTE
 
-* QuickNotes
+** 大神改進elfeed的顏色顯示,並增加打分功能        :emacs:elfeed:hack:kitchin:
+ Source: [2017-03-12 Sun], [[http://kitchingroup.cheme.cmu.edu/blog/category/emacs/][The Kitchin Research Group: emacs]]
 
+ I get a lot of articles this way. The current size of the database is:
+
+ (elfeed-db-size)
+ 79721
+ Elfeed tells me I have over 300 unread entries to review at the moment.
+
+ (elfeed-search--count-unread)
+ 341/363:24
+
+ To deal with this deluge, I have done a couple of things. I set up some new
+ key-bindings so I can alternate marking entries as read if the titles do not
+ look interesting. These keybindings let me alternate fingers, so they do not
+ get too tired (that really happens some days!).
+
+ ;; help me alternate fingers in marking entries as read
+ (define-key elfeed-search-mode-map (kbd "f") 'elfeed-search-untag-all-unread)
+ (define-key elfeed-search-mode-map (kbd "j") 'elfeed-search-untag-all-unread)
+
+ I also set up some auto-tagging of the emacs and python feeds, and setup some
+ custom faces so these tags are highlighted so they are easy to see. Anything
+ highlighted in blue is related to emacs, green is related to python, and pink
+ is related to my department, and I can type s, then the tag to see only those
+ entries. Here is what my feed looks like:
+
+
+
+ Today I want to explore adding tags to entries to further prioritize them.
+ There is a way to tag entries that is described here: [fn:1]
+ https://github.com/skeeto/elfeed#tag-hooks where you can create patterns to
+ match an entry feed title, url, title or link. Basically, you create a function
+ that takes an entry, amd have it add or remove a tag conditionally.
+
+ I want to tag entries that meet certain criteria, for example keywords, and set
+ a tag based on the number of matches. Ideally, one day this would be integrated
+ with machine learning so it could rank entries by other entries I have liked,
+ but today we setup code that will create a score for an entry based on the
+ number of matches, and then tag it so that it will get highlighted for me.
+ First, we define two custom faces and setup elfeed to use them. I will use two
+ tags: important and relevant. relevant will be for entries that get a score of
+ at least 1, and important for entries that get a score greater than 1.
+
+#+BEGIN_SRC emacs-lisp
+
+  (defface relevant-elfeed-entry
+    `((t :background ,(color-lighten-name "orange1" 40)))
+    "Marks a relevant Elfeed entry.")
+
+  (defface important-elfeed-entry
+    `((t :background ,(color-lighten-name "OrangeRed2" 40)))
+    "Marks an important Elfeed entry.")
+
+  (push '(relevant relevant-elfeed-entry)
+        elfeed-search-face-alist)
+
+  (push '(important important-elfeed-entry)
+        elfeed-search-face-alist)
+        ;; In elfeed, each entry is a structure, and we can access the title and
+        ;; content for matching. Here is an example of a simple scoring function.
+        ;; The idea is just to match patterns, and then add to the score if it
+        ;; matches. This is not as advanced as gnus scoring, but it is a good
+        ;; starting point.
+
+  (defun score-elfeed-entry (entry)
+    (let ((title (elfeed-entry-title entry))
+          (content (elfeed-deref (elfeed-entry-content entry)))
+          (score 0))
+      (loop for (pattern n) in '(("alloy" 1)
+                                 ("machine learning\\|neural" 1)
+                                 ("database" 1)
+                                 ("reproducible" 1)
+                                 ("carbon dioxide\\|CO2" 1)
+                                 ("oxygen evolution\\|OER\\|electrolysis" 1)
+                                 ("perovskite\\|polymorph\\|epitax" 1)
+                                 ("kitchin" 2))
+            if (string-match pattern title)
+            do (incf score n)
+            if (string-match pattern content)
+            do (incf score n))
+      (message "%s - %s" title score)
+
+      ;; store score for later in case I ever integrate machine learning
+      (setf (elfeed-meta entry :my/score) score)
+
+      (cond
+       ((= score 1)
+        (elfeed-tag entry 'relevant))
+       ((> score 1)
+        (elfeed-tag entry 'important)))
+      entry))
+
+  (add-hook 'elfeed-new-entry-hook 'score-elfeed-entry)
+
+#+END_SRC
+ score-elfeed-entry
+
+ Now, new entries automatically get tagged with relevant or important, depending
+ on the score that function gives them, and they get color-coded. Now, the feed
+ looks like this:
+
+
+
+ I saved some bookmarks to see just the important or relevant ones
+ (http://nullprogram.com/blog/2015/12/03/) so I can see new relevant entries
+ with C-x r b and selecting the relevant bookmark. These work from anywhere in
+ Emacs.
+
+   @6-months-ago +unread +relev  @6-months-ago +unread +relevant
+   elfeed @6-months-ago +unread  @6-months-ago +unread +important
+
+   I usually access elfeed from a command that shows me everything. Here, I
+   define key-bindings to show me just the important or relevant ones. I could
+   not see a way to get an or in there to show me both of them. These keys make
+   it a one key press to show only these entries, and then get back to the full
+   list.
+
+#+BEGIN_SRC emacs-lisp
+ (define-key elfeed-search-mode-map (kbd "i")
+   (lambda () (interactive)
+     (elfeed-search-set-filter "@6-months-ago +unread +important")))
+
+ (define-key elfeed-search-mode-map (kbd "v")
+   (lambda () (interactive)
+     (elfeed-search-set-filter "@6-months-ago +unread +relevant")))
+
+ (define-key elfeed-search-mode-map (kbd "c")
+   (lambda () (interactive)
+     (elfeed-search-set-filter "@6-months-ago +unread")))
+#+END_SRC
+
+ That summarizes the experiment of the day. There is clearly some room for
+ improvement on the scoring function, e.g. moving the patterns out of the
+ function and into a customizable variable, making the patterns be specific to
+ either the title or content, etc. I am going to try this for a few days and see
+ if it is actually helpful first though.
+
+** stuck-project, 在做 project review時 快速找到卡住的project :emacs:org:func:
+ Source: [2017-03-13 Mon], [[http://orgmode.org/manual/Stuck-projects.html][Stuck projects - The Org Manual]]
+
+
+  #+BEGIN_QUOTE
+ You almost certainly will have to configure this view before it will work for
+ you. The built-in default assumes that all your projects are level-2 headlines,
+ and that a project is not stuck if it has at least one entry marked with a TODO
+ keyword TODO or NEXT or NEXTACTION.
+
+ Let's assume that you, in your own way of using Org mode, identify projects
+ with a tag PROJECT, and that you use a TODO keyword MAYBE to indicate a project
+ that should not be considered yet. Let's further assume that the TODO keyword
+ DONE marks finished projects, and that NEXT and TODO indicate next actions. The
+ tag @SHOP indicates shopping and is a next action even without the NEXT tag.
+ Finally, if the project contains the special word IGNORE anywhere, it should
+ not be listed either. In this case you would start by identifying eligible
+ projects with a tags/todo match1 ~+PROJECT/-MAYBE-DONE~, and then check for
+ TODO, NEXT, @SHOP, and IGNORE in the subtree to identify projects that are not
+ stuck. The correct customization for this is
+
+總之,這個函數就是用來判別那些project處在"非終結態".
+
+      (setq org-stuck-projects
+            '("+PROJECT/-MAYBE-DONE" ("NEXT" "TODO") ("@SHOP")
+                                     "\\<IGNORE\\>"))
+
+Documentation:
+This is a list of four items:
+
+| "+PROJECT/-MAYBE-DONE" | A tags/todo/property matcher string that is used to identify a project.     |
+|                        | See the manual for a description of tag and property searches.              |
+|                        | The entire tree below a headline matched by this is considered one project. |
+|------------------------+-----------------------------------------------------------------------------|
+| ("NEXT" "TODO")        | A list of TODO keywords identifying non-stuck projects.                     |
+|                        | If the project subtree contains any headline with one of these todo         |
+|                        | keywords, the project is considered to be not stuck.  If you specify        |
+|                        | "*" as a keyword, any TODO keyword will mark the project unstuck.           |
+|------------------------+-----------------------------------------------------------------------------|
+| ("@SHOP")              | A list of tags identifying non-stuck projects.                              |
+|                        | If the project subtree contains any headline with one of these tags,        |
+|                        | the project is considered to be not stuck.  If you specify "*" as           |
+|                        | a tag, any tag will mark the project unstuck.  Note that this is about      |
+|                        | the explicit presence of a tag somewhere in the subtree, inherited          |
+|                        | tags do not count here.  If inherited tags make a project not stuck,        |
+|                        | use "-TAG" in the tags part of the matcher under (1.) above.                |
+|------------------------+-----------------------------------------------------------------------------|
+| "\\<IGNORE\\>"         | An arbitrary regular expression matching non-stuck projects.                |
+
+ Note that if a project is identified as non-stuck, the subtree of this entry
+ will still be searched for stuck projects.
+
+
+ #+END_QUOTE
+
+** 如何定義 org todo keyword 顏色                             :org:todo:face:
+ Source: [2017-03-13 Mon], [[http://orgmode.org/manual/Faces-for-TODO-keywords.html][Faces for TODO keywords - The Org Manual]]
+
+
+ 5.2.6 Faces for TODO keywords
+
+ Org mode highlights TODO keywords with special faces: org-todo for keywords
+ indicating that an item still has to be acted upon, and org-done for keywords
+ indicating that an item is finished. If you are using more than 2 different
+ states, you might want to use special faces for some of them. This can be done
+ using the option *org-todo-keyword-faces*. For example:
+
+#+BEGIN_SRC emacs-lisp
+      (setq org-todo-keyword-faces
+            '(("TODO" . org-warning) ("STARTED" . "yellow")
+              ("CANCELED" . (:foreground "blue" :weight bold))))
+#+END_SRC
+
+While using a list with face properties as shown for CANCELED should work, this
+does not always seem to be the case. If necessary, define a special face and use
+that. A string is interpreted as a color. The option org-faces-easy-properties
+determines if that color is interpreted as a foreground or a background color.
+
+** make a mental note of sth                                        :ENGLISH:
+ Source: [2017-03-13 Mon], [[http://doc.norang.ca/org-mode.html#ReminderSetup][Org Mode - Organize Your Life In Plain Text!]]
+
+
+  #+BEGIN_QUOTE
+ *make a mental note of* anything important to deal with today
+ #+END_QUOTE
+
+* MESSY QuickNotes
+
+** spacemacs如何定義快捷鍵                                            :elisp:
+  我理解,應該是把某個按鍵掛在某個major-mode下,啓用方式爲:
+  =<major-mode-key> <你定義的按鍵>=
+  eg. 這裏的, =, p=
+#+BEGIN_SRC emacs-lisp
+      (spacemacs/set-leader-keys-for-major-mode 'org-mode
+        "p" 'org-pomodoro)
+      (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
+        "p" 'org-pomodoro))))
+
+#+END_SRC
+Link:   [[file:~/.emacs.d/layers/+emacs/org/packages.el::"p"%20'org-pomodoro))))]]
+File:   /home/yiddi/.emacs.d/layers/+emacs/org/packages.el
 ** Embedding Youtube videos with org-mode links
  The Power of Org-links post series
 
@@ -2793,7 +3030,11 @@ In the template itself, special %-escapes1 allow dynamic insertion of content. T
 
    *先運行下面的代碼，再點擊headling的鏈接*
    運行過上面的代碼之後，點擊下面的鏈接，會彈出所有被找到的文件列表，通過他們可以直接跳轉。
-*** TODO refactor [[grep:.pdf][pdf file]] into another place
+*** refactor [[grep:.pdf][pdf file]] into another place
+    CLOSED: [2017-03-13 Mon 08:33]
+    :LOGBOOK:
+    - State "DONE"       from "TODO"       [2017-03-13 Mon 08:33]
+    :END:
     #+BEGIN_SRC emacs-lisp
 
     (org-add-link-type
@@ -2807,7 +3048,7 @@ In the template itself, special %-escapes1 allow dynamic insertion of content. T
     #+END_SRC
 
 
-*** TODO find all org headline with [[tag:ubuntu][ubuntu]] tag
+*** find all org headline with [[tag:ubuntu][ubuntu]] tag
 
     #+BEGIN_SRC emacs-lisp
  (org-add-link-type
@@ -2855,9 +3096,9 @@ logbook     -> journal       -> review -> archives
  * 2016
  ** 2016-01 January
  *** 2016-01-01 Mon [/]
-     - [ ] xxx （is a link to the org branch node）
-     - [ ] yyy（is a link to the org branch node）
-     - [ ] zzz（is a link to the org branch node）
+     - [ ] xxx(is a link to the org branch node)
+     - [ ] yyy(is a link to the org branch node)
+     - [ ] zzz(is a link to the org branch node)
 
 #+END_SRC
 
@@ -2903,3 +3144,15 @@ About ARCHIVE file
      在每一條目前面, 按 ~$~ 可以查看其執行的信息
 
   [2017-03-12 Sun 16:07]
+
+** 要學會考慮編程的核心問題:                          :programming:viewpoint:
+   1. 信息傳遞
+   2. 信息格式轉化
+
+      信息 ->編碼-> -------------------------------傳遞--------------------------> ->解碼-> 信息
+
+  [2017-03-13 Mon 08:35]
+
+* MESSY Footnotes
+
+[fn:1] 從這裏可以看出,作者也是通過讀git來獲取最進本的函數信息.之前迷惑,他怎麼知道用哪些函數呢? 如何可查?

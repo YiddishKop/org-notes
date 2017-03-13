@@ -1,0 +1,284 @@
+<p><em>This is the second post in a tutorial series on applying Parsec in
+ historical linguistics. We&rsquo;ve begun by providing a more formal
+ description of sound change rule grammars and will end by building a
+ full-fledged sound change applier.</em></p>
+
+<p>In my <a href="/2012/sound-change-parsing-bnf-grammar">last post</a> we established a BNF grammar for files which
+describe sound change rules:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;file&gt;               ::= (&lt;phoneme-class-defn&gt; &lt;EOL&gt;)* (&lt;rule&gt; &lt;EOL&gt;)+
+&lt;phoneme-class-defn&gt; ::= &lt;phoneme-class&gt; ":" &lt;phoneme&gt;+
+&lt;rule&gt;               ::= &lt;context&gt; "&gt;" &lt;replacement&gt; ["/" &lt;condition&gt;]
+&lt;condition&gt;          ::= &lt;context&gt;_&lt;context&gt;
+&lt;context&gt;            ::= (&lt;phoneme&gt; | &lt;phoneme-class&gt;)+
+&lt;phoneme&gt;            ::= &lt;lowercase-letter&gt;
+&lt;phoneme-class&gt;      ::= &lt;uppercase-letter&gt;
+</code></pre>
+</div>
+
+<p>Before we begin parsing, let&rsquo;s set up some basic datatypes which can be
+used to store the parse results.</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="kr">import</span> <span class="nn">Data.Map</span> <span class="p">(</span><span class="kt">Map</span><span class="p">)</span>
+
+<span class="c1">-- A single phoneme.</span>
+<span class="kr">type</span> <span class="kt">Phoneme</span> <span class="o">=</span> <span class="kt">Char</span>
+
+<span class="c1">-- Phoneme class storage, mapping from a single character ('V', 'A',</span>
+<span class="c1">-- 'F', etc.) to a collection of phonemes.</span>
+<span class="kr">type</span> <span class="kt">PhonemeClassMap</span> <span class="o">=</span> <span class="kt">Map</span> <span class="kt">Char</span> <span class="p">[</span><span class="kt">Phoneme</span><span class="p">]</span>
+
+<span class="c1">-- A string of phonemes used to match a given context.</span>
+<span class="kr">type</span> <span class="kt">Context</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Phoneme</span><span class="p">]</span>
+
+<span class="c1">-- A complete sound change rule.</span>
+<span class="kr">data</span> <span class="kt">Rule</span> <span class="o">=</span> <span class="kt">Rule</span> <span class="p">{</span> <span class="n">replacement</span>   <span class="o">::</span> <span class="p">[</span><span class="kt">Phoneme</span><span class="p">],</span>
+                   <span class="n">beforeContext</span> <span class="o">::</span> <span class="kt">Context</span><span class="p">,</span>
+                   <span class="n">inContext</span>     <span class="o">::</span> <span class="kt">Context</span><span class="p">,</span>
+                   <span class="n">afterContext</span>  <span class="o">::</span> <span class="kt">Context</span> <span class="p">}</span>
+
+<span class="kr">instance</span> <span class="kt">Show</span> <span class="kt">Rule</span> <span class="kr">where</span>
+    <span class="n">show</span> <span class="p">(</span><span class="kt">Rule</span> <span class="n">r</span> <span class="n">b</span> <span class="n">i</span> <span class="n">a</span><span class="p">)</span> <span class="o">=</span> <span class="n">show</span> <span class="n">i</span> <span class="o">++</span> <span class="s">" &gt; "</span> <span class="o">++</span> <span class="n">show</span> <span class="n">r</span> <span class="o">++</span> <span class="s">" / "</span> <span class="o">++</span> <span class="n">show</span> <span class="n">b</span>
+                          <span class="o">++</span> <span class="s">"_"</span> <span class="o">++</span> <span class="n">show</span> <span class="n">a</span></code></pre></figure>
+
+<p>Referencing the BNF grammar, we can use these types to build the returns
+for our parsers. Let&rsquo;s start with the simplest Parsec rules,
+<code class="highlighter-rouge">anyPhoneme</code> and <code class="highlighter-rouge">anyPhonemeClass</code>. Any uppercase character in sound
+change rules should be interpreted as a phoneme class reference, and any
+lowercase character must be a phoneme.</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="kr">import</span> <span class="nn">Text.Parsec</span>
+
+<span class="n">anyPhoneme</span> <span class="o">::</span> <span class="kt">Parsec</span> <span class="kt">String</span> <span class="nb">()</span> <span class="kt">Phoneme</span>
+<span class="n">anyPhoneme</span> <span class="o">=</span> <span class="n">lower</span>
+
+<span class="n">anyPhonemeClass</span> <span class="o">::</span> <span class="kt">Parsec</span> <span class="kt">String</span> <span class="nb">()</span> <span class="kt">Char</span>
+<span class="n">anyPhonemeClass</span> <span class="o">=</span> <span class="n">upper</span></code></pre></figure>
+
+<p>As evidenced by the given type annotations, our parsers (for the moment)
+will have a stream type of <code class="highlighter-rouge">String</code>, a user state type of <code class="highlighter-rouge">()</code>, and a
+return type that varies based on their purpose.</p>
+
+<h2 id="our-first-lift">Our first lift</h2>
+
+<p>We need to next build the parser for phoneme class definitions. As a
+first try, we could have our parser return a pair of type <code class="highlighter-rouge">(Char,
+[Phoneme])</code>, matching with the type of a <code class="highlighter-rouge">PhonemeClassMap</code>. Let&rsquo;s start:</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="n">phonemeClassDefinition</span> <span class="o">::</span> <span class="kt">Parsec</span> <span class="kt">String</span> <span class="nb">()</span> <span class="p">(</span><span class="kt">Char</span><span class="p">,</span> <span class="p">[</span><span class="kt">Phoneme</span><span class="p">])</span>
+<span class="n">phonemeClassDefinition</span> <span class="o">=</span> <span class="p">(,)</span> <span class="p">(</span><span class="n">anyPhonemeClass</span><span class="p">)</span> <span class="p">(</span><span class="n">many1</span> <span class="n">anyPhoneme</span><span class="p">)</span></code></pre></figure>
+
+<p>This doesn&rsquo;t work! What gives?</p>
+
+<p>Let&rsquo;s look at the type of <code class="highlighter-rouge">(,)</code>, a tuple constructor:</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(,)</span> <span class="o">::</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></code></pre></figure>
+
+<p>And check the type of <code class="highlighter-rouge">anyPhonemeClass</code> and <code class="highlighter-rouge">many1 anyPhoneme</code>:</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="n">anyPhonemeClass</span>  <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="nb">()</span> <span class="kt">Identity</span> <span class="kt">Char</span>
+<span class="n">many1</span> <span class="n">anyPhoneme</span> <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="nb">()</span> <span class="kt">Identity</span> <span class="p">[</span><span class="kt">Phoneme</span><span class="p">]</span></code></pre></figure>
+
+<p>These have the right types <code class="highlighter-rouge">Char</code> and <code class="highlighter-rouge">[Phoneme]</code>, except they&rsquo;re
+contained within a <code class="highlighter-rouge">ParsecT</code> type.</p>
+
+<p>Good news: <code class="highlighter-rouge">ParsecT s u m</code> is a functor! This means that we can &ldquo;lift&rdquo;
+functions into the context defined by the type. Check the type of <code class="highlighter-rouge">fmap</code>
+and <code class="highlighter-rouge">fmap (,)</code>:</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="n">fmap</span>     <span class="o">::</span> <span class="kt">Functor</span> <span class="n">f</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="n">b</span>
+<span class="n">fmap</span> <span class="p">(,)</span> <span class="o">::</span> <span class="kt">Functor</span> <span class="n">f</span> <span class="o">=&gt;</span> <span class="n">f</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="p">(</span><span class="n">b</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span></code></pre></figure>
+
+<p>You can check that the type of <code class="highlighter-rouge">(,)</code> corresponds with the type of <code class="highlighter-rouge">fmap
+(,)</code>. (In <code class="highlighter-rouge">fmap</code>&rsquo;s type signature, <code class="highlighter-rouge">b</code> corresponds to <code class="highlighter-rouge">b -&gt; (a, b)</code> from
+<code class="highlighter-rouge">(,)</code>&rsquo;s type.)</p>
+
+<p>Let&rsquo;s provide <code class="highlighter-rouge">fmap (,)</code> with that first argument <code class="highlighter-rouge">f a</code>, where <code class="highlighter-rouge">f</code> is
+<code class="highlighter-rouge">ParsecT String () Identity</code> and <code class="highlighter-rouge">a</code> is <code class="highlighter-rouge">Char</code>. (This looks like the
+type of <code class="highlighter-rouge">anyPhonemeClass</code>!)</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="n">fmap</span> <span class="p">(,)</span> <span class="n">anyPhonemeClass</span> <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="nb">()</span> <span class="kt">Identity</span> <span class="p">(</span><span class="n">b</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="kt">Char</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span></code></pre></figure>
+
+<p>Great - just as <code class="highlighter-rouge">fmap</code>&rsquo;s signature described, <code class="highlighter-rouge">(,)</code> was lifted into the
+<code class="highlighter-rouge">ParsecT String () Identity</code> context and <code class="highlighter-rouge">a</code> was clarified to be a
+<code class="highlighter-rouge">Char</code>. We can make our expression look a bit nicer by using an infix
+alias for <code class="highlighter-rouge">fmap</code> from <code class="highlighter-rouge">Control.Applicative</code>, <code class="highlighter-rouge">&lt;$&gt;</code>:</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(,)</span> <span class="o">&lt;$&gt;</span> <span class="n">anyPhonemeClass</span> <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="nb">()</span> <span class="kt">Identity</span> <span class="p">(</span><span class="n">b</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="kt">Char</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span></code></pre></figure>
+
+<h2 id="applying-within-a-context">Applying within a context</h2>
+
+<p>Looking at the types, we&rsquo;re almost there: we want our final parser to
+have a return type of <code class="highlighter-rouge">(Char, [Phoneme])</code> and the current parser has a
+return type of <code class="highlighter-rouge">b -&gt; (Char, b)</code>. How can we supply a type <code class="highlighter-rouge">b</code>?</p>
+
+<p>The answer comes from the fact that <code class="highlighter-rouge">ParsecT s u m</code> is not only a
+functor but an <em>applicative</em> functor. This means that we can apply
+functions already within the context (like <code class="highlighter-rouge">b -&gt; (Char, b)</code>!) to values
+within the context (like <code class="highlighter-rouge">anyPhoneme</code>!).</p>
+
+<p>This contextual application is invoked by <code class="highlighter-rouge">Control.Applicative</code>&rsquo;s <code class="highlighter-rouge">&lt;*&gt;</code>.
+Compare its type with the type of <code class="highlighter-rouge">$</code>: the only difference is that <code class="highlighter-rouge">&lt;*&gt;</code>
+operates within a context <code class="highlighter-rouge">f</code>.</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(</span><span class="o">&lt;*&gt;</span><span class="p">)</span> <span class="o">::</span> <span class="kt">Applicative</span> <span class="n">f</span> <span class="o">=&gt;</span> <span class="n">f</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="n">b</span>
+<span class="p">(</span><span class="o">$</span><span class="p">)</span>   <span class="o">::</span>                    <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span>   <span class="n">a</span> <span class="o">-&gt;</span>   <span class="n">b</span></code></pre></figure>
+
+<p>Let&rsquo;s apply the lifted and partially applied function from the last
+section to <code class="highlighter-rouge">anyPhoneme</code>:</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="n">anyPhoneme</span> <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="nb">()</span> <span class="kt">Identity</span> <span class="kt">Phoneme</span>
+<span class="p">(,)</span> <span class="o">&lt;$&gt;</span> <span class="n">anyPhonemeClass</span> <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="nb">()</span> <span class="kt">Identity</span> <span class="p">(</span><span class="n">b</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="kt">Char</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+<span class="p">(,)</span> <span class="o">&lt;$&gt;</span> <span class="n">anyPhonemeClass</span> <span class="o">&lt;*&gt;</span> <span class="n">anyPhoneme</span>
+    <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="nb">()</span> <span class="kt">Identity</span> <span class="p">(</span><span class="kt">Char</span><span class="p">,</span> <span class="kt">Phoneme</span><span class="p">)</span></code></pre></figure>
+
+<p>Close: our return type is <code class="highlighter-rouge">(Char, Phoneme)</code>. Let&rsquo;s apply with a <code class="highlighter-rouge">many1
+anyPhoneme</code> instead, which will produce a parser that accepts one or
+more phonemes.</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(,)</span> <span class="o">&lt;$&gt;</span> <span class="n">anyPhonemeClass</span> <span class="o">&lt;*&gt;</span> <span class="n">many1</span> <span class="n">anyPhoneme</span>
+    <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="nb">()</span> <span class="kt">Identity</span> <span class="p">(</span><span class="kt">Char</span><span class="p">,</span> <span class="p">[</span><span class="kt">Phoneme</span><span class="p">])</span></code></pre></figure>
+
+<p>Great! Our parser returns the proper type. Let&rsquo;s write the actual
+implementation of our phoneme class definition rule before continuing:</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="kr">import</span> <span class="nn">Control.Applicative</span> <span class="p">((</span><span class="o">&lt;$&gt;</span><span class="p">),</span> <span class="p">(</span><span class="o">&lt;*&gt;</span><span class="p">))</span>
+
+<span class="n">phonemeClassDefinition</span> <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="nb">()</span> <span class="kt">Identity</span> <span class="p">(</span><span class="kt">Char</span><span class="p">,</span> <span class="p">[</span><span class="kt">Phoneme</span><span class="p">])</span>
+<span class="n">phonemeClassDefinition</span> <span class="o">=</span> <span class="p">(,)</span> <span class="o">&lt;$&gt;</span> <span class="n">anyPhonemeClass</span> <span class="o">&lt;*&gt;</span> <span class="n">many1</span> <span class="n">anyPhoneme</span></code></pre></figure>
+
+<p>We must do a bit of bookkeeping. In the original BNF, we stated that a
+phoneme class definition was of the form</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;phoneme-class-defn&gt; ::= &lt;phoneme-class&gt; ":" &lt;phoneme&gt;+
+</code></pre>
+</div>
+
+<p>We need to account for the &ldquo;useless&rdquo; colon in this expression. It&rsquo;s
+useless in that it contributes nothing to the parse result. Using the
+<code class="highlighter-rouge">*&gt;</code> function from <code class="highlighter-rouge">Control.Applicative</code>, we can consume a <code class="highlighter-rouge">':'</code>
+character and discard its result:</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="kr">import</span> <span class="nn">Control.Applicative</span> <span class="p">((</span><span class="o">&lt;$&gt;</span><span class="p">),</span> <span class="p">(</span><span class="o">&lt;*&gt;</span><span class="p">),</span> <span class="p">(</span><span class="o">*&gt;</span><span class="p">))</span>
+
+<span class="n">phonemeClassDefinition</span> <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="nb">()</span> <span class="kt">Identity</span> <span class="p">(</span><span class="kt">Char</span><span class="p">,</span> <span class="p">[</span><span class="kt">Phoneme</span><span class="p">])</span>
+<span class="n">phonemeClassDefinition</span> <span class="o">::</span> <span class="p">(,)</span> <span class="o">&lt;$&gt;</span> <span class="n">anyPhonemeClass</span>
+                          <span class="o">&lt;*&gt;</span> <span class="p">(</span><span class="n">char</span> <span class="sc">':'</span> <span class="o">*&gt;</span> <span class="n">many1</span> <span class="n">anyPhoneme</span><span class="p">)</span></code></pre></figure>
+
+<h2 id="modifying-user-state">Modifying user state</h2>
+
+<p>There&rsquo;s one significant problem left with this parser. True, it eats up
+strings without a problem:</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="o">&gt;</span> <span class="n">parse</span> <span class="n">phonemeClassDefinition</span> <span class="s">""</span> <span class="s">"V:aeiou"</span>
+<span class="kt">Right</span> <span class="p">(</span><span class="sc">'V'</span><span class="p">,</span> <span class="s">"aeiou"</span><span class="p">)</span></code></pre></figure>
+
+<p>Our problem is that we need to reference these definitions in another
+parser, specifically the <em>context parser</em>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;context&gt; ::= (&lt;phoneme&gt; | &lt;phoneme-class&gt;)+
+</code></pre>
+</div>
+
+<p>Since Parsec has no idea of what a phoneme class is, when we build this
+parser we&rsquo;ll need to identify exactly what we should look for in test
+words given that we saw &ldquo;V&rdquo; or &ldquo;A&rdquo; in a rule. How can we have the
+phoneme class definitions &ldquo;carry over?&rdquo;</p>
+
+<p>It&rsquo;s simple using Parsec&rsquo;s built-in &ldquo;user state&rdquo; feature. (It shows up
+in the <code class="highlighter-rouge">u</code> in <code class="highlighter-rouge">ParsecT s u m a</code>.) Rather than using <code class="highlighter-rouge">()</code> as our user
+state type, let&rsquo;s carry along a <code class="highlighter-rouge">PhonemeClassMap</code> as state. Each rule&rsquo;s
+type needs to now be redefined (but the implementation for those not
+using the state data need not change):</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="n">anyPhoneme</span> <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="kt">PhonemeClassMap</span> <span class="kt">Identity</span> <span class="kt">Phoneme</span>
+<span class="n">anyPhonemeClass</span> <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="kt">PhonemeClassMap</span> <span class="kt">Identity</span> <span class="kt">Char</span>
+<span class="n">phonemeClassDefinition</span>
+    <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="kt">PhonemeClassMap</span> <span class="kt">Identity</span> <span class="p">(</span><span class="kt">Char</span><span class="p">,</span> <span class="p">[</span><span class="kt">Phoneme</span><span class="p">])</span></code></pre></figure>
+
+<p>In <code class="highlighter-rouge">phonemeClassDefinition</code> we&rsquo;ll need to use Parsec&rsquo;s <code class="highlighter-rouge">modifyState</code>
+function:</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="n">modifyState</span> <span class="o">::</span> <span class="kt">Monad</span> <span class="n">m</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="n">u</span> <span class="o">-&gt;</span> <span class="n">u</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">ParsecT</span> <span class="n">s</span> <span class="n">u</span> <span class="n">m</span> <span class="nb">()</span></code></pre></figure>
+
+<p>This type annotation does a great job of helping us understand what
+exactly happens within the function. Given some user state modifier
+(i.e., a function which takes an old user state of type <code class="highlighter-rouge">u</code> and creates
+a new one), a new parser is yielded which has a user state of type <code class="highlighter-rouge">u</code>
+and returns nothing.</p>
+
+<p>Now <code class="highlighter-rouge">phonemeClassDefinition</code> will return nothing and instead modify the
+parser&rsquo;s state (i.e., add entries to the phoneme class map).</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="n">phonemeClassDefinition</span> <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="kt">PhonemeClassMap</span> <span class="kt">Identity</span> <span class="nb">()</span></code></pre></figure>
+
+<p>We want to modify this map by <code class="highlighter-rouge">insert</code>ing an entry whose contents will
+be equal . We run into a familiar problem, however, since <code class="highlighter-rouge">insert</code> was
+not built explicitly for use with the <code class="highlighter-rouge">ParsecT s u m</code> context:</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="n">insert</span> <span class="o">::</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="kt">Map</span> <span class="n">a</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="kt">Map</span> <span class="n">a</span> <span class="n">b</span></code></pre></figure>
+
+<p>Let&rsquo;s lift <code class="highlighter-rouge">insert</code> into the <code class="highlighter-rouge">ParsecT s u m</code> functor:</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(</span><span class="o">&lt;$&gt;</span><span class="p">)</span> <span class="n">insert</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Functor</span> <span class="n">f</span><span class="p">,</span> <span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">f</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="p">(</span><span class="n">a1</span> <span class="o">-&gt;</span> <span class="kt">Map</span> <span class="n">a</span> <span class="n">a1</span>
+                                                   <span class="o">-&gt;</span> <span class="kt">Map</span> <span class="n">a</span> <span class="n">a1</span><span class="p">)</span>
+<span class="n">insert</span> <span class="o">&lt;$&gt;</span> <span class="n">anyPhonemeClass</span>
+    <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="kt">PhonemeClassMap</span> <span class="kt">Identity</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Map</span> <span class="kt">Char</span> <span class="n">a</span>
+                                                  <span class="o">-&gt;</span> <span class="kt">Map</span> <span class="kt">Char</span> <span class="n">a</span><span class="p">)</span></code></pre></figure>
+
+<p>Close, like before: we can now provide <code class="highlighter-rouge">fmap insert</code> with a first
+argument in the <code class="highlighter-rouge">ParsecT s u m</code> context, but the <code class="highlighter-rouge">a1</code> in the type
+annotation has no concept of context. Using <code class="highlighter-rouge">&lt;*&gt;</code> once more, we can fix
+the problem:</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="n">insert</span> <span class="o">&lt;$&gt;</span> <span class="n">anyPhonemeClass</span> <span class="o">&lt;*&gt;</span> <span class="p">(</span><span class="n">char</span> <span class="sc">':'</span> <span class="o">*&gt;</span> <span class="n">many1</span> <span class="n">anyPhoneme</span><span class="p">)</span>
+    <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="kt">PhonemeClassMap</span> <span class="kt">Identity</span>
+       <span class="p">(</span><span class="kt">Map</span> <span class="kt">Char</span> <span class="p">[</span><span class="kt">Phoneme</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Map</span> <span class="kt">Char</span> <span class="p">[</span><span class="kt">Phoneme</span><span class="p">])</span></code></pre></figure>
+
+<p>Before continuing, let&rsquo;s give a name to the parser created in this
+section.</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="n">modifier</span> <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="kt">PhonemeClassMap</span> <span class="kt">Identity</span>
+            <span class="p">(</span><span class="kt">Map</span> <span class="kt">Char</span> <span class="p">[</span><span class="kt">Phoneme</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Map</span> <span class="kt">Char</span> <span class="p">[</span><span class="kt">Phoneme</span><span class="p">])</span>
+<span class="n">modifier</span> <span class="o">=</span> <span class="n">insert</span> <span class="o">&lt;$&gt;</span> <span class="n">anyPhonemeClass</span> <span class="o">&lt;*&gt;</span> <span class="n">many1</span> <span class="n">anyPhoneme</span></code></pre></figure>
+
+<p>Notice that <code class="highlighter-rouge">Map Char [Phoneme]</code> is equivalent to <code class="highlighter-rouge">PhonemeClassMap</code>, or
+our parser&rsquo;s user state <code class="highlighter-rouge">u</code>. We just did all this work to lift and apply
+<code class="highlighter-rouge">insert</code> within a context, but now, upon revisiting <code class="highlighter-rouge">modifyState</code>&rsquo;s
+type, we see we&rsquo;ll need to head in the other direction:</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="n">phonemeClassDefinition</span> <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="n">u</span> <span class="kt">Identity</span> <span class="nb">()</span>
+<span class="n">modifier</span>               <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="n">u</span> <span class="kt">Identity</span> <span class="p">(</span><span class="n">u</span> <span class="o">-&gt;</span> <span class="n">u</span><span class="p">)</span>
+<span class="n">modifyState</span>            <span class="o">::</span> <span class="kt">Monad</span> <span class="n">m</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="n">u</span> <span class="o">-&gt;</span> <span class="n">u</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">ParsecT</span> <span class="n">s</span> <span class="n">u</span> <span class="n">m</span> <span class="nb">()</span></code></pre></figure>
+
+<h2 id="binding">Binding</h2>
+
+<p>If we simplify the types here, the next step should be obvious. (This is
+pseudo-Haskell.)</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="n">u</span> <span class="o">::</span> <span class="kt">PhonemeClassMap</span>
+<span class="n">f</span> <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="n">u</span> <span class="kt">Identity</span>
+<span class="n">a</span> <span class="o">::</span> <span class="n">u</span> <span class="o">-&gt;</span> <span class="n">u</span>
+<span class="n">b</span> <span class="o">::</span> <span class="nb">()</span>
+
+<span class="n">modifier</span>    <span class="o">::</span> <span class="n">f</span> <span class="n">a</span>
+<span class="n">modifyState</span> <span class="o">::</span> <span class="kt">Monad</span> <span class="n">m</span> <span class="o">=&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">m</span> <span class="n">b</span></code></pre></figure>
+
+<p>We need some function that, with an <code class="highlighter-rouge">f a</code> and <code class="highlighter-rouge">a -&gt; f b</code>, derive an
+<code class="highlighter-rouge">f b</code>. This sounds just like <code class="highlighter-rouge">&gt;&gt;=</code>, the monadic bind operation!</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(</span><span class="o">&gt;&gt;=</span><span class="p">)</span>                    <span class="o">::</span> <span class="kt">Monad</span> <span class="n">m</span> <span class="o">=&gt;</span> <span class="n">m</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">m</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">m</span> <span class="n">b</span>
+<span class="n">modifier</span> <span class="o">&gt;&gt;=</span> <span class="n">modifyState</span> <span class="o">::</span> <span class="kt">ParsecT</span> <span class="n">s</span> <span class="kt">PhonemeClassMap</span> <span class="n">m</span> <span class="nb">()</span></code></pre></figure>
+
+<p>That&rsquo;s it &ndash; we&rsquo;ve found our definition for <code class="highlighter-rouge">phonemeClassDefinition</code>!
+With some reformatting:</p>
+
+<figure class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="n">phonemeClassDefinition</span> <span class="o">::</span> <span class="kt">ParsecT</span> <span class="kt">String</span> <span class="kt">PhonemeClassMap</span> <span class="kt">Identity</span> <span class="nb">()</span>
+<span class="n">phonemeClassDefinition</span> <span class="o">=</span> <span class="n">modifier</span> <span class="o">&gt;&gt;=</span> <span class="n">modifyState</span>
+                         <span class="kr">where</span> <span class="n">modifier</span> <span class="o">=</span> <span class="n">insert</span> <span class="o">&lt;$&gt;</span> <span class="n">anyPhonemeClass</span>
+                                          <span class="o">&lt;*&gt;</span> <span class="n">defn</span>
+                               <span class="n">defn</span>     <span class="o">=</span> <span class="n">char</span> <span class="sc">':'</span> <span class="o">&gt;&gt;</span> <span class="n">many1</span> <span class="n">anyPhoneme</span></code></pre></figure>
+
+<p>We&rsquo;ve finished with the hardest parser of the set. In the next post,
+we&rsquo;ll tackle the remaining parsers, most of which are simple
+combinations of those constructed today.</p><img src="http://feeds.feedburner.com/~r/foldl/rss/~4/rk2pAXlJX0o" height="1" width="1" alt=""/>

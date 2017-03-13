@@ -1,0 +1,22 @@
+
+            
+
+            <p>I am writing a statistical report using <code>.Rnw</code> buffer and enjoying the very nice <code>ess-noweb-mode</code>, which I see very promising indeed, but what struck me is the strange behavior when I hit the keybinding to insert a new chunk <kbd>M</kbd>-<kbd>n</kbd> <kbd>i</kbd> it will introduce an extra <code>@</code> symbol at the very beginning of the chunk, is this an expected behavior or am I missing some point here? your input would be much appreciated.  </p>
+
+<pre><code>@ 
+&lt;&lt;anyChunkName&gt;&gt;=
+R code goes here
+@ %def 
+</code></pre>
+
+<p>I had to delete that leading <code>@</code> each time writing an R chunk to appear like this:</p>
+
+<pre><code>&lt;&lt;anyChunkName&gt;&gt;=
+R code goes here
+@ %def 
+</code></pre>
+
+<p><strong>Note</strong>
+I am using ESS vesrion 15.09-2 patched</p>
+
+        

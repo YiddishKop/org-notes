@@ -1,0 +1,208 @@
+<p>This week marks the end of the winter quarter at Stanford, and with it ends the
+class <a href="http://cs231n.stanford.edu/index.html">CS 231N: Convolutional Neural Networks for Visual Recognition</a>. The
+teaching team, led by <a href="http://cs.stanford.edu/people/karpathy/">Andrej Karpathy</a> and <a href="http://vision.stanford.edu/feifeili/">Fei-Fei Li</a>, did an
+outstanding job putting together a course on neural networks and CNNs from
+scratch.</p>
+
+<p>This post is a high-level overview of the project I submitted for the course,
+titled <em>Conditional generative adversarial networks for convolutional face
+generation</em>. For those interested in a technical deep dive, check out
+<a href="/uploads/2015/conditional-gans-face-generation/paper.pdf">my full paper</a> and the <a href="https://github.com/hans/adversarial">code on GitHub</a>.</p>
+
+<p style="text-align:center;font-size:88%">(jump to: <a href="#introduction">introduction</a>, <a href="#model">model</a>)</p>
+
+<figure class="image"><a href="/uploads/2015/conditional-gans-face-generation/axis_incremental.png"><img src="http://www.foldl.me//uploads/2015/conditional-gans-face-generation/axis_incremental.png" alt="Example of faces sampled from the generative model. We draw random faces in the first row. In the second row we ask the model to 'age' the faces, and in the third row we ask the model to add a smile." /></a><figcaption>Example of faces sampled from the generative model. We draw random faces in the first row. In the second row we ask the model to 'age' the faces, and in the third row we ask the model to add a smile.</figcaption></figure>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>A major task in machine learning is to learn <a href="http://en.wikipedia.org/wiki/Probability_density_function"><em>density models</em></a> of
+particular distributions. Ideally, we want to have a machine that accepts
+arbitrary inputs and says either &ldquo;Yes, that&rsquo;s an <em>x</em>,&rdquo; or &ldquo;No, that&rsquo;s not an
+<em>x</em>.&rdquo; We might name this density model mathematically as \(p(\mathbf{x})\),
+where \(\mathbf{x}\) is the data we&rsquo;re interested in modeling.</p>
+
+<p>In this project, we learn a density model of <strong>human faces</strong>. Given some image
+\(\mathbf{x}\), our precise task here is to determine whether \(\mathbf{x}\)
+is a picture of a face or not. Every seeing human has such a model in her brain,
+and uses it effortlessly every day. Like many tasks in computer vision and
+artificial intelligence, what is ridiculously simple for humans turns out to be
+notoriously difficult for computers to crack.</p>
+
+<p>There are two important extensions in this project:</p>
+
+<ul>
+  <li>We want to be able to <em>sample</em> from the model &mdash; to ask it to &ldquo;imagine&rdquo; new
+faces that we haven&rsquo;t ever showed it. (Again, this is something that humans
+can do easily.)</li>
+  <li>We want the model to <em>condition</em> on external data. This means that we should
+be able to specify particular facial attributes as we sample. (Once again,
+this is trivial for humans. Imagining an old white male with a mustache takes
+little apparent cognitive effort.)</li>
+</ul>
+
+<p>Images are traditionally represented in digital form as large matrices of
+numbers. Our density model in particular is expected to deal with images with
+3072 different dimensions of variation.<sup id="fnref:2"><a href="#fn:2" class="footnote">1</a></sup> Our task, then, (as is the task in
+much of <a href="http://en.wikipedia.org/wiki/Unsupervised_learning">unsupervised learning</a>) is to find and exploit structure in the
+data that help us reason efficiently and accurately about what is and isn&rsquo;t a
+face.</p>
+
+<h3 id="the-project">The project</h3>
+
+<p>We train on human face images like these:</p>
+
+<p style="text-align:center">
+<img style="width: 100px; display: inline;" src="/uploads/2015/conditional-gans-face-generation/lfwcrop/Akbar_Al_Baker_0001.jpg" />
+<img style="width: 100px; display: inline;" src="/uploads/2015/conditional-gans-face-generation/lfwcrop/Catherine_Zeta-Jones_0004.jpg" />
+<img style="width: 100px; display: inline;" src="/uploads/2015/conditional-gans-face-generation/lfwcrop/Igor_Ivanov_0005.jpg" />
+<img style="width: 100px; display: inline;" src="/uploads/2015/conditional-gans-face-generation/lfwcrop/Milo_Maestrecampo_0001.jpg" />
+</p>
+
+<p>The above images are samples from a dataset called
+<a href="http://vis-www.cs.umass.edu/lfw/">Labeled Faces in the Wild</a>, which contains about 13,000 images of random
+people in uncontrollled settings.<sup id="fnref:1"><a href="#fn:1" class="footnote">2</a></sup></p>
+
+<p>As mentioned before, we intend to build a density model in this project that is
+<em>conditional</em>. Rather than answering the question &ldquo;Is this an <em>x</em>,&rdquo; we now
+answer &ldquo;Is this an <em>x</em> given <em>y</em>?&rdquo; Formally, we build a density model
+\(p(\mathbf{x} \mid \mathbf{y})\). \(\mathbf{y}\) is the &ldquo;conditional
+information&rdquo; &mdash; any external information that might cue us on what we should be
+looking for in the provided data \(\mathbf{x}\).</p>
+
+<p>Concretely, in this project \(\mathbf{y}\) specifies facial attributes, such
+as the following:</p>
+
+<ul>
+  <li>Age: baby, youth, middle-aged, senior, &hellip;</li>
+  <li>Emotion: frowning, smiling, &hellip;</li>
+  <li>Race: Asian, Indian, black, white, &hellip;</li>
+</ul>
+
+<p>Informally, when we ask about \(p(\mathbf{x} \mid \mathbf{y})\) in this
+setting, we ask the question: If we&rsquo;re looking for faces of type
+\(\mathbf{y}\) (e.g. frowning people with mustaches), should we accept
+\(\mathbf{x}\) as a good example or not?</p>
+
+<h3 id="why-is-this-interesting">Why is this interesting?</h3>
+
+<p>Good question! Recall that we&rsquo;re learning a <em>generative</em> model of faces while we
+do this density modeling. The interesting implication is that we can <strong>sample
+brand-new faces</strong> from the learned density model. Like these ones:</p>
+
+<figure class="image"><img src="http://www.foldl.me//uploads/2015/conditional-gans-face-generation/samples_cgan_fixed.png" alt="" /><figcaption></figcaption></figure>
+
+<p>The faces above are created by the model from scratch. These faces are entirely
+new, and don&rsquo;t resemble faces in the training data provided to the model. That&rsquo;s
+right &mdash; once our model learns what a face looks like, it can <strong>learn to draw
+new ones</strong>.</p>
+
+<p>Hooked? Let&rsquo;s get into the model.</p>
+
+<h2 id="model">Model</h2>
+
+<p>The model used in this project is an extension of the <em>generative adversarial
+network</em>, proposed by <a href="http://www-etud.iro.umontreal.ca/~goodfeli/">Ian Goodfellow</a> and colleagues (see their <a href="http://papers.nips.cc/paper/5423-generative-adversarial-nets">paper</a>
+and associated <a href="https://github.com/goodfeli/adversarial">GitHub repo</a>). Here&rsquo;s the basic pitch:</p>
+
+<p>Suppose you want to build a generative model of some dataset with data points
+called \(\mathbf{x}\). Let&rsquo;s create two players and set them against each
+other in an adversarial game:</p>
+
+<ul>
+  <li>A <strong>discriminator</strong> &ndash; call it <em>D</em>. <em>D</em>&rsquo;s job is to accept an input
+\(\mathbf{x}\) and determine whether the input came from the dataset, or
+whether it was simply made up. <em>D</em> wins points when he detects real
+dataset values correctly, and loses points when he approves fake values or
+denies real dataset values.</li>
+  <li>A <strong>generator</strong> &ndash; call it <em>G</em>. <em>G</em>&rsquo;s job is to <em>make up</em> new values
+\(\mathbf{x}\). <em>G</em> wins points when he tricks <em>D</em> into thinking that his
+made-up values are real.</li>
+</ul>
+
+<p>We now let <em>D</em> and <em>G</em> take turns in the game, and teach both how to correct
+their mistakes after each turn. Here&rsquo;s what we expect to happen:</p>
+
+<ol>
+  <li><em>G</em> begins as a completely stupid generator. He outputs some random noise in
+a weak attempt to trick <em>D</em>.</li>
+  <li><em>D</em> quickly learns to make a lazy distinction between <em>G</em>&rsquo;s random noise and
+things that look like human faces. But <em>D</em> trains only long enough to make a
+basic distinction &mdash; to look for a skin tone, for example.</li>
+  <li><em>G</em> learns from its mistakes and starts producing images with skin tone color
+in them.</li>
+  <li><em>D</em> picks up on basic facial structure, and uses this to distinguish between
+real face images and <em>G</em>&rsquo;s fake data.</li>
+  <li><em>G</em> follows <em>D</em>&rsquo;s cue, and learns to draw face shapes (and perhaps some basic
+features like noses and eye-holes).</li>
+  <li><em>D</em> notices other features in the real face images that distinguish them from
+<em>G</em>&rsquo;s data.</li>
+</ol>
+
+<p>This process continues on forever, with <em>D</em> learning new discriminative features
+and <em>G</em> promptly learning to copy them.</p>
+
+<p>What we end up with (after several hours of training on GPUs) is a <strong>generative
+model</strong> <em>G</em> which can make convincing images of human faces like the ones
+presented earlier. Ideally, this model <em>G</em> can also serve as a generative
+density model as described earlier.</p>
+
+<h3 id="conditional-data">Conditional data</h3>
+
+<p>But there&rsquo;s more! I mentioned earlier that our key extension is to add a
+<em>conditioning</em> feature. In the setting of face images, this means we can specify
+particular facial attributes. Both the generator <em>G</em> and the discriminator <em>D</em>
+learn to operate in certain <em>modes</em>. For example, with a particular conditional
+information input \(\mathbf{y}\), we might ask the generator <em>G</em> to generate a
+face with a smile, and likewise ask the discriminator <em>D</em> whether a particular
+image contains a face with a smile.</p>
+
+<figure class="image"><a href="/uploads/2015/conditional-gans-face-generation/axis_incremental.png"><img src="http://www.foldl.me//uploads/2015/conditional-gans-face-generation/axis_incremental.png" alt="Demonstration of deterministic control of image samples. We tweak conditional information to first make the sampled faces age, then again to make them smile." /></a><figcaption>Demonstration of deterministic control of image samples. We tweak conditional information to first make the sampled faces age, then again to make them smile.</figcaption></figure>
+
+<p>The final consequence of all of this is that we can directly control the output
+of the generator <em>G</em>. The image above shows a figure from the paper. We begin
+with a random row of faces sampled from the model. (Note that these are not
+faces from the training data.) We then tweak \(\mathbf{y}\) in two ways:
+first, along an axis that corresponds to old age, and second, along an axis that
+corresponds to smiling. You can see in the second and third rows that the
+subjects first grow older and then put on a smile.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>I&rsquo;ll end my brief overview here. There&rsquo;s much more to say &mdash; for example, on
+training dynamics, on evaluation, and on the role of convolution in both <em>G</em> and
+<em>D</em> &mdash; and if you&rsquo;ve reached this far in the blog post you would probably enjoy
+reading <a href="/uploads/2015/conditional-gans-face-generation/paper.pdf">the paper</a> in full.</p>
+
+<p>It is still early days for generative models, and I&rsquo;m excited to explore both
+new architectures and new possibilities in model applications. Watch this space
+for more soon, and let me know if you&rsquo;re working on similar ideas!</p>
+
+<h3 id="acknowledgements">Acknowledgements</h3>
+
+<p>Thanks to my colleagues <a href="http://keenon.github.io">Keenon Werling</a> and <a href="http://cs.stanford.edu/~danqi">Danqi Chen</a>, who put up with
+persistent requests for advice on the project throughout the quarter. None of
+this would have happened without <a href="http://cs.stanford.edu/people/karpathy/">Andrej&rsquo;s</a> advice at the start of the
+quarter, which set me off in the right direction.</p>
+
+<p>This project would have taken twice as long were it not for the developers of
+<a href="http://deeplearning.net/software/pylearn2/">Pylearn2</a> and <a href="http://deeplearning.net/software/theano/">Theano</a>. This kind of machine learning framework
+development is certain to accelerate the progress of the field &mdash; exciting
+stuff! Of course, <a href="http://www-etud.iro.umontreal.ca/~goodfeli/">Ian Goodfellow</a> deserve credit for the original
+generative adversarial net code, published with their NIPS &lsquo;14 paper.</p>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<script type="text/javascript">
+MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } } });
+</script>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:2">
+      <p>3072 = 32 by 32 by 3. Our images are 32 by 32, with three RGB color channels.&nbsp;<a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:1">
+      <p>These images were cropped by <a href="http://conradsanderson.id.au/lfwcrop/">Conrad Sanderson</a> at NICTA.&nbsp;<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div><img src="http://feeds.feedburner.com/~r/foldl/rss/~4/tnIr8MhHMo4" height="1" width="1" alt=""/>

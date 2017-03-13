@@ -1,0 +1,10 @@
+
+            
+
+            <p>How can I replace <code>py-hungry-delete-backwards</code> for the traditional <code>backward-kill-word</code> in python-mode.el? I tried to define the <kbd>C-DEL</kbd> key in the python-mode hook but it just get ignored. </p>
+
+<p>This is, I want to use the <code>backward-kill-word</code> command with <kbd>C-DEL</kbd> in a python environment.</p>
+
+<p>Thanks!</p>
+
+        

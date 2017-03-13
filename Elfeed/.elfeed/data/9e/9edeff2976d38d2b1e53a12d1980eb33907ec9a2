@@ -1,0 +1,40 @@
+<p>Last Friday I finally told my boss that I am going to leave his company for
+another job.</p>
+
+<p>It’s not the first time in my working life that I want to move to greener
+pastures. For different reasons I changed jobs quite a lot in the last 10
+years. However, this is the first time that I made my decision based on the
+programming language being used in the office.</p>
+
+<p>As much as I had
+fun
+<a href="https://manuel-uberti.github.io/programming/2016/10/22/java8-experience/">working with Java 8</a>,
+in the last months there has been little of it. Bouncing back and forth between
+Java 7 and PHP 5.6 for legacy code maintenance is not exactly my idea of fun.</p>
+
+<p>Both Clojure and functional programming changed the way I think about solving
+problems with code. I often found myself thinking outside the boundaries of OOP,
+craving for pure and higher-order functions, all of which are just out of reach
+in the afore mentioned versions of Java and PHP.</p>
+
+<p>The adoption of Clojure by Italian software houses is still close to
+none. It’s been a while since I started looking for a job with Clojure, but
+until now the only opportunities I found required moving to another
+country. I even tried to convince myself I was willing to pack my bags again,
+but family comes first and deep in my heart I knew I couldn’t ask my wife to
+leave everything behind.</p>
+
+<p>Imagine my shock when I heard that <a href="https://7bridges.eu/">7Bridges</a> was
+hiring. <a href="https://twitter.com/mdallastella">Marco Dalla Stella</a>, CTO and
+Co–founder of the company, is basically the man who guided me through my first
+steps with Clojure. It was him, 2 years ago, who pointed me
+to <a href="https://pragprog.com/book/shcloj2/programming-clojure">Programming Clojure</a>
+and <a href="http://www.joyofclojure.com/">The Joy of Clojure</a>. It was him who joined me
+for a trip to Bologna where <a href="http://www.lambdacon.org/">LambdaCon</a>
+happened. He’s also an Emacs user, which means he must be one of the good guys.</p>
+
+<p>And now I can’t wait to start working with Clojure for real. I celebrated the
+beginning of this new adventure with a new Dell XPS 13 which will surely be
+perfect for what I have in mind.</p>
+
+<p>Eventually, Clojure it is.</p>

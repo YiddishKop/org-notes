@@ -1,69 +1,63 @@
-* Work                                                            :work:
+#+TAGS: WORK FAMILY PERSONAL
+* Inbox
+
+** CANCELLED [#B] http://cs2.swfc.edu.cn/~wx672/lecture_notes/linux/latex/latex_tutorial.html
+   CLOSED: [2017-03-13 Mon 13:05]
+   :LOGBOOK:
+   - State "CANCELLED"  from "TODO"       [2017-03-13 Mon 13:05] \\
+     尋思,暫時不需要學習 latex 語法,分散了學習時間
+   :END:
 ** TODO [#B] make sure which item affect the connection in my /etc/resolv.conf
    in my /etc/reslov.conf , i added 4 items, i wana know which really make my chrome
    connect to google.
    1. commant "search vpn"?
    2. commant "8.8.8.8"
    3. ...
-** TODO [#B] http://cs2.swfc.edu.cn/~wx672/lecture_notes/linux/latex/latex_tutorial.html
-   a good intro to latex and emacs
-
-** TODO [#B] test calendar in emacs
-   SCHEDULED: <2017-03-11 Sat 21:00>
-
-* Family                                                             :family:
-** TODO [#B] 下午房子砸牆，陽臺
-   SCHEDULED: <2017-03-12 Sun 16:00>
-
-** STARTED [#C] 溝通解決新城窗戶莊歪問題
-   SCHEDULED: <2017-03-12 Sun 13:00>
-
-** DONE 在家看電影
-   CLOSED: [2017-03-12 Sun 10:49]
-   :PROPERTIES:
-   :PERSON:   自己，陳紅旗，二新
-   :WHERE:    家
-   :WHEN:     <2017-03-12 Sun 09:00>
-   :END:
-                - Recommended by 袁龍
-                :LOGBOOK:
-                - State "DONE"       from "SOMEDAY"    [2017-03-12 Sun 10:49]
-                - Added: [2017-03-11 Sat 20:23]
-                :END:
-
-* Personal                                                         :personal:
-* Trifles                                                           :trifles:
-** DONE [#C] this is a test
-   CLOSED: [2017-03-11 Sat 22:00]
-   :LOGBOOK:
-   - State "DONE"       from "STARTED"    [2017-03-11 Sat 22:00]
-   :END:
-
-  [2017-03-11 Sat 21:48]
-** STARTED [#C] test little things
-
-  [2017-03-11 Sat 22:06]
-** DONE [#C] 3rd test little thing
-   CLOSED: [2017-03-11 Sat 22:08]
-   :LOGBOOK:
-   - State "DONE"       from "TODO"       [2017-03-11 Sat 22:08]
-   :END:
-
-
-  <2017-03-11 Sat 22:08>
-| sdfs | h    | ss     |
-** TODO [#C] triflex enter
- triflex enter
-  <2017-03-12 Sun 10:44>
-* Inbox
-
-** STARTED [#B] need todo thing1
-   1. need step1
-   2. need step2
-   3. need step3
-   :LOGBOOK:
-   CLOCK: [2017-03-12 Sun 10:47]
-   CLOCK: [2017-03-12 Sun 10:43]--[2017-03-12 Sun 10:47] =>  0:04
-   :END:
-
 ** SOMEDAY [#B] 通讀子龍的emacs配置                               :spacemacs:
+
+** TODO [#B] 學習如何給chrome capture的文章做腳注筆記
+   SCHEDULED: <2017-03-13 Mon 09:00>
+   :PROPERTIES:
+   :Effort:   10
+   :END:
+
+** TODO [#B] 明天要詳細理解,肢解後歸檔代碼                  :emacs:hack:code:
+   SCHEDULED: <2017-03-13 Mon 09:30>
+   :PROPERTIES:
+   :Effort:   30
+   :END:
+[[file:journal.org::*%E5%A4%A7%E7%A5%9E%E6%94%B9%E9%80%B2elfeed%E7%9A%84%E9%A1%8F%E8%89%B2%E9%A1%AF%E7%A4%BA,%E4%B8%A6%E5%A2%9E%E5%8A%A0%E6%89%93%E5%88%86%E5%8A%9F%E8%83%BD][大神改進elfeed的顏色顯示,並增加打分功能]]
+
+** TODO [#B] 昨天沒有解決給elfeed entry 打分並高亮
+   SCHEDULED: <2017-03-13 Mon 10:00>
+[[file:~/.spacemacs.d/layers/zilongshanren-misc/packages.el::;;%20yiddi:add%20to%20customize%20the%20appearance%20of%20elfeed]]
+LOGBOO:
+1. 我開始在 zilong 配置中增加了 elfeed
+2. 此後就一直出現, elfeed-feeds 被重置的問題
+3. 這一次打分程序無效
+4. 我就又把elfeed 從子龍的生命packages中刪除了
+END:
+
+** TODO [#C] 給老哥電話訂家具
+   SCHEDULED: <2017-03-14 Tue 14:00>
+** STARTED [#B] 下午房子砸牆，陽臺
+   SCHEDULED: <2017-03-12 Sun 16:00>
+** STARTED [#C] 溝通解決新城窗戶莊歪問題
+   SCHEDULED: <2017-03-13 Mon 13:00>
+
+** TODO [#B] 整理 journal.org 中的所有文章格式整理,美化,並歸檔
+
+** TODO [#B] 這個問題沒有解決,代碼是正確的,但elfeed-scratch中並沒有顯示出效果
+[[file:~/.spacemacs.d/layers/zilongshanren-misc/packages.el::;;%20starting%20point.][大神定制elfeeed entry顏色顯示]]
+
+** TODO [#B] 查看那天觀看用emacs進行科學研究的youtube視頻
+   重點在於,他用了哪些包,以此來擴展一下自己的視野
+
+** TODO [#A] 繼續整理自己的全知識doc
+   DEADLINE: <2017-03-13 Mon 11:30> SCHEDULED: <2017-03-14 Tue 08:00>
+
+** STARTED [#B] 學習skeleton-mode
+   DEADLINE: <2017-03-14 Tue 16:00> SCHEDULED: <2017-03-14 Tue 14:00>
+   :LOGBOOK:
+   CLOCK: [2017-03-14 Tue 06:58]
+   :END:

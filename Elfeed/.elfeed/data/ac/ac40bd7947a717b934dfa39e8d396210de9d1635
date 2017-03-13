@@ -1,0 +1,261 @@
+<p>After a summer replete with feature-engineering and corpus processing, the
+Stanford NLP Group has just released <a href="http://nlp.stanford.edu/software/corenlp.shtml">CoreNLP 3.4.1</a>, which includes support
+for Spanish-language text. In this post I&rsquo;ll show how to make use of these tools
+to make a dead-simple document summarizer.<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup></p>
+
+<p>Our end goal will be to take a news article of significant length and reduce it
+to its two or three most important points. We&rsquo;ll run through each sentence and
+assign it a score based on two factors:</p>
+
+<ol>
+  <li>
+    <p><strong>tf&ndash;idf weights.</strong> The <a href="http://en.wikipedia.org/wiki/Tf%E2%80%93idf">tf&ndash;idf metric</a> is a formula which explains how
+important a particular word is in the context of its containing document.
+We&rsquo;ll calculate the sum of tf&ndash;idf scores for all nouns in each sentence, and
+consider those sentences with the greatest sums to be the most important.</p>
+
+    <p>The tf&ndash;idf metric is the product of two factors:</p>
+
+    <script type="math/tex; mode=display">\text{tf–idf}_{t, d} = tf_{t, d} \; idf_t</script>
+
+    <p>The first is a <em>term frequency</em> factor, which tracks how often the word
+appears in its containing document. It is some scaled version of the number
+of times the word appears in the given document. We&rsquo;ll use a logarithm form
+here:</p>
+
+    <script type="math/tex; mode=display">\text{tf}_{t, d} = \log(1 + \text{count of $t$ in $d$})</script>
+
+    <p>The second is an <em>inverse document frequency</em> (IDF) factor. This measures the
+informativeness of the word based on how often it appears in total across an
+entire corpus. The inverse document frequency factor is a logarithm as well:</p>
+
+    <script type="math/tex; mode=display">\text{idf}_{t} = \log\left( \frac{\text{count of total documents}}{\text{count of documents containing $t$}} \right)</script>
+
+    <p>Note that IDF values will be exactly 0 for common words like &ldquo;the,&rdquo; as they
+are likely to appear in every document in the corpus. Meaningful and less
+common words like &ldquo;transmogrify&rdquo; and &ldquo;incinerate&rdquo; will yield higher IDF
+values.</p>
+  </li>
+  <li>
+    <p><strong>Positional weight.</strong> For news articles, another easy measure of the
+importance of a sentence is its position in the document: important sentences
+tend to appear before less crucial ones. We can model this by scaling our
+original tf&ndash;idf score by the index of the sentence within the document.</p>
+  </li>
+</ol>
+
+<p>With theory over, let&rsquo;s get to the code. I&rsquo;m going to walk through a Java class
+<code class="highlighter-rouge">Summarizer</code>, the full source code of which is available in a <a href="https://github.com/hans/corenlp-summarizer">GitHub repo</a>.
+Our only dependency here is <a href="http://nlp.stanford.edu/software/corenlp.shtml">Stanford CoreNLP 3.4.1</a>. We begin by
+instantiating the CoreNLP pipeline statically.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">Properties</span> <span class="n">props</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Properties</span><span class="o">();</span>
+
+<span class="c1">// We need part-of-speech annotations (and tokenization /</span>
+<span class="c1">// sentence-splitting, which are required for POS tagging)</span>
+<span class="n">props</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">"annotators"</span><span class="o">,</span> <span class="s">"tokenize,ssplit,pos"</span><span class="o">);</span>
+
+<span class="c1">// Tokenize using Spanish settings</span>
+<span class="n">props</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">"tokenize.language"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">);</span>
+
+<span class="c1">// Load the Spanish POS tagger model (rather than the</span>
+<span class="c1">// default English model)</span>
+<span class="n">props</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">"pos.model"</span><span class="o">,</span>
+    <span class="s">"edu/stanford/nlp/models/pos-tagger/spanish/spanish-distsim.tagger"</span><span class="o">);</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StanfordCoreNLP</span><span class="o">(</span><span class="n">props</span><span class="o">);</span></code></pre></figure>
+
+<p>As we discussed earlier, the summarizer depends upon document frequency data,
+which must be precalculated from a corpus of Spanish text. In the constructor of
+the <code class="highlighter-rouge">Summarizer</code>, we receive a prebuilt <code class="highlighter-rouge">dfCounter</code> and determine the total
+number of documents in the training corpus.<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="nf">Summarizer</span><span class="o">(</span><span class="n">Counter</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">dfCounter</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">this</span><span class="o">.</span><span class="na">dfCounter</span> <span class="o">=</span> <span class="n">dfCounter</span><span class="o">;</span>
+  <span class="k">this</span><span class="o">.</span><span class="na">numDocuments</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">dfCounter</span><span class="o">.</span><span class="na">getCount</span><span class="o">(</span><span class="s">"__all__"</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>Our main routine, <code class="highlighter-rouge">summarize</code>, accepts a document string and a number of
+sentences to return.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="n">String</span> <span class="nf">summarize</span><span class="o">(</span><span class="n">String</span> <span class="n">document</span><span class="o">,</span> <span class="kt">int</span> <span class="n">numSentences</span><span class="o">)</span> <span class="o">{</span>
+  <span class="c1">// Process the document with the constructed pipeline; get</span>
+  <span class="c1">// a list of tokenized sentences</span>
+  <span class="n">Annotation</span> <span class="n">annotation</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="na">process</span><span class="o">(</span><span class="n">document</span><span class="o">);</span>
+  <span class="n">List</span><span class="o">&lt;</span><span class="n">CoreMap</span><span class="o">&gt;</span> <span class="n">sentences</span> <span class="o">=</span> <span class="n">annotation</span><span class="o">.</span><span class="na">get</span><span class="o">(</span>
+    <span class="n">CoreAnnotations</span><span class="o">.</span><span class="na">SentencesAnnotation</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+  <span class="c1">// Collect raw term frequencies from this document (method</span>
+  <span class="c1">// not shown here)</span>
+  <span class="n">Counter</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">tfs</span> <span class="o">=</span> <span class="n">getTermFrequencies</span><span class="o">(</span><span class="n">sentences</span><span class="o">);</span>
+
+  <span class="c1">// Rank sentences of the document by descending importance</span>
+  <span class="n">sentences</span> <span class="o">=</span> <span class="n">rankSentences</span><span class="o">(</span><span class="n">sentences</span><span class="o">,</span> <span class="n">tfs</span><span class="o">);</span>
+
+  <span class="c1">// Build a single string with our results</span>
+  <span class="n">StringBuilder</span> <span class="n">ret</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numSentences</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="n">ret</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">sentences</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
+    <span class="n">ret</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="k">return</span> <span class="n">ret</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>The method <code class="highlighter-rouge">rankSentences</code> sorts the provided sentence collection using a custom
+comparator <code class="highlighter-rouge">SentenceComparator</code>, which contains the bulk of our actual logic for
+sentence importance. Here&rsquo;s the framework:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">CoreMap</span><span class="o">&gt;</span> <span class="nf">rankSentences</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">CoreMap</span><span class="o">&gt;</span> <span class="n">sentences</span><span class="o">,</span>
+                                    <span class="n">Counter</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">tfs</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">sentences</span><span class="o">,</span> <span class="k">new</span> <span class="n">SentenceComparator</span><span class="o">(</span><span class="n">tfs</span><span class="o">));</span>
+  <span class="k">return</span> <span class="n">sentences</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kd">class</span> <span class="nc">SentenceComparator</span> <span class="kd">implements</span> <span class="n">Comparator</span><span class="o">&lt;</span><span class="n">CoreMap</span><span class="o">&gt;</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="kd">final</span> <span class="n">Counter</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">termFrequencies</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="nf">SentenceComparator</span><span class="o">(</span><span class="n">Counter</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">termFrequencies</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">termFrequencies</span> <span class="o">=</span> <span class="n">termFrequencies</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="n">CoreMap</span> <span class="n">o1</span><span class="o">,</span> <span class="n">CoreMap</span> <span class="n">o2</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">Math</span><span class="o">.</span><span class="na">round</span><span class="o">(</span><span class="n">score</span><span class="o">(</span><span class="n">o2</span><span class="o">)</span> <span class="o">-</span> <span class="n">score</span><span class="o">(</span><span class="n">o1</span><span class="o">));</span>
+  <span class="o">}</span>
+
+  <span class="cm">/**
+   * Compute sentence score (higher is better).
+   */</span>
+  <span class="kd">private</span> <span class="kt">double</span> <span class="nf">score</span><span class="o">(</span><span class="n">CoreMap</span> <span class="n">sentence</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// ...</span>
+  <span class="o">}</span>
+
+  <span class="c1">// ...</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><code class="highlighter-rouge">score</code> and the following methods are the meat of the entire code. <code class="highlighter-rouge">score</code>
+accepts a sentence and returns a floating-point value indicating the sentence&rsquo;s
+importance.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">double</span> <span class="nf">score</span><span class="o">(</span><span class="n">CoreMap</span> <span class="n">sentence</span><span class="o">)</span> <span class="o">{</span>
+  <span class="c1">// Get the sum of tf-idf weights for the nouns in this</span>
+  <span class="c1">// sentence</span>
+  <span class="kt">double</span> <span class="n">tfIdf</span> <span class="o">=</span> <span class="n">tfIDFWeights</span><span class="o">(</span><span class="n">sentence</span><span class="o">);</span>
+
+  <span class="c1">// Scale weight based on the position of this sentence in</span>
+  <span class="c1">// its containing document</span>
+  <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">sentence</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">CoreAnnotations</span><span class="o">.</span><span class="na">SentenceIndexAnnotation</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+  <span class="kt">double</span> <span class="n">indexWeight</span> <span class="o">=</span> <span class="mf">5.0</span> <span class="o">/</span> <span class="n">index</span><span class="o">;</span>
+
+  <span class="c1">// Return a scaled tf-idf weight. Note that we multiply all scores</span>
+  <span class="c1">// by 100 to avoid the case where two sentences with 0 &lt; |score| &lt; 1</span>
+  <span class="c1">// being marked as "equal" by the comparator function</span>
+  <span class="k">return</span> <span class="n">indexWeight</span> <span class="o">*</span> <span class="n">tfIdf</span> <span class="o">*</span> <span class="mi">100</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><code class="highlighter-rouge">score</code> calls a method <code class="highlighter-rouge">tfIDFWeights</code>, which determines the total tf&ndash;idf scores
+for all the nouns in the given sentence:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">double</span> <span class="nf">tfIDFWeights</span><span class="o">(</span><span class="n">CoreMap</span> <span class="n">sentence</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kt">double</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+  <span class="n">List</span><span class="o">&lt;</span><span class="n">CoreLabel</span><span class="o">&gt;</span> <span class="n">tokens</span> <span class="o">=</span> <span class="n">sentence</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">CoreAnnotations</span><span class="o">.</span><span class="na">TokensAnnotation</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+  <span class="k">for</span> <span class="o">(</span><span class="n">CoreLabel</span> <span class="n">cl</span> <span class="o">:</span> <span class="n">tokens</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">CoreAnnotations</span><span class="o">.</span><span class="na">PartOfSpeechAnnotation</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+    <span class="c1">// Nouns in the Spanish POS tagset begin with the letter</span>
+    <span class="c1">// "n."</span>
+    <span class="kt">boolean</span> <span class="n">isNoun</span> <span class="o">=</span> <span class="n">pos</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">"n"</span><span class="o">);</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">isNoun</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">String</span> <span class="n">text</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">CoreAnnotations</span><span class="o">.</span><span class="na">TextAnnotation</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+
+      <span class="c1">// Calculate the tf-idf weight for this particular</span>
+      <span class="c1">// word, and add it to the sentence total</span>
+      <span class="n">total</span> <span class="o">+=</span> <span class="n">tfIDFWeight</span><span class="o">(</span><span class="n">text</span><span class="o">);</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="k">return</span> <span class="n">total</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+ * Calculate the tf-idf weight for a single word.
+ */</span>
+<span class="kd">private</span> <span class="kt">double</span> <span class="nf">tfIDFWeight</span><span class="o">(</span><span class="n">String</span> <span class="n">word</span><span class="o">)</span> <span class="o">{</span>
+  <span class="c1">// Skip unknown words</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">dfCounter</span><span class="o">.</span><span class="na">getCount</span><span class="o">(</span><span class="n">word</span><span class="o">)</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+
+  <span class="c1">// Scale the raw term frequency (stored in an instance</span>
+  <span class="c1">// variable of the comparator)</span>
+  <span class="kt">double</span> <span class="n">tf</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">Math</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="n">termFrequencies</span><span class="o">.</span><span class="na">getCount</span><span class="o">(</span><span class="n">word</span><span class="o">));</span>
+
+  <span class="c1">// Scale the document frequency (pre-built with a Spanish</span>
+  <span class="c1">// corpus)</span>
+  <span class="kt">double</span> <span class="n">idf</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="n">numDocuments</span> <span class="o">/</span>
+      <span class="o">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">dfCounter</span><span class="o">.</span><span class="na">getCount</span><span class="o">(</span><span class="n">word</span><span class="o">)));</span>
+
+  <span class="k">return</span> <span class="n">tf</span> <span class="o">*</span> <span class="n">idf</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>That&rsquo;s it for the code. You can see the entire class in
+<a href="https://github.com/hans/corenlp-summarizer/blob/master/src/me/foldl/corenlp_summarizer/Summarizer.java">this public GitHub repo</a>.</p>
+
+<p>I&rsquo;ll end with a quick unscientific test of the code. I built document-frequency
+counts (using a helper <a href="https://github.com/hans/corenlp-summarizer/blob/master/src/me/foldl/corenlp_summarizer/DocumentFrequencyCounter.java"><code class="highlighter-rouge">DocumentFrequencyCounter</code> class</a>) from the
+<a href="https://catalog.ldc.upenn.edu/LDC2011T12">Spanish Gigaword</a>, which contains about 1.5 billion words of Spanish. It
+took several days (running on a 16-core machine) to POS-tag each sentence and
+collect the nouns in a global counter.<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup></p>
+
+<p>I next tested with a few recent Spanish news articles, requesting a two-sentence
+summary of each. Here&rsquo;s the output summary of
+<a href="http://www.rtve.es/noticias/20140903/equipo-cientificos-definen-supercumulo-galaxias-esta-via-lactea/1005222.shtml">an article on the Laniakea supercluster</a>:</p>
+
+<blockquote>
+  <p>Las galaxias no están distribuidas al azar en todo el universo, sino que se
+encuentran en grupos, al igual que nuestro propio Grupo Local, que contiene
+docenas de galaxias, y en cúmulos masivos, que poseen cientos de galaxias,
+todas interconectadas en una red de filamentos en la que se ensartan como
+perlas. Estos expertos han bautizado al supercúmulo con el nombre de
+&lsquo;Laniakea&rsquo;, que significa &ldquo;cielo inmenso&rdquo; en hawaiano, como informan en un
+artículo de la edición de este jueves de Nature. Una galaxia entre dos
+estructuras de este tipo puede quedar atrapada en un tira y afloja
+gravitacional en el que el equilibrio de las fuerzas gravitacionales que
+rodean las estructuras a gran escala determina el movimiento de la galaxia.</p>
+</blockquote>
+
+<p>And <a href="http://www.elmundo.es/economia/2014/09/03/54074ed5268e3ec7168b4595.html">another on Argentinian debt</a>:</p>
+
+<blockquote>
+  <p>La inclusión de la capital de Francia como nueva jurisdicción para hacer
+efectivos los desembolsos a los acreedores ha sido una iniciativa del bloque
+&lsquo;cristinista&rsquo; para ganar los votos de algunos legisladores opositores. Por
+ejemplo, los legisladores del Frente Renovador, también peronista pero no
+&lsquo;cristinista&rsquo;, según la prensa, acordarían con la inclusión de París, por
+considerar que allí los pagos estarían a salvo de los fondos especulativos o
+&lsquo;buitre&rsquo;. Con esta iniciativa el gobierno de la presidenta Cristina Fernández,
+viuda de Kirchner, pretende esquivar a la justicia de los Estados Unidos y a
+los fondos especulativos o &lsquo;buitre&rsquo; que ganaron a Argentina un juicio y
+colocaron al país en &lsquo;default&rsquo; parcial.</p>
+</blockquote>
+
+<p>I hope this code serves as a useful example for using basic CoreNLP tools in
+Spanish. Feel free to follow up below in the comments or by email!</p>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>I won&rsquo;t claim this will always give fantastic summarizations, but it&rsquo;s definitely a quick and easy-to-grasp algorithm.&nbsp;<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>If you are interested in how this helper data is constructed, see the <a href="https://github.com/hans/corenlp-summarizer/blob/master/src/me/foldl/corenlp_summarizer/DocumentFrequencyCounter.java"><code class="highlighter-rouge">DocumentFrequencyCounter</code> class</a> in the GitHub repo.&nbsp;<a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>This probably could have been optimized quite a bit down to the level of hours &ndash; but when you&rsquo;ve got the time&hellip;&nbsp;<a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div><img src="http://feeds.feedburner.com/~r/foldl/rss/~4/ohPVf-Qsa74" height="1" width="1" alt=""/>

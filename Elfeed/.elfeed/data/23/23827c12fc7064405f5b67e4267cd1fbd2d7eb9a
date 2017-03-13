@@ -1,0 +1,38 @@
+
+            
+
+            <p>Im wondering if anyone knows of a way to have a function (that i can bind to a key) that pastes the current text in the clipboard as a formatted org table? </p>
+
+<p>also as a bonus (since this is used to create as ingredients table for a cookbook) it would be great to be able to define the columns in advance so that the amount|type|ingredients are nicely separated. for example take this list</p>
+
+<pre><code>3/4 cup milk
+2 tablespoons white vinegar 
+1 cup all-purpose flour
+2 tablespoons white sugar
+1 teaspoon baking powder
+1/2 teaspoon baking soda
+1/2 teaspoon salt
+1 egg
+2 tablespoons butter, melted
+cooking spray 
+</code></pre>
+
+<p>if i mark this as a region and issue <code>org-table-create-or-convert-from-region</code> this is the result</p>
+
+<pre><code>|     3/4 | cup         | milk        |         |      |        |     |       |         |
+|       2 | tablespoons | white       | vinegar | (%or | better | yet | lemon | juice%) |
+|       1 | cup         | all-purpose | flour   |      |        |     |       |         |
+|       2 | tablespoons | white       | sugar   |      |        |     |       |         |
+|       1 | teaspoon    | baking      | powder  |      |        |     |       |         |
+|     1/2 | teaspoon    | baking      | soda    |      |        |     |       |         |
+|     1/2 | teaspoon    | salt        |         |      |        |     |       |         |
+|       1 | egg         |             |         |      |        |     |       |         |
+|       2 | tablespoons | butter,     | melted  |      |        |     |       |         |
+| cooking | spray       |             |         |      |        |     |       |         |
+</code></pre>
+
+<p>as you can see it got the amount (1/2) and the unit (cup) right yet the actual ingredients is cut into several columns</p>
+
+<p>i dont really know how to deal with this. is there a more intelligent way of auto directing the conversion to split it the correct way?</p>
+
+        

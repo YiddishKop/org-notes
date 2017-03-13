@@ -1,0 +1,55 @@
+<p>Since I was first introduced to the field of natural language understanding
+<a href="http://cs224u.stanford.edu">this spring</a>, I&rsquo;ve had an extra voice stuck in my head. It monitors
+conversations closely, watching for syntactic, semantic, and <a href="http://en.wikipedia.org/wiki/Pragmatics">pragmatic</a>
+oddities. Its utterance is always some variation on the same theme, always
+blurted out after I hear a particularly interesting construction:</p>
+
+<blockquote>
+  <p>How the heck did I just understand what was said?</p>
+</blockquote>
+
+<p>It&rsquo;s a bit mind-boggling at times to examine what I hear and say, and to
+acknowledge that this small brain of mine somehow processes these things
+properly.</p>
+
+<p>A case in point: I was eating with friends at a Stanford dining hall recently.
+Aforementioned blurting voice had been quiet all night. A friend returned with
+an empty ice cream cone in hand and said the following:</p>
+
+<blockquote>
+  <p>Well, I got a cone, but no ice cream came out.</p>
+</blockquote>
+
+<p>My companions nodded in sympathy. But the voice in my head distracted me,
+exploding: <em>World knowledge! World knowledge!</em></p>
+
+<p>The above is an example of an utterance which requires <em>world knowledge</em> to
+understand correctly. To see this, try to make a literal reading of the quote:
+my friend seems to suggest that she expected ice cream to magically emerge from
+the cone she was holding, and that she was disappointed when this didn&rsquo;t happen.
+We know this interpretation isn&rsquo;t correct, because there is a much more
+plausible one: my friend fetched an ice cream cone but found that the ice cream
+dispenser failed to dispense.</p>
+
+<p>Of course, my friend did not mention anything about an ice cream dispenser. The
+others who heard this statement all used their own knowledge &mdash; accrued over
+years of ice cream consumption &mdash; to infer the crucial details of the story.</p>
+
+<p>How can we expect an artificial intelligence to do the same? To interpret this
+particular statement and feel sympathy (as it should!), an agent needs to
+understand the following relatively obscure facts:</p>
+
+<ol>
+  <li>ice cream is often served in cones,</li>
+  <li>dispensers are sometimes available to fill these cones, and</li>
+  <li>it is unfortunate when no ice cream comes out of such a dispenser.</li>
+</ol>
+
+<p>This is the minimal world knowledge to get the gist of a <em>single</em> casual
+statement. Sure, Siri may be able to get you directions to the airport, but we
+are far from <strong>complete</strong> natural language understanding.</p>
+
+<p>Writing about this topic reminds me of Hector Levesque&rsquo;s wonderful IJCAI paper
+on natural language understanding and artificial intelligence,
+<a href="http://ijcai13.org/files/summary/hlevesque.pdf"><em>On our best behavior</em></a>. Do give it a read if you are interested in the
+current state of AI. This paper merits some more discussion in a separate post!</p><img src="http://feeds.feedburner.com/~r/foldl/rss/~4/VUJkIdU7Euk" height="1" width="1" alt=""/>

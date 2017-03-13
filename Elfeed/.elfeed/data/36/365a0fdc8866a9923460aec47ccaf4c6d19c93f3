@@ -1,0 +1,9 @@
+<p>There&rsquo;s a <a href="http://www.jacquesf.com/2011/03/creating-excerpts-in-jekyll-with-wordpress-style-more-html-comments/">fairly simple method</a> for creating WordPress-like post excerpts in Jekyll using a <code class="highlighter-rouge">&lt;!-- more --&gt;</code> tag, but unfortunately it requires the installation of a Jekyll plugin, a feature unavailable on a GitHub-hosted Jekyll instance.</p>
+
+<p>What&rsquo;s a bored geek like me to do? Find another way! <!-- more --> The exact same excerpt functionality linked to earlier can be replicated by composing a few <a href="https://github.com/Shopify/liquid/wiki/Liquid-for-Designers">Liquid filters</a> in the site layout code, like so:</p>
+
+<pre>&#123;{ post.content | split: '&lt;!-- more --&gt;' | first }}</pre>
+
+<p>This little bit of code will output the content of a post until it sees a <code class="highlighter-rouge">&lt;!-- more --&gt;</code> tag inside the post content. Just insert the <code class="highlighter-rouge">&lt;!-- more --&gt;</code> tag into your posts wherever you&rsquo;d like them to be cut off.</p>
+
+<p>You can see this snippet in action in my <a href="/">site index template</a>.</p><img src="http://feeds.feedburner.com/~r/foldl/rss/~4/ZaUqom3Z6zc" height="1" width="1" alt=""/>

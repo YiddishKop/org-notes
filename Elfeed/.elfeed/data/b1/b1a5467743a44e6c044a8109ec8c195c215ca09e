@@ -1,0 +1,12 @@
+
+            
+
+            <p>Using <code>global-set-key</code> can become a problem when those key bindings don't work with certain windows (profiler, neotree, ivy, message-window, terminal, web-browser, tetris game... etc). Any place you would type text and press save as a file.</p>
+
+<p>Is there some way to set a key for text-buffers only?</p>
+
+<p>Without having to declare keys for individual modes.</p>
+
+<p>Excluding non-text areas?</p>
+
+        

@@ -1,0 +1,67 @@
+<p>If there&rsquo;s one complaint I have about starting work as a researcher, it&rsquo;s about
+information glut.</p>
+
+<p>Sure&mdash;the work is scintillating and intellectually stimulating. But it is easy
+to be overwhelmed by the sheer volume of knowledge lying ahead, and struggle in
+the task of organizing your own plan for learning. While the acronyms and
+extended noun phrases that your colleagues drop all sound darn interesting, it&rsquo;s
+often unclear how to best acquire all the requisite knowledge you&rsquo;re lacking.</p>
+
+<p>Enter <a href="http://metacademy.org">Metacademy</a>, an open-source project for creating
+<a href="http://www.metacademy.org/about">&ldquo;dependency graphs of knowledge.&rdquo;</a> The site consists of an enormous list of
+<em>concepts,</em> all linked together in a single dependency graph. Each concept
+consists of a list of prerequisite concepts and a collection of resources for
+learning the concept itself. A picture is worth many words of explanation:</p>
+
+<figure class="image"><a href="http://www.metacademy.org/graphs/concepts/sequential_monte_carlo#focus=sequential_monte_carlo&amp;mode=explore"><img src="http://www.foldl.me//uploads/metacademy.png" alt="Metacademy concept graph" /></a><figcaption>Metacademy concept graph</figcaption></figure>
+
+<p>This is an exciting way to think about knowledge acquisition, I think. The graph
+itself reminds me of &ldquo;skill trees&rdquo; in MMORPGs or of the &ldquo;technology tree&rdquo; in the
+game <a href="http://en.wikipedia.org/wiki/Civilization_(video_game)">Civilization</a>:</p>
+
+<figure class="image"><img src="http://www.foldl.me//uploads/metacademy-civilization.png" alt="Civilization technology tree" /><figcaption>Civilization technology tree</figcaption></figure>
+
+<p>With this kind of ontology defined, we can now think of learning as a slow and
+deliberate traversal of a massive graph. I&rsquo;ve been browsing and tracking my
+learning on Metacademy for some time now, and I think it&rsquo;s a useful way to
+organize my knowledge.</p>
+
+<h3 id="the-future">The future</h3>
+
+<p>This is just the start for Metacademy. While the site content currently centers
+around machine learning and artificial intelligence topics,<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> this won&rsquo;t be
+the case for much longer. The plan from the start has been to
+<a href="http://www.metacademy.org/about">expand to cover all sorts of knowledge</a>, from music to mathematics.</p>
+
+<p>In hopes of expanding in this way, the Metacademy founders have just begun a
+private beta of a visual knowledge graph editor. This is good news for getting
+non-technical visitors to contribute to the graphs for their own fields.</p>
+
+<p>Some other assorted opportunities that strike me as interesting:</p>
+
+<ul>
+  <li><strong>Gamification of learning.</strong> Provide personal and social incentives (à la
+<a href="http://duolingo.com">Duolingo</a>) for users to continue their walk through the knowledge graph.
+Imagine &ldquo;leveling up&rdquo; after marking a certain concept as known, and having a
+clear view of what your friends and colleagues are learning at the same time.</li>
+  <li><strong>Inter-disciplinary links.</strong> Visualize exactly how machine learning overlaps
+with natural language processing, or identify the mathematical concepts most
+crucial to understanding core artificial intelligence ideas.</li>
+  <li><strong>Community-curated resources.</strong> With all the content open and free, this site
+has the chance to raise a Wikipedia-style community, where motivated
+volunteers work to collect the best resources for each concept and ensure the
+entire graph remains well-connected.</li>
+</ul>
+
+<p>I&rsquo;m planning to extend the Metacademy database and increase its coverage in
+natural language processing (and perhaps linguistics) topics. It&rsquo;s exciting to
+think about the opportunities this site will reveal for the thousands of
+autodidacts&mdash;students and workers alike&mdash;who wish to continue learning.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>Conveniently for me, the exact topics I should be learning!&nbsp;<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div><img src="http://feeds.feedburner.com/~r/foldl/rss/~4/Z5t8FwiAUTM" height="1" width="1" alt=""/>

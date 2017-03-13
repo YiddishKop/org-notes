@@ -1,0 +1,64 @@
+<p>ZeroMQ is one of those technologies today that have sizeable shares of
+breathless adherents. I had been aware of the hubbub over the open-source
+messaging library for quite some time when I heard that the popular online
+tutorial &ndash; known simply as <a href="http://zguide.zeromq.org/">&ldquo;The Guide&rdquo;</a>, written by Pieter Hintjens, an
+author of ZeroMQ &ndash; would be made available in print and ebook. I snagged my
+chance to get a nice Kindle edition of the <a href="http://www.amazon.com/gp/product/1449334067/ref=as_li_qf_sp_asin_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1449334067&amp;linkCode=as2&amp;tag=blog0cbb-20">O&rsquo;Reilly release</a>. Apart from
+some serious formatting problems with the ebook (read on), I was extremely
+satisfied with the breadth and depth of this guide.</p>
+
+<p>Hintjens abandons all pretense at the very beginning of Chapter 1, acknowledging
+the fervor of the community:</p>
+
+<blockquote>
+  <p>How to explain ØMQ? Some of us start by saying all the wonderful things it
+does. <em>It&rsquo;s sockets on steroids. It&rsquo;s like mailboxes with routing. It&rsquo;s fast!</em>
+Others try to share their moment of enlightenment, that zap-pow-kaboom satori
+paradigm-shift moment when it all became obvious. <em>Things just become simpler.
+Complexity goes away. It opens the mind.</em> Others try to explain by comparison.
+<em>It&rsquo;s smaller, simpler, but still looks familiar.</em></p>
+</blockquote>
+
+<p>Yes&ndash;the whole book is like that. Our author has a wonderfully lucid and
+light-hearted writing style<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> that keeps you focused during the long stretches
+of code.</p>
+
+<p>And is there code! The majority of the book offers a tour through a dizzying
+array of ØMQ network patterns, each accompanied by a cute name and often a
+diagram. See, for example, the &ldquo;Majordomo Pattern.&rdquo;</p>
+
+<p><img src="https://github.com/imatix/zguide/raw/master/images/fig50.png" alt="The Majordomo Pattern" /></p>
+
+<p>What follows this reasonably simple diagram is no less than 500 lines of C code.
+<strong>Inline.</strong> I appreciate this in some amount &ndash; there&rsquo;s nothing more practical
+than a real implementation &ndash; but was blown away (rather, smothered by) the
+piles of code in this book. The density of the code hindered my reading
+experience, especially in the Kindle edition, where there were no bookmarks
+within sub-chapter sections to help me easily jump around between the massive
+code blocks. Many of the most important sections of the book that offered real,
+usable patterns were difficult to scan and reference later on given the lack of
+navigation aids.<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup></p>
+
+<p>This publishing error, however serious, is my only major gripe with the book. I
+learned quite a lot about the core of ZeroMQ, and am now interested in exploring
+the bindings written for my everyday languages.<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> I&rsquo;m excited to see how I can
+integrate the library at the core of horizontally scalable systems in the near
+future.</p>
+
+<p>(Disclosure: I received an electronic copy of this book in exchange for writing
+a review.)</p>
+
+<p><img src="http://ir-na.amazon-adsystem.com/e/ir?t=blog0cbb-20&amp;l=as2&amp;o=1&amp;a=1449334067" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>This is likely something of a rarity, I&rsquo;d assume, when it comes to guides on message-passing libraries.&nbsp;<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>To be fair, this would be much less of an issue with a physical book (or in the online guide, where much of the code is held externally and simply referenced by hyperlink). I am still disappointed by O&rsquo;Reilly&rsquo;s apparent lack of concern for the usability of this work&rsquo;s ebook format.&nbsp;<a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>The book does make reference to the large amount of language bindings available, but keeps all code in C.&nbsp;<a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div><img src="http://feeds.feedburner.com/~r/foldl/rss/~4/OImCAZkIyzI" height="1" width="1" alt=""/>

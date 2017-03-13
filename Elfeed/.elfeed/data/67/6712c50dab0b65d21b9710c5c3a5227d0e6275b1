@@ -1,0 +1,36 @@
+
+            
+
+            <p>I would like to be able to set the properties of a headline in an org-mode document, and then when I export the document, to specify an intermediate org-mode template that will be used to represent the original org-mode file.</p>
+
+<p>An example would make things clearer -- assume I have a file that looks like the following:</p>
+
+<pre><code>#+EXPORT_TEMPLATE: mytemplate
+* Some headline
+:PROPERTIES:
+:foo: 1234
+:bar: 5678
+:style: bold
+:END:
+Body of first headline.
+
+* Another headline
+</code></pre>
+
+<p>Now say (just as an example) I want it to be the case that when I export this document, it first creates the following (temporary) org-mode document and exports it:</p>
+
+<pre><code>* Some headline
+The value of bar is 5678, and
+Body of first headline.
+foo is *1234*.
+
+* Another headline
+</code></pre>
+
+<p>And let's assume that the *1234* above was in bold because the :style: property was set to bold.</p>
+
+<p>I think you can get the idea from this -- I want a flexible way of creating a template (which can be referred to within an org-mode file) that influences how the exported document looks based on certain rules and substitutions of property values.</p>
+
+<p>Is something like this possible?  Maybe there's a solution using org-babel?</p>
+
+        

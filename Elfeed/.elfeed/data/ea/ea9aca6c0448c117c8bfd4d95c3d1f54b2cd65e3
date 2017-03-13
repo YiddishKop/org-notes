@@ -1,0 +1,115 @@
+<p><a href="/2012/hillis-beta-reduction-in-clojure/">Last week</a> I introduced the concept of Hillis beta reduction and provided an example implementation in Clojure. There were a few caveats to this implementation, however, mostly stemming from the fact that I &beta;-reduced with sequences and vectors rather than the native &ldquo;xectors&rdquo; of Hillis&rsquo; system. With the risk of adding even more complexity to the demonstration, I&rsquo;d like to attempt to rectify some of these problems using a few extra tools to transform our data.</p>
+
+<h2 id="xectors">Xectors</h2>
+
+<p>I won&rsquo;t provide much detail at all on the xector data type, as I will inevitably botch the majority of the facts. If you&rsquo;re at all interested in parallel computing, I recommend checking out Hillis&rsquo; book, <a href="http://www.amazon.com/gp/product/0262580977/ref=as_li_tf_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0262580977&amp;linkCode=as2&amp;tag=blog0cbb-20">The Connection Machine</a>.</p>
+
+<p>For our purposes, we can consider a xector to be equivalent to a Clojure map<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>. We can easily redesign our Hillis &beta;-reduction function to take maps as input, but who would want to convert a sequence to a map whenever using the function?</p>
+
+<h3 id="the-xector-monad">The Xector monad</h3>
+
+<p>For this issue we can design a small <a href="http://en.wikipedia.org/wiki/Monad_(functional_programming)">monad</a> which deliberately breaks the monad laws (cowboy monad?) for demonstration purposes<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>. The monad will convert provided seqs into an internal map (xector) representation for use in the &beta;-function and (here&rsquo;s the law-breaking part) leave them as maps when returning results. We could be proper and return the same seq type that was provided, but that would essentially destroy the purpose of the &beta;-reduction in the first place!</p>
+
+<p>Without further ado:</p>
+
+<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="nf">use</span><span class="w"> </span><span class="ss">'clojure.algo.monads</span><span class="p">)</span><span class="w">
+</span><span class="p">(</span><span class="nf">defmonad</span><span class="w"> </span><span class="n">xector-m</span><span class="w">
+  </span><span class="p">[</span><span class="c1">;; Xector a -&gt; a
+</span><span class="w">   </span><span class="n">m-result</span><span class="w"> </span><span class="p">(</span><span class="k">fn</span><span class="w"> </span><span class="n">m-result-xector</span><span class="w"> </span><span class="p">[</span><span class="n">xector</span><span class="p">]</span><span class="w">
+              </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">(</span><span class="nb">count</span><span class="w"> </span><span class="n">xector</span><span class="p">))</span><span class="w">
+                </span><span class="p">(</span><span class="nb">first</span><span class="w"> </span><span class="p">(</span><span class="nb">vals</span><span class="w"> </span><span class="n">xector</span><span class="p">))</span><span class="w">
+                </span><span class="n">xector</span><span class="p">))</span><span class="w">
+
+   </span><span class="c1">;; a -&gt; (Xector b -&gt; Xector c) -&gt; Xector c
+</span><span class="w">   </span><span class="n">m-bind</span><span class="w"> </span><span class="p">(</span><span class="k">fn</span><span class="w"> </span><span class="n">m-bind-xector</span><span class="w"> </span><span class="p">[</span><span class="n">v</span><span class="w"> </span><span class="n">f</span><span class="p">]</span><span class="w">
+            </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">[</span><span class="n">xec</span><span class="w"> </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">sequential?</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w">
+                        </span><span class="p">(</span><span class="nb">into</span><span class="w"> </span><span class="p">{}</span><span class="w"> </span><span class="p">(</span><span class="nf">map-indexed</span><span class="w"> </span><span class="nb">vector</span><span class="w"> </span><span class="n">v</span><span class="p">))</span><span class="w">
+                        </span><span class="n">v</span><span class="p">)]</span><span class="w">
+              </span><span class="p">(</span><span class="nf">f</span><span class="w"> </span><span class="n">xector</span><span class="p">)))])</span></code></pre></figure>
+
+<p>Notice the cheating in <code class="highlighter-rouge">m-result</code>: we return constant values as expected, but non-constant values (i.e., maps made from seqs) are kept as maps.</p>
+
+<p>In <code class="highlighter-rouge">m-bind</code>, we convert any type of seq into a map, and keep any other constant value (in our case, we&rsquo;ll use numbers) unmodified<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup>.</p>
+
+<h2 id="β-reduction-redux">&beta;-reduction-redux</h2>
+
+<p>We define a new multimethod <code class="highlighter-rouge">xvals</code> which dispatches on the result of <code class="highlighter-rouge">map?</code><sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup>. This aligns with the result of the monad bind we defined earlier: for any <code class="highlighter-rouge">a</code> of <code class="highlighter-rouge">Xector a</code>, <code class="highlighter-rouge">a</code> will be either a map or a constant.</p>
+
+<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="k">defmulti</span><span class="w"> </span><span class="n">xvals</span><span class="w"> </span><span class="nb">map?</span><span class="p">)</span><span class="w">
+</span><span class="p">(</span><span class="k">defmethod</span><span class="w"> </span><span class="n">xvals</span><span class="w"> </span><span class="n">true</span><span class="w"> </span><span class="p">[</span><span class="n">xec</span><span class="p">]</span><span class="w"> </span><span class="p">(</span><span class="nb">vals</span><span class="w"> </span><span class="n">xec</span><span class="p">))</span><span class="w">
+</span><span class="p">(</span><span class="k">defmethod</span><span class="w"> </span><span class="n">xvals</span><span class="w"> </span><span class="n">false</span><span class="w"> </span><span class="p">[</span><span class="n">const</span><span class="p">]</span><span class="w"> </span><span class="p">(</span><span class="nb">repeat</span><span class="w"> </span><span class="n">const</span><span class="p">))</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">beta</span><span class="w">
+  </span><span class="c1">;; (a -&gt; b) -&gt; Xector c -&gt; Xector d
+</span><span class="w">  </span><span class="p">([</span><span class="n">f</span><span class="w"> </span><span class="n">x1</span><span class="p">]</span><span class="w">
+     </span><span class="p">(</span><span class="nf">beta</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w">
+  </span><span class="c1">;; (a -&gt; b) -&gt; Xector c -&gt; Xector d -&gt; Xector e
+</span><span class="w">  </span><span class="p">([</span><span class="n">f</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="n">x2</span><span class="p">]</span><span class="w">
+     </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">[</span><span class="n">c1</span><span class="w"> </span><span class="p">(</span><span class="nf">xvals</span><span class="w"> </span><span class="n">x1</span><span class="p">)</span><span class="w">
+           </span><span class="n">c2</span><span class="w"> </span><span class="p">(</span><span class="nf">xvals</span><span class="w"> </span><span class="n">x2</span><span class="p">)]</span><span class="w">
+       </span><span class="p">(</span><span class="nb">loop</span><span class="w"> </span><span class="p">[</span><span class="n">acc</span><span class="w"> </span><span class="p">{}</span><span class="w">
+              </span><span class="n">e1</span><span class="w"> </span><span class="p">(</span><span class="nb">first</span><span class="w"> </span><span class="n">c1</span><span class="p">)</span><span class="w"> </span><span class="n">c1</span><span class="w"> </span><span class="p">(</span><span class="nb">rest</span><span class="w"> </span><span class="n">c1</span><span class="p">)</span><span class="w">
+              </span><span class="n">e2</span><span class="w"> </span><span class="p">(</span><span class="nb">first</span><span class="w"> </span><span class="n">c2</span><span class="p">)</span><span class="w"> </span><span class="n">c2</span><span class="w"> </span><span class="p">(</span><span class="nb">rest</span><span class="w"> </span><span class="n">c2</span><span class="p">)]</span><span class="w">
+         </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">or</span><span class="w"> </span><span class="p">(</span><span class="nb">nil?</span><span class="w"> </span><span class="n">e1</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nb">nil?</span><span class="w"> </span><span class="n">e2</span><span class="p">))</span><span class="w">
+           </span><span class="n">acc</span><span class="w">
+           </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">[</span><span class="n">new-val</span><span class="w"> </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">contains?</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="n">e2</span><span class="p">)</span><span class="w">
+                           </span><span class="p">(</span><span class="nf">f</span><span class="w"> </span><span class="p">(</span><span class="nb">get</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="n">e2</span><span class="p">)</span><span class="w"> </span><span class="n">e1</span><span class="p">)</span><span class="w">
+                           </span><span class="n">e1</span><span class="p">)]</span><span class="w">
+             </span><span class="p">(</span><span class="nf">recur</span><span class="w"> </span><span class="p">(</span><span class="nb">assoc</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="n">e2</span><span class="w"> </span><span class="n">new-val</span><span class="p">)</span><span class="w">
+                    </span><span class="p">(</span><span class="nb">first</span><span class="w"> </span><span class="n">c1</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nb">rest</span><span class="w"> </span><span class="n">c1</span><span class="p">)</span><span class="w">
+                    </span><span class="p">(</span><span class="nb">first</span><span class="w"> </span><span class="n">c2</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nb">rest</span><span class="w"> </span><span class="n">c2</span><span class="p">))))))))</span></code></pre></figure>
+
+<p>Now we can perform &beta;-reduction on seqs by binding them inside our <code class="highlighter-rouge">xector-m</code>:</p>
+
+<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="nf">domonad</span><span class="w"> </span><span class="n">xector-m</span><span class="w">
+         </span><span class="p">[</span><span class="n">a</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="nf">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w">
+          </span><span class="n">b</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="nf">X</span><span class="w"> </span><span class="n">Z</span><span class="w"> </span><span class="n">Z</span><span class="p">)]</span><span class="w">
+         </span><span class="p">(</span><span class="nf">beta</span><span class="w"> </span><span class="nb">+</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="p">))</span><span class="w">  </span><span class="err">;</span><span class="w"> </span><span class="n">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="n">X</span><span class="w"> </span><span class="mi">1</span><span class="n">,</span><span class="w"> </span><span class="n">Z</span><span class="w"> </span><span class="mi">7</span><span class="p">}</span></code></pre></figure>
+
+<p>Traditional folds can now return the expected values without a wrapping map:</p>
+
+<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="nf">domonad</span><span class="w"> </span><span class="n">xector-m</span><span class="w">
+         </span><span class="p">[</span><span class="n">a</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="nf">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w">
+          </span><span class="n">b</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w">
+         </span><span class="p">(</span><span class="nf">beta</span><span class="w"> </span><span class="nb">+</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="p">))</span><span class="w">  </span><span class="err">;</span><span class="w"> </span><span class="n">=&gt;</span><span class="w"> </span><span class="mi">8</span></code></pre></figure>
+
+<h3 id="hillis-arity-function">Hillis&rsquo; arity function</h3>
+
+<p>Now that we have a better-ported version of the beta function, I can present a fascinating application also imagined by Hillis later in his paper. It uses both the one- and two-argument forms of the beta function: it simultaneously folds multiple maps into a single map, and then folds that single map to a single value. As always, the code speaks more clearly than I can:</p>
+
+<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="c1">;; Return the highest arity of the sequence (i.e., the number of times
+;; the most often occurring element appears).
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">arity</span><span class="w"> </span><span class="p">[</span><span class="nb">seq</span><span class="p">]</span><span class="w">
+  </span><span class="p">(</span><span class="nf">domonad</span><span class="w"> </span><span class="n">xector-m</span><span class="w">
+           </span><span class="p">[</span><span class="n">a</span><span class="w"> </span><span class="mi">1</span><span class="w">
+            </span><span class="n">b</span><span class="w"> </span><span class="nb">seq</span><span class="p">]</span><span class="w">
+           </span><span class="p">(</span><span class="nf">beta</span><span class="w"> </span><span class="nb">max</span><span class="w"> </span><span class="p">(</span><span class="nf">beta</span><span class="w"> </span><span class="nb">+</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="p">))))</span></code></pre></figure>
+
+<p>In the inner &beta;-reduce, we reduce a set of keys to the same constant value of 1. When duplicate keys (duplicate occurrences of a value in the provided seq) are found, the value 1 is combined with another value 1 using the function <code class="highlighter-rouge">+</code>, forming a count of 2! This process repeats until the entire provided seq has been digested. Here&rsquo;s a look at the inner &beta;-reduction by itself (notice that its output matches that of <code class="highlighter-rouge">frequencies</code>!):</p>
+
+<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="nf">domonad</span><span class="w"> </span><span class="n">xector-m</span><span class="w">
+         </span><span class="p">[</span><span class="n">a</span><span class="w"> </span><span class="mi">1</span><span class="w">
+          </span><span class="n">b</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="nf">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="mi">2</span><span class="p">)]</span><span class="w">
+         </span><span class="p">(</span><span class="nf">beta</span><span class="w"> </span><span class="nb">+</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="p">))</span><span class="w">  </span><span class="err">;</span><span class="w"> </span><span class="n">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="n">,</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">1</span><span class="n">,</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">1</span><span class="n">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="mi">2</span><span class="p">}</span></code></pre></figure>
+
+<h3 id="where-from-here">Where from here?</h3>
+
+<p>To be frank: not a clue! I am having trouble thinking of names for the process, let alone applications. It will most likely remain nothing more than a &ldquo;thought experiment,&rdquo; as I said in my previous post. Let me know in the comments below if you have any thoughts!</p>
+
+<p><img src="http://www.assoc-amazon.com/e/ir?t=blog0cbb-20&amp;l=as2&amp;o=1&amp;a=0262580977" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>Ignoring all the parallel-processing fun that comes along with xectors, yes.&nbsp;<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>I still don&rsquo;t fully understand monads, so I may actually be breaking more laws than I intend.&nbsp;<a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>I experimented with a <code class="highlighter-rouge">ConstantXector</code> type and a <code class="highlighter-rouge">:constant</code> metadata key, but both of these methods proved much less elegant than simply leaving the value alone.&nbsp;<a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:4">
+      <p>Dispatches on &ldquo;mappiness?&rdquo;&nbsp;<a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div><img src="http://feeds.feedburner.com/~r/foldl/rss/~4/-Pwp3MhQ--4" height="1" width="1" alt=""/>

@@ -1,0 +1,44 @@
+<p>It&rsquo;s been quiet here for a while! I have a new series of posts coming up soon, in which I&rsquo;ll try to specify some desiderata for agents which <em>understand</em> language. That word <em>understand</em> gets thrown around a lot in my circles, with too little critical thought about it&rsquo;s meaning.</p>
+
+<p>But enough foreshadowing—for now, I wanted to just share some philosophizing thoughts which have been rolling around in my head for the past few days.</p>
+
+<hr />
+
+<p><a href="http://www.foldl.me/2016/situated-language-learning/">Language is defined by its use.</a> The meaning of the words we use can be derived from the way that they are deployed and the way that people react to them in conversation.</p>
+
+<p>But it&rsquo;s certainly necessary that this language <em>bottom out</em> in uses that are nonlinguistic. Language doesn&rsquo;t happen in a vacuum: we deploy it as a tool in all sorts of situations in order to <em>get things done</em>. Take the standard <a href="https://en.wikipedia.org/wiki/Language-game_(philosophy)">Wittgensteinian language game</a> example:<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup></p>
+
+<blockquote>
+  <p>The language is meant to serve for communication between a builder A and an assistant B. A is building with building-stones: there are blocks, pillars, slabs and beams. B has to pass the stones, and that in the order in which A needs them. For this purpose they use a language consisting of the words &ldquo;block&rdquo;, &ldquo;pillar&rdquo;, &ldquo;slab&rdquo;, &ldquo;beam&rdquo;. A calls them out;—B brings the stone which he has learnt to bring at such-and-such a call.——Conceive this as a complete primitive language.</p>
+</blockquote>
+
+<p>I think Wittgenstein—and many others—would readily agree that this game is not just a game of words but a game of words <em>causing</em> things and of other things <em>causing</em> words. We can&rsquo;t fully define the meaning of a word like &ldquo;slab&rdquo; without referring to the physical actions of A and B. In this way, linguistic meaning has to <em>bottom out</em> at some point in nonlinguistic facts.<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup></p>
+
+<h3 id="bridging-principles">Bridging principles</h3>
+
+<p>Call the above argument a defense of a <strong>bridging principle</strong>. Generally speaking, a bridge principle is some statement which links entities from a domain or mode A to a domain or mode B, and thereby gives items in B some new sort of meaning. In the case above, we have that nonlinguistic things—grounded objects, physical actions, nonlinguistic cognitive states, etc.—exist in a domain <em>A</em>, and link to words, sentences, etc. in domain <em>B</em>, thereby giving them their meaning.</p>
+
+<p>I wanted to make this post simply to point out that this search for bridging principles is by no means one unique to language. There are at least three parallels within philosophy that I can think of off of the top of my head:</p>
+
+<ol>
+  <li>A central open question in <strong>moral philosophy</strong> asks whether normative/evaluative statements (&ldquo;you should be politically involved,&rdquo; &ldquo;it is bad to kill people,&rdquo; …; domain <em>B</em>) <em>bottom out</em> in non-normative statements (physical states of our brain, etc.; domain <em>A</em>). Some people believe that this non-normative domain is the only thing that we can actually use to make our normative statements meaningful. Concretely, the bridge here is from <em>non-normative</em> to <em>normative</em> statements.</li>
+  <li>In <strong>epistemology</strong>, we ask whether our (inferential) justified beliefs (&ldquo;I see a rock over there,&rdquo; &ldquo;I am in pain,&rdquo; …; domain <em>B</em>) might <em>bottom out</em> in things that are not beliefs at all (the perceptual experience of seeing a rock, the sense of pain; domain <em>A</em>). Concretely, the bridge here is from <em><a href="https://plato.stanford.edu/entries/epistemology/#FOU">nondoxastic</a> experiences</em> to <em>justified beliefs</em>.</li>
+  <li>In <strong>philosophy of mind</strong>, theories of intentional representation attempt to explain how our <a href="https://plato.stanford.edu/entries/content-causal/">items of mental content</a> (thinking of the color blue, wanting pizza; domain <em>B</em>) represent things in the real world (blue things, the state of wanting pizza; domain <em>A</em>). These theories explain how our representations <em>bottom out</em> in the real world by some direct causal chain, normative conditions, etc. Concretely, the bridge here is from <em>real-world things</em> to <em>representations of those things</em>.</li>
+</ol>
+
+<p>The case of linguistic meaning is certainly very close to #3, though I&rsquo;m not yet sure how to unify the two (or if they can be unified).</p>
+
+<hr />
+
+<p>I&rsquo;m not sure what to do next with this information. In any way, I find it pleasing to recognize that a pile of nominally separate disciplines are actually all engaged in rather similar activities at a high level.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p><em>Philosophical Investigations</em>, §2&nbsp;<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>John Searle calls this system of nonlinguistic facts a cognitive &ldquo;Background.&rdquo; Where we locate the Background — whether in the brain or in the real world — is not very relevant for the purposes of this post.&nbsp;<a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div><img src="http://feeds.feedburner.com/~r/foldl/rss/~4/D2KVz6Dc4Rg" height="1" width="1" alt=""/>

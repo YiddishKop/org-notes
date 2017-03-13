@@ -1,0 +1,379 @@
+<p><a href="http://www-nlp.stanford.edu/projects/glove/">GloVe (<strong>Glo</strong>bal <strong>Ve</strong>ctors for Word Representation)</a> is a tool recently
+released by Stanford NLP Group researchers <a href="http://stanford.edu/~jpennin/">Jeffrey Pennington</a>,
+<a href="http://www.socher.org">Richard Socher</a>, and <a href="http://nlp.stanford.edu/manning/">Chris Manning</a> for learning continuous-space vector
+representations of words.</p>
+
+<p style="text-align:center;font-size:88%">(jump to: <a href="#theory">theory</a>, <a href="#implementation">implementation</a>)</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>These real-valued word vectors have proven to be useful for all sorts of natural
+language processing tasks, including parsing,<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> named entity recognition,<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>
+and (very recently!) machine translation.<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup><sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup></p>
+
+<p>It&rsquo;s been shown (and widely shared by this point) that these word
+vectors exhibit interesting <strong>semantic and syntactic regularities</strong>. For
+example, we find that claims like the following hold for the associated
+word vectors:</p>
+
+<p>\[\begin{align*}\text{king} - \text{man} + \text{woman} &\approx \text{queen} \\ \text{brought} - \text{bring} + \text{seek} &\approx \text{sought}\end{align*}\]</p>
+
+<p>There&rsquo;s quite a bit of buzz around the tools which build these word
+vectors at the moment, so I figured it would be worth it to provide a
+down-to-earth coverage of GloVe, one of the newest methods.</p>
+
+<p>The GloVe authors <a href="http://www-nlp.stanford.edu/projects/glove/glove.pdf">present some results</a> which suggest that their
+tool is competitive with Google&rsquo;s popular <a href="https://code.google.com/p/word2vec/"><code class="highlighter-rouge">word2vec</code></a> package. In
+order to better understand how GloVe works and to make available a nice
+learning resource, I decided to port the open-source (yay!) but somewhat
+difficult-to-read (no!) <a href="http://www-nlp.stanford.edu/software/glove.tar.gz">GloVe source code</a> from C to Python.</p>
+
+<p>In this post I&rsquo;ll give an explanation by intuition of how the GloVe method
+works<sup id="fnref:5"><a href="#fn:5" class="footnote">5</a></sup> and then provide a quick overview of the implementation in Python. You
+can find the complete Python code (just 187 SLOC, including command-line
+argument processing, IO, etc.) in <a href="http://github.com/hans/glove.py">the <code class="highlighter-rouge">glove.py</code> GitHub repo</a>.</p>
+
+<p>A quick disclaimer before we begin: I wrote this code for tutorial purposes. It
+is nowhere near production-ready in terms of efficiency. If you would like to
+parallelize and optimize it as an exercise, be my guest &mdash; just be sure to
+share the results!</p>
+
+<h2 id="theory">Theory</h2>
+
+<p>The GloVe model learns word vectors by examining <em>word co-occurrences</em> within a
+text corpus. Before we train the actual model, we need to construct a
+<em>co-occurrence matrix</em> \(X\), where a cell \(X_{ij}\) is a &ldquo;strength&rdquo; which
+represents how often the word \(i\) appears in the context of the word
+\(j\). We run through our corpus just once to build the matrix \(X\), and
+from then on use this co-occurrence data in place of the actual corpus. We will
+construct our model based only on the values collected in \(X\).</p>
+
+<p>Once we&rsquo;ve prepared \(X\), our task is to decide vector values in continuous
+space for each word we observe in the corpus. We will produce vectors with a
+soft constraint that for each word pair of word \(i\) and word \(j\),<sup id="fnref:6"><a href="#fn:6" class="footnote">6</a></sup></p>
+
+<p>\[\begin{equation}\vec{w}_i^T \vec{w}_j + b_i + b_j = \log X_{ij}.\end{equation}\]</p>
+
+<p>where \(b_i\) and \(b_j\) are scalar bias terms associated with words
+\(i\) and \(j\), respectively. Intuitively speaking, we want to build word
+vectors that retain some useful information about how every pair of words
+\(i\) and \(j\) co-occur.</p>
+
+<p>We&rsquo;ll do this by minimizing an objective function \(J\), which evaluates the
+sum of all squared errors based on the above equation, weighted with a function
+\(f\):</p>
+
+<p>\[\begin{equation}J = \sum_{i=1}^V \sum_{j=1}^V \; f\left(X_{ij}\right) \left( \vec{w}_i^T \vec{w}_j + b_i + b_j - \log X_{ij} \right)^2 \end{equation}\]</p>
+
+<p>We choose an \(f\) that helps prevents common word pairs (i.e., those with
+large \(X_{ij}\) values) from skewing our objective too much:</p>
+
+<p>\[\begin{equation}f\left(X_{ij}\right) = \left\{ \begin{array}{cl}\left(\frac{X_{ij}}{x_{\text{max}}}\right)^\alpha & \text{if } X_{ij} < x_{\text{max}} \\ 1 & \text{otherwise.} \end{array}\right. \end{equation} \]</p>
+
+<p>When we encounter extremely common word pairs (where \(X_{ij} >
+x_{\text{max}}\)) this function will cut off its normal output and simply
+return \(1\). For all other word pairs, we return some weight in the range
+\((0, 1)\), where the distribution of weights in this range is decided by
+\(\alpha\).</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<p>Now for the code! I&rsquo;ll skip the boring parts which do things like model saving
+and argument parsing, and focus on the three most meaty functions in the code:</p>
+
+<ol>
+  <li><code class="highlighter-rouge">build_cooccur</code> accepts a corpus and yields a list of
+co-occurrence blobs (the \(X_{ij}\) values). It calculates
+co-occurrences by moving a <em>sliding n-gram window</em> over each
+sentence in the corpus.</li>
+  <li><code class="highlighter-rouge">train_glove</code>, which prepares the parameters of the model and manages
+training at a high level, and</li>
+  <li><code class="highlighter-rouge">run_iter</code>, which runs a single parameter update step.</li>
+</ol>
+
+<p>First, our <code class="highlighter-rouge">build_cooccur</code> function accepts a vocabulary (mapping words to
+integer word IDs), a corpus (a simple iterator over sentences), and some
+optional parameters: a context window size and a minimum count (used to
+drop rare word co-occurrence pairs). We&rsquo;ll start by building a sparse
+matrix for collecting cooccurrences \(X_{ij}\) and some simple helper
+data.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">build_cooccur</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="n">corpus</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">min_count</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="n">vocab_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">)</span>
+    <span class="n">id2word</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="n">vocab</span><span class="o">.</span><span class="n">iteritems</span><span class="p">())</span>
+
+    <span class="c"># Collect cooccurrences internally as a sparse matrix for</span>
+    <span class="c"># passable indexing speed; we'll convert into a list later</span>
+    <span class="n">cooccurrences</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">lil_matrix</span><span class="p">((</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">),</span>
+                                      <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span></code></pre></figure>
+
+<p>For each line in the corpus, we&rsquo;ll conjure up a sequence of word IDs:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># -- continued --</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">corpus</span><span class="p">):</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">token_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">vocab</span><span class="p">[</span><span class="n">word</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">]</span></code></pre></figure>
+
+<p>Now for each word ID \(i\) in the sentence, we&rsquo;ll extract a window of context
+words to the left of the word.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># -- continued --</span>
+        <span class="k">for</span> <span class="n">center_i</span><span class="p">,</span> <span class="n">center_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">token_ids</span><span class="p">):</span>
+            <span class="c"># Collect all word IDs in left window of center word</span>
+            <span class="n">context_ids</span> <span class="o">=</span> <span class="n">token_ids</span><span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">center_i</span> <span class="o">-</span> <span class="n">window_size</span><span class="p">)</span>
+                                    <span class="p">:</span> <span class="n">center_i</span><span class="p">]</span>
+            <span class="n">contexts_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">context_ids</span><span class="p">)</span></code></pre></figure>
+
+<p>For each word ID \(j\) in the context, we&rsquo;ll add on weight to the
+cell \(X_{ij}\). The increment for the word pair
+is inversely related to the distance between the two words in
+question. This means word instances which appear next to each other
+see higher \(X_{ij}\) increments than word
+instances which appear with many words in between.</p>
+
+<p>One last technical point: we build this matrix \(X_{ij}\)
+<em>symmetrically</em>. This means that we treat word co-occurrences where the
+context word is to the left of the main word exactly the same as
+co-occurrences where the context word is to the right of the main word.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># -- continued --</span>
+            <span class="k">for</span> <span class="n">left_i</span><span class="p">,</span> <span class="n">left_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">context_ids</span><span class="p">):</span>
+                <span class="c"># Distance from center word</span>
+                <span class="n">distance</span> <span class="o">=</span> <span class="n">contexts_len</span> <span class="o">-</span> <span class="n">left_i</span>
+
+                <span class="c"># Weight by inverse of distance between words</span>
+                <span class="n">increment</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">distance</span><span class="p">)</span>
+
+                <span class="c"># Build co-occurrence matrix symmetrically (pretend</span>
+                <span class="c"># we are calculating right contexts as well)</span>
+                <span class="n">cooccurrences</span><span class="p">[</span><span class="n">center_id</span><span class="p">,</span> <span class="n">left_id</span><span class="p">]</span> <span class="o">+=</span> <span class="n">increment</span>
+                <span class="n">cooccurrences</span><span class="p">[</span><span class="n">left_id</span><span class="p">,</span> <span class="n">center_id</span><span class="p">]</span> <span class="o">+=</span> <span class="n">increment</span></code></pre></figure>
+
+<p>That&rsquo;s about it &mdash; <code class="highlighter-rouge">build_cooccur</code> finishes with
+<a href="https://github.com/hans/glove.py/blob/582549ddeeeb445cc676615f64e318aba1f46295/glove.py#L171-182">a bit more code to yield co-occurrence pairs from this sparse matrix</a>, but
+I won&rsquo;t bother to show it here.</p>
+
+<p>Next, <code class="highlighter-rouge">train_glove</code> initializes the model parameters given the fully
+constructed co-occurrence data. We expect the same <code class="highlighter-rouge">vocab</code> object as
+before as a first parameter. The second parameter, <code class="highlighter-rouge">cooccurrences</code>,
+is a co-occurrence iterator produced in <code class="highlighter-rouge">build_cooccur</code>, which
+yields co-occurrence tuples of the form <code class="highlighter-rouge">(main_word_id,
+context_word_id, x_ij)</code>, where <code class="highlighter-rouge">x_ij</code> is an \(X_{ij}\)
+co-occurrence value as introduced above.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">train_glove</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="n">cooccurrences</span><span class="p">,</span> <span class="n">vector_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                <span class="n">iterations</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></code></pre></figure>
+
+<p>We next prepare the primary model parameters: the word vector matrix \(W\) and
+a collection of bias scalars. Note that our word matrix has twice as many rows
+as the number of words in the corpus. We will find out why later in describing
+the <code class="highlighter-rouge">run_iter</code> function.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># -- continued --</span>
+    <span class="n">vocab_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">)</span>
+
+    <span class="c"># Word vector matrix. This matrix is (2V) * d, where N is the</span>
+    <span class="c"># size of the corpus vocabulary and d is the dimensionality of</span>
+    <span class="c"># the word vectors. All elements are initialized randomly in the</span>
+    <span class="c"># range (-0.5, 0.5]. We build two word vectors for each word:</span>
+    <span class="c"># one for the word as the main (center) word and one for the</span>
+    <span class="c"># word as a context word.</span>
+    <span class="c">#</span>
+    <span class="c"># It is up to the client to decide what to do with the resulting</span>
+    <span class="c"># two vectors. Pennington et al. (2014) suggest adding or</span>
+    <span class="c"># averaging the two for each word, or discarding the context</span>
+    <span class="c"># vectors.</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">vocab_size</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">vector_size</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span>
+         <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">vector_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c"># Bias terms, each associated with a single vector. An array of</span>
+    <span class="c"># size $2V$, initialized randomly in the range (-0.5, 0.5].</span>
+    <span class="n">biases</span> <span class="o">=</span> <span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">vocab_size</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span>
+              <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">vector_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span></code></pre></figure>
+
+<p>We will be training using adaptive gradient descent (AdaGrad),<sup id="fnref:7"><a href="#fn:7" class="footnote">7</a></sup> and so we&rsquo;ll
+also need to initialize helper matrices for \(W\) and the bias vector which
+track gradient histories. Note that these all are initialized as blocks of ones.
+By starting with every gradient history equal to one, our first training step in
+AdaGrad will simply use the global learning rate for each example. (See footnote
+7<sup id="fnref:7:1"><a href="#fn:7" class="footnote">7</a></sup> to work this out from the AdaGrad definition.)</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># -- continued --</span>
+    <span class="c"># Training is done via adaptive gradient descent (AdaGrad). To</span>
+    <span class="c"># make this work we need to store the sum of squares of all</span>
+    <span class="c"># previous gradients.</span>
+    <span class="c">#</span>
+    <span class="c"># Like `W`, this matrix is (2V) * d.</span>
+    <span class="c">#</span>
+    <span class="c"># Initialize all squared gradient sums to 1 so that our initial</span>
+    <span class="c"># adaptive learning rate is simply the global learning rate.</span>
+    <span class="n">gradient_squared</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">vocab_size</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">vector_size</span><span class="p">),</span>
+                               <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+    <span class="c"># Sum of squared gradients for the bias terms.</span>
+    <span class="n">gradient_squared_biases</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">vocab_size</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+                                      <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span></code></pre></figure>
+
+<p>Next, we begin training by iteratively calling the <code class="highlighter-rouge">run_iter</code> function.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># -- continued --</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
+        <span class="n">cost</span> <span class="o">=</span> <span class="n">run_iter</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code></pre></figure>
+
+<p><code class="highlighter-rouge">run_iter</code> accepts this pre-fetched data and begins by shuffling it and
+establishing a global cost for the iteration:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># -- continued --</span>
+    <span class="n">global_cost</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c"># Iterate over data in random order</span>
+    <span class="n">shuffle</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></code></pre></figure>
+
+<p>Now for every co-occurrence data tuple, we compute the weighted cost as
+described in the above theory section. Each tuple has the following elements:</p>
+
+<ol>
+  <li><code class="highlighter-rouge">v_main</code>: the word vector for the main word in the co-occurrence</li>
+  <li><code class="highlighter-rouge">v_context</code>: the word vector for the context word in the co-occurrence</li>
+  <li><code class="highlighter-rouge">b_main</code>: bias scalar for main word</li>
+  <li><code class="highlighter-rouge">b_context</code>: bias scalar for context word</li>
+  <li><code class="highlighter-rouge">gradsq_W_main</code>: a vector storing the squared gradient history for the main
+word vector (for use in the AdaGrad update)</li>
+  <li><code class="highlighter-rouge">gradsq_W_context</code>: a vector gradient history for the context word vector</li>
+  <li><code class="highlighter-rouge">gradsq_b_main</code>: a scalar gradient history for the main word bias</li>
+  <li><code class="highlighter-rouge">gradsq_b_context</code>: a scalar gradient history for the context word bias</li>
+  <li><code class="highlighter-rouge">cooccurrence</code>: the \(X_{ij}\) value for the co-occurrence pair, described
+at length above</li>
+</ol>
+
+<p>We retain an intermediate &ldquo;inner&rdquo; cost (not squared or weighted) for
+use in calculating the gradient in the next section.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># -- continued --</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">v_main</span><span class="p">,</span> <span class="n">v_context</span><span class="p">,</span> <span class="n">b_main</span><span class="p">,</span> <span class="n">b_context</span><span class="p">,</span> <span class="n">gradsq_W_main</span><span class="p">,</span>
+         <span class="n">gradsq_W_context</span><span class="p">,</span> <span class="n">gradsq_b_main</span><span class="p">,</span> <span class="n">gradsq_b_context</span><span class="p">,</span>
+         <span class="n">cooccurrence</span><span class="p">)</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+
+        <span class="c"># Calculate weight function $f(X_{ij})$</span>
+        <span class="n">weight</span> <span class="o">=</span> <span class="p">((</span><span class="n">cooccurrence</span> <span class="o">/</span> <span class="n">x_max</span><span class="p">)</span> <span class="o">**</span> <span class="n">alpha</span>
+                  <span class="k">if</span> <span class="n">cooccurrence</span> <span class="o">&lt;</span> <span class="n">x_max</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c"># Compute inner component of cost function, which is used in</span>
+        <span class="c"># both overall cost calculation and in gradient calculation</span>
+        <span class="c">#</span>
+        <span class="c">#   $$ J' = w_i^Tw_j + b_i + b_j - log(X_{ij}) $$</span>
+        <span class="n">cost_inner</span> <span class="o">=</span> <span class="p">(</span><span class="n">v_main</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v_context</span><span class="p">)</span>
+                      <span class="o">+</span> <span class="n">b_main</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">b_context</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                      <span class="o">-</span> <span class="n">log</span><span class="p">(</span><span class="n">cooccurrence</span><span class="p">))</span>
+
+        <span class="c"># Compute cost</span>
+        <span class="c">#</span>
+        <span class="c">#   $$ J = f(X_{ij}) (J')^2 $$</span>
+        <span class="n">cost</span> <span class="o">=</span> <span class="n">weight</span> <span class="o">*</span> <span class="p">(</span><span class="n">cost_inner</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="c"># Add weighted cost to the global cost tracker</span>
+        <span class="n">global_cost</span> <span class="o">+=</span> <span class="n">cost</span></code></pre></figure>
+
+<p>With the cost calculated, we now need to compute gradients. From our
+original cost function \(J\) we derive gradients with respect to the
+relevant parameters \(\vec w_i\), \(\vec w_j\), \(b_i\), and \(b_j\).
+(Note that since \(f(X_{ij})\) doesn&rsquo;t depend on any of these
+parameters, the derivations are quite simple.) Below we use the operator
+\(\odot\) to denote elementwise vector multiplication.</p>
+
+<p>\[\begin{align*}J &= \sum_{i=1}^V \sum_{j=1}^V \; f\left(X_{ij}\right) \left( \vec{w}_i^T \vec{w}_j + b_i + b_j - \log X_{ij} \right)^2 \\ \nabla_{\vec{w}_i} J &= f\left(X_{ij}\right) \vec{w}_j \odot \left( \vec{w}_i^T \vec{w}_j + b_i + b_j - \log X_{ij}\right) \\ \nabla_{\vec{w}_j} J &= f\left(X_{ij}\right) \vec{w}_i \odot \left( \vec{w}_i^T \vec{w}_j + b_i + b_j - \log X_{ij}\right) \\ \frac{\partial J}{\partial b_i} &= f\left(X_{ij}\right) \left(\vec w_i^T \vec w_j + b_i + b_j - \log X_{ij}\right) \\ \frac{\partial J}{\partial b_j} &= f\left(X_{ij}\right) \left(\vec w_i^T \vec w_j + b_i + b_j - \log X_{ij}\right) \end{align*} \]</p>
+
+<p>Now let&rsquo;s put that in code! We use the earlier-calculated intermediate
+value <code class="highlighter-rouge">cost_inner</code>, which stores the value being squared and weighted in
+the full cost function.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># -- continued --</span>
+        <span class="c"># Compute gradients for word vector terms.</span>
+        <span class="c">#</span>
+        <span class="c"># NB: `v_main` is only a view into `W` (not a copy), so our</span>
+        <span class="c"># modifications here will affect the global weight matrix;</span>
+        <span class="c"># likewise for v_context, biases, etc.</span>
+        <span class="n">grad_main</span> <span class="o">=</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">cost_inner</span> <span class="o">*</span> <span class="n">v_context</span>
+        <span class="n">grad_context</span> <span class="o">=</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">cost_inner</span> <span class="o">*</span> <span class="n">v_main</span>
+
+        <span class="c"># Compute gradients for bias terms</span>
+        <span class="n">grad_bias_main</span> <span class="o">=</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">cost_inner</span>
+        <span class="n">grad_bias_context</span> <span class="o">=</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">cost_inner</span></code></pre></figure>
+
+<p>Finally, we update weights with AdaGrad<sup id="fnref:7:2"><a href="#fn:7" class="footnote">7</a></sup> and add the calculated
+gradients to the gradient history variables.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># -- continued --</span>
+        <span class="c"># Now perform adaptive updates</span>
+        <span class="n">v_main</span> <span class="o">-=</span> <span class="p">(</span><span class="n">learning_rate</span> <span class="o">*</span> <span class="n">grad_main</span>
+                   <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">gradsq_W_main</span><span class="p">))</span>
+        <span class="n">v_context</span> <span class="o">-=</span> <span class="p">(</span><span class="n">learning_rate</span> <span class="o">*</span> <span class="n">grad_context</span>
+                      <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">gradsq_W_context</span><span class="p">))</span>
+
+        <span class="n">b_main</span> <span class="o">-=</span> <span class="p">(</span><span class="n">learning_rate</span> <span class="o">*</span> <span class="n">grad_bias_main</span>
+                   <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">gradsq_b_main</span><span class="p">))</span>
+        <span class="n">b_context</span> <span class="o">-=</span> <span class="p">(</span><span class="n">learning_rate</span> <span class="o">*</span> <span class="n">grad_bias_context</span>
+                      <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">gradsq_b_context</span><span class="p">))</span>
+
+        <span class="c"># Update squared gradient sums</span>
+        <span class="n">gradsq_W_main</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">grad_main</span><span class="p">)</span>
+        <span class="n">gradsq_W_context</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">grad_context</span><span class="p">)</span>
+        <span class="n">gradsq_b_main</span> <span class="o">+=</span> <span class="n">grad_bias_main</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">gradsq_b_context</span> <span class="o">+=</span> <span class="n">grad_bias_context</span> <span class="o">**</span> <span class="mi">2</span></code></pre></figure>
+
+<p>After we&rsquo;ve processed all data for the iteration, we return the global cost and relax for a while.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># -- continued --</span>
+    <span class="k">return</span> <span class="n">global_cost</span></code></pre></figure>
+
+<hr />
+
+<p>That&rsquo;s it for code! If you&rsquo;d like to see word vectors produced by this Python
+code in action, check out <a href="http://nbviewer.ipython.org/github/hans/glove.py/blob/master/demo/glove.py%20exploration.ipynb">this IPython notebook</a>.</p>
+
+<p>If you found this all fascinating, I highly recommend digging into the
+<a href="http://www-nlp.stanford.edu/projects/glove/">official GloVe documentation</a>, especially the <a href="http://www-nlp.stanford.edu/projects/glove/glove.pdf">original paper</a>, which is
+due to be published at <a href="http://emnlp2014.org">this year&rsquo;s EMNLP conference</a>. A quality general
+coverage of word representations and their uses is Peter Turney and Patrick
+Pantel&rsquo;s paper,
+<a href="http://www.aaai.org/Papers/JAIR/Vol37/JAIR-3705.pdf">&ldquo;From frequency to meaning: Vector space models of semantics.&rdquo;</a></p>
+
+<p>Distributed word representations such as those which GloVe produces are really
+revolutionizing natural language processing. I&rsquo;m excited to see what happens as
+more and more tools of this sort are disseminated outside of academia and put to
+real-world use.</p>
+
+<p>If you&rsquo;re making use of GloVe or similar tools in your own projects, let me
+know. Until next time, happy coding!</p>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<script type="text/javascript">
+MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } } });
+</script>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>Richard Socher et al., <a href="http://www.aclweb.org/anthology/P13-1045">&ldquo;Parsing with Compositional Vector Grammars,&rdquo;</a> in <em>Proceedings of the 51st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)</em> (Sofia, Bulgaria: Association for Computational Linguistics, 2013), 455&ndash;65.&nbsp;<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>Joseph Turian, Lev Ratinov, and Yoshua Bengio, <a href="http://www.aclweb.org/anthology/P10-1040">&ldquo;Word Representations: A Simple and General Method for Semi-Supervised Learning,&rdquo;</a> in <em>Proceedings of the 48th Annual Meeting of the Association for Computational Linguistics</em> (Association for Computational Linguistics, 2010), 384&ndash;94.&nbsp;<a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>Dzmitry Bahdanau, Kyunghyun Cho, and Yoshua Bengio, <a href="http://arxiv.org/abs/1409.0473.">&ldquo;Neural Machine Translation by Jointly Learning to Align and Translate,&rdquo;</a> <em>arXiv:1409.0473 [cs, Stat]</em>, September 1, 2014.<br /><br />This is what I&rsquo;m working on right now&mdash;if this sounds interesting to you, get in touch!&nbsp;<a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:4">
+      <p>There is still quite a bit of debate, however, over the best way to construct these vectors. The popular tool <a href="https://code.google.com/p/word2vec/"><code class="highlighter-rouge">word2vec</code></a>, which has seen wide use and wide success in the past year, builds so-called <em>neural</em> word embeddings, whereas GloVe and others construct word vectors based on <em>counts</em>. I won&rsquo;t get into the controversy in this post, but feel free to read up and pick a side.<br /><br />See e.g. Marco Baroni, Georgiana Dinu, and Germán Kruszewski, <a href="http://www.aclweb.org/anthology/P14-1023">&ldquo;Don&rsquo;t Count, Predict! A Systematic Comparison of Context-Counting vs. Context-Predicting Semantic Vectors,&rdquo;</a> in <em>Proceedings of the 52nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)</em> (Baltimore, Maryland: Association for Computational Linguistics, 2014), 238&ndash;47; Omer Levy and Yoav Goldberg, <a href="http://www.aclweb.org/anthology/W14-1618">&ldquo;Linguistic Regularities in Sparse and Explicit Word Representations,&rdquo;</a> in <em>Proceedings of the Eighteenth Conference on Computational Natural Language Learning</em> (Ann Arbor, Michigan: Association for Computational Linguistics, 2014), 171&ndash;80.&nbsp;<a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:5">
+      <p>I hope this post is a useful supplement to the <a href="http://www-nlp.stanford.edu/projects/glove/glove.pdf">original paper</a>. If you have the time, read the original too &mdash; it has a lot of useful and well-stated insights about the task of word representations in general.&nbsp;<a href="#fnref:5" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:6">
+      <p>I am skipping over a lot of interesting / beautiful details here &mdash; please read the paper if you are interested in more than the implementation!&nbsp;<a href="#fnref:6" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:7">
+      <p>AdaGrad is a modified form of stochastic gradient descent which attempts to guide learning in the proper direction by weighting rarely occurring features more often than those that always fire. Briefly, for a gradient component \(g_{t,i}\) at training step \(t\), AdaGrad defines the gradient descent update to be \[x_{t+1, i} = x_{t, i} - \dfrac{\eta}{\sqrt{\sum_{t'=1}^{t-1} g_{t', i}^2}} g_{t, i}.\] For a more thorough coverage see <a href="http://www.ark.cs.cmu.edu/cdyer/adagrad.pdf">this AdaGrad tutorial</a>.&nbsp;<a href="#fnref:7" class="reversefootnote">&#8617;</a>&nbsp;<a href="#fnref:7:1" class="reversefootnote">&#8617;<sup>2</sup></a>&nbsp;<a href="#fnref:7:2" class="reversefootnote">&#8617;<sup>3</sup></a></p>
+    </li>
+  </ol>
+</div><img src="http://feeds.feedburner.com/~r/foldl/rss/~4/NSaPP9U55vs" height="1" width="1" alt=""/>

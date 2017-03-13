@@ -1,0 +1,23 @@
+
+            
+
+            <p>I am working on literate programming in LaTeX.  Actually, I am coding a lot of <code>dtx</code> files, which contain both the code and its documentation.  </p>
+
+<p>When working in Emacs, it uses AUCTeX and switches into TeXDoc-mode.</p>
+
+<p>Quite often, I have to insert docstrip options or tags, which look like this:</p>
+
+<pre><code>%&lt;*option&gt;
+...
+%&lt;/option&gt;
+</code></pre>
+
+<p>(That is: a percent sign in the first column and than the tag which is enclosed in less/greater brackets <code>&lt;&gt;</code>.  The opening tag begins with a asteriks <code>*</code>, the closing tag has a slash <code>/</code>.  Of course, the name of the tag (here: option) has to be spelled identically.) </p>
+
+<p>I would love to have some kind of Emacs function, which inserts this special kind of enviroment.  Using the classical <code>LaTeX-environment</code> is not suited, as it inserts <code>\begin</code> and '\end`, which is not what I need.</p>
+
+<p>I didn't find a hint in the manual.</p>
+
+<p><strong>Edit: I had a <a href="http://emacs.stackexchange.com/questions/31413/docstrip-support-in-auctex">second question</a> related to this theme.</strong></p>
+
+        
