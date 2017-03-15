@@ -1,0 +1,41 @@
+<p>
+<code>show-paren-mode</code> is a minor-mode that highlights the bracket at point (be it
+round, square, or curly) as well as its corresponding open/close counterpart. I
+find it a must-have for Elisp and Clojure programming. On the other hand, when
+editing Ruby code, it also highlights whole block delimiters, like <code>def</code>, <code>do</code>,
+<code>if</code>, and <code>end</code>, and all that must-haviness quickly turns into
+in-your-faceviness.
+</p>
+
+<p>
+The catch here is that <code>show-paren-mode</code> is a global minor-mode. So you can’t
+just enable it locally in <code>lisp-mode-hook</code>, and if you try to do
+<code>(show-paren-mode -1)</code> in <code>ruby-mode-hook</code> you’re going to disable it globally
+every time you visit a ruby file.
+</p>
+
+<p>
+Fortunately, <code>show-paren-function</code> checks the value of the variable
+<code>show-paren-mode</code>, so we can pseudo-disable it by setting this variable locally.
+</p>
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="nv">show-paren-mode</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">endless/locally-disable-show-paren</span> <span class="p">()</span>
+  <span class="p">(</span><span class="nv">interactive</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">setq-local</span> <span class="nv">show-paren-mode</span> <span class="no">nil</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'ruby-mode-hook</span>
+          <span class="nf">#'</span><span class="nv">endless/locally-disable-show-paren</span><span class="p">)</span></code></pre></figure>
+<p>
+With this, the mode will still be active in <code>ruby-mode</code> buffers, but it won’t
+actually do anything.
+</p>
+
+<p>
+Alternatively, you could reset <code>show-paren-data-function</code> to its original value
+(also inside <code>ruby-mode-hook</code>). This will keep only the basic bracket
+highlighting.
+</p>
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="nv">setq-local</span> <span class="nv">show-paren-data-function</span> <span class="nf">#'</span><span class="nv">show-paren--default</span><span class="p">)</span></code></pre></figure>
+
+   <p><a href="http://endlessparentheses.com/locally-configure-or-disable-show-paren-mode.html?source=rss#disqus_thread">Comment on this.</a></p>

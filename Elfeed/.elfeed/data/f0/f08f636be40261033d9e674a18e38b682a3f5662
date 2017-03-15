@@ -1,0 +1,105 @@
+<p>
+The Emacs <a href="http://doc.endlessparentheses.com/Fun/compile"><code>compile</code></a> command is a severely underused tool. It allows you to run
+any build tool under the sun and provides error-highlighting and jump-to-error
+functionality for dozens of programming languages, but many an Emacser is still
+in the habit of switching to a terminal in order to run <code>make</code>, <code>lein test</code>, or
+<code>bundle exec</code>. It does have one limitation, though. The compilation buffer is
+not a real shell, so if the command being run asks for user input (even a simple
+<code>y/n</code> confirmation) there’s no way to provide it.
+</p>
+
+<p>
+<i>(Since posting this, I’ve learned that part of it is mildly futile. Read the
+update below for more information.)</i>
+</p>
+
+<p>
+Fortunately, that’s not hard to fix. The snippet below defines two commands. The
+first one prompts you for input and then sends it to the underlying terminal
+followed by a newline, designed for use with prompts and momentary REPLs. The
+second is a command that simply sends the key that was pressed to invoke it,
+designed for easily replying to <code>y/n</code> questions or quickly quitting REPLs with
+<kbd>C-d</kbd> or <kbd>C-j</kbd>.
+</p>
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="nb">defun</span> <span class="nv">endless/send-input</span> <span class="p">(</span><span class="nv">input</span> <span class="k">&amp;optional</span> <span class="nv">nl</span><span class="p">)</span>
+  <span class="s">"Send INPUT to the current process.
+Interactively also sends a terminating newline."</span>
+  <span class="p">(</span><span class="nv">interactive</span> <span class="s">"MInput: \nd"</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nb">string</span> <span class="p">(</span><span class="nv">concat</span> <span class="nv">input</span> <span class="p">(</span><span class="k">if</span> <span class="nv">nl</span> <span class="s">"\n"</span><span class="p">))))</span>
+    <span class="c1">;; This is just for visual feedback.</span>
+    <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">inhibit-read-only</span> <span class="no">t</span><span class="p">))</span>
+      <span class="p">(</span><span class="nv">insert-before-markers</span> <span class="nb">string</span><span class="p">))</span>
+    <span class="c1">;; This is the important part.</span>
+    <span class="p">(</span><span class="nv">process-send-string</span>
+     <span class="p">(</span><span class="nv">get-buffer-process</span> <span class="p">(</span><span class="nv">current-buffer</span><span class="p">))</span>
+     <span class="nb">string</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">endless/send-self</span> <span class="p">()</span>
+  <span class="s">"Send the pressed key to the current process."</span>
+  <span class="p">(</span><span class="nv">interactive</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">endless/send-input</span>
+   <span class="p">(</span><span class="nb">apply</span> <span class="nf">#'</span><span class="nb">string</span>
+          <span class="p">(</span><span class="nb">append</span> <span class="p">(</span><span class="nv">this-command-keys-vector</span><span class="p">)</span> <span class="no">nil</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="nb">dolist</span> <span class="p">(</span><span class="nv">key</span> <span class="o">'</span><span class="p">(</span><span class="s">"\C-d"</span> <span class="s">"\C-j"</span> <span class="s">"y"</span> <span class="s">"n"</span><span class="p">))</span>
+  <span class="p">(</span><span class="nv">define-key</span> <span class="nv">compilation-mode-map</span> <span class="nv">key</span>
+    <span class="nf">#'</span><span class="nv">endless/send-self</span><span class="p">))</span></code></pre></figure>
+<p>
+This is something I’ve run into for years, but I finally decided to fix it
+because it meant I couldn’t run Ruby’s <code>rspec</code> in the compilation buffer if my
+code contained a <code>binding.pry</code> (which spawns a REPL). Now I can actually interact
+with this REPL via <kbd>C-c i</kbd> or just quickly get rid of it with <kbd>C-d</kbd>. If you run
+into the same situation, you should also set the following option in your
+<code>.pryrc</code> file.
+</p>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Pry</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">pager</span> <span class="o">=</span> <span class="kp">false</span> <span class="k">if</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"INSIDE_EMACS"</span><span class="p">]</span></code></pre></figure>
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">Update <span class="timestamp-wrapper"><span class="timestamp">17 Jun 2016</span></span></h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+As Clément points out in the comments, you can run compilation commands in
+<code>comint-mode</code> by providing the <kbd>C-u</kbd> prefix to <kbd>M-x</kbd> <code>compile</code>. You still have
+all of the usual <code>compilation-mode</code> features (like <code>next/previous-error</code>), with
+the additional benefit that the buffer accepts input like a regular shell does.
+</p>
+
+<p>
+The only caveat is that, since the buffer is modifiable, you lose some
+convenience keys like <kbd>q</kbd> to quit the buffer or <kbd>g</kbd> to recompile, so you’ll need
+to bind them somewhere else
+</p>
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="nv">define-key</span> <span class="nv">compilation-minor-mode-map</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"&lt;f5&gt;"</span><span class="p">)</span>
+  <span class="nf">#'</span><span class="nv">recompile</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">define-key</span> <span class="nv">compilation-minor-mode-map</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"&lt;f9&gt;"</span><span class="p">)</span>
+  <span class="nf">#'</span><span class="nv">quit-window</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nv">define-key</span> <span class="nv">compilation-shell-minor-mode-map</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"&lt;f5&gt;"</span><span class="p">)</span>
+  <span class="nf">#'</span><span class="nv">recompile</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">define-key</span> <span class="nv">compilation-shell-minor-mode-map</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"&lt;f9&gt;"</span><span class="p">)</span>
+  <span class="nf">#'</span><span class="nv">quit-window</span><span class="p">)</span></code></pre></figure>
+
+<p>
+I still like it that the previous solution gives me quick access to <kbd>C-d</kbd> and
+<kbd>y/n</kbd> for those cases when I forget to use <code>comint-mode</code>, but the solution I had
+for inputting long strings is definitely redundant now. Instead, we can have a
+key that restarts the current compilation in <code>comint-mode</code>.
+</p>
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="nb">require</span> <span class="ss">'cl-lib</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">endless/toggle-comint-compilation</span> <span class="p">()</span>
+  <span class="s">"Restart compilation with (or without) `comint-mode'."</span>
+  <span class="p">(</span><span class="nv">interactive</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">cl-callf</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">mode</span><span class="p">)</span> <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">eq</span> <span class="nv">mode</span> <span class="no">t</span><span class="p">)</span> <span class="no">nil</span> <span class="no">t</span><span class="p">))</span>
+      <span class="p">(</span><span class="nb">elt</span> <span class="nv">compilation-arguments</span> <span class="mi">1</span><span class="p">))</span>
+  <span class="p">(</span><span class="nv">recompile</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nv">define-key</span> <span class="nv">compilation-mode-map</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c i"</span><span class="p">)</span>
+  <span class="nf">#'</span><span class="nv">endless/toggle-comint-compilation</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">define-key</span> <span class="nv">compilation-minor-mode-map</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c i"</span><span class="p">)</span>
+  <span class="nf">#'</span><span class="nv">endless/toggle-comint-compilation</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">define-key</span> <span class="nv">compilation-shell-minor-mode-map</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c i"</span><span class="p">)</span>
+  <span class="nf">#'</span><span class="nv">endless/toggle-comint-compilation</span><span class="p">)</span></code></pre></figure>
+</div>
+</div>
+
+   <p><a href="http://endlessparentheses.com/provide-input-to-the-compilation-buffer.html?source=rss#disqus_thread">Comment on this.</a></p>

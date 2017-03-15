@@ -142,3 +142,31 @@ File:   /home/yiddi/.spacemacs.d/layers/zilongshanren-org/packages.el
 #+END_SRC
 Link:   [[file:~/Documents/org-notes/notes.org::*Emacs%20introduction%20and%20demonstrattion][Emacs introduction and demonstrattion]]
 File:   /home/yiddi/Documents/org-notes/notes.org
+* 從源代碼中找到的三個鉤子                                :elisp:org:capture:
+#+BEGIN_SRC emacs-lisp
+(defcustom org-capture-before-finalize-hook nil
+  "Hook that is run right before a capture process is finalized.
+The capture buffer is still current when this hook runs and it is
+widened to the entire buffer."
+  :group 'org-capture
+  :version "24.1"
+  :type 'hook)
+
+(defcustom org-capture-after-finalize-hook nil
+  "Hook that is run right after a capture process is finalized.
+Suitable for window cleanup."
+  :group 'org-capture
+  :version "24.1"
+  :type 'hook)
+
+(defcustom org-capture-prepare-finalize-hook nil
+  "Hook that is run before the finalization starts.
+The capture buffer is current and still narrowed."
+  :group 'org-capture
+  :version "24.1"
+  :type 'hook)
+
+#+END_SRC
+Link:   [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el:::type%20'hook)]]
+File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
+* Code Snippet

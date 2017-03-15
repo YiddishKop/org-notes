@@ -15,3 +15,30 @@
 *** hack emacs
     like org-protocol --- capture content between chrome and emacs-org, I think it is more convinient to hack
     emacs to make has-reading-method apply smoothly.
+
+** IMAGING [#B] 把腳注調整成像有道詞典這種直接顯示的模式
+
+  [2017-03-14 Tue 12:52]
+
+** IMAGING [#B]  就想搞一個這樣的注釋,能把腳注或者其他,像有道詞典一樣顯示出來
+
+          (entry (or org-capture-entry (org-capture-select-template keys)))  ------>
+                                                                    | The template code
+                                                                    |(defun org-capture-select-template (&optional keys)
+                                                                    |  "Select a capture template.
+                                                                    |Lisp programs can force the template by setting KEYS to a string."
+                                                                    |  (let ((org-capture-templates
+                                                                    |     (or (org-contextualize-keys
+                                                                    |          org-capture-templates org-capture-templates-contexts)
+                                                                    |         '(("t" "Task" entry (file+headline "" "Tasks")
+                                                                    |    	"* TODO %?\n  %u\n  %a")))))
+                                                                    |    (if keys
+                                                                    |    (or (assoc keys org-capture-templates)
+                                                                    |        (error "No capture template referred to by \"%s\" keys" keys))
+                                                                    |      (org-mks org-capture-templates
+                                                                    |           "Select a capture template\n========================="
+                                                                    |           "Template key: "
+                                                                    |           '(("C" "Customize org-capture-templates")
+                                                                    |    	 ("q" "Abort"))))))
+
+  [2017-03-15 Wed 14:28]

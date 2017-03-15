@@ -1676,6 +1676,7 @@ WantedBy=multi-user.target
    5. 这个时候checkout出来一个分支,用来保护master分支代码 : git checkout -branch <取个分支名:eg fixUpStream> FETCH_HEAD
 
 * spacemacs
+
 ** definition
 *** hooks
     hook is a *collection of funcions* will execute after certain mode start.
@@ -1751,27 +1752,28 @@ WantedBy=multi-user.target
    |   | <spe:misc> YouDao dict                                           | Spc o y                 |                    |
    |---+------------------------------------------------------------------+-------------------------+--------------------|
 *** file
-    1. =spc f f= find file from current directory(C-h to gu up-level of directory)
-    2. =spc p f= 在当前项目中查找文件 三种主要pkg counsel-git / projectile/ ido-find-file
-    3. =spc f L= find file across the whole ubuntu system
-    4. =spc f l= find file literally (对编码格式不是本系统的有用)
-    5. =spc f h= find file in hex mode
-    6. =spc f o= 使用外部文件打开,必须先用spacemacs打开之后方可使用
-    7. =spc f E= sudo edit
-    8. =spc f D= delete current file and buffer
-    9. =spc f j= file jump the current file
-    10. =spc f r= recent files
-    11. =spc f R= rename file
-    12. =spc f v= add local variable
-    13. =spc f y= yank current buffer's full path
-    14. =spc f a d= find the current visited directory with fasd(from chenbin)
-    15. =spc f C d/u= conver file between unix and dos
-    16. =spc f e d= find the .spacemacs/init.el
-    17. =spc f e i= find .emacs.d/init.el
-    18. =spc f e l= helm locate library file(all .el file)
-    19. =spc f c= copy file
-    20. =spc f b= show bookmarsk
-    21. =spc f s= save/create buffers
+   | =spc f f=     | find file from current directory(C-h to gu up-level of directory)        |
+   | =spc p f=     | 在当前项目中查找文件 三种主要pkg counsel-git / projectile/ ido-find-file |
+   | =spc f L=     | counsel-locate :find file across the whole ubuntu system                |
+   | =spc f l=     | find file literally (对编码格式不是本系统的有用)                         |
+   | =spc f h=     | find file in hex mode                                                    |
+   | =spc f o=     | 使用外部文件打开,必须先用spacemacs打开之后方可使用                       |
+   | =spc f E=     | sudo edit                                                                |
+   | =spc f D=     | delete current file and buffer                                           |
+   | =spc f j=     | file jump the current file                                               |
+   | =spc f r=     | recent files                                                             |
+   | =spc f R=     | rename file                                                              |
+   | =spc f v=     | add local variable                                                       |
+   | =spc f y=     | yank current buffer's full path                                          |
+   | =spc f a d=   | find the current visited directory with fasd(from chenbin)               |
+   | =spc f C d/u= | conver file between unix and dos                                         |
+   | =spc f e d=   | find the .spacemacs/init.el                                              |
+   | =spc f e i=   | find .emacs.d/init.el                                                    |
+   | =spc f e l=   | helm locate library file(all .el file)                                   |
+   | =spc f c=     | copy file                                                                |
+   | =spc f b=     | show bookmarsk                                                           |
+   | =spc f s=     | save/create buffers                                                      |
+   |               |                                                                          |
 *** buffer
     1. =spc b .= buffer micro state, allways active until enter(supported by hydra)
     2. =spc b b= switch buffers
@@ -1832,8 +1834,15 @@ WantedBy=multi-user.target
     3. =spc p p= switch to project
     4. =spc p l= switch to project and create a new layout
     5. find-file-in-project is a really handy package
-
+*** elisp-function
+    | compress current function          | z-c |
+    | open function                      | z-o |
+    | ONLY open current, compress others | z-s |
+    |                                    |     |
 ** package
+*** org
+*** yasnippet
+*** pandoc
 *** TODO org-download
     URL: https://github.com/abo-abo/org-download
     setting file: [[file:~/.emacs.d/layers/+emacs/org/packages.el::(defun%20org/init-org-download%20()][org-download在配置文件中的位置]]
@@ -2114,3 +2123,8 @@ WantedBy=multi-user.target
 
 * elisp
 ** function implement demo
+* pandoc
+need install pandoc in os
+~sudo apt-get install pandoc~
+http://pandoc.org/
+http://joostkremers.github.io/pandoc-mode/

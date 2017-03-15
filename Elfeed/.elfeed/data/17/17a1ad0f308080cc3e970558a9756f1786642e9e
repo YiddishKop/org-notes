@@ -1,0 +1,83 @@
+<ul class="org-ul">
+<li>Emacs Lisp:
+<ul class="org-ul">
+<li><a href="http://irreal.org/blog/?p=5929">Resetting a defvar Value</a></li>
+<li><a href="http://emacshorrors.com/posts/strange-code.html">Strange Code</a> &#8211; dealing with faces before :inherit</li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5tqtog/what_are_the_pros_and_cons_of_emacs_everything_is/">Pros and cons of Emacs&#8217; everything is a buffer approach</a></li>
+<li><a href="https://github.com/magnars/dash.el/pull/210">Teaching the elisp byte-compiler how to optimise dash.el functions</a> (<a href="https://www.reddit.com/r/emacs/comments/5sp8xt/teaching_the_elisp_bytecompiler_how_to_optimise/">Reddit</a>)</li>
+<li><a href="https://www.reddit.com/r/spacemacs/comments/5t2mak/a_moderately_experienced_emacs_user_tries/">A moderately experienced Emacs user tries Spacemacs</a></li>
+<li><a href="https://ericabrahamsen.net/tech/2016/feb/bbdb-eieio-object-oriented-elisp.html">BBDB on EIEIO – An Introduction to Object-Oriented Emacs Lisp</a></li>
+</ul>
+</li>
+<li>Emacs development:
+<ul class="org-ul">
+<li><a href="http://git.savannah.gnu.org/cgit/emacs.git/commit/etc/NEWS?id=31b4d9a13741caae2422636d4944212e702b19c3">query-replace-from-to-separator and query-replace-read-from</a></li>
+<li><a href="http://git.savannah.gnu.org/cgit/emacs.git/commit/etc/NEWS?id=c939075b81b2b06c5ec040d7039fd20433509273">New library xdg</a></li>
+<li><a href="http://git.savannah.gnu.org/cgit/emacs.git/commit/etc/NEWS?id=14dd9101ec4838f75addf25bf6b06ef33f8a7e97">Signal list cycles</a></li>
+<li><a href="http://lists.gnu.org/archive/html/emacs-devel/2017-02/msg00535.html">Proposed reimplementation of mark-defun</a></li>
+<li><a href="http://lists.gnu.org/archive/html/emacs-devel/2017-02/msg00422.html">Long discussion of comment-cache branch</a></li>
+<li><a href="http://lists.gnu.org/archive/html/emacs-devel/2017-02/msg00361.html">Continued work on HTML, CSS, and JS modes</a></li>
+</ul>
+</li>
+<li>Coding:
+<ul class="org-ul">
+<li><a href="https://tuhdo.github.io/c-ide.html">C/C++ Development Environment for Emacs</a></li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5slhkb/what_is_your_preferred_setup_for_python/">What is your preferred setup for Python?</a></li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5t6rnt/recommended_configpackages_for_golang/">Recommended config/packages for golang</a></li>
+<li><a href="http://jr0cket.co.uk/2017/02/spacemacs-using-magit-with-github.html">Spacemacs &#8211; Using Magit With Github</a></li>
+<li><a href="https://github.com/vermiculus/magithub/releases/tag/0.1.1">Magithub 0.1.1 released – a minor revision with major updates</a></li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5t6ddv/jdecomp_decompile_java_classfiles/">JDecomp: decompile Java classfiles</a></li>
+<li><a href="https://github.com/xquery-mode/Oook-selector">xquery-mode/Oook-selector: Convenience tools for interacting with XQuery and MarkLogic</a></li>
+<li><a href="https://i.redd.it/xylcwkjtmgey.png">Forgotten gem: JDIbug is a graphical Java debugger for Emacs with cond break, watches, locals list supporting compl obj</a> (<a href="https://www.reddit.com/r/emacs/comments/5smadl/forgotten_gem_jdibug_is_a_graphical_java_debugger/">Reddit</a>)</li>
+<li><a href="https://www.bennee.com/~alex/blog/2017/02/09/checkpatch-mode/">checkpatch-mode</a></li>
+<li><a href="https://utcc.utoronto.ca/~cks/space/blog/programming/CodeEditingVimVsEmacs">My pragmatic decision on GNU Emacs versus vim for my programming</a> (2016, <a href="https://news.ycombinator.com/item?id=13590944">HN</a>)</li>
+</ul>
+</li>
+<li>Org Mode:
+<ul class="org-ul">
+<li><a href="https://www.reddit.com/r/emacs/comments/5tqn61/orgrefiletargets_based_on_current_org_file/">org-refile-targets based on current org file</a></li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5tmwkl/org_based_schedule_mode/">org based schedule mode</a></li>
+<li><a href="https://github.com/orgzly/orgzly-android">Orgzly is open source now!</a> (<a href="https://www.reddit.com/r/emacs/comments/5tgngz/orgzly_is_open_source_now/">Reddit</a>)</li>
+<li><a href="https://www.reddit.com/r/orgmode/comments/5tl76p/evernote_to_org_mode_migration/">Evernote to Org mode migration</a></li>
+<li><a href="https://www.reddit.com/r/orgmode/comments/5shz5o/orgref_introduction/">org-ref introduction</a></li>
+</ul>
+</li>
+<li>Other:
+<ul class="org-ul">
+<li><a href="http://pragmaticemacs.com/emacs/batch-edit-file-permissions-in-dired/">Batch-edit file permissions in dired</a></li>
+<li><a href="http://emacspeak.blogspot.com/2017/02/audio-deja-vu-audio-formatted-math-on.html">Audio Deja Vu: Audio Formatted Math On The Emacspeak Desktop</a></li>
+<li><a href="https://github.com/Bad-ptr/common-header-mode-line.el">Per frame mode/header-line (patches welcome:))</a> (<a href="https://www.reddit.com/r/emacs/comments/5tm0hw/per_frame_modeheaderline_patches_welcome/">Reddit</a>)</li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5tg0cw/best_way_to_manage_lots_of_email_in_the_gnus/">Best way to manage lots of email in the gnus summary buffer?</a></li>
+<li><a href="http://unconj.ca/blog/using-hledger-with-ledger-mode.html">Using hledger with ledger-mode</a></li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5t884r/xah_fly_keys_now_supports_qwerty_layout/">Xah Fly Keys, now supports QWERTY layout</a></li>
+<li><a href="https://github.com/atgreen/paperless">paperless &#8211; an emacs assisted PDF document filing tool</a> (<a href="https://www.reddit.com/r/emacs/comments/5t4r2n/paperless_an_emacs_assisted_pdf_document_filing/">Reddit</a>)</li>
+<li><a href="http://cestlaz.github.io/posts/using-emacs-27-rectangles/#.WJ0E170m-B8.reddit">Using Emacs &#8211; 28 -Rectangles</a> (<a href="https://www.reddit.com/r/emacs/comments/5t3yea/using_emacs_28_rectangles/">Reddit</a>)</li>
+<li><a href="https://vxlabs.com/2017/02/07/mu4e-0-9-18-e-mailing-with-emacs-now-even-better/">mu4e 0.9.18: E-Mailing with Emacs now even better.</a> (<a href="https://www.reddit.com/r/emacs/comments/5srva7/mu4e_0918_emailing_with_emacs_now_even_better/">Reddit</a>)</li>
+<li><a href="https://gist.github.com/xorian/be19359b644a33f9947480bc8e7c7be0">Script to send standard input into the emacs kill ring or a register</a> (<a href="https://www.reddit.com/r/emacs/comments/5sn67f/script_to_send_standard_input_into_the_emacs_kill/">Reddit</a>)</li>
+<li><a href="https://www.youtube.com/watch?v=7-EFI65kmDA">GNU Emacs #6: Shell</a> (Spanish, 11:37)</li>
+<li><a href="https://www.youtube.com/watch?v=xZpPtbInS4o">Emacs Lisp: copy-to-buffer</a> (French, 8:38), <a href="https://www.youtube.com/watch?v=RVRupRuPC5Q">Emacs Lisp</a> (8:01)</li>
+<li><a href="https://www.youtube.com/watch?v=Vswn9Wu-eA0">Installing Emacs and Spacemacs Setup from Scratch MacOS</a> (4:59)</li>
+</ul>
+</li>
+<li>New packages:
+<ul class="org-ul">
+<li><a href="http://melpa.org/#/anything-tramp" target="_blank">anything-tramp</a>: Tramp with anything interface</li>
+<li><a href="http://melpa.org/#/async-await" target="_blank">async-await</a>: Async/Await</li>
+<li><a href="http://melpa.org/#/font-lock-profiler" target="_blank">font-lock-profiler</a>: Coverage and timing tool for font-lock keywords.</li>
+<li><a href="http://melpa.org/#/goose-theme" target="_blank">goose-theme</a>: A gray color theme</li>
+<li><a href="http://melpa.org/#/green-screen-theme" target="_blank">green-screen-theme</a>: A nice color theme for those who miss green CRTs</li>
+<li><a href="http://melpa.org/#/guess-language" target="_blank">guess-language</a>: Robust automatic language detection</li>
+<li><a href="http://melpa.org/#/helm-perspeen" target="_blank">helm-perspeen</a>: helm extension for perspeen.el</li>
+<li><a href="http://melpa.org/#/helm-tramp" target="_blank">helm-tramp</a>: Tramp with helm interface</li>
+<li><a href="http://melpa.org/#/jdecomp" target="_blank">jdecomp</a>: Interface to Java decompilers</li>
+<li><a href="http://melpa.org/#/madhat2r-theme" target="_blank">madhat2r-theme</a>: dark color theme that is easy on the eyes</li>
+<li><a href="http://melpa.org/#/markdown-edit-indirect" target="_blank">markdown-edit-indirect</a>: Edit markdown code block in a separate buffer</li>
+<li><a href="http://melpa.org/#/paperless" target="_blank">paperless</a>: A major mode for sorting and filing PDF documents.</li>
+<li><a href="http://melpa.org/#/pastery" target="_blank">pastery</a>: paste snippets to pastery.net.</li>
+<li><a href="http://melpa.org/#/phan" target="_blank">phan</a>: Utility functions for Phan (PHP static analizer)</li>
+<li><a href="http://melpa.org/#/zpresent" target="_blank">zpresent</a>: Simple presentation mode based on org files.</li>
+</ul>
+</li>
+</ul>
+<p>Links from <a href="http://reddit.com/r/emacs/new">reddit.com/r/emacs</a>, <a href="http://reddit.com/r/orgmode">/r/orgmode</a>, <a href="http://reddit.com/r/spacemacs">/r/spacemacs</a>, <a href="https://hn.algolia.com/?query=emacs&amp;sort=byDate&amp;prefix&amp;page=0&amp;dateRange=all&amp;type=story">Hacker News</a>, <a href="http://planet.emacsen.org">planet.emacsen.org</a>, <a href="https://www.youtube.com/results?search_query=emacs&amp;search_sort=video_date_uploaded">Youtube</a>, the changes to the <a href="http://git.savannah.gnu.org/cgit/emacs.git/log/etc/NEWS">Emacs NEWS file</a>, and <a href="http://lists.gnu.org/archive/html/emacs-devel/2017-02/">emacs-devel</a>.</p>
+<p><a href="http://sachachua.com/blog/category/emacs-news">Past Emacs News round-ups</a></p>

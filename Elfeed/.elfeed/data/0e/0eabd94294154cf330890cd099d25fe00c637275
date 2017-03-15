@@ -1,0 +1,56 @@
+<p>
+Have you ever stopped to think about why isearch leaves point at the end of the
+match? It does make some intuitive sense to leave you after the characters you
+have just typed, but that doesn’t make it the most practical behaviour.
+</p>
+
+<p>
+This is something I’d never even given half a thought in the past, but it’s one
+of the first things a friend questioned me as he was diving into Emacs (yes, the
+same one as <a href="/a-small-improvement-to-clj-refactor.html">last week</a>). Why not leave the cursor at the start of the match,
+instead of the end?
+</p>
+
+<p>
+It’s great when someone’s fresh perspective shakes new ideas into my
+gradually-calcifying init file, so I immediately started looking for a way to do
+this. Fortunately, Google was quick to find me an answer, in <a href="https://github.com/thisirs/dotemacs/blob/master/lisp/init-isearch.el#L1">the dotfiles</a> of one
+Sylvain Rousseau. I should go through the entire file later to look for more
+snippets, but for the current purpose, the following is all we need.
+</p>
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'isearch-mode-end-hook</span>
+          <span class="nf">#'</span><span class="nv">endless/goto-match-beginning</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">endless/goto-match-beginning</span> <span class="p">()</span>
+  <span class="s">"Go to the start of current isearch match.
+Use in `isearch-mode-end-hook'."</span>
+  <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">and</span> <span class="nv">isearch-forward</span>
+             <span class="p">(</span><span class="nv">number-or-marker-p</span> <span class="nv">isearch-other-end</span><span class="p">)</span>
+             <span class="p">(</span><span class="nb">not</span> <span class="nv">mark-active</span><span class="p">)</span>
+             <span class="p">(</span><span class="nb">not</span> <span class="nv">isearch-mode-end-hook-quit</span><span class="p">))</span>
+    <span class="p">(</span><span class="nv">goto-char</span> <span class="nv">isearch-other-end</span><span class="p">)))</span></code></pre></figure>
+
+<p>
+After using this for a few days, I’ve already ran into a couple of cases where I
+would have preferred the original behaviour. Still, the net balance has been
+positive so far so it’s probably going to stay.
+</p>
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">Update <span class="timestamp-wrapper"><span class="timestamp">23 Mar 2016</span></span></h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+One alternative to the approach above is <a href="/leave-the-cursor-at-start-of-match-after-isearch.html#comment-2581635318%5D">cutejumper's suggestion</a> below, straight
+from the Emacs wiki. This will only leave point at the start of search if you
+exit the search with <kbd>C-↵</kbd> instead of <kbd>↵</kbd>.
+</p>
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="nv">define-key</span> <span class="nv">isearch-mode-map</span> <span class="nv">[</span><span class="p">(</span><span class="nv">control</span> <span class="nb">return</span><span class="p">)</span><span class="nv">]</span>
+  <span class="nf">#'</span><span class="nv">isearch-exit-other-end</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">isearch-exit-other-end</span> <span class="p">()</span>
+  <span class="s">"Exit isearch, at the opposite end of the string."</span>
+  <span class="p">(</span><span class="nv">interactive</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">isearch-exit</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">goto-char</span> <span class="nv">isearch-other-end</span><span class="p">))</span></code></pre></figure>
+</div>
+</div>
+
+   <p><a href="http://endlessparentheses.com/leave-the-cursor-at-start-of-match-after-isearch.html?source=rss#disqus_thread">Comment on this.</a></p>

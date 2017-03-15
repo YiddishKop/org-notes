@@ -1,0 +1,18 @@
+
+            
+
+            <p><strong>Q:</strong> how do I get only the duplicate elements in a list?</p>
+
+<p><code>delete-dups</code> (and <code>cl-delete-duplicates</code>) <em>deletes</em> all duplicate
+elements from a list:</p>
+
+<pre><code>(delete-dups '(a b c c d d))            ; =&gt; '(a b c d)
+</code></pre>
+
+<p>I want the reverse: is there a function that returns <em>only</em> the
+duplicates in a list?</p>
+
+<pre><code>(mystery-function '(a b c c d d))       ; =&gt; '(c d)
+</code></pre>
+
+        

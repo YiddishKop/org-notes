@@ -1,0 +1,112 @@
+<p>
+Admittedly, I’m a very late passenger in this boat &#x2014; only after 4 years of
+using Emacs did I decide to try a project manager. Nowadays I can’t even
+remember my daily workflow without <a href="https://github.com/bbatsov/projectile">Projectile</a>. This package mostly stays out of
+your way, and provides a series of useful commands for dealing with a project
+(which are aware of a lot of languages out-of-the-box). As usual, you can find
+details in <a href="https://github.com/bbatsov/projectile#synopsis">the readme</a>, and we’ll jump straight into useful configurations.
+</p>
+
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="k">setq</span> <span class="nv">projectile-keymap-prefix</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-x p"</span><span class="p">))</span></code></pre></figure>
+<p>
+This places all Projectile keybinds under <kbd>C-x p</kbd> and requires no explanation.
+<a href="/launcher-keymap-for-standalone-features.html">Mnemonic</a> <a href="/the-toggle-map-and-wizardry.html">keymaps</a> <a href="/emacs-narrow-or-widen-dwim.html">are</a> <a href="/keymap-for-launching-external-applications-and-websites.html">the</a> <a href="/multiple-cursors-keybinds.html">best</a>. Most used
+commands are <kbd>C-x p f</kbd> to find a file, and <kbd>C-x p p</kbd> to <code>switch-project</code> and
+bring up the commander menu (see below)
+</p>
+
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="k">setq</span> <span class="nv">projectile-create-missing-test-files</span> <span class="no">t</span><span class="p">)</span></code></pre></figure>
+<p>
+<kbd>C-x p t</kbd> creates test files for me.
+</p>
+
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="k">setq</span> <span class="nv">projectile-switch-project-action</span>
+      <span class="nf">#'</span><span class="nv">projectile-commander</span><span class="p">)</span></code></pre></figure>
+<p>
+By default, Projectile brings up the file-finder when you switch project with
+<kbd>C-x p p</kbd>. That’s a reasonable default, but I find a lot of times I’m also looking for 
+<code>magit-status</code> or a shell buffer. Using <code>projectile-commander</code> means I have to
+hit an extra key, but it always gets me where I want.
+</p>
+
+<p>
+Furthermore, the menu of alternatives presented by <code>projectile-commander</code> is
+very customizable, so we can add anything we want in there. 
+</p>
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="nb">require</span> <span class="ss">'projectile</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">def-projectile-commander-method</span> <span class="nv">?s</span>
+  <span class="s">"Open a *shell* buffer for the project."</span>
+  <span class="c1">;; This requires a snapshot version of Projectile.</span>
+  <span class="p">(</span><span class="nv">projectile-run-shell</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nv">def-projectile-commander-method</span> <span class="nv">?c</span>
+  <span class="s">"Run `compile' in the project."</span>
+  <span class="p">(</span><span class="nv">projectile-compile-project</span> <span class="no">nil</span><span class="p">))</span></code></pre></figure>
+<p>
+The first of those brings up a shell buffer in the project root and the second
+runs <kbd>M-x</kbd> <code>compile</code>. Both are super duper convenient for quickly running builds
+or custom commands, and which one you use is entirely up to situational
+preference.
+</p>
+
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="nv">def-projectile-commander-method</span> <span class="nv">?\C-?</span>
+  <span class="s">"Go back to project selection."</span>
+  <span class="p">(</span><span class="nv">projectile-switch-project</span><span class="p">))</span></code></pre></figure>
+<p>
+The <kbd>s</kbd> key would normally be bound to project-switching. Since we’ve changed that
+above, it’s useful to make <kbd>Backspace</kbd> take that role. This makes sense to me.
+It’s like I’m “backing out” of the commander menu.
+</p>
+
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="nv">def-projectile-commander-method</span> <span class="nv">?d</span>
+  <span class="s">"Open project root in dired."</span>
+  <span class="p">(</span><span class="nv">projectile-dired</span><span class="p">))</span></code></pre></figure>
+<p>
+By default <kbd>d</kbd> would be bound to <code>projectile-find-dir</code>, but that’s something I
+never use. <code>projectile-dired</code> takes you to the root directory instead, which I
+find more useful.
+</p>
+
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="nv">def-projectile-commander-method</span> <span class="nv">?F</span>
+  <span class="s">"Git fetch."</span>
+  <span class="p">(</span><span class="nv">magit-status</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">fboundp</span> <span class="ss">'magit-fetch-from-upstream</span><span class="p">)</span>
+      <span class="p">(</span><span class="nv">call-interactively</span> <span class="nf">#'</span><span class="nv">magit-fetch-from-upstream</span><span class="p">)</span>
+    <span class="p">(</span><span class="nv">call-interactively</span> <span class="nf">#'</span><span class="nv">magit-fetch-current</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="nv">def-projectile-commander-method</span> <span class="nv">?j</span>
+  <span class="s">"Jack-in."</span>
+  <span class="p">(</span><span class="k">let*</span> <span class="p">((</span><span class="nv">opts</span> <span class="p">(</span><span class="nv">projectile-current-project-files</span><span class="p">))</span>
+         <span class="p">(</span><span class="nv">file</span> <span class="p">(</span><span class="nv">ido-completing-read</span>
+                <span class="s">"Find file: "</span>
+                <span class="nv">opts</span>
+                <span class="no">nil</span> <span class="no">nil</span> <span class="no">nil</span> <span class="no">nil</span>
+                <span class="p">(</span><span class="nb">car</span> <span class="p">(</span><span class="nv">cl-member-if</span>
+                      <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">f</span><span class="p">)</span>
+                        <span class="p">(</span><span class="nv">string-match</span> <span class="s">"core\\.clj\\'"</span> <span class="nv">f</span><span class="p">))</span>
+                      <span class="nv">opts</span><span class="p">)))))</span>
+    <span class="p">(</span><span class="nv">find-file</span> <span class="p">(</span><span class="nv">expand-file-name</span>
+                <span class="nv">file</span> <span class="p">(</span><span class="nv">projectile-project-root</span><span class="p">)))</span>
+    <span class="p">(</span><span class="nv">run-hooks</span> <span class="ss">'projectile-find-file-hook</span><span class="p">)</span>
+    <span class="p">(</span><span class="nv">cider-jack-in</span><span class="p">)))</span></code></pre></figure>
+<p>
+These two are more situational, but I’ve found I use them a lot. Whenever I sit
+down to work, there’s a good chance I’m either going to start a REPL (<kbd>j</kbd>) or
+fetch git remotes (<kbd>F</kbd>).
+</p>
+
+<p>
+And last but not nearly least.
+</p>
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="nv">projectile-global-mode</span><span class="p">)</span></code></pre></figure>
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">Update <span class="timestamp-wrapper"><span class="timestamp">14 Apr 2016</span></span></h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+Used Projectile’s built-in <code>shell</code> and <code>compile</code> commands.
+</p>
+</div>
+</div>
+
+   <p><a href="http://endlessparentheses.com/improving-projectile-with-extra-commands.html?source=rss#disqus_thread">Comment on this.</a></p>

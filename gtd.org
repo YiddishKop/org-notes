@@ -56,8 +56,61 @@ END:
 ** TODO [#A] 繼續整理自己的全知識doc
    DEADLINE: <2017-03-13 Mon 11:30> SCHEDULED: <2017-03-14 Tue 08:00>
 
-** STARTED [#B] 學習skeleton-mode
+** STARTED [#B] 學習skeleton-mode                                  :PERSONAL:
    DEADLINE: <2017-03-14 Tue 16:00> SCHEDULED: <2017-03-14 Tue 14:00>
    :LOGBOOK:
-   CLOCK: [2017-03-14 Tue 06:58]
+   CLOCK: [2017-03-15 Wed 09:56]--[2017-03-15 Wed 13:12] =>  3:16
+   CLOCK: [2017-03-15 Wed 09:49]--[2017-03-15 Wed 09:53] =>  0:04
+   CLOCK: [2017-03-15 Wed 09:25]--[2017-03-15 Wed 09:34] =>  0:09
+   CLOCK: [2017-03-14 Tue 09:41]--[2017-03-14 Tue 11:41] =>  2:00
+   CLOCK: [2017-03-14 Tue 06:58]--[2017-03-14 Tue 07:43] =>  0:45
+   SOME-TIPS:
+         1. checklists are good for making sure that you complete tasks more
+            consistently, not missing any important steps. you can work faster
+            when there’s a guide, since you don’t have to keep thinking of the
+            next step each time. The simple act of checking things off can
+            encourage you to put in more effort, since the list shows you your
+            progress. It also makes it easier to remember to follow up.
+         2. 用鏈接來組織筆記架構,用鏈接來記錄每天任務的完成列表存檔
+
    :END:
+
+** TODO [#B] 搞清楚pandoc-mode是怎麼運行的,最好能實現自動化把html轉爲org
+   比如一旦發現download文件中出現html,就自動轉換爲某個文件夾下的org
+
+** TODO [#B] 找個模板能讓 src-block 裏的代碼背景色高粱
+
+** TODO [#B] appointment好像起作用了,看看他是如何工作的.
+   我記得應該是加在 org zilong package 位置的代碼,關於 reminder的.
+   他是12min before 提醒的,彈出了一個小buffer左下角,持續了幾秒鍾,消失了
+   看看如何設置
+   13:48左右
+
+** STARTED [#B] TEST
+#+BEGIN_SRC emacs-lisp
+(org-clock-in)
+(org-clock-is-active)
+#+END_SRC
+
+** TODO 學習這種思想
+
+         1. Checklists are good for making sure that you complete tasks more
+            consistently, not missing any important steps. You can work faster
+            when there’s a guide, since you don’t have to keep thinking of the
+            next step each time. The simple act of checking things off can
+            encourage you to put in more effort, since the list shows you your
+            progress. It also makes it easier to remember to follow up.
+         2. 用鏈接來組織筆記架構,用鏈接來記錄每天任務的完成列表存檔
+
+** TODO [#B] 監工窗臺維修進度, 2017-03-15.
+   SCHEDULED: <2017-03-17 Fri 09:30>
+   如果兩天還沒開始動工,就警告租房補償.
+   他有可能在消極怠工,拖時間.反正我就耗着,你也得住.
+   這樣,我們已經累積溝通好幾次了.這個問題必須搞好.反正現在都流行上訪投訴.
+   再不行我就打315,也剛過去沒幾天.你看着辦,我現在也不要賠償,你就給我把窗戶
+   弄好.
+
+** TODO [#B]
+
+** TODO [#B] 應該把學習編程當成翻譯課,每天練習翻譯
+   SCHEDULED: <2017-03-16 Thu 09:00>

@@ -1,0 +1,17 @@
+
+            
+
+            <p>I recently started using the <a href="http://fishshell.com/" rel="nofollow">fish</a> shell. I tried using it in <code>term-mode</code> in Emacs. One characteristic of this shell is that it shortens the current working directory before printing it as the prompt. For example, if the current directory is <code>/media</code>, the prompt will contain <code>/media</code> but if the current working directory is <code>/media/directory</code>, the prompt will be <code>/m/directory</code>. </p>
+
+<p>Because of this, Dirtrack mode in Emacs cannot keep track of the current directory, so <code>default-directory</code> is not updated. This affects some commands like <code>C-c C-f</code> which, as a prompt, suggests <code>default-directory</code>. Since this variable is not updated, the prompt will be the directory from where I started <code>term-mode</code> and not the current working directory in the shell.</p>
+
+<p>I want <code>default-directory</code> to be updated when I change directory in the shell just like how it works with bash. How can I do this?</p>
+
+<p>Caveats:</p>
+
+<ul>
+<li><p>I like this shortening feature of <code>fish-shell</code> and I don't want to change the prompt style.</p></li>
+<li><p>Since Emacs sends every key-stroke to the shell (with some exceptions), I thought to run a function every time <code>&lt;Ret&gt;</code> is pressed. But I couldn't find out how this can be done. Suggestions on this approach are welcome.</p></li>
+</ul>
+
+        

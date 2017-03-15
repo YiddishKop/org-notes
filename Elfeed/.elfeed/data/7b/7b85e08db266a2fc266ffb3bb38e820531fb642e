@@ -1,0 +1,14 @@
+
+            
+
+            <p>I'm a Vim user trying to learn Spacemacs. In Vim, I execute a Scheme program by typing <code>:mit-scheme &lt; xxx.scm</code>. After the program exits, I can continue editing simply by press <kbd>Enter</kbd>.</p>
+
+<p><a href="https://i.stack.imgur.com/6CC2Q.png" rel="nofollow noreferrer"><img src="https://i.stack.imgur.com/6CC2Q.png" alt="enter image description here"></a></p>
+
+<p>However, doing this in Spacemacs (in evil mode, of course) would create a new buffer, which I have to kill manually by typing three characters: <code>&lt;space&gt; b d</code>. This is quite inconvenient for me, because I'm a inexperienced programmer who needs to execute programs <em>very</em> frequently while debugging.</p>
+
+<p><a href="https://i.stack.imgur.com/AeGTS.png" rel="nofollow noreferrer"><img src="https://i.stack.imgur.com/AeGTS.png" alt="enter image description here"></a></p>
+
+<p>How to make execute a program more efficiently in Spacemacs? For example, I want close the output window/buffer in one keystroke. I'm also glad to know if I can replace <code>:mit-scheme &lt; xxx.scm</code> with some key bindings.</p>
+
+        

@@ -1,0 +1,89 @@
+<p>
+One of my personal favorite new additions to Emacs 25 is, in fact, completely
+invisible to most users. The new macros <code>if-let</code> and <code>when-let</code>, although simple
+in purpose, are a delight to use and are frequently finding their way into my
+code. The other two additions, <code>thread-first</code> and <code>thread-last</code>, are a bit more
+specific, and take a bit getting-used-to if you’ve never seen them before.
+</p>
+
+<p>
+The two <code>*-let</code> macros are easier to explain by just expanding them. All they do
+is summarize a very common situation for lisp programmers. Instead of writing
+this:
+</p>
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">x</span> <span class="p">(</span><span class="nv">some-func</span><span class="p">)))</span>
+  <span class="p">(</span><span class="k">if</span> <span class="nv">x</span>
+      <span class="nv">do-then</span>
+    <span class="nv">do-else</span>
+    <span class="nv">do-else-2</span><span class="p">))</span></code></pre></figure>
+<p>
+you can write this:
+</p>
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="nv">if-let</span> <span class="p">((</span><span class="nv">x</span> <span class="p">(</span><span class="nv">some-func</span><span class="p">)))</span>
+    <span class="nv">do-then</span>
+  <span class="nv">do-else</span>
+  <span class="nv">do-else-2</span><span class="p">)</span></code></pre></figure>
+<p>
+Seeing this example it shouldn’t be hard to understand <code>when-let</code> as well.
+</p>
+
+<p>
+As you can see, it’s not exactly a revolution &#x2014; you barely even save any
+typing. But that extra level of nesting you save, along with an added bit of
+clarity, for some reason makes me smile every time I get to use them.
+</p>
+
+<p>
+The threading macros are something you see all the time in Clojure (under a
+shorter name) but are probably not going to be as common in Emacs-Lisp &#x2014; your
+average Elisp code is far less functional than Clojure code. Still, they’re good
+to know as they can be a huge help in some situations. Explaining again by
+example:
+</p>
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="c1">;; First</span>
+<span class="p">(</span><span class="nv">thread-first</span> <span class="nv">x</span>
+  <span class="p">(</span><span class="nv">concat</span> <span class="nv">y</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">format</span> <span class="nv">z</span><span class="p">))</span>
+<span class="c1">;; Expands to this:</span>
+<span class="p">(</span><span class="nb">format</span> <span class="p">(</span><span class="nv">concat</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="nv">z</span><span class="p">)</span>
+
+<span class="c1">;; Last</span>
+<span class="p">(</span><span class="nv">thread-last</span> <span class="nv">x</span>
+  <span class="p">(</span><span class="nv">concat</span> <span class="nv">y</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">format</span> <span class="nv">z</span><span class="p">))</span>
+<span class="c1">;; Expands to this:</span>
+<span class="p">(</span><span class="nb">format</span> <span class="nv">z</span> <span class="p">(</span><span class="nv">concat</span> <span class="nv">y</span> <span class="nv">x</span><span class="p">))</span></code></pre></figure>
+
+<p>
+If the examples above don’t look too useful to you, that’s because they’re not.
+<code>thread-first</code> and <code>thread-last</code> are relatively short names by Elisp standards,
+but they’re still long enough that you’re almost always going to be typing
+<b>more</b>, instead of less, when you use these macros. Instead of saving space,
+their value lies in improving readability of some rather extreme scenarios
+(which are all too common in Elisp). For instance, which one of the forms below
+would you find easier to read?
+</p>
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="c1">;; This?</span>
+<span class="p">(</span><span class="nv">thread-last</span> <span class="nv">some-string</span>
+  <span class="p">(</span><span class="nv">replace-regexp-in-string</span> <span class="s">"regexp-1"</span> <span class="s">"replace-1"</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">replace-regexp-in-string</span> <span class="s">"regexp-2"</span> <span class="s">"replace-2"</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">replace-regexp-in-string</span> <span class="s">"regexp-3"</span> <span class="s">"replace-3"</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">replace-regexp-in-string</span> <span class="s">"regexp-4"</span> <span class="s">"replace-4"</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">replace-regexp-in-string</span> <span class="s">"regexp-5"</span> <span class="s">"replace-5"</span><span class="p">))</span>
+<span class="c1">;; Or this?</span>
+<span class="p">(</span><span class="nv">replace-regexp-in-string</span>
+ <span class="s">"regexp-5"</span> <span class="s">"replace-5"</span>
+ <span class="p">(</span><span class="nv">replace-regexp-in-string</span>
+  <span class="s">"regexp-4"</span> <span class="s">"replace-4"</span>
+  <span class="p">(</span><span class="nv">replace-regexp-in-string</span>
+   <span class="s">"regexp-3"</span> <span class="s">"replace-3"</span>
+   <span class="p">(</span><span class="nv">replace-regexp-in-string</span>
+    <span class="s">"regexp-2"</span> <span class="s">"replace-2"</span>
+    <span class="p">(</span><span class="nv">replace-regexp-in-string</span>
+     <span class="s">"regexp-1"</span> <span class="s">"replace-1"</span> <span class="nv">some-string</span><span class="p">)))))</span></code></pre></figure>
+
+<p>
+Finally, for those of you who use my <a href="https://elpa.gnu.org/packages/sotlisp.html">speed-of-thought-lisp</a> package, it already
+has abbrevs for these macros under <code>il</code>, <code>wl</code>, <code>tf</code>, and <code>tl</code>.</p>
+
+   <p><a href="http://endlessparentheses.com/new-in-emacs-25-1-more-flow-control-macros.html?source=rss#disqus_thread">Comment on this.</a></p>

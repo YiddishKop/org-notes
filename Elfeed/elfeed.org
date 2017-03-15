@@ -8,6 +8,7 @@
 *** http://emacs.stackexchange.com/feeds                                 :Q and A:
 *** http://sachachua.com/blog/feed/                        :hacker:lady:blog:
 *** http://endlessparentheses.com/atom.xml                      :hacker:blog:
+*** https://oremacs.com/atom.xml
 ** TEACHER BLOG                                                :teacher:blog:
 *** http://www.ruanyifeng.com/feed.html
 ** LANGUAGE                                                        :language:
@@ -18,4 +19,3 @@
 *** http://karpathy.github.io/feed.xml                            :blogGroup:
 *** https://calculatedcontent.com/feed/
 ** LINUX
-*** https://feedly.com/i/subscription/feed/http://www.tecmint.com/feed/

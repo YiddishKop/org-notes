@@ -1,0 +1,18 @@
+
+            
+
+            <p>Event using default settings (<code>emacs -Q</code>) I've found large C files can be slow to scroll with emacs.</p>
+
+<p>If for example, I open a large file and hold Page-Down. It will scroll down 1-2 pages, then hang for a second or two, on releasing the document is scrolled many pages down (20 pages or so). *</p>
+
+<p>I know emacs is capable of less erratic behavior because if I quickly tap page down, it manages to keep up and doesn't hang as before.</p>
+
+<p>Is it possible to have emacs not attempt to handle multiple events at once, and instead redraw between events?</p>
+
+<p>Or some how become more responsive instead of hanging while it attempts to process many events?</p>
+
+<hr>
+
+<p>* <sub>The actual slow-down in this case is caused by syntax highlighting, since if I scroll the entire document once, after that all scrolling is fast. I've looked into different options relating to font locking and concluded that the font locking defaults are reasonable and tweaking them doesn't solve the problem, mentioning this since I've already investigated that and don't think its an important part of this question.</sub></p>
+
+        

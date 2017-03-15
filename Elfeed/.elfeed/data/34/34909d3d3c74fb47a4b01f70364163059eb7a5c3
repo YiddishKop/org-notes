@@ -1,0 +1,10 @@
+
+            
+
+            <p>Are there any popular Emacs packages that incorporate <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Generators.html" rel="nofollow noreferrer">generators</a> in any of their user-facing functions / API?  I'm thinking of the core Emacs lisp implementation (<code>iter-defun</code>, <code>iter-yield</code>, etc.), but package use of alternatives would be fair too.</p>
+
+<p>Since generators are quite new to Emacs (only introduced in v25.1?) I'm curious about what patterns/practices have been followed in applying them on a package's surface.</p>
+
+<p>Using <a href="https://github.com/Wilfred/elisp-refs" rel="nofollow noreferrer">elisp-refs</a> I found that none of my installed packages use any Emacs core generators yet and a relatively thorough search on GitHub failed to find published package usages.</p>
+
+        

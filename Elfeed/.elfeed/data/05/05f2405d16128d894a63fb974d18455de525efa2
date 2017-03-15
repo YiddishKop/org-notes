@@ -1,0 +1,54 @@
+
+            
+
+            <p>I'm having a weird problem opening files as root. From emacs -Q, I issue <code>(require 'tramp)</code>, customize tramp-verbose to 10, and try to open a file as root: <code>C-x C-f /su::/etc/fstab</code>. I'm then prompted for my root password. Entering the password, Emacs pauses for ca. 10 seconds, then appears to open a new file called fstab, but it's not the fstab that already exists in /etc/fstab. The message about calling make-directory to create the parent directories shows up, so I've apparently opened a new file somewhere. I can't see where, exactly, as <code>C-x C-f</code>, or even <code>M-x shell-commmand pwd</code> both prompt me for the root password, and then fail.</p>
+
+<p>Despite having turned <code>tramp-verbose</code> to the maximum value, there's not much in my <strong>*Messages*</strong> buffer after all this:</p>
+
+<blockquote>
+  <p>Creating customization setup...done<br>
+  Tramp: Opening connection for root@onottra672626p using su...<br>
+  Tramp: Sending command ‘exec su - root’<br>
+  Tramp: Waiting for prompts from remote shell...<br>
+  Tramp: Sending Password<br>
+  Tramp: Waiting for prompts from remote shell...failed<br>
+  Tramp: Opening connection for root@onottra672626p using su...failed<br>
+  Use M-x make-directory RET RET to create the directory and its parents  </p>
+  
+  <p>Tramp: Checking ‘vc-registered’ for /su:root@onottra672626p:  /etc/fstab...failed<br>
+  Use M-x make-directory RET RET to create the directory and its parents<br>
+  Tramp: Opening connection for root@ using su...<br>
+  Tramp: Sending command ‘exec su - root’<br>
+  Tramp: Waiting for prompts from remote shell...<br>
+  Tramp: Sending Password<br>
+  Tramp: Waiting for prompts from remote shell...failed<br>
+  Tramp: Opening connection for root@onottra672626p using su...failed<br>
+  Quit  </p>
+</blockquote>
+
+<p>This is all on a laptop, I'm not trying to connect to another machine. </p>
+
+<p>Emacs 25.1.91.1, and confirmed again with Emacs 25.2.1.</p>
+
+<p>Any suggestions for further troubleshooting, or is this just a regular bug?</p>
+
+<h1>Update</h1>
+
+<p>The problem was due to my use of the <a href="https://github.com/banga/powerline-shell" rel="nofollow noreferrer">powerline prompt</a>. The debug-log contained the lines:</p>
+
+<pre><code>08:34:24.189824 tramp-accept-process-output (10) # *tramp/su root@....* run *tramp/su root@....*
+
+[30;41m~ [0;31m [m
+</code></pre>
+
+<p>The <code></code> symbol is provided by powerline. Tramp needs to detect shell prompts, and this unexpected character was confusing it. The fix required modifying the variable <code>tramp-shell-prompt-pattern</code> to include the new symbol:</p>
+
+<p>Original value was: 
+"\(?:^\|
+\)[^]#$%>\n]*#?[]#$%>] <em>\(\[[0-9;]</em>[a-zA-Z] <em>\)</em>"</p>
+
+<p>New new, corrected value is
+"\(?:^\|
+\)[^]#$%>\n]*#?[]#$%><code></code>] <em>\(\[[0-9;]</em>[a-zA-Z] <em>\)</em>"</p>
+
+        

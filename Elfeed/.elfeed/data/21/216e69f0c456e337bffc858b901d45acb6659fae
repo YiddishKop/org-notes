@@ -1,0 +1,50 @@
+
+            
+
+            <p>I am trying to get <code>shell-command</code> and <code>async-shell-command</code> to integrate seamlessly with a couple of programs in my <code>.bashrc</code> file, specifically <a href="http://direnv.net/">direnv</a> in this example.</p>
+
+<p>I found that if I customized <code>shell-command-switch</code>, I could get shell processes to load my profile as if it were a regular interactive login shell:</p>
+
+<pre>(setq shell-command-switch (purecopy "-ic"))
+(setq explicit-bash-args '("-ic" "export EMACS=; stty echo; bash"))</pre>
+
+<p>I am also using <a href="https://github.com/purcell/exec-path-from-shell">exec-path-from-shell</a>.  </p>
+
+<p>Say I have a <code>~/.bashrc</code> file with:</p>
+
+<pre>
+...
+
+eval "$(direnv hook $0)"
+echo "foo"
+</pre>
+
+<p>Inside <code>~/code/foo</code> I have a <code>.envrc</code> file with:</p>
+
+<pre>
+export PATH=$PWD/bin:$PATH
+echo "bar"
+</pre>
+
+<p>If I run <code>M-x shell</code> with <code>default-directory</code> set to <code>~/code/foo</code>, a bash shell will correctly load my profile and run the direnv hook to add that to my path:</p>
+
+<pre>
+direnv: loading .envrc
+bar
+direnv: export ~PATH
+~/code/foo $ echo $PATH
+/Users/username/code/foo/bin:/usr/local/bin:... # rest of $PATH
+</pre>
+
+<p>However if <code>default-directory</code> is still <code>~/code/foo</code> and I run <code>M-! echo $PATH</code>, it correctly loads my .bashrc but doesn't execute the direnv hook of the current directory:</p>
+
+<pre>
+foo
+/usr/local/bin:... # rest of $PATH without ./bin
+</pre>
+
+<p>I get the same result if I run <code>M-! cd ~/code/foo &amp;&amp; echo $PATH</code>.</p>
+
+<p>Is there a way I can advise or hook into <code>shell-command</code> or <code>start-process</code> to make it behave as if it were being sent from an interactive shell buffer?</p>
+
+        

@@ -1,0 +1,106 @@
+<h2>
+Introduction</h2>
+No team says, "write your code however the heck you want."  Unless you are coding alone, it generally helps to have an agreed upon coding standard.  Agreeing upon a coding standard, however, can be a painful process full of heated arguments and hurt feelings.  This morning I thought it might be useful to first categorize coding standard items before starting the arguments.  My hope is that once we categorize coding standard items we can use better decision criteria for each category of items and cut down on arguing.  Below are the categories I came up with really quickly with descriptions, examples, and decision criteria for each category.  Feedback is welcome in the comments.<br />
+<br />
+<h2 id="sec-2">
+Categories of Things in Coding Standards</h2>
+<h3 id="sec-2-1">
+Language Specific Pitfalls</h3>
+<h4 id="sec-2-1-1">
+Characteristics​</h4>
+<ul class="org-ul">
+<li>not subjective, easy to recognize pattern<br />
+</li>
+<li>well recognized in the industry as dangerous<br />
+</li>
+<li>people have war stories and about these with associated scares to prove it<br />
+</li>
+</ul>
+<h4 id="sec-2-1-2">
+Examples</h4>
+<ul class="org-ul">
+<li>no multiple declarations on one line in C<br />
+</li>
+<li>Cliff Cummings rules for blocking vs. non-blocking assignments in Verilog<br />
+</li>
+<li>no willy nilly gotos in C<br />
+</li>
+<li>no omitting braces for one liner blocks (or begin-end in Verilog)<br />
+</li>
+<li>no compiler warnings allowed<br />
+</li>
+</ul>
+<h4 id="sec-2-1-3">
+How to resolve disputes on which these should be in The Coding Standard?</h4>
+Defer to engineers with best war stories.  If nobody has a war story for one, you can probably omit it (or can you?).<br />
+<br />
+<h3 id="sec-2-2">
+General Readability/Maintainability</h3>
+"Any fool can write code that a computer can understand. Good programmers write code that humans can understand." –Martin Fowler<br />
+<br />
+<h4 id="sec-2-2-1">
+Characteristics</h4>
+<ul class="org-ul">
+<li>things that help humans quickly read, understand, and safely modify code<br />
+</li>
+<li>usually not language specific<br />
+</li>
+<li>the path from these items to bugs is probably not as clear as with the above items, but a path does exist<br />
+</li>
+</ul>
+<h4 id="sec-2-2-2">
+Examples</h4>
+<ul class="org-ul">
+<li>no magic numbers<br />
+</li>
+<li>no single letter variable names<br />
+</li>
+<li>keep functions short<br />
+</li>
+<li>indicators in names (_t for typedef's, p for pointers, etc.)<br />
+</li>
+</ul>
+<h4 id="sec-2-2-3">
+How to resolve disputes on which of these should be in The Coding Standard?</h4>
+If someone says, "this really helps me" then the team should suck it up and do it. This is essentially the "put the slowest hiker at the front of the group" principle.<br />
+<br />
+<br />
+Alternatively these can be discussed on a case by case basis during code reviews instead of being codified in The Coding Standard.  Be prepared for more "lively" code reviews if you go this route.<br />
+<br />
+<h3 id="sec-2-3">
+Code Formatting</h3>
+<div class="outline-text-3" id="text-2-3">
+The biggest wars often erupt over these because they are so subjective.  This doesn't have to be the case.<br />
+<br />
+<h4 id="sec-2-3-1">
+Characteristics</h4>
+<ul class="org-ul">
+<li>these probably aren't really preventing any bugs<br />
+</li>
+<li>most can easily be automatically corrected<br />
+</li>
+<li>are largely a matter of taste<br />
+</li>
+<li>only important for consistency (which is important!)<br />
+</li>
+</ul>
+<h4 id="sec-2-3-2">
+Examples</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<ul class="org-ul">
+<li>amount of indent<br />
+</li>
+<li>brace style<br />
+</li>
+<li>camelCase vs. underscore_names
+</li>
+<li>80 column rule<br />
+</li>
+<li>dare I even mention it? tabs vs. spaces<br />
+</li>
+</ul>
+<h4 id="sec-2-3-3">
+How to resolve disputes on which of these should be in The Coding Standard?</h4>
+Don't spend a long time arguing about these.  Because they are so subjective and not likely to cause or reduce bugs one way or the other, nobody should get bent out of shape if their preference is not chosen by the team.  Give everyone two minutes to make their case for their favorite, have a vote, majority wins, end of discussion.  Use an existing tool (astyle, autopep8, an emacs mode, whatever is available for the language) to help people follow these rules.<br />
+</div>
+</div>

@@ -1,0 +1,76 @@
+<ul class="org-ul">
+<li>Navigation:
+<ul class="org-ul">
+<li><a href="http://pragmaticemacs.com/emacs/add-multiple-cursors-with-mouse-clicks/">Add multiple cursors with mouse clicks</a></li>
+<li><a href="http://mbork.pl/2017-03-04_Bookmarking_directories_in_Eshell">Bookmarking directories in Eshell</a></li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5xi92h/a_scroll_wheel_mapped_to_send_a_stream_undo_and/">&#8220;A scroll wheel mapped to send a stream &#8216;undo&#8217; and &#8216;redo&#8217; events could be kind of cool.&#8221;</a></li>
+<li><a href="http://cestlaz.github.io/posts/using-emacs-31-elfeed-3/#.WLbpLi0jPoo.reddit">Using Emacs &#8211; 31 &#8211; elfeed part 3 &#8211; macros</a> (<a href="https://www.reddit.com/r/emacs/comments/5wwkg6/using_emacs_31_elfeed_part_3_macros/">Reddit</a>)</li>
+</ul>
+</li>
+<li>Appearance:
+<ul class="org-ul">
+<li><a href="http://emacsninja.com/posts/making-emacs-more-presentable.html">Making Emacs More Presentable</a></li>
+<li><a href="http://mp.vv.si/blog/emacs/show-long-filenames-in-ibuffer/">Show long filenames in ibuffer</a></li>
+<li><a href="https://ekaschalk.github.io/post/prettify-mode/">Mathematical Notation in Emacs</a></li>
+</ul>
+</li>
+<li>Emacs Lisp:
+<ul class="org-ul">
+<li><a href="http://lists.gnu.org/archive/html/emacs-devel/2017-03/msg00081.html">How to blacklist packages from being auto-installed</a> &#8211; for overriding dependencies</li>
+<li><a href="http://emacspeak.blogspot.com/2017/03/emacs-check-interactive-call-for.html">Emacs: Check Interactive Call For Emacspeak</a></li>
+</ul>
+</li>
+<li>Emacs development:
+<ul class="org-ul">
+<li>Rounding-related fixes: <a href="http://git.savannah.gnu.org/cgit/emacs.git/commit/etc/NEWS?id=44e7ee2e356452139156e8175c46f646835d27ff">format &#8220;%f&#8221;</a>, <a href="http://git.savannah.gnu.org/cgit/emacs.git/commit/etc/NEWS?id=4e2622bf0d63c40f447d44e6401ea054ef55b261">comparisons</a></li>
+<li>Floating point fixes: <a href="http://git.savannah.gnu.org/cgit/emacs.git/commit/etc/NEWS?id=53f3dd66f12660a47018fc03d50d460787ab6f64">ffloor, fceiling, ftruncate, fround</a>, <a href="http://git.savannah.gnu.org/cgit/emacs.git/commit/etc/NEWS?id=0d55c44a9a00da3b8542e92586654adeb2bcf228">error signals</a>,  <a href="http://git.savannah.gnu.org/cgit/emacs.git/commit/etc/NEWS?id=37940b347052418f0589bd52b06e56fffb594ea2">min and max</a></li>
+<li><a href="http://git.savannah.gnu.org/cgit/emacs.git/commit/etc/NEWS?id=74f87fd111904e5156727c72590d6fc4f67e8366">logb now works correctly on large integers</a></li>
+<li><a href="http://lists.gnu.org/archive/html/emacs-devel/2017-03/msg00008.html">May need to follow up on patches so they don&#8217;t fall through the cracks</a></li>
+<li><a href="http://lists.gnu.org/archive/html/emacs-devel/2017-03/msg00089.html">Manual suggestions for quit-restore documentation</a></li>
+</ul>
+</li>
+<li>Org Mode:
+<ul class="org-ul">
+<li><a href="http://whyarethingsthewaytheyare.com/setting-up-the-blog/#workflow">Setting up the blog</a> &#8211; Org Mode and Hugo, hat-tip to <a href="http://irreal.org/blog/?p=5976">Irreal</a> for the link</li>
+<li><a href="https://github.com/thiefuniverse/blog-minimal">A Simple Static Site Generator for Emacs</a> (<a href="https://www.reddit.com/r/emacs/comments/5x2fni/a_simple_static_site_generator_for_emacs_yeah/">Reddit</a>)</li>
+<li><a href="https://www.youtube.com/watch?v=e9sjhbxWJNE">Taking notes for a Juniper lab with Emacs and Org mode</a> (5:58)</li>
+<li><a href="https://www.youtube.com/watch?v=L0G72g7R-xY">Network cookbook using Emacs and Org mode</a> (1:22) and <a href="https://www.youtube.com/watch?v=jCH-gO7RfFE">applying changes, too</a> (4:27)</li>
+</ul>
+</li>
+<li>Coding:
+<ul class="org-ul">
+<li><a href="https://www.reddit.com/r/emacs/comments/5xoa8t/python_experiment_mode_new_package_around/">Python Experiment Mode &#8211; new package around</a></li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5xmg4e/evilnerdcommenter_v300/">evil-nerd-commenter v3.0.0</a></li>
+<li><a href="http://cestlaz.github.io/posts/using-emacs-32-cpp/#.WLsidOM-u7o.reddit">Using Emacs &#8211; 32 &#8211; C</a></li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5xgo5o/switch_python_interpreter/">Switch python interpreter</a></li>
+</ul>
+</li>
+<li>Other:
+<ul class="org-ul">
+<li><a href="http://mp.vv.si/blog/emacs/copying-files-between-dired-buffers/">Copying files between dired buffers</a></li>
+<li><a href="https://github.com/TatriX/pomidor/">Pomidor is a simple and cool pomodoro technique timer.</a> (<a href="https://www.reddit.com/r/emacs/comments/5xovh0/pomidor_is_a_simple_and_cool_pomodoro_technique/">Reddit</a>)</li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5xoga4/what_is_the_current_best_way_to_set_up_emacs_on/">What is the current best way to set up emacs on Windows?</a></li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5xhpht/newsticker_vs_elfeed/">Newsticker vs Elfeed</a></li>
+<li><a href="https://i.redd.it/zmhuvnbmy6jy.jpg">Steven Pinker mentions Emacs in his &#8220;The Language Instinct&#8221;</a> (<a href="https://www.reddit.com/r/emacs/comments/5xa7or/steven_pinker_mentions_emacs_in_his_the_language/">Reddit</a>)</li>
+<li><a href="http://cachestocaches.com/2017/3/complete-guide-email-emacs-using-mu-and-/">A Complete Guide to Email in Emacs using Mu and Mu4e</a> (<a href="https://www.reddit.com/r/emacs/comments/5x3qy9/a_complete_guide_to_email_in_emacs_using_mu_and/">Reddit</a>)</li>
+</ul>
+</li>
+<li>New packages:
+<ul class="org-ul">
+<li><a target="_blank" href="http://melpa.org/#/apiwrap">apiwrap</a>: api-wrapping tools</li>
+<li><a target="_blank" href="http://melpa.org/#/blog-minimal">blog-minimal</a>: a very simple static site generator based on org mode</li>
+<li><a target="_blank" href="http://melpa.org/#/elquery">elquery</a>: The HTML library for elisp.</li>
+<li><a target="_blank" href="http://melpa.org/#/exiftool">exiftool</a>: Elisp wrapper around ExifTool</li>
+<li><a target="_blank" href="http://melpa.org/#/flow-mode">flow-mode</a>: Flow type mode based on web-mode.</li>
+<li><a target="_blank" href="http://melpa.org/#/helm-ext">helm-ext</a>: A few extensions to Helm</li>
+<li><a target="_blank" href="http://melpa.org/#/korean-holidays">korean-holidays</a>: Korean holidays for calendar.</li>
+<li><a target="_blank" href="http://melpa.org/#/luarocks">luarocks</a>: luarocks tools</li>
+<li><a target="_blank" href="http://melpa.org/#/mandm-theme">mandm-theme</a>: An M&amp;M color theme.</li>
+<li><a target="_blank" href="http://melpa.org/#/nikola">nikola</a>: Simple wrapper for nikola</li>
+<li><a target="_blank" href="http://melpa.org/#/remember-last-theme">remember-last-theme</a>: Remember the last used theme between sessions.</li>
+<li><a target="_blank" href="http://melpa.org/#/sayid">sayid</a>: sayid nREPL middleware client</li>
+</ul>
+</li>
+</ul>
+<p> Links from <a href="http://reddit.com/r/emacs/new">reddit.com/r/emacs</a>, <a href="http://reddit.com/r/orgmode">/r/orgmode</a>, <a href="http://reddit.com/r/spacemacs">/r/spacemacs</a>, <a href="https://hn.algolia.com/?query=emacs&amp;sort=byDate&amp;prefix&amp;page=0&amp;dateRange=all&amp;type=story">Hacker News</a>, <a href="http://planet.emacsen.org">planet.emacsen.org</a>, <a href="https://www.youtube.com/results?search_query=emacs&amp;search_sort=video_date_uploaded">Youtube</a>, the changes to the <a href="http://git.savannah.gnu.org/cgit/emacs.git/log/etc/NEWS">Emacs NEWS file</a>, and <a href="http://lists.gnu.org/archive/html/emacs-devel/2017-03">emacs-devel</a>. </p>
+<p> <a href="http://sachachua.com/blog/category/emacs-news">Past Emacs News round-ups</a> </p>

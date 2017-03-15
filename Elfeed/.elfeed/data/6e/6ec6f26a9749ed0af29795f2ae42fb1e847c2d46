@@ -1,0 +1,23 @@
+
+            
+
+            <p>I'm trying to understand why this doesn't work, and how to make it work:</p>
+
+<pre><code>(defvar test/var-1 nil)
+(defvar test/var-2 nil)
+
+(defun make-setter (var-to-set)
+  (lambda (val-to-set)
+    (setq var-to-set val-to-set)))
+
+(defun do-the-thing ()
+  (let ((the-val 5))
+    (funcall (make-setter test/var-2) the-val)))
+
+(do-the-thing) ;; After this function is called, I'd expect 
+               ;; test/var-2 to have the value 5, but it's nil.
+</code></pre>
+
+<p>I <em>assume</em> the problem is that the call to <code>setq</code> is setting the value of the symbol <code>var-to-set</code>, overwriting the previous value of <code>test/var-2</code> with 5. How do I pass in the name of the variable to set and and set the value of that variable?</p>
+
+        

@@ -1,0 +1,73 @@
+<ul class="org-ul">
+<li>Emacs Lisp:
+<ul class="org-ul">
+<li><a href="https://github.com/cpitclaudel/easy-escape">easy-escape &#8211; syntax highlighting and composition to make ELisp regular expressions more readable</a> (<a href="https://www.reddit.com/r/emacs/comments/5yrj1y/easyescape_syntax_highlighting_and_composition_to/">Reddit</a>)</li>
+</ul>
+</li>
+<li>Emacs development:
+<ul class="org-ul">
+<li><a href="https://lists.gnu.org/archive/html/emacs-devel/2017-03/msg00222.html">GNU Emacs bug report statistics, by OS and architecture</a> (<a href="https://www.reddit.com/r/emacs/comments/5yq6jp/gnu_emacs_bug_report_statistics_by_os_and/">Reddit</a>)</li>
+<li><a href="http://git.savannah.gnu.org/cgit/emacs.git/commit/etc/NEWS?id=995be66f0f0d26d1a96cbb8dfb429c3941157771">Now installs update-game-score only on request</a></li>
+<li><a href="http://git.savannah.gnu.org/cgit/emacs.git/commit/etc/NEWS?id=550c23d326da983af082ad8f0227ace16c652021">New &#8216;switch&#8217; bytecode</a></li>
+<li><a href="http://lists.gnu.org/archive/html/emacs-devel/2017-03/msg00285.html">Tramp syntax changing</a></li>
+<li><a href="http://lists.gnu.org/archive/html/emacs-devel/2017-03/msg00276.html">Continued work on skipping unexec via big .elc</a></li>
+</ul>
+</li>
+<li>Coding:
+<ul class="org-ul">
+<li><a href="http://cestlaz.github.io/posts/using-emacs-32-cpp/#.WMYt-rkrK00">Using Emacs &#8211; 32 &#8211; C++</a></li>
+</ul>
+</li>
+<li>Org Mode:
+<ul class="org-ul">
+<li><a href="https://www.inkandben.com/org-mode-resources">Org Mode Resources</a></li>
+<li><a href="http://ehneilsen.net/notebook/orgExamples/org-examples.html">Emacs org-mode examples and cookbook</a> (<a href="https://news.ycombinator.com/item?id=1382873">HN</a>)</li>
+<li><a href="https://github.com/publicus/emacs-org-mode-for-the-laity">Show HN: Emacs&#8217; org-mode for non-Emacs users, within Emacs</a></li>
+<li><a href="http://jr0cket.co.uk/2017/03/org-mode-driven-presentations-with-org-reveal-spacemacs.html">Org-Mode Driven Presentations With Org-Reveal &amp; Spacemacs</a></li>
+<li><a href="https://github.com/tuhdo/org-recipes">A code snippet navigator and collector with Org</a> (<a href="https://www.reddit.com/r/emacs/comments/5yzga2/a_code_snippet_navigator_and_collector_with_org/">Reddit</a>)</li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5yhk1m/gantt_charts_for_orgmode/">Gantt Charts for Org-Mode</a></li>
+<li><a href="http://scripter.co/installing-bleeding-edge-hugo-goorgeous/">Installing bleeding edge Hugo + Goorgeous (org-mode)</a> (<a href="https://www.reddit.com/r/emacs/comments/5y612k/installing_bleeding_edge_hugo_goorgeous_orgmode/">Reddit</a>)</li>
+<li><a href="http://fasciism.com/2017/01/25/batch-jekyll-publishing/">Batch Jekyll publishing</a></li>
+</ul>
+</li>
+<li>Eshell:
+<ul class="org-ul">
+<li><a href="http://fasciism.com/2017/02/27/failure-to-launch/">Eshell &#8211; warn about non-zero exit status</a></li>
+<li><a href="http://fasciism.com/2017/01/29/hobo-code/">Tramp, Eshell, and finding files with sudo</a></li>
+<li><a href="http://fasciism.com/2017/01/27/eshell-kill-previous-output/">Eshell &#8211; kill previous output</a></li>
+<li><a href="http://fasciism.com/2017/01/26/eshell-customizations/">Eshell customizations</a></li>
+</ul>
+</li>
+<li>Other:
+<ul class="org-ul">
+<li><a href="https://vxlabs.com/2017/02/07/mu4e-0-9-18-e-mailing-with-emacs-now-even-better/">mu4e 0.9.18: E-Mailing with Emacs now even better</a> &#8211; hat-tip to <a href="http://irreal.org/blog/?p=5995">Irreal</a> for the link</li>
+<li><a href="http://jr0cket.co.uk/2017/03/spacemacs-managing-broken-emacs-packages.html">Spacemacs &#8211; Managing Broken Emacs Packages</a></li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5z2s75/take_elfeed_everywhere_mobile_rss_reading/">Take Elfeed everywhere: Mobile rss reading Emacs-style (for free/cheap)</a></li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5yzi26/control_spotify_search_and_select_music_with_helm/">Control Spotify search and select music with HELM (plus-version)</a></li>
+<li><a href="https://github.com/tttuuu888/korean-holidays">Simple package for korean emacs users. korean-holidays.el</a> (<a href="https://www.reddit.com/r/emacs/comments/5xzt14/simple_package_for_korean_emacs_users/">Reddit</a>)</li>
+<li><a href="https://news.ycombinator.com/item?id=13853647">Ask HN: Emacs Users, what&#8217;s in your .emacs file? (2017)</a></li>
+<li><a href="http://dustycloud.org/blog/wireworld-in-emacs/">Wireworld in Emacs – DustyCloud Brainstorms</a></li>
+<li><a href="http://fasciism.com/2017/02/15/dired-limiting/">Dired limiting</a></li>
+</ul>
+</li>
+<li>New packages:
+<ul class="org-ul">
+<li><a href="http://melpa.org/#/auto-virtualenvwrapper" target="_blank">auto-virtualenvwrapper</a>: Auto activate python virtualenvs</li>
+<li><a href="http://melpa.org/#/elisp-docstring-mode" target="_blank">elisp-docstring-mode</a>: Major mode for editing elisp docstrings.</li>
+<li><a href="http://melpa.org/#/gtk-pomodoro-indicator" target="_blank">gtk-pomodoro-indicator</a>: A pomodoro indicator for the GTK tray</li>
+<li><a href="http://melpa.org/#/helm-spotify-plus" target="_blank">helm-spotify-plus</a>: Control Spotify, search and select music with Helm.</li>
+<li><a href="http://melpa.org/#/highlight-context-line" target="_blank">highlight-context-line</a>: Improve orientation when scrolling</li>
+<li><a href="http://melpa.org/#/historian" target="_blank">historian</a>: Persistently store selected minibuffer candidates</li>
+<li><a href="http://melpa.org/#/ivy-historian" target="_blank">ivy-historian</a>: Persistently store selected minibuffer candidates</li>
+<li><a href="http://melpa.org/#/literal-string" target="_blank">literal-string</a>: edit string literals in a dedicated buffer</li>
+<li><a href="http://melpa.org/#/magit-lfs" target="_blank">magit-lfs</a>: Magit plugin for Git LFS</li>
+<li><a href="http://melpa.org/#/org-notebook" target="_blank">org-notebook</a>: Ease the use of org-mode as a notebook</li>
+<li><a href="http://melpa.org/#/ox-epub" target="_blank">ox-epub</a>: Export org mode projects to EPUB</li>
+<li><a href="http://melpa.org/#/pomidor" target="_blank">pomidor</a>: Simple and cool pomodoro timer</li>
+<li><a href="http://melpa.org/#/project-shells" target="_blank">project-shells</a>: Manage the shell buffers of each project</li>
+<li><a href="http://melpa.org/#/ssass-mode" target="_blank">ssass-mode</a>: Edit Sass without a Turing Machine</li>
+</ul>
+</li>
+</ul>
+<p>Links from <a href="http://reddit.com/r/emacs/new">reddit.com/r/emacs</a>, <a href="http://reddit.com/r/orgmode">/r/orgmode</a>, <a href="http://reddit.com/r/spacemacs">/r/spacemacs</a>, <a href="https://hn.algolia.com/?query=emacs&amp;sort=byDate&amp;prefix&amp;page=0&amp;dateRange=all&amp;type=story">Hacker News</a>, <a href="http://planet.emacsen.org">planet.emacsen.org</a>, <a href="https://www.youtube.com/results?search_query=emacs&amp;search_sort=video_date_uploaded">Youtube</a>, the changes to the <a href="http://git.savannah.gnu.org/cgit/emacs.git/log/etc/NEWS">Emacs NEWS file</a>, and <a href="http://lists.gnu.org/archive/html/emacs-devel/2017-03">emacs-devel</a>.</p>
+<p><a href="http://sachachua.com/blog/category/emacs-news">Past Emacs News round-ups</a></p>

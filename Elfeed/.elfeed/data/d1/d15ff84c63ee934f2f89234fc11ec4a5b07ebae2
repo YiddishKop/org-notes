@@ -1,0 +1,55 @@
+<ul class="org-ul">
+<li>Emacs Lisp:
+<ul class="org-ul">
+<li><a href="http://mbork.pl/2017-02-05_Opening_parenthesis_at_the_line_beginning">Opening parenthesis at the line beginning</a></li>
+<li><a href="http://nullprogram.com/blog/2017/01/30/">How to Write Fast(er) Emacs Lisp</a> (<a href="https://www.reddit.com/r/emacs/comments/5r8qqr/how_to_write_faster_emacs_lisp/">Reddit</a>)</li>
+<li><a href="http://mbork.pl/2017-01-30_Current_Emacs_version">Current Emacs version</a></li>
+<li><a href="https://github.com/chuntaro/emacs-async-await">Async/Await for Emacs</a></li>
+<li><a href="http://www.holgerschurig.de/en/emacs-tayloring-the-built-in-mode-line/">Tailoring the built-in Emacs Mode line</a></li>
+<li><a href="https://www.youtube.com/watch?v=m_Oj_6Bjryw">Emacs Lisp (13:30)</a> &#8211; French</li>
+</ul>
+</li>
+<li>Emacs development:
+<ul class="org-ul">
+<li><a href="https://github.com/vkazanov/elfuse">FUSE filesystems in Emacs Lisp</a> (<a href="https://www.reddit.com/r/emacs/comments/5r73jo/fuse_filesystems_in_emacs_lisp/">Reddit</a>)</li>
+<li><a href="http://lists.gnu.org/archive/html/emacs-devel/2017-02/msg00161.html">Discussion on using CEDET modules from Emacs</a></li>
+</ul>
+</li>
+<li>Coding:
+<ul class="org-ul">
+<li><a href="https://www.reddit.com/r/emacs/comments/5roq5l/cbox_comment_block_editing_for_c_like_languages/">cbox – Comment block editing for C like languages</a></li>
+</ul>
+</li>
+<li>Org Mode:
+<ul class="org-ul">
+<li><a href="https://www.reddit.com/r/emacs/comments/5rwe1h/copy_snippet_in_orgmode_template_block_to_system/">Copy snippet in org-mode template block to system clipboard</a></li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5rsxua/how_to_do_structured_search_on_thousands_of/">How to do structured search on thousands of org-syntax files?</a></li>
+<li><a href="https://i.reddituploads.com/fb2427f6289a4f58b22d2192f37d37d6?fit=max&amp;amp;h=1536&amp;amp;w=1536&amp;amp;s=0ac256a4f8597c826507b54d0bab4425">MobileOrg for iOS has just been updated!</a> (<a href="https://www.reddit.com/r/emacs/comments/5r9ynj/mobileorg_for_ios_has_just_been_updated/">Reddit</a>)</li>
+<li><a href="https://www.reddit.com/r/orgmode/comments/5rivn7/how_get_started_with_orgmode_for_write_scientific/">how get started with orgmode for write scientific papers?</a></li>
+</ul>
+</li>
+<li>Input devices:
+<ul class="org-ul">
+<li><a href="http://www.blogbyben.com/2017/01/adventures-in-hardware-hacking-adding.html">Adventures in hardware hacking: adding foot pedal support to emacs</a></li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5s306p/keyboard_recommendation/">Keyboard recommendation?</a></li>
+<li><a href="https://thisissavo.github.io/programming/music/2017/02/03/an-unexpected-toolbox-for-a-beginner-programmer.html">An Unexpected Toolbox for a Beginner Programmer: Emacs-Colemak-SandS and why do I use this combination</a> (<a href="https://www.reddit.com/r/emacs/comments/5rw8zy/an_unexpected_toolbox_for_a_beginner_programmer/">Reddit</a>)</li>
+</ul>
+</li>
+<li>Other:
+<ul class="org-ul">
+<li><a href="http://manuel-uberti.github.io/emacs/2017/02/04/guess-language/">Automatic language detection for Flyspell</a> &#8211; guess-language</li>
+<li><a href="http://pragmaticemacs.com/emacs/customise-the-reply-quote-string-in-mu4e/">Customise the reply quote string in mu4e</a></li>
+<li><a href="https://github.com/therockmandolinist/emacs-hacker-typer">My first package: emacs-hacker-typer</a> (<a href="https://www.reddit.com/r/emacs/comments/5sa084/my_first_package_emacshackertyper/">Reddit</a>)</li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5rnpsm/nice_hydra_to_set_frame_transparency/">Nice hydra to set frame transparency</a></li>
+<li><a href="http://www.gkayaalp.com/emacs-argument.html">An argument for Emacs</a></li>
+<li><a href="https://news.ycombinator.com/item?id=13566147">Show HN: Personal finance with &#8216;hledger&#8217; in Emacs</a></li>
+</ul>
+</li>
+<li>Other projects:
+<ul class="org-ul">
+<li><a href="http://wilfred.me.uk/blog/2017/02/05/these-weeks-in-remacs/">These Weeks in Remacs</a></li>
+</ul>
+</li>
+</ul>
+<p>Links from <a href="http://reddit.com/r/emacs/new">reddit.com/r/emacs</a>, <a href="http://reddit.com/r/orgmode">/r/orgmode</a>, <a href="http://reddit.com/r/spacemacs">/r/spacemacs</a>, <a href="https://hn.algolia.com/?query=emacs&amp;sort=byDate&amp;prefix&amp;page=0&amp;dateRange=all&amp;type=story">Hacker News</a>, <a href="http://planet.emacsen.org">planet.emacsen.org</a>, <a href="https://www.youtube.com/results?search_query=emacs&amp;search_sort=video_date_uploaded">Youtube</a>, the changes to the <a href="http://git.savannah.gnu.org/cgit/emacs.git/log/etc/NEWS">Emacs NEWS file</a>, and <a href="http://lists.gnu.org/archive/html/emacs-devel/2017-02/">emacs-devel</a>.</p>
+<p><a href="http://sachachua.com/blog/category/emacs-news">Past Emacs News round-ups</a></p>

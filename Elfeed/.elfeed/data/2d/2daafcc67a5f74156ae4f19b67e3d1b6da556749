@@ -1,0 +1,58 @@
+<p>
+As laptop touchpads seem to be steadily increasing in size, one unfortunate
+consequence is that it becomes increasingly harder to avoid touching them by
+accident while you type. Most systems have safeguards in place that disable the
+touchpad as you’re typing, but they always seem to fall short for me when it
+comes to Emacs. While in Emacs, my hands are permanently resting on the keyboard
+(and over the touchpad), so even if I stop typing for several seconds I don’t
+want the touchpad to reactivate.
+</p>
+
+<p>
+There are ways to permanently deactivate the touchpad with a hotkey, but, so
+far, the solution that best fits my use-style is to disable it only inside
+Emacs.
+</p>
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="nv">define-minor-mode</span> <span class="nv">disable-mouse-mode</span>
+  <span class="s">"A minor-mode that disables all mouse keybinds."</span>
+  <span class="ss">:global</span> <span class="no">t</span>
+  <span class="ss">:lighter</span> <span class="s">" 🐭"</span>
+  <span class="ss">:keymap</span> <span class="p">(</span><span class="nv">make-sparse-keymap</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nb">dolist</span> <span class="p">(</span><span class="k">type</span> <span class="o">'</span><span class="p">(</span><span class="nv">mouse</span> <span class="nv">down-mouse</span> <span class="nv">drag-mouse</span>
+                      <span class="nv">double-mouse</span> <span class="nv">triple-mouse</span><span class="p">))</span>
+  <span class="p">(</span><span class="nb">dolist</span> <span class="p">(</span><span class="nv">prefix</span> <span class="o">'</span><span class="p">(</span><span class="s">""</span> <span class="nv">C-</span> <span class="nv">M-</span> <span class="nv">S-</span> <span class="nv">M-S-</span> <span class="nv">C-M-</span> <span class="nv">C-S-</span> <span class="nv">C-M-S-</span><span class="p">))</span>
+    <span class="c1">;; Yes, I actually HAD to go up to 7 here.</span>
+    <span class="p">(</span><span class="nb">dotimes</span> <span class="p">(</span><span class="nv">n</span> <span class="mi">7</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">k</span> <span class="p">(</span><span class="nb">format</span> <span class="s">"%s%s-%s"</span> <span class="nv">prefix</span> <span class="k">type</span> <span class="nv">n</span><span class="p">)))</span>
+        <span class="p">(</span><span class="nv">define-key</span> <span class="nv">disable-mouse-mode-map</span>
+          <span class="p">(</span><span class="nb">vector</span> <span class="p">(</span><span class="nb">intern</span> <span class="nv">k</span><span class="p">))</span> <span class="nf">#'</span><span class="k">ignore</span><span class="p">)))))</span></code></pre></figure>
+<p>
+All we do here is define a minor-mode that binds all mouse-related keys to
+<code>ignore</code>. This is a slight improvement over the code on <a href="http://stackoverflow.com/questions/4906534/disable-mouse-clicks-in-emacs/4906698#4906698">this StackOverflow
+answer</a>. Of course, let’s not forget to enable this.
+</p>
+<figure class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="nv">disable-mouse-mode</span> <span class="mi">1</span><span class="p">)</span></code></pre></figure>
+<p>
+Two relevant limitations:
+</p>
+<ul class="org-ul">
+<li>This doesn’t distinguish between a touchpad an an actual mouse.</li>
+<li>It is still possible for modes to define specific buttons that interact with
+the mouse, but that’s not a huge problem because these buttons take a small
+portion of the screen so it’s fairly difficult to touch them by accident.</li>
+</ul>
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">Update <span class="timestamp-wrapper"><span class="timestamp">29 Jun 2016</span></span></h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+By mere coincidence, it looks like Steve Purcell implemented something extremely
+similar (comment below). Unlike me, he actually had the decency of wrapping the
+minor-mode in a <a href="https://github.com/purcell/disable-mouse">Melpa package</a>, and I know some might prefer that over
+lengthening their init file.
+</p>
+</div>
+</div>
+
+   <p><a href="http://endlessparentheses.com/disable-mouse-only-inside-emacs.html?source=rss#disqus_thread">Comment on this.</a></p>

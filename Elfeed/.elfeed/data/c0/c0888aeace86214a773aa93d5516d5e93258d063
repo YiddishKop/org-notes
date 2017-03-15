@@ -1,0 +1,10 @@
+
+            
+
+            <p>When I run <code>#'helm-find-files</code>, and move point to a directory, pressing <code>&lt;ret&gt;</code> results in opening that directory in dired mode. One has to press <code>C-j</code> to enter that directory in Helm.</p>
+
+<p>I'd like to have <code>&lt;RET&gt;</code> act as <code>C-j</code> does here, but not necessarily everywhere else. I checked, and <code>C-j</code> is bound to <code>#'helm-maybe-exit-minibuffer</code>, whereas <code>&lt;RET&gt;</code> is bound to <code>#'helm-execute-persistent-action</code>. Binding <code>&lt;RET&gt;</code> to <code>#'helm-maybe-exit-minibuffer</code> works for this case, but breaks other cases: for example, the helm autocomplete in <code>describe-function</code>.</p>
+
+<p>So, when using Helm to find a file, how can I make pressing <code>&lt;RET&gt;</code> open that directory in Helm?</p>
+
+        

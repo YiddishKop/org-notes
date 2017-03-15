@@ -1,0 +1,10 @@
+
+            
+
+            <p>Is there a way to programmatically determine whether a given unicode character will render as tofu in some context in Emacs?</p>
+
+<p>Some bug-flavored (U+1F41B) tofu renders in a face using DejaVu Sans Mono:</p>
+
+<p><a href="https://i.stack.imgur.com/ayazN.png" rel="nofollow noreferrer"><img src="https://i.stack.imgur.com/ayazN.png" alt="helm-unicode display of U+1F41B"></a></p>
+
+        

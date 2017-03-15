@@ -1,0 +1,79 @@
+<ul class="org-ul">
+<li>Org Mode:
+<ul class="org-ul">
+<li><a href="http://pragmaticemacs.com/emacs/a-shortcut-to-my-favourite-org-mode-agenda-view/">A shortcut to my favourite org-mode agenda view</a></li>
+<li><a href="http://mbork.pl/2017-01-22_Current_headline_or_path_in_Org-mode">Current headline or path in Org-mode</a></li>
+<li><a href="https://github.com/schmendrik/OrgClockTray">OrgClockTray: Display your org-mode clock time in a tray icon in Windows&#8217; Taskbar</a></li>
+<li><a href="http://kitchingroup.cheme.cmu.edu/blog/2017/01/21/Exporting-org-mode-to-Jupyter-notebooks/">Exporting org-mode to Jupyter notebooks</a></li>
+<li><a href="https://www.reddit.com/r/orgmode/comments/5p3g3t/archive_articles_from_various_sources_to_org_file/">Archive articles from various sources to org file via IFTTT and Dropbox</a></li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5p7wha/org_capture_reminders_google/">org capture / reminders / … Google.</a></li>
+<li><a href="https://www.reddit.com/r/orgmode/comments/5odzem/accept_calendar_invitation_icalics_in_mail/">accept calendar invitation (ical/ics) in mail (x-post from /r/orgmode)</a></li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5oyml2/any_todoist_user_interested_in_collaborating_on/">Any Todoist user interested in collaborating on &#8220;org-todoist&#8221;?</a></li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5oimrs/managing_dotfiles_with_org_mode/">Managing dotfiles with org mode?</a></li>
+</ul>
+</li>
+<li>Coding:
+<ul class="org-ul">
+<li><a href="http://fasciism.com/2017/01/24/x509-mode/">X509 Mode</a> &#8211; for viewing SSL certificates</li>
+<li><a href="http://fasciism.com/2017/01/20/cycling-home/">Cycling Home</a> &#8211; beginning of line or indentation</li>
+<li><a href="https://www.youtube.com/watch?v=J5jxMRlXvDw">Run Scheme on Emacs &#8211; Ubuntu</a> (4:22)</li>
+</ul>
+</li>
+<li>Emacs Lisp:
+<ul class="org-ul">
+<li><a href="https://www.reddit.com/r/emacs/comments/5p4oia/free_emacs_lisp_learning_resources/">Free Emacs Lisp learning Resources</a></li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5p475u/is_there_a_way_to_invoke_a_command_only_when_the/">Is there a way to invoke a command only when the <b>first</b> time a package is being loaded?</a></li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5orbsy/how_to_read_a_password_from_gnu_pass/">How to read a password from GNU pass?</a></li>
+</ul>
+</li>
+<li>Emacs development:
+<ul class="org-ul">
+<li><a href="http://puntoblogspot.blogspot.com/2017/01/git-contribution-spans-emacs-case-study.html">git contribution spans (emacs case study)</a></li>
+<li><a href="http://git.savannah.gnu.org/cgit/emacs.git/commit/etc/NEWS?id=ad29e145b16cf2966e3a9df884cbc234f1ae3e51">New function region-bounds</a></li>
+<li><a href="http://git.savannah.gnu.org/cgit/emacs.git/commit/etc/NEWS?id=07d15164271270d09464863d7ec2bfce62d65085">New frame parameter inhibit-double-buffering</a></li>
+<li><a href="http://lists.gnu.org/archive/html/emacs-devel/2017-01/msg00483.html">Discussion of behaviour of desktop-read and -nw</a></li>
+<li><a href="http://lists.gnu.org/archive/html/emacs-devel/2017-01/msg00481.html">Progress on with-url</a></li>
+<li><a href="http://lists.gnu.org/archive/html/emacs-devel/2017-01/msg00324.html">Continued discussion of strategy for CEDET merge</a></li>
+</ul>
+</li>
+<li>Proxies:
+<ul class="org-ul">
+<li><a href="https://www.youtube.com/watch?v=UlgO5VFXg9c">How to Install Emacs in Ubuntu Using Proxy</a> (3:32)</li>
+<li><a href="https://github.com/ninrod/emacs-antiproxy">ninrod/emacs-antiproxy: an anti proxy setup using git repo mirrors of package archives</a> (<a href="https://www.reddit.com/r/emacs/comments/5op4wy/ninrodemacsantiproxy_an_anti_proxy_setup_using/">Reddit</a>)</li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5omdia/at_work_trying_to_install_packages_in_emacs_cant/">At work trying to install packages in Emacs cant connect to server</a> &#8211; proxy, user agent</li>
+</ul>
+</li>
+<li>Other:
+<ul class="org-ul">
+<li><a href="https://www.reddit.com/r/emacs/comments/5p7pwd/why_do_you_like_emacs/">Why do you like Emacs?</a></li>
+<li><a href="https://www.youtube.com/watch?v=JdF1QZQqiTI">Emacs Tutorial for Beginners &#8211; Simply Explained</a> (7:36)</li>
+<li><a href="http://puntoblogspot.blogspot.com/2017/01/autocomplete-erc-nicks-with-sign-for.html">Autocomplete erc nicks with @ sign (for slack)</a></li>
+<li><a href="https://github.com/hsjunnesson/wolfram.el">WolframAlpha integration with Emacs</a> (<a href="https://www.reddit.com/r/emacs/comments/5oo51r/wolframalpha_integration_with_emacs/">Reddit</a>)</li>
+<li><a href="https://www.reddit.com/r/emacs/comments/5oakde/cliphist_v050_read_from_clipboard_managers/">cliphist v0.5.0 (read from clipboard managers)</a></li>
+<li><a href="https://github.com/syl20bnr/spacemacs/commit/273e1e94d63ab7674d0481cec9ac2516874c62d2">Spacemacs is getting its own ELPA</a> (<a href="https://www.reddit.com/r/spacemacs/comments/5ogqa2/spacemacs_is_getting_its_own_elpa/">Reddit</a>)</li>
+<li><a href="https://www.wisdomandwonder.com/article/10504/a-hydra-for-country-business-marks">A Hydra For Country Business Marks</a></li>
+<li><a href="http://fasciism.com/2017/01/23/i-am-your-everywhere/">I am your everywhere</a> &#8211; server-mode</li>
+<li><a href="http://fasciism.com/2017/01/21/waiting-for-tonight/">Waiting For Tonight</a> &#8211; midnight-mode</li>
+</ul>
+</li>
+<li>Related projects:
+<ul class="org-ul">
+<li><a href="http://wilfred.me.uk/blog/2017/01/19/this-week-in-remacs/">This Week in Remacs</a> (<a href="https://www.reddit.com/r/emacs/comments/5p1hz4/this_week_in_remacs/">Reddit</a>) &#8211; Emacs port to Rust</li>
+<li><a href="http://lisperator.net/slip/idedoc">Ymacs, an Emacs-like editor for the web, with a lisp REPL</a> (<a href="https://www.reddit.com/r/emacs/comments/5oibl6/ymacs_an_emacslike_editor_for_the_web_with_a_lisp/">Reddit</a>)</li>
+</ul>
+</li>
+<li>New packages:
+<ul class="org-ul">
+<li><a href="http://melpa.org/#/bshell" target="_blank">bshell</a>: manage and track multiple inferior shells</li>
+<li><a href="http://melpa.org/#/el-patch" target="_blank">el-patch</a>: Future-proof your Emacs Lisp customizations!</li>
+<li><a href="http://melpa.org/#/eldoc-overlay-mode" target="_blank">eldoc-overlay-mode</a>: Display eldoc with contextual documentation overlay.</li>
+<li><a href="http://melpa.org/#/flycheck-kotlin" target="_blank">flycheck-kotlin</a>: Support kotlin in flycheck</li>
+<li><a href="http://melpa.org/#/github-pullrequest" target="_blank">github-pullrequest</a>: Create and fetch Github Pull requests with ease</li>
+<li><a href="http://melpa.org/#/mbsync" target="_blank">mbsync</a>: run mbsync to fetch mails</li>
+<li><a href="http://melpa.org/#/morganey-mode" target="_blank">morganey-mode</a>: Major mode for editing Morganey files</li>
+<li><a href="http://melpa.org/#/promise" target="_blank">promise</a>: This is a simple implementation of Promises/A+.</li>
+</ul>
+</li>
+</ul>
+<p>Links from <a href="http://reddit.com/r/emacs/new">reddit.com/r/emacs</a>, <a href="http://reddit.com/r/orgmode">/r/orgmode</a>, <a href="http://reddit.com/r/spacemacs">/r/spacemacs</a>, <a href="https://hn.algolia.com/?query=emacs&amp;sort=byDate&amp;prefix&amp;page=0&amp;dateRange=all&amp;type=story">Hacker News</a>, <a href="http://planet.emacsen.org">planet.emacsen.org</a>, <a href="https://www.youtube.com/results?search_query=emacs&amp;search_sort=video_date_uploaded">Youtube</a>, the changes to the <a href="http://git.savannah.gnu.org/cgit/emacs.git/log/etc/NEWS">Emacs NEWS file</a>, and <a href="http://lists.gnu.org/archive/html/emacs-devel/2017-01">emacs-devel</a>.</p>
+<p><a href="http://sachachua.com/blog/category/emacs-news">Past Emacs News round-ups</a></p>

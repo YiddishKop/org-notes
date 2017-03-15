@@ -1,0 +1,8 @@
+
+            
+
+            <p>Any existing package that can do incremental search inside a function definition instead of the whole buffer?</p>
+
+<p>Now the best I can do is to turn on <code>semantic-mode</code> along with <code>semantic-stickyfunc-mode</code> and carefully search within its scope. </p>
+
+        
