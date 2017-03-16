@@ -170,3 +170,26 @@ The capture buffer is current and still narrowed."
 Link:   [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el:::type%20'hook)]]
 File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
 * Code Snippet
+xxxxxxxxxxxxxxxxxxxx [fn:1] [fn:good]
+
+oooooooooooooooooooo [fn:2][fn:3]
+
+* Footnotes
+   dotspacemacs-additional-packages
+     '((helm-spotify :location (recipe :fetcher github :repo "syl20bnr/helm-spotify")))
+[fn:3] sdfsdfsdfsdfsdfsdfsdfsdfsdf
+
+[fn:2] sdfsdfsdfsdf
+
+[fn:good] this is a well done
+
+#+BEGIN_SRC emacs-lisp
+(org-footnote--goto-local-insertion-point)
+
+#+END_SRC
+
+[fn:1] nihao a 1st
+#+BEGIN_SRC emacs-lisp
+(defun xxx() (message "xxxx"))
+
+#+END_SRC

@@ -3539,36 +3539,36 @@ Recognized properties are:
 
 **** MESSY orgcapture中經常出現的plist ,看來是 emacs中一種常用的數據結構
 
-   plist-get is a built-in function in *‘C source code’*.
+     plist-get is a built-in function in *‘C source code’*.
 
-   (plist-get PLIST PROP)
+     (plist-get PLIST PROP)
 
-   Extract a value from a property list.
-   PLIST is a property list, which is a list of the form
-   (PROP1 VALUE1 PROP2 VALUE2...).
+     Extract a value from a property list.
+     PLIST is a property list, which is a list of the form
+     (PROP1 VALUE1 PROP2 VALUE2...).
 
-   而且emacs似乎存了很多個 plist 分別有不同用途
+     而且emacs似乎存了很多個 plist 分別有不同用途
 
-   This function returns the value
-   corresponding to the given PROP, or nil if PROP is not one of the
-   properties on the list.  This function never signals an error.
+     This function returns the value
+     corresponding to the given PROP, or nil if PROP is not one of the
+     properties on the list.  This function never signals an error.
 
-    Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(plist-get%20org-store-link-plist%20:annotation)]]
-   File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
+     Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(plist-get%20org-store-link-plist%20:annotation)]]
+     File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
 
 **** MESSY 學習這種編程技巧,似乎像一種倒敘的手法
      你看他給一個變量賦值, 是這麼用的:
-    (let* ((orig-buf (current-buffer))
-          (annotation (if (and (boundp 'org-capture-link-is-already-stored)
-                   org-capture-link-is-already-stored)
-                  (plist-get org-store-link-plist :annotation)
-                (ignore-errors (org-store-link nil))))
+     (let* ((orig-buf (current-buffer))
+     (annotation (if (and (boundp 'org-capture-link-is-already-stored)
+     org-capture-link-is-already-stored)
+     (plist-get org-store-link-plist :annotation)
+     (ignore-errors (org-store-link nil))))
 
-    Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(ignore-errors%20(org-store-link%20nil))))]]
-   File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
+     Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(ignore-errors%20(org-store-link%20nil))))]]
+     File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
 
 **** MESSY 解析 org-capture 函數源代碼
-#+BEGIN_SRC emacs-lisp
+     #+BEGIN_SRC emacs-lisp
    (defun org-capture (&optional goto keys) ;; goto 就是通過c-u傳遞的屬性,表示是否不capture任何東西,直接定位到目的地
                                             ;; keys 就是按下f9之後看到的各種不同template的字母
      (interactive "P")
@@ -3683,22 +3683,22 @@ Recognized properties are:
             "Could not start the clock in this capture buffer")))
          (if (org-capture-get :immediate-finish)
              (org-capture-finalize)))))))))                         ;org-capture執行完畢,他主要是新建了一個indirect-buffer,並且把模板插入其中了.
-#+END_SRC
+     #+END_SRC
 
-   Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(defun%20org-capture%20(&optional%20goto%20keys)]]
-   File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
+     Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(defun%20org-capture%20(&optional%20goto%20keys)]]
+     File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
 
-這個函數的執行階段,就想一根主線上掛了很多個鉤子,每個鉤子又是一個主線,也能掛其他鉤子一樣:
+     這個函數的執行階段,就想一根主線上掛了很多個鉤子,每個鉤子又是一個主線,也能掛其他鉤子一樣:
 
-org-capture ----------------------------------------------------------------------------------------------------------------------------------------->
-                   \
-                   \
-                   select-tempate
-                   ---------------------->
-                         \          \
-                         \          \
-                         assoc      mks
-                         ---->      --->
+     org-capture ----------------------------------------------------------------------------------------------------------------------------------------->
+     \
+     \
+     select-tempate
+     ---------------------->
+     \          \
+     \          \
+     assoc      mks
+     ---->      --->
 
 
 **** MESSY 這個 ork-mks 經常搭配 assoc 使用,用來從這個table數據結構中做選則
@@ -3745,30 +3745,30 @@ org-capture --------------------------------------------------------------------
      File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
 
 **** MESSY 一般的elisp形式
----------------------------------------------------------------
+     ---------------------------------------------------------------
      變量名賦值:
      (let ((變量1  (expre1)))
      這個expre甚至可以是if語句,或者另一個函數
-#+BEGIN_SRC emacs-lisp
+     #+BEGIN_SRC emacs-lisp
 
     (let* ((orig-buf (current-buffer))
 	   (annotation (if (and (boundp 'org-capture-link-is-already-stored)
 				org-capture-link-is-already-stored)
 			   (plist-get org-store-link-plist :annotation)
 			 (ignore-errors (org-store-link nil))))
-#+END_SRC
+     #+END_SRC
 
----------------------------------------------------------------
+     ---------------------------------------------------------------
      函數調用:
      (函數名 (expre1))
      這個expre1甚至可以是另一個函數調用
-#+BEGIN_SRC emacs-lisp
+     #+BEGIN_SRC emacs-lisp
 	      (org-capture-place-template
 	       (eq (car (org-capture-get :target)) 'function))
-#+END_SRC
----------------------------------------------------------------
-   Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(org-capture-place-template]]
-   File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
+     #+END_SRC
+     ---------------------------------------------------------------
+     Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(org-capture-place-template]]
+     File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
 
 **** MESSY elisp 編程技巧
 
@@ -3776,7 +3776,7 @@ org-capture --------------------------------------------------------------------
 
      得益於, elisp表達式返回nil和其他值,而nil爲空,其他值一律被認爲真.
      所以 if 更靈活:
----------------------------------------------
+     ---------------------------------------------
      如果有兩個函數,在他們都成功時,才執行另一個表達式:
 
      #+BEGIN_SRC emacs-lisp
@@ -3784,21 +3784,176 @@ org-capture --------------------------------------------------------------------
           (exp1))
      #+END_SRC
 
----------------------------------------------
-      如果想在判定一個變量賦是否被成功賦值,該怎麼做:
-      #+BEGIN_SRC emacs-lisp
+     ---------------------------------------------
+     如果想在判定一個變量賦是否被成功賦值,該怎麼做:
+     #+BEGIN_SRC emacs-lisp
 
       (if (exist-p (setq <這個變量> (exp))))
 
          (if (file-exists-p
           (setq file (expand-file-name (nth 1 txt) org-directory)))
-      #+END_SRC
+     #+END_SRC
 
-    Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(setq%20file%20(expand-file-name%20(nth%201%20txt)%20org-directory)))]]
-   File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
+     Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(setq%20file%20(expand-file-name%20(nth%201%20txt)%20org-directory)))]]
+     File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
 
 **** MESSY 盤點一個值是否存在,不存在就給他賦值,這句話怎麼翻譯
      (setq buffer (or buffer (current-buffer)))
 
-    Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(setq%20buffer%20(or%20buffer%20(current-buffer)))]]
-   File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
+     Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(setq%20buffer%20(or%20buffer%20(current-buffer)))]]
+     File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
+
+**** MESSY hotkey: 如何尋找emacs lib 源代碼
+     | spc o h | hydr-apropos/body |
+     在裏面可以找到各種你想要的文檔和東西,都分好類的
+*** 2017-03-16 Thursday
+
+**** MESSY  elisp中的名字 空間: define-namespace
+     define-namespace is an autoloaded Lisp macro in ‘names.el’.
+
+     (define-namespace NAME [KEYWORD ...] BODY)
+
+     Inside the namespace NAME, execute BODY.
+     NAME can be any symbol (not quoted), but it’s highly recommended
+     to use some form of separator (such as :, /, or -). For a
+     complete description of this macro, please visit the frontpage
+     with M-x names-view-manual.
+
+     In summary, this macro has two main effects:
+
+     1. Any definitions inside BODY will have NAME prepended to the
+     symbol given. Ex:
+
+     (define-namespace foo-
+     (defvar bar 1 "docs")
+     )
+
+     expands to
+
+     (defvar foo-bar 1 "docs")
+
+
+     2. Any function calls and variable names get NAME prepended to
+     them if such a variable or function exists. Ex:
+
+     (define-namespace foo:
+     (defun message (x y) nil)
+     (message "%s" my-var)
+     )
+
+     expands to
+
+     (defun foo:message (x y) nil)
+     (foo:message "%s" my-var)
+
+     Link:   [[help:define-namespace]]
+     File:
+
+**** MESSY 如何從格式化字符串獲得整個字符串
+     format is a built-in function in ‘C source code’.
+
+     (format STRING &rest OBJECTS)
+
+     Format a string out of a format-string and arguments.
+     The first argument is a format control string.
+     The other arguments are substituted into it to make the result, a string.
+
+     The format control string may contain %-sequences meaning to substitute
+     the next available argument:
+
+     %s means print a string argument.  Actually, prints any object, with ‘princ’.
+     %d means print as number in decimal (%o octal, %x hex).
+     %X is like %x, but uses upper case.
+     %e means print a number in exponential notation.
+     %f means print a number in decimal-point notation.
+     %g means print a number in exponential notation
+     or decimal-point notation, whichever uses fewer characters.
+     %c means print a number as a single character.
+     %S means print any object as an s-expression (using ‘prin1’).
+
+     Link:   [[help:format]]
+     File:
+
+**** MESSY 如何設置一個常量
+     #+BEGIN_SRC emacs-lisp
+     ;;注意這裏最後帶有一個 %s 佔位符,是方便之後嵌入query-word的
+     (defconst api-url
+        "http://fanyi.youdao.com/openapi.do?keyfrom=YouDaoCV&key=659600698&type=data&doctype=json&version=1.1&q=%s"
+        "Youdao dictionary API template, URL `http://dict.youdao.com/'.")
+
+     (defun -format-request-url (query-word)
+     "Format QUERY-WORD as a HTTP request URL."
+        (format api-url (url-hexify-string query-word)))
+     #+END_SRC
+
+     Link:   [[file:~/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el::"Youdao%20dictionary%20API%20template,%20URL%20`http://dict.youdao.com/'.")]]
+     File:   /home/yiddi/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el
+
+**** MESSY add word to a file
+       (append-to-file (concat word "\n") nil search-history-file))
+
+   Link:   [[file:~/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el::(append-to-file%20(concat%20word%20"\n")%20nil%20search-history-file))]]
+   File:   /home/yiddi/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el
+
+**** MESSY 如何獲取 光標選擇的 區域的字符
+     (if (use-region-p)
+         (buffer-substring-no-properties (region-beginning)
+                                         (region-end))
+
+   Link:   [[file:~/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el::(region-end))]]
+   File:   /home/yiddi/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el
+
+**** MESSY hotkey: , g g goto defintion of function
+   '
+   Link:   [[file:/usr/local/share/emacs/25.1/lisp/thingatpt.el.gz::(defun%20thing-at-point%20(thing%20&optional%20no-properties)]]
+   File:   /usr/local/share/emacs/25.1/lisp/thingatpt.el.gz
+
+**** MESSY , 開頭的大部分和elisp編譯代碼有關
+   '
+   Link:   [[file:~/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el::(thing-at-point%20(if%20use-chinese-word-segmentation]]
+   File:   /home/yiddi/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el
+
+**** MESSY  看看如何使用 mapconcat 對每一個字符使用同一個函數.
+     -------------------------------------
+mapconcat is a built-in function in ‘src/fns.c’.
+
+(mapconcat FUNCTION SEQUENCE SEPARATOR)
+
+Apply FUNCTION to each element of SEQUENCE, and concat the results as strings.
+In between each pair of results, stick in SEPARATOR.  Thus, " " as
+SEPARATOR results in spaces between the values returned by FUNCTION.
+SEQUENCE may be a list, a vector, a bool-vector, or a string.
+
+
+            ;; construct data for display
+            (phonetic (assoc-default 'phonetic basic))
+            (translation-str (mapconcat
+                              (lambda (trans) (concat "- " trans))
+                              translation "\n"))
+
+   Link:   [[file:~/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el::translation%20"\n"))]]
+   File:   /home/yiddi/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el
+
+**** MESSY 家具價格
+     | 家具        | 價格 | 備注 |
+     |-------------+------+------|
+     | 轉角沙發    | 6700 |      |
+     | 茶幾        | 1640 |      |
+     | 餐桌+4*餐椅 | 3000 |      |
+     | 電視櫃      | 1890 |      |
+
+**** MESSY 高清 footnote 的definition 和 reference.
+     你在文檔裏嵌入的叫做  reference
+     在你腳注裏注明的叫做  definition
+      A footnote is started by a footnote marker in square brackets in
+   column 0, no indentation allowed.  It ends at the next footnote
+   definition, headline, or after two consecutive empty lines.  The
+   footnote reference is simply the marker in square brackets, inside
+   text.  Markers always start with `fn:'.  For example:
+
+        The Org homepage[fn:1] now looks a lot better than it used to.
+        ...
+        [fn:1] The link is: http://orgmode.org
+
+   Link:   [[info:org#Footnotes][info:org#Footnotes]]
+   File:

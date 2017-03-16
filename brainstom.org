@@ -16,9 +16,20 @@
     like org-protocol --- capture content between chrome and emacs-org, I think it is more convinient to hack
     emacs to make has-reading-method apply smoothly.
 
-** IMAGING [#B] 把腳注調整成像有道詞典這種直接顯示的模式
+** STARTED [#B] 把腳注調整成像有道詞典這種直接顯示的模式               :proj:
+   :LOGBOOK:
+   CLOCK: [2017-03-16 Thu 16:30]--[2017-03-16 Thu 17:13] =>  0:43
+   :END:
+
 
   [2017-03-14 Tue 12:52]
+
+  - [ ] 給 org-footnote-create 加個wrapper, 讓其在新的buffer中新建這個筆記,就像org-capture一樣
+  -  (defun org-footnote-at-reference-p () [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-footnote.el::(defun%20org-footnote-at-reference-p%20()]]  [2017-03-16 Thu 16:31]
+
+  -  (line-number-at-pos) can get line num of current line  [2017-03-16 Thu 16:37]
+
+  -  (defun org-footnote-get-definition (label) [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-footnote.el::(defun%20org-footnote-get-definition%20(label)]]  [2017-03-16 Thu 17:09]
 
 ** IMAGING [#B]  就想搞一個這樣的注釋,能把腳注或者其他,像有道詞典一樣顯示出來
 
@@ -42,3 +53,8 @@
                                                                     |    	 ("q" "Abort"))))))
 
   [2017-03-15 Wed 14:28]
+
+** IMAGING [#B] 把每天emacs上收集的任務和知識,自動整理好發到郵箱裏
+
+
+  [2017-03-16 Thu 13:36]
