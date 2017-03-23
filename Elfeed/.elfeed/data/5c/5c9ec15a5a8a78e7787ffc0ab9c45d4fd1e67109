@@ -1,0 +1,69 @@
+<p>Have you fully understood how Python 2 and Python 3 deal with bytes and
+    Unicode? Have you watched <a href="https://nedbatchelder.com/text/unipain.html">Pragmatic Unicode</a>
+    (also known as the Unicode Sandwich, or unipain) forwards and backwards?
+    You're a Unicode expert! Nothing surprises you any more.</p><p>Until you try IronPython...</p><p>Turns out IronPython 2.7.7 has str as unicode!</p><blockquote class="code"><code><span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Ned</span><span class="o">&gt;</span><span class="s">&quot;\Program&#xA0;Files\IronPython&#xA0;2.7\ipy.exe&quot;</span>
+<br /><span class="n">IronPython</span>&#xA0;<span class="mf">2.7</span><span class="o">.</span><span class="mi">7</span>&#xA0;<span class="p">(</span><span class="mf">2.7</span><span class="o">.</span><span class="mf">7.0</span><span class="p">)</span>&#xA0;<span class="n">on</span>&#xA0;<span class="o">.</span><span class="n">NET</span>&#xA0;<span class="mf">4.0</span><span class="o">.</span><span class="mf">30319.42000</span>&#xA0;<span class="p">(</span><span class="mi">32</span><span class="o">-</span><span class="n">bit</span><span class="p">)</span>
+<br /><span class="n">Type</span>&#xA0;<span class="s">&quot;help&quot;</span><span class="p">,</span>&#xA0;<span class="s">&quot;copyright&quot;</span><span class="p">,</span>&#xA0;<span class="s">&quot;credits&quot;</span>&#xA0;<span class="ow">or</span>&#xA0;<span class="s">&quot;license&quot;</span>&#xA0;<span class="k">for</span>&#xA0;<span class="n">more</span>&#xA0;<span class="n">information</span><span class="o">.</span>
+<br /><span class="o">&gt;&gt;&gt;</span>&#xA0;<span class="s">&quot;abc&quot;</span>
+<br /><span class="s">'abc'</span>
+<br /><span class="o">&gt;&gt;&gt;</span>&#xA0;<span class="nb">type</span><span class="p">(</span><span class="s">&quot;abc&quot;</span><span class="p">)</span>
+<br /><span class="o">&lt;</span><span class="nb">type</span>&#xA0;<span class="s">'str'</span><span class="o">&gt;</span>
+<br /><span class="o">&gt;&gt;&gt;</span>&#xA0;<span class="s">u&quot;abc&quot;</span>
+<br /><span class="s">'abc'</span>
+<br /><span class="o">&gt;&gt;&gt;</span>&#xA0;<span class="nb">type</span><span class="p">(</span><span class="s">u&quot;abc&quot;</span><span class="p">)</span>
+<br /><span class="o">&lt;</span><span class="nb">type</span>&#xA0;<span class="s">'str'</span><span class="o">&gt;</span>
+<br /><span class="o">&gt;&gt;&gt;</span>&#xA0;<span class="nb">str</span>&#xA0;<span class="ow">is</span>&#xA0;<span class="nb">unicode</span>
+<br /><span class="bp">True</span>
+<br /><span class="o">&gt;&gt;&gt;</span>&#xA0;<span class="nb">str</span>&#xA0;<span class="ow">is</span>&#xA0;<span class="nb">bytes</span>
+<br /><span class="bp">False</span>
+<br /></code></blockquote><p>String literals work kind of like they do in Python 2: \u escapes are
+    recognized in u"" strings, but not "" strings, but they both produce the
+    same type:</p><blockquote class="code"><code><span class="o">&gt;&gt;&gt;</span>&#xA0;<span class="s">&quot;abc</span><span class="se">\u1234</span><span class="s">&quot;</span>
+<br /><span class="s">'abc</span><span class="se">\\</span><span class="s">u1234'</span>
+<br /><span class="o">&gt;&gt;&gt;</span>&#xA0;<span class="s">u&quot;abc</span><span class="se">\u1234</span><span class="s">&quot;</span>
+<br /><span class="s">u'abc</span><span class="se">\u1234</span><span class="s">'</span>
+<br /></code></blockquote><p>Notice that the repr of this str/unicode type will use a u-prefix if any
+    character is non-ASCII, but it the string is all ASCII, then the prefix is
+    omitted.</p><p>OK, so how do we get a true byte string? I guess we could encode a unicode
+    string? WRONG. Encoding a unicode string produces another unicode string
+    with the encoded byte values as code points!:</p><blockquote class="code"><code><span class="o">&gt;&gt;&gt;</span>&#xA0;<span class="s">u&quot;abc</span><span class="se">\u1234</span><span class="s">&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;utf8&quot;</span><span class="p">)</span>
+<br /><span class="s">u'abc</span><span class="se">\xe1\x88\xb4</span><span class="s">'</span>
+<br /><span class="o">&gt;&gt;&gt;</span>&#xA0;<span class="nb">type</span><span class="p">(</span><span class="n">_</span><span class="p">)</span>
+<br /><span class="o">&lt;</span><span class="nb">type</span>&#xA0;<span class="s">'str'</span><span class="o">&gt;</span>
+<br /></code></blockquote><p>Surely we could at least read the bytes from a file with mode "rb"? WRONG.</p><blockquote class="code"><code><span class="o">&gt;&gt;&gt;</span>&#xA0;<span class="nb">type</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">&quot;foo.py&quot;</span><span class="p">,</span>&#xA0;<span class="s">&quot;rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+<br /><span class="o">&lt;</span><span class="nb">type</span>&#xA0;<span class="s">'str'</span><span class="o">&gt;</span>
+<br /><span class="o">&gt;&gt;&gt;</span>&#xA0;<span class="nb">type</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">&quot;foo.py&quot;</span><span class="p">,</span>&#xA0;<span class="s">&quot;rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>&#xA0;<span class="ow">is</span>&#xA0;<span class="nb">unicode</span>
+<br /><span class="bp">True</span>
+<br /></code></blockquote><p>On top of all this, I couldn't find docs that explain that this happens.
+    The <a class="offsite" rel="external" href="http://ironpython.net/documentation/">IronPython docs</a> just
+    say, "Since IronPython is a implementation of Python 2.7, any Python
+    documentation is useful when using IronPython," and then links to the
+    python.org documentation.</p><p>A decade-old article on InfoQ, <a href="https://www.infoq.com/news/2007/06/IronPython-STR">The IronPython, Unicode, and Fragmentation Debate</a>,
+    discusses this decision, and points out correctly that it's due to needing
+    to mesh well with the underlying .NET semantics.  It seems very odd not to
+    have documented it some place.  Getting coverage.py working even minimally
+    on IronPython was an afternoon's work of discovering each of these oddnesses
+    empirically.</p><p>Also, that article quotes Guido van Rossum (from a comment on <a class="offsite" rel="external" href="http://techblog.ironfroggy.com/2007/06/python-ironpython-apples-and-oranges.html">Calvin Spealman's blog</a>):</p><blockquote><div><p>You realize that Jython has exactly the same str==unicode issue,
+    right? I've endorsed this approach for both versions from the start. So
+    I don't know what you are so bent out of shape about.</p></div></blockquote><p>I guess things have changed with Jython in the intervening ten years,
+    because it doesn't behave that way now:</p><blockquote class="code"><code><span class="err">$</span>&#xA0;<span class="n">jython</span>
+<br /><span class="n">Jython</span>&#xA0;<span class="mf">2.7</span><span class="o">.</span><span class="mi">1</span><span class="n">b3</span>&#xA0;<span class="p">(</span><span class="n">default</span><span class="p">:</span><span class="n">df42d5d6be04</span><span class="p">,</span>&#xA0;<span class="n">Feb</span>&#xA0;<span class="mi">3</span>&#xA0;<span class="mi">2016</span><span class="p">,</span>&#xA0;<span class="mo">03</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mi">46</span><span class="p">)</span>
+<br /><span class="p">[</span><span class="n">Java</span>&#xA0;<span class="n">HotSpot</span><span class="p">(</span><span class="n">TM</span><span class="p">)</span>&#xA0;<span class="mi">64</span><span class="o">-</span><span class="n">Bit</span>&#xA0;<span class="n">Server</span>&#xA0;<span class="n">VM</span>&#xA0;<span class="p">(</span><span class="n">Oracle</span>&#xA0;<span class="n">Corporation</span><span class="p">)]</span>&#xA0;<span class="n">on</span>&#xA0;<span class="n">java1</span><span class="o">.</span><span class="mf">8.0</span><span class="n">_31</span>
+<br /><span class="n">Type</span>&#xA0;<span class="s">&quot;help&quot;</span><span class="p">,</span>&#xA0;<span class="s">&quot;copyright&quot;</span><span class="p">,</span>&#xA0;<span class="s">&quot;credits&quot;</span>&#xA0;<span class="ow">or</span>&#xA0;<span class="s">&quot;license&quot;</span>&#xA0;<span class="k">for</span>&#xA0;<span class="n">more</span>&#xA0;<span class="n">information</span><span class="o">.</span>
+<br /><span class="o">&gt;&gt;&gt;</span>&#xA0;<span class="s">'abc'</span>
+<br /><span class="s">'abc'</span>
+<br /><span class="o">&gt;&gt;&gt;</span>&#xA0;<span class="nb">type</span><span class="p">(</span><span class="n">_</span><span class="p">)</span>
+<br /><span class="o">&lt;</span><span class="nb">type</span>&#xA0;<span class="s">'str'</span><span class="o">&gt;</span>
+<br /><span class="o">&gt;&gt;&gt;</span>&#xA0;<span class="nb">str</span>&#xA0;<span class="ow">is</span>&#xA0;<span class="nb">unicode</span>
+<br /><span class="bp">False</span>
+<br /><span class="o">&gt;&gt;&gt;</span>&#xA0;<span class="nb">type</span><span class="p">(</span><span class="s">&quot;abc&quot;</span><span class="p">)</span>
+<br /><span class="o">&lt;</span><span class="nb">type</span>&#xA0;<span class="s">'str'</span><span class="o">&gt;</span>
+<br /><span class="o">&gt;&gt;&gt;</span>&#xA0;<span class="nb">type</span><span class="p">(</span><span class="s">u&quot;abc&quot;</span><span class="p">)</span>
+<br /><span class="o">&lt;</span><span class="nb">type</span>&#xA0;<span class="s">'unicode'</span><span class="o">&gt;</span>
+<br /><span class="o">&gt;&gt;&gt;</span>&#xA0;<span class="s">u&quot;abc&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;ascii&quot;</span><span class="p">)</span>
+<br /><span class="s">'abc'</span>
+<br /><span class="o">&gt;&gt;&gt;</span>&#xA0;<span class="s">u&quot;abc&quot;</span>
+<br /><span class="s">u'abc'</span>
+<br /></code></blockquote><p>If you want to support IronPython, be prepared to rethink how you deal with
+    bytes and Unicode.  I haven't run the whole coverage.py test suite on
+    IronPython, so I don't know if other oddities are lurking there.</p>

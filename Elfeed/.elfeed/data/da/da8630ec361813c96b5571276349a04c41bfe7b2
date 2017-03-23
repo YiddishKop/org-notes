@@ -1,0 +1,67 @@
+
+            
+
+            <p>I am trying to understand, what some functions are doing, in order to code something similar.</p>
+
+<p>The following example was copied from the file <code>acro.el</code> from the AUCTeX package.  This is just a random example, as any other style-file from AUCTeX will do.</p>
+
+<p>In <code>acro.el</code> you will find</p>
+
+<pre class="lang-lisp prettyprint-override"><code>...
+ (TeX-add-symbols
+    ;; Creating New Acronyms
+    '("DeclareAcronym" LaTeX-arg-define-acro-acronym
+      (LaTeX-arg-acro-key-val "Definition of acronym (k=v)"
+                  LaTeX-acro-declareacronym-keys))
+...)
+</code></pre>
+
+<p>I do interpret this, that if you want to insert the macro <code>\DeclareAcronym</code> into your LaTeX-buffer, (by running the command <code>TeX-insert-macro</code>, bound to <KBD>CTRL-c</KBD><KBD>CTRL-m</KBD>) AUCTeX will first run the function <code>LaTeX-arg-define-acro-acronym</code>.</p>
+
+<p>This---in return---is defined this way:</p>
+
+<pre class="lang-lisp prettyprint-override"><code>(defun LaTeX-arg-define-acro-acronym (optional &amp;optional prompt)
+  "Prompt for an acronym completing with known acronyms.
+If OPTIONAL is non-nil, insert the resulting value as an optional
+argument, otherwise as a mandatory one.  Use PROMPT as the prompt
+string."
+  (LaTeX-arg-acro-acronym optional prompt t))
+</code></pre>
+
+<p>As far, as I have understood LISP, the function <code>LaTeX-arg-define-acro-acronym</code> has to be called with one mandatory argument.  You may also give it a second, optional argument.</p>
+
+<p>Therefore, calls as this</p>
+
+<pre class="lang-lisp prettyprint-override"><code>(LaTeX-arg-define-acro-acronym t)
+(LaTeX-arg-define-acro-acronym t "Acronym to define: ")
+</code></pre>
+
+<p>should be correct.  In fact, I can execute those commands in the <em>scratch</em> buffer without error.</p>
+
+<p>But, as you saw above, the function is called without the mandatory argument and even without the parentheses <code>()</code>:</p>
+
+<pre class="lang-lisp prettyprint-override"><code>LaTeX-arg-define-acro-acronym
+</code></pre>
+
+<p>Can someone explain to me, why this is working and why emacs is not throwing an error?  When I try this in the <code>*scratch*</code>-buffer, I get an error</p>
+
+<blockquote>
+  <p>Symbol's value as variable is void</p>
+</blockquote>
+
+<p>When I add parentheses, I get this error message in the minibuffer</p>
+
+<blockquote>
+  <p>Wrong number of arguments</p>
+</blockquote>
+
+<p>Digging further into the code, I found, that <code>LaTeX-arg-define-acro-acronym</code> calls the function <code>LaTeX-arg-acro-acronym</code>.  This time, the mandatory OPTIONAL and both optional arguments PROMPT and DEFINITION are handed over. Again, copied from acro.el:</p>
+
+<pre class="lang-lisp prettyprint-override"><code>(LaTeX-arg-acro-acronym optional prompt t)
+</code></pre>
+
+<p>This time the parentheses <code>()</code> are used.</p>
+
+<p>I am asking myself, what value OPTIONAL, PROMPT and DEFINITION do get, as they haven't been defined (as far as I can see).  (Are there any defaults, I have missed?)</p>
+
+        

@@ -1,0 +1,10 @@
+
+            
+
+            <p>I know I have eclim setup correctly because everything else works, I.E I can do autocomplete, jump to definition etc. I can even see problems with eclim-problems. However, when I make a syntax error, the error is not being highlighted with a red line like I thought it should do. Is there anything I have to turn on? </p>
+
+<p>I even checked my faces and found eclim-problems-highlight-error-face and it has a nice red underline like it should. Everything works except for the highlighting itself.</p>
+
+<p>Edit: O.K weirdly the problem seems to have half fixed itself. It must have been hung or something. However, there is now a new problem. When I mouse over the problems highlighted, it doesn't tell me what the problem is in the minibuffer like I would expect</p>
+
+        

@@ -3890,49 +3890,49 @@ Recognized properties are:
      File:   /home/yiddi/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el
 
 **** MESSY add word to a file
-       (append-to-file (concat word "\n") nil search-history-file))
+     (append-to-file (concat word "\n") nil search-history-file))
 
-   Link:   [[file:~/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el::(append-to-file%20(concat%20word%20"\n")%20nil%20search-history-file))]]
-   File:   /home/yiddi/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el
+     Link:   [[file:~/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el::(append-to-file%20(concat%20word%20"\n")%20nil%20search-history-file))]]
+     File:   /home/yiddi/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el
 
 **** MESSY 如何獲取 光標選擇的 區域的字符
      (if (use-region-p)
-         (buffer-substring-no-properties (region-beginning)
-                                         (region-end))
+     (buffer-substring-no-properties (region-beginning)
+     (region-end))
 
-   Link:   [[file:~/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el::(region-end))]]
-   File:   /home/yiddi/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el
+     Link:   [[file:~/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el::(region-end))]]
+     File:   /home/yiddi/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el
 
 **** MESSY hotkey: , g g goto defintion of function
-   '
-   Link:   [[file:/usr/local/share/emacs/25.1/lisp/thingatpt.el.gz::(defun%20thing-at-point%20(thing%20&optional%20no-properties)]]
-   File:   /usr/local/share/emacs/25.1/lisp/thingatpt.el.gz
+     '
+     Link:   [[file:/usr/local/share/emacs/25.1/lisp/thingatpt.el.gz::(defun%20thing-at-point%20(thing%20&optional%20no-properties)]]
+     File:   /usr/local/share/emacs/25.1/lisp/thingatpt.el.gz
 
 **** MESSY , 開頭的大部分和elisp編譯代碼有關
-   '
-   Link:   [[file:~/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el::(thing-at-point%20(if%20use-chinese-word-segmentation]]
-   File:   /home/yiddi/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el
+     '
+     Link:   [[file:~/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el::(thing-at-point%20(if%20use-chinese-word-segmentation]]
+     File:   /home/yiddi/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el
 
 **** MESSY  看看如何使用 mapconcat 對每一個字符使用同一個函數.
      -------------------------------------
-mapconcat is a built-in function in ‘src/fns.c’.
+     mapconcat is a built-in function in ‘src/fns.c’.
 
-(mapconcat FUNCTION SEQUENCE SEPARATOR)
+     (mapconcat FUNCTION SEQUENCE SEPARATOR)
 
-Apply FUNCTION to each element of SEQUENCE, and concat the results as strings.
-In between each pair of results, stick in SEPARATOR.  Thus, " " as
-SEPARATOR results in spaces between the values returned by FUNCTION.
-SEQUENCE may be a list, a vector, a bool-vector, or a string.
+     Apply FUNCTION to each element of SEQUENCE, and concat the results as strings.
+     In between each pair of results, stick in SEPARATOR.  Thus, " " as
+     SEPARATOR results in spaces between the values returned by FUNCTION.
+     SEQUENCE may be a list, a vector, a bool-vector, or a string.
 
 
-            ;; construct data for display
-            (phonetic (assoc-default 'phonetic basic))
-            (translation-str (mapconcat
-                              (lambda (trans) (concat "- " trans))
-                              translation "\n"))
+     ;; construct data for display
+     (phonetic (assoc-default 'phonetic basic))
+     (translation-str (mapconcat
+     (lambda (trans) (concat "- " trans))
+     translation "\n"))
 
-   Link:   [[file:~/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el::translation%20"\n"))]]
-   File:   /home/yiddi/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el
+     Link:   [[file:~/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el::translation%20"\n"))]]
+     File:   /home/yiddi/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el
 
 **** MESSY 家具價格
      | 家具        | 價格 | 備注 |
@@ -3941,19 +3941,768 @@ SEQUENCE may be a list, a vector, a bool-vector, or a string.
      | 茶幾        | 1640 |      |
      | 餐桌+4*餐椅 | 3000 |      |
      | 電視櫃      | 1890 |      |
-
+     | 窗簾        | 2889 |      |
+---------------------------------------
+Total: 16119 rmb
 **** MESSY 高清 footnote 的definition 和 reference.
      你在文檔裏嵌入的叫做  reference
      在你腳注裏注明的叫做  definition
-      A footnote is started by a footnote marker in square brackets in
-   column 0, no indentation allowed.  It ends at the next footnote
-   definition, headline, or after two consecutive empty lines.  The
-   footnote reference is simply the marker in square brackets, inside
-   text.  Markers always start with `fn:'.  For example:
+     A footnote is started by a footnote marker in square brackets in
+     column 0, no indentation allowed.  It ends at the next footnote
+     definition, headline, or after two consecutive empty lines.  The
+     footnote reference is simply the marker in square brackets, inside
+     text.  Markers always start with `fn:'.  For example:
 
-        The Org homepage[fn:1] now looks a lot better than it used to.
-        ...
-        [fn:1] The link is: http://orgmode.org
+     The Org homepage[fn:1] now looks a lot better than it used to.
+     ...
+     [fn:1] The link is: http://orgmode.org
 
-   Link:   [[info:org#Footnotes][info:org#Footnotes]]
+     Link:   [[info:org#Footnotes][info:org#Footnotes]]
+     File:
+
+**** MESSY 這個函數相當好用,thing-at-point, 能很好的識別當前光標所在位置是個什麼d東西
+
+     ;;;###autoload
+     (defun forward-thing (thing &optional n)
+     "Move forward to the end of the Nth next THING.
+     THING should be a symbol specifying a type of syntactic entity.
+     Possibilities include `symbol', `list', `sexp', `defun',
+     `filename', `url', `email', `word', `sentence', `whitespace',
+     `line', and `page'."
+     (let ((forward-op (or (get thing 'forward-op)
+     (intern-soft (format "forward-%s" thing)))))
+     (if (functionp forward-op)
+     (funcall forward-op (or n 1))
+     (error "Can't determine how to move over a %s" thing))))
+
+     Link:   [[file:/usr/local/share/emacs/25.1/lisp/thingatpt.el.gz::(error%20"Can't%20determine%20how%20to%20move%20over%20a%20%25s"%20thing))))]]
+     File:   /usr/local/share/emacs/25.1/lisp/thingatpt.el.gz
+*** 2017-03-17 Friday
+
+**** MESSY 如何給spacemacs添加額外的包
+     Source: [2017-03-17 Fri], [[http://emacs.stackexchange.com/questions/20453/how-to-use-a-local-version-of-a-package-in-spacemacs][How to use a local version of a package in spacemacs? - Emacs Stack Exchange]]
+
+
+     dotspacemacs-additional-packages
+     '((helm-spotify :location (recipe :fetcher github :repo "syl20bnr/helm-spotify")))
+
+**** MESSY 如何讓spacemacs使用emacs 內建的 org版本
+     Source: [2017-03-17 Fri], [[https://github.com/syl20bnr/spacemacs/issues/7994][How do I make spacemacs use the emacs built-in version of org? · Issue #7994 · syl20bnr/spacemacs]]
+
+     參考鏈接:[[file:~/.spacemacs.d/layers/zilongshanren-org/packages.el::)]]
+     #+BEGIN_SRC emacs-lisp
+(defconst zilongshanren-org-packages
+  '(
+    (org :location built-in)
+    ;; org-mac-link ;; yiddi:never use
+    org-octopress
+    org-pomodoro
+    deft
+    ;; org-tree-slide
+    ;; ox-reveal
+    ;; worf
+    ;; org-download
+    ;; plain-org-wiki
+    )
+  )
+     #+END_SRC
+
+     Is there a way to force spacemacs to load the ORG version that comes preloaded with emacs? I'm on emacs25.1
+
+     One of the functions missing is: org-table-clean-before-export
+
+     Collaborator d12frosted commented on 19 Dec 2016 what I find strange is that
+     this happens even when I don't have the ORG layer enabled Distribution named
+     spacemacs enables layer named spamceacs-org which adds org as dependency. I
+     guess you are using spacemacs distribution
+
+     Is there a way to force spacemacs to load the ORG version that comes preloaded with emacs?
+     I can't test the solution I am going to propose right now but theoretically following might work.
+
+     Open up your .spacemacs file.
+     Locate dotspacemacs-additional-packages.
+     Add (org :location (recipe :fetcher file :path /usr/local/share/emacs/26.0.50/lisp/org/org.el))
+
+     (just don't forget to add real path to org-mode).
+     Reload.
+
+**** MESSY 如何讓某個mode利用hydra選擇框架
+
+     (defun spacemacs/run-pandoc ()
+     "Start pandoc for the buffer and open the menu"
+     (interactive)
+     (pandoc-mode)
+     (pandoc-main-hydra/body))
+
+     Link:  [[file:~/.emacs.d/layers/+tools/pandoc/funcs.el::(pandoc-main-hydra/body))]]
+     File:   /home/yiddi/.emacs.d/layers/+tools/pandoc/funcs.el
+
+**** MESSY 如何定義 org file 中block的具體顏色,讓他們更明顯一些
+     Source: [2017-03-17 Fri], [[http://orgmode.org/worg/org-contrib/babel/examples/fontify-src-code-blocks.html][Pretty fontification of source code blocks]]
+
+
+     (defface org-block-begin-line
+     '((t (:underline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF")))
+     "Face used for the line delimiting the begin of source blocks.")
+
+     (defface org-block-background
+     '((t (:background "#FFFFEA")))
+     "Face used for the source block background.")
+
+     (defface org-block-end-line
+     '((t (:overline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF")))
+     "Face used for the line delimiting the end of source blocks.")
+
+**** MESSY  [[https://www.openfoundry.org/tw/foss-programs/8814-pandoc-][Pandoc 用命令行轉換標記語言！ - OpenFoundry]]
+     Captured On: [2017-03-17 Fri 17:23]
+
+**** MESSY  [[http://irreal.org/blog/?p=4098][A Tip for Artist Mode | Irreal]]
+
+     When you specify a `ditaa' source block, artist mode is *automatically started.*
+     Might not be enough of a motivator to install and configure ditaa, but if you
+     are using artist-mode, you have already done 50% of the work to run ditaa!
+
+     Captured On: [2017-03-17 Fri 17:44]
+
+**** MESSY 如何加載自己寫的 snippet 文件
+     Managing your snippets
+
+     ~M-x yas-load-directory~
+     ~M-x yas-load-snippet-buffer~
+
+     If you use the ~/.spacemacs.d/snippets/modename-mode/ directory structure for
+     your snippets then you can version them with Git or similar versioning tools.
+
+     Load snippets in directory hierarchy TOP-LEVEL-DIR.
+     *Below TOP-LEVEL-DIR each directory should be a mode name.*
+     *With prefix argument USE-JIT do jit-loading of snippets.*
+
+     #+BEGIN_SRC filename:yid -r
+     # -*- mode: python -*-
+     # name: yiddi
+     # key: yid
+     # --
+     \fracsdfsdfsdf{${1:numerator}}{${2:denominator}}$0
+     #+END_SRC
+
+     比如這裏的一個snippet:
+     1. 第一行, 表明會在哪些major-mode啓用
+     2. 第二行, 表明補全提示符 yid -> yiddi 箭頭後的字符串
+     3. 第三行, 輸入的什麼字符 按<tab>才會補全
+     4. 這個文件的名字必須與 key 一致,沒有後綴.
+     5. 這個文件的文件夾必須是 xxx-mode
+
+     Adding yas-snippets to autocompletion in Spacemacs
+
+     By adding the autocompletion layer in Spacemacs the YASnippets can be shown in
+     the autocompletion menu as you type.
+
+     By default, snippets are not shown in the auto-completion popup, so set the
+     variable auto-completion-enable-snippets-in-popup to t.
+
+     #+BEGIN_SRC emacs-lisp
+     (setq-default dotspacemacs-configuration-layers
+              '((auto-completion :variables
+                                 auto-completion-enable-snippets-in-popup t)))
+     #+END_SRC
+
+***** examples
+      #+BEGIN_SRC
+# -*- mode: snippet -*-
+# name: frac
+# key: frac
+# --
+\frac{${1:numerator}}{${2:denominator}}$0
+      #+END_SRC
+
+      #+BEGIN_SRC
+# -*- mode: snippet -*-
+# name: begin
+# key: begin
+# --
+\begin{${1:environment}}
+$0
+\end{$1}
+      #+END_SRC
+
+      Link:   [[file:~/.spacemacs.d/plantuml.jar][file:~/.spacemacs.d/plantuml.jar]]
+      File:   /home/yiddi/.spacemacs.d/
+
+**** MESSY 如何配置mu4e 的 maildir
+   Source: [2017-03-17 Fri], [[http://www.djcbsoftware.nl/code/mu/mu4e/Folders.html#Folders][Mu4e 0.9.18 user manual: Folders]]
+
+
+   The next step is to tell mu4e where it can find your Maildir, and some special folders.
+
+   So, for example18:
+
+   ;; these are actually the defaults
+   (setq
+     mu4e-maildir       "~/Maildir"   ;; top-level Maildir
+     mu4e-sent-folder   "/sent"       ;; folder for sent messages
+     mu4e-drafts-folder "/drafts"     ;; unfinished messages
+     mu4e-trash-folder  "/trash"      ;; trashed messages
+     mu4e-refile-folder "/archive")   ;; saved messages
+
+   Note, mu4e-maildir takes an actual filesystem-path, the other folder names
+   are all *relative to mu4e-maildir*. Also note that this must not be a symbolic
+   link.
+
+   If you use mu4e-context, see Contexts and special folders for what that means
+   for these special folder
+*** 2017-03-18 Saturday
+
+**** MESSY  [[http://coldnew.github.io/blog/2016/01-02_mu4e/][在 emacs 下使用 mu4e 收發郵件 | coldnew's blog]]             :mu4e:
+   Captured On: [2017-03-18 Sat 10:19]
+
+**** MESSY 2nd verification password of google for emacs           :personal:
+   avuyyikdtkqaydfp
+    Link:  [[file:~/.spacemacs.d/init.el::(mu4e-sent-folder%20"/uni/sent")]]
+   File:   /home/yiddi/.spacemacs.d/init.el
+
+**** MESSY hotkey
+     spc s p search project
+     spc s f search for files and ceratin suffix files
+     spc s b search all the open buffer
+
+   http://coldnew.github.io/blog/2016/01-02_mu4e/
+    Link:  [[file:~/.spacemacs.d/init.el::(mu4e-sent-folder%20"/gmail/sent")]]
+   File:   /home/yiddi/.spacemacs.d/init.el
+
+**** MESSY  [[http://blog.csdn.net/xingzouagain/article/details/52511129][GnuPG使用介绍 - xingzouagain的博客 - 博客频道 - CSDN.NET]]
+   Captured On: [2017-03-18 Sat 15:14]
+
+**** MESSY  [[https://www.apache.org/dev/openpgp.html][How To OpenPGP]]
+   Captured On: [2017-03-18 Sat 15:28]
+
+**** MESSY 2-step 登錄方式
+     1. 生成16位密碼
+     2. 在任意你希望以此16位密碼代替原密碼的app(eg:gmail)中設置他
+   Source: [2017-03-18 Sat], [[https://myaccount.google.com/apppasswords?rapt=AEjHL4OXBuBVmTbPt5qcthqOC0Q4QIcavOeYt899uZ_HCaAj8D5kcuhdRFswUlcYM_YlkxI8Bn6Iv-DqqQ1m59K0K6TPxX2yug][应用专用密码]]
+
+
+   在您要设置的应用或设备中，前往您的Google帐号的设置部分。将您的密码更换成由16个字符组成的密码（如上所示）。
+   该应用专用密码的效用跟普通密码一样。有了它，就可以获得您Google帐号的完全访问权限。您无需记住该密码，所以请勿将它写下来或告诉他人。
+   完成
+
+**** MESSY  [[http://orgmode.org/worg/org-tutorials/encrypting-files.html][Encrypting org Files.]]                                       :gpg:
+   Captured On: [2017-03-18 Sat 20:40]
+
+**** MESSY  [[https://www.gnu.org/software/emacs/manual/html_node/epa/index.html#Top][EasyPG Assistant User’s Manual: Top]]                        :gpg:
+   Captured On: [2017-03-18 Sat 20:41]
+
+**** MESSY  [[http://blog.csdn.net/xingzouagain/article/details/52511129][GnuPG使用介绍 - xingzouagain的博客 - 博客频道 - CSDN.NET]]    :gpg:
+   Captured On: [2017-03-18 Sat 20:41]
+
+**** MESSY  [[http://coldnew.github.io/blog/2016/01-02_mu4e/][在 emacs 下使用 mu4e 收發郵件 | coldnew's blog]]             :mu4e:
+   Captured On: [2017-03-18 Sat 20:43]
+
+**** MESSY  [[https://github.com/OfflineIMAP/offlineimap/blob/master/offlineimap.conf][offlineimap/offlineimap.conf at master · OfflineIMAP/offlineimap]] :offlineimap:mu4e:
+     這個文件是 配置詳情
+     幫我解決了,如何獲取 refresh_token 問題
+   Captured On: [2017-03-18 Sat 22:25]
+
+**** MESSY 這是臺灣一個大神給的配置, 但是那兩個注釋着實害慘我了
+
+     搞了兩天整, 最後發現 把那兩個注釋去掉就完成運行了.
+     這兩天看過的一些信息有:
+     - oauth http://www.jianshu.com/p/103e2dc6593b
+     - mu https://xapian.org/docs/
+     - gpg https://www.gnupg.org/documentation/manpage.html
+       - http://blog.csdn.net/xingzouagain/article/details/52511129
+
+
+http://coldnew.github.io/blog/2016/01-02_mu4e/
+
+[general]
+accounts = yiddi
+maxsyncaccounts = 3
+pythonfile = ~/.offlineimap.py
+[Account yiddi]
+localrepository = yiddi-Local
+remoterepository = yiddi-Remote
+[Repository yiddi-Local]
+type = Maildir
+localfolders = ~/.mail/gmail
+[Repository yiddi-Remote]
+type = Gmail
+remotehost = imap.gmail.com
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+remoteuser = yiddishkop@gmail.com # <-----------chenge your account here
+remotepasseval = get_password_emacs("imap.gmail.com", "993") # <-------------- get pswd here
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+# remotepass = y.l.7130201
+ssl = yes
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+nametrans = lambda foldername: foldername.decode('imap4-utf-7').encode('utf-8')
+maxconnections = 4
+realdelete = yes
+oauth2_client_id = 428779981436-9kbic426kllhu178naf0drkgfk4qmn4n.apps.googleusercontent.com
+oauth2_client_secret = y5cQRwI78U-vNvl4ZKnYZNlx
+oauth2_refresh_token = 1/t4L2PBSuxatB7OqT-YEHQB1Vh_eGOU_hOwOx8UAon_8
+oauth2_request_url = https://accounts.google.com/o/oauth2/token
+
+    Link:  [[file:~/.offlineimaprc::type%20=%20Gmail]]
+   File:   /home/yiddi/.offlineimaprc
+*** 2017-03-19 Sunday
+
+**** MESSY can not close emacs, tips: host name must not match with 'adb'
+     process to reduce errors:
+     1. 遇到這樣的坑,不知道怎麼回事,於是通過 spc f L 查這個 adb
+        1. 一開始查到 oh-my-zsh 裏有個 adb 插件.所以考慮是最近使用了 eshell 的原因.
+        2. 但是 spc f L 的查詢記錄還有關於 tramp 這個包的: tramp-adb.el
+     2. 然後在這個包裏用 spc s p. 查詢 "host name must not ..." 這句話, 確實存在與
+        [[file:~/Downloads/emacs-25.1/lisp/net/tramp.el::(tramp-user-error%20vec%20"Host%20name%20must%20not%20match%20method%20\"%25s\""%20host))))]]
+     3. 然後考慮也許是最近使用的 eshell 用到了 tramp 的某些功能.
+     4. 進一步 spc s p 查詢 函數名 tramp-check-proper-method-and-host, 找到其在 tramp-sh.el 中被調用
+     5. 又在 spc f e d : ~/.spacemacs.d/init.el 中 tramp 功能被禁用.
+        1. [[file:~/.spacemacs.d/init.el::(setq%20tramp-mode%20nil)]]
+     6. 打開了這個功能, 問題解決, 能成功關閉 emacs 了.
+
+     ;; https://github.com/syl20bnr/spacemacs/issues/2705
+     (setq tramp-mode nil)
+
+    Link:  [[file:~/.spacemacs.d/init.el::(setq%20tramp-mode%20nil)]]
+    File:   /home/yiddi/.spacemacs.d/init.el
+
+**** MESSY 關於 company-mode 的emacs 版配置(與 spacemacs 不同)
+   Source: [2017-03-19 Sun], [[http://dockone.io/article/709][阅读Docker源代码的神兵利器 - DockOne.io]]
+
+
+   4. Emacs
+
+   Emacs作为与Vim齐名的文本编辑器，号称“神之编辑器”，用来浏览和编写Go代码也是非常方便的。本节也只作为Emacs老用户的抛砖引玉，在此之前，用户需要做好适合自己的配置。下面我们就以Emacs24为例，简单介绍几个实用的插件，用户需要先使用go get命令安装好gofmt、godef、godoc、gocode等工具。
+   go-mode
+
+   go-mode在提供了自动缩进和语法高亮功能的基础上，还整合了Go语言自带的工具，如gofmt、godoc、godef等。在Emacs24以后的版本中，可以使用自带的Package工具进行安装，命令如下：M-x package-install go-mode下面我们主要介绍格式整理以及定义跳转两项功能的配置。
+   格式整理
+
+   格式整理功能直接调用了gofmt工具，该工具能使用户的代码风格与其他开发人员保持一致。在Emacs中，用户可以直接调用gofmt命令，对当前窗口的代码进行格式整理。另一种方式是为before-save-hook添加函数，示例如下：
+   (add-hook 'before-save-hook 'gofmt-before-save)
+
+   这样在用户每次存档时就会自动进行格式整理。
+   定义跳转
+
+   定义跳转使用了godef工具，该工具能分析用户的代码、其他包内的代码以及Go标准库，实现在这三者间的定义跳转。Emacs提供了godef-jump命令实现跳转，默认绑定键为C-c C-j，用户也可以自己定义按键绑定，如绑定到F3键：
+   (add-hook 'go-mode-hook
+   '(lambda () (local-set-key (kbd "<f3>") 'godef-jump)))
+
+   为了在跳转之后能跳转回来，用户可以添加如下配置，这样可以使用F2键回到原先的位置。
+   (add-hook 'go-mode-hook
+   '(lambda () (local-set-key (kbd "<f2>") 'pop-tag-mark)))
+
+   此外，go-mode还提供了管理imports、使用godoc等工具，这里不再一一赘述。
+   company-go
+
+   company-go调用gocode工具提供自动完成功能，用户可以直接使用Package工具安装company-mode和company-go，并进行如下配置：
+   (add-hook 'go-mode-hook 'company-mode)
+   (add-hook 'go-mode-hook
+   (lambda ()
+   (set (make-local-variable 'company-backends) '(company-go))
+   (company-mode)))
+
+   Emacs还为用户提供了极大的自由度，建议用户使用最新版本的Emacs和插件，善用Package功能和网上贡献的工具，这样能获得最新的功能和更好的体验。
+*** 2017-03-20 Monday
+
+**** MESSY  關於如何給某一個mode設置 evil-<xxx>-state
+
+     你想讓某一個 major-mode 默認使用哪一種 evil 的state?
+     就這麼做:
+#+BEGIN_SRC emacs-lisp
+     (dolist (mode '(ag-mode
+                     flycheck-error-list-mode
+                     git-rebase-mode))
+     (add-to-list 'evil-emacs-state-modes mode))
+#+END_SRC
+
+工作流程:
+1. 查詢你需要設置爲 evil state 的major-mode的名字: M-x major-mode
+
+2. 填到上述 dolist 的列表中
+
+   Link:
    File:
+
+**** MESSY  C-c C-v Tab inspect the content of an object   :commonlisp:debug:
+#+BEGIN_SRC commonlisp
+CL-USER> (make-instance 'point :x 10 :y 20)
+         #<POINT {1003FB6433}> ; 鼠標就放在{}之內,按下 ~C-c C-v tab~
+CL-USER> (point-x #<POINT {1003FB6433}>)
+#+END_SRC
+
+**** MESSY 查看某個函數的具體調用棧: Slime Trace Dialog    :debug:commonlisp:
+1) 跟蹤某個函數: ~C-c M-t~ 而後輸入函數名.
+2) runnning the code: CL-USER:(call func)
+3) 打開跟蹤結果: ~C-c T~
+4) 刷新獲得最近跟蹤: ~G~
+
+
+#+BEGIN_SRC common-lisp
+
+(defun sum (xs &optional (acc 0))
+  (if (null xs)
+      acc
+      (sum (cdr xs) (+ (car xs) acc)))
+;; 編譯上述函數,而後按下 c-c m-t 輸入函數名
+;; repl 界面 調用該函數
+;; repl 界面 打開跟蹤結果: c-c T
+;; 跟蹤結果界面如下,該界面按下: G 獲得更新結果
+
+Trace collection status (4/8)                     [refresh]
+                                                  [fetch next batch]
+                                                  [fetch all]
+                                                  [clear]
+
+
+   0 - common-lisp-user::sum
+     | > (1 2 3)
+     | < 6
+   1 `--- common-lisp-user::sum
+        | > (2 3)
+        | > 1
+        | < 6
+   2    `--- common-lisp-user::sum
+           | > (3)
+           | > 3
+           | < 6
+   3       `--- common-lisp-user::sum
+                > NIL
+                > 6
+                < 6
+
+#+END_SRC
+
+**** MESSY commonlisp如何調出debug界面                     :commonlisp:debug:
+1. 首先打開debug ~(declaim (optimize (debug 3)))~
+2. 編譯函數,並在repl(CL-USER)運行之
+3. 運行會自動打開debug界面
+4. 此時說明有錯,回去在函數中加入 ~(break)~, break-point
+5. 再次於repl中執行,會再次顯示debug界面
+6. ~evil-emacs-state~ 下,在調用棧按下 ~r~,從某個調用開始,按 ~s~ , 單步執行.
+
+
+#+BEGIN_SRC common-lisp
+CL-USER> (declaim (optimize (debug 3)))
+         NIL
+CL-USER> (your-program)
+#+END_SRC
+
+**** MESSY dynamic variable                                      :commonlisp:
+   Source: [2017-03-20 Mon], [[http://malisper.me/category/debugging-common-lisp/][Debugging Lisp Archives - Macrology]]
+
+
+   A dynamic variable is basically a global variable that can be shadowed. When
+   a dynamic variable is shadowed, any reference to it refers to the new
+   binding. Once execution leaves the form that shadowed the dynamic variable,
+   the dynamic variable reverts back to its previous binding.
+
+**** MESSY try/catch/throw in commonlisp                   :commonlisp:debug:
+when encounter an exception, languages(*exculde commonlisp*) let you have several choice:
+1. just *skip* the entry that caused the error, just use *handler-case* (catch)
+   #+BEGIN_SRC common-lisp
+   (defun read-file (file)
+  (with-open-file (in file :direction :input)
+    (loop for line = (read-line in nil in)
+          until (eq in line)
+          when (handler-case (parse-integer line) ;; 當catch到問題
+                 (error (c)                       ;; 直接忽略他
+                   (declare (ignore c))
+                   nil))
+          collect it)))
+   #+END_SRC
+
+2. provide a *dynamic variable* in place for the user of this funcion
+   #+BEGIN_SRC common-lisp
+(defvar *malformed-value* nil) ;; 這是一個動態的變量
+
+(defun read-file (file)
+  (with-open-file (in file :direction :input)
+    (loop for line = (read-line in nil in)
+          until (eq in line)
+          when (handler-case (parse-integer line)
+                 (error (c)
+                   (declare (ignore c))
+                   *malformed-value*));; 這個動態變量可以被返回或者指定其他值
+          collect it)))
+
+(let ((*malformed-value* :malformed))
+  (read-files *files*))
+
+=> ((5 10 15 20 25) (5 10 15 20 :MALFORMED 30 40))
+   #+END_SRC
+
+3. make read-files catch the error and *skip the entire* file
+#+BEGIN_SRC common-lisp
+(defun read-files (files)  ;; 不是在 read-file 中catch,而是更不負責一些
+  (loop for file in files  ;; 而是交給這裏的 read-files
+        when (handler-case (read-file file)
+               (error (c)
+                 (declare (ignore c))
+                 nil))
+        collect it))
+
+(read-files *files*)
+=> ((5 10 15 20 25))
+#+END_SRC
+
+4. let user of the function handle this exception
+#+BEGIN_SRC common-lisp
+(handler-case (read-files *files*) ;; 最不負責人的行爲,讓用戶處理,更自由一些
+  (error (c) (do-something)))
+#+END_SRC
+
+***** catch is provided as 2 separate pieces: handler and restarts
+commonlisp can give user all choices by *restart*
+
+**** MESSY awesome restart in commonlisp
+when we use restart we can choose what to do in debug-view.
+箭頭所指的那三個部分,就是我們自己在函數中定義的三種處理方式
+
+#+BEGIN_SRC common-lisp
+   junk in string "a"
+      [Condition of type SB-INT:SIMPLE-PARSE-ERROR]
+
+   Restarts:
+-->    0: [USE-VALUE] Use a new value.
+-->    1: [SKIP-ENTRY] Skip the entry.
+-->    2: [SKIP-FILE] SKIP-FILE
+     3: [RETRY] Retry SLIME REPL evaluation request.
+     4: [*ABORT] Return to SLIME's top level.
+     5: [ABORT] abort thread (#<THREAD "repl-thread" RUNNING {1002A8FFA3}>)
+
+   Backtrace:
+     0: (PARSE-INTEGER "a" :START 0 :END NIL :RADIX 10 :JUNK-ALLOWED NIL)
+     1: (READ-FILE "~/Documents/Test/file2")
+     2: (READ-FILES ("~/Documents/Test/file1" "~/Documents/Test/file2"))
+     3: (SB-INT:SIMPLE-EVAL-IN-LEXENV (READ-FILES FPL) #<NULL-LEXENV>)
+     4: (EVAL (READ-FILES FPL))
+
+     ;; 代碼如下
+(defun ask (string)
+  (princ string *query-io*)
+  (read *query-io*))
+
+(defun read-file (file)
+  (with-open-file (in file :direction :input)
+    (loop for line = (read-line in nil in)
+          until (eq in line)
+          when (restart-case (parse-integer line)
+                 (use-value (value) ;; 提供選擇一
+                   :report "Use a new value."
+                   :interactive (lambda ()
+                                  (list (ask "Value: ")));;提示符,需輸入value
+                   value)
+                 (skip-entry ()     ;; 提供選擇二
+                   :report "Skip the entry."
+                   nil))
+            collect it)))
+
+(defun read-files (files)
+  (loop for file in files
+        when (restart-case (read-file file)
+               (skip-file ()        ;; 提供選擇三
+                 :reprot "Skip the entire file."
+                 nil))
+          collect it))
+
+;;; the three function below are predefined
+;;; handler for the most common ways the user
+;;; will interact with the restarts.
+(defun skip-entry (c)
+  (declare (igonre c))
+  (invoke-restart 'skip-entry))
+
+(defun skip-file (c)
+  (declare (igonre c))
+  (invoke-restart 'skip-file))
+
+(defun use-value-handler (c)
+  (lambda (c)
+    (declare (ignore c))
+    (invoke-restart 'use-value value)))
+#+END_SRC
+
+***** 用 restarts 來實現break point 功能
+#+BEGIN_SRC common-lisp
+(defun break (&optional (format-control "Break")
+              &rest format-arguments)
+   (with-simple-restart (continue "Return from BREAK.")
+     (let ((*debugger-hook* nil))
+       (invoke-debugger
+         (make-condition 'simple-condition
+           :format-control   format-control
+           :format-arguments format-arguments))))
+   nil)
+#+END_SRC
+*** 2017-03-21 Tuesday
+
+**** MESSY trace函數的指定斷點詳細位置                     :commonlisp:debug:
+
+#+BEGIN_SRC common-lisp
+(trace fib :break (= 8 (sb-debug:arg 0))) ;; 這句意思是 在fib函數第0個參數爲8時break.
+(fib 10)
+
+CL-USER> (fib 10)
+0: (FIB 10)
+1: (FIB 9)
+2: (FIB 8)
+; Evaluation aborted on NIL.
+
+#+END_SRC
+
+#+BEGIN_SRC common-lisp
+(trace fib :print-after (get-universal-time));; 每次fib函數返回就打印當前unix系統時間
+#+END_SRC
+
+**** MESSY  [[http://weitz.de/cl-ppcre/#install][CL-PPCRE - Portable Perl-compatible regular expressions for Common Lisp]]
+     commonlisp下的一個regex工具包
+   Captured On: [2017-03-21 Tue 09:25]
+
+**** MESSY  [[https://www.quicklisp.org/beta/][Quicklisp beta]]                    :commonlisp:package:management:
+     相當於一個common-lisp 下的包管理工具.可以直接通過repl或者系統terminal工具安裝.
+     #+BEGIN_SRC
+     $ sbcl
+     ----> 進入sbcl 的 repl 界面
+     * (ql:quickload :<包名>)  ;; 通過這條命令安裝包
+     #+END_SRC
+   Captured On: [2017-03-21 Tue 09:26]
+
+**** MESSY backquote in lisp                           :commonlisp:backquote:
+   Source: [2017-03-21 Tue], [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Backquote.html][GNU Emacs Lisp Reference Manual: Backquote]]
+
+1. 因爲lisp中全是 list, ~'~ 在lisp中是表示後面的緊跟的list,就單純作爲list看待,而不是作爲函數
+
+2. ~`~ 也表示後面緊跟的list,就單純作爲list看待,但允許其中一部分作爲函數來計算.
+
+   1) ~,~ 用來標識 ~`~ 後面的這個list中,哪些部分被當做函數來看待. eg. `(a list of ,(+ 2 3) elements)
+
+   2) ~,@~ 標識 ~`~ 後面的這個list中,哪些部分被當做函數來看待, 並且把計算結果拼接到整個list中.
+
+
+   Backquote constructs allow you to quote a list, but selectively evaluate
+   elements of that list. In the simplest case, it is identical to the special
+   form quote (described in the previous section; see Quoting). For example,
+   these two forms yield identical results:
+
+   `(a list of (+ 2 3) elements)
+        ⇒ (a list of (+ 2 3) elements)
+   '(a list of (+ 2 3) elements)
+        ⇒ (a list of (+ 2 3) elements)
+   The special marker ‘,’ inside of the argument to backquote indicates a value that isn’t constant. The Emacs Lisp evaluator evaluates the argument of ‘,’, and puts the value in the list structure:
+
+   `(a list of ,(+ 2 3) elements)
+        ⇒ (a list of 5 elements)
+   Substitution with ‘,’ is allowed at deeper levels of the list structure also. For example:
+
+   `(1 2 (3 ,(+ 4 5)))
+        ⇒ (1 2 (3 9))
+   You can also splice an evaluated value into the resulting list, using the special marker ‘,@’. The elements of the spliced list become elements at the same level as the other elements of the resulting list. The equivalent code without using ‘`’ is often unreadable. Here are some examples:
+
+   (setq some-list '(2 3))
+        ⇒ (2 3)
+   (cons 1 (append some-list '(4) some-list))
+        ⇒ (1 2 3 4 2 3)
+   `(1 ,@some-list 4 ,@some-list)
+        ⇒ (1 2 3 4 2 3)
+
+   (setq list '(hack foo bar))
+        ⇒ (hack foo bar)
+   (cons 'use
+     (cons 'the
+       (cons 'words (append (cdr list) '(as elements)))))
+        ⇒ (use the words foo bar as elements)
+   `(use the words ,@(cdr list) as elements)
+        ⇒ (use the words foo bar as elements)
+
+**** MESSY 理解學習的兩頭
+     學習的兩頭就像,理解和頓悟
+
+理解 -------->         學習        <-------- 不理解,直接做
+
+理解, 是對自己解釋清楚爲什麼這麼做.道理是什麼,以求獲得自己的認可和許諾.
+直接做, 是直接做不問爲什麼.以求獲得像讀佛經一般的領悟,重在領悟,把相信暫時放在一邊.
+
+我尤其重理解, 這個方向是漸悟的方向.
+把不信任暫時放在一邊,就直接做.直接練,不多疑.是頓悟的方向.
+
+我在學機器學習時,堅持 *從底到上*,先學習概率/線代/微積分,就是[理解式學習].
+而youtube上,有很多直接介紹機器學習的視頻,就是直接做.以求在做中領悟
+這是 *從上到底* 的學習,是[頓悟式學習]
+
+**** MESSY 問題是你準備讓list的哪些部分原樣不動,哪些部分求職,哪些部分拼接
+#+BEGIN_SRC lisp
+
+;; 普通的while loop
+   (while (peek-char file nil nil)
+          (write-char (read-char file)))
+
+;; 用goto實現的loop
+   (tagbody
+    start
+      (if (not (peek-char file nil nil))
+          (go end))
+      (write-char (read-char file))
+      (go start)
+      end)
+
+;; 定義爲宏的樣子
+   (defmacro while-y (test &body body)
+     (let ((gtop (gensym))
+           (gend (gensym)))
+       `(tagbody
+           ,gtop
+           (if (not ,test)
+               (go ,gend))
+           ,@body
+           (go ,gtop)
+           ,gend)))
+
+#+END_SRC
+
+**** MESSY Fractran language, 初識
+   Source: [2017-03-21 Tue], [[https://www.wikiwand.com/en/FRACTRAN][FRACTRAN - Wikiwand]]
+
+
+   FRACTRAN
+    Connected to: Sequence Esoteric programming language Formula for primes
+   From Wikipedia, the free encyclopedia
+   FRACTRAN is a Turing-complete esoteric programming language invented by the mathematician John Conway. A FRACTRAN program is an ordered list of positive fractions together with an initial positive integer input n. The program is run by updating the integer n as follows:
+
+   for the first fraction f in the list for which nf is an integer, replace n by nf
+   repeat this rule until no fraction in the list produces an integer when multiplied by n, then halt.
+   In The Book of Numbers, John Conway and Richard Guy gave a formula for primes in FRACTRAN:[1][note 1]
+
+
+   Starting with n=2, this FRACTRAN program generates the following sequence of integers:
+
+   2, 15, 825, 725, 1925, 2275, 425, 390, 330, 290, 770, ... (sequence A007542 in the OEIS)
+   After 2, this sequence contains the following powers of 2:
+
+    (sequence A034785 in the OEIS)
+   which are the prime powers of 2.
+
+   Understanding a FRACTRAN program
+   A FRACTRAN program can be seen as a type of register machine where the registers are stored in prime exponents in the argument n.
+
+   Using Gödel numbering, a positive integer n can encode an arbitrary number of arbitrarily large positive integer variables.[note 2] The value of each variable is encoded as the exponent of a prime number in the prime factorization of the integer. For example, the integer
+
+
+   represents a register state in which one variable (which we will call v2) holds the value 2 and two other variables (v3 and v5) hold the value 1. All other variables hold the value 0.
+
+   A FRACTRAN program is an ordered list of positive fractions. Each fraction represents an instruction that tests one or more variables, represented by the prime factors of its denominator. For example:
+
+
+   tests v2 and v5. If  and , then it subtracts 2 from v2 and 1 from v5 and adds 1 to v3 and 1 to v7. For example:
+
+
+   Since the FRACTRAN program is just a list of fractions, these test-decrement-increment instructions are the only allowed instructions in the FRACTRAN language. In addition the following restrictions apply:
+
+   Each time an instruction is executed, the variables that are tested are also decremented.
+   The same variable cannot be both decremented and incremented in a single instruction (otherwise the fraction representing that instruction would not be in its lowest terms). Therefore each FRACTRAN instruction consumes variables as it tests them.
+   It is not possible for a FRACTRAN instruction to directly test if a variable is 0 (However, an indirect test can be implemented by creating a default instruction that is placed after other instructions that test a particular variable.).
+
+* Footnotes
+
+[fn:2] xxxxxxxxxxxxxxxxx

@@ -1,0 +1,11 @@
+
+            
+
+            <p>I'm using iterm2 v3.0.2 with fishs hell and tmux in osx. When I'm opening file via emacsclient and closing buffer - I'm successfully returning to terminal, BUT iterm2 window has no focus, so I have to click on window to gain it. I tested behaviour inside tmux session and outside - the same behaviour. </p>
+
+<p>My command to run emacsclient:</p>
+
+<pre><code>emacsclient -c -a \"\" $argv
+</code></pre>
+
+        

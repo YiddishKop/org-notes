@@ -1,0 +1,14 @@
+
+            
+
+            <p>When I use <code>helm-mark-ring</code> or <code>helm-imenu</code>, I would like to jump to the current candidate automatically in the other buffer while keeping the helm session (i.e., similar to <code>helm-swoop</code>).
+I tried the following codes mentioned on <a href="https://groups.google.com/forum/#!topic/emacs-helm/US8FWnfRu5o" rel="nofollow">this thread</a>, but didn't work for me.</p>
+
+<pre><code>(add-hook 'helm-before-initialize-hook #'(lambda () (helm-attrset 'follow 1 helm-source-mark-ring)))
+</code></pre>
+
+<p>Result: It shows <code>[Display not ready]</code> in echo area when I change the helm candidate (by <code>C-n</code>).</p>
+
+<p>Any help appreciated!</p>
+
+        

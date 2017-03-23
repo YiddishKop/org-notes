@@ -1,0 +1,17 @@
+
+            
+
+            <p><a href="https://i.stack.imgur.com/X7xYp.jpg" rel="nofollow noreferrer"><img src="https://i.stack.imgur.com/X7xYp.jpg" alt="enter image description here"></a>I'd like to make current line number in relative line number mode more distinguishable</p>
+
+<pre><code>(setq nlinum-format-function 'myformat)
+(defun myformat (line width)
+  (if
+    (eq line (what-line)) "123  "
+    "321"
+  )
+)
+</code></pre>
+
+<p>Notice padding to the right of the current line number in vim which very subtly makes it easily distinguishable.</p>
+
+        

@@ -1,0 +1,34 @@
+
+            
+
+            <p>I recently setup mu4e. My Setup :
+emacs25, mu 0.9.18, macOS Sierra</p>
+
+<p>I used <code>mbsync</code> to download my emails.</p>
+
+<p>When I do <code>M-x mu4e</code>, I get error <code>error in process sentinel: Database empty; try indexing some messages</code></p>
+
+<p>But I have :)</p>
+
+<p>I checked <code>mu4e-maildir</code>. It is correct (which is where <code>mbsync</code> has downloaded the messages.)</p>
+
+<p><code>mu index</code> (as well as <code>mu index --maildir=~/Maildir</code> just in case) also worked well.</p>
+
+<p>I can use <code>mu find &lt;pattern&gt;</code> successfully.</p>
+
+<p>But <code>mu4e</code> can't seem to find the DB</p>
+
+<p>I think this is some configuration mismatch. </p>
+
+<p><strong>How do I troubleshoot this ?</strong></p>
+
+<hr>
+
+<p>References : </p>
+
+<ul>
+<li>About 4 year old issue, without conclusive solution with exact same error : <a href="https://github.com/djcb/mu/issues/198" rel="nofollow noreferrer">https://github.com/djcb/mu/issues/198</a> (Edit: I read <a href="http://comments.gmane.org/gmane.mail.mu.general/938" rel="nofollow noreferrer">http://comments.gmane.org/gmane.mail.mu.general/938</a> thread. I mentioned above, I am <strong>not</strong> using <code>procmail</code>. Using <code>mbsync</code> as mentioned above)</li>
+<li>I have asked this question first on reddit (Albeit it started in slightly different context where I couldn't even get <code>mu4e</code> to work. But now I'm past that. <a href="https://www.reddit.com/r/emacs/comments/5srva7/mu4e_0918_emailing_with_emacs_now_even_better/deyf717/" rel="nofollow noreferrer">https://www.reddit.com/r/emacs/comments/5srva7/mu4e_0918_emailing_with_emacs_now_even_better/deyf717/</a></li>
+</ul>
+
+        

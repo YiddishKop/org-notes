@@ -184,6 +184,7 @@ oooooooooooooooooooo [fn:2][fn:3]
 [fn:good] this is a well done
 
 #+BEGIN_SRC emacs-lisp
+(org-footnote--goto-local-insertion-point) (org-footnote--goto-local-insertion-point) (org-footnote--goto-local-insertion-point) (org-footnote--goto-local-insertion-point) (org-footnote--goto-local-insertion-point) (org-footnote--goto-local-insertion-point) (org-footnote--goto-local-insertion-point)
 (org-footnote--goto-local-insertion-point)
 
 #+END_SRC

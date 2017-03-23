@@ -1,0 +1,25 @@
+
+            
+
+            <p>I'd like to apply a <code>line-height</code> property to all text in all buffers to add space above each line (so <code>line-spacing</code> doesn't work, I think).</p>
+
+<p>I've added a function to <code>'buffer-list-update-hook</code> to create and propertize an overlay that spans the entire buffer (also set to grow with text on either end). This works, but feels like a big hack for something this simple. Is there no better way of doing this?</p>
+
+<pre class="lang-el prettyprint-override"><code>(defvar fov-line-height-overlay nil
+  "Overlay used to manage line-height across the buffer")
+(make-variable-buffer-local 'fov-line-height-overlay)
+
+(defun fov-update-line-height-overlays ()
+  "Run through the list of buffers and ensure they have an overlay for line-height."
+  (dolist (buf (buffer-list))
+    (with-current-buffer buf
+      (unless fov-line-height-overlay
+        (setq fov-line-height-overlay (make-overlay (point-min) (point-max) nil nil t))
+        (overlay-put fov-line-height-overlay 'line-height 1.2)))))
+
+(add-hook 'buffer-list-update-hook 'fov-update-line-height-overlays)
+</code></pre>
+
+<p><strong>PS</strong>: The reason I'm doing this is I've set the <code>hl-line</code> face to have a box with <code>:line-width -1</code> (to avoid jitter while moving) but now I need more space for the text.</p>
+
+        

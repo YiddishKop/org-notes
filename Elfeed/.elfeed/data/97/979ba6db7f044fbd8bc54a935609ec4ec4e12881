@@ -1,0 +1,30 @@
+
+            
+
+            <p>For some reason, some garbage is prepended to my PATH variable in emacs.</p>
+
+<ol>
+<li>Testing from eshell: (M+x eshell):</li>
+</ol>
+
+<p><code>~/projects/rust/logentries-parser/src $ echo $PATH
+bash: cannot set terminal process group (-1): Inappropriate ioctl for devicebash: no job control in this shell:/home/renat/.cargo/bin:/home/renat/lib/google-cloud-sdk/bin: ... other stuff</code></p>
+
+<ol start="2">
+<li>Testing from shell: (M+x shell):</li>
+</ol>
+
+<p><code>renat@hp-envy ~/projects/rust/logentries-parser/src $ echo $PATH
+:/home/renat/.cargo/bin:/home/renat/lib/google-cloud-sdk/bin: ... other stuff</code></p>
+
+<ol start="3">
+<li>Testing using the getenv: (getenv RET PATH):</li>
+</ol>
+
+<p><code>bash: cannot set terminal process group (-1): Inappropriate ioctl for devicebash: no job control in this shell:/home/renat/.cargo/bin:/home/renat/lib/google-cloud-sdk/bin: ... other stuff</code></p>
+
+<p>Did anybody encounter anything similar?</p>
+
+<p>Thanks</p>
+
+        

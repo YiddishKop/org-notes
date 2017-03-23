@@ -1,0 +1,8 @@
+
+            
+
+            <p>When I run <code>(+ 1 1)</code> using <code>eval-print-last-sexp</code> in a buffer, this function inserts a newline and outputs 2. I'd rather its output were just ' 2' (space and 2).</p>
+
+<p>How can I change this? </p>
+
+        

@@ -1,0 +1,101 @@
+
+            
+
+            <p>I'm trying to follow <a href="http://paralambda.org/2012/07/02/using-gnu-emacs-as-a-terminal-emulator/" rel="nofollow noreferrer">this article</a> and configure my multi-term to work with remote files seamlessly. <strong>Edit:</strong> That article seems to be down currently. Try the cached version <a href="http://webcache.googleusercontent.com/search?q=cache:gd47VuB8P3MJ:paralambda.org/2012/07/02/using-gnu-emacs-as-a-terminal-emulator/%20&amp;cd=1&amp;hl=en&amp;ct=clnk&amp;gl=us" rel="nofollow noreferrer">here</a>.</p>
+
+<p>But it's not working as expected.
+I'm running OS X 10.9.5 and GNU Emacs 24.4.1.</p>
+
+<p>As explained in the above article, I have placed the following code in my <code>.emacs.d/init.el</code>:</p>
+
+<pre class="lang-el prettyprint-override"><code>(when (require 'term nil t)
+  (defun term-handle-ansi-terminal-messages (message)
+    (while (string-match "\eAnSiT.+\n" message)
+      ;; Extract the command code and the argument.
+      (let* ((start (match-beginning 0))
+             (command-code (aref message (+ start 6)))
+             (argument
+              (save-match-data
+                (substring message
+                           (+ start 8)
+                           (string-match "\r?\n" message
+                                         (+ start 8))))))
+        ;; Delete this command from MESSAGE.
+        (setq message (replace-match "" t t message))
+
+        (cond ((= command-code ?c)
+               (setq term-ansi-at-dir argument))
+              ((= command-code ?h)
+               (setq term-ansi-at-host argument))
+              ((= command-code ?u)
+               (setq term-ansi-at-user argument))
+              ((= command-code ?e)
+               (save-excursion
+                 (find-file-other-window argument)))
+              ((= command-code ?x)
+               (save-excursion
+                 (find-file argument))))))
+
+    (when (and term-ansi-at-host term-ansi-at-dir term-ansi-at-user)
+      (setq buffer-file-name
+            (format "%s@%s:%s" term-ansi-at-user term-ansi-at-host term-ansi-at-dir))
+      (set-buffer-modified-p nil)
+      (setq default-directory (if (string= term-ansi-at-host (system-name))
+                                  (concatenate 'string term-ansi-at-dir "/")
+                                (format "/%s@%s:%s/" term-ansi-at-user term-ansi-at-host term-ansi-at-dir))))
+    message))
+</code></pre>
+
+<p>And I have placed the following code in my <code>.bashrc</code>:</p>
+
+<pre class="lang-sh prettyprint-override"><code># are we an interactive shell?
+if [ "$PS1" ]; then
+  case $TERM in
+    eterm-color*)
+      if [ -n "$SSH_CONNECTION" ]
+      then
+        echo "if"
+        _HOST=$(echo -n $SSH_CONNECTION | cut -d\  -f3)
+      else
+        _HOST=$HOSTNAME
+      fi
+
+      echo -ne "${PWD/#$HOME/~}\n"
+      PROMPT_COMMAND='echo -ne "\033AnSiTh ${_HOST}\n\033AnSiTu ${USER}\n\033AnSiTc ${PWD/#$HOME/~}\n"'
+      ;;
+    xterm*)
+      PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/~}"; echo -ne "\007"'
+      ;;
+    screen)
+      PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/~}"; echo -ne "\033\\"'
+      ;;
+    *)
+      [ -e /etc/sysconfig/bash-prompt-default ] &amp;&amp; PROMPT_COMMAND=/etc/sysconfig/bash-prompt-default
+      ;;
+  esac
+fi
+
+if [ "${TERM}x" = "eterm-colorx" ]
+then
+  alias e='echo -ne "\033AnSiTe"'
+  alias x='echo -ne "\033AnSiTx"'
+  echo "eterm-colorx"
+else
+  alias e='emacsclient -n -t -a nano'
+fi
+</code></pre>
+
+<p>After adding these, I see 2 issues.</p>
+
+<ol>
+<li><p>When I open a multi-term buffer, I see the current working directory being printed before each prompt. I also see a box (some unprintable character) and / preceding the path.</p>
+
+<p><img src="https://i.stack.imgur.com/K216w.png" alt="prompt with the PWD printed each time"></p>
+
+<p>I don't know where this string is coming from.</p></li>
+<li><p>Also when I try to open with command <code>x samp.txt</code> it opens a file with some terminal messages attached at the end of filename. The file name it tries to open is <code>samp.txt^[AnSiTh xyz</code>.</p>
+
+<p><code>xyz</code> (renamed here) is the hostname of the system. It looks like the terminal message for setting the hostname somehow got appended to the filename. I couldn't figure out who/which code is appending this.</p></li>
+</ol>
+
+        

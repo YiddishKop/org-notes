@@ -1,0 +1,10 @@
+
+            
+
+            <p>When hitting <code>C-j</code> in the minibuffer while executing <code>helm-find-files</code> and no match is possible, helm creates a new buffer with the name of the completion. E.g. I do <code>M-x helm-find-files</code>, type <code>foo</code> there is only the default match:</p>
+
+<p><a href="https://i.stack.imgur.com/XVkho.png" rel="nofollow noreferrer"><img src="https://i.stack.imgur.com/XVkho.png" alt="helm with default match"></a></p>
+
+<p>Now I hi <code>C-j</code> and a new buffer gets created, named <code>foo</code>. How can I disable this behavior?</p>
+
+        

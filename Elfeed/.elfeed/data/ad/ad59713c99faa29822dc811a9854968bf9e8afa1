@@ -1,0 +1,6 @@
+
+            
+
+            <p>I am editing a file on a remote server via Tramp, and I decide that I want to open up an <code>ansi-term</code> session on the remote server (as opposed to relying on <code>shell-command</code>). How do I do this? When I run <code>ansi-term</code>, it just opens up a new session on my local computer.</p>
+
+        

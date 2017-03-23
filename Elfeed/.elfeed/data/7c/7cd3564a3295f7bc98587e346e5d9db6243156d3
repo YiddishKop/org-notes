@@ -1,0 +1,19 @@
+
+            
+
+            <p><code>q</code> in <code>volume-mode</code> does not exit the mode:</p>
+
+<p><code>M-x volume &lt;RET&gt; q</code> -> still in volume-mode (in the minibuffer)</p>
+
+<p>In contrast, after a C-Z, it does work:</p>
+
+<p><code>M-x volume &lt;RET&gt; C-Z q</code> -> not in volume-mode</p>
+
+<p>Guides I've read indicate that the minibuffer is <em>always</em> in emacs state, so what's going on here and how can I fix it?</p>
+
+<p>I'll add that the following does not fix the problem for me:</p>
+
+<pre><code>(add-to-list 'evil-emacs-state-modes 'volume-mode)
+</code></pre>
+
+        

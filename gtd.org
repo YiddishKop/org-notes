@@ -114,3 +114,32 @@ END:
 
 ** TODO [#B] 應該把學習編程當成翻譯課,每天練習翻譯
    SCHEDULED: <2017-03-16 Thu 09:00>
+
+** TODO [#B] 理解 org-babel : literal programming
+:LOGBOOK:
+http://www.howardism.org/Technical/Emacs/literate-devops.html
+http://www.howardism.org/Technical/LP/introduction.html
+http://orgmode.org/worg/org-contrib/babel/intro.html
+:END:
+
+** TODO [#B]  學習陳斌的文章, yasnippet 內部是支持代碼運行的,似乎...有點想法
+   SCHEDULED: <2017-03-20 Mon 09:00>
+http://blog.binchen.org/posts/how-to-use-yasnippets-to-produce-email-templates-in-emacs.html
+
+** TODO [#B]  看看這個視頻中的公式是如何直接輸出出來的.
+   SCHEDULED: <2017-03-20 Mon 09:00>
+https://www.youtube.com/watch?v=cRUCiF2MwP4
+
+** TODO [#B] 我未來的知識庫,肯定少不了這個
+   SCHEDULED: <2017-03-20 Mon 09:00>
+https://xapian.org/docs/
+
+** TODO [#B] 總結一下 mu4e 的配置
+   SCHEDULED: <2017-03-20 Mon 09:00>
+http://www.brool.com/post/using-mu4e/
+
+** TODO  學習一下那個如何記賬的夥計 youtube
+   SCHEDULED: <2017-03-20 Mon 14:00>
+
+** TODO [#B] ABC's loan due to check
+   SCHEDULED: <2017-03-22 Wed 10:30>

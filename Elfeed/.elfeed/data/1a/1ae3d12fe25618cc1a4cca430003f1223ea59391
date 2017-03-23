@@ -1,0 +1,45 @@
+
+            
+
+            <p>I wish to define a variable to replace the hardcode string below:</p>
+
+<pre><code>(setq org-publish-project-alist
+      '(
+        ("blog" :components ("org-blog-docs" "org-blog-static"))
+
+        ("org-blog-docs"
+         :base-directory "~/myblog/_org"
+         :base-extension "org"
+         :publishing-directory "~/myblog/_posts"
+         :recursive t
+         :publishing-function blog-html-publish-to-html
+         :headline-levels 4
+         :html-extension "html"
+         :body-only t
+         )
+
+        ("org-blog-static"
+         :base-directory "~/myblog/_org"
+         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+         :publishing-directory "~/myblog/assets"
+         :recursive t
+         :publishing-function org-publish-attachment
+         )))
+</code></pre>
+
+<p>For example:</p>
+
+<pre><code>(setq base-dir "~/myblog/_org")
+...
+:base-directory base-dir
+...
+</code></pre>
+
+<p>But such a replace doesn't work. </p>
+
+<ol>
+<li>What's this data struture? is it a association or alist?</li>
+<li>How can I replace the string with a variable?</li>
+</ol>
+
+        

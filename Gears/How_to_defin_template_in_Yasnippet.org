@@ -1,0 +1,136 @@
+#+TITLE: Emacs: How to Define Templates in YASnippet
+
+
+* Emacs: How to Define Templates in YASnippet
+
+
+This page shows you how to define templates for emacs's YASnippet
+template package.
+
+If you don't know what's yasnippet, see a intro here:
+[[http://ergoemacs.org/emacs/emacs_templates.html][Emacs Templates with
+YASnippet]].
+
+This page describes yasnippet version dated in 2014. Info here may be
+outdated.
+
+** Snippets are organized by Folders
+
+*** Directory Structure by Emacs's Modes
+
+In your yasnippet folder, you'll find a path like this:
+
+#+BEGIN_EXAMPLE
+    ~/.emacs.d/plugins/yasnippet/yasnippet-0.8.0/snippets/
+#+END_EXAMPLE
+
+All template definitions are inside this folder.
+
+In the =snippets= dir, there are subdirs:
+
+#+BEGIN_EXAMPLE
+    text-mode
+      c-mode
+      perl-mode
+      python-mode
+      html-mode
+      css-mode
+      …
+#+END_EXAMPLE
+
+Each dir contains templates that will be active when you are in that
+mode.
+
+*** One Template Definition Per File
+
+Each template definition is a file. For example, suppose you have a
+template definition for "while" keyword for the Perl language. Then,
+there should be a file at this path: =text-mode/perl-mode/while=.
+
+Each file may end with the suffix ".yasnippet".
+
+By default, the file's name is the abbrev for the template. For example,
+if you have a file =html-mode/h1=, then, typing =h1= then Tab ⇥, will
+expand according to that template file's definition.
+
+Technically, each file's name, up to the first period, defines the
+abbrev. For example: you might have these files:
+
+#+BEGIN_EXAMPLE
+    doctype.xhml1
+    doctype.xhtml1_1
+    doctype.xhtml1_strict
+    doctype.xhtml1_transitional
+#+END_EXAMPLE
+
+When user types =doctype= then press Tab ⇥, a multiple choice menu will
+be shown.
+
+File names starting with a period are not template definition but
+provide information purposes. For example: =.readme=.
+
+** Template Syntax
+
+Each template file has this line: =# --= (there MUST be a space).
+Everything above that line is either comment or directive (don't worry
+about directives for now). Below the line is the actual template
+definition.
+
+Here's a example of the template =html-mode/doctype=.
+
+
+When you type =doctype= then Tab ⇥, while in =html-mode=, it'll expand
+to:
+
+
+The line =#name := is for a short title for the template. This title is
+used in menus. For example, look at the menu 〖YASnippet〗. When there
+are multiple templates for the same abbrev, yasnippet will popup a
+multiple-choice menu, and each template's title is also shown in the
+menu.
+
+*** Special Characters
+
+In the template definition, some chars have special meaning:
+
+-  =$0= → the position the cursor (after the snippte is inserted). You
+   don't need to put a =$0= if you don't need to.
+-  =$n= → a field, where the n is a integer starting with 1. (Example:
+   =$1=, =$2=, ...). Pressing tab will move cursor to these stops for
+   user to fill in. Multiple occurrence of the same =$n= means typing in
+   one field will automatically fill the other.
+-  =${n:default_text}= → same as =$n=, but provides a default text.
+-  =$&= → means indent the line according to the mode's indentation
+   rule.
+-  =`…`= → (backtick) is used to enclose elisp code. The lisp code will
+   be evaluated in the same buffer the snippet is being expanded.
+
+*** Sample Snippet Files
+
+Examples of defining HTML tags with field stop points:
+
+#+BEGIN_EXAMPLE
+    <h1>$1</h1>
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+    <img src="$1" class="$2" alt="$3">
+#+END_EXAMPLE
+
+You can also include lisp code in your template. For example, you might
+want to have a date stamp. Here's a example that insert user's email
+address and datestamp.
+
+#+BEGIN_EXAMPLE
+    `user-mail-address`
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+    `(current-time-string)`
+#+END_EXAMPLE
+
+*** Loading Your Template
+
+Once you create a template file, you have to load it. Call
+=yas-reload-all= 〖menu-bar ▸ yasnippet ▸ yas/Reload everything〗.
+

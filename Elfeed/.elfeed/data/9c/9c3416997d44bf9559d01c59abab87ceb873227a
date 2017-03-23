@@ -1,0 +1,9 @@
+This short tutorial come to fix your work and help you with examples and tutorials.<br />You can look to the internet and you can search many examples and tutorials but you can get errors.<br /><i>How to fix that:</i> <br />The first step is to know what <b>tensorflow</b> version of  you use. <br />[mythcat@localhost ~]$ python -c "import tensorflow; print(tensorflow.__version__)"<br />1.0.1<br />Then yo need to know what parts from <b>tensorflow</b> old version is deprecated from the last version.<br />One superannuated method is to fix old source code with this:<br /><pre><code>import tensorflow as tf<br />tf.scalar_summary = tf.summary.scalar<br />tf.merge_all_summaries = tf.summary.merge_all<br />tf.train.SummaryWriter = tf.summary.FileWriter</code></pre>A better method is to fix your source code and read the <a href="https://www.tensorflow.org/versions/" rel="nofollow" target="_blank">documentation</a>.<br /><br /><span class="short_text" id="result_box" lang="en"><span>Have a</span> <span>better</span> <span class="">day possible.</span></span><div class="blogger-post-footer"><!--
+google_ad_client = "pub-5803888417098621";
+google_ad_host = "pub-1556223355139109";
+/* 728x15, creat 11.02.2009 */
+google_ad_slot = "8579099222";
+google_ad_width = 728;
+google_ad_height = 15;
+//-->
+</div>

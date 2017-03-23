@@ -1,0 +1,10 @@
+
+            
+
+            <p>I needed to specify stdlib options in a certain environment, so I changed the flycheck executable to <code>clang -std=c++11 -stdlib=libc++</code>, which is needed to compile the file.</p>
+
+<p>However, I got the error <code>Error while checking syntax automatically: (error "Output file descriptor of flycheck-c/c++-clang is closed")</code> after doing so, and searches don't turn anything up.</p>
+
+<p>How do I help flycheck out?</p>
+
+        

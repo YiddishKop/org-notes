@@ -1,0 +1,8 @@
+
+            
+
+            <p>How do you configure emacs to open a file in the current window -- using the mouse -- when it is selected from a <code>dired</code> buffer? </p>
+
+<p>That is, when I open a directory and then select a file with the mouse I want the file displayed in the same window which displayed the <code>dired</code> buffer.</p>
+
+        

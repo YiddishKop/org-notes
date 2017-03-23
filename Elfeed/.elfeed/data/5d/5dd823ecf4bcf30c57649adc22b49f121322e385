@@ -1,0 +1,25 @@
+
+            
+
+            <p>I've recently upgraded emacs to version 24.4.1 and something has changed in the indentation of new lines. When I hit <kbd>enter</kbd> I expect just "bare" new line character at point where cursor was present, in particular if I'm in the middle of the line, that line should be splitted and none character be deleted including spaces. Unfortunately this is not the case.</p>
+
+<p>Here is example:</p>
+
+<pre><code>a b
+</code></pre>
+
+<p>When I put the cursor just after <code>a</code> and hit <kbd>enter</kbd> I get:</p>
+
+<pre><code>a
+b
+</code></pre>
+
+<p>while it should be</p>
+
+<pre><code>a
+ b
+</code></pre>
+
+<p>I googled a bit and probably this is due to auto-indentation, how can I disable this? I'm talking about text or fundamental mode if that matters.</p>
+
+        

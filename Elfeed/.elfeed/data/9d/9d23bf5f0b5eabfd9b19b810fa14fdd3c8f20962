@@ -1,0 +1,30 @@
+
+            
+
+            <p>I've been able to partially modify how emacs highlights syntax of python files. For example I find highlighting the definition of variable to be disturbing and I've done this</p>
+
+<pre><code>'(font-lock-constant-face ((t (:foreground "#2aa198" :weight normal))))
+ '(font-lock-keyword-face ((t (:foreground "#859900" :weight normal))))
+ '(font-lock-variable-name-face ((t (:foreground "#839496")))))
+</code></pre>
+
+<p>But I'd also like imports to be highlighted with different color, stop highlighting "sys.exit()" as a constant etc, treat print as a builtin function, not as keyword etc. So I need to change how emacs parses python code. In vim you can do this by creating a custom syntax file and placing it in special folder, how to do the same for emacs?</p>
+
+<pre><code>from abc import ABC
+print('some')
+map(int, ('1',))
+int('1')
+
+
+@cached
+def name(a, abc='abc'):
+    pass
+
+name(1, abc='bca')
+</code></pre>
+
+<p><a href="https://i.stack.imgur.com/AMC0p.jpg" rel="nofollow noreferrer"><img src="https://i.stack.imgur.com/AMC0p.jpg" alt="enter image description here"></a></p>
+
+<p>The right one is how I want syntax highlighting to look and the left one is emacs.</p>
+
+        

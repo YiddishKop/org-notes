@@ -1732,28 +1732,29 @@ WantedBy=multi-user.target
    |   | <vim>delete all the blank line                                   | :g/^$/d                 |                    |
    |   | <vim>delete all the line with only blank space in it             | :g/^\s*$/d              |                    |
 *** org
-   |   | <spe:org>capture org tempalte                                    | spc C c                 |                    |
-   |   | <spe:org>some org-mode handler                                   | ,                       |                    |
-   |   | <spe:org>org-mode clock in                                       | , I                     |                    |
-   |   | <spe:org>org-mode clock out                                      | , O                     |                    |
-   |   | <spe:org>org-mode switch index  1) + - 1.                        | -                       |                    |
-   |   | <spe:org>org-mode add TODO tag                                   | t                       |                    |
-   |   | <spe:org> quick insert todo items                                | F9                      |                    |
-   |   | <spe:org>indent ONE line text to proper number of lines          | M-q                     |                    |
-   |   | <spe:org>narrow a branch of org file                             | , n                     |                    |
-   |   | <spe:org>widden a branch of org file                             | , N                     |                    |
-   |   | <spe:org>move org branch up/down                                 | M-j/k                   |                    |
-   |   | <em:org>toggle org todo dependency                               | C-c C-x o               |                    |
-   |   | <em:org> jump to clocked task (can jump out from current file)   | C-C C-x C-j             |                    |
-   |   | <em:org>org column view                                          | C-c C-x C-c             |                    |
-   |   | <em:org>org attachment                                           | C-c C-a                 |                    |
-   |   | <em:org>org clock reporting(position on headline)                | C-c C-x C-r             |                    |
-   |   | <em:org>Org make id                                              | (M-x:)org-id-get-create |                    |
-   |   | <em:org>Org attanch file                                         | C-c C-a                 |                    |
-   |   | <em:org>org change state of a task                               | C-c C-t                 |                    |
-   |   | <em:org>org take note in LOGBOOK                                 | C-c C-z                 |                    |
-   |   | <em:org>toggle a org entry and set archive tag                   | C-c C-x a               |                    |
-   |   | <em:org>archive this branch file to achive org file              | C-c C-x C-a             |                    |
+   |   | <spe:org>capture org tempalte                                  | spc C c                 |   |
+   |   | <spe:org>some org-mode handler                                 | ,                       |   |
+   |   | <spe:org>org-mode clock in                                     | , I                     |   |
+   |   | <spe:org>org-mode clock out                                    | , O                     |   |
+   |   | <spe:org>org-mode switch index  1) + - 1.                      | -                       |   |
+   |   | <spe:org>org-mode add TODO tag                                 | t                       |   |
+   |   | <spe:org> quick insert todo items                              | F9                      |   |
+   |   | <spe:org>indent ONE line text to proper number of lines        | M-q                     |   |
+   |   | <spe:org>narrow a branch of org file                           | , n                     |   |
+   |   | <spe:org>widden a branch of org file                           | , N                     |   |
+   |   | <spe:org>move org branch up/down                               | M-j/k                   |   |
+   |   | <em:org>toggle org todo dependency                             | C-c C-x o               |   |
+   |   | <em:org> jump to clocked task (can jump out from current file) | C-C C-x C-j             |   |
+   |   | <em:org>org column view                                        | C-c C-x C-c             |   |
+   |   | <em:org>org attachment                                         | C-c C-a                 |   |
+   |   | <em:org>org clock reporting(position on headline)              | C-c C-x C-r             |   |
+   |   | <em:org>Org make id                                            | (M-x:)org-id-get-create |   |
+   |   | <em:org>Org attanch file                                       | C-c C-a                 |   |
+   |   | <em:org>org change state of a task                             | C-c C-t                 |   |
+   |   | <em:org>org take note in LOGBOOK                               | C-c C-z                 |   |
+   |   | <em:org>toggle a org entry and set archive tag                 | C-c C-x a               |   |
+   |   | <em:org>archive this branch file to achive org file            | C-c C-x C-a             |   |
+   |   | <spe:org> add a footnote ref                                   | , i f                   |   |
 *** avy
    |   | <spe:avy:format>avy-goto-char, a very handy way to locate cursor | spc j j                 |                    |
    |   | <spe:avy:format>avy-goto-line,                                   | spc j l                 |                    |

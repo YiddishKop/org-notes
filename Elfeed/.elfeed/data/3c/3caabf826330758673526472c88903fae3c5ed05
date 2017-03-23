@@ -1,0 +1,168 @@
+<div class="pf-content"><p>The Python programming language has several built-in types that it supports. One of my favorites is the dictionary. A dictionary is <em>a mapping object maps hashable values to arbitrary objects</em> (<a href="https://docs.python.org/2/library/stdtypes.html#mapping-types-dict" target="_blank">source</a>). Other languages call dictionaries &#8220;hash tables&#8221;. They are mutable objects that you can change whenever you want to, unlike tuples. A dictionary&#8217;s keys must be hashable or immutable, which means that you cannot use a list or another dictionary as a key. Note that dictionaries are not ordered. What this means is that when you iterate over a dictionary, you may not extract the values in the same order that you inserted them.</p>
+<p>In this article, we will take some time learning about some of the many things you can do with a dictionary.</p>
+<hr />
+<h3>Creating Dictionaries</h3>
+<p>
+<p>A dictionary is a <strong>key:value</strong> pair. In Python, these key:value pairs are enclosed inside of curly braces with commas between each pair. Creating dictionaries in Python is really easy. Here are the three ways to create a dictionary:</p>
+<pre class="python"><span>&gt;&gt;&gt;</span> my_dict = <span>&#123;</span><span>&#125;</span>
+<span>&gt;&gt;&gt;</span> my_other_dict = <span>dict</span><span>&#40;</span><span>&#41;</span>
+<span>&gt;&gt;&gt;</span> my_other_other_dict = <span>&#123;</span><span>1</span>: <span>'one'</span>, <span>2</span>: <span>'two'</span>, <span>3</span>: <span>'three'</span><span>&#125;</span></pre>
+<p>In the first example, we create an empty dictionary by just assigning our variable to a pair of empty curly braces. You can also create a dictionary object by calling Python&#8217;s built-in <strong>dict()</strong> keyword. I have seen some people mention that calling dict() is slightly slower than just doing the assignment operator. The last example shows how to create a dictionary with some predefined key:value pairs. You can have dictionaries that contain mappings of various types, including mapping to functions or objects. You can also nest dictionaries and lists inside your dictionaries!</p>
+<p><span id="more-6269"></span></p>
+<hr />
+<h3>Accessing Dictionary Values</h3>
+<p>
+<p>Accessing the values held in a dictionary is quite simple. All you need to do is pass a key to you dict inside of square braces. Let&#8217;s take a look at an example:</p>
+<pre class="python"><span>&gt;&gt;&gt;</span> my_other_other_dict = <span>&#123;</span><span>1</span>: <span>'one'</span>, <span>2</span>: <span>'two'</span>, <span>3</span>: <span>'three'</span><span>&#125;</span>
+<span>&gt;&gt;&gt;</span> my_other_other_dict<span>&#91;</span><span>1</span><span>&#93;</span>
+<span>'one'</span></pre>
+<p>What happens if you ask the dictionary for a key that doesn&#8217;t exist? You will receive a <strong>KeyError</strong>, like so:</p>
+<pre class="python"><span>&gt;&gt;&gt;</span> my_other_other_dict<span>&#91;</span><span>4</span><span>&#93;</span>
+Traceback <span>&#40;</span>most recent call last<span>&#41;</span>:
+  Python Shell, prompt <span>5</span>, line <span>1</span>
+<span>KeyError</span>: <span>4</span></pre>
+<p>This error is telling us that there is no key called &#8220;4&#8221; in the dictionary. If you want to avoid this error you can use the dict&#8217;s <strong>get()</strong> method:</p>
+<pre class="python"><span>&gt;&gt;&gt;</span> my_other_other_dict.<span>get</span><span>&#40;</span><span>4</span>, <span>None</span><span>&#41;</span>
+<span>None</span></pre>
+<p>The get() method will ask the dictionary if it contains the specified key (i.e. 4) and if it doesn&#8217;t, you can specify what value to return. In this example, we return a None type if the key does not exist.</p>
+<p>You can also use Python&#8217;s <strong>in</strong> operator to check if a dictionary contains a key as well:</p>
+<pre class="python"><span>&gt;&gt;&gt;</span> key = <span>4</span>
+<span>&gt;&gt;&gt;</span> <span>if</span> key <span>in</span> my_other_other_dict:
+        <span>print</span><span>&#40;</span><span>'Key ({}) found'</span>.<span>format</span><span>&#40;</span>key<span>&#41;</span><span>&#41;</span>
+    <span>else</span>:
+        <span>print</span><span>&#40;</span><span>'Key ({}) NOT found!'</span>.<span>format</span><span>&#40;</span>key<span>&#41;</span><span>&#41;</span>
+&nbsp;
+Key <span>&#40;</span><span>4</span><span>&#41;</span> NOT found<span>!</span></pre>
+<p>This will check if the key, 4, is in the dictionary and print the appropriate response. In Python 2, the dictionary also had a <strong>has_key()</strong> method that you could use in addition to using the in operator. However, has_key() was removed in Python 3.</p>
+<hr />
+<h3>Updating Keys</h3>
+<p>
+<p>As you&#8217;ve probably already guessed, updating the value that a key is pointing to is extremely easy. Here&#8217;s how:</p>
+<pre class="python"><span>&gt;&gt;&gt;</span> my_dict = <span>&#123;</span><span>&#125;</span>
+<span>&gt;&gt;&gt;</span> my_dict<span>&#91;</span><span>1</span><span>&#93;</span> = <span>'one'</span>
+<span>&gt;&gt;&gt;</span> my_dict<span>&#91;</span><span>1</span><span>&#93;</span>
+<span>'one'</span>
+<span>&gt;&gt;&gt;</span> my_dict<span>&#91;</span><span>1</span><span>&#93;</span> = <span>'something else'</span>
+<span>&gt;&gt;&gt;</span> my_dict<span>&#91;</span><span>1</span><span>&#93;</span>
+<span>'something else'</span></pre>
+<p>Here we create an empty dictionary instance and then add one element to the dictionary. Then we point that key, which is the integer 1 (one) in this case, to another string value. </p>
+<hr />
+<h3>Removing Keys</h3>
+<p>
+<p>There are two ways to remove key:value pairs from a dictionary. The first that we will cover is the dictionary&#8217;s <strong>pop()</strong> method. Pop will check if the key is in the dictionary and remove it if it is there. If the key is not in there, you will receive a KeyError. You can actually suppress the KeyError by passing in a second argument, which is the default return value. </p>
+<p>Let&#8217;s take a look at a couple of examples:</p>
+<pre class="python"><span>&gt;&gt;&gt;</span> my_dict = <span>&#123;</span><span>&#125;</span>
+<span>&gt;&gt;&gt;</span> my_dict<span>&#91;</span><span>1</span><span>&#93;</span> = <span>'something else'</span>
+<span>&gt;&gt;&gt;</span> my_dict.<span>pop</span><span>&#40;</span><span>1</span>, <span>None</span><span>&#41;</span>
+<span>'something else'</span>
+<span>&gt;&gt;&gt;</span> my_dict.<span>pop</span><span>&#40;</span><span>2</span><span>&#41;</span>
+Traceback <span>&#40;</span>most recent call last<span>&#41;</span>:
+  Python Shell, prompt <span>15</span>, line <span>1</span>
+<span>KeyError</span>: <span>2</span></pre>
+<p>Here we create a dictionary and add an entry. Then we remove that same entry using the pop() method. You will note that we also set the default to None so that if the key did not exist, the pop method would return None. In the first case, the key did exist, so it returned the value of the item it removed or popped.</p>
+<p>The second example demonstrates what happens when you attempt to call pop() on a key that is not in the dictionary. </p>
+<p>The other way to remove items from dictionaries is to use Python&#8217;s built-in del:</p>
+<pre class="python"><span>&gt;&gt;&gt;</span> my_dict = <span>&#123;</span><span>1</span>: <span>'one'</span>, <span>2</span>: <span>'two'</span>, <span>3</span>: <span>'three'</span><span>&#125;</span>
+<span>&gt;&gt;&gt;</span> <span>del</span> my_dict<span>&#91;</span><span>1</span><span>&#93;</span>
+<span>&gt;&gt;&gt;</span> my_dict
+<span>&gt;&gt;&gt;</span>  <span>&#123;</span><span>2</span>: <span>'two'</span>, <span>3</span>: <span>'three'</span><span>&#125;</span></pre>
+<p>This will delete the specified key:value pair from the dictionary. If the key isn&#8217;t in the dictionary, you will receive a <strong>KeyError</strong>. This is why I actually recommend the pop() method since you don&#8217;t need a <strong>try/except</strong> wrapping pop() as long as you supply a default.</p>
+<hr />
+<h3>Iterating</h3>
+<p>
+<p>The Python dictionary allows the programmer to iterate over its keys using a simple <strong>for loop</strong>. Let&#8217;s take a look:</p>
+<pre class="python"><span>&gt;&gt;&gt;</span> my_dict = <span>&#123;</span><span>1</span>: <span>'one'</span>, <span>2</span>: <span>'two'</span>, <span>3</span>: <span>'three'</span><span>&#125;</span>
+<span>&gt;&gt;&gt;</span> <span>for</span> key <span>in</span> my_dict:
+       <span>print</span><span>&#40;</span>key<span>&#41;</span>
+<span>1</span>
+<span>2</span>
+<span>3</span></pre>
+<p>Just a quick reminder: Python dictionaries are unordered, so you might not get the same result when you run this code. One thing I think needs mentioning at this point is that Python 3 changed things up a bit when it comes to dictionaries. In Python 2, you could call the dictionary&#8217;s keys() and values() methods to return Python lists of keys and values respectively:</p>
+<pre class="python"><span># Python 2</span>
+<span>&gt;&gt;&gt;</span> my_dict = <span>&#123;</span><span>1</span>: <span>'one'</span>, <span>2</span>: <span>'two'</span>, <span>3</span>: <span>'three'</span><span>&#125;</span>
+<span>&gt;&gt;&gt;</span> my_dict.<span>keys</span><span>&#40;</span><span>&#41;</span>
+<span>&#91;</span><span>1</span>, <span>2</span>, <span>3</span><span>&#93;</span>
+<span>&gt;&gt;&gt;</span> my_dict.<span>values</span><span>&#40;</span><span>&#41;</span>
+<span>&#91;</span><span>'one'</span>, <span>'two'</span>, <span>'three'</span><span>&#93;</span>
+<span>&gt;&gt;&gt;</span> my_dict.<span>items</span><span>&#40;</span><span>&#41;</span>
+<span>&#91;</span><span>&#40;</span><span>1</span>, <span>'one'</span><span>&#41;</span>, <span>&#40;</span><span>2</span>, <span>'two'</span><span>&#41;</span>, <span>&#40;</span><span>3</span>, <span>'three'</span><span>&#41;</span><span>&#93;</span></pre>
+<p>But in Python 3, you will get views returned:</p>
+<pre class="python"><span># Python 3</span>
+<span>&gt;&gt;&gt;</span> my_dict = <span>&#123;</span><span>1</span>: <span>'one'</span>, <span>2</span>: <span>'two'</span>, <span>3</span>: <span>'three'</span><span>&#125;</span>
+<span>&gt;&gt;&gt;</span> my_dict.<span>keys</span><span>&#40;</span><span>&#41;</span>
+<span>&gt;&gt;&gt;</span> dict_keys<span>&#40;</span><span>&#91;</span><span>1</span>, <span>2</span>, <span>3</span><span>&#93;</span><span>&#41;</span>
+<span>&gt;&gt;&gt;</span> my_dict.<span>values</span><span>&#40;</span><span>&#41;</span>
+<span>&gt;&gt;&gt;</span> dict_values<span>&#40;</span><span>&#91;</span><span>'one'</span>, <span>'two'</span>, <span>'three'</span><span>&#93;</span><span>&#41;</span>
+<span>&gt;&gt;&gt;</span> my_dict.<span>items</span><span>&#40;</span><span>&#41;</span>
+dict_items<span>&#40;</span><span>&#91;</span><span>&#40;</span><span>1</span>, <span>'one'</span><span>&#41;</span>, <span>&#40;</span><span>2</span>, <span>'two'</span><span>&#41;</span>, <span>&#40;</span><span>3</span>, <span>'three'</span><span>&#41;</span><span>&#93;</span><span>&#41;</span></pre>
+<p>In either version of Python, you can still iterate over the result:</p>
+<pre class="python"><span>for</span> item <span>in</span> my_dict.<span>values</span><span>&#40;</span><span>&#41;</span>:
+    <span>print</span><span>&#40;</span>item<span>&#41;</span>
+&nbsp;
+one
+two
+three</pre>
+<p>The reason is that both lists and views are iterable. Just remember that views are not indexable, so you won&#8217;t be able to do something like this in Python 3:</p>
+<pre class="python"><span>&gt;&gt;&gt;</span> my_dict.<span>values</span><span>&#40;</span><span>&#41;</span><span>&#91;</span><span>1</span><span>&#93;</span></pre>
+<p>This will raise a <strong>TypeError</strong>.</p>
+<p>Python has a lovely library called <strong>collections</strong> that contains some neat subclasses of the dictionary. We will be looking at the defaultdict and the OrderDict in the next two sections.</p>
+<hr />
+<h3>Default Dictionaries</h3>
+<p>
+<p>There is a really handy library called <strong>collections</strong> that has a <strong>defaultdict</strong> module in it. The defaultdict will accept a type as its first argument or default to None. The argument we pass in becomes a factory and is used to create the values of the dictionary. Let&#8217;s take a look at a simple example:</p>
+<pre class="python"><span>from</span> <span>collections</span> <span>import</span> defaultdict
+&nbsp;
+sentence = <span>&quot;The red for jumped over the fence and ran to the zoo&quot;</span>
+words = sentence.<span>split</span><span>&#40;</span><span>' '</span><span>&#41;</span>
+&nbsp;
+d = defaultdict<span>&#40;</span><span>int</span><span>&#41;</span>
+<span>for</span> word <span>in</span> words:
+    d<span>&#91;</span>word<span>&#93;</span> += <span>1</span>
+&nbsp;
+<span>print</span><span>&#40;</span>d<span>&#41;</span></pre>
+<p>In this code, we pass the defaultdict an int. This allows us count the words of a sentence in this case. Here&#8217;s the output of the code above:</p>
+<pre class="python">defaultdict<span>&#40;</span><span>&lt;</span>type <span>'int'</span><span>&gt;</span>, 
+            <span>&#123;</span><span>'and'</span>: <span>1</span>, 
+             <span>'fence'</span>: <span>1</span>, 
+             <span>'for'</span>: <span>1</span>, 
+             <span>'ran'</span>: <span>1</span>, 
+             <span>'jumped'</span>: <span>1</span>,
+             <span>'over'</span>: <span>1</span>, 
+             <span>'zoo'</span>: <span>1</span>, 
+             <span>'to'</span>: <span>1</span>, 
+             <span>'The'</span>: <span>1</span>, 
+             <span>'the'</span>: <span>2</span>, 
+             <span>'red'</span>: <span>1</span><span>&#125;</span><span>&#41;</span></pre>
+<p>As you can see, each word was found only once except for the string &#8220;the&#8221;. You will note that it is case-sensitive as &#8220;The&#8221; was only found once. We could probably make this code a bit better if we had changed the case of the strings to lower.</p>
+<hr />
+<h3>Ordered Dictionaries</h3>
+<p>
+<p>The collections library also let&#8217;s you create dictionaries that remember their order of insertion. This is known as the <strong>OrderedDict</strong>. Let&#8217;s take a look at an example from one of my previous <a href="https://www.blog.pythonlibrary.org/2016/03/24/python-201-ordereddict/" target="_blank">articles</a>:</p>
+<pre class="python"><span>&gt;&gt;&gt;</span> <span>from</span> <span>collections</span> <span>import</span> OrderedDict
+<span>&gt;&gt;&gt;</span> d = <span>&#123;</span><span>'banana'</span>: <span>3</span>, <span>'apple'</span>:<span>4</span>, <span>'pear'</span>: <span>1</span>, <span>'orange'</span>: <span>2</span><span>&#125;</span>
+<span>&gt;&gt;&gt;</span> new_d = OrderedDict<span>&#40;</span><span>sorted</span><span>&#40;</span>d.<span>items</span><span>&#40;</span><span>&#41;</span><span>&#41;</span><span>&#41;</span>
+<span>&gt;&gt;&gt;</span> new_d
+OrderedDict<span>&#40;</span><span>&#91;</span><span>&#40;</span><span>'apple'</span>, <span>4</span><span>&#41;</span>, <span>&#40;</span><span>'banana'</span>, <span>3</span><span>&#41;</span>, <span>&#40;</span><span>'orange'</span>, <span>2</span><span>&#41;</span>, <span>&#40;</span><span>'pear'</span>, <span>1</span><span>&#41;</span><span>&#93;</span><span>&#41;</span>
+<span>&gt;&gt;&gt;</span> <span>for</span> key <span>in</span> new_d:
+...     <span>print</span> <span>&#40;</span>key, new_d<span>&#91;</span>key<span>&#93;</span><span>&#41;</span>
+... 
+<span>apple</span> <span>4</span>
+banana <span>3</span>
+orange <span>2</span>
+pear <span>1</span></pre>
+<p>Here we create a regular dict, sort it and pass that to our OrderedDict. Then we iterate over our OrderedDict and print it out. You will note that it prints out in alphabetical order because that is how we inserted the data. This is something you likely wouldn&#8217;t see if you just iterated over the original dictionary.</p>
+<p>There is one other dictionary subclass in the collections module called the Counter that we won&#8217;t be covering here. I encourage you to check that out on your own.</p>
+<hr />
+<h3>Wrapping Up</h3>
+<p>
+<p>We&#8217;ve covered a lot of ground in this article. You should now know basically all you need to know about using dictionaries in Python. You have learned several methods of creating dictionaries, adding to them, updating their values, removing keys and even some of the alternate subclasses of the dictionary. I hope you&#8217;ve found this useful and that you will find many great uses for dictionaries in your own code soon!</p>
+<hr />
+<h3>Related Reading</h3>
+<p>
+<ul>
+<li>The Python dict <a href="https://docs.python.org/2/library/stdtypes.html#mapping-types-dict" target="_blank">documentation</a></li>
+<li>The collections module <a href="https://docs.python.org/3/library/collections.html" target="_blank">documentation</a></li>
+<li>Python 201: <a href="https://www.blog.pythonlibrary.org/2016/03/24/python-201-ordereddict/" target="_blank">OrderedDict</a></li>
+<li>Python 201 – <a href="https://www.blog.pythonlibrary.org/2016/03/23/python-201-the-handy-defaultdict/" target="_blank">The handy defaultdict</a></li>
+</ul>
+</p></p></p></p></p></p></p></p></p></div><p><a class="a2a_button_facebook" href="http://www.addtoany.com/add_to/facebook?linkurl=http%3A%2F%2Fwww.blog.pythonlibrary.org%2F2017%2F03%2F15%2Fpython-101-all-about-dictionaries%2F&linkname=Python%20101%3A%20All%20About%20Dictionaries" title="Facebook" rel="nofollow" target="_blank"></a><a class="a2a_button_twitter" href="http://www.addtoany.com/add_to/twitter?linkurl=http%3A%2F%2Fwww.blog.pythonlibrary.org%2F2017%2F03%2F15%2Fpython-101-all-about-dictionaries%2F&linkname=Python%20101%3A%20All%20About%20Dictionaries" title="Twitter" rel="nofollow" target="_blank"></a><a class="a2a_button_google_plus" href="http://www.addtoany.com/add_to/google_plus?linkurl=http%3A%2F%2Fwww.blog.pythonlibrary.org%2F2017%2F03%2F15%2Fpython-101-all-about-dictionaries%2F&linkname=Python%20101%3A%20All%20About%20Dictionaries" title="Google+" rel="nofollow" target="_blank"></a><a class="a2a_dd addtoany_share_save" href="https://www.addtoany.com/share#url=http%3A%2F%2Fwww.blog.pythonlibrary.org%2F2017%2F03%2F15%2Fpython-101-all-about-dictionaries%2F&title=Python%20101%3A%20All%20About%20Dictionaries"></a></p>
