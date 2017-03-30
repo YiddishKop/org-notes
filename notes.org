@@ -922,7 +922,7 @@ python -m doctest test_HelloWorld.py 2>&1
 **  fix a requirements of helm-ag                       :ErrorFix:
    need a requirement: silver-searcher
    [[https://github.com/ggreer/the_silver_searcher][silver-searcher]]
-* by now, The KENG in ubuntu 16.10
+* by now, The KENG in ubuntu 16.10 and Elementary OS
 ** emacs 25.1
 ** sub-wifi : Ralink 2870
 ** agent-pc sufer net by sharing the server-laptop's wirless netcard :Ubuntu:net:
@@ -1167,6 +1167,42 @@ WantedBy=multi-user.target
      iptables-restore < /etc/iptables.sav
      #+END_SRC
 
+
+** can not startup elementary os, after update
+
+   :TIME:
+   <2017-03-30 Thu 10:16>
+   :END:
+   :SYMPTOM:
+   1. have an update before restart ele-os
+   2. when restart ,black screen and invalid keyboard.
+   3. can not enter tty, by ~ctrl alt f1/f2~
+   4. can not enter GRUB, when press ~shift~
+   :END:
+   :SOLVE:
+   1. specify why crash
+      1) i make a livecd by burn elementary-os iso file in my usb-drive
+      2) restart, change the start device to this usb-drive
+      3) ~fdisk -l~ to see the specification of my disk, find the root drive of my ele-os
+      4) ~mkdir /mnt/sdb1~ to make a file for mounting
+      5) ~mount /dev/sdb1 /mnt/sdb1~ mount root drive to /mnt/sdb1
+      6) ~vim /mnt/sdb1/var/log/system~ to see the log when start ele-os
+      7) i find error message about "gpu-manager", says like that "can not enter /lib/modules/4.4.0-70xxxxxxxxx/updates/dkms"
+      8) i guess that this update is a kernel update, from 4.4.0-66 to 4.4.0-70
+      9) i guess this kernel update make my nvidia driver failed.
+      10) ~ls /mnt/sdb1/boot~ find that, only 4.4.0-66 has a .img file ,4.4.0-70 dont has this file with .img
+      11) i now specify the problem is *i make a new initramfs file of 4.4.0-66 include in it. but this update's crash give me no time to do same thing to 4.4.0-70.*
+   2. now problem is how to enter tty.
+      1) ~vim /mnt/sdb1/etc/default/grub~ to modify the =GRUB_CMDLINE_LINUX_DEFAULT= item from xxx to *nomodeset*
+      2) then reboot, grub work.
+      3) enter grub recover-mode, and enter *4.4.0-70*->upstart mode, and after a while of message, enter tty directly.
+      4) ~lsmod | grep nouveau~ , YES! 4.4.0-70 use nouveau as its default graphical driver.
+      5) ~dracut --omit-drivers nouveau~ and make a new initramfs.
+      6) reboot, DONE
+   :END:
+
+
+
 * ubuntu
 ** how to install source-code-pro font
    Ubuntu 14.04:
@@ -1185,6 +1221,46 @@ WantedBy=multi-user.target
      'd' for directory
    + '-name' must followed double quote wrapping the file name
      ""
+
+** how to install nvidia-driver in linux
+Linux secure boot(安全启动)时添加Nvidia显卡驱动
+开启Secure boot情况下，在Fedora 21下安装Nvidia 显卡驱动的方法。
+Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
+下载后添加可执行权限：
+#chmod +x NVIDIA-Linux*.run
+注意，安装Nvidia显卡需要满足的两个条件是
+1. nouveau（默认的显卡驱动）驱动程序必须禁用
+2. Xserver（图形界面） 要停止运行
+以上两个问题的解决方法如下：
+
+首先按Ctrl + Alt + F2进入终端
+输入root的帐号和密码后执行以下操作
+
+1. 禁用nouveau显卡驱动
+#sudo dracut --omit-drivers nouveau /boot/initramfs-$(uname -r).img $(uname -r) --force
+
+2. 停止Xserver
+#service gdm stop
+#service lightgdm stop
+3. 安装编译所需的程序
+#yum install gcc kernel-devel
+
+然后进入放NVIDIA-linux*.run的目录，执行该文件，按照提示进行操作。
+由于我这台机器已经安装好了驱动程序，就不再执行了（所以截图也就没有了）。
+注意在执行过程中，会出现提示是否使用dkms，由于在secure boot下使用dkms会导致无法开机，这里选择NO(否)。
+经过编译后会提示是否sign the kernel module（为内核模块签名），这里要选择是。接下来会继续问使用已有的密钥给模块签名还是重新生成。
+这里选在重新生成密钥。继续下去之后，密钥会在/usr/share/nvidia/下生成一个nvidia*.der（私钥）文件和nvidia*.key（公钥）文件，当提示是否删除已生成的密钥文件时，选择否，
+因为之后要用到这两个文件。继续安装程序到最后会提示无法启动模块。这是因为生成的密钥还没有添加到内核的信任库中。
+添加密钥到内核的信任列表中：
+
+#sudo mokutil --import /usr/share/nvidia/nvida*.der
+
+接下来会提示输入密码，两次输入密码后重启系统。
+#reboot
+
+重启进入bootloader之后，由于进行了添加密钥操作，会触发shim，shim会要求输入上一步输入的密码来导入密钥。按步骤操作。
+
+导入密钥之后，启动时内核就可以成功加载编译过的Nvidia显卡驱动了。
 * git
 ** Git:[[http://learngitbranching.js.org/][An interesting web for git-study]]
 *** git checkout 的本质就是移动HEAD

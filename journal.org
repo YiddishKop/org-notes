@@ -2458,19 +2458,19 @@ from argparse import ArgumentParser
     六 10月 15 17:50:58 CST 2011
     唷~ 變中文了耶，喔耶~~ 不過這種格式其實我不是很喜歡，所以下面我要把它改回英文…
     若只要變更自己帳號登入的語系設定，那麼編輯家目錄下的.bashrc檔，在最後面加上，例如:
-    $ vim ~/.bashrc
+    *$ vim ~/.bashrc*
     ...(略)...
     export LC_CTYPE=zh_TW.UTF-8 # 可以輸入UTF-8中文
     export LC_MESSAGES=zh_TW.UTF-8 # 可以顯示UTF-8中文
     export LC_TIME=en_US.UTF-8 # 日期格式還是用美式的
     然後重新登入，噹噹~~就生效了
     若要變更的是系統全域設定，那麼就把設定寫在 /etc/default/locale 這個檔案裡
-    $ sudo vim /etc/default/locale
+    *$ sudo vim /etc/default/locale*
     LC_CTYPE=zh_TW.UTF-8
     LC_MESSAGES=zh_TW.UTF-8
     LC_TIME=zh_TW.UTF-8
     或者加到環境變數的設定檔 /etc/environment 最後面
-    $ sudo vim /etc/environment
+    *$ sudo vim /etc/environment*
     ....(略)...
     LC_CTYPE=zh_TW.UTF-8
     LC_MESSAGES=zh_TW.UTF-8
@@ -3264,13 +3264,6 @@ Recognized properties are:
 ** 2017-03 March
 *** 2017-03-14 Tuesday
 
-**** Datetree YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
-
-     [2017-03-14 Tue 11:24]
-
-**** Datetree XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx
-
-     [2017-03-14 Tue 11:25]
 
 **** MESSY org-capture.el 閱讀筆記 (學習如何把對應的代碼類型都放在一個node下)
      0. 首先org-capture 維護着一個 capture properties 的列表,包括
@@ -3942,8 +3935,8 @@ Recognized properties are:
      | 餐桌+4*餐椅 | 3000 |      |
      | 電視櫃      | 1890 |      |
      | 窗簾        | 2889 |      |
----------------------------------------
-Total: 16119 rmb
+     ---------------------------------------
+     Total: 16119 rmb
 **** MESSY 高清 footnote 的definition 和 reference.
      你在文檔裏嵌入的叫做  reference
      在你腳注裏注明的叫做  definition
@@ -4129,78 +4122,78 @@ $0
       File:   /home/yiddi/.spacemacs.d/
 
 **** MESSY 如何配置mu4e 的 maildir
-   Source: [2017-03-17 Fri], [[http://www.djcbsoftware.nl/code/mu/mu4e/Folders.html#Folders][Mu4e 0.9.18 user manual: Folders]]
+     Source: [2017-03-17 Fri], [[http://www.djcbsoftware.nl/code/mu/mu4e/Folders.html#Folders][Mu4e 0.9.18 user manual: Folders]]
 
 
-   The next step is to tell mu4e where it can find your Maildir, and some special folders.
+     The next step is to tell mu4e where it can find your Maildir, and some special folders.
 
-   So, for example18:
+     So, for example18:
 
-   ;; these are actually the defaults
-   (setq
+     ;; these are actually the defaults
+     (setq
      mu4e-maildir       "~/Maildir"   ;; top-level Maildir
      mu4e-sent-folder   "/sent"       ;; folder for sent messages
      mu4e-drafts-folder "/drafts"     ;; unfinished messages
      mu4e-trash-folder  "/trash"      ;; trashed messages
      mu4e-refile-folder "/archive")   ;; saved messages
 
-   Note, mu4e-maildir takes an actual filesystem-path, the other folder names
-   are all *relative to mu4e-maildir*. Also note that this must not be a symbolic
-   link.
+     Note, mu4e-maildir takes an actual filesystem-path, the other folder names
+     are all *relative to mu4e-maildir*. Also note that this must not be a symbolic
+     link.
 
-   If you use mu4e-context, see Contexts and special folders for what that means
-   for these special folder
+     If you use mu4e-context, see Contexts and special folders for what that means
+     for these special folder
 *** 2017-03-18 Saturday
 
 **** MESSY  [[http://coldnew.github.io/blog/2016/01-02_mu4e/][在 emacs 下使用 mu4e 收發郵件 | coldnew's blog]]             :mu4e:
-   Captured On: [2017-03-18 Sat 10:19]
+     Captured On: [2017-03-18 Sat 10:19]
 
 **** MESSY 2nd verification password of google for emacs           :personal:
-   avuyyikdtkqaydfp
-    Link:  [[file:~/.spacemacs.d/init.el::(mu4e-sent-folder%20"/uni/sent")]]
-   File:   /home/yiddi/.spacemacs.d/init.el
+     avuyyikdtkqaydfp
+     Link:  [[file:~/.spacemacs.d/init.el::(mu4e-sent-folder%20"/uni/sent")]]
+     File:   /home/yiddi/.spacemacs.d/init.el
 
 **** MESSY hotkey
      spc s p search project
      spc s f search for files and ceratin suffix files
      spc s b search all the open buffer
 
-   http://coldnew.github.io/blog/2016/01-02_mu4e/
-    Link:  [[file:~/.spacemacs.d/init.el::(mu4e-sent-folder%20"/gmail/sent")]]
-   File:   /home/yiddi/.spacemacs.d/init.el
+     http://coldnew.github.io/blog/2016/01-02_mu4e/
+     Link:  [[file:~/.spacemacs.d/init.el::(mu4e-sent-folder%20"/gmail/sent")]]
+     File:   /home/yiddi/.spacemacs.d/init.el
 
 **** MESSY  [[http://blog.csdn.net/xingzouagain/article/details/52511129][GnuPG使用介绍 - xingzouagain的博客 - 博客频道 - CSDN.NET]]
-   Captured On: [2017-03-18 Sat 15:14]
+     Captured On: [2017-03-18 Sat 15:14]
 
 **** MESSY  [[https://www.apache.org/dev/openpgp.html][How To OpenPGP]]
-   Captured On: [2017-03-18 Sat 15:28]
+     Captured On: [2017-03-18 Sat 15:28]
 
 **** MESSY 2-step 登錄方式
      1. 生成16位密碼
      2. 在任意你希望以此16位密碼代替原密碼的app(eg:gmail)中設置他
-   Source: [2017-03-18 Sat], [[https://myaccount.google.com/apppasswords?rapt=AEjHL4OXBuBVmTbPt5qcthqOC0Q4QIcavOeYt899uZ_HCaAj8D5kcuhdRFswUlcYM_YlkxI8Bn6Iv-DqqQ1m59K0K6TPxX2yug][应用专用密码]]
+     Source: [2017-03-18 Sat], [[https://myaccount.google.com/apppasswords?rapt=AEjHL4OXBuBVmTbPt5qcthqOC0Q4QIcavOeYt899uZ_HCaAj8D5kcuhdRFswUlcYM_YlkxI8Bn6Iv-DqqQ1m59K0K6TPxX2yug][应用专用密码]]
 
 
-   在您要设置的应用或设备中，前往您的Google帐号的设置部分。将您的密码更换成由16个字符组成的密码（如上所示）。
-   该应用专用密码的效用跟普通密码一样。有了它，就可以获得您Google帐号的完全访问权限。您无需记住该密码，所以请勿将它写下来或告诉他人。
-   完成
+     在您要设置的应用或设备中，前往您的Google帐号的设置部分。将您的密码更换成由16个字符组成的密码（如上所示）。
+     该应用专用密码的效用跟普通密码一样。有了它，就可以获得您Google帐号的完全访问权限。您无需记住该密码，所以请勿将它写下来或告诉他人。
+     完成
 
 **** MESSY  [[http://orgmode.org/worg/org-tutorials/encrypting-files.html][Encrypting org Files.]]                                       :gpg:
-   Captured On: [2017-03-18 Sat 20:40]
+     Captured On: [2017-03-18 Sat 20:40]
 
 **** MESSY  [[https://www.gnu.org/software/emacs/manual/html_node/epa/index.html#Top][EasyPG Assistant User’s Manual: Top]]                        :gpg:
-   Captured On: [2017-03-18 Sat 20:41]
+     Captured On: [2017-03-18 Sat 20:41]
 
 **** MESSY  [[http://blog.csdn.net/xingzouagain/article/details/52511129][GnuPG使用介绍 - xingzouagain的博客 - 博客频道 - CSDN.NET]]    :gpg:
-   Captured On: [2017-03-18 Sat 20:41]
+     Captured On: [2017-03-18 Sat 20:41]
 
 **** MESSY  [[http://coldnew.github.io/blog/2016/01-02_mu4e/][在 emacs 下使用 mu4e 收發郵件 | coldnew's blog]]             :mu4e:
-   Captured On: [2017-03-18 Sat 20:43]
+     Captured On: [2017-03-18 Sat 20:43]
 
 **** MESSY  [[https://github.com/OfflineIMAP/offlineimap/blob/master/offlineimap.conf][offlineimap/offlineimap.conf at master · OfflineIMAP/offlineimap]] :offlineimap:mu4e:
      這個文件是 配置詳情
      幫我解決了,如何獲取 refresh_token 問題
-   Captured On: [2017-03-18 Sat 22:25]
+     Captured On: [2017-03-18 Sat 22:25]
 
 **** MESSY 這是臺灣一個大神給的配置, 但是那兩個注釋着實害慘我了
 
@@ -4212,40 +4205,40 @@ $0
        - http://blog.csdn.net/xingzouagain/article/details/52511129
 
 
-http://coldnew.github.io/blog/2016/01-02_mu4e/
+     http://coldnew.github.io/blog/2016/01-02_mu4e/
 
-[general]
-accounts = yiddi
-maxsyncaccounts = 3
-pythonfile = ~/.offlineimap.py
-[Account yiddi]
-localrepository = yiddi-Local
-remoterepository = yiddi-Remote
-[Repository yiddi-Local]
-type = Maildir
-localfolders = ~/.mail/gmail
-[Repository yiddi-Remote]
-type = Gmail
-remotehost = imap.gmail.com
+     [general]
+     accounts = yiddi
+     maxsyncaccounts = 3
+     pythonfile = ~/.offlineimap.py
+     [Account yiddi]
+     localrepository = yiddi-Local
+     remoterepository = yiddi-Remote
+     [Repository yiddi-Local]
+     type = Maildir
+     localfolders = ~/.mail/gmail
+     [Repository yiddi-Remote]
+     type = Gmail
+     remotehost = imap.gmail.com
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-remoteuser = yiddishkop@gmail.com # <-----------chenge your account here
-remotepasseval = get_password_emacs("imap.gmail.com", "993") # <-------------- get pswd here
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     remoteuser = yiddishkop@gmail.com # <-----------chenge your account here
+     remotepasseval = get_password_emacs("imap.gmail.com", "993") # <-------------- get pswd here
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-# remotepass = y.l.7130201
-ssl = yes
-sslcacertfile = /etc/ssl/certs/ca-certificates.crt
-nametrans = lambda foldername: foldername.decode('imap4-utf-7').encode('utf-8')
-maxconnections = 4
-realdelete = yes
-oauth2_client_id = 428779981436-9kbic426kllhu178naf0drkgfk4qmn4n.apps.googleusercontent.com
-oauth2_client_secret = y5cQRwI78U-vNvl4ZKnYZNlx
-oauth2_refresh_token = 1/t4L2PBSuxatB7OqT-YEHQB1Vh_eGOU_hOwOx8UAon_8
-oauth2_request_url = https://accounts.google.com/o/oauth2/token
+     # remotepass = y.l.7130201
+     ssl = yes
+     sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+     nametrans = lambda foldername: foldername.decode('imap4-utf-7').encode('utf-8')
+     maxconnections = 4
+     realdelete = yes
+     oauth2_client_id = 428779981436-9kbic426kllhu178naf0drkgfk4qmn4n.apps.googleusercontent.com
+     oauth2_client_secret = y5cQRwI78U-vNvl4ZKnYZNlx
+     oauth2_refresh_token = 1/t4L2PBSuxatB7OqT-YEHQB1Vh_eGOU_hOwOx8UAon_8
+     oauth2_request_url = https://accounts.google.com/o/oauth2/token
 
-    Link:  [[file:~/.offlineimaprc::type%20=%20Gmail]]
-   File:   /home/yiddi/.offlineimaprc
+     Link:  [[file:~/.offlineimaprc::type%20=%20Gmail]]
+     File:   /home/yiddi/.offlineimaprc
 *** 2017-03-19 Sunday
 
 **** MESSY can not close emacs, tips: host name must not match with 'adb'
@@ -4264,82 +4257,82 @@ oauth2_request_url = https://accounts.google.com/o/oauth2/token
      ;; https://github.com/syl20bnr/spacemacs/issues/2705
      (setq tramp-mode nil)
 
-    Link:  [[file:~/.spacemacs.d/init.el::(setq%20tramp-mode%20nil)]]
-    File:   /home/yiddi/.spacemacs.d/init.el
+     Link:  [[file:~/.spacemacs.d/init.el::(setq%20tramp-mode%20nil)]]
+     File:   /home/yiddi/.spacemacs.d/init.el
 
 **** MESSY 關於 company-mode 的emacs 版配置(與 spacemacs 不同)
-   Source: [2017-03-19 Sun], [[http://dockone.io/article/709][阅读Docker源代码的神兵利器 - DockOne.io]]
+     Source: [2017-03-19 Sun], [[http://dockone.io/article/709][阅读Docker源代码的神兵利器 - DockOne.io]]
 
 
-   4. Emacs
+     4. Emacs
 
-   Emacs作为与Vim齐名的文本编辑器，号称“神之编辑器”，用来浏览和编写Go代码也是非常方便的。本节也只作为Emacs老用户的抛砖引玉，在此之前，用户需要做好适合自己的配置。下面我们就以Emacs24为例，简单介绍几个实用的插件，用户需要先使用go get命令安装好gofmt、godef、godoc、gocode等工具。
-   go-mode
+     Emacs作为与Vim齐名的文本编辑器，号称“神之编辑器”，用来浏览和编写Go代码也是非常方便的。本节也只作为Emacs老用户的抛砖引玉，在此之前，用户需要做好适合自己的配置。下面我们就以Emacs24为例，简单介绍几个实用的插件，用户需要先使用go get命令安装好gofmt、godef、godoc、gocode等工具。
+     go-mode
 
-   go-mode在提供了自动缩进和语法高亮功能的基础上，还整合了Go语言自带的工具，如gofmt、godoc、godef等。在Emacs24以后的版本中，可以使用自带的Package工具进行安装，命令如下：M-x package-install go-mode下面我们主要介绍格式整理以及定义跳转两项功能的配置。
-   格式整理
+     go-mode在提供了自动缩进和语法高亮功能的基础上，还整合了Go语言自带的工具，如gofmt、godoc、godef等。在Emacs24以后的版本中，可以使用自带的Package工具进行安装，命令如下：M-x package-install go-mode下面我们主要介绍格式整理以及定义跳转两项功能的配置。
+     格式整理
 
-   格式整理功能直接调用了gofmt工具，该工具能使用户的代码风格与其他开发人员保持一致。在Emacs中，用户可以直接调用gofmt命令，对当前窗口的代码进行格式整理。另一种方式是为before-save-hook添加函数，示例如下：
-   (add-hook 'before-save-hook 'gofmt-before-save)
+     格式整理功能直接调用了gofmt工具，该工具能使用户的代码风格与其他开发人员保持一致。在Emacs中，用户可以直接调用gofmt命令，对当前窗口的代码进行格式整理。另一种方式是为before-save-hook添加函数，示例如下：
+     (add-hook 'before-save-hook 'gofmt-before-save)
 
-   这样在用户每次存档时就会自动进行格式整理。
-   定义跳转
+     这样在用户每次存档时就会自动进行格式整理。
+     定义跳转
 
-   定义跳转使用了godef工具，该工具能分析用户的代码、其他包内的代码以及Go标准库，实现在这三者间的定义跳转。Emacs提供了godef-jump命令实现跳转，默认绑定键为C-c C-j，用户也可以自己定义按键绑定，如绑定到F3键：
-   (add-hook 'go-mode-hook
-   '(lambda () (local-set-key (kbd "<f3>") 'godef-jump)))
+     定义跳转使用了godef工具，该工具能分析用户的代码、其他包内的代码以及Go标准库，实现在这三者间的定义跳转。Emacs提供了godef-jump命令实现跳转，默认绑定键为C-c C-j，用户也可以自己定义按键绑定，如绑定到F3键：
+     (add-hook 'go-mode-hook
+     '(lambda () (local-set-key (kbd "<f3>") 'godef-jump)))
 
-   为了在跳转之后能跳转回来，用户可以添加如下配置，这样可以使用F2键回到原先的位置。
-   (add-hook 'go-mode-hook
-   '(lambda () (local-set-key (kbd "<f2>") 'pop-tag-mark)))
+     为了在跳转之后能跳转回来，用户可以添加如下配置，这样可以使用F2键回到原先的位置。
+     (add-hook 'go-mode-hook
+     '(lambda () (local-set-key (kbd "<f2>") 'pop-tag-mark)))
 
-   此外，go-mode还提供了管理imports、使用godoc等工具，这里不再一一赘述。
-   company-go
+     此外，go-mode还提供了管理imports、使用godoc等工具，这里不再一一赘述。
+     company-go
 
-   company-go调用gocode工具提供自动完成功能，用户可以直接使用Package工具安装company-mode和company-go，并进行如下配置：
-   (add-hook 'go-mode-hook 'company-mode)
-   (add-hook 'go-mode-hook
-   (lambda ()
-   (set (make-local-variable 'company-backends) '(company-go))
-   (company-mode)))
+     company-go调用gocode工具提供自动完成功能，用户可以直接使用Package工具安装company-mode和company-go，并进行如下配置：
+     (add-hook 'go-mode-hook 'company-mode)
+     (add-hook 'go-mode-hook
+     (lambda ()
+     (set (make-local-variable 'company-backends) '(company-go))
+     (company-mode)))
 
-   Emacs还为用户提供了极大的自由度，建议用户使用最新版本的Emacs和插件，善用Package功能和网上贡献的工具，这样能获得最新的功能和更好的体验。
+     Emacs还为用户提供了极大的自由度，建议用户使用最新版本的Emacs和插件，善用Package功能和网上贡献的工具，这样能获得最新的功能和更好的体验。
 *** 2017-03-20 Monday
 
 **** MESSY  關於如何給某一個mode設置 evil-<xxx>-state
 
      你想讓某一個 major-mode 默認使用哪一種 evil 的state?
      就這麼做:
-#+BEGIN_SRC emacs-lisp
+     #+BEGIN_SRC emacs-lisp
      (dolist (mode '(ag-mode
                      flycheck-error-list-mode
                      git-rebase-mode))
      (add-to-list 'evil-emacs-state-modes mode))
-#+END_SRC
+     #+END_SRC
 
-工作流程:
-1. 查詢你需要設置爲 evil state 的major-mode的名字: M-x major-mode
+     工作流程:
+     1. 查詢你需要設置爲 evil state 的major-mode的名字: M-x major-mode
 
-2. 填到上述 dolist 的列表中
+     2. 填到上述 dolist 的列表中
 
-   Link:
-   File:
+        Link:
+        File:
 
 **** MESSY  C-c C-v Tab inspect the content of an object   :commonlisp:debug:
-#+BEGIN_SRC commonlisp
+     #+BEGIN_SRC commonlisp
 CL-USER> (make-instance 'point :x 10 :y 20)
          #<POINT {1003FB6433}> ; 鼠標就放在{}之內,按下 ~C-c C-v tab~
 CL-USER> (point-x #<POINT {1003FB6433}>)
-#+END_SRC
+     #+END_SRC
 
 **** MESSY 查看某個函數的具體調用棧: Slime Trace Dialog    :debug:commonlisp:
-1) 跟蹤某個函數: ~C-c M-t~ 而後輸入函數名.
-2) runnning the code: CL-USER:(call func)
-3) 打開跟蹤結果: ~C-c T~
-4) 刷新獲得最近跟蹤: ~G~
+     1) 跟蹤某個函數: ~C-c M-t~ 而後輸入函數名.
+     2) runnning the code: CL-USER:(call func)
+     3) 打開跟蹤結果: ~C-c T~
+     4) 刷新獲得最近跟蹤: ~G~
 
 
-#+BEGIN_SRC common-lisp
+     #+BEGIN_SRC common-lisp
 
 (defun sum (xs &optional (acc 0))
   (if (null xs)
@@ -4372,69 +4365,69 @@ Trace collection status (4/8)                     [refresh]
                 > 6
                 < 6
 
-#+END_SRC
+     #+END_SRC
 
 **** MESSY commonlisp如何調出debug界面                     :commonlisp:debug:
-1. 首先打開debug ~(declaim (optimize (debug 3)))~
-2. 編譯函數,並在repl(CL-USER)運行之
-3. 運行會自動打開debug界面
-4. 此時說明有錯,回去在函數中加入 ~(break)~, break-point
-5. 再次於repl中執行,會再次顯示debug界面
-6. ~evil-emacs-state~ 下,在調用棧按下 ~r~,從某個調用開始,按 ~s~ , 單步執行.
+     1. 首先打開debug ~(declaim (optimize (debug 3)))~
+     2. 編譯函數,並在repl(CL-USER)運行之
+     3. 運行會自動打開debug界面
+     4. 此時說明有錯,回去在函數中加入 ~(break)~, break-point
+     5. 再次於repl中執行,會再次顯示debug界面
+     6. ~evil-emacs-state~ 下,在調用棧按下 ~r~,從某個調用開始,按 ~s~ , 單步執行.
 
 
-#+BEGIN_SRC common-lisp
+     #+BEGIN_SRC common-lisp
 CL-USER> (declaim (optimize (debug 3)))
          NIL
 CL-USER> (your-program)
-#+END_SRC
+     #+END_SRC
 
 **** MESSY dynamic variable                                      :commonlisp:
-   Source: [2017-03-20 Mon], [[http://malisper.me/category/debugging-common-lisp/][Debugging Lisp Archives - Macrology]]
+     Source: [2017-03-20 Mon], [[http://malisper.me/category/debugging-common-lisp/][Debugging Lisp Archives - Macrology]]
 
 
-   A dynamic variable is basically a global variable that can be shadowed. When
-   a dynamic variable is shadowed, any reference to it refers to the new
-   binding. Once execution leaves the form that shadowed the dynamic variable,
-   the dynamic variable reverts back to its previous binding.
+     A dynamic variable is basically a global variable that can be shadowed. When
+     a dynamic variable is shadowed, any reference to it refers to the new
+     binding. Once execution leaves the form that shadowed the dynamic variable,
+     the dynamic variable reverts back to its previous binding.
 
 **** MESSY try/catch/throw in commonlisp                   :commonlisp:debug:
-when encounter an exception, languages(*exculde commonlisp*) let you have several choice:
-1. just *skip* the entry that caused the error, just use *handler-case* (catch)
-   #+BEGIN_SRC common-lisp
-   (defun read-file (file)
-  (with-open-file (in file :direction :input)
-    (loop for line = (read-line in nil in)
-          until (eq in line)
-          when (handler-case (parse-integer line) ;; 當catch到問題
-                 (error (c)                       ;; 直接忽略他
-                   (declare (ignore c))
-                   nil))
-          collect it)))
-   #+END_SRC
+     when encounter an exception, languages(*exculde commonlisp*) let you have several choice:
+     1. just *skip* the entry that caused the error, just use *handler-case* (catch)
+        #+BEGIN_SRC common-lisp
+        (defun read-file (file)
+       (with-open-file (in file :direction :input)
+         (loop for line = (read-line in nil in)
+               until (eq in line)
+               when (handler-case (parse-integer line) ;; 當catch到問題
+                      (error (c)                       ;; 直接忽略他
+                        (declare (ignore c))
+                        nil))
+               collect it)))
+        #+END_SRC
 
-2. provide a *dynamic variable* in place for the user of this funcion
-   #+BEGIN_SRC common-lisp
-(defvar *malformed-value* nil) ;; 這是一個動態的變量
+     2. provide a *dynamic variable* in place for the user of this funcion
+        #+BEGIN_SRC common-lisp
+     (defvar *malformed-value* nil) ;; 這是一個動態的變量
 
-(defun read-file (file)
-  (with-open-file (in file :direction :input)
-    (loop for line = (read-line in nil in)
-          until (eq in line)
-          when (handler-case (parse-integer line)
-                 (error (c)
-                   (declare (ignore c))
-                   *malformed-value*));; 這個動態變量可以被返回或者指定其他值
-          collect it)))
+     (defun read-file (file)
+       (with-open-file (in file :direction :input)
+         (loop for line = (read-line in nil in)
+               until (eq in line)
+               when (handler-case (parse-integer line)
+                      (error (c)
+                        (declare (ignore c))
+                        *malformed-value*));; 這個動態變量可以被返回或者指定其他值
+               collect it)))
 
-(let ((*malformed-value* :malformed))
-  (read-files *files*))
+     (let ((*malformed-value* :malformed))
+       (read-files *files*))
 
-=> ((5 10 15 20 25) (5 10 15 20 :MALFORMED 30 40))
-   #+END_SRC
+     => ((5 10 15 20 25) (5 10 15 20 :MALFORMED 30 40))
+        #+END_SRC
 
-3. make read-files catch the error and *skip the entire* file
-#+BEGIN_SRC common-lisp
+     3. make read-files catch the error and *skip the entire* file
+     #+BEGIN_SRC common-lisp
 (defun read-files (files)  ;; 不是在 read-file 中catch,而是更不負責一些
   (loop for file in files  ;; 而是交給這裏的 read-files
         when (handler-case (read-file file)
@@ -4445,22 +4438,22 @@ when encounter an exception, languages(*exculde commonlisp*) let you have severa
 
 (read-files *files*)
 => ((5 10 15 20 25))
-#+END_SRC
+     #+END_SRC
 
-4. let user of the function handle this exception
-#+BEGIN_SRC common-lisp
+     4. let user of the function handle this exception
+     #+BEGIN_SRC common-lisp
 (handler-case (read-files *files*) ;; 最不負責人的行爲,讓用戶處理,更自由一些
   (error (c) (do-something)))
-#+END_SRC
+     #+END_SRC
 
 ***** catch is provided as 2 separate pieces: handler and restarts
-commonlisp can give user all choices by *restart*
+      commonlisp can give user all choices by *restart*
 
 **** MESSY awesome restart in commonlisp
-when we use restart we can choose what to do in debug-view.
-箭頭所指的那三個部分,就是我們自己在函數中定義的三種處理方式
+     when we use restart we can choose what to do in debug-view.
+     箭頭所指的那三個部分,就是我們自己在函數中定義的三種處理方式
 
-#+BEGIN_SRC common-lisp
+     #+BEGIN_SRC common-lisp
    junk in string "a"
       [Condition of type SB-INT:SIMPLE-PARSE-ERROR]
 
@@ -4522,10 +4515,10 @@ when we use restart we can choose what to do in debug-view.
   (lambda (c)
     (declare (ignore c))
     (invoke-restart 'use-value value)))
-#+END_SRC
+     #+END_SRC
 
 ***** 用 restarts 來實現break point 功能
-#+BEGIN_SRC common-lisp
+      #+BEGIN_SRC common-lisp
 (defun break (&optional (format-control "Break")
               &rest format-arguments)
    (with-simple-restart (continue "Return from BREAK.")
@@ -4535,12 +4528,12 @@ when we use restart we can choose what to do in debug-view.
            :format-control   format-control
            :format-arguments format-arguments))))
    nil)
-#+END_SRC
+      #+END_SRC
 *** 2017-03-21 Tuesday
 
 **** MESSY trace函數的指定斷點詳細位置                     :commonlisp:debug:
 
-#+BEGIN_SRC common-lisp
+     #+BEGIN_SRC common-lisp
 (trace fib :break (= 8 (sb-debug:arg 0))) ;; 這句意思是 在fib函數第0個參數爲8時break.
 (fib 10)
 
@@ -4550,15 +4543,15 @@ CL-USER> (fib 10)
 2: (FIB 8)
 ; Evaluation aborted on NIL.
 
-#+END_SRC
+     #+END_SRC
 
-#+BEGIN_SRC common-lisp
+     #+BEGIN_SRC common-lisp
 (trace fib :print-after (get-universal-time));; 每次fib函數返回就打印當前unix系統時間
-#+END_SRC
+     #+END_SRC
 
 **** MESSY  [[http://weitz.de/cl-ppcre/#install][CL-PPCRE - Portable Perl-compatible regular expressions for Common Lisp]]
      commonlisp下的一個regex工具包
-   Captured On: [2017-03-21 Tue 09:25]
+     Captured On: [2017-03-21 Tue 09:25]
 
 **** MESSY  [[https://www.quicklisp.org/beta/][Quicklisp beta]]                    :commonlisp:package:management:
      相當於一個common-lisp 下的包管理工具.可以直接通過repl或者系統terminal工具安裝.
@@ -4567,72 +4560,72 @@ CL-USER> (fib 10)
      ----> 進入sbcl 的 repl 界面
      * (ql:quickload :<包名>)  ;; 通過這條命令安裝包
      #+END_SRC
-   Captured On: [2017-03-21 Tue 09:26]
+     Captured On: [2017-03-21 Tue 09:26]
 
 **** MESSY backquote in lisp                           :commonlisp:backquote:
-   Source: [2017-03-21 Tue], [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Backquote.html][GNU Emacs Lisp Reference Manual: Backquote]]
+     Source: [2017-03-21 Tue], [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Backquote.html][GNU Emacs Lisp Reference Manual: Backquote]]
 
-1. 因爲lisp中全是 list, ~'~ 在lisp中是表示後面的緊跟的list,就單純作爲list看待,而不是作爲函數
+     1. 因爲lisp中全是 list, ~'~ 在lisp中是表示後面的緊跟的list,就單純作爲list看待,而不是作爲函數
 
-2. ~`~ 也表示後面緊跟的list,就單純作爲list看待,但允許其中一部分作爲函數來計算.
+     2. ~`~ 也表示後面緊跟的list,就單純作爲list看待,但允許其中一部分作爲函數來計算.
 
-   1) ~,~ 用來標識 ~`~ 後面的這個list中,哪些部分被當做函數來看待. eg. `(a list of ,(+ 2 3) elements)
+        1) ~,~ 用來標識 ~`~ 後面的這個list中,哪些部分被當做函數來看待. eg. `(a list of ,(+ 2 3) elements)
 
-   2) ~,@~ 標識 ~`~ 後面的這個list中,哪些部分被當做函數來看待, 並且把計算結果拼接到整個list中.
+        2) ~,@~ 標識 ~`~ 後面的這個list中,哪些部分被當做函數來看待, 並且把計算結果拼接到整個list中.
 
 
-   Backquote constructs allow you to quote a list, but selectively evaluate
-   elements of that list. In the simplest case, it is identical to the special
-   form quote (described in the previous section; see Quoting). For example,
-   these two forms yield identical results:
+     Backquote constructs allow you to quote a list, but selectively evaluate
+     elements of that list. In the simplest case, it is identical to the special
+     form quote (described in the previous section; see Quoting). For example,
+     these two forms yield identical results:
 
-   `(a list of (+ 2 3) elements)
-        ⇒ (a list of (+ 2 3) elements)
-   '(a list of (+ 2 3) elements)
-        ⇒ (a list of (+ 2 3) elements)
-   The special marker ‘,’ inside of the argument to backquote indicates a value that isn’t constant. The Emacs Lisp evaluator evaluates the argument of ‘,’, and puts the value in the list structure:
+     `(a list of (+ 2 3) elements)
+     ⇒ (a list of (+ 2 3) elements)
+     '(a list of (+ 2 3) elements)
+     ⇒ (a list of (+ 2 3) elements)
+     The special marker ‘,’ inside of the argument to backquote indicates a value that isn’t constant. The Emacs Lisp evaluator evaluates the argument of ‘,’, and puts the value in the list structure:
 
-   `(a list of ,(+ 2 3) elements)
-        ⇒ (a list of 5 elements)
-   Substitution with ‘,’ is allowed at deeper levels of the list structure also. For example:
+     `(a list of ,(+ 2 3) elements)
+     ⇒ (a list of 5 elements)
+     Substitution with ‘,’ is allowed at deeper levels of the list structure also. For example:
 
-   `(1 2 (3 ,(+ 4 5)))
-        ⇒ (1 2 (3 9))
-   You can also splice an evaluated value into the resulting list, using the special marker ‘,@’. The elements of the spliced list become elements at the same level as the other elements of the resulting list. The equivalent code without using ‘`’ is often unreadable. Here are some examples:
+     `(1 2 (3 ,(+ 4 5)))
+     ⇒ (1 2 (3 9))
+     You can also splice an evaluated value into the resulting list, using the special marker ‘,@’. The elements of the spliced list become elements at the same level as the other elements of the resulting list. The equivalent code without using ‘`’ is often unreadable. Here are some examples:
 
-   (setq some-list '(2 3))
-        ⇒ (2 3)
-   (cons 1 (append some-list '(4) some-list))
-        ⇒ (1 2 3 4 2 3)
-   `(1 ,@some-list 4 ,@some-list)
-        ⇒ (1 2 3 4 2 3)
+     (setq some-list '(2 3))
+     ⇒ (2 3)
+     (cons 1 (append some-list '(4) some-list))
+     ⇒ (1 2 3 4 2 3)
+     `(1 ,@some-list 4 ,@some-list)
+     ⇒ (1 2 3 4 2 3)
 
-   (setq list '(hack foo bar))
-        ⇒ (hack foo bar)
-   (cons 'use
+     (setq list '(hack foo bar))
+     ⇒ (hack foo bar)
+     (cons 'use
      (cons 'the
-       (cons 'words (append (cdr list) '(as elements)))))
-        ⇒ (use the words foo bar as elements)
-   `(use the words ,@(cdr list) as elements)
-        ⇒ (use the words foo bar as elements)
+     (cons 'words (append (cdr list) '(as elements)))))
+     ⇒ (use the words foo bar as elements)
+     `(use the words ,@(cdr list) as elements)
+     ⇒ (use the words foo bar as elements)
 
 **** MESSY 理解學習的兩頭
      學習的兩頭就像,理解和頓悟
 
-理解 -------->         學習        <-------- 不理解,直接做
+     理解 -------->         學習        <-------- 不理解,直接做
 
-理解, 是對自己解釋清楚爲什麼這麼做.道理是什麼,以求獲得自己的認可和許諾.
-直接做, 是直接做不問爲什麼.以求獲得像讀佛經一般的領悟,重在領悟,把相信暫時放在一邊.
+     理解, 是對自己解釋清楚爲什麼這麼做.道理是什麼,以求獲得自己的認可和許諾.
+     直接做, 是直接做不問爲什麼.以求獲得像讀佛經一般的領悟,重在領悟,把相信暫時放在一邊.
 
-我尤其重理解, 這個方向是漸悟的方向.
-把不信任暫時放在一邊,就直接做.直接練,不多疑.是頓悟的方向.
+     我尤其重理解, 這個方向是漸悟的方向.
+     把不信任暫時放在一邊,就直接做.直接練,不多疑.是頓悟的方向.
 
-我在學機器學習時,堅持 *從底到上*,先學習概率/線代/微積分,就是[理解式學習].
-而youtube上,有很多直接介紹機器學習的視頻,就是直接做.以求在做中領悟
-這是 *從上到底* 的學習,是[頓悟式學習]
+     我在學機器學習時,堅持 *從底到上*,先學習概率/線代/微積分,就是[理解式學習].
+     而youtube上,有很多直接介紹機器學習的視頻,就是直接做.以求在做中領悟
+     這是 *從上到底* 的學習,是[頓悟式學習]
 
 **** MESSY 問題是你準備讓list的哪些部分原樣不動,哪些部分求職,哪些部分拼接
-#+BEGIN_SRC lisp
+     #+BEGIN_SRC lisp
 
 ;; 普通的while loop
    (while (peek-char file nil nil)
@@ -4659,50 +4652,1046 @@ CL-USER> (fib 10)
            (go ,gtop)
            ,gend)))
 
-#+END_SRC
+     #+END_SRC
 
 **** MESSY Fractran language, 初識
-   Source: [2017-03-21 Tue], [[https://www.wikiwand.com/en/FRACTRAN][FRACTRAN - Wikiwand]]
+     Source: [2017-03-21 Tue], [[https://www.wikiwand.com/en/FRACTRAN][FRACTRAN - Wikiwand]]
 
 
-   FRACTRAN
-    Connected to: Sequence Esoteric programming language Formula for primes
-   From Wikipedia, the free encyclopedia
-   FRACTRAN is a Turing-complete esoteric programming language invented by the mathematician John Conway. A FRACTRAN program is an ordered list of positive fractions together with an initial positive integer input n. The program is run by updating the integer n as follows:
+     FRACTRAN
+     Connected to: Sequence Esoteric programming language Formula for primes
+     From Wikipedia, the free encyclopedia
+     FRACTRAN is a Turing-complete esoteric programming language invented by the mathematician John Conway. A FRACTRAN program is an ordered list of positive fractions together with an initial positive integer input n. The program is run by updating the integer n as follows:
 
-   for the first fraction f in the list for which nf is an integer, replace n by nf
-   repeat this rule until no fraction in the list produces an integer when multiplied by n, then halt.
-   In The Book of Numbers, John Conway and Richard Guy gave a formula for primes in FRACTRAN:[1][note 1]
-
-
-   Starting with n=2, this FRACTRAN program generates the following sequence of integers:
-
-   2, 15, 825, 725, 1925, 2275, 425, 390, 330, 290, 770, ... (sequence A007542 in the OEIS)
-   After 2, this sequence contains the following powers of 2:
-
-    (sequence A034785 in the OEIS)
-   which are the prime powers of 2.
-
-   Understanding a FRACTRAN program
-   A FRACTRAN program can be seen as a type of register machine where the registers are stored in prime exponents in the argument n.
-
-   Using Gödel numbering, a positive integer n can encode an arbitrary number of arbitrarily large positive integer variables.[note 2] The value of each variable is encoded as the exponent of a prime number in the prime factorization of the integer. For example, the integer
+     for the first fraction f in the list for which nf is an integer, replace n by nf
+     repeat this rule until no fraction in the list produces an integer when multiplied by n, then halt.
+     In The Book of Numbers, John Conway and Richard Guy gave a formula for primes in FRACTRAN:[1][note 1]
 
 
-   represents a register state in which one variable (which we will call v2) holds the value 2 and two other variables (v3 and v5) hold the value 1. All other variables hold the value 0.
+     Starting with n=2, this FRACTRAN program generates the following sequence of integers:
 
-   A FRACTRAN program is an ordered list of positive fractions. Each fraction represents an instruction that tests one or more variables, represented by the prime factors of its denominator. For example:
+     2, 15, 825, 725, 1925, 2275, 425, 390, 330, 290, 770, ... (sequence A007542 in the OEIS)
+     After 2, this sequence contains the following powers of 2:
+
+     (sequence A034785 in the OEIS)
+     which are the prime powers of 2.
+
+     Understanding a FRACTRAN program
+     A FRACTRAN program can be seen as a type of register machine where the registers are stored in prime exponents in the argument n.
+
+     Using Gödel numbering, a positive integer n can encode an arbitrary number of arbitrarily large positive integer variables.[note 2] The value of each variable is encoded as the exponent of a prime number in the prime factorization of the integer. For example, the integer
 
 
-   tests v2 and v5. If  and , then it subtracts 2 from v2 and 1 from v5 and adds 1 to v3 and 1 to v7. For example:
+     represents a register state in which one variable (which we will call v2) holds the value 2 and two other variables (v3 and v5) hold the value 1. All other variables hold the value 0.
+
+     A FRACTRAN program is an ordered list of positive fractions. Each fraction represents an instruction that tests one or more variables, represented by the prime factors of its denominator. For example:
 
 
-   Since the FRACTRAN program is just a list of fractions, these test-decrement-increment instructions are the only allowed instructions in the FRACTRAN language. In addition the following restrictions apply:
+     tests v2 and v5. If  and , then it subtracts 2 from v2 and 1 from v5 and adds 1 to v3 and 1 to v7. For example:
 
-   Each time an instruction is executed, the variables that are tested are also decremented.
-   The same variable cannot be both decremented and incremented in a single instruction (otherwise the fraction representing that instruction would not be in its lowest terms). Therefore each FRACTRAN instruction consumes variables as it tests them.
-   It is not possible for a FRACTRAN instruction to directly test if a variable is 0 (However, an indirect test can be implemented by creating a default instruction that is placed after other instructions that test a particular variable.).
 
-* Footnotes
+     Since the FRACTRAN program is just a list of fractions, these test-decrement-increment instructions are the only allowed instructions in the FRACTRAN language. In addition the following restrictions apply:
 
-[fn:2] xxxxxxxxxxxxxxxxx
+     Each time an instruction is executed, the variables that are tested are also decremented.
+     The same variable cannot be both decremented and incremented in a single instruction (otherwise the fraction representing that instruction would not be in its lowest terms). Therefore each FRACTRAN instruction consumes variables as it tests them.
+     It is not possible for a FRACTRAN instruction to directly test if a variable is 0 (However, an indirect test can be implemented by creating a default instruction that is placed after other instructions that test a particular variable.).
+*** 2017-03-23 Thursday
+**** MESSY how to set org-capture env for ubuntu         :ubuntu:org:capture:
+     Source: [2017-03-23 四], [[https://github.com/sprig/org-capture-extension][sprig/org-capture-extension: A Chrome extension facilitating org-capture in emacs]]
+
+
+     Register emacsclient as the org-protocol handler
+
+     Under Linux
+     #+BEGIN_SRC shell
+   cat > "${HOME}/.local/share/applications/org-protocol.desktop" << EOF
+   [Desktop Entry]
+   Name=org-protocol
+   Exec=emacsclient %u
+   Type=Application
+   Terminal=false
+   Categories=System;
+   MimeType=x-scheme-handler/org-protocol;
+   EOF
+     #+END_SRC
+
+     And then (for non-KDE)
+
+     #+BEGIN_SRC shell
+   update-desktop-database ~/.local/share/applications/
+     #+END_SRC
+
+**** MESSY  [[https://linuxtoy.org/archives/gnu-info-intro.html][GNU info 简介 · LinuxTOY]]
+     Captured On: [2017-03-23 四 21:44]
+     顺便再列些info的快捷键：
+
+     h info教程
+     q 退出info，返回之前的缓冲区
+     鼠标中键 follow你点的那个节点
+     回车	Follow光标附近的节点，和鼠标中键差不多
+     ^ 和u一样
+     d 目录节点
+     文件的最后一个节点
+     TAB	把光标移动到下一个cross-reference或者菜单
+     M-TAB 把光标移动到前一个cross-reference或者菜单
+     L 历史记录
+     T 当前info文件的目录
+     b 节点头
+     ,（逗号） 之前用i的下一条项目
+     g 移动到xxx节点.
+     1 .. 9 第1...9个item（每三个item有一个高亮）
+     c 把当前节点名放到kill ring里
+     M-n 克隆一个Info缓冲区
+
+**** MESSY Gun info introduction                                       :info:
+     Source: [2017-03-23 四], [[https://linuxtoy.org/archives/gnu-info-intro.html][GNU info 简介 · LinuxTOY]]
+
+
+     GNU info 简介
+     2009-06-27 · By toy · Posted in Apps · 18 Comments
+     {撰文/lvscar}
+
+     前阵子开始学习 Lisp，找了一圈书籍文档后发现最适合的就藏在 Emacs 神器里 (Help-More Manuals-Introduction to Emacs Lisp)。;-)
+
+     这份文档以 Textinfo 格式编排，info 程序或 Emacs 下的 info 模式是阅读 Textinfo 文档的标配。与之前熟悉的 man，html，pdf，chm 阅读体验相比，info 阅读有些门槛，得花点时间熟悉。
+
+     相对于 man page;Textinfo 支持目录，层次化节点关系，节点间的交叉链接，(info 比 html 早两年被创造出来) 等结构化文档概念。这使得它更适合复杂文档或电子书。
+
+     info 程序有自己的一套快捷键机制。熟悉了这套快捷键机制并在脑中有文档结构概念后，浏览文档会比在浏览器方便得多。以下是常用的几个:
+
+     spc (空格)：向下滚屏，至末尾后进入下一个文档节点
+     backspace (退格): 和空格相反，向上滚屏，至顶端后进入上一个文档节点
+     l : 回朔浏览历史，等同于浏览器中的回退。
+     n : 进入文档节点数中同级别的下一个节点 (*如果该节点包含子节点，n 会略过他们)
+     p : 和 n 相反，进入文档节点数中同级别的上一个节点
+     t：进入顶层结点
+     u : 进入上一层节点
+     b : 移动到本节点的顶端
+     m : 如果节点包含目录 (往往是下一层节点的索引)。给出提示让你选择进入
+     f : 如果节点包含交叉链接给出提示让你选择进入。(用 l 可以返回原节点)
+     i : 列出正在看的文档的所有索引标题让你选择进入
+     s : 对文档以你键入的词进行搜索。
+     Linux 下的很多软件都包含有漂亮的 info 文档。下次 man 之前，不防 info 试试。
+
+     依靠 Firefox 的 Mouseless 插件，浏览网页时基本上可以离开鼠标。可由于 html 中没有上下级结构，浏览只能是视觉驱动。而在 info 里，浏览过程能转换成结构驱动。我很喜欢这种体验。
+
+     就像以 CLI 替代 GUI 进行 OS 操作，付出学习成本，你能收获更多。
+*** 2017-03-25 Saturday
+**** some hotkeys of ubuntu                                   :ubuntu:hotkey:
+     # 清理旧版本的软件缓存
+     sudo apt-get autoclean
+     #
+     # 清理所有软件缓存
+     sudo apt-get clean
+     #
+     # 删除系统不再使用的孤立软件
+     sudo apt-get autoremove
+**** some bugs about sogou pin
+     问题说明参见
+     http://pinyin.sogou.com/bbs/forum.php?mod=viewthread&tid=2676147&extra=&page=1
+     参考其回复后可知
+     删除~/.config目录下的SogouPY、SogouPY.users、sogou-qimpanel三个文件夹即可恢复正常
+     参考链接如下
+**** concept about source in ubuntu
+
+     sure that for every deb
+     entry in /etc/apt/sources.list and /etc/apt/sources.list.d/*, you have a
+     matching deb-src … entry. The rest of the line must be identical. The deb entry
+     is for binary packages (i.e. ready to install), the deb-src is for source
+     packages (i.e. ready to compile). The reason why the two kinds of sources are
+     separated is that they are managed very differently: binary packages have a
+     dependency tracking mechanism and a currently-installed list, whereas source
+     packages are only tracked so that they can be downloaded conveniently. Note that
+     when discussing package repositories, the word source means two unrelated
+     things: a source as in a location to download packages from, and a source
+     package as opposed to a binary package.
+
+     libgtk2.0-0 is the name of a binary package. It is built from a source package
+     called gtk+2.0. The reason source and binary package names don't always match is
+     that building a source package can produce multiple binary packages; for
+     example, gtk+2.0 is the source for 14 packages as it is split into two libraries
+     (libgtk2.0, libgail), corresponding packages to build programs using these
+     libraries (…-dev), documentation for developers (…-doc), companion programs
+     (libgtk2.0-bin`), etc.
+
+     You can see the name of the source package corresponding to a binary package by
+     checking the Source: … line in the output of dpkg -s BINARY_PACKAGE_NAME (if the
+     package is installed) or apt-cache show BINARY_PACKAGE_NAME. You can list the
+     binary packages produced by a source package with aptitude search
+     '?source-package(^SOURCE_PACKAGE_NAME$).
+
+     The command apt-get source downloads a source package. If you give it an
+     argument which isn't a known source package, it looks it up in the database of
+     installable binary packages and tries to download the corresponding source
+     package. The command apt-get build-dep follows the same approach to deduce the
+     name of a source package, then queries the source package database to obtain a
+     list of binary packages (the list in the Build-Dep: field), and installs those
+     binary packages.
+
+     The Software Sources GUI has a checkbox “enable repositories with source code”
+     for official repositories, make sure that it's ticked. If you add third-party
+     repositories manually, make sure that you add both deb-src and deb lines.
+**** an exapmle to use ditaa and artist mode                   :ditaa:artist:
+
+     http://ditaa.sourceforge.net
+
+     #+BEGIN_SRC ditaa :file test.png :cmdline -r -s 0.8
++-----------+        +------------+
+|   PLC     |        |    PLC     |
+|  network  +<------>+    c707    +<----=--------+
+|   cRED    |        |            |              |
++-----------+        +-----+------+              |
+                           ^                     |
+                           |                     |
+                           |                     |
+                           |                     |
+                           |  +------------------|---------------------+
+                           |  |                  |                     |
+                           v  v                  V                     |
++-----------+        +-----+--+---+          +---+------+       +------+-----+      +-------------+          Windows clients
+|  Database |        |  Shared    |          |          |       |            |      |    Operator |       +---------+     +---------+
+|  c707     +<------>+ Memory     +<-------->+ Executive+<----->+  Executive +<---->+    Server   +<----->+  cYEL   +-----+  cYEL   |
+|           |        |  {d} cGRE  |          | c707     |       |    c707    |      |     c707    |       |         |     |         |
+|           |        |            |          |          |       |            |      |             |       +---------+     +---------+
++--+----+---+        +------------+          +----+-----+       +------------+      +-------------+
+   ^    |                                         |
+   |    |                                         |
+   |    +-----------------------------------------+
+   v
++--+--------------------+
+|                       |
+|  millwide system      |
+|   cBLU                |
++-----------------------+
+
+     #+END_SRC
+
+     #+RESULTS:
+     [[file:test.png]]
+
+**** another example to use ditaa and artist mode              :ditaa:artist:
+     Artist mode is a great mode that lets you draw ASCII art with your mouse, this
+     is super handy for generating all those ASCII art diagrams you wanted to make in
+     your code.
+
+     It's even more handy when you combine it with Ditaa, which stands for "DIagrams
+     Through Ascii Art". Let's play around with org-mode and ditaa, so we need to
+     ensure it's loaded as a valid language:
+
+     (Also make sure you install it with homebrew, or apt, or dnf, or whatever)
+
+     (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((ditaa . t)))
+
+     ;; This happened to be the directory it gets installed with Fedora
+     (setq org-ditaa-jar-path "/usr/share/java/ditaa.jar")
+
+     Now, let's play!
+
+***** Boxes
+      #+BEGIN_SRC ditaa :file box.png :cmdline -r -s
++-------+
+|       |
+| A box |
++-------+
+      #+END_SRC
+
+      #+RESULTS:
+      [[file:box.png]]
+
+      - You can color boxes by "cNNN" where NNN are RGB codes:
+      #+BEGIN_SRC ditaa :file RGB_box.png
+/---------\   +----------+   +---------\
+| c243    |   | cRED     |   |         |
+|         |   |          |   |         |
+|         |   |          |   |         |
+\---------/   +----------+   +---------/
+      #+END_SRC
+
+      #+RESULTS:
+      [[file:RGB_box.png]]
+
+      - There's also different types of boxes depending on the type
+
+      #+BEGIN_SRC ditaa :file kinds_of_boxes.png
++----------+  +---------+  +--------------+
+|{d}       |  |{s}      |  |{io}          |
+|          |  |         |  |              |
+| Document |  | Storage |  | Input/Output |
+|          |  |         |  |              |
++----------+  +---------+  +--------------+
+      #+END_SRC
+
+      #+RESULTS:
+      [[file:kinds_of_boxes.png]]
+
+***** Lines
+
+      - In addition to boxes, you can of course draw arrows or lines
+      #+BEGIN_SRC ditaa :file line
++--------+          +---------+
+|        |          |         |
+|   A    +----------+    B    |
+|        |          |         |
++--------+          +----+----+
+                         ^
+                         |
+                         +------+
+                                |
+          +--------+     /------+
+          |        |     |
+          |   C    +<----/
+          |        |
+          |        |
+          +--------+
+      #+END_SRC
+
+      #+RESULTS:
+      [[file:line]]
+
+      - You can also add points to lines and boxes:
+      #+BEGIN_SRC ditaa :file line-with-point.png
++--------+          +---------+
+|        |          |         |
+|        *          |         *
+|        |          |         |
++--------+          +---+-----+
+     ^                  |
+     |                  |
+     |                  *
+     \------*-----------+
+
+      #+END_SRC
+
+      #+RESULTS:
+      [[file:line-with-point.png]]
+
+      - And finally, you can make anything dotted by putting either : or = in it, like so:
+      #+BEGIN_SRC ditaa :file dash-line.png
++----------+            +------------+
+| cGRE     |            |            |
+|   Box A  +----+-------+            |
+|          |    |       |            :
+|          |    |       | Thing      |
++----------+    |       +------------+
+                |
+                |
+                |          +----------+
+                |          | {s}      |
+                |          |          |
+                +------=-->| Storage  |
+                           |          |
+                           |          |
+                           +----------+
+
+      #+END_SRC
+
+      #+RESULTS:
+      [[file:dash-line.png]]
+
+**** intro to plantuml
+     http://plantuml.com/
+*** 2017-03-26 Sunday
+
+**** MESSY a git to automatically handle git
+     Source: [2017-03-26 Sun], [[http://doc.norang.ca/org-mode.html#OrgIndentMode][Org Mode - Organize Your Life In Plain Text!]]
+
+
+     #!/bin/sh
+     # Add org file changes to the repository
+     REPOS="org doc.norang.ca www.norang.ca"
+
+     for REPO in $REPOS
+     do
+     echo "Repository: $REPO"
+     cd ~/git/$REPO
+     # Remove deleted files
+     git ls-files --deleted -z | xargs -0 git rm >/dev/null 2>&1
+     # Add new files
+     git add . >/dev/null 2>&1
+     git commit -m "$(date)"
+     done
+
+**** intro to shell
+     You can redirect the output of processes directly to buffers by using a special syntax:
+
+     ~cat log.txt | grep "foo" >> #<buffer *scratch*>~
+     Additionally, if you set eshell-buffer-shorthand to t you can use a shorthand for the buffers:
+
+     ~cat log.txt | grep "bar" >> #'*scratch*~
+**** how to setup a alias in oh-my-zsh                            :zsh:alias:
+     There must not be any whitespaces around between = and either alias name or alias definition:
+
+     alias zshconfig="mate ~/.zshrc"
+     alias ohmyzsh="mate ~/.oh-my-zsh"
+     alias n="nano"
+     alias m="mkdir"
+     alias w="cd ~/Documents/UoMWorkspace/Semester2"
+     alias j="cd ~/Documents/UoMWorkspace/Semester2/COMP17412"
+
+**** MESSY  What does > /dev/null 2>&1 mean?              :redirection:shell:
+     Source: [2017-03-26 Sun], [[https://www.xaprb.com/blog/2006/06/06/what-does-devnull-21-mean/][What does > /dev/null 2>&1 mean? · Baron Schwartz's Blog]]
+
+
+     What does > /dev/null 2>&1 mean?
+     Tue, Jun 6, 2006 in Programming
+     I remember being confused for a very long time about the trailing garbage in commands I saw in Unix systems, especially while watching compilers do their work. Nobody I asked could tell me what the funny greater-thans, ampersands and numbers after the commands meant, and search engines never turned up anything but examples of it being used without explanation. In this article I’ll explain those weird commands.
+
+     Here’s an example command:
+
+     wibble > /dev/null 2>&1
+     Output redirection
+     The greater-thans (>) in commands like these redirect the program’s output somewhere. In this case, something is being redirected into /dev/null, and something is being redirected into &1.
+
+     Standard in, out, and error
+     There are three standard sources of input and output for a program. Standard input usually comes from the keyboard if it’s an interactive program, or from another program if it’s processing the other program’s output. The program usually prints to standard output, and sometimes prints to standard error. These three file descriptors (you can think of them as “data pipes”) are often called STDIN, STDOUT, and STDERR.
+
+     Sometimes they’re not named, they’re numbered! The built-in numberings for them are 0, 1, and 2, in that order. By default, if you don’t name or number one explicitly, you’re talking about STDOUT.
+
+     Given that context, you can see the command above is redirecting standard output into /dev/null, which is a place you can dump anything you don’t want (often called the bit-bucket), then redirecting standard error into standard output (you have to put an & in front of the destination when you do this).
+
+     The short explanation, therefore, is “all output from this command should be shoved into a black hole.” That’s one good way to make a program be really quiet!
+
+     2>&1: it means 2(stderr) is redirected to &1. & tells the address (fd) of 1(stdout). so the stderr is redirected to stdout.
+     2&>1: it means 2 that is nothing will get executed in bg because of &. And the output will be redirected to a file named 1 not the stdout.
+
+     to answer you Aman Jain I think that:
+     1) "wibble > /dev/null 2>1" stdout is redirected to /dev/null and stderr is redirected to a file named "1" (in the current directory)
+     2) "wibble > /dev/null 2>&1" stdout is redirected to /dev/null and stderr is redirected to where stdout is redirected (bit bucket)
+     3) "wibble > /dev/null &2>1" stdout is redirected to /dev/null , then character "&" comes, which means that this process will run in background(parallel with the shell u are using). Then comes 2>1 which will create an empt file with the name 1.
+     And FINALLY!!!
+     4) "wibble > /dev/null &2>&1" stdout is redirected to /dev/null. "&" means that, that process(wibble) will run in background(with stdout redirected only).Then another process is started with 2>&1 which creates no file.
+     U can try it. Maybe im wrong somewhSo logically that means you could catch STDERR from the command line by appending "2>>/var/log/logfile" to a shell command.
+
+     So, where "2" is STDERR, ">>" is to append and "/var/log/logfile" is the where errors will be logged.ere, Hey im not Steve Bourne(author of sh) ;)
+
+**** MESSY timer program in emacs
+     Source: [2017-03-26 Sun], [[http://doc.norang.ca/org-mode.html#OrgIndentMode][Org Mode - Organize Your Life In Plain Text!]]
+
+
+     My Emacs setup saves all org buffers at 1 minute before the hour using the following code in my .emacs
+
+     (run-at-time "00:59" 3600 'org-save-all-org-buffers)
+
+**** MESSY tractable : easy to handle with                          :ENGLISH:
+     Source: [2017-03-26 Sun], [[http://malisper.me/][Macrology - Case Studies in Lisp Macros]]
+
+
+     _Although_ programming Fractran is _still_ difficult,
+     this technique _suddenly_ makes writing Fizzbuzz in Fractran *tractable*.
+*** 2017-03-27 Monday
+
+**** MESSY how to convert latex code to corresponding png directly in org file
+     i get a glance this pow in
+     https://www.youtube.com/watch?v=cRUCiF2MwP4
+     In that video of youtube, it convet a latex code directly in org file, to
+     a png. so, i find some information below:
+
+     1. org has a extension package called: ~org-plus-contrib~, which preload in spacemacs.
+     2. this pkg has an ~org-compat.el~ file
+     3. this file has a function: ~org-toggle-latex-fregment~ combind to ~C-c C-x C-l~
+     4. this function can convert a line of latex code to png.
+     5. need install *dvipng* in linux
+     6. this will enhance the *org note* largely instead of *OneNote*
+
+     $P_{net}=r_1^2 - r_2^2$
+     $P_{net}=r_1^2 - r_2^2$
+
+**** MESSY how to convert or extract mp3 from mp4 or mpeg or other video format :ubuntu:
+     Source: [2017-03-27 Mon], [[http://blog.csdn.net/u012377333/article/details/38581477][关于ffmpeg 的总结（一个linux 下 集 屏幕录像录音，音频视频转换，合并音频视频文件，格式转换于一身的命令） - chisj专栏 - 博客频道 - CSDN.NET]]
+
+
+     emerge ffmpeg
+
+      格式转换 (将file.avi 转换成output.flv)
+
+          ffmpeg -i  file.avi   output.flv
+
+            -i 表示输入文件 
+
+      :现在有个视频video.avi，有个音频 audio.mp3，将其合并成output.avi
+
+     两个命令                     （ video2.avi 是中间文件 ，用完可删）
+
+     ffmpeg -i video.avi -vcodec copy -an video2.avi   
+     ffmpeg -i video2.avi -i audio.mp3 -vcodec copy -acodec copy output.avi
+
+      -i 表示输入文件
+
+       -vcodec copy 表示 force video codec ('copy' to copy stream) 这个不知怎么译 ，估计是直接copy 
+       -acodec copy   这个说的应该是音频了   跟上面一样
+     -an : 表示  disable audio  估计是audio no 之类的缩写   表示去掉video.avi 原有的音频
+
+     方法2 好像可以直接指定两个输入文件 ，
+
+     ffmpeg -i /tmp/a.wav -i /tmp/a.avi /tmp/a.avi 两个文件 的顺序很重
+     从视频里提取声音（声音与视频的分离）
+
+      ffmpeg  -i 人生若只如初见.flv  -vn r.mp3  从flv 文件 中提取声音并保存为mp3 格式  
+
+            -vn : 表示忽略视频 估计是video no 之类的缩写
+
+      ffmpeg  -i 人生若只如初见.flv  -an  r.flv   只留视频不留声音 
+
+         -an : 表示 忽略 声音 估计是audio no 之类的缩写
+
+
+
+     从视频里提取图片（ ）
+
+     ffmpeg -i test.avi -y -f image2 -ss 8 -t 0.001 -s 350x240 test.jpg 
+     -ss 第8秒处 截一图
+     压缩mp3 文件
+
+     如果你觉得mp3 文件 有点大，想变小一点那么可以通过-ab 选项改变音频的比特率（bitrate）
+
+     ffmpeg -i input.mp3 -ab 128 output.mp3    //这里将比特率设为128
+
+     你可以用file 命令查看一下源文件 的信息
+
+     z.mp3: Audio file with ID3 version 2.3.0, contains: MPEG ADTS, layer III, v1, 192 kbps, 44.1 kHz, Stereo
+
+     其中的192 kbps 就是这个东西
+
+     mp3中比特率的含义是：在压缩音频文件至mp3时，由压缩软件所确定数码文件在播放时每秒传 送给播放器大小，其单位是：千位/秒；英文的含义是：kbps - = kilobits per second。现在mp3文件的最高数位率是320 kbps。这样的文件体积很大，每分钟的音乐超过两兆字节。如果采用可变比特率（VBR）编码来生成mp3文件，获得与320 kbps相当音质，文件的体积会缩小25~50%。请注意：播放时间相同，而歌曲不同，所获的压缩mp3文件的一般不相同，这是因为VBR编码所生成的 mp3文件的大小不仅仅取决于播放时间的长度，还取决于源音频文件的其它因素。
+
+
+
+     录音（要有可用的麦克风，并且如果用alsa 的话，好像得安alsa-oss，重启） 
+
+      ffmpeg  -f oss -i /dev/dsp   out.avi  (should  hava oss or alsa-oss)
+
+      ffmpeg   -f  alsa -ac 2 -i hw:0, 0  out.avi   (should )
+
+      ffmpeg   -f alsa -ac 2 -i pulse  (should hava PulseAudio)
+
+        oss 是Linux 下的声音相关的东西，与alsa 一样，不过oss 是商业的， 而/dev/dsp 是oss 用到的麦克的设备吧，可以这样理解
+
+     屏幕录像
+
+     ffmpeg -f x11grab -s xga -r 10 -i :0.0+0+0 wheer.avi 
+
+     ffmpeg -f x11grab  -s 320x240  -r 10 -i :0.0+100+200 wheer.avi
+
+     :0:0 表示屏幕（个人理解，因为系统变量$DISPLAY值就是:0.0）  而100,表示距左端100象素，200表示距上端200
+
+     -s 设置窗口大小
+
+       -r 10 好像是设置频率，不懂
+
+     ffmpeg -f x11grab -s xga    -qscale 5    -r 10 -i :0.0+0+0 wheer.avi 
+
+     -qscale 8 设定画面质量，值 越小越好
+
+     屏幕录像，同时录音
+
+     ffmpeg -f oss -i /dev/dsp        -f x11grab -r 30 -s 1024x768 -i :0.0  output.mkv
+
+     ffmpeg   -ac 2 -f oss  -i  /dev/dsp   -f x11grab -r 30 -s 1024x768 -i :0.0 -acodec pcm_s16le -vcodec libx264 -vpre lossless_ultrafast -threads 0 output.mkv
+
+     看到这，你会发现这个命令有多强大，
+
+     如果我屏幕上打开了一个窗口，我只想录这个窗口的内容，如何确定这个窗口的坐标位置呢
+
+     可以用另外一个命令
+
+     xwininfo 输入这个命令后，用鼠标点选目标窗口，
+
+     就会出现目标窗口的坐标，宽高等一系列信息
+
+     Absolute upper-left X:  276
+       Absolute upper-left Y:  57
+       Relative upper-left X:  2
+       Relative upper-left Y:  23
+       Width: 742
+       Height: 499
+       Depth: 24
+       Visual: 0x21
+       Visual Class: TrueColor
+       Border width: 0
+       Class: InputOutput
+       Colormap: 0x20 (installed)
+       Bit Gravity State: NorthWestGravity
+       Window Gravity State: NorthWestGravity
+       Backing Store State: NotUseful
+       Save Under State: no
+       Map State: IsViewable
+       Override Redirect State: no
+       Corners:  +276+57  -262+57  -262-244  +276-244
+       -geometry 80x24+274+34 看到这一行了没 (）
+
+     比如根据上面的信息
+
+     ffmpeg -f oss  -i  /dev/dsp      -f  x11grab -r 30  -s 1280x752 -i :0.0+0+23  output.avi 
+     Another thing you can change is the video frame rate (FPS). In the example above we used -r 30 which means capture at 30 FPS. You can change this value to whatever frame rate you want.
+
+     这个 -r 30 应该是每秒钟取样几次，估计是一秒截三十次屏，
+
+     切头去尾
+
+      ffmpeg -ss 00:00:10 -t 00:01:22 -i 五月天-突然好想你.mp3  output.mp3 
+
+     只要 从第10秒开始截取，共截取1：22时长的内容
+
+     视频文件的连接，如两个flv 文件 连接成一
+
+     好像必须先将文件 转成mpg ，dv 等格式的文件后才能进行连接
+
+     连接复数的AVI影片档之范例（在此范例中须一度暂时将AVI档转换成MPEG-1档(MPEG-1, MPEG-2 PS, DV格式亦可连接)）
+     ffmpeg -i input1.avi -sameq inputfile_01.mpg -r 20
+     ffmpeg -i input2.avi -sameq inputfile_02.mpg -r 20
+     cat inputfile_01.mpg inputfile_02.mpg > inputfile_all.mpg
+     ffmpeg -i inputfile_all.mpg -sameq outputfile.avi 上面将 input1.avi input2.avi 合并成outputfile.avi -sameq 表示 相同的质量（可能指的是画面，不太清楚）
+     -r 指频率 
+
+     =====================================================================下面是wiki 上给的几个例子
+     参数
+     FFmpeg可使用众多参数，参数内容会根据ffmpeg版本而有差异，使用前建议先参考参数及编解码器的叙述。此外，参数明细可用 ffmpeg -h 显示；编解码器名称等明细可用 ffmpeg -formats 显示。
+
+     下列为较常使用的参数。
+
+     [编辑 ] 主要参数
+     -i 设定输入档名。
+     -f 设定输出格式。
+     -y 若输出档案已存在时则覆盖档案。
+     -fs 超过指定的档案大小时则结束转换。
+     -ss 从指定时间开始转换。
+     -title 设定标题。
+     -timestamp 设定时间戳。
+     -vsync 增减Frame使影音同步。
+     [编辑 ] 影像参数
+     -b 设定影像流量，默认为200Kbit/秒。（ 单位请参照下方注意事项 ）
+     -r 设定FrameRate值，默认为25。
+     -s 设定画面的宽与高。
+     -aspect 设定画面的比例。
+     -vn 不处理影像，于仅针对声音做处理时使用。
+     -vcodec 设定影像影像编解码器，未设定时则使用与输入档案相同之编解码器。
+     [编辑 ] 声音参数
+     -ab 设定每Channel （最近的SVN 版为所有Channel的总合）的流量。（ 单位 请参照下方注意事项 ）
+     -ar 设定采样率。
+     -ac 设定声音的Channel数。
+     -acodec 设定声音编解码器，未设定时与影像相同，使用与输入档案相同之编解码器。
+     -an 不处理声音，于仅针对影像做处理时使用。
+     -vol 设定音量大小，256为标准音量。(要设定成两倍音量时则输入512，依此类推。)
+     [编辑 ] 注意事项
+     以-b及ab参数设定流量时，根据使用的ffmpeg版本，须注意单位会有kbits/sec与bits/sec的不同。（可用ffmpeg -h显示说明来确认单位。）
+     例如，单位为bits/sec的情况时，欲指定流量64kbps时需输入‘ -ab 64k ’；单位为kbits/sec的情况时则需输入‘ -ab 64 ’。
+     以-acodec及-vcodec所指定的编解码器名称，会根据使用的ffmpeg版本而有所不同。例如使用AAC编解码器时，会有输入aac与 libfaac的情况。此外，编解码器有分为仅供解码时使用与仅供编码时使用，因此一定要利用ffmpeg -formats 确 认输入的编解码器是否能运作。
+     [编辑 ] 范例
+     将MPEG-1影片转换成MPEG-4格式之范例
+     ffmpeg -i inputfile.mpg -f mp4 -acodec libfaac -vcodec mpeg4 -b 256k -ab 64k outputfile.mp4
+     将MP3声音转换成MPEG-4格式之范例
+     ffmpeg -i inputfile.mp3 -f mp4 -acodec libaac -vn -ab 64k outputfile.mp4
+     将DVD的VOB档转换成VideoCD格式的MPEG-1档之范例
+     ffmpeg -i inputfile.vob -f mpeg -acodec mp2 -vcodec mpeg1video -s 352x240 -b 1152k -ab 128k outputfile.mpg
+     将AVI影片转换成H.264格式的M4V档之范例
+     ffmpeg -i inputfile.avi -f mp4　-acodec libfaac -vcodec libx264 -b 512k -ab 320k outputfile.m4v
+     将任何影片转换成东芝REGZA可辨识的MPEG2格式之范例
+     ffmpeg -i inputfile -target ntsc-svcd -ab 128k -aspect 4:3 -s 720x480 outputfile.mpg
+     连接复数的AVI影片档之范例（在此范例中须一度暂时将AVI档转换成MPEG-1档(MPEG-1, MPEG-2 PS
+     DV格式亦可连接)、
+     ffmpeg -i input1.avi -sameq inputfile_01.mpg
+     ffmpeg -i input2.avi -sameq inputfile_02.mpg
+     cat inputfile_01.mpg inputfile_02.mpg > inputfile_all.mpg
+     ffmpeg -i inputfile_all.mpg -sameq outputfile.avi
+     =============================================================================
+     http://ffmpeg.org/ffmpeg-doc.html 
+     http://ubuntuforums.org/showthread.php?t=1392026 
+     同时搞明白的一些问题
+     在alsa 体系中声卡（也可能是麦克风，）叫hw:0,0 而在oss 体系中叫/dev/dsp (用词可能不太专业)  Linux在安装了声卡后，会有一些设备文件生
+
+     成。 
+
+       采集数字样本的 
+     /dev/dsp文件，针对混音器的 
+     /dev/mixer文件，用于音序器的 
+     /dev/sequencer， 
+     /dev/audio文件一个 
+
+
+
+     基于兼容性考虑的声音设备文件。只要向 
+     /dev/audio中输入 
+     wav文件就能发出声音。而对 
+     /dev/dsp文件读取就能得到 
+     WAV文件格式的声音文 
+     件。 
+
+**** MESSY 3 methods to convert mp4 to mp3              :ubuntu:videoConvert:
+     Source: [2017-03-27 Mon], [[http://tieba.baidu.com/p/838513625][linux下转flv为mp3格式的方法_linux吧_百度贴吧]]
+
+
+     方法一：在安装到有mplayer的情况下可以使用命令
+         mplayer -dumpaudio filenametoconvert.flv -dumpfile filenametosave.mp3
+         如我要将下载下来的aa11.flv转换为bb22.mp3则使用以下命令
+         mplayer -dumpaudio aa11.flv -dumpfile bb22.mp3
+     方法二：使用vlc中转换工具 位置在菜单栏中的文件／媒体（media） 转换／保存（convert／save） 在顶部选择文件（file） 文件选择（file selection）中点添加（add） 加入要转换的文件 然后点转换／保存（convert／save）按钮前面的箭头符号 选择转换convert 进入转换对话框 在目标destination一栏选择转换后的路径 在设置中选择audio－mp3 点后面的第一个图标设置转换mp3的参数（仅设置音频解码器audec，主要是修改比特率bitrate和采样率sample rate） 比特率一般设为128 采样率为44100 设置好后点保存 点开始start 开始转换
+     方法三：使用ffmpeg转换
+     ffmpeg -i inputfile.flv -acodec copy output.mp3
+     如我要将下载下来的aa11.flv转换为bb22.mp3则使用以下命令
+     ffmpeg -i aa11.flv -acodec copy bb22.mp3
+     此方法仅适合音频编码为mp3的情况（在命令行模式运行mplay aa11.flv 在open audio一行显示Opening audio decoder: [mp3lib] MPEG layer-2, layer-3
+     ）
+
+**** MESSY how to traverse all files of a directory
+     Source: [2017-03-27 Mon], [[http://www.cnblogs.com/kaituorensheng/archive/2012/12/19/2825376.html][shell编程--遍历目录下的文件 - jihite - 博客园]]
+
+
+     shell编程--遍历目录下的文件
+
+     假定目录text下有如下文件
+           目录：dir_1、dir_2、dir_3
+
+           文件：text_1、text_2
+
+     遍历目录下所有的文件是目录还是文件
+
+     if -- if类型：
+     #+BEGIN_SRC shell
+   #!bin/sh
+   for file in ./*
+   do
+       if test -f $file
+       then
+           echo $file 是文件
+       fi
+       if test -d $file
+       then
+           echo $file 是目录
+       fi
+   done
+     #+END_SRC
+
+     if --else 类型:
+     #+BEGIN_SRC shell
+   #!bin/sh
+   for file in ./*
+   do
+       if test -f $file
+       then
+           echo $file 是文件
+       else
+           echo $file 是目录
+       fi
+   done
+
+     #+END_SRC
+
+     #+BEGIN_SRC shell
+#!/bin/bash
+
+for file in ./*
+do
+   exiftool $file | grep File\ Name >>>list.txt
+   echo >>list.txt
+   exiftool $file | grep Media\ Duration >>>list.txt
+done
+
+     #+END_SRC
+*** 2017-03-28 Tuesday
+
+**** MESSY  手机挂载点在linux什么位置
+     Source: [2017-03-28 Tue], [[http://blog.csdn.net/caz28/article/details/50903018][Ubuntu下MTP设备的挂载目录 - caz28的专栏 - 博客频道 - CSDN.NET]]
+
+
+     我用的是Ubuntu14.04，连接手机后，会自动连接MTP，从桌面文件管理器可以很快访问手机，查看属性，其位置为mtp://[usb:003,xxx]/，但是不知道怎么从命令行界面进入这个位置。
+     经查找发现其挂载目录为：
+     /run/user/$UID/gvfs/mtp:host=xxxxxxx
+     这个路径可以从命令行界面进入。
+
+**** MESSY  how to mount the android mpt in linux (failed to my samsung s7e)
+     Source: [2017-03-28 Tue], [[http://blog.csdn.net/wfing/article/details/17524583][在linux下挂载android的mtp设备 - linux内核探索 - 博客频道 - CSDN.NET]]
+
+
+     mtp应该是Android的4.0以上版本的新功能。取代了传统的Ｕ盘挂载方式。
+
+     以下照抄原文：　http://www.miui.com/thread-960449-1-1.html
+
+     Android3.x 以上使用了 MTP 协议连接移动设备的内部存储，在 Windows 上可以很方便的打开 MTP 设备，而在 Mac 上 google 提供了一个工具 “Android File Transfer”（http://www.android.com/filetransfer/），却唯独无视了 Linux 用户（难道是认为 Linux 用户动手能力足够强大？）。
+     之前在 Ubuntu 上向 Galaxy Nexus 传输文件都是在手机的“USB 计算机连接”中改为使用 PTP协议，但这个只能传输照片。因此挂上 MTP 才是王道。操作方法如下：
+     1.安装必备的软件：sudo apt-get install mtpfs libfuse-dev libmad0-dev
+     2.创建挂载点： sudo mkdir /media/mtp
+     3.修改为目录所有者为自己，以便有读写权限：sudo chown 你的用户名 /media/mtp
+     4.确认当前用户在 fuse  组中：System > Administration > Users and Groups > Manage Groups > fuse > properties，确保勾选了自己的用户名。
+     5.挂载设备：mtpfs /media/mtp 。用文件管理器访问，和操作同本地目录一样。
+     6.卸载设备：fusermount -u /media/mtp
+
+     请注意的是：
+     usermod -a -G groupA user
+     加上-a append，把一个用户加入组
+     (FC4: usermod -G groupA,groupB,groupC user)
+     -a 代表 append， 也就是 将自己添加到 用户组groupA 中，而不必离开 其他用户组。 
+
+     这样就可以通过ＵSB操作android上的一些文件了。
+*** 2017-03-29 Wednesday
+
+**** MESSY 真的是‘绝知此事要躬行’，只有在做的过程中，某些灵感才会出现。
+就拿今天擦窗户轨道的石子，就能看出，当我不动手去干的时候，这叫 *干想* 。
+这个时候的方法往往非常脱离现实的细节，只有真正上手了，一些现实的琐碎细节
+才能 *激发* 内心的灵感，才会有办法解决，这时候调动的不只是大脑，而是全身
+的细胞去 *体悟* 。 这才能真正发现或发明或解决问题。
+
+* 数据挖掘：理论与算法
+**** introduction
+     在数据科学，DRIP是什么的缩写（不含标点符号）data rich information poor
+     weka is simple, and has GUI. you can glance data mining by it
+
+     - *difference between cluster and classification*
+     | cluster(group) | no label | unsupervisor | no predefined concept                 |                                 |
+     | PCA            |          |              |                                       |                                 |
+     |----------------+----------+--------------+---------------------------------------+---------------------------------|
+     | classification | label    | supervisor   | has predefined concept eg,male/femail | need a "teacher" to give labels |
+     | LDA            |          |              |                                       |                                 |
+
+     - *Association Rule*
+     {milk,bear} => {paper}
+
+     - *what is a linear regression?*
+       not the line produced by the polynormial. but the /delta*x is linear
+
+     - *GIGO*
+       garbage input garbage output
+
+     - *data preprocessing is very annoy, but important*
+
+     - *selection between decision tree and nerual netwrok*
+       decision tree, can produce a rule, has a good interpretability.
+       nerual network is diffcult to interpret, to explain
+     - *lottery cannot be predict by data mining.*
+       basical data is random!
+     - PCA is unsupervisor learning. no  label.
+     - LDA is supervisor   learning. has lable
+     - the most important thing to dimensionality reduction is choose the direction of projection
+     - Neural Network/ Bayes-Decision-Tree are all 分类器
+**** MESSY Tsinghua Data analysis exercise-Bayes and Decision-Tree, 3.3 exercise
+     Source: [2017-03-28 Tue], [[http://www.xuetangx.com/courses/course-v1:TsinghuaX+80240372X+sp/courseware/36f14de73ded47a29068e083d79900be/802b4060eb024961ad0d945b607d97e2/][单选题 | 数据、规则与树 | 80240372X 课件 | 学堂在线]]
+
+
+     单选题  (1/1 分数)
+     作为一种分类器，决策树模型的主要优点是：
+     - [ ] 训练时间短
+     - [X] 可解释性好 - 正确
+     - [ ] 善于处理缺失值 鲁棒性好
+
+     单选题  (1/1 分数)
+     下列哪一种情况被称为过学习现象：
+     - [ ] 在训练集上A优于B，在测试集上A也优于B
+     - [X] 在训练集上A优于B，在测试集上B优于A - 正确
+     - [ ] 相对于分类数据集，决策树过于简单 在训练集上决策树的误差很小
+
+     单选题  (1/1 分数)
+     任何一个候选属性在生成的决策树中：
+     - [ ] 必须被使用
+     - [ ] 只能被使用一次
+     - [X] 可以被使用多次 - 正确
+     - [ ] 可以在任意位置被使用多次
+
+     单选题  (1/1 分数)
+     以下关于决策树的说法正确的是：
+     - [ ] 决策树越复杂，分类能力越强
+     - [ ] 在性能相同的情况下，通常选择能充分利用各种属性的决策树
+     - [ ] 对于某一个数据集，只有一个决策树可以将其完美分开
+     - [X] 对于某一个数据集，可以生成多个决策树 - 正确
+
+     多选题  (1/1 分数)
+     奥卡姆的剃刀指的是：
+     - [X] Entities are not to be multiplied beyond necessity.,
+     - [X] Among competing hypotheses, the one with the fewest assumptions should be selected.,
+     - [X] The simplest explanation is usually the correct one., - 正确
+     - [ ] 中世纪英国上流社会的一种生活用品
+
+**** MESSY Tsinghua Data analysis exercise-Bayes and Decision-Tree, 3.4 exercise
+     单选题  (1/1 分数)
+     为什么一般不推荐在决策树中使用“生日”属性：
+     - [ ] 星座信息更有说服力
+     - [ ] 容易造成过学习 - 正确
+     - [ ] 可能的取值太多，计算量过大
+     - [ ] 两个人可能生日相同
+     提交  显示答案 揭示答案
+
+     单选题  (1/1 分数)
+     决策树模型中建树的基本原则是：
+     - [ ] 取值多的属性应放在上层
+     - [ ] 取值少的属性应放在上层
+     - [ ] 信息增益大的属性应放在上层 - 正确
+     - [ ] 应利用尽可能多的属性
+     提交  显示答案 揭示答案
+
+     多选题  (1/1 分数)
+     哪些情况下必须停止树的增长：
+     - [X] 当前数据子集的标签一致,
+     - [X] 没有更多可用属性,
+     - [X] 当前数据子集为空, - 正确
+     - [ ] 当前训练误差已经较低
+     提交  显示答案 揭示答案
+
+     单选题  (1/1 分数)
+     关于决策树剪枝操作正确的描述是：
+     - [ ] 从中间节点开始
+     - [ ] 从叶节点开始 - 正确
+     - [ ] 有助于保持树的平衡
+     - [ ] 可以有效降低训练误差
+     提交  显示答案 揭示答案
+
+     单选题  (1/1 分数)
+     在决策树模型中，校验集的用途是：
+     - [ ] 用于校验模型的训练误差
+     - [ ] 用于校验模型的测试误差
+     - [ ] 用于校验模型的正确性
+     - [ ] 用于控制对模型的剪枝操作 - 正确
+     提交  显示答案 揭示答案
+
+     单选题  (1 满分)
+     决策树模型中应如何妥善处理连续型属性：
+     - [ ] 直接忽略
+     - [ ] 利用固定阈值进行离散化
+     - [X] 根据信息增益选择阈值进行离散化
+     - [ ] 随机选择数据标签发生变化的位置进行离散化 - 不正确
+     提交
+
+**** MESSY Tsinghua Data analysis exercise-Bayes and Decision-Tree, 3.1 exercise
+   Source: [2017-03-28 Tue], [[http://www.xuetangx.com/courses/course-v1:TsinghuaX+80240372X+sp/courseware/36f14de73ded47a29068e083d79900be/d713d4dda32b46cfbcdef4d8e5a5237f/][单选题 | 贝叶斯奇幻之旅 | 80240372X 课件 | 学堂在线]]
+
+
+   单选题  (1/1 分数)
+   有监督的学习和无监督的学习的根本区别在于：
+
+
+   学习过程是否需要人工干预 学习样本是否需要人工标记 学习样本是否需要人工标记 - 正确 学习结果是否需要人工解释 学习参数是否需要人工设置
+     显示答案 揭示答案
+   单选题  (1/1 分数)
+   已知池中有两种鱼，比例为7:3，若随机捞上一条，按照70%和30%概率随机猜测其种类，则整体误差最接近于：
+
+
+   20% 30% 40% 40% - 正确 50%
+     显示答案 揭示答案
+   单选题  (1/1 分数)
+   2015年10月，中国共产党第十八届中央委员会第五次全体会议公报指出：坚持计划生育基本国策，积极开展应对人口老龄化行动，实施全面二孩政策。提问：小明的妈妈有两个孩子，已知其中一个是男孩儿，问另一个也是男孩儿的概率是：
+
+
+   二分之一 三分之一 三分之一 - 正确 四分之一 真的不关我的事
+     显示答案 揭示答案
+   单选题  (1 满分)
+   已知甲乙丙三人射击命中率分别为0.8，0.6和0.5，若每人各开一枪，则目标被命中的概率最接近：
+
+
+   - 未答复 0.85 0.90 0.95 1.00
+
+   单选题  (1/1 分数)
+   当化验报告呈阳性的时候，正确的做法是：
+
+
+   心如死灰，万念俱灭 散尽家财，及时行乐 置若罔闻，我行我素 及时复检，防止假阳性 及时复检，防止假阳性 - 正确
+     显示答案 揭示答案
+
+**** MESSY Tsinghua Data analysis exercise-Bayes and Decision-Tree, 3.2 exercise
+   Source: [2017-03-28 Tue], [[http://www.xuetangx.com/courses/course-v1:TsinghuaX+80240372X+sp/courseware/36f14de73ded47a29068e083d79900be/b0aa19f06a424af899aadebe130799c5/][单选题 | 朴素是一种美德 | 80240372X 课件 | 学堂在线]]
+
+
+   朴素贝叶斯分类器的朴素之处在于：
+
+
+   只能处理低维属性 只能处理离散型属性 分类效果一般 属性之间的条件独立性假设 属性之间的条件独立性假设 - 正确
+     显示答案 揭示答案
+   单选题  (1/1 分数)
+   以下关于两个变量X和Y说法正确的是：
+
+
+   若独立一定不相关 若独立一定不相关 - 正确 若不相关一定独立 若独立不一定不相关 我已经晕了
+     显示答案 揭示答案
+   单选题  (1/1 分数)
+   两个事件A和B条件独立指的是：
+
+   P(A, B)=P(A)P(B) P(A, B)=P(A|B)P(B) P(A|B, C)=P(A|C) P(A|B, C)=P(A|C) - 正确 P(A|B)=P(A)
+     显示答案 揭示答案
+   单选题  (1/1 分数)
+   以下关于拉普拉斯平滑说法正确的是：
+
+   防止计算条件概率时分母为零 防止计算条件概率时分子为零 防止计算条件概率时分子为零 - 正确 用于解决训练集中的噪声 用于解决训练集中的异常值
+     显示答案 揭示答案
+   单选题  (1/1 分数)
+   在文本分类应用中，关于词袋模型的描述正确的是：
+
+
+   任何一个单词只能存在于某一个词袋中 一个单词可能存在于多个词袋中但频率不同 一个单词可能存在于多个词袋中但频率不同 - 正确 所有词袋中单词的并集就等同于词汇表 词袋模型描述的是单词在所有文本中出现的频率
+
+**** MESSY Tsinghua Data analysis exercise-Neural Networks, 4.1
+单选题  (1/1 分数)
+我们很难刻意忘掉一个人的原因是：
+
+
+记性好，没办法 刻骨铭心，矢志不渝 天长地久有时尽，此情绵绵无绝期 神经元的大规模分布式信息存储机制 神经元的大规模分布式信息存储机制 - 正确
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+如图所示的感知机（阈值为0）实现的逻辑功能是：
+#+BEGIN_SRC ditta
+
+#+END_SRC
+
+或门 与门 与门 - 正确 非门 与非门
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+在感知机的判决函数中，w0的作用是：
+
+为了后续学习算法推导的方便 其实在实际中可以略去 控制判决平面到原点的距离 控制判决平面到原点的距离 - 正确 控制判决平面的方向
+
+**** MESSY Tsinghua Data analysis exercise-Neural Networks, 4.2
+
+
+若神经元的误差对某输入的权重的偏导大于零说明：
+
+
+权重应增加 权重应减小 权重应减小 - 正确 不能确定
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+根据Delta规则，在stochastic learning模式下，若神经元的实际输出大于期望输出，权重应：
+
+顺势而为：增大 反其道而行之：减小 若相应输入大于零：减小 若相应输入大于零：减小 - 正确 若相应输入小于零：减小
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+以下关于感知机说法正确的是：
+
+在batch learning模式下，权重调整出现在学习每个样本之后 只要参数设置得当，感知机理论上可以解决各种分类问题 感知机的训练过程可以看成是在误差空间进行梯度下降 感知机的训练过程可以看成是在误差空间进行梯度下降 - 正确 感知机的激励函数必须采用门限函数
+
+**** MESSY Tsinghua Data analysis exercise-Neural Networks, 4.3
+单选题  (1/1 分数)
+以下关于感知机说法正确的是：
+
+多层感知机比感知机只多了一个隐含层 感知机只能形成线性判决平面，无法解决异或问题 感知机只能形成线性判决平面，无法解决异或问题 - 正确 多层感知机可以有多个隐含层，但是只能有一个输出单元 隐含层神经元的个数应当小于输入层神经元的个数
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+多层感知机解决线性不可分问题的原理是：
+
+分而治之，对原始问题空间进行划分 将原始问题向更高维空间映射 在输出层和隐含层之间形成非线性的分界面 将原始问题在隐含层映射成线性可分问题 将原始问题在隐含层映射成线性可分问题 - 正确
+提交  显示答案 揭示答案
+多选题  (1/1 分数)
+采用Sigmod函数作为激励函数的主要原因是：
+
+有固定的输出上下界, 导数存在解析解, 处处可导, - 正确 有固定的输出上下界 计算复杂度较低 导数存在解析解 处处可导
+
+**** MESSY Tsinghua Data analysis exercise-Neural Networks, 4.4
+单选题  (1/1 分数)
+在误差逆传播算法中，输出层神经元权重的调整机制和感知机的学习规则相比：
+
+考虑到线性不可分问题，学习规则更为复杂 一模一样，等价于多个感知机 遵循相同的原理，激励函数可能有所不同 遵循相同的原理，激励函数可能有所不同 - 正确 所有输出层神经元的权重需要同步调整
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+在误差逆传播算法中，隐含层节点的误差信息应当：
+
+根据自身的期望输出和实际输出的差值计算 根据所有输出层神经元的误差的均值计算 根据自身下游神经元的误差进行加权计算 根据自身下游神经元的误差进行加权计算 - 正确 根据自身下游神经元的误差的均值计算
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+为了克服学习空间中存在的局部最优点应当：
+
+尝试从不同的初始点开始训练 尝试从不同的初始点开始训练 - 正确 将权重初始化为接近于0的值 采用较小的学习率 增加隐含层神经元个数
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+关于学习率参数的设置，正确的描述是：
+
+较大的值有助于提高算法的收敛稳定性 较小的值有助于提高算法的收敛速度 在开始阶段应该较大，然后逐渐减小 在开始阶段应该较大，然后逐渐减小 - 正确 在开始阶段应该较小，然后逐渐增大
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+在权重更新公式中引入冲量的主要目的是：
+
+提高算法的收敛精度 提高算法的稳健性 提高算法的全局优化能力 有助于摆脱误差平缓区域

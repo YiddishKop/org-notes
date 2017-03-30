@@ -7,7 +7,12 @@
    - State "CANCELLED"  from "TODO"       [2017-03-13 Mon 13:05] \\
      尋思,暫時不需要學習 latex 語法,分散了學習時間
    :END:
-** TODO [#B] make sure which item affect the connection in my /etc/resolv.conf
+** CANCELLED [#B] make sure which item affect the connection in my /etc/resolv.conf
+   CLOSED: [2017-03-27 Mon 11:20]
+   :LOGBOOK:
+   - State "CANCELLED"  from "TODO"       [2017-03-27 Mon 11:20] \\
+     dont have enough time and knowledge base
+   :END:
    in my /etc/reslov.conf , i added 4 items, i wana know which really make my chrome
    connect to google.
    1. commant "search vpn"?
@@ -15,10 +20,14 @@
    3. ...
 ** SOMEDAY [#B] 通讀子龍的emacs配置                               :spacemacs:
 
-** TODO [#B] 學習如何給chrome capture的文章做腳注筆記
-   SCHEDULED: <2017-03-13 Mon 09:00>
+** DONE [#B] 學習如何給chrome capture的文章做腳注筆記
+   CLOSED: [2017-03-27 Mon 11:20] SCHEDULED: <2017-03-13 Mon 09:00>
    :PROPERTIES:
    :Effort:   10
+   :END:
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-27 Mon 11:20]
+   - need some more improvement
    :END:
 
 ** TODO [#B] 明天要詳細理解,肢解後歸檔代碼                  :emacs:hack:code:
@@ -38,12 +47,22 @@ LOGBOO:
 4. 我就又把elfeed 從子龍的生命packages中刪除了
 END:
 
-** TODO [#C] 給老哥電話訂家具
-   SCHEDULED: <2017-03-14 Tue 14:00>
-** STARTED [#B] 下午房子砸牆，陽臺
-   SCHEDULED: <2017-03-12 Sun 16:00>
-** STARTED [#C] 溝通解決新城窗戶莊歪問題
-   SCHEDULED: <2017-03-13 Mon 13:00>
+** DONE [#C] 給老哥電話訂家具
+   CLOSED: [2017-03-27 Mon 11:21] SCHEDULED: <2017-03-14 Tue 14:00>
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-27 Mon 11:21]
+   :END:
+** DONE [#B] 下午房子砸牆，陽臺
+   CLOSED: [2017-03-27 Mon 11:21] SCHEDULED: <2017-03-12 Sun 16:00>
+   :LOGBOOK:
+   - State "DONE"       from "STARTED"    [2017-03-27 Mon 11:21]
+   :END:
+** DONE [#C] 溝通解決新城窗戶莊歪問題
+   CLOSED: [2017-03-27 Mon 11:21] SCHEDULED: <2017-03-13 Mon 13:00>
+   :LOGBOOK:
+   - State "DONE"       from "STARTED"    [2017-03-27 Mon 11:21]
+   - who response this vendor, says that he will order someone to fix this issue
+   :END:
 
 ** TODO [#B] 整理 journal.org 中的所有文章格式整理,美化,並歸檔
 
@@ -75,7 +94,11 @@ END:
 
    :END:
 
-** TODO [#B] 搞清楚pandoc-mode是怎麼運行的,最好能實現自動化把html轉爲org
+** DONE [#B] 搞清楚pandoc-mode是怎麼運行的,最好能實現自動化把html轉爲org
+   CLOSED: [2017-03-27 Mon 11:22]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-27 Mon 11:22]
+   :END:
    比如一旦發現download文件中出現html,就自動轉換爲某個文件夾下的org
 
 ** TODO [#B] 找個模板能讓 src-block 裏的代碼背景色高粱
@@ -86,11 +109,6 @@ END:
    看看如何設置
    13:48左右
 
-** STARTED [#B] TEST
-#+BEGIN_SRC emacs-lisp
-(org-clock-in)
-(org-clock-is-active)
-#+END_SRC
 
 ** TODO 學習這種思想
 
@@ -110,7 +128,6 @@ END:
    再不行我就打315,也剛過去沒幾天.你看着辦,我現在也不要賠償,你就給我把窗戶
    弄好.
 
-** TODO [#B]
 
 ** TODO [#B] 應該把學習編程當成翻譯課,每天練習翻譯
    SCHEDULED: <2017-03-16 Thu 09:00>
@@ -141,5 +158,8 @@ http://www.brool.com/post/using-mu4e/
 ** TODO  學習一下那個如何記賬的夥計 youtube
    SCHEDULED: <2017-03-20 Mon 14:00>
 
-** TODO [#B] ABC's loan due to check
-   SCHEDULED: <2017-03-22 Wed 10:30>
+** DONE [#B] ABC's loan due to check
+   CLOSED: [2017-03-27 Mon 11:19] SCHEDULED: <2017-03-22 Wed 10:30>
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-03-27 Mon 11:19]
+   :END:

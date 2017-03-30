@@ -107,3 +107,40 @@ toward literate programming
 ** SOMEDAY [#B] 把四輪學習法做進emacs
 
   [2017-03-19 Sun 00:08]
+
+** IMAGING [#B] give rank to every code snippet of the same discription
+code snippet with high rank, have the high priviledge to be selected by you.
+almostly, this funcion must be use the lib function of yasnippet and company
+
+ [2017-03-26 Sun 11:19]
+
+** IMAGING [#B] my 'elice' need a search engine.
+like the mu's search engine
+https://xapian.org/
+https://github.com/djcb/mu
+
+it also need to UNDERSTAND what i said, or she can help me understand what i have learned
+http://www.cs.rochester.edu/research/epilog/
+http://www.cs.rochester.edu/research/knext/
+(note the knext webpage has many good paper about "extract knowledge from text")
+http://cs.rochester.edu/research/lore/
+
+ [2017-03-26 Sun 15:25]
+
+** IMAGING [#B] hack chrome to make it work convinient with emacs and pandoc
+1. create an extension and bind a hotkey
+
+2. this extension can convert html to Gnu-info by pandoc
+
+3. pandoc also need hack, hack its template to recganize the source code
+
+4. then refer to the footnote.el, add a new type link to store my notes of this
+   text by date(some like the date-tree of org-capture)
+
+
+
+ [2017-03-27 Mon 07:28]
+
+** IMAGING [#B] by tts, convert everyday study node as mp3, then you can listen and recall when sleep
+
+ [2017-03-27 Mon 09:14]
