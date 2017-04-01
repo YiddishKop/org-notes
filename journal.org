@@ -5431,6 +5431,110 @@ done
 这个时候的方法往往非常脱离现实的细节，只有真正上手了，一些现实的琐碎细节
 才能 *激发* 内心的灵感，才会有办法解决，这时候调动的不只是大脑，而是全身
 的细胞去 *体悟* 。 这才能真正发现或发明或解决问题。
+*** 2017-03-31 Friday
+
+**** MESSY how to setup chinese source of PIP python install     :python:pip:
+   Source: [2017-03-31 Fri], [[http://www.cnblogs.com/microman/p/6107879.html][让PIP源使用国内镜像，提升下载速度和安装成功率。 - microman - 博客园]]
+
+:ISSUE:
+PIP install 安装经常链接超时，失败
+:END:
+:SOLVE:
+让PIP源使用国内镜像，提升下载速度和安装成功率。
+:END:
+
+   让PIP源使用国内镜像，提升下载速度和安装成功率。
+
+   对于Python开发用户来讲，PIP安装软件包是家常便饭。但国外的源下载速度实在太慢，浪费时间。而且经常出现下载后安装出错问题。所以把PIP安装源替换成国内镜像，可以大幅提升下载速度，还可以提高安装成功率。
+
+   国内源：
+
+   新版ubuntu要求使用https源，要注意。
+
+   清华：https://pypi.tuna.tsinghua.edu.cn/simple
+
+   阿里云：http://mirrors.aliyun.com/pypi/simple/
+
+   中国科技大学 https://pypi.mirrors.ustc.edu.cn/simple/
+
+   华中理工大学：http://pypi.hustunique.com/
+
+   山东理工大学：http://pypi.sdutlinux.org/ 
+
+   豆瓣：http://pypi.douban.com/simple/
+
+   临时使用：
+
+   可以在使用pip的时候加参数-i https://pypi.tuna.tsinghua.edu.cn/simple
+
+   例如：pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pyspider，这样就会从清华这边的镜像去安装pyspider库。
+    
+
+   永久修改，一劳永逸：
+
+   Linux下，修改 ~/.pip/pip.conf (没有就创建一个文件夹及文件。文件夹要加“.”，表示是隐藏文件夹)
+
+   内容如下：
+#+BEGIN_QUOTE
+   [global]
+   index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+   [install]
+   trusted-host=mirrors.aliyun.com
+#+END_QUOTE
+   windows下，直接在user目录中创建一个pip目录，如：C:\Users\xx\pip，新建文件pip.ini。内容同上。
+
+**** MESSY 其实没有那么多的成年人，你也不要把所有成年人都当成年人看
+当你不把他看做成年人时，反倒可以理解一些想法和行为模式；
+** 2017-04 April
+*** 2017-04-01 Saturday
+
+**** MESSY update kernel, come up against 'missing initramfs' problem :ubuntu:initramfs:
+   Source: [2017-04-01 Sat], [[http://askubuntu.com/questions/898449/kernel-panic-and-unable-to-boot-ubuntu-16-04-after-updating/898459][updates - Kernel panic and unable to boot Ubuntu 16.04 after updating - Ask Ubuntu]]
+:ISSUE:
+when update from kernle 4.4.0-70 to 4.4.0-71,then i cannot install
+anything by sudo apt-get install. In my ele-os:
+#+BEGIN_QUOTE
+~  sudo dpkg --configure -a
+Setting up linux-image-4.4.0-71-generic (4.4.0-71.92) ...
+Running depmod.
+sh: 1: /usr/sbin/update-initramfs: not found
+Failed to create initrd image.
+#+END_QUOTE
+:END:
+:SOLVE:
+   You are missing the initramfs for kernel version 4.8.0-44.
+
+   It looks like you got a kernel panic error message after updating the kernel
+   in Ubuntu 16.04.1 to 4.8.0-44-generic. To fix it enter a text-only console
+   and either replace 4.8.0-44-generic with the more stable default kernel
+   version or run
+
+   ~sudo update-initramfs -u -k 4.8.0-44-generic && sudo update-grub.~
+
+   After the boot stops at the black screen, open a text-only console by using the keyboard shortcut Ctrl+Alt+F1
+   At the login: prompt type your username and press Enter.
+   At the Password: prompt type your user password and press Enter.
+   After you have logged in in the console type:
+
+   ~sudo apt remove linux-image-4.8.0-44-generic linux-image-extra-4.8.0-44-generic linux-headers-4.8.0-44-generic~
+   ~sudo apt install linux-image-4.4.0-71-generic linux-headers-4.4.0-71 linux-headers-4.4.0-71-generic~
+   ~sudo reboot~
+
+   Alternatively you can run the following commands to update initramfs for kernel version 4.8.0-44-generic :
+
+   ~sudo update-initramfs -u -k 4.8.0-44-generic~
+   ~sudo update-grub~
+
+   When the computer reboots wait until the manufacturer's splash screen
+   disappears, then press the Shift key to show the GRUB boot options. From the
+   purple GRUB screen select Advanced options for Ubuntu and press Enter. A new
+   purple screen will appear showing a list of kernels. Select Ubuntu, with
+   Linux 4.4.0-71-generic and press Enter. Ubuntu will load the selected kernel
+   and proceed to the login screen as usual. Don't let Ubuntu update the kernel
+   to the 4.8.0-44 version that caused the black screen again, or else you'll
+   get the same black screen problem that you got before.
+
+:END:
 
 * 数据挖掘：理论与算法
 **** introduction
@@ -5695,3 +5799,198 @@ done
 在权重更新公式中引入冲量的主要目的是：
 
 提高算法的收敛精度 提高算法的稳健性 提高算法的全局优化能力 有助于摆脱误差平缓区域
+
+**** MESSY Tsinghua Data analysis exercise-SVM, 5.1
+单选题  (1/1 分数)
+在SVM领域中，margin的含义是：
+
+盈利率 马金 间隔 间隔 - 正确 保证金
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+线性SVM和一般线性分类器的区别主要是：
+
+是否进行了空间映射 是否确保间隔最大化 是否确保间隔最大化 - 正确 是否能处理线性不可分问题 训练误差通常较低
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+为什么通常要选择margin最大的分类器？
+
+所需的支持向量个数最少 计算复杂度最低 训练误差最低 有望获得较低的测试误差 有望获得较低的测试误差 - 正确
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+假设超平面为w*x+b=0，其margin的大小为：
+
+1/|w| 2/|w| 2/|w| - 正确 |b|/|w| 2|b|/|W|
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+支持向量（support vectors）指的是：
+
+对原始数据进行采样得到的样本点 决定分类面可以平移的范围的数据点 决定分类面可以平移的范围的数据点 - 正确 位于分类面上的点 能够被正确分类的数据点
+
+**** MESSY Tsinghua Data analysis exercise-SVM, 5.2
+     单选题  (1/1 分数)
+在SVM的求解过程中，支持向量与alpha的关系是：
+
+alpha=0的数据点是支持向量 alpha>0的数据点是支持向量 alpha>0的数据点是支持向量 - 正确 alpha<0的数据点是支持向量 两者没有固定关系
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+在SVM当中，主要的运算形式是：
+
+向量内积 向量内积 - 正确 矩阵乘法 矩阵转置 矩阵分解
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+软间隔（soft margin）的主要用途是：
+
+解决线性不可分问题 解决不完全线性可分问题 解决不完全线性可分问题 - 正确 降低算法时间复杂度 提高算法分类精确
+**** MESSY Tsinghua Data analysis exercise-SVM, 5.3
+     单选题  (1/1 分数)
+在SVM当中进行空间映射的主要目的是：
+
+降低计算复杂度 提取较为重要的特征 对原始数据进行标准化 提高原始问题的可分性 提高原始问题的可分性 - 正确
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+对于SVM，在映射后的高维空间直接进行计算的主要问题是：
+
+模型可解释性差 计算复杂度高 计算复杂度高 - 正确 容易出现奇异矩阵 容易出现稀疏矩阵
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+所谓kernel trick，指的是：
+
+利用在原始空间定义的函数替代高维空间的向量内积操作 利用在原始空间定义的函数替代高维空间的向量内积操作 - 正确 利用在高维空间定义的函数替代原始空间的向量内积操作 核函数的导数具有简单的解析解，简化了运算 核函数具有固定的上下界，可以输出（-1, +1）区间中的连续值
+提交  显示答案 揭示答案
+单选题  (1 满分)
+通过运用核函数，我们可以：
+
+ 提高算法的可解释性 生成数量较少的支持向量 生成数量较多的支持向量 避免高维空间运算，降低算法复杂度
+**** MESSY Tsinghua Data analysis exercise-SVM, 5.4
+     单选题  (1 满分)
+SVM核心技术的发展经历了：
+
+ 10年 20年 30年 40年
+提交
+单选题  (1 满分)
+线性SVM思想最初被提出的时候，你在：
+
+ 上幼儿园 上小学 上中学 不知道在哪儿
+提交
+单选题  (1/1 分数)
+一个分类模型的capacity指的是：
+
+能够解决几分类问题 能解决多大规模的问题 能将多少个点分开，不论如何分配标签 能将多少个点分开，不论如何分配标签 - 正确 能达到的精确度
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+为什么当两个模型的训练误差相同或接近的时候，通常会选择比较简单的一个：
+
+复杂模型的测试误差一定较大 简单模型的测试误差一定较小 在相同置信度条件下，复杂模型的测试误差上界较大 在相同置信度条件下，复杂模型的测试误差上界较大 - 正确 只是一种经验，并没有理论依据
+提交  显示答案 揭示答案
+多选题  (1/1 分数)
+Владимир Наумович Вапник（Vladimir Vapnik）为什么是真神：
+
+惊天引用次数, 支持向量机开天辟地, 统计学习理论一代宗师, 目光如炬，深不可测, - 正确 惊天引用次数 支持向量机开天辟地 统计学习理论一代宗师 目光如炬，深不可测
+**** MESSY Tsinghua Data analysis exercise-Clustering, 6.1
+     单选题  (1/1 分数)
+聚类中的簇与分类中的类的关系是：
+
+簇即是类、类即是簇 簇是类的一种具体表现形式 类是簇的一种具体表现形式 不是一码事，但实际中有一定联系 不是一码事，但实际中有一定联系 - 正确
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+在市场营销中，聚类最有可能帮助经营者：
+
+对客户群进行划分 对客户群进行划分 - 正确 进行商品推荐 识别优质客户 辅助商品定价
+提交  显示答案 揭示答案
+多选题  (1/1 分数)
+一个好的聚类算法应当具备哪些潜质：
+
+能够处理非球形的数据分布, 能够处理噪点和离群点, 对样本输入序列不敏感, 对海量数据的可扩展性, - 正确 能够处理非球形的数据分布 能够处理噪点和离群点 对样本输入序列不敏感 对海量数据的可扩展性
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+关于数据预处理对聚类分析的影响的错误说法是：
+
+可能改变数据点之间的位置关系 可能改变簇的个数 有助于提升聚类质量 有助于提升聚类质量 - 正确 可能产生不确定影响
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+在基于聚类的图像分割例子中：
+
+色彩越复杂的图，需要的簇的个数越少 属于同一个物体的像素对应同一个簇 簇的个数越少，分割后图像越接近原始图像 簇的个数越多，分割后图像越接近原始图像
+**** MESSY Tsinghua Data analysis exercise-Clustering, 6.2
+     单选题  (1/1 分数)
+如何衡量聚类的质量：
+
+簇内数据点散布越小越好 簇中心点之间的距离越大越好 簇的个数越小越好 需要考虑数据点间的连通性 需要考虑数据点间的连通性 - 正确
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+对于Silhouette图表述正确的是：
+
+每个点的取值范围为[0, 1] 每个点的取值越接近于0越好 可以体现出簇的紧凑性 可以体现出簇的紧凑性 - 正确 对于离群点，取值可能超过1
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+关于K-Means算法的表述正确的是：
+
+对数据分布没有特殊的要求 能较好处理噪点和离群点 对初始中心点较为敏感 对初始中心点较为敏感 - 正确 计算复杂度较高
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+K-Means算法中的初始中心点：
+
+可随意设置 必须在每个簇的真实中心点的附近 必须足够分散 直接影响算法的收敛结果 直接影响算法的收敛结果 - 正确
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+在Sequential Leader算法中：
+
+需对数据集进行多次遍历 无法人为控制最终聚类的个数 需要事先生成初始中心点 聚类结果可能受数据访问顺序影响
+**** MESSY Tsinghua Data analysis exercise-Clustering, 6.3
+     单选题  (1/1 分数)
+基于模型的聚类与基于分割的聚类相比：
+
+有更高的精确度 有更低的计算复杂度 有更好的鲁棒性 对数据分布有更好的描述性 对数据分布有更好的描述性 - 正确
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+在混合高斯模型中，每一个数据点：
+
+只能被某一个高斯生成 可以被所有高斯等概率生成 可以被任一高斯生成但概率可能不等 可以被任一高斯生成但概率可能不等 - 正确 可以被任一高斯生成且概率由高斯的权重决定
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+在混合高斯模型中，每个高斯的权重：
+
+可以为负值 相加必须等于0 相加必须等于1 相加必须等于1 - 正确 须由用户预先设定
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+以K-Means算法为例，期望最大化算法中的：
+
+模型参数指的是每个数据点的簇标号 隐含参数指的是每个数据点的簇标号 隐含参数指的是每个数据点的簇标号 - 正确 模型参数指的是簇的个数（即K值） 隐含参数指的是簇中心点坐标
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+在掷硬币的例子中，期望最大化算法的隐含参数指的是：
+
+每组实验中正面朝上的次数 每组实验中选择的硬币 每组实验中选择的硬币 - 正确 每枚硬币正面朝上的概率 每枚硬币被选中的次数
+**** MESSY Tsinghua Data analysis exercise-Clustering, 6.4
+     单选题  (1/1 分数)
+与K-Means相比，基于密度的DBSCAN的优点不包括：
+
+能妥善处理噪点和离群点 能处理不规则的数据分布 不需要预先设定簇的个数 较低的计算复杂度 较低的计算复杂度 - 正确
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+在DBSCAN中，对数据点类型的划分中不包括：
+
+中心点 中心点 - 正确 核心点 边缘点 噪点
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+在DBSCAN中，对于噪点：
+
+划分到最近的簇 所有噪点单独形成一个簇 直接无视 直接无视 - 正确 不做特别区分
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+在层次型聚类中：
+
+需要用户预先设定聚类的个数 需要用户预先设定聚类个数的范围 对于N个数据点，可生成1到N个簇 对于N个数据点，可生成1到N个簇 - 正确 对于N个数据点，可生成1到N/2个簇
+提交  显示答案 揭示答案
+单选题  (1/1 分数)
+在层次型聚类中，两个点集之间的距离计算方法通常不包括：
+
+由点集间距离最近的一对点的距离决定 由点集间距离最远的一对点的距离决定 由点集间随机的一对点的距离决定 由点集间随机的一对点的距离决定 - 正确 由点集间所有点的平均距离决定
+
+* Sentdex:Python4ML
+** Regression intro
+:PIP:
+1. sklearn
+2. quandl
+3. pandas
+:END:
