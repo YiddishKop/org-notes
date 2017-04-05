@@ -295,3 +295,13 @@ If you enter ATTRIBUTES they are inserted as LaTeX attributes."
  #+END_SRC
  Link:   [[file:~/.spacemacs.d/init.el::values."]]
  File:   /home/yiddi/.spacemacs.d/init.el
+** find the odd time occur by operator.xor                      :python:misc:
+#+BEGIN_SRC python
+# find the sole element in an array, which occur odd number times
+import operator
+arr = [1,2,3,2,3,1,20,20,20]
+print reduce(operator.xor, arr)
+#+END_SRC
+
+ Link:   [[file:~/Documents/Test/test.py::print%20reduce(operator.xor,%20arr)]]
+ File:   /home/yiddi/Documents/Test/test.py

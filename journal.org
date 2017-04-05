@@ -56,7 +56,7 @@
    echo "LC_CTYPE='zh_CN.UTF-8' emacs24-x_original" | sudo tee /usr/bin/emacs24-x
    sudo chmod a+x /usr/bin/emacs24-x
    #+END_QUOTE
-**    In macro    , expression as the variable will be the last  to expand and compute.
+** In macro    , expression as the variable will be the last  to expand and compute.
    In function , expression as the variable will be the first to expand and comupte.
 
    Source: [2017-02-15 三],
@@ -4786,7 +4786,7 @@ CL-USER> (fib 10)
      #
      # 删除系统不再使用的孤立软件
      sudo apt-get autoremove
-**** some bugs about sogou pin
+**** some bugs about sogou pin                                 :ubuntu:sogou:
      问题说明参见
      http://pinyin.sogou.com/bbs/forum.php?mod=viewthread&tid=2676147&extra=&page=1
      参考其回复后可知
@@ -5535,6 +5535,24 @@ Failed to create initrd image.
    get the same black screen problem that you got before.
 
 :END:
+
+**** MESSY 这个世界上有些原本就属于“混沌”的东西，就不要把他清晰化
+:DIARY:
+1. 两个好事者，发现了一个叫做‘混沌’的东西，他们觉得混沌好可怜啊，
+没有一窍一感，体验不到这个花花世界的美好，遂相约每天为混沌开
+一窍，第7天混沌死了。。。。。
+
+2. 语言是不足以概括万事万物的，更多的东西无法用语言描述，一旦描述必然
+丢失很多精度。这也是古汉语和现在汉语的区别。
+
+3. 一开始投篮挺准的，当有一天总结投篮技巧，一条条写下来的时候，反而
+投篮都没那么准了
+
+:END:
+*** 2017-04-05 Wednesday
+
+**** MESSY  [[https://pan.baidu.com/disk/home#list/vmode=list&path=/%E6%88%91%E7%9A%84%E8%BD%AF%E4%BB%B6/Matlab%20R2016a][Matlab 2016 crack version]]                                :matlab:
+   Captured On: [2017-04-05 Wed 20:37]
 
 * 数据挖掘：理论与算法
 **** introduction
