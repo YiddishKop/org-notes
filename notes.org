@@ -1778,14 +1778,16 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
    |   | <spe:dired> dired-mode hide tetail                               | )                       |                    |
    |   | <spe:dired>dired-mode omit-mode                                  | (                       |                    |
 *** global
-   |   | <spe>discover major-mode key bindings                            | Spc ?                   |                    |
-   |   | <spe>save and apply new configuration                            | SPC f e r               | file-refresh       |
-   |   | <spe>search in document                                          | SPC s j                 | search jump        |
-   |   | <spe> open/closed debug info buffer                              | spc t D                 |                    |
-   |   | <spe>list all the layers installed                               | SPC h SPC               | pkgs of this layer |
-   |   | <spe>reload a mode by diminish-undo                              | (M-x:)dimish-undo       |                    |
-   |   | <spe>kill-ring paste                                             | C-n/p                   | copy next/previous |
-   |   | <spe>switch input-method                                         | C-\                     |                    |
+   |   | <spe>discover major-mode key bindings | Spc ?             |                                        |
+   |   | <spe>save and apply new configuration | SPC f e r         | file-refresh                           |
+   |   | <spe>search in document               | SPC s j           | search jump                            |
+   |   | <spe>open/closed debug info buffer    | spc t D           |                                        |
+   |   | <spe>list all the layers installed    | SPC h SPC         | pkgs of this layer                     |
+   |   | <spe>reload a mode by diminish-undo   | (M-x:)dimish-undo |                                        |
+   |   | <spe>kill-ring paste                  | C-n/p             | copy next/previous                     |
+   |   | <spe>switch input-method              | C-\               |                                        |
+   |   | <spe>toggle rainbow-mode              | spc t C c         | display color instead of color unicode |
+   |   |                                       |                   |                                        |
 *** helm
    |   | <helm> helm-find-files                                           | spc-f-f                 |                    |
    |   | <helm> helm-ag search all func-name variable in proj             | spc-s-p                 |                    |
@@ -1831,6 +1833,7 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
    |   | <em:org>toggle a org entry and set archive tag                 | C-c C-x a               |   |
    |   | <em:org>archive this branch file to achive org file            | C-c C-x C-a             |   |
    |   | <spe:org> add a footnote ref                                   | , i f                   |   |
+   |   | <org> display latex formula directly in org file               | C-c C-x C-l             |   |
 *** avy
    |   | <spe:avy:format>avy-goto-char, a very handy way to locate cursor | spc j j                 |                    |
    |   | <spe:avy:format>avy-goto-line,                                   | spc j l                 |                    |

@@ -1,0 +1,66 @@
+* STARTED leetcode - python & java
+  :LOGBOOK:
+  CLOCK: [2017-04-17 Mon 11:33]--[2017-04-17 Mon 16:33] =>  5:00
+  :END:
+
+** 001 two sum
+:原题:
+给一个int型数组，要求找出其中两个和为特定值的数的坐标。
+注意：
+   - 返回的坐标1要比坐标2小；
+   - 最小的坐标是1，不是0；
+例子：
+输入：numbers={2,7,11,15},target=9
+输出：index1=1, index2=2
+模板：
+class Solution(object):
+    def twoSum(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+:END:
+*** my solution
+ :思路:
+ 1. 遍nums每一个item，通过差值（target - item）找nums剩下的元素有无匹配
+ :END:
+ :缺点:
+ 1. 算法复杂度太高 最差O(n^2)
+ :END:
+ #+NAME: twoSum
+ #+BEGIN_SRC python
+def twoSum(self, nums, target):
+    index = 1
+    for item in nums:
+        if target - item in nums[index:]:
+            return (index, nums[index:].index(target - item) + index + 1)
+        index += 1
+ #+END_SRC
+*** get tips
+1. 获得数组某个item的下标： [1,2,3,4].index(3) => 2
+2. 判断数组是否包含某个元素： if item in [1,2,3,4]
+*** other solution
+
+:思路:
+第一遍遍历整个数组，用map记录数值和他的坐标，第二遍遍历数组，判断（目标数字-当前数字）
+是否在map中，如果在，且他的下表与当前数组的下表不同，则说明存在这两个数，返回坐标。
+:END:
+
+#+NAME: twoSum
+#+BEGIN_SRC python
+def twoSum(nums, target):
+    """
+    :type nums: List[int]
+    :type target: int
+    :rtype: List[int]
+    """
+    hash_map={}
+    for index, value in enumerate(nums):
+        hash_map[value] = index
+    for index1, value in enumerate(nums):
+        if target - value in hash_map:
+            index2 = hash_map[target - value]
+            if index1 != index2:
+                return [index1 + 1, index2 + 1]
+#+END_SRC
