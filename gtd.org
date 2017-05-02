@@ -156,3 +156,8 @@ http://www.brool.com/post/using-mu4e/
    :LOGBOOK:
    - State "DONE"       from "TODO"       [2017-03-27 Mon 11:19]
    :END:
+
+** TODO [#B] 给org不同的block分配不同的颜色
+   比如我在做笔记时，习惯用 quote-block 记录算法，
+   用 src-block 记录代码，我希望一眼就能区分两者。
+   所以我需要对不同的 block 设置不同的颜色

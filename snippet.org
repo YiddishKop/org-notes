@@ -389,3 +389,48 @@ theta = theta_new
 
  Link:   [[file:~/Documents/org-notes/journal.org::*%E7%9F%A5%E4%B9%8E%E8%A7%A3%E7%AD%94%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E9%9D%A2%E8%AF%95][知乎解答数据挖掘面试]]
  File:   /home/yiddi/Documents/org-notes/journal.org
+** download webpage content                                             :url:
+ #+BEGIN_SRC python
+import urllib2
+url_base = 'https://people.eecs.berkeley.edu/~jrs/61b/lec/'
+urlArr = []
+for i in range(40):
+    if i < 9:
+        urlArr.append(url_base + '0' + str(i+1))
+    else: urlArr.append(url_base + str(i+1))
+i = 39
+response = urllib2.urlopen(urlArr[i])
+webcontent = response.read()
+output = '** lec ' + str(i + 1) + '\n' + webcontent
+print output
+
+ #+END_SRC
+ Link:   [[file:~/Documents/org-notes/CS/DataStructure.org::geturl][geturl]]
+ File:   /home/yiddi/Documents/org-notes/CS/DataStructure.org
+** convert mp4 to mp3                                  :file:mp3:convert:mp4:
+ #+BEGIN_SRC python
+from os import listdir
+def convert2mp3 ():
+    mp4path = '/home/yiddi/Videos/youtube-wenzhao/'
+    # mp4path = '/media/yiddi/9C6C7BA46C7B783A/Movies/shuzhaiyehua/'
+    lines = [line[:-4] for line in listdir(mp4path)]
+    # [:-4] 怎么理解，就是前面都要，然后把':'号对准你要截取的位置，从后往前数就对了
+    # ‘n i h a o  . m p 4’
+    # [         :-4-3-2-1]
+    # = nihao
+    # print(lines)
+    for line in lines:
+        src_file = mp4path + line + '.mp4'
+        tgt_file = mp4path + line + '.mp3'
+        os.system('ffmpeg -i ' + src_file + ' -vn ' + tgt_file)
+        # print (line + ' -------------------------------------------DONE')
+
+convert2mp3()
+print('DONE: convet2mp3 finished')
+
+ #+END_SRC
+
+ #+RESULTS:
+
+ Link:   [[file:~/Worklap/test.py::print('DONE:%20convet2mp3%20finished')]]
+ File:   /home/yiddi/Worklap/test.py

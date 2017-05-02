@@ -5146,13 +5146,13 @@ CL-USER> (fib 10)
      ffmpeg -i /tmp/a.wav -i /tmp/a.avi /tmp/a.avi 两个文件 的顺序很重
      从视频里提取声音（声音与视频的分离）
 
-      ffmpeg  -i 人生若只如初见.flv  -vn r.mp3  从flv 文件 中提取声音并保存为mp3 格式  
+: ffmpeg -i 人生若只如初见.flv -vn r.mp3  从flv 文件 中提取声音并保存为mp3 格式  
 
-            -vn : 表示忽略视频 估计是video no 之类的缩写
+      -vn : 表示忽略视频 估计是video no 之类的缩写
 
-      ffmpeg  -i 人生若只如初见.flv  -an  r.flv   只留视频不留声音 
+: ffmpeg -i 人生若只如初见.flv -an r.flv 只留视频不留声音
 
-         -an : 表示 忽略 声音 估计是audio no 之类的缩写
+      -an : 表示忽略声音 估计是audio no 之类的缩写
 
 
 
@@ -6000,6 +6000,37 @@ print 1+1
    When output mode is value you must return. Just putting it there like you did with 1+1 won't do. In the third one you want the result to be printed output, but your default session setting is value(mine defaults to output btw).
 
    And this bit about org-confirm-babel-evaluate is kind of irrelevant to the question. I just have it set to nil.
+*** 2017-04-21 Friday
+
+**** MESSY 在 org的headline按下 “=”，来对真个headline所属content进行缩进
+   #+end_example
+
+   Link:  [[file:~/Documents/org-notes/CS/DataStructure.org::*Merge%20Sort(a%20selection%20sort%20whose%20'S'%20and%20'I'%20are%20sorted%20list)][Merge Sort(a selection sort whose 'S' and 'I' are sorted list)]]
+   File:  /home/yiddi/Documents/org-notes/CS/DataStructure.org
+*** 2017-04-22 Saturday
+
+**** MESSY how to add a link of reference to certain line of src block in org file
+1. you open special-mode of an src block by pressing ~, '~
+2. then, you use function ~org-store-link~,which i bind to ~f7~,to setup a ref to some line of code
+3. input some discription or name
+4. ~, c~ to go back to your org file
+5. place the link where you want to, by ~org-insert-link~, whick i bind to ~f6~, and choose that ref from list occur in minibuffer
+*** 2017-04-23 Sunday
+
+**** MESSY Jonathan Schewchuk, Introduction to Machine Learning
+1. https://www.youtube.com/watch?v=WMqNik4OWvU
+2. https://www.youtube.com/watch?v=rhu0NoQYnQw
+3. https://www.youtube.com/watch?v=4kjAVLkWNJ0
+4. https://www.youtube.com/watch?v=RI9Q1yFGTzE
+5. https://www.youtube.com/watch?v=VjY7WAyP778
+*** 2017-04-30 Sunday
+
+**** MESSY 使用aboabo的 org-download 去插入图片在org中
+这个package需要 安装 gnome-screenshot
+[[http://linux.softpedia.com/get/Utilities/GNOME-Screenshot-102903.shtml%0A][Download gnome-screenshot]]
+安装这个包需要一些依赖：
+1. gtk3.0-dev
+2. 其他一些根据提示输入即可
 
 * 数据挖掘：理论与算法
 **** introduction

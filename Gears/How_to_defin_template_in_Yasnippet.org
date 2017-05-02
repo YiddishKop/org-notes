@@ -1,6 +1,5 @@
 #+TITLE: Emacs: How to Define Templates in YASnippet
 
-
 * Emacs: How to Define Templates in YASnippet
 
 

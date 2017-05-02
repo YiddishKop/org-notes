@@ -1,11 +1,3 @@
-#+BEGIN_HTML
-  <div id="wrap">
-#+END_HTML
-
-#+BEGIN_HTML
-  <div id="header">
-#+END_HTML
-
 * A Gentle introduction to CEDET
 
 [[../../../ru/index.html][Russian]] ·

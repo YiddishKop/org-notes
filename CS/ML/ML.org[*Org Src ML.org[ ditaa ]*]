@@ -1,0 +1,14 @@
+        Hyperplane:  w . x + alpha = 0
+
+                              -     -
+                              | x_1 |
+          [ w_1 w_2 alpha ] . | x_2 | = 0
+                              |  1  |
+                              -     -
+                 |               |
+                 |               |
+                 v               v
+              new 'w'         new 'x'
+                    \            /
+                     v          v
+                      w' . x' = 0
