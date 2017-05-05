@@ -67,3 +67,10 @@ we retrieve the username at line [[(username)]]
    - State "DONE"       from              [2017-03-05 日 15:57]
    :END:
 *** History
+ Emacs Lisp code can be
+ #+BEGIN_SRC matlab
+ fminbnd('x^2*cos(x)',3,4)
+ #+END_SRC
+
+ #+RESULTS:
+ : 3.6436
