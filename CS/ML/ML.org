@@ -2144,7 +2144,6 @@ Read ISL, Section 9–9.1
       diagnosis and dies of a cancer that could have been treated if caught early.
       A false positive just means that you spend more money on more accurate tests.]
 
-     
      A _loss_function_ L(z, y) specifies badness if true class is y,
      classifier predicts z.
 

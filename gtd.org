@@ -161,3 +161,7 @@ http://www.brool.com/post/using-mu4e/
    比如我在做笔记时，习惯用 quote-block 记录算法，
    用 src-block 记录代码，我希望一眼就能区分两者。
    所以我需要对不同的 block 设置不同的颜色
+
+** TODO [#B] 利用EGO这个中文静态站点来搞自己的网页
+
+https://emacs-china.github.io/EGO/

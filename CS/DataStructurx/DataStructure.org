@@ -10390,3 +10390,171 @@ HashFunction(int size){
     Arrays.fill(theArray, "-1");
 }
 #+END_SRC
+** Dynamic Programming
+   Dynamic programming is kind of an alternative to recursion if you think of
+   recursion as dividing conquer or _top-down_. Dynamic programming is the same
+   idea but implementation is _bottom-up_, it's a divide-and-conquer strategy
+   whose subproblems overlap and you get multiple calls to them, so you try to
+   do it from bottom up
+
+:Reference:
+http://www.360doc.com/content/13/0601/00/8076359_289597587.shtml
+http://blog.csdn.net/woshioosm/article/details/7438834
+
+:END:
+
+*** Longest common subsequence
+    关于如何通过 recursive 的递归式得到 running time 的估计
+
+    比如 QuickSelect 算法
+
+    T(n)= 6(n/5) + T(n/5) + 3(n/5) + n/2 + T(3n/4)
+
+    this is almostly like this pattern:
+
+    T(n) = T(n/2) + n
+
+    and this T(n) = n - 1
+
+    And another, list here is NOT this pattern, but it is also famous, for the
+    reason, MergeSort(and QuickSort) is this pattern:
+
+    T(n) = 2*T(n/2) + n
+
+    and this T(n) is O(nlogn)
+
+    同理 binomial coefficient 也具有相同的 running-time 估算方法：
+
+    /n\     /n-1\     /n-1\
+   |   | = |     | + |     |
+    \m/     \ m /     \m-1/
+
+    => T(k) = T(k-1) + T(k-2)
+
+    这个也有两个简单的，已知结果的 pattern 可以近似：
+
+    T(k) = 2T(k-1)  -->  O(2^(n-1))
+    T(k) = 2T(k-2)  -->  O(2^(n/2)) = O(1.4^n)
+
+    更多时候，recursive 是使用 stack;
+    而 dynamic program 是使用 queue;
+
+    有点像 bread-first 使用 queue bottom-up 的情况
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-05 10:45:27
+    [[file:Data Structure/screenshot_2017-05-05_10-45-27.png]]
+
+    我们讨论shortest path，并不讨论 particular node to another
+    particular node
+    we talk about from every node to every other node
+
+    注意循环顺序
+    D(x,y,k): start, end, number of nodes in middle
+    D(6,9,2) = D(6,1,0) + D(1,9,0) Good
+    D(6,9,12) = _D(6,12,11)_ + _D(12,9,11)_ Bad
+    D(6,12,11) and D(12,9,0) not computed yet.
+    in the loop D(x1,y1,k1) = D(x1,z1,k1-1) + D(z1,y1,k1-1)
+    if z1 > x1, that would be a problem, not computed yet
+
+    用 dynamic programming 解决 matrix chain 问题（找到计算量最少的计算顺序）让我意识到：
+    神奇，dynamic programming , 回溯， greedy algo, divide and conquer, 分支界限法(branch and bound)
+    这是编程的五种思想框架，之于编程就像，社会主义资本主义之于国家，
+    这么重要的框架为什么大学教育不教？？？
+
+
+    现实世界有自己的解决方法，但到了计算机，你就要换一种思维方式，
+    你要先把数据存到数据结构中，构建一定的单位操作，然后利用这
+    五种算法框架去安排具体步骤。
+
+    Dynamic programing 感觉就像一路上有你
+
+    注意如何标记函数的，这点很重要：
+    parsing: D(1,3), means from 1st element and inclusively the next 3 elements.
+    3,6,1,0,9, D(1,3) = 3,6,1
+    总共的计算消耗：
+    1*5 + 2*4 + 3*3 + 4*2 + 5*1
+    =Sum(k*(n-k+1))
+    =O(n^3)
+    这个公式几乎是所有 dynamic 的计算消耗公式。
+
+    BTW, 因为还要比对 production-rule，所以总体的时间复杂度为：
+    O(n^3*m) m is a fixed constant---the number of production rules
+    但是查找可以通过hash或其他方法来加速
+
+    knapsack problem
+    greedy strategy: go for our next most thing
+
+
+    key1: A new notation:
+    C(49,3) means: choose from 1~3 boxes, and my room is 49 feet, C is cost
+    看看是否可以写成我们的 dynamic programming 通式：
+    n   n-1     n-1
+      =      +
+    m    m      m-1
+
+    C(49,3) = max[C(49,2) , C(44,3) + 14]
+    可以写成这样，像考虑排列组合问题一样，分情况，这里是
+    分成：取第三种物品和不取第三种物品
+
+    key2: The base case of fomula to avoid infinite loop
+    为了识别base case，考虑几种特殊情况
+    eg. C(8,0) C(5,1), C(0,3)
+    C(8,0) = 0 , because this notion means you choose nothing, then you get nothing
+    C(0,3) = 0 ,
+
+    key3: bottom-up
+    the order that you fill the table is important
+    主要是根据你的递推式，你是否可以保证每一个后面的递推式做一步分解之后的式子都已经被计算过了。
+
+    O(num_of_box * capcity_of_knapsack)
+
+    几乎所有的算法，一旦放在树上都会变得
+
+    NP------------ <= --------------SAT-------------- <= --------------3SAT
+
+    一旦可以做到这条线，你就可以往上面挂算法：
+
+    NP------------ <= --------------SAT-------------- <= --------------3SAT
+    .                                .
+    .                                .
+    .                                .3-colorbility
+    .                                .DFS problem
+
+
+    所以这里算法的本质变成了： change the vocabulary of one algo problem domain to another domain
+    3-colorbility <= Statisfibility
+    eg. change the english to the boolean formula
+    2SAT <= Strongly componets
+    eg. change boolean formula to a graph propagate
+
+    这个教授教完基本的算法之后，开始教授‘渔’法。
+    就是这些已知的算法通过某种 reduction 方法可以衍生出一系列问题，
+    而这些问题的解法都和‘源算法’一致。只是要改变某种 vocabulary of domain
+    so convertion method is most important, that is '渔'method
+
+    This book is good for graph algo
+    <<Data structure and Network algorithms>>, author: Tarjan
+
+    sorting <= Convex hull
+    有点像是，如果你解决了某个图的 convex hull，也就已经‘顺便’解决了sorting，像是副产品 byproduct
+    当然这个 reduction 是具有技巧的，也就是只能把 待排数列，通过平方转化成 parabola, y = x^2
+
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-08 15:42:44
+    [[file:Data Structure/screenshot_2017-05-08_15-42-44.png]]
+    Graham Scan to get convex hull
+    always connect nodes left turn to current vector, if not go back to last
+    影响时间复杂度最多的是‘回退，go back to last node’, 但是已经被‘回退的点’ 是不会
+    参加下次回退的，所以随着‘回退的越多，则下次发生回退的时间复杂度越少’。 有点像是
+    Amortized analysis.
+    这种有点像是后进先出,FILO, 而且已经处理的不再利用的结构，用stack：
+    left turn node --> push
+    ritht turn node --> pop
+
+    Graph algo always has a O(elogn) and O(n^2)
+    few edges : use O(elogn)
+    lot edges : use O(n^2)
+
+    Jarvis algo:
+    always chenge the standpoint to the right most node, and choose this node.
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-08 16:13:42
+    [[file:Data Structure/screenshot_2017-05-08_16-13-42.png]]
+    but if two nodes both are right most, then use the farthest one as next

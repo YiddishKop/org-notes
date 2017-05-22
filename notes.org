@@ -1761,7 +1761,6 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
    5. 这个时候checkout出来一个分支,用来保护master分支代码 : git checkout -branch <取个分支名:eg fixUpStream> FETCH_HEAD
 
 * spacemacs
-
 ** definition
 *** hooks
     hook is a *collection of funcions* will execute after certain mode start.
@@ -1772,11 +1771,15 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
     *the major-mode related to the type of source code.*
 ** hotkeys
 *** dired
-   |   | <spe:dired>open dired-mode in current file                       | SPC f j                 | file-jump          |
-   |   | <spe:dired>open spacemacs configuration file                     | SPC f e d               | open init.el       |
-   |   | <spe:dired>enter zshell in dired-mode(need zsh installed)        | `                       |                    |
-   |   | <spe:dired> dired-mode hide tetail                               | )                       |                    |
-   |   | <spe:dired>dired-mode omit-mode                                  | (                       |                    |
+   |   | <spe:dired>open dired-mode in current file                | SPC f j   | file-jump    |
+   |   | <spe:dired>open spacemacs configuration file              | SPC f e d | open init.el |
+   |   | <spe:dired>enter zshell in dired-mode(need zsh installed) | `         |              |
+   |   | <spe:dired> dired-mode hide tetail                        | )         |              |
+   |   | <spe:dired>dired-mode omit-mode                           | (         |              |
+   |   | <spe:dired> preview a file with cursor locate in          | o         |              |
+   |   | <spe:dired> preview a file, cursor stay                   | C-o       |              |
+   |   | <spe:dired> edit mode, modify file name directly in dired | C-x C-q   |              |
+
 *** global
    |   | <spe>discover major-mode key bindings | Spc ?             |                                        |
    |   | <spe>save and apply new configuration | SPC f e r         | file-refresh                           |
@@ -1929,6 +1932,15 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
     | open function                      | z-o |
     | ONLY open current, compress others | z-s |
     |                                    |     |
+*** book mark
+    | set bookmark          | Spc-b-m-s |
+    | display all bookmarks | Spc-b-m-j |
+*** calc
+    | 'ln' -- natural logarithm of num on top of stack     | shift-l         |
+    | 'exp' -- exponential of num on the stack             | shift-e         |
+    | 'log10' -- base-10 logarithm of num on top of stack  | shift-h shift-l |
+    | 'log' -- base-<num> logarithm of num on top of stack | <num> shift-B   |
+    |                                                      |                 |
 ** package
 *** org
 *** yasnippet
