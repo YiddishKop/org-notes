@@ -1,0 +1,34 @@
+* 如何让你的NN飞起来：更快速的找到下一个 better hypothesis
+  choose better one from Hypothesis Set, need loss-fn to weight better or worse, and optimizer
+  to choose the better one(choose better one means update w).
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-30 20:25:22
+  [[file:如何让你的NN飞起来：更快速的找到下一个 better hypothesis/screenshot_2017-05-30_20-25-22.png]]
+  从这张图大概可以看出，谁更快一些到达目的地‘五角星’
+** 传统的GD
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-05-30 20:26:46
+[[file:如何让你的NN飞起来：更快速的找到下一个 better hypothesis/screenshot_2017-05-30_20-26-46.png]]
+
+
+
+
+** Momentum
+   把这个人从平地上，放到斜坡上（给一个momentum），只要往下走一点惯性
+   就会把他一直往下推, 走的弯路也会变少
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-05-30 20:28:05
+[[file:如何让你的NN飞起来：更快速的找到下一个 better hypothesis/screenshot_2017-05-30_20-28-05.png]]
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-05-30 20:30:03
+[[file:如何让你的NN飞起来：更快速的找到下一个 better hypothesis/screenshot_2017-05-30_20-30-03.png]]
+
+** AdaGrad
+   在学习率上下工夫，给他一双不好走的鞋子，鞋子变成了走弯路的阻力。逼着他往下走不摇摆。
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-05-30 20:30:56
+[[file:如何让你的NN飞起来：更快速的找到下一个 better hypothesis/screenshot_2017-05-30_20-30-56.png]]
+
+** RMSProp
+   下坡和不好走的鞋子 结合起来：
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-05-30 20:32:14
+[[file:如何让你的NN飞起来：更快速的找到下一个 better hypothesis/screenshot_2017-05-30_20-32-14.png]]
+** Adam
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-30 20:32:31
+[[file:如何让你的NN飞起来：更快速的找到下一个 better hypothesis/screenshot_2017-05-30_20-32-31.png]]

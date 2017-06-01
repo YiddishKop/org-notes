@@ -63,7 +63,7 @@
 
    In macro    , expression as the variable will be the last  to expand and compute.
 
-   In function , expression as the variable will be the first to expand and comupte.
+   In function , expression everything away and staras the variable will be the first to expand and comupte.
 
    #+BEGIN_QUOTE
 
@@ -6113,7 +6113,306 @@ print 1+1
      ~ $ emacs test.txt
      Wrong type argument: stringp, ("test.txt")
 *** 2017-05-18 Thursday
+*** 2017-05-30 Tuesday
 
+**** MESSY  Python模块之 __future__
+   Source: [2017-05-30 Tue], [[http://www.cnblogs.com/bluescorpio/archive/2009/09/09/1563634.html][Python模块之 __future__ - 小楼 - 博客园]]
+
+
+   Python模块之 __future__
+
+   今天在学习Python Cookbook的时候，发现一句语法from __future__ import division，很奇怪__future__这个名字，网上搜了一下，原来是很有用的一个模块。
+
+   详细说明见这里。按照官方的解释，至少确保在2.1之前版本的Python可以正常运行一些新的语言特性，需要使用语句 'from __future__ import *'。举例来说：
+
+   # Enable nested scopes in Python 2.1
+   from __future__ import nested_scopes
+
+   如果使用这个语句，则该语句必须是模块或程序的第一个语句。此外，'__ future__' 模块中存在的特性最终将成为Python语言标准的一部分。到那时，将不再需要使用 '__future__' 模块。
+
+   更多示例：
+
+   1. Python 2.6中也有一个 __future__ import 使得所有的字符串文本成为Unicode字符串。这就意味着\u转义序列可以用于包含Unicode字符。
+
+   from __future__ import unicode_literals
+
+   s = ('\u751f\u3080\u304e\u3000\u751f\u3054'
+   '\u3081\u3000\u751f\u305f\u307e\u3054')
+   print len(s) # 12 Unicode characters
+
+   2. Python 2.6可以通过 import __future__ 来将print从语言语法中移除，让你可以使用函数的形式。例如：
+
+   from __future__ import print_function
+   print('# of entries', len(dictionary), file=sys.stderr)
+
+   3. 整数除法
+
+   python 2.5中：23/6 # 得3
+   from __future__ import division 之后：
+   23/6 # 得 3.8333333333333335
+*** 2017-05-31 Wednesday
+
+**** MESSY use *watch* to exec program periodically
+   Source: [2017-05-31 Wed], [[http://www.cnblogs.com/Suzzz/p/4106581.html][Linux 命令行监视显卡使用情况 - Suzzz - 博客园]]
+
+
+   watch 命令简介
+
+   watch是做什么的？ 看一下系统怎么说
+
+   1 $ whatis watch
+   2 watch(1)        - execute a program periodically, showing output fullscreen
+   功能很明白，周期性执行某一命令，并将输出全屏显示
+
+   watch的基本用法是
+
+   1 watch [options]  command
+   最常用的参数是 -n， 后面指定是每多少秒来执行一次命令。
+
+   监视显存
+
+   我们设置为每 10s 显示一次显存的情况
+
+   watch -n 10 nvidia-smi
+** 2017-06 June
+*** 2017-06-01 Thursday
+
+**** MESSY
+   Source: [2017-06-01 Thu], [[http://www.cnblogs.com/kungfupanda/p/5237255.html][python中的__init__ 、__new__、__call__小结 - 功夫 熊猫 - 博客园]]
+
+
+   python中的__init__ 、__new__、__call__小结
+
+   这篇文章主要介绍了python中的__init__ 、__new__、__call__小结,需要的朋友可以参考下
+   1.__new__(cls, *args, **kwargs)  创建对象时调用，返回当前对象的一个实例;注意：这里的第一个参数是cls即class本身
+   2.__init__(self, *args, **kwargs) 创建完对象后调用，对当前对象的实例的一些初始化，无返回值,即在调用__new__之后，根据返回的实例初始化；注意，这里的第一个参数是self即对象本身【注意和new的区别】
+   3.__call__(self,  *args, **kwargs) 如果类实现了这个方法，相当于把这个类型的对象当作函数来使用，相当于 重载了括号运算符
+    
+
+   看具体的例子：
+
+   复制代码 代码如下:
+
+   class O(object):
+       def __init__(self, *args, **kwargs):
+           print "init"
+           super(O, self).__init__(*args, **kwargs)
+
+       def __new__(cls, *args, **kwargs):
+           print "new", cls
+           return super(O, cls).__new__(cls, *args, **kwargs)
+
+       def __call__(self,  *args, **kwargs):
+           print "call"
+         
+
+       oo = O()
+       print "________"
+       oo() 
+
+
+   打印出来的是：
+   复制代码 代码如下:
+
+   new
+   init
+   ________
+   call
+
+   比如：Python Singleton（单例模式）实现，那我们是不是只是重载一些__new__方法就可以了
+   复制代码 代码如下:
+
+   class Singleton1(object):
+       """ 重载new方法"""
+       def __new__(cls, *args, **kwargs):
+           if not "_instance" in vars(cls):
+               cls._instance = super(Singleton1, cls).__new__(cls, *args, **kwargs)
+           return cls._instance
+   可不可以重载__init__方法呢？明显不可以，因为__init__之前调用了__new__方法，这时候已经生成了一个对象了，没办法实现单例模式
+
+   ===========================================
+    
+   注意1、__init__并不相当于C#中的构造函数，执行它的时候，实例已构造出来了。
+
+   1
+   2
+   3
+   4
+   5
+   class A(object):
+       def __init__(self,name):
+           self.name=name
+       def getName(self):
+           return 'A '+self.name
+   当我们执行
+
+   1
+   a=A('hello')
+   时，可以理解为
+
+   1
+   2
+   a=object.__new__(A)
+   A.__init__(a,'hello')
+   即__init__作用是初始化已实例化后的对象。
+
+   注意2、子类可以不重写__init__，实例化子类时，会自动调用超类中已定义的__init__
+
+   1
+   2
+   3
+   4
+   5
+   6
+   7
+   class B(A):
+       def getName(self):
+           return 'B '+self.name
+    
+   if __name__=='__main__':
+       b=B('hello')
+       print b.getName()
+   但如果重写了__init__，实例化子类时，则不会隐式的再去调用超类中已定义的__init__
+
+   1
+   2
+   3
+   4
+   5
+   6
+   7
+   8
+   9
+   class C(A):
+       def __init__(self):
+           pass
+       def getName(self):
+           return 'C '+self.name
+    
+   if __name__=='__main__':
+       c=C()
+       print c.getName()
+   则会报"AttributeError: 'C' object has no attribute 'name'”错误，所以如果重写了__init__，为了能使用或扩展超类中的行为，最好显式的调用超类的__init__方法
+
+   1
+   2
+   3
+   4
+   5
+   6
+   7
+   8
+   9
+   class C(A):
+       def __init__(self,name):
+           super(C,self).__init__(name)
+       def getName(self):
+           return 'C '+self.name
+    
+   if __name__=='__main__':
+       c=C('hello')   
+       print c.getName()
+    
+    
+   What Doesn't Kill Me Makes Me Stronger
+
+**** MESSY
+   Source: [2017-06-01 Thu], [[http://zqpythonic.qiniucdn.com/data/20091016221631/index.html][如何理解并正确使用python中的self init - python - huaihe0410]]
+
+
+   如何理解并正确使用python中的self init
+   《简明python教程》对self的用法介绍如下：
+    
+   类的方法与普通的函数只有一个特别的区别——它们必须有一个额外的第一个参数名称，但是在调用这个方法的时候你不为这个参数赋值，Python会提供这个值。这个特别的变量指对象本身，按照惯例它的名称是self。
+
+   虽然你可以给这个参数任何名称，但是 强烈建议 你使用self这个名称——其他名称都是不赞成你使用的。使用一个标准的名称有很多优点——你的程序读者可以迅速识别它，如果使用self的话，还有些IDE（集成开发环境）也可以帮助你。
+
+   =======================================================
+
+   给C++/Java/C#程序员的注释
+   Python中的self等价于C++中的self指针和Java、C#中的this参考。
+
+   =======================================================
+
+   你一定很奇怪Python如何给self赋值以及为何你不需要给它赋值。举一个例子会使此变得清晰。假如你有一个类称为MyClass和这个类的一个实例MyObject。当你调用这个对象的方法MyObject.method(arg1, arg2)的时候，这会由Python自动转为MyClass.method(MyObject, arg1, arg2)——这就是self的原理了。
+
+   这也意味着如果你有一个不需要参数的方法，你还是得给这个方法定义一个self参数。
+
+   我这里补充一下几个实例程序以加深理解：
+
+   class Person:
+    def sayHi(self):
+     print 'Hello,how are you?'
+   p=Person()
+   p.sayHi()
+
+   结果显示为：
+
+   Hello,how are you?
+
+   改一下：
+
+   class Person:
+    def sayHi(self):
+     print 'Hello,how are you?'
+   p=Person()
+   Person.sayHi(p)
+
+   结是同上！
+
+   再改一下：（去掉self,会怎么样呢？）
+
+   class Person:
+    def sayHi():
+     print 'Hello,how are you?'
+   p=Person()
+   Person.sayHi(p)
+   p.sayHi()
+
+   出现如下错误信息：
+
+   Traceback (most recent call last):
+     File "C:\pro\Person2.py", line 5, in ?
+       Person.sayHi(p)
+   TypeError: sayHi() takes no arguments (1 given)
+
+   --------------------------------------------------------
+   --------------------------------------------------------
+   __name__是用来识别一个模块是直接运行还是作为一般的模块被导入的状态。当一个模块是直接运行时，__name__就等于__main__，如果它是作为一般模块被导入时，__name__就是模块本身的名字。
+
+   示例:
+   if __name__ == "__main__":
+     run()
+
+   self是一种约定。在Python中，类方法的第一个参数表示对象本身，在Python中一般使用self。你也可以使用this.
+
+   示例:
+   a是你想用的方法。但self是一种约定。在调用一个对象的方法时，对象本身被作为self参数传入。如：
+
+   class A:
+       def p(self, name):
+           print name
+   a=A()
+   a.p('aa')
+
+   这时，相当于A.p(a, 'aa')
+   --------------------------------------------------------
+   --------------------------------------------------------
+   -------------------------------------------------------
+   -----------------------------------------------------------
+    
+    
+   Python的对象不一定要有__init__方法，无论它是基类还是子类。因为__init__不是构造函数，Python对象在调用__init__的时候已被构造出来，称为“初始化”比较合适。
+
+   如果一个对象是子类，且需要有__init__，那么在__init__的第一个语句就是父类的__init__（除非父类是像dict一样的内置数据类型则不需要__init__）。调用完后再进行子类的相关初始化，作为方法覆盖。
+
+   一般在子类覆盖“专有类方法”，并触发相关动作，这样不必使用__init__也能进行更高级的初始化。
+
+   如果子类的方法覆盖了父类，想调用父类的方法怎么吗？Python没有super啊。很简单，直接“父类名.方法”即可。
+
+   一般在类定义中方法之外的属性叫“类属性”，它跟定义在方法内的属性有什么区别呢？“ 类属性”可以使得不必生成实例也可以调用，而嵌在方法内的（特别是由__init__初始化后产生的属性），一定得产生实例才可以调用之。
+
+   所有的类的实例都享有统一的“类属性”，那这“类属性”是否就是类的常量？不是！通过在任意实例调用self.__class__.NAME就可以修改“类属性”，修改后所有的实例都将应用这一新的“类属性”。self.__class__即代表类的引用，不代表任何实例，实例就是self。
 
 * 数据挖掘：理论与算法
 **** introduction
@@ -8059,3 +8358,43 @@ HashFunction(int size){
 #+END_SRC
 
 ** lec 22: Stack and Queues
+* How to setup tensorflow and cuda enviroment in emacs
+  1. install tensorflow in anaconda virtual enviroment:
+     1) conda info --envs
+     2) conda create --name flowers --clone snowflakes
+        or you can create a virtual env by *.yml* file
+        1) conda env create -f environment.yml
+           #+BEGIN_QUOTE
+           name: stats2
+           channels:
+             - javascript
+           dependencies:
+             - python=3.4   # or 2.7
+             - bokeh=0.9.2
+             - numpy=1.9.*
+             - nodejs=0.10.*
+             - flask
+             - pip:
+               - Flask-Testing
+           #+END_QUOTE
+  2. setup ~elpy~ by just add 'elpy' in ~spc fed~ file of spacemacs-additional-package() function
+  3. activate the virtual env in emacs, ~, V a~ to choose the ~/ananconda3/envs/tensorflow
+  4. modify ~spc fed~ to add some PATH env.
+     #+BEGIN_SRC emacs-lisp
+     ;; yiddi: add python path
+     (add-to-list 'exec-path "/home/yiddi/anaconda3/envs/tensorflow/bin")
+     (add-to-list 'exec-path "/home/yiddi/anaconda3/envs/tensorflow/lib")
+     (add-to-list 'exec-path "/usr/local/cuda-8.0/lib64")
+     (setenv "PATH"
+             (concat
+              "/usr/local/cuda-8.0/lib64" ":"
+              (getenv "PATH")
+              )
+             )
+     (setenv "LD_LIBRARY_PATH"
+             (concat
+              "/usr/local/cuda-8.0/lib64" ":"
+              (getenv "LD_LIBRARY_PATH")
+              )
+             )
+     #+END_SRC

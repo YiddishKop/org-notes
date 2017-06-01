@@ -1,7 +1,0 @@
-
-figure;
-plot(x, y, 'r--'); % dash-line
-plot(x, y, '.');   % dot
-xlim([1,5]);
-ylim([-1,4]);
-

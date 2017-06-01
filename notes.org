@@ -1795,23 +1795,24 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
    |   | <helm> helm-find-files                                           | spc-f-f                 |                    |
    |   | <helm> helm-ag search all func-name variable in proj             | spc-s-p                 |                    |
 *** evil & vim
-   |   | <evil>move backward/forward a word                               | " " e/b                 |                    |
-   |   | <evil>move backward/forward a word with dash                     | " " E/B                 |                    |
-   |   | <evil>move line up/down                                          | (vim-c):m +/- num       |                    |
-   |   | <evil>paste after/before selected char                           | (vim-n) p/P             |                    |
-   |   | <evil>narrow a function                                          | (vim-n)z-a              |                    |
-   |   | <evil>narrow all functions                                       | (vim-n)z-m              |                    |
-   |   | <evil>modify a char                                              | (vim-n)r                |                    |
-   |   | <evil>mark the current line as <num>th mark                      | (vim-n)m <num>          |                    |
-   |   | <evil>goto <num>th mark                                          | (vim-n)` <num>          |                    |
-   |   | <evil>evil-find-char: find next occurance of typed char          | (vim-n) f               |                    |
-   |   | <evil>goto the location last modified                            | (vim-n)g;               |                    |
-   |   | <evil:format> let rest chars of a line to next line              | C j                     |                    |
-   |   | <evil:format>let rest chars of next line to current line         | shift j                 |                    |
-   |   | <evil:format>scroll window to make current line middle of window | z z                     |                    |
-   |   | <evil:elisp> find the doc of current function                    | K                       |                    |
-   |   | <vim>delete all the blank line                                   | :g/^$/d                 |                    |
-   |   | <vim>delete all the line with only blank space in it             | :g/^\s*$/d              |                    |
+   |   | <evil>move backward/forward a word                               | " " e/b             |   |
+   |   | <evil>move backward/forward a word with dash                     | " " E/B             |   |
+   |   | <evil>move line up/down                                          | (vim-c):m +/- num   |   |
+   |   | <evil>paste after/before selected char                           | (vim-n) p/P         |   |
+   |   | <evil>narrow a function                                          | (vim-n)z-a          |   |
+   |   | <evil>narrow all functions                                       | (vim-n)z-m          |   |
+   |   | <evil>modify a char                                              | (vim-n)r            |   |
+   |   | <evil>mark the current line as <num>th mark                      | (vim-n)m <num>      |   |
+   |   | <evil>goto <num>th mark                                          | (vim-n)` <num>      |   |
+   |   | <evil>evil-find-char: find next occurance of typed char          | (vim-n) f           |   |
+   |   | <evil>goto the location last modified                            | (vim-n)g;           |   |
+   |   | <evil:format> let rest chars of a line to next line              | C j                 |   |
+   |   | <evil:format>let rest chars of next line to current line         | shift j             |   |
+   |   | <evil:format>scroll window to make current line middle of window | z z                 |   |
+   |   | <evil:elisp> find the doc of current function                    | K                   |   |
+   |   | <vim>delete all the blank line                                   | :g/^$/d             |   |
+   |   | <vim>delete all the line with only blank space in it             | :g/^\s*$/d          |   |
+   |   | <vim>wrap a selected(by ~v~) word by a character                 | <selected> s <char> |   |
 *** org
    |   | <spe:org>capture org tempalte                                  | spc C c                 |   |
    |   | <spe:org>some org-mode handler                                 | ,                       |   |
