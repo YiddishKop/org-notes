@@ -1,0 +1,159 @@
+* Gradient descent
+
+  1. random choose θ_0
+  2. θ_i = θ_i-1 - η∇L(θ_i-1)
+
+这个式子，我之前一直没留意，η∇L(θ_i-1),这里是斜率越高，也即坡越陡
+w更新的步伐越大，斜率越小，坡越缓，w更新的越慢，这个特别像是从山坡上
+滚下来的速度。
+
+Tuning Learning Rate
+
+步进要注意调整，但是我该怎么看到Learning rate对于loss的影响呢？
+
+#+BEGIN_SRC ditaa
+ ^loss
+ |  / 步幅超级大，飞到对面山上去了
+ | /
+ |/
+ |\
+ | ------------  步幅太大卡住了
+ +-------------> 调整次数
+
+#+END_SRC
+
+要学会通过看 Loss-updateNum 曲线来判断 learning rate 是否合适。
+所以做 gradient 时一定要把这个图画出来。
+
+但是要调整 learning rate 真的很麻烦，有没有办法自动调整呢？
+Adaptive learning rate
+通常，learning rate 会随着update次数，越来越小。
+
+popular and simple idea reduce the learning rate by some
+factor every few epochs
+
+eg: 1/t decay:  ηt = η0/√t+1
+
+这样learning rate会随着时间越来越小，但是这样往往不够动态。
+
+原来我们有很多参数，但是我们是对参数的gradient整体 *η
+
+我们希望给不同的参数不同的学习率，该怎么做呢？
+
+Adagrad = 1/t decay + GD
+w - 表示某个具体的参数
+gt - 表示某个具体参数对Loss-fn的偏微分
+σt - root mean square of all previous(include current time) derivatives of w
+
+σt = √Σg^2/(t+1)
+
+ηt = η0/√t+1
+
+wt+1 = wt - ηtgt/σt
+     = wt - η0gt/√Σg^2
+     = wt - η'gt
+
+Adagrad 在后来是非常非常慢的，慢的可怕，因为他是 t-decay 的。
+
+adgrad 与 GD 的区别：
+wt+1 = wt - η0gt/√Σg^2
+跟 GD 不同，GD是坡越陡峭w更新的越快。
+但是 adagrad 似乎有点矛盾，乘以gt，除以gt的 root sum square。
+一个加速更新，一个减速更新。
+所以这里 adagrad 不是根据·「坡的陡峭程度」来调整w的更新步伐。
+而是根据 ·「坡度的反差」 来决定w的更新步伐。
+
+为什么用 ·「坡度的反差」比·「坡度的大小」更好。
+我们希望这个步进的次数越少越好。最好就一步到位。只更新一步就到
+谷底。
+best step =  一次微分/二次微分
+
+** Stochastic Gradient Descent
+optimizer 应该是 独立于具体的 loss-fn 的。
+这里仅仅用 regression 的 loss-fn 作为例子。
+
+L(regre_residue) = sum square all residue
+w = w - η∇L
+
+他考虑的是每一个点的residue的平方，然后取和。
+
+而SGD不是这么做，他的 loss-fn 略做变化：
+
+他不是看完所有的点的residue然后作处理
+而是看一个点就得到一个L，update一次w，然后
+再看下一个点得到一个L，update一次w。
+
+L1(regre_residue) = square one residue
+w = w - η∇L
+L2(regre_residue) = square one residue
+w = w - η∇L
+L3(regre_residue) = square one residue
+w = w - η∇L
+L4(regre_residue) = square one residue
+w = w - η∇L
+L5(regre_residue) = square one residue
+w = w - η∇L
+
+如果只有20个点，那么每个点都算一遍residue的平方没什么问题。
+如果是有20w个点呢？要看完才更新是不是太慢了。
+
+这是SGD就很好用，可以选择自己的更新次数。比如1w次更新。
+SGD更灵活。
+
+·「总结」
+GD 的每一个参数分开做 update ===> Adagrad
+GD 的每一个样本分开做 update ===> SGD
+
+
+** Gradient Descent 可以做feature scaling
+两个input feature,如果两个feature的分布很不一样的话，
+就建议把他们通过某种方法做成一样的，比如
+所有样本的 x1的分布是 [-100, 100]
+所有样本的 x2的分布是 [-10, 10]
+这样就建议对他们做 feature scaling : make different feature have
+same scaling.
+
+为什么要做 feature saling ?
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-06 21:43:37
+[[file:Gradient descent/screenshot_2017-06-06_21-43-37.png]]
+
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-06 21:43:52
+[[file:Gradient descent/screenshot_2017-06-06_21-43-52.png]]
+
+做 feature scaling 的本质就是让不同参数对loss-fn的影响尽量一致---形成圆形
+1. SGD,GD,adagrad中只有adagrad能处理椭圆的情况
+2. 因为椭圆的优化路线不是直接朝着椭圆中心，很明显红线走了弯路
+   而圆形的优化路线是直接朝着圆心走，红线很直。
+
+所以很明显圆形可以更快的到达谷底,而且可以使用更多的优化方法，可选择范围广。
+
+那怎么做 feature scaling 呢？
+x1 x2 x3 ... xr ... xR 都是样本点
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-06 21:53:10
+[[file:Gradient descent/screenshot_2017-06-06_21-53-10.png]]
+
+
+** Newton method
+
+GD的本质是考虑了 Taylor Series 的一次式。
+如果考虑他的二次式就是 Newton method.
+
+但是同样代价是，你需要算 二次微分，海森矩阵，海参矩阵的逆矩阵
+如果参数很少还勉强可以，如果是Deep learning 那种级别的参数
+运算效率是无法承受的。
+
+** More limitation of Gradient Descent
+   1. stuck at local minima
+   2. stuck at saddle point
+   3. very slow at the plateau
+
+注意图中的这种 saddle point，以前没见到过，需要加深对saddle point的理解
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-06 21:59:45
+[[file:Gradient descent/screenshot_2017-06-06_21-59-45.png]]
+
+我们在做 GD 的时候，并不是真的得到 gradient=0 的时候才停下，而是到某个很小的梯度
+值就停止了。但是这样的点，从上图中也可以看出他可能还处在高原上，根本不低，而且离
+local minima 还很远，更别说 global minima 了。

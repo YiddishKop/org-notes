@@ -1,0 +1,147 @@
+* Regression case study
+  回归分析的应用场景：
+1. 股票市场预测
+2. 自动驾驶
+3. 推荐系统
+
+进化 pokemon
+找到这样一个function：
+f(pokemon 的属性) = combat power after evolution
+
+ML的training 得分三个步骤：
+1. Model 函数集
+2. goodness 评价函数好坏
+3. choose 选择最好的
+ML的test 就一个步骤：
+1. test new data on fn from training
+
+我们就从最简单的开始，假设用一条线来预测他们，
+y' = wx + b
+这就是model.
+
+然后通过 Sum(y - y')^2 来看他是不是够好
+这里 y-y' 叫 residue.
+f(residue) = Loss funtion
+这就是 goodness
+
+最后我们要在无限多的 wb 中选择最好的两个
+就用GD(goodness) 来选择最好的wb
+这就是 choose
+
+经过上面的步骤之后，把得到的函数 f(pokemon) = pc evolution
+应用到我们的新的pokemon看看效果。
+这就是 test
+
+test之后发现不够好，那么我就加强model。
+··「注意」，这个加强的意思就是让函数向trainingset更靠近。
+好像这是为 trainingset 专门设置的function。
+越精确的损失越多。
+就好像古汉语和现代汉语一样。
+这就是 model improvement
+
+加强model开始可以获得不错的效果，那是因为原来的model确实
+太松散。一旦加强的太多，就变成专属的，只适用于trainingdata
+的。那么对未知的部分就越来越不适用。矫枉过正。
+这就是 overfitting
+
+数据集 focused model:专属于某个数据集，就不属于其他数据集
+特征集 focused model:专注于全体特征，就损失重要特征
+
+我如何获得更好的模型函数呢？
+
+根据 overfitting 的大小，我们可以选择一个「复杂度比较中庸」的模型
+函数，使他在trainingdata和testdata上的都还不错。
+这就是 model selection
+
+还有一种方法，如果我们的trainingdata无穷大，能覆盖所有未知的数据
+那么，我们对他进行·「专属化」，这是没问题的，因为他完全涵盖了所有
+未知的情况。这引出了一个优化模型的观点：收集更多数据，让training
+data变大，·「专属化」就会更普适一些。
+这就是 collect more data to training (more x) --> 扩大model·「专属化范围」
+
+
+我们原始考虑的数据仅仅考虑了一部分属性，我们把注意力都集中在这些
+属性上来做model，如果考虑其他属性，model·「专属化」的方向就会不一样
+一个人考上清华，但他只是听课，课后不做作业，我们就认为 上课+不做作业 = 考上
+清华，荒唐！其实他有在边上课边做课后习题。所以我们重新考虑样本的
+属性，f(上课+作业+课后题) --> 清华。重新选择属性。
+这就是 feature engineer (dive into x) --> 改变model·「专属化方向」
+
+如果 feature selection 选择的属性是某种离散属性，比如男生女生，
+比如城市乡村，我们可以用ifelse的形式，分段函数来加强model。
+但是这种形式不好通过GD去choosewb，可以采用boolean函数的形式
+统合起来： y' = [|x男生?|]*(w_m x + b_m) + [|x女生?|]*(w_fm x + b_fm)
+f(上课+作业+课后题+性别) --> 清华
+这就是 feature engineer --> 分段model函数
+
+如果 你是教师或者教育学学者，你在选择 feature 时，你会有更深刻的
+视角，比如加上早恋，加上父母职业，加上周围网吧，甚至加上电视剧等等。
+所以你是否对于 x 有研究就决定了你是否能选择更好的 feature
+这就是 domain knowledge --> 更好的 feature engineer
+
+如果 我不是专业学者，不研究x到底隐含什么条件，怎么办？我可以把我能想到
+或者通过调研得到的属性，全部都考虑进去，这样得到的model的方向就被分散了。
+这时候我们在加强model，他的效果就会被均分到每一个feature上。一把利剑
+变成了一个盾牌。他确实考虑了trainingdata上每个点的每个属性，但是某些
+属性太具有·「独有性」，考虑他们会拉扯model的注意力，让model在其他方向
+上·「失去原有的力度」。
+这就是 feature engineer --> 分散model注意力 --> 另一种原因的overfitting
+原本不该专注的，却专注了，这也是另一种·「专有化」方向的转移失误
+
+model追求更大的数据集和专注普适的属性特征
+
+所以需要重新理解 overfitting，其实overfitting的本质就是·「在狭隘的方向上过度
+专有化」这个方向包含两个方面，一个是数据集层面，一个是特征集层面。数据集层面是说
+训练集是很小的集合，你的model专有化他，就会不适用更多未知的数据。特征集层面是说
+你把不重要的特征纳入model，他们牵扯了model的注意力，model也必须朝他们的方向专有化。
+overfitting = 在狭隘的数据集和不重要的特征集上专有化。
+
+如何解决 overfitting：
+1. 加大数据集
+2. 降低模型次方
+3. 选择好的feature
+其实降低模型次方，就是降低input-space的次方。
+选择好的feature，就是降低input-space的维度。
+不论是降低次方还是降低维度其实都是让model·「不对x太敏感」，而且这两次方和维度都可以
+通过w进行调整。
+
+y' = b + w1·x + w2·x^2 + w3·x^3 ...
+w2 = w3 = 0  OK --> 降次方
+
+eg: w1·x
+                   _  _
+                  | x1 |
+ -----------      | x2 |
+ 1 0 1 0 0 1   ·  | x3 |
+ -----------      | x4 |
+                  | x5 |
+                  |_x6_|
+w1_2 = w1_4 = w1_5 =0  OK --> 降维度
+
+所以总体上看，限制 w 向量的大小，可以在一定程度上
+解决overfitting的作用。
+
+所以可以加上 λ|w|^2 作为限制放进 model 中。
+y' = b + wx + λ|w|^2
+这就是 regularization
+
+那 regularization 具象化一些是什么呢？
+就是 我限制w的大小，让w不那么大，因为input的变化会被放大w倍
+体现在 output 上，所以降低w，就是让x轴上较小的变化不会在y轴
+上产生太大的变化。整体看就不会出现太陡峭的地方，函数图像整体
+区域平缓平滑。
+
+这就像是《疯狂动物城》里的树懒，你吼的声音再大他都很·「稳定」。
+这样让函数变·「懒」的方式，虽然不能精确对治overfitting的两个
+问题，但是他能近似的保证model不会对x太敏感。
+
+而且 λ 是一个可以调整的参数，他越大就会让|w|越小，就会让函数
+越·「懒惰」，让函数越平缓平滑。
+但是当 λ 太大而导致 |w| 过于小的时候，w的每一个维度以及每一个w
+都会变得很小，整个model也损失了对于·「重要特征的专有化」。一旦
+损失了重要特征的专有化，那么不论是 trainingdata 还是未知数据
+的预测误差都会加大。
+
+所以 regularization 像是·「普杀」性质的疗法。像是化疗不但杀癌细胞，
+也杀正常细胞，需要注意调节用量 --- λ.
+所以 λ 是什么，是·「化疗的强度」

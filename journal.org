@@ -7431,6 +7431,46 @@ You don't own commodities, you just own many suppliers.
 **** MESSY A great youtuber teahcing SOAP, Spring, RESTful
 https://www.youtube.com/channel/UCYt1sfh5464XaDBH0oH_o7Q
 
+**** MESSY a great course of wangJiaLin about apache spark and scala
+https://www.youtube.com/channel/UCmzfq5WPcApoj8-XCrJMBig
+*** 2017-06-05 Monday
+
+**** MESSY watch youtube [How to speed up a python program 11400times]
+https://www.youtube.com/watch?v=e08kOj2kISU
+
+**** MESSY pdf-tool 查看pdf文件乱码问题
+根据 github 安装好所有依赖以后，仍让乱码，
+最后通过 *安装 xpdf* 解决
+*** 2017-06-06 Tuesday
+
+**** MESSY How to use macro recorder in emacs
+
+   Source: [2017-06-06 Tue],
+
+   开始录制宏
+
+   可以按 "C-x (" 也可以按 "F3" 开始录制宏，接下来的操作就会被录制下来。例如：在录制之前，先将 emacs 切成两个窗口(C-x 2 或 C-x 3) 并将光标放置到正确位置，开始录制宏。
+
+   处理数据
+
+   这个过程就是为了得到一个可以循环操作的宏，可以包括查找、复制、删除等一切emacs中的正常操作。例如：从1个窗口中，拷贝需要的数据后，移动到另外一个窗口，粘贴数据，将光标移动到下一个位置，最后再将光标回到原来的窗口位置。
+
+   循环执行宏
+
+   "C-x e" 执行一次，"C-u 执行次数 C-x e" 将会执行设定的次数遍，也可以用 "C-执行次数 C-x e"
+   执行完毕后，可以用 “M-x name-last-kbd-macro”为最后一次的宏命令命名，
+   再有，可以将宏命令，保存下来，设定到 emacs 的加载文件中，这样以后打开软件就可以使用这个宏了。
+
+   (load-file "~/macros")
+
+   打开 "~/macros" 文件，移动到末尾，执行“M-x insert-kbd-macro”输入刚才命名的名字，就将录制的宏命令保存下来了。
+   当你要使用这个宏的时候，只要用`M-x <宏名>‘就可以调用你的宏了。
+
+   推荐
+   其实，这些操作在文档中有说明，只是根据自己的经验和习惯设定不同的宏，确实可以将一些很处理重复的，很麻烦的数据文件变得很简单，很整洁！我很喜欢这个功能，极力推荐给大家使用！
+
+**** MESSY Advanced Python course in NYU 非常全面的python教程，从初级到高级，纽约大学 https://www.youtube.com/channel/UCHEGSn2vswSkH1LNXpfQ3IA/playlists :youtube:edu:cs:python:
+
 * 数据挖掘：理论与算法
 **** introduction
      在数据科学，DRIP是什么的缩写（不含标点符号）data rich information poor

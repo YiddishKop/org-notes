@@ -1,0 +1,7 @@
+* CNN
+why CNN for image?
+
+Fully connected work has too large mount of parameters
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 20:15:45
+[[file:CNN/screenshot_2017-06-10_20-15-45.png]]

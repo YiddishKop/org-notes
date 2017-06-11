@@ -1,0 +1,355 @@
+* Unsuprevised Learning
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::2][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf:2]]
+
+unsupervised learning 的用途可以分为两种：
+1. clustering and Dimension reduction
+   各种各样的树 ---> 聚类成‘一个树’
+   复杂的      ---> 简单的
+
+   数据一般不想监督时学习，需要label。
+   非监督学习的训练集，只需要给x，不需要给y(label)
+
+   这个特别类似·「降维度」和·「特征提取」，因为我们也不知道label是什么
+
+2. Generation
+   逆向，给一个简单的 code，产生多种不同的树
+
+
+到底需要几个 cluster？
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::3][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf:3]]
+
+K-means林轩田教授讲的更好：K-means是介于 full-RBF 和 nearest RBF之间的一种方法
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LinTianXuan/mltech_handout/214_handout_DistilingImplictFeatures_RadialBasisFunctionNetwork.pdf::9][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LinTianXuan/mltech_handout/214_handout_DistilingImplictFeatures_RadialBasisFunctionNetwork.pdf:9]]
+
+#+BEGIN_QUOTE
+所有的样本点，应该都会在几何上对他们周围的x有影响，有多少影响力，就依据距离。距
+离大一点的影响就少，距离小一点的影响就大。
+
+每一个点都有一个RBF，这个点投的票可能是-1ro+1. 新的点上要衡量的时候，就根据所有
+点在这个新的点上的影响力的加权作为结果。每一个样本点都可以表达意见，每一个样本点
+都是中心
+
+跟你的新点x，离的最近的样本点xm 他会对结果产生最大的影响，甚至会 dominate 最终投
+票结果。为什么，因为高斯函数从中心点往两边衰减的太快了。稍微远一点结果都差很多。
+
+找到最接近的那个样本点之后，那你说啥就是啥。你说是-1,我就是-1.
+
+让最近的K个人投票来决定
+
+lazy是什么意思？好像没有学什么东西，只是根据样本点搞事情而已。训练的时候偷懒，好
+像不花什么力气，但是预测的时候，你需要花大量时间去找出来谁跟你最近等等。
+#+END_QUOTE
+
+K-means 步骤：
+1. 随机给个K值
+2. 随机选取K个点:ci (i=1,2,...,K) 作为center
+3. for every x in DataSet, find its cluster by evaluate distance to ci
+4. update center(每一个点都是一个向量，向量之和取平均) when new x added into this cluster
+注意步骤2，不要选随即值，而是选择直接选择随即点，这样可以避免某个值可能
+所有点都离他很远，这样他的cluster就没有任何成员，这样更新公式会造成segment error
+
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::4][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf:4]]
+
+clustering 有另外一个方法叫做：hierarchical agglomerative clustering
+HAC:
+1. build a tree(所有的样本，两两算相似度，渐次取相似度最大的两个合并，重复算最大相似度。。。)
+2. pick a threshold 切一刀。
+看pdf上红色线切出两组分类，蓝色线切出三组，绿色线切出四组分类。
+
+HAC与K-means最大的不同：
+你如何决定 cluster 的个数，K-means 很难决定K=?
+HAC不直接决定K=? 而是通过 similarity 建立树，然后通过 threshold 决定切出多少个cluster
+
+只做 cluster 是非常粗糙的, 以偏概全：
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::5][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf:5]]
+
+取而代之用一个 vector 来表示每个样本点：
+小杰是:
+| 强化系 | 0.70 |
+| 放出系 | 0.25 |
+| 变化系 | 0.05 |
+| 操作系 | 0.00 |
+| 特质系 | 0.00 |
+英雄
+
+这种思想就是： Distributed representation
+
+如果你原来的样本点是很高维的，比如图片(28*28*3)
+经过这种变化，就可以从高维==>低维
+这个过程就叫做 Dimension Reduction
+Distributed representation ==> Dimension Reduction
+
+为什么 Dimension reduction 是有用的？
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::6][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf]]
+
+类似地毯卷起来的东西，可以平铺。
+不用在 3d空间来描述。
+
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::7][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf]]
+
+MNIST 训练集图片都是 28*28 的向量但是这 784 维度的向量用来表示手写数字是很浪费的。
+因为很多位根本用不到---把所有28×28的图像都打印出来其中只有很少一部分能形成数字。
+
+只需要抓住 ·「旋转角度」这个keypoint，描述‘3’是不需要用这么多维度的向量的。
+
+怎么做 Dimension reduction 呢？
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::8][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf]]
+1. 做 dimension reduction 最简单的方法是 feature selection
+2. PCA
+
+PCA怎么做呢？
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::9][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf]]
+z = Wx
+选择不同的W会让x映射出不同的z。
+
+目标是什么？
+
+选择一个W经过projection之后，得到的z越分散越好。就是经过prejection之后
+不同的样本点之间的区别度仍然保留，而不是挤在一起。
+
+z是1-D：
+find w, to maximize(var(z))
+z是2-D：
+find w1,w2, to maximize(var(z))
+while w1 垂直 w2
+
+你要project多少维，你就需要几个w，而且每个w都是相互垂直的。
+
+W 是一个 Othogonal matrix
+
+PCA的数学推导还是 林轩田教授讲的好
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LinTianXuan/mltech_handout/213_handout_DistilingImplictFeatures_DeepLearning.pdf::26][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LinTianXuan/mltech_handout/213_handout_DistilingImplictFeatures_DeepLearning.pdf]]
+
+
+看待PCA的另一个视角
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::18][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf]]
+
+手写辨识数字 7, 在图形上‘7’其实是由很多基本组建组成的。
+就是基本的笔画，这些基本的笔画加起来就形成了一个数字。
+这些基本的笔画呢，就是一个个向量。
+把这些基本的向量加起来，就形成了一个完整的手写数字图像。
+这种表示方法，是远远比用像素级别来表示要‘节省’的多。
+
+x1     x2     x3    x4   x5      x6
+/     ---     |     \    |        /
+                         |       /
+                         |      /
+------------------------------------
+1      1      0     0    0       1
+------------------------------------
+
+/----/
+    /
+   /      =  1*x1 + 1*x2 + 0*x3+ 0*x4 + 0*x5 + 1*x6
+  /
+
+所以一个6维度向量，远比28×28维度向量要‘节省’的多。
+
+PCA 用 Neural Network来实现的好处：
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::23][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf]]
+PCA looks like a neural network with one hidden layer
+(linear activate function) -- autoencoder
+PCA 不仅仅可以只有一层hiden layer，也可以deep。
+autoencoder --> deep autoencoder
+
+PCA 的弱点：
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::24][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf]]
+1. 因为 PCA 是 unsupervised，所有没有label来标明映射是否合理
+   如ppt图一，一对点其实内含了某种分类，如果不考虑这个因素，PCA做的结果
+   就会让黄蓝亮色完全混在一起。
+
+   这个时候需要考虑 LDA(教授没有深入讲解), LDA考虑了内部带有分类的
+   dimension reduction
+
+2. S型曲面我们想降维，最好的方法是需要拉直，但是PCA「不是拉直」，而是「打扁」
+   因为PCA只能做 linear dimension reduction
+
+
+我该把原始样本project到多少维度更合适呢？
+这个需要根据你的问题来决定。不过有一些常用的方法：
+1. 计算每一个component的lambda：每一个principle component都是一个
+   eigen-vector，我现在要计算的就是他们各自对应的eigen-value.
+2. 计算每一个eigen-value的 ration
+   eigeni's ratio = lambdai/(sum all lambdas)
+   ratio代表什么呢？ratio越小说明原始空间做projection时，这个eigen-vector
+   的贡献越小---没有太多信息的。
+3. 从ratio大到小,选择 Priciple Component
+
+
+实际分析如果从 ration 选择前四个,这新的坐标系，物理意义是什么？
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::26][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf]]
+
+6个原始通过某种权重W映射到4个维度。
+(x1,x2,x3,x4,x5,x6) --->W---> (z1,z2,z3,z4)
+
+|    | x1  | x2  | x3  | x4 | x5 | x6 |
+| z1 | w11 | w21 | w31 | .. |    |    |
+| z2 |     |     |     |    |    |    |
+| z3 |     |     |     |    |    |    |
+| z4 |     |     |     |    |    |    |
+
+现在，原始空间中的样本点，就从原来的(x1,x2,x3,x4,x5,x6)
+---> (z1,z2,z3,z4)
+也因为他们的这层关系，所以也可以他们看成是
+
+每给z1增加z1，就相当于给原始坐标系下每个坐标轴增加这么多
+
+   z1  =   0.4x1 + 0.4x2 + 0.4x3 + 0.5x4 + 0.4x5 + 0.3x6
+   |        |       |       |       |       |       |
+   v        v       v       v       v       v       v
+2*(z1) =   0.8x1 + 0.8x2 + 0.8x3 + 1.0x4 + 0.8x5 + 0.6x6
+
+所以如果z那一行的 wij 出现负值代表什么:
+
+   z2  =   0.4x1 - 0.4x2 + 0.4x3 - 0.5x4 + 0.4x5 + 0.3x6
+   |        |       |       |       |       |       |
+   v        v       v       v       v       v       v
+2*(z2) =   0.8x1 - 0.8x2 + 0.8x3 - 1.0x4 + 0.8x5 + 0.6x6
+
+增加z2就会让负的更小，正的更大，代表我以牺牲x2,x4为代价换取x1,x3,x5,x6
+的增长
+
+1. wij 正的增加，负的减小
+2. wij 越大的增加和减小的越快
+3. 如果某一行的wij出现异号，可以看成某种tradoff
+
+
+把上面的定义应用到手写辨识MNIST上是什么意思呢？
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::28][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf]]
+
+把手写9进行PCA，取前30个lambda最大的PC，其实每一个也都相当于一个小图片。
+也许是纹理，也许是9的一部分，等等。给这30个PC一个名称叫"eigen-digits"
+
+把人脸辨识也用PCA处理会是什么样子呢？
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::29][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf]]
+给这30个PC一个名称叫"eigen-face"
+教授提出：为什么这里的 eigen-face eigen-digit 不是某种「肢解」而是好像
+整体的一种「滤镜」
+这些PC不止可以相加，还可以相减。先生成一个8,然后·「减去」下面的圈再·「加上」
+一个1。这是可以的。
+而且根据之前的那个矩阵可以看出来，他每一个PC上的增减，其实也都对应原来图片
+整体的某种增减。
+
+所以PCA是一种·「滤镜」式的 dimension reduction
+如果想要·「肢解」式的 dimension reduction，需要NMF(non-negative matrix factorization)
+
+NMF?
+强迫所有PC都是正的，也就要求必须是某种·「叠加」。
+强迫所有weight都是正or零，也就是某种·「部分」
+
+NMF on MNIST
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::31][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf]]
+
+什么是 matrix factorization
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::34][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf]]
+
+每一个人跟他所喜欢的公仔是有某种关系的，所以他选择去买的公仔不是随机的。
+
+有人萌傲娇的，有人萌天然呆的 。
+
+每一个公仔在动画中也都有傲娇和天然呆的(傲娇和天然呆都是factors)。
+
+两者存在·「相似性」时才会购买
+
+但是这些 factors 都是 latent 的。
+
+所以我们可以通过统计某些人买的公仔来形成一个matrix
+
+|   | 公仔一 | 公仔二 | 公仔三 | 公仔四 |
+|---+--------+--------+--------+--------|
+| A |      5 |      3 |      0 |      1 |
+| B |        |        |        |        |
+| C |        |        |        |        |
+| D |        |        |        |        |
+| E |        |        |        |        |
+
+所以我们假设存在这样的关系
+A向量 内积 公仔1向量 ～～ 5
+A向量 内积 公仔2向量 ～～ 3
+
+但是，是否只有傲娇和呆两种属性呢？ 不一定。
+这就像 PCA 的维度和 NN 的层数一样，要去试一试，需要事先决定好的。
+
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::36][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf]]
+
+继续上面的内积关系，整张表格看作 matrix 那么他们就是另外两个 matrix 的内积
+
+公仔角色数量 = N， 买家数量 = M， 衡量特征 = K
+
+
+|              | Toy1_1 | Toy2_1 | Toy3_1 | Toy4_1 |
+|              | Toy1_2 | Toy2_2 | Toy3_2 | Toy4_2 |
+|              | .      | .      | .      | .      |
+|              | .      | .      | .      | .      |
+|              | Toy1_k | Toy2_k | Toy3_k | Toy4_k |
+|--------------+--------+--------+--------+--------|
+| a1 a2 ... ak | 5      | 3      | 0      | 1      |
+| b1 b2 ... bk |        |        |        |        |
+| C1 c2 ... ck |        |        |        |        |
+| d1 d2 ... dk |        |        |        |        |
+| e1 e2 ... ek |        |        |        |        |
+
+TODO: 整理两个矩阵的乘机图，以及如何做SVD方法
+
+matrix_买家  内积  matrix_角色 ～～ matrix购买量
+仍然可以用 SVD 来做。
+
+但是如果遇到一些 missing 值怎么办，比如遗漏了对(E, Toy4)的统计。
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::38][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf]]
+1. 用已经有的值去估算出这样的 latent-vector
+2. 用 gradient 来做最小化
+3. 然后再用得到的 latent-vector 去估算 missing value
+
+
+难道购买手办仅仅是因为性格相仿，还有其他因素么？
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::39][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf]]
+
+
+matrix_买家  内积  matrix_角色 ～～ matrix购买量
+==>
+matrix_买家  内积  matrix_角色  +  other_info(买家) + other_info(角色) ～～购买数量
+
+other_info(买家) : 买家就是喜欢买公仔，跟买家性格无关
+other_info(角色) : 这个角色有多惹人喜欢，跟惧色性格无关
+
+这样更精确，可以用 GD 直接解，或者也可以加上regularization
+
+MF还有其他应用：
+[[docview:/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim%20reduction%20(v5).pdf::40][/media/yiddi/9C6C7BA46C7B783A/YIDDISHKOP/ML/TaiDa-ML_LiHongYi/course-lec-note/lec13-dim reduction (v5).pdf]]
+
+如果把 MF 用来 topic analysis 就叫做 LSA
+
+角色 - 文章
+买家 - 词汇
+
+如果我希望不是均等的考虑所有词汇，该怎么做呢？
+就给某些重要的词汇加上更高的权重，weighted by inverse document frequency
+权重加在loss-fn中，这样某个词汇错误的影响就会比其他词汇更大。
+
+为什么是 inverse frequency 呢？
+一些常用的非信息词汇：'是' ‘如何’ ‘处理’
+这些词汇在·「每篇文章中都高频出现」，那么他肯定属于·「公众词汇」，这样的词汇不能充分
+表现文章的·「独特性」，所以肯定权重就低。
+反之亦然。
+
+常见的LSA变种：PLSA，LDA(Latent Dirichlet allocation)
+
+·「注意」 在 ML 有两个 LDA 经常提到：
+1. Latent Dirichlet allocation
+2. Linear discriminant analysis
+
+教授最后提到，有很多的 Dimension reduction 方法：
+1. MDS（multidimensional scaling）
+   不需要把每个样本都表示成 vector，只需要两个样本之间的距离
+   MDS 跟 PCA 是有关系的，PCA有一个特性是，他保留了原始点的距离
+   在高维空间中接近，低维空间也会接近
+2. Probabilistic PCA
+   probabilistic version of PCA
+3. Kernel PCA
+   non-linear version of PCA
+4. CCA(Canonical Component Aanalysis)
+   如果你有两个source，声音，图像，这两种不同的source都做 dimension reduction
+   这就是CCA
+5. ICA(Independent Component Aanlysis)
+   PCA是找 othoganal component, ICA 是找 independent component
+7. LDA(linear discriminant analysis)---supervised

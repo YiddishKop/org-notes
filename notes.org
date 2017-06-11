@@ -2069,9 +2069,9 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
      2. *C-h v company-bakends*
      3. try company-file and company-ispell, M-x
      4. *C-h C-f* to view the backend implementation
-     | company-frontends | 是指前端補全框架                                                                                             |
+     | company-frontends | 是指前端補全框架                                                                                            |
      | company-backends  | 有很多.其中最后一个,就是前面都匹配不到了,最后一个是compnay-Deabbre ,他会匹配你当前打开的所有buffer中的词项. |
-     |                   | company-File 这是另一个backend, 是负责输入文件目录.'/' 触发.                                                 |
+     |                   | company-File 这是另一个backend, 是负责输入文件目录.'/' 触发.                                                |
 **** why my company sucks
 ***** 为什么我的company会失效?
       1. 失效如何定位?

@@ -39,3 +39,5 @@ Archived entries from file /home/yiddi/Documents/org-notes/notes.org
     :END:
 https://youtu.be/siuNfkQGW_8
 ** test
+
+bibliography:manuscript.bib

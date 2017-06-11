@@ -1,0 +1,93 @@
+* where dose error come from
+
+一般的 error 有两种：
+1. bias 造成的 error
+2. weight 造成的 error
+
+y ~ y'
+
+y 与 y' 的距离来自于两个方面： bias + variance
+
+Estimator of mean μ
+
+从概率取样的角度来看待 Hypothesis set 和 target fn
+的差距：
+1. 越简单模型 bias 越大，variance越小
+2. 越复杂模型 bias 越小，variance越大
+
+3. 选择了某个模型就选择了某个相对 fn 的 bias
+   这时候的hypothesis set 就是以这个新的bias为圆心以
+   variance为半径的圆形分布。
+
+模型越简单，bias越大，variance越小？
+因为模型没有高次方，很小的input空间的变化掀不起什么大风浪。顶多就是
+一次项,不会影响过多牵扯model的注意力。但是，由于模型能力不足，也没
+法对重要feature更强的专有化。 所以他离真实的偏差很大。
+
+
+
+所以，如果误差主要来自于 bias 那么就是模型太简单 叫做underfitting.
+如果误差主要来自于 variance 那么就是模型太复杂 叫做overfitting
+
+如果 bias -> underfitting, 复杂化模型，添加feature/提高维度
+如果 variance -> overfitting, 简化模型，减少feature/降低维度
+
+注意 mis-fitting = underfitting + overfitting
+
+·「对正确的feature做强有力的映射」
+如果feature不太正确或者映射不够强力，这就是underfitting。
+简化版feature selection就是加入更多的feature，加强映射就是换一个
+更强的model。
+
+如果加强model超过一个界限,专有化做过了，就会让不重要的feature喧宾夺主。
+因为feature selection是一个很难搞的东西，你很难决定删除谁，这时候只能用·「普杀」性
+优化方法 regularization。引入 λ|w|^2 不让w太大，然后调整 λ 来调整
+普杀的强度，λ太大又会退回到 underfitting 的阶段。其次，就是增加更多的
+data。引入更多data，更多信息，可以·「调校共识」，就是更合适的feature
+会获得更多的权重。原来的样本只有农村家庭，那么上课和作业更重要，但这可能有失偏颇
+加入城市家庭之后，这个权重的分布比重会微调，会往辅导班移动。这显然更好。
+
+#+BEGIN_SRC ditaa
+--------------------------------------------------------
+x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 x13 x14 x15 x16
+-\--\--\------------------------------------------------
+  \  \  \
+   \  \  \
+    \  \  \ underfitting
+     \  \  \
+      \  \  \
+ +-----------------+
+ |      weak f     |
+ +-----------------+
+
+--------------------------------------------------------
+x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 x13 x14 x15 x16
+-\------------------------------------------/-----------
+  \      \          |         /      /     /
+   \      \   add more features     /     /
+    \      \        |       /      /     /
+     \      \       |      /      /     / overfitting
+      \      \      |     /      /     /
+    +---------------+-------------------+
+    |                                   |
+    |          Strong f                 |
+    |                                   |
+    |                                   |
+    +-----------------------------------+
+#+END_SRC
+
+
+Model Selection
+
+Cross validation
+
+N-fold Cross Validation
+
+我觉得这两个 林轩田教授的讲解更好
+但是lihongyi教授说了一个注意事项很重要：
+
+Using the results of public testing data
+to tune your model is very DANGROUS!!!
+
+you are making public testing set better than
+private testing set
