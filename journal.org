@@ -1,5 +1,5 @@
 *Tips*
-1. 這這裏是收集知識用的org
+1. 這這裏是收集知識用的 org
 2. 盡他應該維持的特點是:
    1. 便捷, 快速, 自由
    2.
@@ -40,19 +40,19 @@
    #+END_QUOTE
 **  [[http://cn.linux.vbird.org/linux_basic/0310vi.php][鸟哥的 Linux 私房菜 -- vim 程序编辑器]] :vim:
    Captured On: [2017-02-14 二 16:00]
-** [[http://heartnheart.github.io/blog/2015/01/15/SogouIME_on_English_Ubuntu_14.04/][在Emacs 24.3 Ubuntu14.04英文版中使用搜狗输入法 - org-page]]  :emacs:input-method:
-   Source: [2017-02-14 二], [[http://heartnheart.github.io/blog/2015/01/15/SogouIME_on_English_Ubuntu_14.04/][在Emacs 24.3 Ubuntu14.04英文版中使用搜狗输入法 - org-page]]
+** [[http://heartnheart.github.io/blog/2015/01/15/SogouIME_on_English_Ubuntu_14.04/][在 Emacs 24.3 Ubuntu14.04 英文版中使用搜狗输入法 - org-page]]  :emacs:input-method:
+   Source: [2017-02-14 二], [[http://heartnheart.github.io/blog/2015/01/15/SogouIME_on_English_Ubuntu_14.04/][在 Emacs 24.3 Ubuntu14.04 英文版中使用搜狗输入法 - org-page]]
    #+BEGIN_QUOTE
-   在Emacs 24.3 Ubuntu14.04英文版中使用搜狗输入法
+   在 Emacs 24.3 Ubuntu14.04 英文版中使用搜狗输入法
 
    从命令行启动
 
    LC_CTYPE='zh_CN.UTF-8' emacs
-   从Dash（搜索框）启动
+   从 Dash（搜索框）启动
 
-   重命名默认启动的emacs24-x
+   重命名默认启动的 emacs24-x
    sudo mv /usr/bin/emac24-x /usr/bin/emacs24-x_original
-   创建新的名为emacs24-x的脚本
+   创建新的名为 emacs24-x 的脚本
    echo "LC_CTYPE='zh_CN.UTF-8' emacs24-x_original" | sudo tee /usr/bin/emacs24-x
    sudo chmod a+x /usr/bin/emacs24-x
    #+END_QUOTE
@@ -68,7 +68,7 @@
    #+BEGIN_QUOTE
 
    #+END_QUOTE
-** 完美解决emacs输入法无效问题
+** 完美解决 emacs 输入法无效问题
    Source: [2017-02-15 三], [[http://stackoverflow.com/questions/2901541/which-coding-system-should-i-use-in-emacs][character encoding - Which coding system should I use in Emacs? - Stack Overflow]]
    #+BEGIN_QUOTE
    Here's a pretty comprehensive group of magic invocations to make Emacs use UTF-8 everywhere by default:
@@ -106,10 +106,10 @@
    export no_proxy="127.0.0.1, localhost, *.cnn.com, 192.168.1.10, domain.com:8080"
    The above example means that if you are reaching local host (e.g., 127.0.0.1, localhost), *.cnn.com, domain.com:8080, or a host with IP address 192.168.1.10, you will not use HTTP proxy. For all other destinations, you will use the designated HTTP proxy (proxy.com:8000).
    #+END_QUOTE
-** [[http://www.powerxing.com/linux-environment-variable/][设置Linux环境变量的方法和区别_Ubuntu_给力星]]
-   Source: [2017-02-16 四], [[http://www.powerxing.com/linux-environment-variable/][设置Linux环境变量的方法和区别_Ubuntu_给力星]]
+** [[http://www.powerxing.com/linux-environment-variable/][设置 Linux 环境变量的方法和区别_Ubuntu_给力星]]
+   Source: [2017-02-16 四], [[http://www.powerxing.com/linux-environment-variable/][设置 Linux 环境变量的方法和区别_Ubuntu_给力星]]
    #+BEGIN_QUOTE
-   设置Linux环境变量的方法和区别_Ubuntu
+   设置 Linux 环境变量的方法和区别_Ubuntu
    2014-10-15 (updated: 2016-01-18) 25927 7
    设置 Linux 环境变量可以通过 export 实现，也可以通过修改几个文件来实现，有必要弄清楚这两种方法以及这几个文件的区别。
 
@@ -117,16 +117,16 @@
    通过文件设置 Linux 环境变量
    首先是设置全局环境变量，对所有用户都会生效：
 
-   etc/profile: 此文件为系统的每个用户设置环境信息。当用户登录时，该文件被执行一次，并从 /etc/profile.d 目录的配置文件中搜集shell 的设置。一般用于设置所有用户使用的全局变量。
+   etc/profile: 此文件为系统的每个用户设置环境信息。当用户登录时，该文件被执行一次，并从 /etc/profile.d 目录的配置文件中搜集 shell 的设置。一般用于设置所有用户使用的全局变量。
    /etc/bashrc: 当 bash shell 被打开时，该文件被读取。也就是说，每次新打开一个终端 shell，该文件就会被读取。
    接着是与上述两个文件对应，但只对单个用户生效：
 
-   ~/.bash_profile 或 ~/.profile: 只对单个用户生效，当用户登录时该文件仅执行一次。用户可使用该文件添加自己使用的 shell 变量信息。另外在不同的LINUX操作系统下，这个文件可能是不同的，可能是 ~/.bash_profile， ~/.bash_login 或 ~/.profile 其中的一种或几种，如果存在几种的话，那么执行的顺序便是：~/.bash_profile、 ~/.bash_login、 ~/.profile。比如 Ubuntu 系统一般是 ~/.profile 文件。
+   ~/.bash_profile 或 ~/.profile: 只对单个用户生效，当用户登录时该文件仅执行一次。用户可使用该文件添加自己使用的 shell 变量信息。另外在不同的 LINUX 操作系统下，这个文件可能是不同的，可能是 ~/.bash_profile， ~/.bash_login 或 ~/.profile 其中的一种或几种，如果存在几种的话，那么执行的顺序便是：~/.bash_profile、 ~/.bash_login、 ~/.profile。比如 Ubuntu 系统一般是 ~/.profile 文件。
    ~/.bashrc: 只对单个用户生效，当登录以及每次打开新的 shell 时，该文件被读取。
-   此外，修改 /etc/environment 这个文件也能实现环境变量的设置。/etc/environment 设置的也是全局变量，从文件本身的作用上来说， /etc/environment 设置的是整个系统的环境，而/etc/profile是设置所有用户的环境。有几点需注意：
+   此外，修改 /etc/environment 这个文件也能实现环境变量的设置。/etc/environment 设置的也是全局变量，从文件本身的作用上来说， /etc/environment 设置的是整个系统的环境，而/etc/profile 是设置所有用户的环境。有几点需注意：
 
    系统先读取 etc/profile 再读取 /etc/environment（还是反过来？）
-   /etc/environment 中不能包含命令，即直接通过 VAR="..." 的方式设置，不使用 export 。
+   /etc/environment 中不能包含命令，即直接通过 VAR="..." 的方式设置，不使用 export。
    使用 source /etc/environment 可以使变量设置在当前窗口立即生效，需注销/重启之后，才能对每个新终端窗口都生效。
    修改 Linux 环境变量实例
    以 Ubuntu 为例，修改 ~/.profile 文件：
@@ -165,11 +165,11 @@
 
 
 
-   文章很给力？微信扫一扫给作者打赏2元 :)
+   文章很给力？微信扫一扫给作者打赏 2 元 :)
    ~感谢赞助者~
 
    http://www.powerxing.com/linux-environment-variable/
-   笔记Linux, Linux操作, Ubuntu
+   笔记 Linux, Linux 操作, Ubuntu
    #+END_QUOTE
    []
 ** TODO [[http://vim.wikia.com/wiki/Search_and_replace][Search and replace | Vim Tips Wiki | Fandom powered by Wikia]]    :vim:
@@ -199,15 +199,15 @@
    TeX 的另一个重要的特征就是它的输出是与设备无关的。TeX 的输出文件称为 DVI 文件，即是“Device Independent”。一旦 TeX 处理了你的文件，你所得到的 DVI 文件就可以被送到任何输出设备如打印机，屏幕等并且总会得到相同的结果，而这与这些输出设备的限制没有任何关系。这说明 DVI 文件中所有的元素，从页面设置到文本中字符的位置都被固定，不能更改。
 ** TODO   [[http://aty.sdsu.edu/bibliog/latex/LaTeXtoPDF.html][LaTeX to PDF]]
    Captured On: [2017-03-01 三 10:29]
-** TODO   [[http://zchrissirhcz.github.io/blog/latex-in-linux/][在Linux下使用Latex | zchrissirhcz.github.io]]
+** TODO   [[http://zchrissirhcz.github.io/blog/latex-in-linux/][在 Linux 下使用 Latex | zchrissirhcz.github.io]]
    Captured On: [2017-03-01 三 10:36]
-** TODO   [[http://www.mikewootc.com/wiki/tool/doc_process/latex_chinese_ubuntu_setup.html][LaTex Ubuntu中文环境安装与使用]]
+** TODO   [[http://www.mikewootc.com/wiki/tool/doc_process/latex_chinese_ubuntu_setup.html][LaTex Ubuntu 中文环境安装与使用]]
    Captured On: [2017-03-01 三 10:37]
-** TODO   [[http://www.jianshu.com/p/08c657bd34f1][Python--Virtualenv简明教程 - 简书]]
+** TODO   [[http://www.jianshu.com/p/08c657bd34f1][Python--Virtualenv 简明教程 - 简书]]
    Captured On: [2017-03-01 三 13:31]
 ** TODO   [[https://virtualenv.pypa.io/en/stable/installation/][Installation — virtualenv 15.1.0 documentation]]
    Captured On: [2017-03-01 三 13:36]
-** TODO   [[http://www.jianshu.com/p/08c657bd34f1][Python--Virtualenv简明教程 - 简书]]
+** TODO   [[http://www.jianshu.com/p/08c657bd34f1][Python--Virtualenv 简明教程 - 简书]]
    Captured On: [2017-03-01 三 13:56]
 ** TODO [[https://github.com/proofit404/anaconda-mode/issues/164][Anaconda mode opening new windows with errors · Issue #164 · proofit404/anaconda-mode]]
    Source: [2017-03-01 三], [[https://github.com/proofit404/anaconda-mode/issues/164][Anaconda mode opening new windows with errors · Issue #164 · proofit404/anaconda-mode]]
@@ -217,32 +217,32 @@
 ** TODO [[https://my.oschina.net/u/89296/blog/42393][Python 和 egg 文件 - 甄码农]]
    Source: [2017-03-01 三], [[https://my.oschina.net/u/89296/blog/42393][Python 和 egg 文件 - 甄码农]]
    #+BEGIN_QUOTE
-   4. 相关知识：egg包和setup tools
+   4. 相关知识：egg 包和 setup tools
 
-   python的egg文件有点像java中的jar文件，是一个工程打包文件，便于安装部署，仅此一点，给多少pythoner带来了多少激动。而setup tools就是一个提供包管理的工具或者说是软件。
+   python 的 egg 文件有点像 java 中的 jar 文件，是一个工程打包文件，便于安装部署，仅此一点，给多少 pythoner 带来了多少激动。而 setup tools 就是一个提供包管理的工具或者说是软件。
 
    egg 是一个包含所有包数据的文件包。在理想情况中，egg 是一个使用 zip 压缩的文件，其中包括了所有需要的包文件。但是在某些情况下，setuptools 会决定（或被开关告知）包不应该是 zip 压缩的。在这些情况下，egg 只是一个简单的未曾压缩的子目录，但是里面的内容是相同的。使用单一的版本可以方便地进行转换，并可以节省一点磁盘空间，但是 egg 目录从功能和组织结构上来说都是相同的。
 
-   安装package是经常碰到事情, 而且安装也比较繁琐，最头疼就是包依赖的问题，有时候一个上午可能就为了安装一个包，就像我今天这样的。在Java里面有这样的包管理软件，那就是Maven了， 他会帮助你找到所依赖的包. 据说其他语言,比如, php, ruby, perl等 也有类似的工具软件.
+   安装 package 是经常碰到事情, 而且安装也比较繁琐，最头疼就是包依赖的问题，有时候一个上午可能就为了安装一个包，就像我今天这样的。在 Java 里面有这样的包管理软件，那就是 Maven 了， 他会帮助你找到所依赖的包. 据说其他语言,比如, php, ruby, perl 等 也有类似的工具软件.
    #+END_QUOTE
 ** TODO   [[https://my.oschina.net/u/89296/blog/42393][Python 和 egg 文件 - 甄码农]]
    Captured On: [2017-03-01 三 20:45]
-** TODO [[http://www.cnblogs.com/Tommy-Yu/p/4991853.html][python egg文件解压 - tommy.yu - 博客园]]
-   Source: [2017-03-01 三], [[http://www.cnblogs.com/Tommy-Yu/p/4991853.html][python egg文件解压 - tommy.yu - 博客园]]
+** TODO [[http://www.cnblogs.com/Tommy-Yu/p/4991853.html][python egg 文件解压 - tommy.yu - 博客园]]
+   Source: [2017-03-01 三], [[http://www.cnblogs.com/Tommy-Yu/p/4991853.html][python egg 文件解压 - tommy.yu - 博客园]]
    #+BEGIN_QUOTE
-   python egg文件解压
+   python egg 文件解压
 
    unzip 就可以了。
 
     
 
-   由于项目需要将某些版本的库打包，然后 sys.path.insert方式引用（避免升级包导致某些旧的系统崩掉）。
+   由于项目需要将某些版本的库打包，然后 sys.path.insert 方式引用（避免升级包导致某些旧的系统崩掉）。
 
-   在将egg文件打包时，发现不可用。但相关模块的__path__属性显示， 这些内容在egg里面，于是想到可能这只是个压缩包。
+   在将 egg 文件打包时，发现不可用。但相关模块的__path__属性显示， 这些内容在 egg 里面，于是想到可能这只是个压缩包。
 
    谷歌了一番，找到了解压的方法：https://mail.python.org/pipermail/chicago/2007-July/002301.html
 
-   即用unzip指令就可一了。
+   即用 unzip 指令就可一了。
 
     
 
@@ -250,7 +250,7 @@
 
    ======后记===========
 
-   python的egg文件有点像java中的jar文件，是一个工程打包文件，便于安装部署，仅此一点，给多少pythoner带来了多少激动。而setup tools就是一个提供包管理的工具或者说是软件。
+   python 的 egg 文件有点像 java 中的 jar 文件，是一个工程打包文件，便于安装部署，仅此一点，给多少 pythoner 带来了多少激动。而 setup tools 就是一个提供包管理的工具或者说是软件。
 
    egg 是一个包含所有包数据的文件包。在理想情况中，egg 是一个使用 zip 压缩的文件，其中包括了所有需要的包文件。但是在某些情况下，setuptools 会决定（或被开关告知）包不应该是 zip 压缩的。在这些情况下，egg 只是一个简单的未曾压缩的子目录，但是里面的内容是相同的。使用单一的版本可以方便地进行转换，并可以节省一点磁盘空间，但是 egg 目录从功能和组织结构上来说都是相同的。
    #+END_QUOTE
@@ -259,7 +259,7 @@
    #+BEGIN_QUOTE
    可爱的 Python: 使用 setuptools 孵化 Python egg
    改进安装和包管理后的 PEAK
-   David 在本文中将带领我们了解一下 setuptools 框架，它是 Python Enterprise Application Kit（PEAK）的一个副项目。 setuptools 替换了标准的 distutils 库，并为 Python 添加了版本化的包和依赖性管理。Perl 用户比较熟悉 CPAN，而 Ruby 用户则比较熟悉 Gems；引导 setuptools 的 ez_setup 工具和随之而生的扩展后的 easy_install 与 “Cheeseshop”（Python Package Index，也称为 “PyPI”）一起工作来实现相同的功能。另外，setuptools 还让我们可以将自己的库包装成一个称为 “egg” 的包，它与 Java™ 的 JAR 文件类似，不过是用于 Python 的。
+   David 在本文中将带领我们了解一下 setuptools 框架，它是 Python Enterprise Application Kit（PEAK）的一个副项目。setuptools 替换了标准的 distutils 库，并为 Python 添加了版本化的包和依赖性管理。Perl 用户比较熟悉 CPAN，而 Ruby 用户则比较熟悉 Gems；引导 setuptools 的 ez_setup 工具和随之而生的扩展后的 easy_install 与 “Cheeseshop”（Python Package Index，也称为 “PyPI”）一起工作来实现相同的功能。另外，setuptools 还让我们可以将自己的库包装成一个称为 “egg” 的包，它与 Java™ 的 JAR 文件类似，不过是用于 Python 的。
    查看本系列更多内容 | 1 评论
    David Mertz (mertz@gnosis.cx), 开发人员, Gnosis Software, Inc.
    2006 年 11 月 30 日
@@ -395,7 +395,7 @@
    通过使用上述要求，setuptools 就可以在运行 import 语句时添加一个特定的版本（如果指定了大于比较，就是最新的可用版本）。
    回页首
    让包可以识别 setuptools
-   我会更希望让用户不需要知道 Gnosis Utilities 的下载目录就可以安装它。这 通常都可以 工作，因为 Gnosis Utilities 在 Python Cheeseshop 上有一个信息清单。不幸的是，因为没有考虑 setuptools ，所以我在 python.org 上为我的 Gnosis Utilities 建立了一个 “不匹配” 的入口 http://www.python.org/pypi/Gnosis%20Utilities/1.2.1。具体地说，这个归档文件是根据类似于 Gnosis_Utils-N.N.N.tar.gz 的模式进行命名的（这些工具也打包成了 .zip 和 .tar.bz2 文件，最新的几个版本还打包成了 win32.exe 的安装程序，所有这些文件 setuptools 都可以很好地处理）。不过 Cheeseshop 上的项目名的拼写与 “Gnosis Utilities” 稍微有点不同。实际上，在 Cheeseshop 的一个很小的管理版本的更改就会将 http://www.python.org/pypi/Gnosis_Utils/1.2.1-a 创建为一个发布后版本。发行版归档文件本身并没有什么变化，不过是在 Cheeseshop 里增加了一点元数据。只需要少量努力，就可以使用更加简单的安装程序（注意，出于测试目的，我运行了一个 easy_install -m 来删除所安装的包）。
+   我会更希望让用户不需要知道 Gnosis Utilities 的下载目录就可以安装它。这 通常都可以 工作，因为 Gnosis Utilities 在 Python Cheeseshop 上有一个信息清单。不幸的是，因为没有考虑 setuptools，所以我在 python.org 上为我的 Gnosis Utilities 建立了一个 “不匹配” 的入口 http://www.python.org/pypi/Gnosis%20Utilities/1.2.1。具体地说，这个归档文件是根据类似于 Gnosis_Utils-N.N.N.tar.gz 的模式进行命名的（这些工具也打包成了 .zip 和 .tar.bz2 文件，最新的几个版本还打包成了 win32.exe 的安装程序，所有这些文件 setuptools 都可以很好地处理）。不过 Cheeseshop 上的项目名的拼写与 “Gnosis Utilities” 稍微有点不同。实际上，在 Cheeseshop 的一个很小的管理版本的更改就会将 http://www.python.org/pypi/Gnosis_Utils/1.2.1-a 创建为一个发布后版本。发行版归档文件本身并没有什么变化，不过是在 Cheeseshop 里增加了一点元数据。只需要少量努力，就可以使用更加简单的安装程序（注意，出于测试目的，我运行了一个 easy_install -m 来删除所安装的包）。
    清单 9. 简单增加对 setuptools 的识别
    % easy_install Gnosis_Utils
    Searching for Gnosis-Utils
@@ -414,7 +414,7 @@
    % python -c 'import yaml; print yaml.dump({"foo":"bar",1:[2,3]})'
    1: [2, 3]
    foo: bar
-   不过，PYTHONPATH 的（或者脚本或 Python shell 会话内的 sys.path的）这种操作有些脆弱。egg 的发现最好是在新一点的 .pth 文件中进行。在 site-packages/ 或 PYTHONPATH 中的任何 .pth 文件都会进行解析来执行其他导入操作，其方法类似于检查可能包含包的那些目录位置一样。如果使用 setuptools 来处理包的管理功能，那么在安装、更新、删除包时，就需要修改一个名为 easy-install.pth 的文件。而且可以按照自己喜欢的方式对这个 .pth 进行命名（只要其扩展名是 .pth 即可）。例如，下面是我的 easy-install.pth 文件的内容：
+   不过，PYTHONPATH 的（或者脚本或 Python shell 会话内的 sys.path 的）这种操作有些脆弱。egg 的发现最好是在新一点的 .pth 文件中进行。在 site-packages/ 或 PYTHONPATH 中的任何 .pth 文件都会进行解析来执行其他导入操作，其方法类似于检查可能包含包的那些目录位置一样。如果使用 setuptools 来处理包的管理功能，那么在安装、更新、删除包时，就需要修改一个名为 easy-install.pth 的文件。而且可以按照自己喜欢的方式对这个 .pth 进行命名（只要其扩展名是 .pth 即可）。例如，下面是我的 easy-install.pth 文件的内容：
    清单 11. 用作 egg 位置配置的 .pth 文件
    % cat /sw/lib/python2.4/site-packages/easy-install.pth
    import sys; sys.__plen = len(sys.path)
@@ -465,11 +465,11 @@
    本文实际上只介绍了用支持 setuptools 的发行版可以执行的定制操作的表层的知识。例如，假设您现在有一个发行版（可以是首选的 egg 格式或另外一种归档类型），您就可以使用一个命令将这个归档文件和元数据上载到 Cheeseshop 上。显然，完整的 setup.py 脚本应该包含旧版本 distutils 脚本中所包含的同样详细的元数据；为了简单起见，本文跳过了这些内容，但是其参数名与 distutils 是兼容的。
    尽管要完全适应 setuptools 所提供的巨大功能需要一些时间，但是实际上它确实可以让维护您自己的包和安装外来包都要比 distutils 更加简单。如果您所关心的内容仅仅是安装包，那么您所需要了解的内容在本文的介绍中已经全部包括了；只是您在描述您自己的包时可能会发现一些复杂性，不过仍然没有使用 distutils 那么复杂。
    #+END_QUOTE
-** TODO [[http://www.cnblogs.com/mnzlichunyu/p/5982981.html][{spacemacs}anaconda自动补全不工作 - 剑客西门吹雪 - 博客园]]
-   Source: [2017-03-01 三], [[http://www.cnblogs.com/mnzlichunyu/p/5982981.html][{spacemacs}anaconda自动补全不工作 - 剑客西门吹雪 - 博客园]]
+** TODO [[http://www.cnblogs.com/mnzlichunyu/p/5982981.html][{spacemacs}anaconda 自动补全不工作 - 剑客西门吹雪 - 博客园]]
+   Source: [2017-03-01 三], [[http://www.cnblogs.com/mnzlichunyu/p/5982981.html][{spacemacs}anaconda 自动补全不工作 - 剑客西门吹雪 - 博客园]]
    #+BEGIN_QUOTE
-   [spacemacs]anaconda自动补全不工作
-   spacemacs打开python源文件自动补全不工作，打开anaconda-mode buffer看到以下信息：
+   [spacemacs]anaconda 自动补全不工作
+   spacemacs 打开 python 源文件自动补全不工作，打开 anaconda-mode buffer 看到以下信息：
    1
    2
    3
@@ -496,20 +496,20 @@
    　　
 
    环境：
-   OS：windows 7 ，
+   OS：windows 7，
    emacs：emacs-w64-25.1
     
    原因：
-   推测因为jedi以egg文件（一个zip文件）文件安装导致IOError。
+   推测因为 jedi 以 egg 文件（一个 zip 文件）文件安装导致 IOError。
     
    解决方法：
-   进入目录C:\Users\<your user name>\.emacs.d\.cache\anaconda-mode\0.1.6\，解压jedi-0.9.0-py2.7.egg到当前目录
-   ，然后把解压出来的文件夹改名为 jedi-0.9.0-py2.7.egg, 删除或者把以前的egg文件重命名为 jedi-0.9.0-py2.7.egg.bak。
-   python补全就可以正常工作了。 
+   进入目录 C:\Users\<your user name>\.emacs.d\.cache\anaconda-mode\0.1.6\，解压 jedi-0.9.0-py2.7.egg 到当前目录
+   ，然后把解压出来的文件夹改名为 jedi-0.9.0-py2.7.egg, 删除或者把以前的 egg 文件重命名为 jedi-0.9.0-py2.7.egg.bak。
+   python 补全就可以正常工作了。 
     
    #+END_QUOTE
-** TODO [[https://emacs-china.org/t/2016mbp-quickhelp/1644/16][新入了2016mbp，无法安装quickhelp了，求解答 - Spacemacs - Emacs China]]
-   Source: [2017-03-01 三], [[https://emacs-china.org/t/2016mbp-quickhelp/1644/16][新入了2016mbp，无法安装quickhelp了，求解答 - Spacemacs - Emacs China]]
+** TODO [[https://emacs-china.org/t/2016mbp-quickhelp/1644/16][新入了 2016mbp，无法安装 quickhelp 了，求解答 - Spacemacs - Emacs China]]
+   Source: [2017-03-01 三], [[https://emacs-china.org/t/2016mbp-quickhelp/1644/16][新入了 2016mbp，无法安装 quickhelp 了，求解答 - Spacemacs - Emacs China]]
    #+BEGIN_QUOTE
    在你的配置中, 应该需要这样添加 auto-completion layer 才可以使得 company-quickhelp 生效.
 
@@ -520,7 +520,7 @@
 
    设定 auto-completion-enable-help-tooltip 为 t 之后 spacemacs 就会为你安装 company-quickhelp 的，不需要再在其它地方添加任何设置。
 
-   对我而言，没有很大的补全需求，macOS 和 Linux 在 emacs-lisp-mode 都可以用我给出的 auto-completion 的配置给出 tool-tip的。
+   对我而言，没有很大的补全需求，macOS 和 Linux 在 emacs-lisp-mode 都可以用我给出的 auto-completion 的配置给出 tool-tip 的。
    #+END_QUOTE
 ** TODO   [[http://wkhtmltopdf.org/][wkhtmltopdf]]
    Captured On: [2017-03-02 四 14:43]
@@ -567,7 +567,7 @@
    Kind regards
 
    #+END_QUOTE
-** TODO   [[https://my.oschina.net/kursk/blog/7896][ubuntu下无线网卡解决经历 - yeyelei]]               :ubuntu:error:fix:
+** TODO   [[https://my.oschina.net/kursk/blog/7896][ubuntu 下无线网卡解决经历 - yeyelei]]               :ubuntu:error:fix:
    Captured On: [2017-03-06 一 19:10]
 ** TODO   [[https://lists.gnu.org/archive/html/emacs-orgmode/2016-04/msg00298.html][Re: [O] [BUG] Failure to run sh source block]] :org:babel:
    Captured On: [2017-03-06 一 19:13]
@@ -599,7 +599,7 @@
    Underscore_WithCurlyBrackets_{subscript} becomes Underscore_WithCurlyBrackets_{subscript}
    Hat^WithCurlyBrackets^{superscript} becomes Hat^WithCurlyBrackets^{superscript}
    #+END_QUOTE
-** TODO   [[https://my.oschina.net/kursk/blog/7896][ubuntu下无线网卡解决经历 - yeyelei]]
+** TODO   [[https://my.oschina.net/kursk/blog/7896][ubuntu 下无线网卡解决经历 - yeyelei]]
    Captured On: [2017-03-07 二 13:56]
    This text gives an introduction to the relationship between:
    hardware/driver/modules/load-modules
@@ -607,40 +607,40 @@
    Captured On: [2017-03-07 二 14:11]
 
    maybe used in later
-** DONE [[https://m.baidu.com/from=844b/bd_page_type=1/ssid=0/uid=0/pu=usm%25400%252Csz%2540320_1001%252Cta%2540iphone_2_6.0_3_537/baiduid=FC1029C2B8CDDBB36A1A41EB34A5A170/w=0_10_/t=iphone/l=3/tc?ref=www_iphone&lid=13779130330335403338&order=1&fm=alop&tj=www_normal_1_0_10_title&vit=osres&m=8&srd=1&cltj=cloud_title&asres=1&title=Linuxsecureboot%2528%25E5%25AE%2589%25E5%2585%25A8%25E5%2590%25AF%25E5%258A%25A8%2529%25E6%2597%25B6%25E6%25B7%25BB%25E5%258A%25A0Nvidia%25E6%2598%25BE..._%25E5%258D%259A%25E5%25AE%25A2%25E5%259B%25AD&dict=30&w_qd=IlPT2AEptyoA_yimGUCsCSZsvQnMReGgEBuZLCzRqugrRwYyRVpn98C&sec=19275&di=4423311c9e5d9848&bdenc=1&tch=124.0.300.139.0.0&nsrc=IlPT2AEptyoA_yixCFOxXnANedT62v3IEQGG_ytK1DK6mlrte4viZQRAZiHqMXK4E587umP0sqdFtXLR_7Em9RJCrLIwdzZz&eqid=bf394e07cd73e0001000000258b8e53d&wd=&clk_info=%257B%2522srcid%2522%253A%25221599%2522%252C%2522tplname%2522%253A%2522www_normal%2522%252C%2522t%2522%253A1488512324271%252C%2522xpath%2522%253A%2522div-a-h3-em3%2522%257D][Linux secure boot(安全启动)时添加Nvidia显卡驱动 - 诸葛孔明没灯 - 博客园]] :ubuntu:nvidia:
+** DONE [[https://m.baidu.com/from=844b/bd_page_type=1/ssid=0/uid=0/pu=usm%25400%252Csz%2540320_1001%252Cta%2540iphone_2_6.0_3_537/baiduid=FC1029C2B8CDDBB36A1A41EB34A5A170/w=0_10_/t=iphone/l=3/tc?ref=www_iphone&lid=13779130330335403338&order=1&fm=alop&tj=www_normal_1_0_10_title&vit=osres&m=8&srd=1&cltj=cloud_title&asres=1&title=Linuxsecureboot%2528%25E5%25AE%2589%25E5%2585%25A8%25E5%2590%25AF%25E5%258A%25A8%2529%25E6%2597%25B6%25E6%25B7%25BB%25E5%258A%25A0Nvidia%25E6%2598%25BE..._%25E5%258D%259A%25E5%25AE%25A2%25E5%259B%25AD&dict=30&w_qd=IlPT2AEptyoA_yimGUCsCSZsvQnMReGgEBuZLCzRqugrRwYyRVpn98C&sec=19275&di=4423311c9e5d9848&bdenc=1&tch=124.0.300.139.0.0&nsrc=IlPT2AEptyoA_yixCFOxXnANedT62v3IEQGG_ytK1DK6mlrte4viZQRAZiHqMXK4E587umP0sqdFtXLR_7Em9RJCrLIwdzZz&eqid=bf394e07cd73e0001000000258b8e53d&wd=&clk_info=%257B%2522srcid%2522%253A%25221599%2522%252C%2522tplname%2522%253A%2522www_normal%2522%252C%2522t%2522%253A1488512324271%252C%2522xpath%2522%253A%2522div-a-h3-em3%2522%257D][Linux secure boot(安全启动)时添加 Nvidia 显卡驱动 - 诸葛孔明没灯 - 博客园]] :ubuntu:nvidia:
    CLOSED: [2017-03-07 二 17:28]
    :LOGBOOK:
    - State "DONE"       from "TODO"       [2017-03-07 二 17:28]
    :END:
-   Source: [2017-03-07 二], [[https://m.baidu.com/from=844b/bd_page_type=1/ssid=0/uid=0/pu=usm%25400%252Csz%2540320_1001%252Cta%2540iphone_2_6.0_3_537/baiduid=FC1029C2B8CDDBB36A1A41EB34A5A170/w=0_10_/t=iphone/l=3/tc?ref=www_iphone&lid=13779130330335403338&order=1&fm=alop&tj=www_normal_1_0_10_title&vit=osres&m=8&srd=1&cltj=cloud_title&asres=1&title=Linuxsecureboot%2528%25E5%25AE%2589%25E5%2585%25A8%25E5%2590%25AF%25E5%258A%25A8%2529%25E6%2597%25B6%25E6%25B7%25BB%25E5%258A%25A0Nvidia%25E6%2598%25BE..._%25E5%258D%259A%25E5%25AE%25A2%25E5%259B%25AD&dict=30&w_qd=IlPT2AEptyoA_yimGUCsCSZsvQnMReGgEBuZLCzRqugrRwYyRVpn98C&sec=19275&di=4423311c9e5d9848&bdenc=1&tch=124.0.300.139.0.0&nsrc=IlPT2AEptyoA_yixCFOxXnANedT62v3IEQGG_ytK1DK6mlrte4viZQRAZiHqMXK4E587umP0sqdFtXLR_7Em9RJCrLIwdzZz&eqid=bf394e07cd73e0001000000258b8e53d&wd=&clk_info=%257B%2522srcid%2522%253A%25221599%2522%252C%2522tplname%2522%253A%2522www_normal%2522%252C%2522t%2522%253A1488512324271%252C%2522xpath%2522%253A%2522div-a-h3-em3%2522%257D][Linux secure boot(安全启动)时添加Nvidia显卡驱动 - 诸葛孔明没灯 - 博客园]]
+   Source: [2017-03-07 二], [[https://m.baidu.com/from=844b/bd_page_type=1/ssid=0/uid=0/pu=usm%25400%252Csz%2540320_1001%252Cta%2540iphone_2_6.0_3_537/baiduid=FC1029C2B8CDDBB36A1A41EB34A5A170/w=0_10_/t=iphone/l=3/tc?ref=www_iphone&lid=13779130330335403338&order=1&fm=alop&tj=www_normal_1_0_10_title&vit=osres&m=8&srd=1&cltj=cloud_title&asres=1&title=Linuxsecureboot%2528%25E5%25AE%2589%25E5%2585%25A8%25E5%2590%25AF%25E5%258A%25A8%2529%25E6%2597%25B6%25E6%25B7%25BB%25E5%258A%25A0Nvidia%25E6%2598%25BE..._%25E5%258D%259A%25E5%25AE%25A2%25E5%259B%25AD&dict=30&w_qd=IlPT2AEptyoA_yimGUCsCSZsvQnMReGgEBuZLCzRqugrRwYyRVpn98C&sec=19275&di=4423311c9e5d9848&bdenc=1&tch=124.0.300.139.0.0&nsrc=IlPT2AEptyoA_yixCFOxXnANedT62v3IEQGG_ytK1DK6mlrte4viZQRAZiHqMXK4E587umP0sqdFtXLR_7Em9RJCrLIwdzZz&eqid=bf394e07cd73e0001000000258b8e53d&wd=&clk_info=%257B%2522srcid%2522%253A%25221599%2522%252C%2522tplname%2522%253A%2522www_normal%2522%252C%2522t%2522%253A1488512324271%252C%2522xpath%2522%253A%2522div-a-h3-em3%2522%257D][Linux secure boot(安全启动)时添加 Nvidia 显卡驱动 - 诸葛孔明没灯 - 博客园]]
    #+BEGIN_QUOTE
-   Linux secure boot(安全启动)时添加Nvidia显卡驱动
-   开启Secure boot情况下，在Fedora 21下安装Nvidia 显卡驱动的方法。
-   Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
+   Linux secure boot(安全启动)时添加 Nvidia 显卡驱动
+   开启 Secure boot 情况下，在 Fedora 21 下安装 Nvidia 显卡驱动的方法。
+   Nvidia 显卡驱动可以从官网上下载最新版>> 点击进入
    下载后添加可执行权限：
    #chmod +x NVIDIA-Linux*.run
-   注意，安装Nvidia显卡需要满足的两个条件是
+   注意，安装 Nvidia 显卡需要满足的两个条件是
    1. nouveau（默认的显卡驱动）驱动程序必须禁用
    2. Xserver（图形界面） 要停止运行
    以上两个问题的解决方法如下：
 
-   首先按Ctrl + Alt + F2进入终端
-   输入root的帐号和密码后执行以下操作
+   首先按 Ctrl + Alt + F2 进入终端
+   输入 root 的帐号和密码后执行以下操作
 
-   1. 禁用nouveau显卡驱动
+   1. 禁用 nouveau 显卡驱动
    #dracut --omit-drivers nouveau /boot/initramfs-$(uname -r).img $(uname -r) --force
 
-   2. 停止Xserver
+   2. 停止 Xserver
    #service gdm stop
    #service lightgdm stop
    3. 安装编译所需的程序
    #yum install gcc kernel-devel
 
-   然后进入放NVIDIA-linux*.run的目录，执行该文件，按照提示进行操作。
+   然后进入放 NVIDIA-linux*.run 的目录，执行该文件，按照提示进行操作。
    由于我这台机器已经安装好了驱动程序，就不再执行了（所以截图也就没有了）。
-   注意在执行过程中，会出现提示是否使用dkms，由于在secure boot下使用dkms会导致无法开机，这里选择NO(否)。
-   经过编译后会提示是否sign the kernel module（为内核模块签名），这里要选择是。接下来会继续问使用已有的密钥给模块签名还是重新生成。
-   这里选在重新生成密钥。继续下去之后，密钥会在/usr/share/nvidia/下生成一个nvidia*.der（私钥）文件和nvidia*.key（公钥）文件，当提示是否删除已生成的密钥文件时，选择否，
+   注意在执行过程中，会出现提示是否使用 dkms，由于在 secure boot 下使用 dkms 会导致无法开机，这里选择 NO(否)。
+   经过编译后会提示是否 sign the kernel module（为内核模块签名），这里要选择是。接下来会继续问使用已有的密钥给模块签名还是重新生成。
+   这里选在重新生成密钥。继续下去之后，密钥会在/usr/share/nvidia/下生成一个 nvidia*.der（私钥）文件和 nvidia*.key（公钥）文件，当提示是否删除已生成的密钥文件时，选择否，
    因为之后要用到这两个文件。继续安装程序到最后会提示无法启动模块。这是因为生成的密钥还没有添加到内核的信任库中。
    添加密钥到内核的信任列表中：
 
@@ -649,46 +649,46 @@
    接下来会提示输入密码，两次输入密码后重启系统。
    #reboot
 
-   重启进入bootloader之后，由于进行了添加密钥操作，会触发shim，shim会要求输入上一步输入的密码来导入密钥。按步骤操作。
+   重启进入 bootloader 之后，由于进行了添加密钥操作，会触发 shim，shim 会要求输入上一步输入的密码来导入密钥。按步骤操作。
 
-   导入密钥之后，启动时内核就可以成功加载编译过的Nvidia显卡驱动了。
+   导入密钥之后，启动时内核就可以成功加载编译过的 Nvidia 显卡驱动了。
 
    启动进入系统后，就可以正常使用了。需要注意的是，由于生成的密钥添加到了内核的信任列表中，所以对生成的私钥和公钥一定要妥善保管。
    #+END_QUOTE
-** DONE [[http://luveelin.blog.163.com/blog/static/119492341201251943213676/][GoldenDict - luveelin的日志 - 网易博客]]                   :ubuntu:app:
+** DONE [[http://luveelin.blog.163.com/blog/static/119492341201251943213676/][GoldenDict - luveelin 的日志 - 网易博客]]                   :ubuntu:app:
    CLOSED: [2017-03-08 三 09:38]
    :LOGBOOK:
    - State "DONE"       from "TODO"       [2017-03-08 三 09:38]
    :END:
-   Source: [2017-03-08 三], [[http://luveelin.blog.163.com/blog/static/119492341201251943213676/][GoldenDict - luveelin的日志 - 网易博客]]
+   Source: [2017-03-08 三], [[http://luveelin.blog.163.com/blog/static/119492341201251943213676/][GoldenDict - luveelin 的日志 - 网易博客]]
    #+BEGIN_QUOTE
    GoldenDict
    =sudo apt-get install goldendict=
    #+END_QUOTE
-** DONE [[http://luveelin.blog.163.com/blog/static/119492341201251943213676/][GoldenDict - luveelin的日志 - 网易博客]]
+** DONE [[http://luveelin.blog.163.com/blog/static/119492341201251943213676/][GoldenDict - luveelin 的日志 - 网易博客]]
    CLOSED: [2017-03-08 三 09:39]
    :LOGBOOK:
    - State "DONE"       from "TODO"       [2017-03-08 三 09:39]
    :END:
-   Source: [2017-03-08 三], [[http://luveelin.blog.163.com/blog/static/119492341201251943213676/][GoldenDict - luveelin的日志 - 网易博客]]
+   Source: [2017-03-08 三], [[http://luveelin.blog.163.com/blog/static/119492341201251943213676/][GoldenDict - luveelin 的日志 - 网易博客]]
    #+BEGIN_QUOTE
    GoldenDict  
    how to setup dictionaries for goldendict
    #+END_QUOTE
-** DONE [[http://www.jb51.net/LINUXjishu/501994.html][linux下.run文件的安装与卸载方法_LINUX_操作系统_脚本之家]] :ubuntu:command:
+** DONE [[http://www.jb51.net/LINUXjishu/501994.html][linux 下.run 文件的安装与卸载方法_LINUX_操作系统_脚本之家]] :ubuntu:command:
    CLOSED: [2017-03-08 三 10:19]
    :LOGBOOK:
    - State "DONE"       from "TODO"       [2017-03-08 三 10:19]
    :END:
-   Source: [2017-03-08 三], [[http://www.jb51.net/LINUXjishu/501994.html][linux下.run文件的安装与卸载方法_LINUX_操作系统_脚本之家]]
+   Source: [2017-03-08 三], [[http://www.jb51.net/LINUXjishu/501994.html][linux 下.run 文件的安装与卸载方法_LINUX_操作系统_脚本之家]]
    #+BEGIN_QUOTE
-   比如安装QT编程软件
+   比如安装 QT 编程软件
    安装方法如下
-   命令第一步： chmod +x qt-unified-linux-x64-2.0.2-2-online.run
+   命令第一步：chmod +x qt-unified-linux-x64-2.0.2-2-online.run
    命令第二步：./qt-unified-linux-x64-2.0.2-2-online.run
-   之后就出现QT安装的可视化界面
+   之后就出现 QT 安装的可视化界面
 
-   安装完后就可以用了 ,chmod实际上是加权限命令 。＋x表示可以执行
+   安装完后就可以用了 ,chmod 实际上是加权限命令 。＋x 表示可以执行
 
    chmod [-cfvR] [--help] [--version] mode file...
 
@@ -706,7 +706,7 @@
    --help : 显示辅助说明
    --version : 显示版本 linux
    #+END_QUOTE
-** DONE [[http://blog.csdn.net/ningzb/article/details/7174087][无法在模块路径中找到主题引擎 pixmap解决办法 - ningzb的专栏 - 博客频道 - CSDN.NET]] :ubuntu:error:
+** DONE [[http://blog.csdn.net/ningzb/article/details/7174087][无法在模块路径中找到主题引擎 pixmap 解决办法 - ningzb 的专栏 - 博客频道 - CSDN.NET]] :ubuntu:error:
    CLOSED: [2017-03-08 三 10:42]
    :LOGBOOK:
    - State "DONE"       from "TODO"       [2017-03-08 三 10:42]
@@ -718,15 +718,15 @@
    - State "DONE"       from "TODO"       [2017-03-08 三 10:42]
    :END:
    Captured On: [2017-03-08 三 10:39]
-** TODO [[http://blog.csdn.net/bill_chuang/article/details/18087307][修改Chrome打开mms链接的默认程序 - bill_chuang的专栏 - 博客频道 - CSDN.NET]]
-   Source: [2017-03-09 Thu], [[http://blog.csdn.net/bill_chuang/article/details/18087307][修改Chrome打开mms链接的默认程序 - bill_chuang的专栏 - 博客频道 - CSDN.NET]]
+** TODO [[http://blog.csdn.net/bill_chuang/article/details/18087307][修改 Chrome 打开 mms 链接的默认程序 - bill_chuang 的专栏 - 博客频道 - CSDN.NET]]
+   Source: [2017-03-09 Thu], [[http://blog.csdn.net/bill_chuang/article/details/18087307][修改 Chrome 打开 mms 链接的默认程序 - bill_chuang 的专栏 - 博客频道 - CSDN.NET]]
    #+BEGIN_QUOTE
    *the principle of org-capture extension in chrome*
-   CentOS中如果在Chrome中要打开mms：//的链接，默认是用totem打开的，但是众所周知totem是比较搓的，所以我想用smplayer打开，怎么办呢？由于在点击mms：//的链接是会弹出一个对话框让你启动应用程序，注意到Chrome是用xdg-open命令来打开外部程序的，由于xdg-open是一个shell程序，那么就我们修改一下xdg-open命令。
+   CentOS 中如果在 Chrome 中要打开 mms：//的链接，默认是用 totem 打开的，但是众所周知 totem 是比较搓的，所以我想用 smplayer 打开，怎么办呢？由于在点击 mms：//的链接是会弹出一个对话框让你启动应用程序，注意到 Chrome 是用 xdg-open 命令来打开外部程序的，由于 xdg-open 是一个 shell 程序，那么就我们修改一下 xdg-open 命令。
 
    #vi /usr/bin/xdg-open
 
-   由于CentOS用的gnome，所以找到open_gnome()函数，其他桌面的找对应的函数，如下
+   由于 CentOS 用的 gnome，所以找到 open_gnome()函数，其他桌面的找对应的函数，如下
 
    open_gnome()
    {
@@ -760,7 +760,7 @@
        exit_failure_operation_failed
    fi
    }
-   然后保存，这样Chrome就可以用smplayer打开mms链接了
+   然后保存，这样 Chrome 就可以用 smplayer 打开 mms 链接了
 
 
    #+END_QUOTE
@@ -858,9 +858,9 @@
    :LOGBOOK:
    - State "DONE"       from "TODO"       [2017-03-09 Thu 14:55]
    :END:
-   Source: [2017-03-09 Thu], [[http://www.phillip.hk/?p=3852][我似朝露降人间 » Ubuntu14.04修改/etc/resolv.conf]]
+   Source: [2017-03-09 Thu], [[http://www.phillip.hk/?p=3852][我似朝露降人间 » Ubuntu14.04 修改/etc/resolv.conf]]
    #+BEGIN_QUOTE
-   Ubuntu 14.04手动修改/etc/resolv.conf文件后，然后重启，发现修改并未生效。发现/etc/resolv.conf文件头有以下文字:
+   Ubuntu 14.04 手动修改/etc/resolv.conf 文件后，然后重启，发现修改并未生效。发现/etc/resolv.conf 文件头有以下文字:
 
    1
    2
@@ -870,11 +870,11 @@
 
    1
    # vim /etc/resolvconf/resolv.conf.d/tail
-   然后加入要添加的DNS服务器,
+   然后加入要添加的 DNS 服务器,
 
    1
    nameserver 202.96.134.133
-   保存退出，然后重启resolvconf服务即可。
+   保存退出，然后重启 resolvconf 服务即可。
 
    1
    #/etc/init.d/resolvconf restart
@@ -887,7 +887,7 @@
    Source: [2017-03-09 Thu], [[http://www.cnblogs.com/zhenfei/p/6144892.html][ubuntu 如何 su 到 root（作为 root 用户操作） - 震撼起飞 - 博客园]]
    #+BEGIN_QUOTE
    ubuntu 如何 su 到 root（作为 root 用户操作）
-   ubuntu 安装后，root用户默认被锁定，不允许登录，也不允许“su”到 root。对于桌面用户来说，这样安全性更高一些，但对于服务器可以设置成“允许 su 到root，但不允许root用户直接登录”。为了开发时的方便，我们常希望都采用这种方式，那么我们应该怎么办呢？请参考本文讨论的方法与建议
+   ubuntu 安装后，root 用户默认被锁定，不允许登录，也不允许“su”到 root。对于桌面用户来说，这样安全性更高一些，但对于服务器可以设置成“允许 su 到 root，但不允许 root 用户直接登录”。为了开发时的方便，我们常希望都采用这种方式，那么我们应该怎么办呢？请参考本文讨论的方法与建议
 
    允许 su 到 root
 
@@ -895,70 +895,70 @@
 
    ~$ sudo passwd root
    Password: <--- 输入安装时那个用户的密码
-   Enter new UNIX password: <--- 新的Root用户密码
-   Retype new UNIX password: <--- 重复新的Root用户密码
+   Enter new UNIX password: <--- 新的 Root 用户密码
+   Retype new UNIX password: <--- 重复新的 Root 用户密码
    passwd：已成功更新密码  
    #+END_QUOTE
 ** TODO root 與 普通用戶的切換，以及用戶組的概念            :ubuntu:su:group:
-   Source: [2017-03-09 Thu], [[http://www.2cto.com/os/201401/271643.html][{Linux}用户切换-su和sudo - Linux操作系统：Ubuntu_Centos_Debian - 红黑联盟]]
+   Source: [2017-03-09 Thu], [[http://www.2cto.com/os/201401/271643.html][{Linux}用户切换-su 和 sudo - Linux 操作系统：Ubuntu_Centos_Debian - 红黑联盟]]
    #+BEGIN_QUOTE
    su
-   如果你当前的身份是root，则可以通过su命令切换到其它任何用户（无需密码），如下所示：
+   如果你当前的身份是 root，则可以通过 su 命令切换到其它任何用户（无需密码），如下所示：
    [root@lx200 ~]# su - oracle
    [oracle@lx200 ~ ]$
-   如果你当前的身份不是root（即普通用户），想通过su切换成root，则必须输入root的密码：
+   如果你当前的身份不是 root（即普通用户），想通过 su 切换成 root，则必须输入 root 的密码：
    [oracle@lx15 ~ ]$ su -
    Password:
    [root@lx15 ~ ]#
-   当我们的Linux是多人管理时，如果通过su切换root，则每个人都需要知道root密码，这非常不安全，因此su这种方式虽然简单，但实际使用中很少使用。
+   当我们的 Linux 是多人管理时，如果通过 su 切换 root，则每个人都需要知道 root 密码，这非常不安全，因此 su 这种方式虽然简单，但实际使用中很少使用。
    sudo
-   sudo可以让普通用户在不需要知道root密码的情况下切换成root用户，首先我们需要通过配置/etc/sudoers，如下所示：
+   sudo 可以让普通用户在不需要知道 root 密码的情况下切换成 root 用户，首先我们需要通过配置/etc/sudoers，如下所示：
    Defaults visiblepw
    User_Alias ADMIN = root,admin
    ADMIN   ALL=(ALL) NOPASSWD: ALL
-   首先，我们定义了一个用户组（注意：用户组名必须大写），该用户组包含root和admin用户这个文件最重要的是第三行，下面分别解释它的意思： 1）第1列：用户账号，表示哪个账号可以使用sudo这个命令 2）第2列：限制登录这的来源主机名，ALL表示不做限制 3）第3列：可切换的身份，ALL表示可以切换成任何身份，NOPASSWD表示免密码输入（如果没有NOPASSWD，则每次切换都要输入自己的密码） 4）第4列：可执行的命令，ALL表示所有命令，如果要对命令进行限制，可以采用如下定义：
+   首先，我们定义了一个用户组（注意：用户组名必须大写），该用户组包含 root 和 admin 用户这个文件最重要的是第三行，下面分别解释它的意思：1）第 1 列：用户账号，表示哪个账号可以使用 sudo 这个命令 2）第 2 列：限制登录这的来源主机名，ALL 表示不做限制 3）第 3 列：可切换的身份，ALL 表示可以切换成任何身份，NOPASSWD 表示免密码输入（如果没有 NOPASSWD，则每次切换都要输入自己的密码）4）第 4 列：可执行的命令，ALL 表示所有命令，如果要对命令进行限制，可以采用如下定义：
    zabbix  ALL=(ALL) NOPASSWD: /sbin/fuser, /usr/sbin/lsof, /usr/sbin/dmidecode, /sbin/mii-tool, /usr/sbin/iptstate
-   注意：不要通过vi直接编辑/etc/sudoers，应该通过执行visudo命令编辑该文件，因为在结束离开时，系统会去检查/etc/sudoers的语法。
-   通过上面的配置，admin用户就可以通过执行sudo su - 命令免密码切换至root，是不是很方便呢。
+   注意：不要通过 vi 直接编辑/etc/sudoers，应该通过执行 visudo 命令编辑该文件，因为在结束离开时，系统会去检查/etc/sudoers 的语法。
+   通过上面的配置，admin 用户就可以通过执行 sudo su - 命令免密码切换至 root，是不是很方便呢。
    #+END_QUOTE
-** DONE [[http://www.jb51.net/LINUXjishu/152395.html][Linux traceroute命令详解和使用例子（追踪路由信息）_LINUX_操作系统_脚本之家]] :ubuntu:network:traceroute:
+** DONE [[http://www.jb51.net/LINUXjishu/152395.html][Linux traceroute 命令详解和使用例子（追踪路由信息）_LINUX_操作系统_脚本之家]] :ubuntu:network:traceroute:
    CLOSED: [2017-03-10 Fri 09:25]
    :LOGBOOK:
    - State "DONE"       from "TODO"       [2017-03-10 Fri 09:25]
    :END:
-   Source: [2017-03-10 Fri], [[http://www.jb51.net/LINUXjishu/152395.html][Linux traceroute命令详解和使用例子（追踪路由信息）_LINUX_操作系统_脚本之家]]
+   Source: [2017-03-10 Fri], [[http://www.jb51.net/LINUXjishu/152395.html][Linux traceroute 命令详解和使用例子（追踪路由信息）_LINUX_操作系统_脚本之家]]
    #+BEGIN_QUOTE
-   Linux traceroute命令详解和使用例子（追踪路由信息）
+   Linux traceroute 命令详解和使用例子（追踪路由信息）
 
    作者：佚名 字体：[增加 减小] 来源：互联网 时间：04-10 15:38:10 我要评论
-   通过traceroute我们可以知道信息从你的计算机到互联网另一端的主机是走的什么路径。当然每次数据包由某一同样的出发点（source）到达某一同样的目的地(destination)走的路径可能会不一样，但基本上来说大部分时候所走的路由是相同的
+   通过 traceroute 我们可以知道信息从你的计算机到互联网另一端的主机是走的什么路径。当然每次数据包由某一同样的出发点（source）到达某一同样的目的地(destination)走的路径可能会不一样，但基本上来说大部分时候所走的路由是相同的
 
-   linux系统中，我们称之为traceroute,在MS Windows中为tracert。 traceroute通过发送小的数据包到目的设备直到其返回，来测量其需要多长时间。一条路径上的每个设备traceroute要测3次。输出结果中包括每次测试的时间(ms)和设备的名称（如有的话）及其IP地址。
-   在大多数情况下，我们会在linux主机系统下，直接执行命令行：traceroute hostname
-   而在Windows系统下是执行tracert的命令： tracert hostname
+   linux 系统中，我们称之为 traceroute,在 MS Windows 中为 tracert。 traceroute 通过发送小的数据包到目的设备直到其返回，来测量其需要多长时间。一条路径上的每个设备 traceroute 要测 3 次。输出结果中包括每次测试的时间(ms)和设备的名称（如有的话）及其 IP 地址。
+   在大多数情况下，我们会在 linux 主机系统下，直接执行命令行：traceroute hostname
+   而在 Windows 系统下是执行 tracert 的命令：tracert hostname
    1.命令格式：
    traceroute[参数][主机]
    2.命令功能：
-   traceroute指令让你追踪网络数据包的路由途径，预设数据包大小是40Bytes，用户可另行设置。
-   具体参数格式：traceroute [-dFlnrvx][-f<存活数值>][-g<网关>...][-i<网络界面>][-m<存活数值>][-p<通信端口>][-s<来源地址>][-t<服务类型>][-w<超时秒数>][主机名称或IP地址][数据包大小]
+   traceroute 指令让你追踪网络数据包的路由途径，预设数据包大小是 40Bytes，用户可另行设置。
+   具体参数格式：traceroute [-dFlnrvx][-f<存活数值>][-g<网关>...][-i<网络界面>][-m<存活数值>][-p<通信端口>][-s<来源地址>][-t<服务类型>][-w<超时秒数>][主机名称或 IP 地址][数据包大小]
    3.命令参数：
-   -d 使用Socket层级的排错功能。
-   -f 设置第一个检测数据包的存活数值TTL的大小。
+   -d 使用 Socket 层级的排错功能。
+   -f 设置第一个检测数据包的存活数值 TTL 的大小。
    -F 设置勿离断位。
-   -g 设置来源路由网关，最多可设置8个。
+   -g 设置来源路由网关，最多可设置 8 个。
    -i 使用指定的网络界面送出数据包。
-   -I 使用ICMP回应取代UDP资料信息。
-   -m 设置检测数据包的最大存活数值TTL的大小。
-   -n 直接使用IP地址而非主机名称。
-   -p 设置UDP传输协议的通信端口。
-   -r 忽略普通的Routing Table，直接将数据包送到远端主机上。
-   -s 设置本地主机送出数据包的IP地址。
-   -t 设置检测数据包的TOS数值。
+   -I 使用 ICMP 回应取代 UDP 资料信息。
+   -m 设置检测数据包的最大存活数值 TTL 的大小。
+   -n 直接使用 IP 地址而非主机名称。
+   -p 设置 UDP 传输协议的通信端口。
+   -r 忽略普通的 Routing Table，直接将数据包送到远端主机上。
+   -s 设置本地主机送出数据包的 IP 地址。
+   -t 设置检测数据包的 TOS 数值。
    -v 详细显示指令的执行过程。
    -w 设置等待远端主机回报的时间。
    -x 开启或关闭数据包的正确性检验。
    4.使用实例：
-   实例1：traceroute 用法简单、最常用的用法
+   实例 1：traceroute 用法简单、最常用的用法
    命令：traceroute www.baidu.com 
    输出：
 
@@ -978,10 +978,10 @@
    30 * * *
    [root@localhost ~]#
    说明：
-   记录按序列号从1开始，每个纪录就是一跳 ，每跳表示一个网关，我们看到每行有三个时间，单位是 ms，其实就是-q的默认参数。探测数据包向每个网关发送三个数据包后，网关响应后返回的时间；如果您用 traceroute -q 4 www.58.com ，表示向每个网关发送4个数据包。
-   有时我们traceroute 一台主机时，会看到有一些行是以星号表示的。出现这样的情况，可能是防火墙封掉了ICMP的返回信息，所以我们得不到什么相关的数据包返回数据。
-   有时我们在某一网关处延时比较长，有可能是某台网关比较阻塞，也可能是物理设备本身的原因。当然如果某台DNS出现问题时，不能解析主机名、域名时，也会 有延时长的现象；您可以加-n 参数来避免DNS解析，以IP格式输出数据。
-   如果在局域网中的不同网段之间，我们可以通过traceroute 来排查问题所在，是主机的问题还是网关的问题。如果我们通过远程来访问某台服务器遇到问题时，我们用到traceroute 追踪数据包所经过的网关，提交IDC服务商，也有助于解决问题；但目前看来在国内解决这样的问题是比较困难的，就是我们发现问题所在，IDC服务商也不可能帮助我们解决。
+   记录按序列号从 1 开始，每个纪录就是一跳 ，每跳表示一个网关，我们看到每行有三个时间，单位是 ms，其实就是-q 的默认参数。探测数据包向每个网关发送三个数据包后，网关响应后返回的时间；如果您用 traceroute -q 4 www.58.com ，表示向每个网关发送 4 个数据包。
+   有时我们 traceroute 一台主机时，会看到有一些行是以星号表示的。出现这样的情况，可能是防火墙封掉了 ICMP 的返回信息，所以我们得不到什么相关的数据包返回数据。
+   有时我们在某一网关处延时比较长，有可能是某台网关比较阻塞，也可能是物理设备本身的原因。当然如果某台 DNS 出现问题时，不能解析主机名、域名时，也会 有延时长的现象；您可以加-n 参数来避免 DNS 解析，以 IP 格式输出数据。
+   如果在局域网中的不同网段之间，我们可以通过 traceroute 来排查问题所在，是主机的问题还是网关的问题。如果我们通过远程来访问某台服务器遇到问题时，我们用到 traceroute 追踪数据包所经过的网关，提交 IDC 服务商，也有助于解决问题；但目前看来在国内解决这样的问题是比较困难的，就是我们发现问题所在，IDC 服务商也不可能帮助我们解决。
    #+END_QUOTE
 ** DONE [[https://github.com/adobe-fonts/source-code-pro/issues/17#issuecomment-8967116][Add font installation instructions for Linux · Issue #17 · adobe-fonts/source-code-pro]] :ubuntu:font:
    CLOSED: [2017-03-10 Fri 10:21]
@@ -1010,25 +1010,25 @@
 
    那麼什麼是『檔案壓縮』呢？我們來稍微談一談他的原理好了。目前我們使用的電腦系
    統中都是使用所謂的 bytes 單位來計量的！不過，事實上，電腦最小的計量單位應該是
-   bits 才對啊。此外，我們也知道 1 byte = 8 bits 。但是如果今天我們只是記憶一個
+   bits 才對啊。此外，我們也知道 1 byte = 8 bits。但是如果今天我們只是記憶一個
    數字，亦即是 1 這個數字呢？他會如何記錄？假設一個 byte 可以看成底下的模樣：
 
    □□□□□□□□
 
-   Tips由於 1 byte = 8 bits ，所以每個 byte 當中會有 8 個空格，
-   而每個空格可以是 0, 1 ，這裡僅是做為一個約略的介紹， 更多的詳細資料請參考第零
+   Tips 由於 1 byte = 8 bits，所以每個 byte 當中會有 8 個空格，
+   而每個空格可以是 0, 1，這裡僅是做為一個約略的介紹， 更多的詳細資料請參考第零
    章的計算機概論吧！
 
-   由於我們記錄數字是 1 ，考慮電腦所謂的二進位喔，如此一來， 1 會在最右邊佔據 1
-   個 bit ，而其他的 7 個 bits 將會自動的被填上 0 囉！你看看，其實在這樣的例子中，
+   由於我們記錄數字是 1，考慮電腦所謂的二進位喔，如此一來，1 會在最右邊佔據 1
+   個 bit，而其他的 7 個 bits 將會自動的被填上 0 囉！你看看，其實在這樣的例子中，
    那 7 個 bits 應該是『空的』才對！不過，為了要滿足目前我們的作業系統資料的存取，
    所以就會將該資料轉為 byte 的型態來記錄了！而一些聰明的電腦工程師就利用一些複
    雜的計算方式， 將這些沒有使用到的空間『丟』出來，以讓檔案佔用的空間變小！這就
    是壓縮的技術啦！
 
    另外一種壓縮技術也很有趣，他是將重複的資料進行統計記錄的。舉例來說，如果你的
-   資料為『111....』共有100個1時， 那麼壓縮技術會記錄為『100個1』而不是真的有100
-   個1的位元存在！這樣也能夠精簡檔案記錄的容量呢！ 非常有趣吧！
+   資料為『111....』共有 100 個 1 時， 那麼壓縮技術會記錄為『100 個 1』而不是真的有 100
+   個 1 的位元存在！這樣也能夠精簡檔案記錄的容量呢！ 非常有趣吧！
 
    簡單的說，你可以將他想成，其實檔案裡面有相當多的『空間』存在，並不是完全填滿
    的， 而『壓縮』的技術就是將這些『空間』填滿，以讓整個檔案佔用的容量下降！ 不
@@ -1037,7 +1037,7 @@
    壓縮』囉！而至於壓縮後與壓縮的檔案所佔用的磁碟空間大小， 就可以被稱為是『壓縮
    比』囉！更多的技術文件或許你可以參考一下：
 
-   RFC 1952 文件：http://www.ietf.org/rfc/rfc1952.txt鳥哥站上的備份：
+   RFC 1952 文件：http://www.ietf.org/rfc/rfc1952.txt 鳥哥站上的備份：
    http://linux.vbird.org/linux_basic/0240tarcompress/0240tarcompress_gzip.php
 
    這個『壓縮』與『解壓縮』的動作有什麼好處呢？最大的好處就是壓縮過的檔案容量變小
@@ -1046,21 +1046,21 @@
    些大型的檔案傳輸上面呢！目前很多的 WWW 網站也是利用檔案壓縮的技術來進行資料的
    傳送，好讓網站頻寬的可利用率上升喔！
 
-   Tips上述的WWW網站壓縮技術蠻有趣的！他讓你網站上面『看的到的資料』在經過網路傳
+   Tips 上述的 WWW 網站壓縮技術蠻有趣的！他讓你網站上面『看的到的資料』在經過網路傳
    輸時，使用的是『壓縮過的資料』， 等到這些壓縮過的資料到達你的電腦主機時，再進
    行解壓縮，由於目前的電腦運算速度相當的快速， 因此其實在網頁瀏覽的時候，時間都
    是花在『資料的傳輸』上面，而不是 CPU 的運算啦！如此一來，由於壓縮過的資料量降
    低了，自然傳送的速度就會增快不少！
 
    若你是一位軟體工程師，那麼相信你也會喜歡將你自己的軟體壓縮之後提供大家下載來
-   使用， 畢竟沒有人喜歡自己的網站天天都是頻寬滿載的吧？舉個例子來說， Linux
+   使用， 畢竟沒有人喜歡自己的網站天天都是頻寬滿載的吧？舉個例子來說，Linux
    3.10.81 (CentOS 7 用的延伸版本) 完整的核心大小約有 570 MB 左右，而由於核心主
    要多是 ASCII code 的純文字型態檔案，這種檔案的『多餘空間』最多了。而一個提供
    下載的壓縮過的 3.10.81 核心大約僅有 76MB 左右，差了幾倍呢？你可以自己算一算喔！
 
 ***  8.2 Linux 系統常見的壓縮指令
 
-    在Linux的環境中，壓縮檔案的副檔名大多是：『*.tar, *.tar.gz, *.tgz, *.gz, *.Z,
+    在 Linux 的環境中，壓縮檔案的副檔名大多是：『*.tar, *.tar.gz, *.tgz, *.gz, *.Z,
     *.bz2, *.xz』，為什麼會有這樣的副檔名呢？不是說 Linux 的副檔名沒有什麼作用嗎？
 
     這是因為 Linux 支援的壓縮指令非常多，且不同的指令所用的壓縮技術並不相同，當然
@@ -1080,9 +1080,9 @@
     .tar.bz2.tar 程式打包的檔案，其中並且經過 bzip2 的壓縮
     .tar.xz tar 程式打包的檔案，其中並且經過 xz 的壓縮
 
-    Linux上常見的壓縮指令就是 gzip, bzip2 以及最新的 xz ，至於 compress 已經退流
-    行了。為了支援 windows 常見的 zip，其實 Linux 也早就有 zip 指令了！ gzip 是由
-    GNU 計畫所開發出來的壓縮指令，該指令已經取代了 compress 。 後來 GNU 又開發出
+    Linux 上常見的壓縮指令就是 gzip, bzip2 以及最新的 xz，至於 compress 已經退流
+    行了。為了支援 windows 常見的 zip，其實 Linux 也早就有 zip 指令了！gzip 是由
+    GNU 計畫所開發出來的壓縮指令，該指令已經取代了 compress。 後來 GNU 又開發出
     bzip2 及 xz 這幾個壓縮比更好的壓縮指令！不過，這些指令通常僅能針對一個檔案來
     壓縮與解壓縮，如此一來， 每次壓縮與解壓縮都要一大堆檔案，豈不煩人？此時，那個
     所謂的『打包軟體, tar』就顯的很重要啦！
@@ -1100,14 +1100,14 @@
      個指令的語法吧：
 
      [dmtsai@study ~]$ gzip [-cdtv#] 檔名
-     [dmtsai@study ~]$ zcat 檔名.gz選項與參數：
-     -c ：將壓縮的資料輸出到螢幕上，可透過資料流重導向來處理；
-     -d ：解壓縮的參數；
-     -t ：可以用來檢驗一個壓縮檔的一致性～看看檔案有無錯誤；
-     -v ：可以顯示出原檔案/壓縮檔案的壓縮比等資訊；
+     [dmtsai@study ~]$ zcat 檔名.gz 選項與參數：
+     -c：將壓縮的資料輸出到螢幕上，可透過資料流重導向來處理；
+     -d：解壓縮的參數；
+     -t：可以用來檢驗一個壓縮檔的一致性～看看檔案有無錯誤；
+     -v：可以顯示出原檔案/壓縮檔案的壓縮比等資訊；
      -# ：# 為數字的意思，代表壓縮等級，-1 最快，但是壓縮比最差、-9 最慢，但是壓縮比最好！預設是 -6
 
-     範例一：找出 /etc 底下 (不含子目錄) 容量最大的檔案，並將它複製到 /tmp ，然後以 gzip 壓縮
+     範例一：找出 /etc 底下 (不含子目錄) 容量最大的檔案，並將它複製到 /tmp，然後以 gzip 壓縮
      [dmtsai@study ~]$ ls -ldSr /etc/*
      # 忘記選項意義？請自行 man 囉！.....(前面省略).....
      -rw-r--r--. 1 root root 25213 Jun 10 2014 /etc/dnsmasq.conf
@@ -1135,7 +1135,7 @@
      範例三：將範例一的檔案解壓縮
      [dmtsai@study tmp]$ gzip -d services.gz
      # 鳥哥不要使用 gunzip 這個指令，不好背！使用 gzip -d 來進行解壓縮！
-     # 與 gzip 相反， gzip -d 會將原本的 .gz 刪除，回復到原本的 services 檔案。
+     # 與 gzip 相反，gzip -d 會將原本的 .gz 刪除，回復到原本的 services 檔案。
 
      範例四：將範例三解開的 services 用最佳的壓縮比壓縮，並保留原本的檔案
      [dmtsai@study tmp]$ gzip -9 -c services > services.gz
@@ -1160,7 +1160,7 @@
      另外，如果你還想要從文字壓縮檔當中找資料的話，可以透過 zgrep 來搜尋關鍵字喔！
      而不需要將壓縮檔解開才以 grep 進行！ 這對查詢備份中的文字檔資料相當有用！
 
-     Tips時至今日，應該也沒有人愛用 compress 這個老老的指令了！因此，這一章已經拿
+     Tips 時至今日，應該也沒有人愛用 compress 這個老老的指令了！因此，這一章已經拿
      掉了 compress 的介紹～而如果你還有備份資料使用的是 compress 建置出來的 .Z 檔
      案，那也無須擔心，使用 znew 可以將該檔案轉成 gzip 的格示喔！
 
@@ -1169,17 +1169,17 @@
 ****   Top 8.2.2 bzip2, bzcat/bzmore/bzless/bzgrep
 
      若說 gzip 是為了取代 compress 並提供更好的壓縮比而成立的，那麼 bzip2 則是為了
-     取代 gzip 並提供更佳的壓縮比而來的。 bzip2 真是很不錯用的東西～這玩意的壓縮比
+     取代 gzip 並提供更佳的壓縮比而來的。bzip2 真是很不錯用的東西～這玩意的壓縮比
      竟然比 gzip 還要好～至於 bzip2 的用法幾乎與 gzip 相同！看看底下的用法吧！
 
      [dmtsai@study ~]$ bzip2 [-cdkzv#] 檔名
-     [dmtsai@study ~]$ bzcat 檔名.bz2選項與
+     [dmtsai@study ~]$ bzcat 檔名.bz2 選項與
      參數：
-     -c ：將壓縮的過程產生的資料輸出到螢幕上！
-     -d ：解壓縮的參數
-     -k ：保留原始檔案，而不會刪除原始的檔案喔！
-     -z ：壓縮的參數 (預設值，可以不加)
-     -v ：可以顯示出原檔案/壓縮檔案的壓縮比等資訊；
+     -c：將壓縮的過程產生的資料輸出到螢幕上！
+     -d：解壓縮的參數
+     -k：保留原始檔案，而不會刪除原始的檔案喔！
+     -z：壓縮的參數 (預設值，可以不加)
+     -v：可以顯示出原檔案/壓縮檔案的壓縮比等資訊；
      -# ：與 gzip 同樣的，都是在計算壓縮比的參數， -9 最佳， -1 最快！
 
      範例一：將剛剛 gzip 範例留下來的 /tmp/services 以 bzip2 壓縮[dmtsai@study
@@ -1211,12 +1211,12 @@
      那我們就來瞧一瞧！
 
      [dmtsai@study ~]$ xz [-dtlkc#] 檔名
-     [dmtsai@study ~]$ xcat 檔名.xz選項與參數：
-     -d ：就是解壓縮啊！
-     -t ：測試壓縮檔的完整性，看有沒有錯誤
-     -l ：列出壓縮檔的相關資訊
-     -k ：保留原本的檔案不刪除～
-     -c ：同樣的，就是將資料由螢幕上輸出的意思！
+     [dmtsai@study ~]$ xcat 檔名.xz 選項與參數：
+     -d：就是解壓縮啊！
+     -t：測試壓縮檔的完整性，看有沒有錯誤
+     -l：列出壓縮檔的相關資訊
+     -k：保留原本的檔案不刪除～
+     -c：同樣的，就是將資料由螢幕上輸出的意思！
      -# ：同樣的，也有較佳的壓縮比的意思！
 
      範例一：將剛剛由 bzip2 所遺留下來的 /tmp/services 透過 xz 來壓縮！
@@ -1243,7 +1243,7 @@
      [dmtsai@study tmp]$ xz -k services
      雖然 xz 這個壓縮比真的好太多太多了！以鳥哥選擇的這個 services 檔案為範例，他
      可以將 gzip 壓縮比 (壓縮後/壓縮前) 的 21% 更進一步優化到 15% 耶！ 差非常非常
-     多！不過， xz 最大的問題是...時間花太久了！如果你曾經使用過 xz 的話，應該會有
+     多！不過，xz 最大的問題是...時間花太久了！如果你曾經使用過 xz 的話，應該會有
      發現，他的運算時間真的比 gzip 久很多喔！
 
      鳥哥以自己的系統，透過『 time [gzip|bzip2|xz] -c services > services.[gz|bz2|xz] 』
@@ -1253,7 +1253,7 @@
      gzip 恐怕是比較適合的壓縮軟體喔！
 
 
-***   8.3 打包指令： tar
+***   8.3 打包指令：tar
 
     前一小節談到的指令大多僅能針對單一檔案來進行壓縮，雖然 gzip, bzip2, xz 也能夠
     針對目錄來進行壓縮，不過， 這兩個指令對目錄的壓縮指的是『將目錄內的所有檔案 "
@@ -1273,16 +1273,16 @@
      查詢囉！
 
      [dmtsai@study ~]$ tar [-z|-j|-J] [cv] [-f 待建立的新檔名] filename... <==打包與壓縮
-     [dmtsai@study ~]$ tar [-z|-j|-J] [tv] [-f 既有的 tar檔名] <==察看檔名
-     [dmtsai@study ~]$ tar [-z|-j|-J] [xv] [-f 既有的 tar檔名] [-C 目錄] <==解壓縮
+     [dmtsai@study ~]$ tar [-z|-j|-J] [tv] [-f 既有的 tar 檔名] <==察看檔名
+     [dmtsai@study ~]$ tar [-z|-j|-J] [xv] [-f 既有的 tar 檔名] [-C 目錄] <==解壓縮
      選項與參數：
-     -c ：建立打包檔案，可搭配 -v 來察看過程中被打包的檔名(filename)
-     -t ：察看打包檔案的內容含有哪些檔名，重點在察看『檔名』就是了；
-     -x ：解打包或解壓縮的功能，可以搭配 -C (大寫) 在特定目錄解開特別留意的是， -c, -t, -x 不可同時出現在一串指令列中。
-     -z ：透過 gzip 的支援進行壓縮/解壓縮：此時檔名最好為 *.tar.gz
-     -j ：透過 bzip2 的支援進行壓縮/解壓縮：此時檔名最好為 *.tar.bz2
-     -J ：透過 xz 的支援進行壓縮/解壓縮：此時檔名最好為 *.tar.xz特別留意， -z, -j, -J 不可以同時出現在一串指令列中
-     -v ：在壓縮/解壓縮的過程中，將正在處理的檔名顯示出來！
+     -c：建立打包檔案，可搭配 -v 來察看過程中被打包的檔名(filename)
+     -t：察看打包檔案的內容含有哪些檔名，重點在察看『檔名』就是了；
+     -x：解打包或解壓縮的功能，可以搭配 -C (大寫) 在特定目錄解開特別留意的是， -c, -t, -x 不可同時出現在一串指令列中。
+     -z：透過 gzip 的支援進行壓縮/解壓縮：此時檔名最好為 *.tar.gz
+     -j：透過 bzip2 的支援進行壓縮/解壓縮：此時檔名最好為 *.tar.bz2
+     -J：透過 xz 的支援進行壓縮/解壓縮：此時檔名最好為 *.tar.xz 特別留意， -z, -j, -J 不可以同時出現在一串指令列中
+     -v：在壓縮/解壓縮的過程中，將正在處理的檔名顯示出來！
      -f filename：-f 後面要立刻接要被處理的檔名！建議 -f 單獨寫一個選項囉！ (比較不會忘記)
      -C 目錄 ：這個選項用在解壓縮，若要在特定目錄解壓縮，可以使用這個選項。
 
@@ -1303,7 +1303,7 @@
 
      另外，由於『 -f filename 』是緊接在一起的，過去很多文章常會寫成『-jcvf
      filename』，這樣是對的， 但由於選項的順序理論上是可以變換的，所以很多讀者會誤
-     認為『-jvfc filename』也可以～事實上這樣會導致產生的檔名變成 c ！ 因為 -fc 嘛！
+     認為『-jvfc filename』也可以～事實上這樣會導致產生的檔名變成 c！ 因為 -fc 嘛！
      所以囉，建議您在學習 tar 時，將『 -f filename 』與其他選項獨立出來，會比較不
      容易發生問題。
 
@@ -1371,7 +1371,7 @@
      名就會是絕對路徑， 亦即解壓縮後的資料一定會被放置到 /etc/xxx 去！』如此一來，
      你的原本的 /etc/ 底下的資料， 就會被備份資料所覆蓋過去了！
 
-     Tips你會說：『既然是備份資料，那麼還原回來也沒有什麼問題吧？』想像一個狀況，
+     Tips 你會說：『既然是備份資料，那麼還原回來也沒有什麼問題吧？』想像一個狀況，
      你備份的資料是兩年前的舊版 CentOS 6.x， 你只是想要瞭解一下過去的備份內容究竟
      有哪些資料而已，結果一解開該檔案，卻發現你目前新版的 CentOS 7.x 底下的 /etc
      被舊版的備份資料覆蓋了！此時你該如何是好？大概除了哭哭你也不能做啥事吧？所以
@@ -1435,14 +1435,14 @@
      -f /root/etc.tar.bz2 etc/shadow etc/shadow [root@study ~]# ll etc total 4
      ----------. 1 root root 1210 Jun 17 00:20 shadow
      # 很有趣！此時只會解開一個檔案而已！不過，重點是那個檔名！你要找到正確的檔名。
-     # 在本例中，你不能寫成 /etc/shadow ！因為記錄在 etc.tar.bz2 內的並沒有 / 之故！
-     Tips在這個練習之前，你可能要先將前面練習所產生的 /root/etc 刪除才行！不然
+     # 在本例中，你不能寫成 /etc/shadow！因為記錄在 etc.tar.bz2 內的並沒有 / 之故！
+     Tips 在這個練習之前，你可能要先將前面練習所產生的 /root/etc 刪除才行！不然
      /root/etc/shadow 會重複存在，而其他的前面實驗的檔案也會存在， 那就看不出什麼
      鬼～
 
      打包某目錄，但不含該目錄下的某些檔案之作法假設我們想要打包 /etc/ /root 這幾個
      重要的目錄，但卻不想要打包 /root/etc* 開頭的檔案，因為該檔案都是剛剛我們才建
-     立的備份檔嘛！ 而且假設這個新的打包檔案要放置成為 /root/system.tar.bz2 ，當然
+     立的備份檔嘛！ 而且假設這個新的打包檔案要放置成為 /root/system.tar.bz2，當然
      這個檔案自己不要打包自己 (因為這個檔案放置在 /root 底下啊！)，此時我們可以透
      過 --exclude 的幫忙！ 那個 exclude 就是不包含的意思！所以你可以這樣做：
 
@@ -1493,9 +1493,9 @@
      的檔案即可！ 為什麼呢？因為原本的檔案已經有備份了嘛！幹嘛還要進行一次？只要備
      份新資料即可。這樣可以降低備份的容量啊！
 
-     基本名稱： tarfile, tarball ？另外值得一提的是，tar 打包出來的檔案有沒有進行
+     基本名稱：tarfile, tarball？另外值得一提的是，tar 打包出來的檔案有沒有進行
      壓縮所得到檔案稱呼不同喔！ 如果僅是打包而已，就是『 tar -cv -f file.tar 』而
-     已，這個檔案我們稱呼為 tarfile 。 如果還有進行壓縮的支援，例如『 tar -jcv -f
+     已，這個檔案我們稱呼為 tarfile。 如果還有進行壓縮的支援，例如『 tar -jcv -f
      file.tar.bz2 』時，我們就稱呼為 tarball (tar 球？)！這只是一個基本的稱謂而已，
      不過很多書籍與網路都會使用到這個 tarball 的名稱！所以得要跟您介紹介紹。
 
@@ -1529,7 +1529,7 @@
      /etc/ (設定檔) /home/ (使用者的家目錄) /var/spool/mail/ (系統中，所有帳號的郵
      件信箱) /var/spool/cron/ (所有帳號的工作排成設定檔) /root (系統管理員的家目錄)然
      後我們也知道，由於第七章曾經做過的練習的關係， /home/loop* 不需要備份，而且
-     /root 底下的壓縮檔也不需要備份，另外假設你要將備份的資料放置到 /backups ，並
+     /root 底下的壓縮檔也不需要備份，另外假設你要將備份的資料放置到 /backups，並
      且該目錄僅有 root 有權限進入！ 此外，每次備份的檔名都希望不相同，例如使用：
      backup-system-20150701.tar.bz2 之類的檔名來處理。 那你該如何處理這個備份資料
      呢？(請先動手作看看，再來察看一下底下的參考解答！)
@@ -1538,13 +1538,13 @@
      [root@study ~]# mkdir /backups [root@study ~]# chmod 700 /backups [root@study
      ~]# ll -d /backups drwx------. 2 root root 6 Jul 1 17:25 /backups
 
-     # 2. 假設今天是 2015/07/01 ，則建立備份的方式如下：
+     # 2. 假設今天是 2015/07/01，則建立備份的方式如下：
      [root@study ~]# tar -jcv -f /backups/backup-system-20150701.tar.bz2 \ >
      --exclude=/root/*.bz2 --exclude=/root/*.gz --exclude=/home/loop* \ > /etc
      /home /var/spool/mail /var/spool/cron /root ....(過程省略)....
 
      [root@study ~]# ll -h /backups/ -rw-r--r--. 1 root root 21M Jul 1 17:26
-     backup-system-20150701.tar.bz2解壓縮後的 SELinux 課題如果，鳥哥是說如果，如果
+     backup-system-20150701.tar.bz2 解壓縮後的 SELinux 課題如果，鳥哥是說如果，如果
      因為某些緣故，所以你的系統必須要以備份的資料來回填到原本的系統中，那麼得要特
      別注意復原後的系統的 SELinux 問題！ 尤其是在系統檔上面！例如 /etc 底下的檔案
      群。SELinux 是比較特別的細部權限設定，相關的介紹我們會在 16 章好好的介紹一下。
@@ -1566,7 +1566,7 @@
      可行的方式登入系統，建立 /.autorelabel 檔案，重新開機後系統會自動修復 SELinux
      的類型，並且又會再次重新開機，之後就正常了！鳥哥個人是比較偏好第 2 個方法，不
      過如果忘記了該步驟就重新開機呢？那鳥哥比較偏向使用第 3 個方案來處理，這樣就能
-     夠解決復原後的 SELinux 問題囉！ 至於更詳細的 SELinux ，我們得要講完程序
+     夠解決復原後的 SELinux 問題囉！ 至於更詳細的 SELinux，我們得要講完程序
      (process) 之後，你才會有比較清楚的認知，因此還請慢慢學習，到第 16 章你就知道
      問題點了！ ^_^
 ** DONE [[http://duplicity.nongnu.org/index.html][duplicity: Main]]                                  :ubuntu:backup:tool:
@@ -1581,62 +1581,62 @@
    - State "DONE"       from "TODO"       [2017-03-10 Fri 10:54]
    :END:
    Captured On: [2017-03-10 Fri 10:50]
-** DONE [[http://www.2cto.com/os/201406/307246.html][linux下修改文件的用户组chgrp和文件所有者chown - Linux操作系统：Ubuntu_Centos_Debian - 红黑联盟]] :ubuntu:su:
+** DONE [[http://www.2cto.com/os/201406/307246.html][linux 下修改文件的用户组 chgrp 和文件所有者 chown - Linux 操作系统：Ubuntu_Centos_Debian - 红黑联盟]] :ubuntu:su:
    CLOSED: [2017-03-10 Fri 11:15]
    :LOGBOOK:
    - State "DONE"       from "TODO"       [2017-03-10 Fri 11:15]
    :END:
-   Source: [2017-03-10 Fri], [[http://www.2cto.com/os/201406/307246.html][linux下修改文件的用户组chgrp和文件所有者chown - Linux操作系统：Ubuntu_Centos_Debian - 红黑联盟]]
+   Source: [2017-03-10 Fri], [[http://www.2cto.com/os/201406/307246.html][linux 下修改文件的用户组 chgrp 和文件所有者 chown - Linux 操作系统：Ubuntu_Centos_Debian - 红黑联盟]]
    #+BEGIN_QUOTE
-   1. linux下修改文件用户组
+   1. linux 下修改文件用户组
 
-   chgrp： change group的简写，修改文件所属的用户组。
+   chgrp：change group 的简写，修改文件所属的用户组。
    chgrp users test.log
    修改后查看 ls -l
    -rwxrwx---  1 work users 0 Jun  8 15:46 test.log
-   如果要修改该目录下所有文件和目录，使用-R参数。
+   如果要修改该目录下所有文件和目录，使用-R 参数。
    chgrp -R users test
-   要被改变的group名，必须在 /etc/group 文件中。 /etc/group文件记录系统中所有的组名称。
-   2. linux下修改文件所有者
+   要被改变的 group 名，必须在 /etc/group 文件中。 /etc/group 文件记录系统中所有的组名称。
+   2. linux 下修改文件所有者
 
-   chown ：change owner的简写， 修改文件的所有者。
+   chown：change owner 的简写， 修改文件的所有者。
    chown [-R] 账号名称  文件或目录
    -R 递归，将子目录下文件全部修改。
-   将文件所有者修改bin
+   将文件所有者修改 bin
    chown bin test.log
-   修改的用户必须在/etc/passwd文件中 /etc/passwd记录用户信息。
-   chown还可以修改组名称
+   修改的用户必须在/etc/passwd 文件中 /etc/passwd 记录用户信息。
+   chown 还可以修改组名称
    chown root:root test.log
-   将所有者和组名称都修改为root。
+   将所有者和组名称都修改为 root。
    #+END_QUOTE
-** DONE [[https://zhidao.baidu.com/question/1511453925736908820.html][PDFLaTeX和XeLaTeX有什么区别_百度知道]]    :ubuntu:org:export:pdf:latex:
+** DONE [[https://zhidao.baidu.com/question/1511453925736908820.html][PDFLaTeX 和 XeLaTeX 有什么区别_百度知道]]    :ubuntu:org:export:pdf:latex:
    CLOSED: [2017-03-10 Fri 22:25]
    :LOGBOOK:
    - State "DONE"       from "TODO"       [2017-03-10 Fri 22:25]
    :END:
-   Source: [2017-03-10 Fri], [[https://zhidao.baidu.com/question/1511453925736908820.html][PDFLaTeX和XeLaTeX有什么区别_百度知道]]
+   Source: [2017-03-10 Fri], [[https://zhidao.baidu.com/question/1511453925736908820.html][PDFLaTeX 和 XeLaTeX 有什么区别_百度知道]]
    #+BEGIN_QUOTE
-   pdfLaTeX是比较原始的版本，对Unicode的支持不是很好，所以显示汉字需要使用CJK宏包。
-   它不支持操作系统的truetype字体(*.ttf)，只能使用type1字体。优点是支持的宏包比较
-   多，有些老一点的宏包必须用pdfLaTeX来编译。
+   pdfLaTeX 是比较原始的版本，对 Unicode 的支持不是很好，所以显示汉字需要使用 CJK 宏包。
+   它不支持操作系统的 truetype 字体(*.ttf)，只能使用 type1 字体。优点是支持的宏包比较
+   多，有些老一点的宏包必须用 pdfLaTeX 来编译。
 
-   XeLaTeX是新的Unicode版本，内建支持Unicode(UTF-8)，自然也包括汉字在内，而且可以
-   调用操作系统的truetype字体。如果你的文档有汉字，那么推荐用XeLaTeX。缺点是不支持
+   XeLaTeX 是新的 Unicode 版本，内建支持 Unicode(UTF-8)，自然也包括汉字在内，而且可以
+   调用操作系统的 truetype 字体。如果你的文档有汉字，那么推荐用 XeLaTeX。缺点是不支持
    某一些宏包。
 
    #+END_QUOTE
-** DONE [[https://tieba.baidu.com/p/3230241781][ubuntu linux系统按键互换_我用linux吧_百度贴吧]]     :switch:key:ubuntu:
+** DONE [[https://tieba.baidu.com/p/3230241781][ubuntu linux 系统按键互换_我用 linux 吧_百度贴吧]]     :switch:key:ubuntu:
    CLOSED: [2017-03-11 Sat 10:06]
    :LOGBOOK:
    - State "DONE"       from "DONE"       [2017-03-11 Sat 10:08]
    - State "DONE"       from "TODO"       [2017-03-11 Sat 10:06]
    :END:
-   Source: [2017-03-11 Sat], [[https://tieba.baidu.com/p/3230241781][ubuntu linux系统按键互换_我用linux吧_百度贴吧]]
+   Source: [2017-03-11 Sat], [[https://tieba.baidu.com/p/3230241781][ubuntu linux 系统按键互换_我用 linux 吧_百度贴吧]]
    #+BEGIN_QUOTE
 
 *以下按键的互换在图形界面上才起作用*
 
-1、首先用xmodmap -pke命令，得到一份各个按键代码及其作用：
+1、首先用 xmodmap -pke 命令，得到一份各个按键代码及其作用：
 keycode 9 = Escape NoSymbol Escape
 keycode 10 = 1 exclam 1 exclam
 keycode 11 = 2 at 2 at
@@ -1646,22 +1646,22 @@ keycode 14 = 5 percent 5 percent
 keycode 15 = 6 asciicircum 6 asciicircu
 ……
 
-2、然后用xev |grep keycode命令，查看物理按键的代码。
+2、然后用 xev |grep keycode 命令，查看物理按键的代码。
 例如：
-按下左ctrl键是：
+按下左 ctrl 键是：
 state 0x0, keycode 37 (keysym 0xffe3, Control_L), same_screen YES
-按下左Alt键是
+按下左 Alt 键是
 state 0x0, keycode 64 (keysym 0xffe9, Alt_L), same_screen YES,
 
 3、查第一步的列表，得出按键代码 37、64 的完整表述：
 keycode 37 = Control_L NoSymbol Control_L
 keycode 64 = Alt_L Meta_L Alt_L Meta_L
 
-4、如果要交换左Ctrl和左Alt键，可以将37、64交换，变成下面的样子：
+4、如果要交换左 Ctrl 和左 Alt 键，可以将 37、64 交换，变成下面的样子：
 keycode 64 = Control_L NoSymbol Control_L
 keycode 37 = Alt_L Meta_L Alt_L Meta_L
 
-5、可以使用xmodmap使之立即生效：
+5、可以使用 xmodmap 使之立即生效：
 /usr/bin/xmodmap -e "keycode 64 = Control_L NoSymbol Control_L"
 /usr/bin/xmodmap -e "keycode 37 = Alt_L Meta_L Alt_L Meta_L"
 
@@ -1684,8 +1684,8 @@ keycode 119 = Pause Break Pause Break
 
 ---------------- ~/.keymap --------------------
 推荐写成脚本，把文件名放入~/.profile 中
-sleep 7的作用是等待图形界面加载完毕再交换按键。
-echo到/tmp以检查脚本是否在开机时已运行。
+sleep 7 的作用是等待图形界面加载完毕再交换按键。
+echo 到/tmp 以检查脚本是否在开机时已运行。
 
 #!/bin/bash
 # xmodmap -pke && xmodmap && xev |grep keycode &&
@@ -1709,24 +1709,24 @@ echo "key stop" >> /tmp/keymap.txt
    :END:
    Source: [2017-03-11 Sat], [[http://blog.csdn.net/kl28978113/article/details/44778415][Ubuntu 下 Swap left ctrl and alt - Bingo - 博客频道 - CSDN.NET]]
    #+BEGIN_QUOTE
-   摘要 传统xmodmap已被废弃，只好setxkbmap，自造option解决
+   摘要 传统 xmodmap 已被废弃，只好 setxkbmap，自造 option 解决
    *So, Do not use xmodmap to switch ctrl and caps*
    #+END_QUOTE
-** DONE xev命令可以用来捕捉键盘按键事件。                 :ubuntu:key:switch:
+** DONE xev 命令可以用来捕捉键盘按键事件。                 :ubuntu:key:switch:
    CLOSED: [2017-03-11 Sat 10:35]
    :LOGBOOK:
    - State "DONE"       from "TODO"       [2017-03-11 Sat 10:35]
    :END:
-   Source: [2017-03-11 Sat], [[http://blog.csdn.net/kl28978113/article/details/42325139][在Ubuntu下交换Esc和Caps Lock按键 - Bingo - 博客频道 - CSDN.NET]]
+   Source: [2017-03-11 Sat], [[http://blog.csdn.net/kl28978113/article/details/42325139][在 Ubuntu 下交换 Esc 和 Caps Lock 按键 - Bingo - 博客频道 - CSDN.NET]]
    #+BEGIN_QUOTE
-   p.s. 另外xev命令可以用来捕捉键盘按键事件。
+   p.s. 另外 xev 命令可以用来捕捉键盘按键事件。
    #+END_QUOTE
 ** DONE how to setup env for org export to pdf :ubuntu:org:export:latex:latex:cjk:
    CLOSED: [2017-03-11 Sat 10:58]
    :LOGBOOK:
    - State "DONE"       from "TODO"       [2017-03-11 Sat 10:58]
    :END:
-   Source: [2017-03-11 Sat], [[http://www.th7.cn/system/lin/201601/151318.shtml][ubuntu14.04 安装xelatex以及实现中文输入_Linux_第七城市]]
+   Source: [2017-03-11 Sat], [[http://www.th7.cn/system/lin/201601/151318.shtml][ubuntu14.04 安装 xelatex 以及实现中文输入_Linux_第七城市]]
    #+BEGIN_QUOTE
    安装 texlive-xelatex
    =sudo apt-get install texlive-xetex latex-cjk-all=
@@ -1785,13 +1785,13 @@ echo "key stop" >> /tmp/keymap.txt
   列表  ->  多种数据结构
 
 ** major-core 数据结构
-   当你赋一个值给变量或将这个值存在数据结构中，其实被储存的是指向这个值的指针。当你要取得变量的值，或是存在数据结构中的内容时， Lisp 返回指向这个值的指针。
+   当你赋一个值给变量或将这个值存在数据结构中，其实被储存的是指向这个值的指针。当你要取得变量的值，或是存在数据结构中的内容时，Lisp 返回指向这个值的指针。
    东西放在任何地方。除非你声明你不愿这么做，不然你能够在任何的数据结构，存放任何类型的对象，包括结构本身
    。在 Common Lisp 里，无论何时你使用一个数字来参照一个数据结构中的元素时，都是从 0 开始编号的。
    这不是个好名字，因为非正规列表的 Cons 对象通常不是用来表示列表： (a . b) 只是一个有两部分的数据结构
    。当程序进化时，你可以在代码的关键部分使用破坏性函数以及/或别种
 *** minor-core 指针
-    两部分的对象，称之为 Cons 对象。概念上来说，一个 Cons 是一对指针；第一个是 car ，第二个是 cdr 。
+    两部分的对象，称之为 Cons 对象。概念上来说，一个 Cons 是一对指针；第一个是 car，第二个是 cdr。
     Cons 所组成，见图 3.1。这种表达 Cons 的方式叫做箱子表示法 (box notation)，因为每一个 Cons 是用一个箱子表示，内含一个 car 和 cdr 的指针。当我们调用 car 与 cdr 时
     ，当我们调用 car 与 cdr 时，我们得到指针指向的地方：
 
@@ -1799,42 +1799,42 @@ echo "key stop" >> /tmp/keymap.txt
     A
     > (cdr x)
     NIL
-    在一个有多个元素的列表中， car 指针让你取得元素，而 cdr 让你取得列表内其余的东西。
+    在一个有多个元素的列表中，car 指针让你取得元素，而 cdr 让你取得列表内其余的东西。
     当这种情况发生时，它的结构如图 3.3 所示；第二个 Cons 的 car 指针也指向一个列表：
 
     > (car (cdr z))
     (B C)
 
-    每一次你调用 cons 时， Lisp 会配置一块新的内存给两个指针。
+    每一次你调用 cons 时，Lisp 会配置一块新的内存给两个指针。
     一个理解 Lisp 的秘密之一是意识到变量是有值的，就像列表有元素一样。如同 Cons 对象有指针指向他们的元素，变量有指针指向他们的值。
 
     你可能在别的语言中使用过显式指针 (explicitly pointer)。在 Lisp，你永远不用这么做，因为语言帮你处理好指针了。
 
-    当我们把 x 的值赋给 y 时，究竟发生什么事呢？内存中与 x 有关的位置并没有包含这个列表，而是一个指针指向它。当我们给 y 赋一个相同的值时， Lisp 复制的是指针，而不是列表
-    电脑内部里， Cons 对象倾向于用指针表示，所以走访一个列表意味着走访一系列的指针，而不是简单地像数组一样增加索引值。但这两个所花的代价与配置及回收 Cons 核 (cons cells)比起来小多了。
+    当我们把 x 的值赋给 y 时，究竟发生什么事呢？内存中与 x 有关的位置并没有包含这个列表，而是一个指针指向它。当我们给 y 赋一个相同的值时，Lisp 复制的是指针，而不是列表
+    电脑内部里，Cons 对象倾向于用指针表示，所以走访一个列表意味着走访一系列的指针，而不是简单地像数组一样增加索引值。但这两个所花的代价与配置及回收 Cons 核 (cons cells)比起来小多了。
 
-    一开始我们调用 list ， list 调用 cons ，在堆上配置了一个新的 Cons 对象。在这个情况我们创出三个 Cons 对象。之后当我们把 lst 设为 nil ，我们没有任何方法可以再存取 lst ，列表 (a b c) 。 [5]
+    一开始我们调用 list，list 调用 cons，在堆上配置了一个新的 Cons 对象。在这个情况我们创出三个 Cons 对象。之后当我们把 lst 设为 nil，我们没有任何方法可以再存取 lst，列表 (a b c) 。 [5]
 
     因为我们没有任何方法再存取列表，它也有可能是不存在的。我们不再有任何方式可以存取的对象叫做垃圾。系统可以安全地重新使用这三个 Cons 核。
 
     这种管理內存的方法，给程序员带来极大的便利性。你不用显式地配置 (allocate)或释放 (dellocate)內存。这也表示了你不需要处理因为这么做而可能产生的臭虫。內存泄漏 (Memory leaks)以及迷途指针 (dangling pointer)在 Lisp 中根本不可能发生。
 *** minor-core 内存
-    每一次你调用 cons 时， Lisp 会配置一块新的内存给两个指针。所以如果我们用同样的参数调用 cons 两次，我们得到两个数值看起来一样，但实际上是两个不同的对象：
+    每一次你调用 cons 时，Lisp 会配置一块新的内存给两个指针。所以如果我们用同样的参数调用 cons 两次，我们得到两个数值看起来一样，但实际上是两个不同的对象：
 
     > (eql (cons 'a nil) (cons 'a nil))
     NIL
 
     举例来说，因为一个小整数所需的内存空间，少于一个指针所需的空间，一个 Lisp 实现可能会直接处理这个小整数，而不是用指针来处理。但基本要点是，程序员预设可以把任何东西放在任何地方
 
-    自动内存管理(Automatic memory management)是 Lisp 最有价值的特色之一。 Lisp 系统维护着一段內存称之为堆(Heap)。系统持续追踪堆当中没有使用的内存，把这些内存发放给新产生的对象
+    自动内存管理(Automatic memory management)是 Lisp 最有价值的特色之一。Lisp 系统维护着一段內存称之为堆(Heap)。系统持续追踪堆当中没有使用的内存，把这些内存发放给新产生的对象
 
-    举例来说，函数 cons ，返回一个新配置的 Cons 对象。从堆中配置内存有时候通称为 consing 。
+    举例来说，函数 cons，返回一个新配置的 Cons 对象。从堆中配置内存有时候通称为 consing。
 
     所以系统必须周期性地通过搜索堆 (heap)，寻找不需要再使用的内存。
 
 *** minor-core cons
     1. cons 真正所做的事情是，把两个对象结合成一个有两部分的对象，称之为 Cons 对象。
-    2. 概念上来说，一个 Cons 是一对指针；第一个是 car ，第二个是 cdr
+    2. 概念上来说，一个 Cons 是一对指针；第一个是 car，第二个是 cdr
     3. Cons 对象提供了一个方便的表示法，来表示任何类型的对象。
 
 
@@ -2083,7 +2083,7 @@ Now we use the source block:
 *** side-effect of function
     Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
     #+BEGIN_QUOTE
-    如果这些表达式没有副作用，你没有任何理由告诉 Lisp ，为什么要去对它们求值。
+    如果这些表达式没有副作用，你没有任何理由告诉 Lisp，为什么要去对它们求值。
     #+END_QUOTE
     seems like print() in python. what we use is the side-effect of this function.
     注意到有两个东西被打印出来。第一行是 format 印出来的。第二行是调用 format 函数的返回值，就像平常顶层会打印出来的一样。通常像 format 这种函数不会直接在顶层调用，而是在程序内部里使用，所以返回值不会被看到。
@@ -2116,7 +2116,7 @@ Now we use the source block:
     > lst
     (C A R A T)
     若你真的想从列表里移除某些东西怎么办？在 Lisp 通常你这么做，把这个列表当作实参，传入某个函数，并使用 setf 来处理返回值
-    要移除所有在列表 x 的 a ，我们可以说：
+    要移除所有在列表 x 的 a，我们可以说：
 
     (setf x (remove 'a x))
 
@@ -2142,7 +2142,7 @@ Now we use the source block:
     列印从 start 到 end 之间的整数的平方：
 
 
-    作为对比，以下是递归版本的 show-squares ：
+    作为对比，以下是递归版本的 show-squares：
 
     (defun show-squares (i end)
     (if (> i end)
@@ -2154,7 +2154,7 @@ Now we use the source block:
 *** function is symbol
     Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
     #+BEGIN_QUOTE
-    函数在 Lisp 里，和符号、字符串或列表一样，是稀松平常的对象。如果我们把函数的名字传给 function ，它会返回相关联的对象。和 quote 类似， function 是一个特殊操作符，所以我们无需引用（quote）它的实参：
+    函数在 Lisp 里，和符号、字符串或列表一样，是稀松平常的对象。如果我们把函数的名字传给 function，它会返回相关联的对象。和 quote 类似，function 是一个特殊操作符，所以我们无需引用（quote）它的实参：
 
     > (function +)
     #<Compiled-Function + 17BA4E>
@@ -2164,7 +2164,7 @@ Now we use the source block:
 *** inner-type of lisp
     Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
     #+BEGIN_QUOTE
-    Common Lisp 的内置类型，组成了一个类别的层级。对象总是不止属于一个类型。举例来说，数字 27 的类型，依普遍性的增加排序，依序是 fixnum 、 integer 、 rational 、 real 、 number 、 atom 和 t 类型。（数值类型将在第 9 章讨论。）类型 t 是所有类型的基类（supertype）。 *所以每个对象都属于 t 类型。*
+    Common Lisp 的内置类型，组成了一个类别的层级。对象总是不止属于一个类型。举例来说，数字 27 的类型，依普遍性的增加排序，依序是 fixnum、integer、rational、real、number、atom 和 t 类型。（数值类型将在第 9 章讨论。）类型 t 是所有类型的基类（supertype）。 *所以每个对象都属于 t 类型。*
 
     函数 typep 接受一个对象和一个类型，然后判定对象是否为该类型，是的话就返回真：
 
@@ -2177,7 +2177,7 @@ Now we use the source block:
     Common Lisp 函数调用的求值规则： 依序对实参从左至右求值，接着把它们的值传入由操作符表示的函数。
     quote 操作符有自己的求值规则，它完封不动地返回实参。
 *** list function expression are the same thing
-    除了一般的数据类型， Lisp 还有符号跟列表。由于 Lisp 程序是用列表来表示的，很轻松就能写出能编程的程序。
+    除了一般的数据类型，Lisp 还有符号跟列表。由于 Lisp 程序是用列表来表示的，很轻松就能写出能编程的程序。
 
     Lisp 程序由表达式组成。表达式可以是原子，或一个由操作符跟着零个或多个实参的列表。前序表示法代表操作符可以有任意数量的实参。
 
@@ -2198,7 +2198,7 @@ Now we use the source block:
 *** lisp -lambda
     Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
     #+BEGIN_QUOTE
-    一个 lambda 表达式是一个列表，列表包含符号 lambda ，接着是形参列表，以及由零个或多个表达式所组成的函数体
+    一个 lambda 表达式是一个列表，列表包含符号 lambda，接着是形参列表，以及由零个或多个表达式所组成的函数体
     #+END_QUOTE
 *** lisp -funcall & apply
     Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
@@ -2253,19 +2253,19 @@ Now we use the source block:
 *** lisp -do
     Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
     #+BEGIN_QUOTE
-    do 宏是 Common Lisp 里最基本的迭代操作符。和 let 类似， do 可以创建变量，而第一个实参是一组变量的规格说明列表。每个元素可以是以下的形式
+    do 宏是 Common Lisp 里最基本的迭代操作符。和 let 类似，do 可以创建变量，而第一个实参是一组变量的规格说明列表。每个元素可以是以下的形式
 
     (variable initial update)
-    其中 variable 是一个符号， initial 和 update 是表达式。最初每个变量会被赋予 initial 表达式的值；每一次迭代时，会被赋予 update 表达式的值。在 show-squares 函数里， do 只创建了一个变量 i 。第一次迭代时， i 被赋与 start 的值，在接下来的迭代里， i 的值每次增加 1 。
+    其中 variable 是一个符号，initial 和 update 是表达式。最初每个变量会被赋予 initial 表达式的值；每一次迭代时，会被赋予 update 表达式的值。在 show-squares 函数里，do 只创建了一个变量 i。第一次迭代时，i 被赋与 start 的值，在接下来的迭代里，i 的值每次增加 1。
 
-    第二个传给 do 的实参可包含一个或多个表达式。第一个表达式用来测试迭代是否结束。在上面的例子中，测试表达式是 (> i end) 。接下来在列表中的表达式会依序被求值，直到迭代结束。而最后一个值会被当作 do 的返回值来返回。所以 show-squares 总是返回 done 。
+    第二个传给 do 的实参可包含一个或多个表达式。第一个表达式用来测试迭代是否结束。在上面的例子中，测试表达式是 (> i end) 。接下来在列表中的表达式会依序被求值，直到迭代结束。而最后一个值会被当作 do 的返回值来返回。所以 show-squares 总是返回 done。
 
     do 的剩余参数组成了循环的函数体。在每次迭代时，函数体会依序被求值。在每次迭代过程里，变量被更新，检查终止测试条件，接着（若测试失败）求值函数体。
     #+END_QUOTE
 *** lisp -remove
     Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
     #+BEGIN_QUOTE
-    要移除所有在列表 x 的 a ，我们可以说：
+    要移除所有在列表 x 的 a，我们可以说：
 
     (setf x (remove 'a x))
     #+END_QUOTE
@@ -2320,7 +2320,7 @@ Now we use the source block:
 *** lisp -format
     Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
     #+BEGIN_QUOTE
-    format 的第一个实参 t ，表示输出被送到缺省的地方去。通常是顶层。第二个实参是一个用作输出模版的字符串。在这字符串里，每一个 ~A 表示了被填入的位置，而 ~% 表示一个换行。这些被填入的位置依序由后面的实参填入。
+    format 的第一个实参 t，表示输出被送到缺省的地方去。通常是顶层。第二个实参是一个用作输出模版的字符串。在这字符串里，每一个 ~A 表示了被填入的位置，而 ~% 表示一个换行。这些被填入的位置依序由后面的实参填入。
 
     (defun show-squares (start end)
     (do ((i start (+ i 1)))
@@ -2341,7 +2341,7 @@ Now we use the source block:
 *** lisp -if
     Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
     #+BEGIN_QUOTE
-    与 quote 相同， if 是特殊的操作符。不能用函数来实现，因为实参在函数调用时永远会被求值，而 if 的特点是，只有最后两个实参的其中一个会被求值。 if 的最后一个实参是选择性的。如果忽略它的话，缺省值是 nil
+    与 quote 相同，if 是特殊的操作符。不能用函数来实现，因为实参在函数调用时永远会被求值，而 if 的特点是，只有最后两个实参的其中一个会被求值。if 的最后一个实参是选择性的。如果忽略它的话，缺省值是 nil
     #+END_QUOTE
 
     (defun ask-number ()
@@ -2350,13 +2350,13 @@ Now we use the source block:
     (if (numberp val)
     val
     (ask-number))))
-    注意这里, if的 express 可以是函数.
+    注意这里, if 的 express 可以是函数.
 
     在 lisp 中, 函数 函数返回值 表达式 值(value), 异名同体.
 
-    这里把 if 作为一个函数看待,后面三个都是if的实参. 实际上发现这非常的混乱,lisp的表达似乎总是词不达意. 也似乎总是能出乎意料.
+    这里把 if 作为一个函数看待,后面三个都是 if 的实参. 实际上发现这非常的混乱,lisp 的表达似乎总是词不达意. 也似乎总是能出乎意料.
 
-    这就是函数式编程,尤其是lisp 这种用列表作为表达单元,带来的阵痛,混乱,因为在这里,原本其它函数发展处的分支概念,在这里需要回家了.
+    这就是函数式编程,尤其是 lisp 这种用列表作为表达单元,带来的阵痛,混乱,因为在这里,原本其它函数发展处的分支概念,在这里需要回家了.
 
 *** lisp -list
     Source: [2017-02-14 二], [[http://acl.readthedocs.io/en/latest/zhCN/ch2-cn.html][第二章：欢迎来到 Lisp — ANSI Common Lisp 中文版]]
@@ -2373,24 +2373,24 @@ Now we use the source block:
     T
     #+END_QUOTE
 * ubuntu settings
-** [[http://www.davidpai.tw/ubuntu/2011/ubuntu-set-locale/][{Ubuntu} 如何設定語系locale | David's Blog]] :ubuntu settings:
-   Source: [2017-02-14 二], [[http://www.davidpai.tw/ubuntu/2011/ubuntu-set-locale/][{Ubuntu} 如何設定語系locale | David's Blog]]
+** [[http://www.davidpai.tw/ubuntu/2011/ubuntu-set-locale/][{Ubuntu} 如何設定語系 locale | David's Blog]] :ubuntu settings:
+   Source: [2017-02-14 二], [[http://www.davidpai.tw/ubuntu/2011/ubuntu-set-locale/][{Ubuntu} 如何設定語系 locale | David's Blog]]
    #+BEGIN_QUOTE
 *** 關於語系
 
-    所謂的語系(locale)，其實包含語言及地區的設定，因為除了語言之外，國家與國家的日期表示方式、數字格式、貨幣符號、度量單位可能都不一樣，所以才會有了這個locale的發明，依照國家和語言給予分類編號，再加上語言編碼，就構成了locale。
+    所謂的語系(locale)，其實包含語言及地區的設定，因為除了語言之外，國家與國家的日期表示方式、數字格式、貨幣符號、度量單位可能都不一樣，所以才會有了這個 locale 的發明，依照國家和語言給予分類編號，再加上語言編碼，就構成了 locale。
 
     zh_TW 表示 繁體中文 台灣
     zh_CN 表示 簡體中文 中國
     en_US 表示 英文 美國
     然後再加上語言編碼
-    zh_TW.UTF-8 表示 繁體中文 台灣 UTF-8編碼
-    zh_TW.Big5 表示 繁體中文 台灣 Big5編碼
-    zh_CN.UTF-8 表示 簡體中文 中國 UTF-8編碼
-    zh_CN.GB2312 表示 簡體中文 中國 GB2312編碼
-    en_US.UTF-8 代表 英文 美國 UTF-8編碼
+    zh_TW.UTF-8 表示 繁體中文 台灣 UTF-8 編碼
+    zh_TW.Big5 表示 繁體中文 台灣 Big5 編碼
+    zh_CN.UTF-8 表示 簡體中文 中國 UTF-8 編碼
+    zh_CN.GB2312 表示 簡體中文 中國 GB2312 編碼
+    en_US.UTF-8 代表 英文 美國 UTF-8 編碼
     …
-    等等還有好多好多，Ubuntu所有支援的語系和編碼，可以看這個檔案:
+    等等還有好多好多，Ubuntu 所有支援的語系和編碼，可以看這個檔案:
     /usr/share/i18n/SUPPORTED
     設定語系
 
@@ -2400,7 +2400,7 @@ Now we use the source block:
     $ locale -a
     C
     POSIX
-    C和POSIX是系統預設的，看來這台機器三比八，什麼都沒有裝…(囧)
+    C 和 POSIX 是系統預設的，看來這台機器三比八，什麼都沒有裝…(囧)
     列出目前的語系設定
 
 *** 再來看看我們現在的語系設定是怎樣:
@@ -2419,9 +2419,9 @@ Now we use the source block:
     LC_MEASUREMENT="POSIX"
     LC_IDENTIFICATION="POSIX"
     LC_ALL=
-    果然，全部也是預設的POSIX…(囧)
+    果然，全部也是預設的 POSIX…(囧)
 
-    *那這裡面一堆LC_xxx的就是我們上面所說的，關於日期、度量單位、貨幣符號等等各種的設定，其實它就是我們系統的環境變數，可以用 export 指令來看*
+    *那這裡面一堆 LC_xxx 的就是我們上面所說的，關於日期、度量單位、貨幣符號等等各種的設定，其實它就是我們系統的環境變數，可以用 export 指令來看*
 
     挑幾個重點來講:
     LC_CTYPE 這會影響字元的分類和轉換，若要能輸入中文，就是設定這裡
@@ -2430,11 +2430,11 @@ Now we use the source block:
     LC_MESSAGES 這會影響系統訊息的顯示，若想要顯示中文，就是設定這裡
     LANG 這是預設，如果上面有沒設定的，就會用這裡的設定
     LC_ALL 這是強制全部使用這裡的設定，如果這裡設定了，那麼上面的都沒用，全部以這裡的為準
-    基本上我們會全部都用同一個國家語系，但不表示全部就要設相同的，你可以日期設成中國、度量設成台灣、貨幣設成美國都OK，隨你高興，只是…沒有人會這樣做吧= =”
+    基本上我們會全部都用同一個國家語系，但不表示全部就要設相同的，你可以日期設成中國、度量設成台灣、貨幣設成美國都 OK，隨你高興，只是…沒有人會這樣做吧= =”
 
 *** 產生語系檔案
 
-    要設定語系，必須先有語系檔案，我們可以用locale-gen這個指令來產生
+    要設定語系，必須先有語系檔案，我們可以用 locale-gen 這個指令來產生
     $ sudo locale-gen zh_TW zh_TW.UTF-8 zh_CN.UTF-8 en_US.UTF-8
     Generating locales...
     en_US.UTF-8... done
@@ -2442,7 +2442,7 @@ Now we use the source block:
     zh_TW.BIG5... done
     zh_TW.UTF-8... done
     Generation complete.
-    這樣就產生了4種語系檔案，由於Big5是zh_TW的預設編碼，所以下指令時不需要寫成zh_TW.Big5
+    這樣就產生了 4 種語系檔案，由於 Big5 是 zh_TW 的預設編碼，所以下指令時不需要寫成 zh_TW.Big5
     檔案就放在 /usr/lib/locale 目錄下，會產生與語系同名的目錄:
     $ ls -l /usr/lib/locale
     drwxr-xr-x 3 root root 4096 2011-10-15 17:27 en_US.utf8
@@ -2473,13 +2473,13 @@ Now we use the source block:
     然後設定，再看一下日期:
     $ export LC_TIME=zh_TW.UTF-8
     $ date
-    六 10月 15 17:50:58 CST 2011
+    六 10 月 15 17:50:58 CST 2011
     唷~ 變中文了耶，喔耶~~ 不過這種格式其實我不是很喜歡，所以下面我要把它改回英文…
-    若只要變更自己帳號登入的語系設定，那麼編輯家目錄下的.bashrc檔，在最後面加上，例如:
+    若只要變更自己帳號登入的語系設定，那麼編輯家目錄下的.bashrc 檔，在最後面加上，例如:
     *$ vim ~/.bashrc*
     ...(略)...
-    export LC_CTYPE=zh_TW.UTF-8 # 可以輸入UTF-8中文
-    export LC_MESSAGES=zh_TW.UTF-8 # 可以顯示UTF-8中文
+    export LC_CTYPE=zh_TW.UTF-8 # 可以輸入 UTF-8 中文
+    export LC_MESSAGES=zh_TW.UTF-8 # 可以顯示 UTF-8 中文
     export LC_TIME=en_US.UTF-8 # 日期格式還是用美式的
     然後重新登入，噹噹~~就生效了
     若要變更的是系統全域設定，那麼就把設定寫在 /etc/default/locale 這個檔案裡
@@ -2549,7 +2549,7 @@ Now we use the source block:
       - [X] 窗顶扣板不平，对缝不齐；
       - [X] 西墙砖勾缝不齐整；
    4) [X] 客厅：[1/1]
-      - [X] 客厅空调柜机插座现为10A插座，应改为16A大插座；
+      - [X] 客厅空调柜机插座现为 10A 插座，应改为 16A 大插座；
    5) [ ] 阳台：[0/4]
       - [ ] 空调外机位地漏堵塞严重，下水很慢；
       - [ ] 阳台水池边地漏堵塞，下水很慢；
@@ -2692,9 +2692,9 @@ Recognized properties are:
     |             | within the expression will be expanded prior to this.                                                    |         |             |                  |
     |             | The sexp must return a string.                                                                           |         |             |                  |
     | %<...>      | The result of format-time-string on the ... format specification.                                        |         |             |                  |
-    | %t          | Timestamp, date only.會在agenda中記錄出來                                                                |         |             |                  |
-    | %T          | Timestamp, with date and time.會在agenda中記錄出來                                                       |         |             |                  |
-    | %u, %U      | Like the above, but inactive timestamps.不會在agenda中記錄出來                                           |         |             |                  |
+    | %t          | Timestamp, date only.會在 agenda 中記錄出來                                                                |         |             |                  |
+    | %T          | Timestamp, with date and time.會在 agenda 中記錄出來                                                       |         |             |                  |
+    | %u, %U      | Like the above, but inactive timestamps.不會在 agenda 中記錄出來                                           |         |             |                  |
     | %i          | Initial content, the region when capture is called while the                                             |         |             |                  |
     |             | region is active.                                                                                        |         |             |                  |
     |             | The entire text will be indented like %i itself.                                                         |         |             |                  |
@@ -2712,14 +2712,14 @@ Recognized properties are:
     | %^g         | Prompt for tags, with completion on tags in target file.                                                 |         |             |                  |
     | %^G         | Prompt for tags, with completion all tags in all agenda files.                                           |         |             |                  |
     | %^t         | Like %t, but prompt for date.  Similarly %^T, %^u, %^U.                                                  |         |             |                  |
-    |             | You may define a prompt like *%^{Birthday}t*.會在agenda中記錄出來，而且帶提示符                          |         |             |                  |
+    |             | You may define a prompt like *%^{Birthday}t*.會在 agenda 中記錄出來，而且帶提示符                          |         |             |                  |
     | %^C         | Interactive selection of which kill or clip to use.                                                      |         |             |                  |
     | %^L         | Like %^C, but insert as link.                                                                            |         |             |                  |
     | %^{prop}p   | Prompt the user for a value for property prop.                                                           |         |             |                  |
     | %^{prompt}  | prompt the user for a string and replace this sequence with it.                                          |         |             |                  |
     |             | You may specify a default value and a completion table with                                              |         |             |                  |
     |             | %^{prompt                                                                                                | default | completion2 | completion3...}. |
-    |             | The arrow keys access a prompt-specific history. minibuffer中要求你輸入,輸入的內容會出現在這些符號的位置 |         |             |                  |
+    |             | The arrow keys access a prompt-specific history. minibuffer 中要求你輸入,輸入的內容會出現在這些符號的位置 |         |             |                  |
     | %\1 ... %\N | Insert the text entered at the Nth %^{prompt}, where N is                                                |         |             |                  |
     |             | a number, starting from 1.                                                                               |         |             |                  |
     | %?          | After completing the template, position cursor here.光標最後會回到的地方                                 |         |             |                  |
@@ -2751,7 +2751,7 @@ Recognized properties are:
    libxml2.so.2 (libc6) => /usr/lib/i386-linux-gnu/libxml2.so.2
    #+END_QUOTE
 
-** 大神改進elfeed的顏色顯示,並增加打分功能        :emacs:elfeed:hack:kitchin:
+** 大神改進 elfeed 的顏色顯示,並增加打分功能        :emacs:elfeed:hack:kitchin:
    Source: [2017-03-12 Sun], [[http://kitchingroup.cheme.cmu.edu/blog/category/emacs/][The Kitchin Research Group: emacs]]
 
    I get a lot of articles this way. The current size of the database is:
@@ -2889,7 +2889,7 @@ Recognized properties are:
    either the title or content, etc. I am going to try this for a few days and see
    if it is actually helpful first though.
 
-** stuck-project, 在做 project review時 快速找到卡住的project :emacs:org:func:
+** stuck-project, 在做 project review 時 快速找到卡住的 project :emacs:org:func:
    Source: [2017-03-13 Mon], [[http://orgmode.org/manual/Stuck-projects.html][Stuck projects - The Org Manual]]
 
 
@@ -2910,7 +2910,7 @@ Recognized properties are:
    TODO, NEXT, @SHOP, and IGNORE in the subtree to identify projects that are not
    stuck. The correct customization for this is
 
-   總之,這個函數就是用來判別那些project處在"非終結態".
+   總之,這個函數就是用來判別那些 project 處在"非終結態".
 
    (setq org-stuck-projects
    '("+PROJECT/-MAYBE-DONE" ("NEXT" "TODO") ("@SHOP")
@@ -3033,7 +3033,7 @@ Recognized properties are:
      results to come up. Then I scroll to the 18th result and press ~C-o~ to open up
      the hydra-based option panel.
 
-** MESSY 看別人使用yasnippet的思想和思路         :emacs:completion:yasnippet:
+** MESSY 看別人使用 yasnippet 的思想和思路         :emacs:completion:yasnippet:
    Source: [2017-03-14 Tue], [[http://sachachua.com/blog/2015/01/thinking-make-better-use-yasnippet-emacs-workflow/?shareadraft=baba27681_54adb5a67d3ed][Thinking about how to make better use of Yasnippet in my Emacs workflow –]]
 
 
@@ -3081,8 +3081,8 @@ Recognized properties are:
 
 * MESSY QuickNotes
 
-** spacemacs如何定義快捷鍵                                            :elisp:
-   我理解,應該是把某個按鍵掛在某個major-mode下,啓用方式爲:
+** spacemacs 如何定義快捷鍵                                            :elisp:
+   我理解,應該是把某個按鍵掛在某個 major-mode 下,啓用方式爲:
    =<major-mode-key> <你定義的按鍵>=
    eg. 這裏的, =, p=
    #+BEGIN_SRC emacs-lisp
@@ -3150,7 +3150,7 @@ Recognized properties are:
    many. One might, for instance, write links which search an entire code base for
    an expression.
 
-   *先運行下面的代碼，再點擊headling的鏈接*
+   *先運行下面的代碼，再點擊 headling 的鏈接*
    運行過上面的代碼之後，點擊下面的鏈接，會彈出所有被找到的文件列表，通過他們可以直接跳轉。
 *** refactor [[grep:.pdf][pdf file]] into another place
     CLOSED: [2017-03-13 Mon 08:33]
@@ -3213,7 +3213,7 @@ Recognized properties are:
    private.org -> plan-free.org -> review -> archives
    logbook     -> journal       -> review -> archives
 
-   作者在這裏，用了一個 plan-free.org 去記錄了每一天做的事情。用checkbox
+   作者在這裏，用了一個 plan-free.org 去記錄了每一天做的事情。用 checkbox
    #+BEGIN_SRC org
  * 2016
  ** 2016-01 January
@@ -3224,25 +3224,25 @@ Recognized properties are:
 
    #+END_SRC
 
-   最好對每一個org文件使用定制化的PROPERTY：#+,來根據自己的需要定制。
+   最好對每一個 org 文件使用定制化的 PROPERTY：#+,來根據自己的需要定制。
 
    About TAGS
-   比如 自己的知識收集，就要定制一些tags： #+TAGS: LEARN(l) QUESTION(q)
-   用ARCHIVE(a)標記可以存檔的知識
+   比如 自己的知識收集，就要定制一些 tags： #+TAGS: LEARN(l) QUESTION(q)
+   用 ARCHIVE(a)標記可以存檔的知識
 
    About ARCHIVE file
    定義 #+ARCHIVE： 指定存檔文件
    [2017-03-12 Sun 11:05]
 
-** 有兩種方法你可以對spacemacs內置layer的某個包進行定制化設定 :spacemacs:zilong:
-   方法1: [[file:~/.spacemacs.d/init.el::(elfeed%20:variables][configuration-layers中進行變量配置]]
-   方法2: [[file:~/.spacemacs.d/init.el::prodigy][在configuration-layers中僅生命layer名字]] , [[file:~/.spacemacs.d/layers/zilongshanren-misc/packages.el::prodigy][重新在自定義的layer的packages中聲明]] ,[[file:~/.spacemacs.d/layers/zilongshanren-misc/packages.el::(defun%20zilongshanren-misc/post-init-prodigy%20()][並且在這裏進行具體配置]]
+** 有兩種方法你可以對 spacemacs 內置 layer 的某個包進行定制化設定 :spacemacs:zilong:
+   方法 1: [[file:~/.spacemacs.d/init.el::(elfeed%20:variables][configuration-layers 中進行變量配置]]
+   方法 2: [[file:~/.spacemacs.d/init.el::prodigy][在 configuration-layers 中僅生命 layer 名字]] , [[file:~/.spacemacs.d/layers/zilongshanren-misc/packages.el::prodigy][重新在自定義的 layer 的 packages 中聲明]] ,[[file:~/.spacemacs.d/layers/zilongshanren-misc/packages.el::(defun%20zilongshanren-misc/post-init-prodigy%20()][並且在這裏進行具體配置]]
    [2017-03-12 Sun 15:25]
 
 ** 學習了 prodigy 是個什麼東西,以及最基本的配置       :emacs:package:prodigy:
-   簡單說,prodigy就是 一個從emacs來開啓外部機器service的東西.
+   簡單說,prodigy 就是 一個從 emacs 來開啓外部機器 service 的東西.
    作者是每天都要 mannually 開啓十幾個服務,所以寫了這麼個東西,
-   記錄的原因是,希望以後可以參考其源代碼,做一些自己的<依靠emacs控制linux>的想法
+   記錄的原因是,希望以後可以參考其源代碼,做一些自己的<依靠 emacs 控制 linux>的想法
 *** 基本用法
     在 [[file:~/.spacemacs.d/layers/zilongshanren-misc/packages.el::;;%20yiddi:add%20to%20test%20how%20prodigy%20works-----][zilongshanren misc]] 配置
     #+BEGIN_SRC emacs-lisp
@@ -3277,25 +3277,25 @@ Recognized properties are:
 
 * MESSY Footnotes
 
-[fn:1] 從這裏可以看出,作者也是通過讀git來獲取最進本的函數信息.之前迷惑,他怎麼知道用哪些函數呢? 如何可查?
+[fn:1] 從這裏可以看出,作者也是通過讀 git 來獲取最進本的函數信息.之前迷惑,他怎麼知道用哪些函數呢? 如何可查?
 * 2017
 ** 2017-03 March
 *** 2017-03-14 Tuesday
 
 
-**** MESSY org-capture.el 閱讀筆記 (學習如何把對應的代碼類型都放在一個node下)
-     0. 首先org-capture 維護着一個 capture properties 的列表,包括
+**** MESSY org-capture.el 閱讀筆記 (學習如何把對應的代碼類型都放在一個 node 下)
+     0. 首先 org-capture 維護着一個 capture properties 的列表,包括
         :exact-position
         :initial-target-region
         :initial-target-position
         他們都可以通過 (org-capture-put :exact-position <value>) 來設置
-        or通過 (org-capture-get :exact-position) 來獲取
+        or 通過 (org-capture-get :exact-position) 來獲取
 
-     1. 所有的從 capture-template 獲得的 target(存儲筆記位置) 一開始都是一個list:'target' (eg. 'file+headline' "~/documents/org-notes/journal.org" "ChromeInbox")
+     1. 所有的從 capture-template 獲得的 target(存儲筆記位置) 一開始都是一個 list:'target' (eg. 'file+headline' "~/documents/org-notes/journal.org" "ChromeInbox")
      2. (car target) 就是前面的聲明: 'file+headline' or 'file+datetree' 用來表明類型,也表明了後面元素的處理方式(值得學習)
      3. (nth 1 target) 就是存儲的目的文件全路徑
-     4. (nth 2 target) 就是文件某個headline的名稱
-     5. 下面的代碼是處理 headline 名字匹配的: 找到則goto-char point-at-bol,否則到最後新建
+     4. (nth 2 target) 就是文件某個 headline 的名稱
+     5. 下面的代碼是處理 headline 名字匹配的: 找到則 goto-char point-at-bol,否則到最後新建
      #+BEGIN_SRC emacs-lisp
 	(let ((hd (nth 2 target)))
 	  (goto-char (point-min))
@@ -3324,12 +3324,12 @@ Recognized properties are:
 
      [2017-03-14 Tue 13:00]
 
-**** MESSY 找到存出buffer的 property 了
+**** MESSY 找到存出 buffer 的 property 了
 
      org-capture 首先填充一些列的 property.
-     然後才會去根據property的內容,做一些處理工作,比如找目標文件和插入位置(point).
+     然後才會去根據 property 的內容,做一些處理工作,比如找目標文件和插入位置(point).
      我的想法是先了解這麼多 property 中是否有一些存儲了 插入的內容.
-     而後我從插入內容中匹配一個 language: xxx 內容,獲取 xxx, 如果存在這個node,就填到其下.
+     而後我從插入內容中匹配一個 language: xxx 內容,獲取 xxx, 如果存在這個 node,就填到其下.
      如果不存在則新建之.
 
      一開始我以爲應該是這個 template, 但似乎錯了
@@ -3341,7 +3341,7 @@ Recognized properties are:
      (pop-to-buffer-same-window <內容>)來插入具體內容了: (org-capture-get :buffer) 終於找到
      [2017-03-14 Tue 14:11]
 
-**** MESSY 這些是org-capture在finalize之前會填好的 PROPERTIES
+**** MESSY 這些是 org-capture 在 finalize 之前會填好的 PROPERTIES
      org-capture-plist is a variable defined in ‘org-capture.el’.
      Its value is
      (
@@ -3378,12 +3378,12 @@ Recognized properties are:
 
      [2017-03-14 Tue 14:23]
 
-**** MESSY 簡單記錄hack orgcapture 的過程
-     1. 我需要一個能把我輸入的某種語言的代碼放置到對應headline位置的 capture-tempalte
-     2. 通過閱讀 org doc 發現有一個 file+function 的template可用
-     3. 但具體function返回什麼東西?我不知道
+**** MESSY 簡單記錄 hack orgcapture 的過程
+     1. 我需要一個能把我輸入的某種語言的代碼放置到對應 headline 位置的 capture-tempalte
+     2. 通過閱讀 org doc 發現有一個 file+function 的 template 可用
+     3. 但具體 function 返回什麼東西?我不知道
      4. 於是我通過 spc h R 找到遠嗎位置, spc s p 搜索 orgcapture tempalte 等關鍵字, 找到了源代碼函數位置
-     5. 然後變閱讀,邊通過 shift-k 搜索函數或變量的doc.找出內部通信原理和執行順序.
+     5. 然後變閱讀,邊通過 shift-k 搜索函數或變量的 doc.找出內部通信原理和執行順序.
      6. 最後找到自己的方法.
 
         [2017-03-14 Tue 14:32]
@@ -3393,8 +3393,8 @@ Recognized properties are:
 
      [2017-03-14 Tue 14:52]
 
-**** MESSY 這個函數很重要,對於執行capture
-     當我們在capture buffer中按下 c-c c-c 時:
+**** MESSY 這個函數很重要,對於執行 capture
+     當我們在 capture buffer 中按下 c-c c-c 時:
      1. 調用 這個函數(org-capture-finalize)
      2. 這函數 執行
         1) prepare finalize hook
@@ -3408,21 +3408,21 @@ Recognized properties are:
      Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(defun%20org-capture-finalize%20(&optional%20stay-with-capture)]]
      File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
 
-**** MESSY 這裏就是爲什麼可以在capture buffer中獲得base buffer鏈接的原因
-     就像這個capture 所展示的這樣
+**** MESSY 這裏就是爲什麼可以在 capture buffer 中獲得 base buffer 鏈接的原因
+     就像這個 capture 所展示的這樣
      (defun org-capture-finalize (&optional stay-with-capture)
 
      Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(org-capture-store-last-position)%0A]]
      File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
 
 **** MESSY  這裏是進入 before finalize 之後
-     要明白 這幾個buffer 分別是什麼?
+     要明白 這幾個 buffer 分別是什麼?
 
-     1. base-buffer 就是 我在誰那 調用的capture.
-     2. indrect-buffer 就是 除了base-buffer 之外的buffer.
-     3. capture-buffer 就是選擇了模板(template)之後,新建的一個將要寫點什麼的buffer.
+     1. base-buffer 就是 我在誰那 調用的 capture.
+     2. indrect-buffer 就是 除了 base-buffer 之外的 buffer.
+     3. capture-buffer 就是選擇了模板(template)之後,新建的一個將要寫點什麼的 buffer.
 
-     org capture 的表現就是:畫面上 indirect-buffer 會暫時消失,呈現在眼前的是 base-buffer和光標所在的capture-buffer
+     org capture 的表現就是:畫面上 indirect-buffer 會暫時消失,呈現在眼前的是 base-buffer 和光標所在的 capture-buffer
 
      ;; Kill the indirect buffer
      (save-buffer)
@@ -3436,7 +3436,7 @@ Recognized properties are:
 
 **** MESSY [好像是的]這裏可以看出 target-buffer 在選擇模板之後就已經確定了
 
-     這裏的注釋沒看懂, 是把目標文件重新narrow回去?
+     這裏的注釋沒看懂, 是把目標文件重新 narrow 回去?
      ;; Narrow back the target buffer to its previous state
      (with-current-buffer (org-capture-get :buffer)
      (let ((reg (org-capture-get :initial-target-region))
@@ -3449,7 +3449,7 @@ Recognized properties are:
      Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(widen)]]
      File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
 *** 2017-03-15 Wednesday
-**** MESSY 設置"某些capture模板只在特定major-mode下可見"
+**** MESSY 設置"某些 capture 模板只在特定 major-mode 下可見"
      9.1.3.3 Templates in contexts
      .............................
 
@@ -3473,28 +3473,28 @@ Recognized properties are:
      Link:  [[info:org#Templates%20in%20contexts][info:org#Templates in contexts]]
      File:
 
-**** MESSY 兩個屬性列表 PROPERTY LIST,一個全局的一個local的.
-     在這裏注明,就說名是從local取屬性值.
-     這是爲了同時打開多個capture時使用,每一個capture維護自己的屬性列表
+**** MESSY 兩個屬性列表 PROPERTY LIST,一個全局的一個 local 的.
+     在這裏注明,就說名是從 local 取屬性值.
+     這是爲了同時打開多個 capture 時使用,每一個 capture 維護自己的屬性列表
      (or (org-capture-get :empty-lines-after 'local)
      (org-capture-get :empty-lines 'local) 0))))
 
      Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(org-capture-get%20:empty-lines%20'local)%200))))]]
      File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
 
-**** MESSY 這句是 spc f s 就是保存當前buffer的內容
+**** MESSY 這句是 spc f s 就是保存當前 buffer 的內容
      (save-buffer)
 
      Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(save-buffer)]]
      File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
 
-**** MESSY 似乎之前對三個buffer的理解有問題
-     下面的a代碼截取自 org-capture-finalize 意思就是按下 c-c c-c 時候調用的.
-     按下的那一刻,就執行了這麼多步驟, 包括三個hook: prepare,before,after.
-     這個 indirect-buffer 好像應該是 capture-buffer.就是我們在理面做筆記的,按下cccc就消失的那個buffer
+**** MESSY 似乎之前對三個 buffer 的理解有問題
+     下面的 a 代碼截取自 org-capture-finalize 意思就是按下 c-c c-c 時候調用的.
+     按下的那一刻,就執行了這麼多步驟, 包括三個 hook: prepare,before,after.
+     這個 indirect-buffer 好像應該是 capture-buffer.就是我們在理面做筆記的,按下 cccc 就消失的那個 buffer
 
      ;; Kill the indirect buffer
-     (save-buffer) ; 很明顯在這裏, 殺掉這個buffer之前是先保存了這個buffer
+     (save-buffer) ; 很明顯在這裏, 殺掉這個 buffer 之前是先保存了這個 buffer
      (let ((return-wconf (org-capture-get :return-to-wconf 'local))
 	 (new-buffer (org-capture-get :new-buffer 'local))
 	 (kill-buffer (org-capture-get :kill-buffer 'local))
@@ -3548,7 +3548,7 @@ Recognized properties are:
 
      File:
 
-**** MESSY orgcapture中經常出現的plist ,看來是 emacs中一種常用的數據結構
+**** MESSY orgcapture 中經常出現的 plist ,看來是 emacs 中一種常用的數據結構
 
      plist-get is a built-in function in *‘C source code’*.
 
@@ -3558,7 +3558,7 @@ Recognized properties are:
      PLIST is a property list, which is a list of the form
      (PROP1 VALUE1 PROP2 VALUE2...).
 
-     而且emacs似乎存了很多個 plist 分別有不同用途
+     而且 emacs 似乎存了很多個 plist 分別有不同用途
 
      This function returns the value
      corresponding to the given PROP, or nil if PROP is not one of the
@@ -3580,22 +3580,22 @@ Recognized properties are:
 
 **** MESSY 解析 org-capture 函數源代碼
      #+BEGIN_SRC emacs-lisp
-   (defun org-capture (&optional goto keys) ;; goto 就是通過c-u傳遞的屬性,表示是否不capture任何東西,直接定位到目的地
-                                            ;; keys 就是按下f9之後看到的各種不同template的字母
+   (defun org-capture (&optional goto keys) ;; goto 就是通過 c-u 傳遞的屬性,表示是否不 capture 任何東西,直接定位到目的地
+                                            ;; keys 就是按下 f9 之後看到的各種不同 template 的字母
      (interactive "P")
      (when (and org-capture-use-agenda-date
             (eq major-mode 'org-agenda-mode))
        (setq org-overriding-default-time
          (org-get-cursor-date (equal goto 1))))
      (cond
-      ((equal goto '(4)) (org-capture-goto-target))   ; 前綴 C-u默認就是 4; 這裏equal的用法很好, 比較是否兩者具有相似的數據結構
-      ((equal goto '(16)) (org-capture-goto-last-stored)) ; 前綴 C-u C-u 默認就是16
+      ((equal goto '(4)) (org-capture-goto-target))   ; 前綴 C-u 默認就是 4; 這裏 equal 的用法很好, 比較是否兩者具有相似的數據結構
+      ((equal goto '(16)) (org-capture-goto-last-stored)) ; 前綴 C-u C-u 默認就是 16
       (t
        ;; FIXME: Are these needed?
        (let* ((orig-buf (current-buffer))   ; 按下 f9 的瞬間就執行這整個函數,執行到這裏時還沒有新建那個選擇模板窗口
                                             ; 換言之,還在你按 f9 時的那個窗口裏.
-                                            ; 這裏緩存了當前的buffer的名字
-                                            ; DONE current-buffer = 按f9之前的狀態
+                                            ; 這裏緩存了當前的 buffer 的名字
+                                            ; DONE current-buffer = 按 f9 之前的狀態
           (annotation (if (and (boundp 'org-capture-link-is-already-stored)
                    org-capture-link-is-already-stored)
                   (plist-get org-store-link-plist :annotation)
@@ -3618,11 +3618,11 @@ Recognized properties are:
                                                                     |           "Template key: "
                                                                     |           '(("C" "Customize org-capture-templates")
                                                                     |    	 ("q" "Abort"))))))
-                                                                    |到這一步新的buffer出現,你按下一個template的hotkey.就把tempalte的具體
-                                                                    |內容存儲到了entry裏面.不按,就一直這麼放着,要麼quit.
-                                                                    |;DONE current-buffer = 按f9彈出的選擇框buffer
+                                                                    |到這一步新的 buffer 出現,你按下一個 template 的 hotkey.就把 tempalte 的具體
+                                                                    |內容存儲到了 entry 裏面.不按,就一直這麼放着,要麼 quit.
+                                                                    |;DONE current-buffer = 按 f9 彈出的選擇框 buffer
           initial)
-         (setq initial (or org-capture-initial                      ; 在這個新的buffer裏,你按下某個按鍵之後,不會立即關掉buffer,而是
+         (setq initial (or org-capture-initial                      ; 在這個新的 buffer 裏,你按下某個按鍵之後,不會立即關掉 buffer,而是
                (and (org-region-active-p)                           ; 先把這個按鍵字母後面的對應內容截取到 initial 變量中,用來做進一步匹配
                     (buffer-substring (point) (mark)))))
          (when (stringp initial)
@@ -3637,7 +3637,7 @@ Recognized properties are:
        (user-error "Abort"))
           (t
        (org-capture-set-plist entry)                                ; 下面的步驟都是按順序填表,從上面暫存的變量中獲得
-                                                                    ; 主要是存儲和更改一些property-list,爲下一步做準備工作
+                                                                    ; 主要是存儲和更改一些 property-list,爲下一步做準備工作
        (org-capture-get-template)
        (org-capture-put :original-buffer orig-buf
                 :original-file (or (buffer-file-name orig-buf)
@@ -3654,27 +3654,27 @@ Recognized properties are:
                 :default-time
                 (or org-overriding-default-time
                     (org-current-time)))
-       (org-capture-set-target-location)                           ; *[標記位置]對於有些變量需要做進一步處理的,比如這裏要找到目的地和目的headline
-                                                                   ; 找到或者利用函數的side-effection去新建headline
-                                                                   ; *[重要]這個函數最大的作用就是打開目的地buffer,並且將其point值指定好了,就等編輯了*
-                                                                   ; *[重要]這個函數通過save-excursion和set-buffer 切進了目的地buffer,然後又切回來了
+       (org-capture-set-target-location)                           ; *[標記位置]對於有些變量需要做進一步處理的,比如這裏要找到目的地和目的 headline
+                                                                   ; 找到或者利用函數的 side-effection 去新建 headline
+                                                                   ; *[重要]這個函數最大的作用就是打開目的地 buffer,並且將其 point 值指定好了,就等編輯了*
+                                                                   ; *[重要]這個函數通過 save-excursion 和 set-buffer 切進了目的地 buffer,然後又切回來了
        (condition-case error
            (org-capture-put :template (org-capture-fill-template))
          ((error quit)
-          (if (get-buffer "*Capture*") (kill-buffer "*Capture*"))  ; 如果當前能找到這個buffer:*Capture*,就把他關掉
+          (if (get-buffer "*Capture*") (kill-buffer "*Capture*"))  ; 如果當前能找到這個 buffer:*Capture*,就把他關掉
           (error "Capture abort: %s" error)))
 
-       (setq org-capture-clock-keep (org-capture-get :clock-keep)) ; 從這裏開始是對一些tempalte中用戶指定的值進行存取和必要的操作
+       (setq org-capture-clock-keep (org-capture-get :clock-keep)) ; 從這裏開始是對一些 tempalte 中用戶指定的值進行存取和必要的操作
        (if (equal goto 0)
            ;;insert at point
-           (org-capture-insert-template-here)                      ; 這裏已經預先開始編輯目的文件和目的headline,並且把template寫入了
+           (org-capture-insert-template-here)                      ; 這裏已經預先開始編輯目的文件和目的 headline,並且把 template 寫入了
          (condition-case error
-             (org-capture-place-template                           ; *[放置模板]這個函數從target屬性中獲取了目的地buffer的名字,並且新建了其對應的indirect-buffer
+             (org-capture-place-template                           ; *[放置模板]這個函數從 target 屬性中獲取了目的地 buffer 的名字,並且新建了其對應的 indirect-buffer
                                                                    ; 在 indirect-buffer 中指定位置拷貝進模板
-                                                                   ; DONE current-buffer = 目的地buffer的indirect-buffer
+                                                                   ; DONE current-buffer = 目的地 buffer 的 indirect-buffer
               (eq (car (org-capture-get :target)) 'function))
            ((error quit)
-            (if (and (buffer-base-buffer (current-buffer))         ; 這裏爲 finalize 做進一步準備,利用 indirect-buffer和base-buffer
+            (if (and (buffer-base-buffer (current-buffer))         ; 這裏爲 finalize 做進一步準備,利用 indirect-buffer 和 base-buffer
                  (string-prefix-p "CAPTURE-" (buffer-name)))
             (kill-buffer (current-buffer)))                        ; 到這裏爲止
             (set-window-configuration (org-capture-get :return-to-wconf))
@@ -3693,7 +3693,7 @@ Recognized properties are:
            (error
             "Could not start the clock in this capture buffer")))
          (if (org-capture-get :immediate-finish)
-             (org-capture-finalize)))))))))                         ;org-capture執行完畢,他主要是新建了一個indirect-buffer,並且把模板插入其中了.
+             (org-capture-finalize)))))))))                         ;org-capture 執行完畢,他主要是新建了一個 indirect-buffer,並且把模板插入其中了.
      #+END_SRC
 
      Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(defun%20org-capture%20(&optional%20goto%20keys)]]
@@ -3712,7 +3712,7 @@ Recognized properties are:
      ---->      --->
 
 
-**** MESSY 這個 ork-mks 經常搭配 assoc 使用,用來從這個table數據結構中做選則
+**** MESSY 這個 ork-mks 經常搭配 assoc 使用,用來從這個 table 數據結構中做選則
 
      ---assoc-------------------
      assoc is a built-in function in ‘src/fns.c’.
@@ -3755,11 +3755,11 @@ Recognized properties are:
      Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(org-mks%20org-capture-templates]]
      File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
 
-**** MESSY 一般的elisp形式
+**** MESSY 一般的 elisp 形式
      ---------------------------------------------------------------
      變量名賦值:
-     (let ((變量1  (expre1)))
-     這個expre甚至可以是if語句,或者另一個函數
+     (let ((變量 1  (expre1)))
+     這個 expre 甚至可以是 if 語句,或者另一個函數
      #+BEGIN_SRC emacs-lisp
 
     (let* ((orig-buf (current-buffer))
@@ -3772,7 +3772,7 @@ Recognized properties are:
      ---------------------------------------------------------------
      函數調用:
      (函數名 (expre1))
-     這個expre1甚至可以是另一個函數調用
+     這個 expre1 甚至可以是另一個函數調用
      #+BEGIN_SRC emacs-lisp
 	      (org-capture-place-template
 	       (eq (car (org-capture-get :target)) 'function))
@@ -3785,7 +3785,7 @@ Recognized properties are:
 
      *這麼像就對了,所有可以用變量的地方也都可以用任何一個表達式.*
 
-     得益於, elisp表達式返回nil和其他值,而nil爲空,其他值一律被認爲真.
+     得益於, elisp 表達式返回 nil 和其他值,而 nil 爲空,其他值一律被認爲真.
      所以 if 更靈活:
      ---------------------------------------------
      如果有兩個函數,在他們都成功時,才執行另一個表達式:
@@ -3814,12 +3814,12 @@ Recognized properties are:
      Link:  [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el::(setq%20buffer%20(or%20buffer%20(current-buffer)))]]
      File:   /home/yiddi/.emacs.d/elpa/org-plus-contrib-20170210/org-capture.el
 
-**** MESSY hotkey: 如何尋找emacs lib 源代碼
+**** MESSY hotkey: 如何尋找 emacs lib 源代碼
      | spc o h | hydr-apropos/body |
      在裏面可以找到各種你想要的文檔和東西,都分好類的
 *** 2017-03-16 Thursday
 
-**** MESSY  elisp中的名字 空間: define-namespace
+**** MESSY  elisp 中的名字 空間: define-namespace
      define-namespace is an autoloaded Lisp macro in ‘names.el’.
 
      (define-namespace NAME [KEYWORD ...] BODY)
@@ -3887,7 +3887,7 @@ Recognized properties are:
 
 **** MESSY 如何設置一個常量
      #+BEGIN_SRC emacs-lisp
-     ;;注意這裏最後帶有一個 %s 佔位符,是方便之後嵌入query-word的
+     ;;注意這裏最後帶有一個 %s 佔位符,是方便之後嵌入 query-word 的
      (defconst api-url
         "http://fanyi.youdao.com/openapi.do?keyfrom=YouDaoCV&key=659600698&type=data&doctype=json&version=1.1&q=%s"
         "Youdao dictionary API template, URL `http://dict.youdao.com/'.")
@@ -3919,7 +3919,7 @@ Recognized properties are:
      Link:   [[file:/usr/local/share/emacs/25.1/lisp/thingatpt.el.gz::(defun%20thing-at-point%20(thing%20&optional%20no-properties)]]
      File:   /usr/local/share/emacs/25.1/lisp/thingatpt.el.gz
 
-**** MESSY , 開頭的大部分和elisp編譯代碼有關
+**** MESSY , 開頭的大部分和 elisp 編譯代碼有關
      '
      Link:   [[file:~/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el::(thing-at-point%20(if%20use-chinese-word-segmentation]]
      File:   /home/yiddi/.emacs.d/elpa/youdao-dictionary-20170226.49/youdao-dictionary.el
@@ -3955,7 +3955,7 @@ Recognized properties are:
      | 窗簾        | 2889 |      |
      ---------------------------------------
      Total: 16119 rmb
-**** MESSY 高清 footnote 的definition 和 reference.
+**** MESSY 高清 footnote 的 definition 和 reference.
      你在文檔裏嵌入的叫做  reference
      在你腳注裏注明的叫做  definition
      A footnote is started by a footnote marker in square brackets in
@@ -3971,7 +3971,7 @@ Recognized properties are:
      Link:   [[info:org#Footnotes][info:org#Footnotes]]
      File:
 
-**** MESSY 這個函數相當好用,thing-at-point, 能很好的識別當前光標所在位置是個什麼d東西
+**** MESSY 這個函數相當好用,thing-at-point, 能很好的識別當前光標所在位置是個什麼 d 東西
 
      ;;;###autoload
      (defun forward-thing (thing &optional n)
@@ -3990,14 +3990,14 @@ Recognized properties are:
      File:   /usr/local/share/emacs/25.1/lisp/thingatpt.el.gz
 *** 2017-03-17 Friday
 
-**** MESSY 如何給spacemacs添加額外的包
+**** MESSY 如何給 spacemacs 添加額外的包
      Source: [2017-03-17 Fri], [[http://emacs.stackexchange.com/questions/20453/how-to-use-a-local-version-of-a-package-in-spacemacs][How to use a local version of a package in spacemacs? - Emacs Stack Exchange]]
 
 
      dotspacemacs-additional-packages
      '((helm-spotify :location (recipe :fetcher github :repo "syl20bnr/helm-spotify")))
 
-**** MESSY 如何讓spacemacs使用emacs 內建的 org版本
+**** MESSY 如何讓 spacemacs 使用 emacs 內建的 org 版本
      Source: [2017-03-17 Fri], [[https://github.com/syl20bnr/spacemacs/issues/7994][How do I make spacemacs use the emacs built-in version of org? · Issue #7994 · syl20bnr/spacemacs]]
 
      參考鏈接:[[file:~/.spacemacs.d/layers/zilongshanren-org/packages.el::)]]
@@ -4037,7 +4037,7 @@ Recognized properties are:
      (just don't forget to add real path to org-mode).
      Reload.
 
-**** MESSY 如何讓某個mode利用hydra選擇框架
+**** MESSY 如何讓某個 mode 利用 hydra 選擇框架
 
      (defun spacemacs/run-pandoc ()
      "Start pandoc for the buffer and open the menu"
@@ -4048,7 +4048,7 @@ Recognized properties are:
      Link:  [[file:~/.emacs.d/layers/+tools/pandoc/funcs.el::(pandoc-main-hydra/body))]]
      File:   /home/yiddi/.emacs.d/layers/+tools/pandoc/funcs.el
 
-**** MESSY 如何定義 org file 中block的具體顏色,讓他們更明顯一些
+**** MESSY 如何定義 org file 中 block 的具體顏色,讓他們更明顯一些
      Source: [2017-03-17 Fri], [[http://orgmode.org/worg/org-contrib/babel/examples/fontify-src-code-blocks.html][Pretty fontification of source code blocks]]
 
 
@@ -4096,8 +4096,8 @@ Recognized properties are:
      \fracsdfsdfsdf{${1:numerator}}{${2:denominator}}$0
      #+END_SRC
 
-     比如這裏的一個snippet:
-     1. 第一行, 表明會在哪些major-mode啓用
+     比如這裏的一個 snippet:
+     1. 第一行, 表明會在哪些 major-mode 啓用
      2. 第二行, 表明補全提示符 yid -> yiddi 箭頭後的字符串
      3. 第三行, 輸入的什麼字符 按<tab>才會補全
      4. 這個文件的名字必須與 key 一致,沒有後綴.
@@ -4139,7 +4139,7 @@ $0
       Link:   [[file:~/.spacemacs.d/plantuml.jar][file:~/.spacemacs.d/plantuml.jar]]
       File:   /home/yiddi/.spacemacs.d/
 
-**** MESSY 如何配置mu4e 的 maildir
+**** MESSY 如何配置 mu4e 的 maildir
      Source: [2017-03-17 Fri], [[http://www.djcbsoftware.nl/code/mu/mu4e/Folders.html#Folders][Mu4e 0.9.18 user manual: Folders]]
 
 
@@ -4180,20 +4180,20 @@ $0
      Link:  [[file:~/.spacemacs.d/init.el::(mu4e-sent-folder%20"/gmail/sent")]]
      File:   /home/yiddi/.spacemacs.d/init.el
 
-**** MESSY  [[http://blog.csdn.net/xingzouagain/article/details/52511129][GnuPG使用介绍 - xingzouagain的博客 - 博客频道 - CSDN.NET]]
+**** MESSY  [[http://blog.csdn.net/xingzouagain/article/details/52511129][GnuPG 使用介绍 - xingzouagain 的博客 - 博客频道 - CSDN.NET]]
      Captured On: [2017-03-18 Sat 15:14]
 
 **** MESSY  [[https://www.apache.org/dev/openpgp.html][How To OpenPGP]]
      Captured On: [2017-03-18 Sat 15:28]
 
 **** MESSY 2-step 登錄方式
-     1. 生成16位密碼
-     2. 在任意你希望以此16位密碼代替原密碼的app(eg:gmail)中設置他
+     1. 生成 16 位密碼
+     2. 在任意你希望以此 16 位密碼代替原密碼的 app(eg:gmail)中設置他
      Source: [2017-03-18 Sat], [[https://myaccount.google.com/apppasswords?rapt=AEjHL4OXBuBVmTbPt5qcthqOC0Q4QIcavOeYt899uZ_HCaAj8D5kcuhdRFswUlcYM_YlkxI8Bn6Iv-DqqQ1m59K0K6TPxX2yug][应用专用密码]]
 
 
-     在您要设置的应用或设备中，前往您的Google帐号的设置部分。将您的密码更换成由16个字符组成的密码（如上所示）。
-     该应用专用密码的效用跟普通密码一样。有了它，就可以获得您Google帐号的完全访问权限。您无需记住该密码，所以请勿将它写下来或告诉他人。
+     在您要设置的应用或设备中，前往您的 Google 帐号的设置部分。将您的密码更换成由 16 个字符组成的密码（如上所示）。
+     该应用专用密码的效用跟普通密码一样。有了它，就可以获得您 Google 帐号的完全访问权限。您无需记住该密码，所以请勿将它写下来或告诉他人。
      完成
 
 **** MESSY  [[http://orgmode.org/worg/org-tutorials/encrypting-files.html][Encrypting org Files.]]                                       :gpg:
@@ -4202,7 +4202,7 @@ $0
 **** MESSY  [[https://www.gnu.org/software/emacs/manual/html_node/epa/index.html#Top][EasyPG Assistant User’s Manual: Top]]                        :gpg:
      Captured On: [2017-03-18 Sat 20:41]
 
-**** MESSY  [[http://blog.csdn.net/xingzouagain/article/details/52511129][GnuPG使用介绍 - xingzouagain的博客 - 博客频道 - CSDN.NET]]    :gpg:
+**** MESSY  [[http://blog.csdn.net/xingzouagain/article/details/52511129][GnuPG 使用介绍 - xingzouagain 的博客 - 博客频道 - CSDN.NET]]    :gpg:
      Captured On: [2017-03-18 Sat 20:41]
 
 **** MESSY  [[http://coldnew.github.io/blog/2016/01-02_mu4e/][在 emacs 下使用 mu4e 收發郵件 | coldnew's blog]]             :mu4e:
@@ -4278,48 +4278,48 @@ $0
      Link:  [[file:~/.spacemacs.d/init.el::(setq%20tramp-mode%20nil)]]
      File:   /home/yiddi/.spacemacs.d/init.el
 
-**** MESSY 關於 company-mode 的emacs 版配置(與 spacemacs 不同)
-     Source: [2017-03-19 Sun], [[http://dockone.io/article/709][阅读Docker源代码的神兵利器 - DockOne.io]]
+**** MESSY 關於 company-mode 的 emacs 版配置(與 spacemacs 不同)
+     Source: [2017-03-19 Sun], [[http://dockone.io/article/709][阅读 Docker 源代码的神兵利器 - DockOne.io]]
 
 
      4. Emacs
 
-     Emacs作为与Vim齐名的文本编辑器，号称“神之编辑器”，用来浏览和编写Go代码也是非常方便的。本节也只作为Emacs老用户的抛砖引玉，在此之前，用户需要做好适合自己的配置。下面我们就以Emacs24为例，简单介绍几个实用的插件，用户需要先使用go get命令安装好gofmt、godef、godoc、gocode等工具。
+     Emacs 作为与 Vim 齐名的文本编辑器，号称“神之编辑器”，用来浏览和编写 Go 代码也是非常方便的。本节也只作为 Emacs 老用户的抛砖引玉，在此之前，用户需要做好适合自己的配置。下面我们就以 Emacs24 为例，简单介绍几个实用的插件，用户需要先使用 go get 命令安装好 gofmt、godef、godoc、gocode 等工具。
      go-mode
 
-     go-mode在提供了自动缩进和语法高亮功能的基础上，还整合了Go语言自带的工具，如gofmt、godoc、godef等。在Emacs24以后的版本中，可以使用自带的Package工具进行安装，命令如下：M-x package-install go-mode下面我们主要介绍格式整理以及定义跳转两项功能的配置。
+     go-mode 在提供了自动缩进和语法高亮功能的基础上，还整合了 Go 语言自带的工具，如 gofmt、godoc、godef 等。在 Emacs24 以后的版本中，可以使用自带的 Package 工具进行安装，命令如下：M-x package-install go-mode 下面我们主要介绍格式整理以及定义跳转两项功能的配置。
      格式整理
 
-     格式整理功能直接调用了gofmt工具，该工具能使用户的代码风格与其他开发人员保持一致。在Emacs中，用户可以直接调用gofmt命令，对当前窗口的代码进行格式整理。另一种方式是为before-save-hook添加函数，示例如下：
+     格式整理功能直接调用了 gofmt 工具，该工具能使用户的代码风格与其他开发人员保持一致。在 Emacs 中，用户可以直接调用 gofmt 命令，对当前窗口的代码进行格式整理。另一种方式是为 before-save-hook 添加函数，示例如下：
      (add-hook 'before-save-hook 'gofmt-before-save)
 
      这样在用户每次存档时就会自动进行格式整理。
      定义跳转
 
-     定义跳转使用了godef工具，该工具能分析用户的代码、其他包内的代码以及Go标准库，实现在这三者间的定义跳转。Emacs提供了godef-jump命令实现跳转，默认绑定键为C-c C-j，用户也可以自己定义按键绑定，如绑定到F3键：
+     定义跳转使用了 godef 工具，该工具能分析用户的代码、其他包内的代码以及 Go 标准库，实现在这三者间的定义跳转。Emacs 提供了 godef-jump 命令实现跳转，默认绑定键为 C-c C-j，用户也可以自己定义按键绑定，如绑定到 F3 键：
      (add-hook 'go-mode-hook
      '(lambda () (local-set-key (kbd "<f3>") 'godef-jump)))
 
-     为了在跳转之后能跳转回来，用户可以添加如下配置，这样可以使用F2键回到原先的位置。
+     为了在跳转之后能跳转回来，用户可以添加如下配置，这样可以使用 F2 键回到原先的位置。
      (add-hook 'go-mode-hook
      '(lambda () (local-set-key (kbd "<f2>") 'pop-tag-mark)))
 
-     此外，go-mode还提供了管理imports、使用godoc等工具，这里不再一一赘述。
+     此外，go-mode 还提供了管理 imports、使用 godoc 等工具，这里不再一一赘述。
      company-go
 
-     company-go调用gocode工具提供自动完成功能，用户可以直接使用Package工具安装company-mode和company-go，并进行如下配置：
+     company-go 调用 gocode 工具提供自动完成功能，用户可以直接使用 Package 工具安装 company-mode 和 company-go，并进行如下配置：
      (add-hook 'go-mode-hook 'company-mode)
      (add-hook 'go-mode-hook
      (lambda ()
      (set (make-local-variable 'company-backends) '(company-go))
      (company-mode)))
 
-     Emacs还为用户提供了极大的自由度，建议用户使用最新版本的Emacs和插件，善用Package功能和网上贡献的工具，这样能获得最新的功能和更好的体验。
+     Emacs 还为用户提供了极大的自由度，建议用户使用最新版本的 Emacs 和插件，善用 Package 功能和网上贡献的工具，这样能获得最新的功能和更好的体验。
 *** 2017-03-20 Monday
 
-**** MESSY  關於如何給某一個mode設置 evil-<xxx>-state
+**** MESSY  關於如何給某一個 mode 設置 evil-<xxx>-state
 
-     你想讓某一個 major-mode 默認使用哪一種 evil 的state?
+     你想讓某一個 major-mode 默認使用哪一種 evil 的 state?
      就這麼做:
      #+BEGIN_SRC emacs-lisp
      (dolist (mode '(ag-mode
@@ -4329,7 +4329,7 @@ $0
      #+END_SRC
 
      工作流程:
-     1. 查詢你需要設置爲 evil state 的major-mode的名字: M-x major-mode
+     1. 查詢你需要設置爲 evil state 的 major-mode 的名字: M-x major-mode
 
      2. 填到上述 dolist 的列表中
 
@@ -4385,12 +4385,12 @@ Trace collection status (4/8)                     [refresh]
 
      #+END_SRC
 
-**** MESSY commonlisp如何調出debug界面                     :commonlisp:debug:
-     1. 首先打開debug ~(declaim (optimize (debug 3)))~
-     2. 編譯函數,並在repl(CL-USER)運行之
-     3. 運行會自動打開debug界面
+**** MESSY commonlisp 如何調出 debug 界面                     :commonlisp:debug:
+     1. 首先打開 debug ~(declaim (optimize (debug 3)))~
+     2. 編譯函數,並在 repl(CL-USER)運行之
+     3. 運行會自動打開 debug 界面
      4. 此時說明有錯,回去在函數中加入 ~(break)~, break-point
-     5. 再次於repl中執行,會再次顯示debug界面
+     5. 再次於 repl 中執行,會再次顯示 debug 界面
      6. ~evil-emacs-state~ 下,在調用棧按下 ~r~,從某個調用開始,按 ~s~ , 單步執行.
 
 
@@ -4417,7 +4417,7 @@ CL-USER> (your-program)
        (with-open-file (in file :direction :input)
          (loop for line = (read-line in nil in)
                until (eq in line)
-               when (handler-case (parse-integer line) ;; 當catch到問題
+               when (handler-case (parse-integer line) ;; 當 catch 到問題
                       (error (c)                       ;; 直接忽略他
                         (declare (ignore c))
                         nil))
@@ -4446,7 +4446,7 @@ CL-USER> (your-program)
 
      3. make read-files catch the error and *skip the entire* file
      #+BEGIN_SRC common-lisp
-(defun read-files (files)  ;; 不是在 read-file 中catch,而是更不負責一些
+(defun read-files (files)  ;; 不是在 read-file 中 catch,而是更不負責一些
   (loop for file in files  ;; 而是交給這裏的 read-files
         when (handler-case (read-file file)
                (error (c)
@@ -4503,7 +4503,7 @@ CL-USER> (your-program)
                  (use-value (value) ;; 提供選擇一
                    :report "Use a new value."
                    :interactive (lambda ()
-                                  (list (ask "Value: ")));;提示符,需輸入value
+                                  (list (ask "Value: ")));;提示符,需輸入 value
                    value)
                  (skip-entry ()     ;; 提供選擇二
                    :report "Skip the entry."
@@ -4535,7 +4535,7 @@ CL-USER> (your-program)
     (invoke-restart 'use-value value)))
      #+END_SRC
 
-***** 用 restarts 來實現break point 功能
+***** 用 restarts 來實現 break point 功能
       #+BEGIN_SRC common-lisp
 (defun break (&optional (format-control "Break")
               &rest format-arguments)
@@ -4549,10 +4549,10 @@ CL-USER> (your-program)
       #+END_SRC
 *** 2017-03-21 Tuesday
 
-**** MESSY trace函數的指定斷點詳細位置                     :commonlisp:debug:
+**** MESSY trace 函數的指定斷點詳細位置                     :commonlisp:debug:
 
      #+BEGIN_SRC common-lisp
-(trace fib :break (= 8 (sb-debug:arg 0))) ;; 這句意思是 在fib函數第0個參數爲8時break.
+(trace fib :break (= 8 (sb-debug:arg 0))) ;; 這句意思是 在 fib 函數第 0 個參數爲 8 時 break.
 (fib 10)
 
 CL-USER> (fib 10)
@@ -4564,18 +4564,18 @@ CL-USER> (fib 10)
      #+END_SRC
 
      #+BEGIN_SRC common-lisp
-(trace fib :print-after (get-universal-time));; 每次fib函數返回就打印當前unix系統時間
+(trace fib :print-after (get-universal-time));; 每次 fib 函數返回就打印當前 unix 系統時間
      #+END_SRC
 
 **** MESSY  [[http://weitz.de/cl-ppcre/#install][CL-PPCRE - Portable Perl-compatible regular expressions for Common Lisp]]
-     commonlisp下的一個regex工具包
+     commonlisp 下的一個 regex 工具包
      Captured On: [2017-03-21 Tue 09:25]
 
 **** MESSY  [[https://www.quicklisp.org/beta/][Quicklisp beta]]                    :commonlisp:package:management:
-     相當於一個common-lisp 下的包管理工具.可以直接通過repl或者系統terminal工具安裝.
+     相當於一個 common-lisp 下的包管理工具.可以直接通過 repl 或者系統 terminal 工具安裝.
      #+BEGIN_SRC
      $ sbcl
-     ----> 進入sbcl 的 repl 界面
+     ----> 進入 sbcl 的 repl 界面
      * (ql:quickload :<包名>)  ;; 通過這條命令安裝包
      #+END_SRC
      Captured On: [2017-03-21 Tue 09:26]
@@ -4583,13 +4583,13 @@ CL-USER> (fib 10)
 **** MESSY backquote in lisp                           :commonlisp:backquote:
      Source: [2017-03-21 Tue], [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Backquote.html][GNU Emacs Lisp Reference Manual: Backquote]]
 
-     1. 因爲lisp中全是 list, ~'~ 在lisp中是表示後面的緊跟的list,就單純作爲list看待,而不是作爲函數
+     1. 因爲 lisp 中全是 list, ~'~ 在 lisp 中是表示後面的緊跟的 list,就單純作爲 list 看待,而不是作爲函數
 
-     2. ~`~ 也表示後面緊跟的list,就單純作爲list看待,但允許其中一部分作爲函數來計算.
+     2. ~`~ 也表示後面緊跟的 list,就單純作爲 list 看待,但允許其中一部分作爲函數來計算.
 
-        1) ~,~ 用來標識 ~`~ 後面的這個list中,哪些部分被當做函數來看待. eg. `(a list of ,(+ 2 3) elements)
+        1) ~,~ 用來標識 ~`~ 後面的這個 list 中,哪些部分被當做函數來看待. eg. `(a list of ,(+ 2 3) elements)
 
-        2) ~,@~ 標識 ~`~ 後面的這個list中,哪些部分被當做函數來看待, 並且把計算結果拼接到整個list中.
+        2) ~,@~ 標識 ~`~ 後面的這個 list 中,哪些部分被當做函數來看待, 並且把計算結果拼接到整個 list 中.
 
 
      Backquote constructs allow you to quote a list, but selectively evaluate
@@ -4639,17 +4639,17 @@ CL-USER> (fib 10)
      把不信任暫時放在一邊,就直接做.直接練,不多疑.是頓悟的方向.
 
      我在學機器學習時,堅持 *從底到上*,先學習概率/線代/微積分,就是[理解式學習].
-     而youtube上,有很多直接介紹機器學習的視頻,就是直接做.以求在做中領悟
+     而 youtube 上,有很多直接介紹機器學習的視頻,就是直接做.以求在做中領悟
      這是 *從上到底* 的學習,是[頓悟式學習]
 
-**** MESSY 問題是你準備讓list的哪些部分原樣不動,哪些部分求職,哪些部分拼接
+**** MESSY 問題是你準備讓 list 的哪些部分原樣不動,哪些部分求職,哪些部分拼接
      #+BEGIN_SRC lisp
 
-;; 普通的while loop
+;; 普通的 while loop
    (while (peek-char file nil nil)
           (write-char (read-char file)))
 
-;; 用goto實現的loop
+;; 用 goto 實現的 loop
    (tagbody
     start
       (if (not (peek-char file nil nil))
@@ -4741,25 +4741,25 @@ CL-USER> (fib 10)
 
 **** MESSY  [[https://linuxtoy.org/archives/gnu-info-intro.html][GNU info 简介 · LinuxTOY]]
      Captured On: [2017-03-23 四 21:44]
-     顺便再列些info的快捷键：
+     顺便再列些 info 的快捷键：
 
-     h info教程
-     q 退出info，返回之前的缓冲区
-     鼠标中键 follow你点的那个节点
-     回车	Follow光标附近的节点，和鼠标中键差不多
-     ^ 和u一样
+     h info 教程
+     q 退出 info，返回之前的缓冲区
+     鼠标中键 follow 你点的那个节点
+     回车	Follow 光标附近的节点，和鼠标中键差不多
+     ^ 和 u 一样
      d 目录节点
      文件的最后一个节点
-     TAB	把光标移动到下一个cross-reference或者菜单
-     M-TAB 把光标移动到前一个cross-reference或者菜单
+     TAB	把光标移动到下一个 cross-reference 或者菜单
+     M-TAB 把光标移动到前一个 cross-reference 或者菜单
      L 历史记录
-     T 当前info文件的目录
+     T 当前 info 文件的目录
      b 节点头
-     ,（逗号） 之前用i的下一条项目
-     g 移动到xxx节点.
-     1 .. 9 第1...9个item（每三个item有一个高亮）
-     c 把当前节点名放到kill ring里
-     M-n 克隆一个Info缓冲区
+     ,（逗号） 之前用 i 的下一条项目
+     g 移动到 xxx 节点.
+     1 .. 9 第 1...9 个 item（每三个 item 有一个高亮）
+     c 把当前节点名放到 kill ring 里
+     M-n 克隆一个 Info 缓冲区
 
 **** MESSY Gun info introduction                                       :info:
      Source: [2017-03-23 四], [[https://linuxtoy.org/archives/gnu-info-intro.html][GNU info 简介 · LinuxTOY]]
@@ -4808,7 +4808,7 @@ CL-USER> (fib 10)
      问题说明参见
      http://pinyin.sogou.com/bbs/forum.php?mod=viewthread&tid=2676147&extra=&page=1
      参考其回复后可知
-     删除~/.config目录下的SogouPY、SogouPY.users、sogou-qimpanel三个文件夹即可恢复正常
+     删除~/.config 目录下的 SogouPY、SogouPY.users、sogou-qimpanel 三个文件夹即可恢复正常
      参考链接如下
 **** concept about source in ubuntu
 
@@ -5117,66 +5117,66 @@ CL-USER> (fib 10)
      $P_{net}=r_1^2 - r_2^2$
 
 **** MESSY how to convert or extract mp3 from mp4 or mpeg or other video format :ubuntu:
-     Source: [2017-03-27 Mon], [[http://blog.csdn.net/u012377333/article/details/38581477][关于ffmpeg 的总结（一个linux 下 集 屏幕录像录音，音频视频转换，合并音频视频文件，格式转换于一身的命令） - chisj专栏 - 博客频道 - CSDN.NET]]
+     Source: [2017-03-27 Mon], [[http://blog.csdn.net/u012377333/article/details/38581477][关于 ffmpeg 的总结（一个 linux 下 集 屏幕录像录音，音频视频转换，合并音频视频文件，格式转换于一身的命令） - chisj 专栏 - 博客频道 - CSDN.NET]]
 
 
 ***** emerge ffmpeg
 
-     格式转换 (将file.avi 转换成output.flv)
+     格式转换 (将 file.avi 转换成 output.flv)
 
      ffmpeg -i file.avi output.flv
 
       -i 表示输入文件
 
-      :现在有个视频video.avi，有个音频 audio.mp3，将其合并成output.avi
+      :现在有个视频 video.avi，有个音频 audio.mp3，将其合并成 output.avi
 
-     两个命令                     （ video2.avi 是中间文件 ，用完可删）
+     两个命令                     （video2.avi 是中间文件 ，用完可删）
 
      ffmpeg -i video.avi -vcodec copy -an video2.avi   
      ffmpeg -i video2.avi -i audio.mp3 -vcodec copy -acodec copy output.avi
 
       -i 表示输入文件
 
-       -vcodec copy 表示 force video codec ('copy' to copy stream) 这个不知怎么译 ，估计是直接copy 
+       -vcodec copy 表示 force video codec ('copy' to copy stream) 这个不知怎么译 ，估计是直接 copy 
        -acodec copy   这个说的应该是音频了   跟上面一样
-     -an : 表示  disable audio  估计是audio no 之类的缩写   表示去掉video.avi 原有的音频
+     -an : 表示  disable audio  估计是 audio no 之类的缩写   表示去掉 video.avi 原有的音频
 
-     方法2 好像可以直接指定两个输入文件 ，
+     方法 2 好像可以直接指定两个输入文件 ，
 
      ffmpeg -i /tmp/a.wav -i /tmp/a.avi /tmp/a.avi 两个文件 的顺序很重
      从视频里提取声音（声音与视频的分离）
 
-: ffmpeg -i 人生若只如初见.flv -vn r.mp3  从flv 文件 中提取声音并保存为mp3 格式  
+: ffmpeg -i 人生若只如初见.flv -vn r.mp3  从 flv 文件 中提取声音并保存为 mp3 格式  
 
-      -vn : 表示忽略视频 估计是video no 之类的缩写
+      -vn : 表示忽略视频 估计是 video no 之类的缩写
 
 : ffmpeg -i 人生若只如初见.flv -an r.flv 只留视频不留声音
 
-      -an : 表示忽略声音 估计是audio no 之类的缩写
+      -an : 表示忽略声音 估计是 audio no 之类的缩写
 
 
 
      从视频里提取图片（ ）
 
      ffmpeg -i test.avi -y -f image2 -ss 8 -t 0.001 -s 350x240 test.jpg 
-     -ss 第8秒处 截一图
-     压缩mp3 文件
+     -ss 第 8 秒处 截一图
+     压缩 mp3 文件
 
-     如果你觉得mp3 文件 有点大，想变小一点那么可以通过-ab 选项改变音频的比特率（bitrate）
+     如果你觉得 mp3 文件 有点大，想变小一点那么可以通过-ab 选项改变音频的比特率（bitrate）
 
-     ffmpeg -i input.mp3 -ab 128 output.mp3    //这里将比特率设为128
+     ffmpeg -i input.mp3 -ab 128 output.mp3    //这里将比特率设为 128
 
-     你可以用file 命令查看一下源文件 的信息
+     你可以用 file 命令查看一下源文件 的信息
 
      z.mp3: Audio file with ID3 version 2.3.0, contains: MPEG ADTS, layer III, v1, 192 kbps, 44.1 kHz, Stereo
 
-     其中的192 kbps 就是这个东西
+     其中的 192 kbps 就是这个东西
 
-     mp3中比特率的含义是：在压缩音频文件至mp3时，由压缩软件所确定数码文件在播放时每秒传 送给播放器大小，其单位是：千位/秒；英文的含义是：kbps - = kilobits per second。现在mp3文件的最高数位率是320 kbps。这样的文件体积很大，每分钟的音乐超过两兆字节。如果采用可变比特率（VBR）编码来生成mp3文件，获得与320 kbps相当音质，文件的体积会缩小25~50%。请注意：播放时间相同，而歌曲不同，所获的压缩mp3文件的一般不相同，这是因为VBR编码所生成的 mp3文件的大小不仅仅取决于播放时间的长度，还取决于源音频文件的其它因素。
+     mp3 中比特率的含义是：在压缩音频文件至 mp3 时，由压缩软件所确定数码文件在播放时每秒传 送给播放器大小，其单位是：千位/秒；英文的含义是：kbps - = kilobits per second。现在 mp3 文件的最高数位率是 320 kbps。这样的文件体积很大，每分钟的音乐超过两兆字节。如果采用可变比特率（VBR）编码来生成 mp3 文件，获得与 320 kbps 相当音质，文件的体积会缩小 25~50%。请注意：播放时间相同，而歌曲不同，所获的压缩 mp3 文件的一般不相同，这是因为 VBR 编码所生成的 mp3 文件的大小不仅仅取决于播放时间的长度，还取决于源音频文件的其它因素。
 
 
 
-     录音（要有可用的麦克风，并且如果用alsa 的话，好像得安alsa-oss，重启） 
+     录音（要有可用的麦克风，并且如果用 alsa 的话，好像得安 alsa-oss，重启） 
 
       ffmpeg  -f oss -i /dev/dsp   out.avi  (should  hava oss or alsa-oss)
 
@@ -5184,7 +5184,7 @@ CL-USER> (fib 10)
 
       ffmpeg   -f alsa -ac 2 -i pulse  (should hava PulseAudio)
 
-        oss 是Linux 下的声音相关的东西，与alsa 一样，不过oss 是商业的， 而/dev/dsp 是oss 用到的麦克的设备吧，可以这样理解
+        oss 是 Linux 下的声音相关的东西，与 alsa 一样，不过 oss 是商业的， 而/dev/dsp 是 oss 用到的麦克的设备吧，可以这样理解
 
      屏幕录像
 
@@ -5192,7 +5192,7 @@ CL-USER> (fib 10)
 
      ffmpeg -f x11grab  -s 320x240  -r 10 -i :0.0+100+200 wheer.avi
 
-     :0:0 表示屏幕（个人理解，因为系统变量$DISPLAY值就是:0.0）  而100,表示距左端100象素，200表示距上端200
+     :0:0 表示屏幕（个人理解，因为系统变量$DISPLAY 值就是:0.0）  而 100,表示距左端 100 象素，200 表示距上端 200
 
      -s 设置窗口大小
 
@@ -5250,22 +5250,22 @@ CL-USER> (fib 10)
 
      ffmpeg -ss 00:00:10 -t 00:01:22 -i 五月天-突然好想你.mp3  output.mp3 
 
-     只要 从第10秒开始截取，共截取1：22时长的内容
+     只要 从第 10 秒开始截取，共截取 1：22 时长的内容
 
-     视频文件的连接，如两个flv 文件 连接成一
+     视频文件的连接，如两个 flv 文件 连接成一
 
-     好像必须先将文件 转成mpg ，dv 等格式的文件后才能进行连接
+     好像必须先将文件 转成 mpg，dv 等格式的文件后才能进行连接
 
-     连接复数的AVI影片档之范例（在此范例中须一度暂时将AVI档转换成MPEG-1档(MPEG-1, MPEG-2 PS, DV格式亦可连接)）
+     连接复数的 AVI 影片档之范例（在此范例中须一度暂时将 AVI 档转换成 MPEG-1 档(MPEG-1, MPEG-2 PS, DV 格式亦可连接)）
      ffmpeg -i input1.avi -sameq inputfile_01.mpg -r 20
      ffmpeg -i input2.avi -sameq inputfile_02.mpg -r 20
      cat inputfile_01.mpg inputfile_02.mpg > inputfile_all.mpg
-     ffmpeg -i inputfile_all.mpg -sameq outputfile.avi 上面将 input1.avi input2.avi 合并成outputfile.avi -sameq 表示 相同的质量（可能指的是画面，不太清楚）
+     ffmpeg -i inputfile_all.mpg -sameq outputfile.avi 上面将 input1.avi input2.avi 合并成 outputfile.avi -sameq 表示 相同的质量（可能指的是画面，不太清楚）
      -r 指频率 
 
-     =====================================================================下面是wiki 上给的几个例子
+     =====================================================================下面是 wiki 上给的几个例子
      参数
-     FFmpeg可使用众多参数，参数内容会根据ffmpeg版本而有差异，使用前建议先参考参数及编解码器的叙述。此外，参数明细可用 ffmpeg -h 显示；编解码器名称等明细可用 ffmpeg -formats 显示。
+     FFmpeg 可使用众多参数，参数内容会根据 ffmpeg 版本而有差异，使用前建议先参考参数及编解码器的叙述。此外，参数明细可用 ffmpeg -h 显示；编解码器名称等明细可用 ffmpeg -formats 显示。
 
      下列为较常使用的参数。
 
@@ -5277,38 +5277,38 @@ CL-USER> (fib 10)
      -ss 从指定时间开始转换。
      -title 设定标题。
      -timestamp 设定时间戳。
-     -vsync 增减Frame使影音同步。
+     -vsync 增减 Frame 使影音同步。
      [编辑 ] 影像参数
-     -b 设定影像流量，默认为200Kbit/秒。（ 单位请参照下方注意事项 ）
-     -r 设定FrameRate值，默认为25。
+     -b 设定影像流量，默认为 200Kbit/秒。（ 单位请参照下方注意事项 ）
+     -r 设定 FrameRate 值，默认为 25。
      -s 设定画面的宽与高。
      -aspect 设定画面的比例。
      -vn 不处理影像，于仅针对声音做处理时使用。
      -vcodec 设定影像影像编解码器，未设定时则使用与输入档案相同之编解码器。
      [编辑 ] 声音参数
-     -ab 设定每Channel （最近的SVN 版为所有Channel的总合）的流量。（ 单位 请参照下方注意事项 ）
+     -ab 设定每 Channel （最近的 SVN 版为所有 Channel 的总合）的流量。（ 单位 请参照下方注意事项 ）
      -ar 设定采样率。
-     -ac 设定声音的Channel数。
+     -ac 设定声音的 Channel 数。
      -acodec 设定声音编解码器，未设定时与影像相同，使用与输入档案相同之编解码器。
      -an 不处理声音，于仅针对影像做处理时使用。
-     -vol 设定音量大小，256为标准音量。(要设定成两倍音量时则输入512，依此类推。)
+     -vol 设定音量大小，256 为标准音量。(要设定成两倍音量时则输入 512，依此类推。)
      [编辑 ] 注意事项
-     以-b及ab参数设定流量时，根据使用的ffmpeg版本，须注意单位会有kbits/sec与bits/sec的不同。（可用ffmpeg -h显示说明来确认单位。）
-     例如，单位为bits/sec的情况时，欲指定流量64kbps时需输入‘ -ab 64k ’；单位为kbits/sec的情况时则需输入‘ -ab 64 ’。
-     以-acodec及-vcodec所指定的编解码器名称，会根据使用的ffmpeg版本而有所不同。例如使用AAC编解码器时，会有输入aac与 libfaac的情况。此外，编解码器有分为仅供解码时使用与仅供编码时使用，因此一定要利用ffmpeg -formats 确 认输入的编解码器是否能运作。
+     以-b 及 ab 参数设定流量时，根据使用的 ffmpeg 版本，须注意单位会有 kbits/sec 与 bits/sec 的不同。（可用 ffmpeg -h 显示说明来确认单位。）
+     例如，单位为 bits/sec 的情况时，欲指定流量 64kbps 时需输入‘ -ab 64k ’；单位为 kbits/sec 的情况时则需输入‘ -ab 64 ’。
+     以-acodec 及-vcodec 所指定的编解码器名称，会根据使用的 ffmpeg 版本而有所不同。例如使用 AAC 编解码器时，会有输入 aac 与 libfaac 的情况。此外，编解码器有分为仅供解码时使用与仅供编码时使用，因此一定要利用 ffmpeg -formats 确 认输入的编解码器是否能运作。
      [编辑 ] 范例
-     将MPEG-1影片转换成MPEG-4格式之范例
+     将 MPEG-1 影片转换成 MPEG-4 格式之范例
      ffmpeg -i inputfile.mpg -f mp4 -acodec libfaac -vcodec mpeg4 -b 256k -ab 64k outputfile.mp4
-     将MP3声音转换成MPEG-4格式之范例
+     将 MP3 声音转换成 MPEG-4 格式之范例
      ffmpeg -i inputfile.mp3 -f mp4 -acodec libaac -vn -ab 64k outputfile.mp4
-     将DVD的VOB档转换成VideoCD格式的MPEG-1档之范例
+     将 DVD 的 VOB 档转换成 VideoCD 格式的 MPEG-1 档之范例
      ffmpeg -i inputfile.vob -f mpeg -acodec mp2 -vcodec mpeg1video -s 352x240 -b 1152k -ab 128k outputfile.mpg
-     将AVI影片转换成H.264格式的M4V档之范例
+     将 AVI 影片转换成 H.264 格式的 M4V 档之范例
      ffmpeg -i inputfile.avi -f mp4　-acodec libfaac -vcodec libx264 -b 512k -ab 320k outputfile.m4v
-     将任何影片转换成东芝REGZA可辨识的MPEG2格式之范例
+     将任何影片转换成东芝 REGZA 可辨识的 MPEG2 格式之范例
      ffmpeg -i inputfile -target ntsc-svcd -ab 128k -aspect 4:3 -s 720x480 outputfile.mpg
-     连接复数的AVI影片档之范例（在此范例中须一度暂时将AVI档转换成MPEG-1档(MPEG-1, MPEG-2 PS
-     DV格式亦可连接)、
+     连接复数的 AVI 影片档之范例（在此范例中须一度暂时将 AVI 档转换成 MPEG-1 档(MPEG-1, MPEG-2 PS
+     DV 格式亦可连接)、
      ffmpeg -i input1.avi -sameq inputfile_01.mpg
      ffmpeg -i input2.avi -sameq inputfile_02.mpg
      cat inputfile_01.mpg inputfile_02.mpg > inputfile_all.mpg
@@ -5317,55 +5317,55 @@ CL-USER> (fib 10)
      http://ffmpeg.org/ffmpeg-doc.html 
      http://ubuntuforums.org/showthread.php?t=1392026 
      同时搞明白的一些问题
-     在alsa 体系中声卡（也可能是麦克风，）叫hw:0,0 而在oss 体系中叫/dev/dsp (用词可能不太专业)  Linux在安装了声卡后，会有一些设备文件生
+     在 alsa 体系中声卡（也可能是麦克风，）叫 hw:0,0 而在 oss 体系中叫/dev/dsp (用词可能不太专业)  Linux 在安装了声卡后，会有一些设备文件生
 
      成。 
 
        采集数字样本的 
-     /dev/dsp文件，针对混音器的 
-     /dev/mixer文件，用于音序器的 
+     /dev/dsp 文件，针对混音器的 
+     /dev/mixer 文件，用于音序器的 
      /dev/sequencer， 
-     /dev/audio文件一个 
+     /dev/audio 文件一个 
 
 
 
      基于兼容性考虑的声音设备文件。只要向 
-     /dev/audio中输入 
-     wav文件就能发出声音。而对 
-     /dev/dsp文件读取就能得到 
-     WAV文件格式的声音文 
+     /dev/audio 中输入 
+     wav 文件就能发出声音。而对 
+     /dev/dsp 文件读取就能得到 
+     WAV 文件格式的声音文 
      件。 
 
 **** MESSY 3 methods to convert mp4 to mp3              :ubuntu:videoConvert:
-     Source: [2017-03-27 Mon], [[http://tieba.baidu.com/p/838513625][linux下转flv为mp3格式的方法_linux吧_百度贴吧]]
+     Source: [2017-03-27 Mon], [[http://tieba.baidu.com/p/838513625][linux 下转 flv 为 mp3 格式的方法_linux 吧_百度贴吧]]
 
 
-     方法一：在安装到有mplayer的情况下可以使用命令
+     方法一：在安装到有 mplayer 的情况下可以使用命令
          mplayer -dumpaudio filenametoconvert.flv -dumpfile filenametosave.mp3
-         如我要将下载下来的aa11.flv转换为bb22.mp3则使用以下命令
+         如我要将下载下来的 aa11.flv 转换为 bb22.mp3 则使用以下命令
          mplayer -dumpaudio aa11.flv -dumpfile bb22.mp3
-     方法二：使用vlc中转换工具 位置在菜单栏中的文件／媒体（media） 转换／保存（convert／save） 在顶部选择文件（file） 文件选择（file selection）中点添加（add） 加入要转换的文件 然后点转换／保存（convert／save）按钮前面的箭头符号 选择转换convert 进入转换对话框 在目标destination一栏选择转换后的路径 在设置中选择audio－mp3 点后面的第一个图标设置转换mp3的参数（仅设置音频解码器audec，主要是修改比特率bitrate和采样率sample rate） 比特率一般设为128 采样率为44100 设置好后点保存 点开始start 开始转换
-     方法三：使用ffmpeg转换
+     方法二：使用 vlc 中转换工具 位置在菜单栏中的文件／媒体（media） 转换／保存（convert／save） 在顶部选择文件（file） 文件选择（file selection）中点添加（add） 加入要转换的文件 然后点转换／保存（convert／save）按钮前面的箭头符号 选择转换 convert 进入转换对话框 在目标 destination 一栏选择转换后的路径 在设置中选择 audio－mp3 点后面的第一个图标设置转换 mp3 的参数（仅设置音频解码器 audec，主要是修改比特率 bitrate 和采样率 sample rate） 比特率一般设为 128 采样率为 44100 设置好后点保存 点开始 start 开始转换
+     方法三：使用 ffmpeg 转换
      ffmpeg -i inputfile.flv -acodec copy output.mp3
-     如我要将下载下来的aa11.flv转换为bb22.mp3则使用以下命令
+     如我要将下载下来的 aa11.flv 转换为 bb22.mp3 则使用以下命令
      ffmpeg -i aa11.flv -acodec copy bb22.mp3
-     此方法仅适合音频编码为mp3的情况（在命令行模式运行mplay aa11.flv 在open audio一行显示Opening audio decoder: [mp3lib] MPEG layer-2, layer-3
+     此方法仅适合音频编码为 mp3 的情况（在命令行模式运行 mplay aa11.flv 在 open audio 一行显示 Opening audio decoder: [mp3lib] MPEG layer-2, layer-3
      ）
 
 **** MESSY how to traverse all files of a directory
-     Source: [2017-03-27 Mon], [[http://www.cnblogs.com/kaituorensheng/archive/2012/12/19/2825376.html][shell编程--遍历目录下的文件 - jihite - 博客园]]
+     Source: [2017-03-27 Mon], [[http://www.cnblogs.com/kaituorensheng/archive/2012/12/19/2825376.html][shell 编程--遍历目录下的文件 - jihite - 博客园]]
 
 
-     shell编程--遍历目录下的文件
+     shell 编程--遍历目录下的文件
 
-     假定目录text下有如下文件
+     假定目录 text 下有如下文件
            目录：dir_1、dir_2、dir_3
 
            文件：text_1、text_2
 
      遍历目录下所有的文件是目录还是文件
 
-     if -- if类型：
+     if -- if 类型：
      #+BEGIN_SRC shell
    #!bin/sh
    for file in ./*
@@ -5409,39 +5409,39 @@ done
      #+END_SRC
 *** 2017-03-28 Tuesday
 
-**** MESSY  手机挂载点在linux什么位置
-     Source: [2017-03-28 Tue], [[http://blog.csdn.net/caz28/article/details/50903018][Ubuntu下MTP设备的挂载目录 - caz28的专栏 - 博客频道 - CSDN.NET]]
+**** MESSY  手机挂载点在 linux 什么位置
+     Source: [2017-03-28 Tue], [[http://blog.csdn.net/caz28/article/details/50903018][Ubuntu 下 MTP 设备的挂载目录 - caz28 的专栏 - 博客频道 - CSDN.NET]]
 
 
-     我用的是Ubuntu14.04，连接手机后，会自动连接MTP，从桌面文件管理器可以很快访问手机，查看属性，其位置为mtp://[usb:003,xxx]/，但是不知道怎么从命令行界面进入这个位置。
+     我用的是 Ubuntu14.04，连接手机后，会自动连接 MTP，从桌面文件管理器可以很快访问手机，查看属性，其位置为 mtp://[usb:003,xxx]/，但是不知道怎么从命令行界面进入这个位置。
      经查找发现其挂载目录为：
      /run/user/$UID/gvfs/mtp:host=xxxxxxx
      这个路径可以从命令行界面进入。
 
 **** MESSY  how to mount the android mpt in linux (failed to my samsung s7e)
-     Source: [2017-03-28 Tue], [[http://blog.csdn.net/wfing/article/details/17524583][在linux下挂载android的mtp设备 - linux内核探索 - 博客频道 - CSDN.NET]]
+     Source: [2017-03-28 Tue], [[http://blog.csdn.net/wfing/article/details/17524583][在 linux 下挂载 android 的 mtp 设备 - linux 内核探索 - 博客频道 - CSDN.NET]]
 
 
-     mtp应该是Android的4.0以上版本的新功能。取代了传统的Ｕ盘挂载方式。
+     mtp 应该是 Android 的 4.0 以上版本的新功能。取代了传统的Ｕ盘挂载方式。
 
      以下照抄原文：　http://www.miui.com/thread-960449-1-1.html
 
      Android3.x 以上使用了 MTP 协议连接移动设备的内部存储，在 Windows 上可以很方便的打开 MTP 设备，而在 Mac 上 google 提供了一个工具 “Android File Transfer”（http://www.android.com/filetransfer/），却唯独无视了 Linux 用户（难道是认为 Linux 用户动手能力足够强大？）。
-     之前在 Ubuntu 上向 Galaxy Nexus 传输文件都是在手机的“USB 计算机连接”中改为使用 PTP协议，但这个只能传输照片。因此挂上 MTP 才是王道。操作方法如下：
+     之前在 Ubuntu 上向 Galaxy Nexus 传输文件都是在手机的“USB 计算机连接”中改为使用 PTP 协议，但这个只能传输照片。因此挂上 MTP 才是王道。操作方法如下：
      1.安装必备的软件：sudo apt-get install mtpfs libfuse-dev libmad0-dev
-     2.创建挂载点： sudo mkdir /media/mtp
+     2.创建挂载点：sudo mkdir /media/mtp
      3.修改为目录所有者为自己，以便有读写权限：sudo chown 你的用户名 /media/mtp
      4.确认当前用户在 fuse  组中：System > Administration > Users and Groups > Manage Groups > fuse > properties，确保勾选了自己的用户名。
-     5.挂载设备：mtpfs /media/mtp 。用文件管理器访问，和操作同本地目录一样。
+     5.挂载设备：mtpfs /media/mtp。用文件管理器访问，和操作同本地目录一样。
      6.卸载设备：fusermount -u /media/mtp
 
      请注意的是：
      usermod -a -G groupA user
      加上-a append，把一个用户加入组
      (FC4: usermod -G groupA,groupB,groupC user)
-     -a 代表 append， 也就是 将自己添加到 用户组groupA 中，而不必离开 其他用户组。 
+     -a 代表 append， 也就是 将自己添加到 用户组 groupA 中，而不必离开 其他用户组。 
 
-     这样就可以通过ＵSB操作android上的一些文件了。
+     这样就可以通过ＵSB 操作 android 上的一些文件了。
 *** 2017-03-29 Wednesday
 
 **** MESSY 真的是‘绝知此事要躬行’，只有在做的过程中，某些灵感才会出现。
@@ -5452,22 +5452,22 @@ done
 *** 2017-03-31 Friday
 
 **** MESSY how to setup chinese source of PIP python install     :python:pip:
-   Source: [2017-03-31 Fri], [[http://www.cnblogs.com/microman/p/6107879.html][让PIP源使用国内镜像，提升下载速度和安装成功率。 - microman - 博客园]]
+   Source: [2017-03-31 Fri], [[http://www.cnblogs.com/microman/p/6107879.html][让 PIP 源使用国内镜像，提升下载速度和安装成功率。 - microman - 博客园]]
 
 :ISSUE:
 PIP install 安装经常链接超时，失败
 :END:
 :SOLVE:
-让PIP源使用国内镜像，提升下载速度和安装成功率。
+让 PIP 源使用国内镜像，提升下载速度和安装成功率。
 :END:
 
-   让PIP源使用国内镜像，提升下载速度和安装成功率。
+   让 PIP 源使用国内镜像，提升下载速度和安装成功率。
 
-   对于Python开发用户来讲，PIP安装软件包是家常便饭。但国外的源下载速度实在太慢，浪费时间。而且经常出现下载后安装出错问题。所以把PIP安装源替换成国内镜像，可以大幅提升下载速度，还可以提高安装成功率。
+   对于 Python 开发用户来讲，PIP 安装软件包是家常便饭。但国外的源下载速度实在太慢，浪费时间。而且经常出现下载后安装出错问题。所以把 PIP 安装源替换成国内镜像，可以大幅提升下载速度，还可以提高安装成功率。
 
    国内源：
 
-   新版ubuntu要求使用https源，要注意。
+   新版 ubuntu 要求使用 https 源，要注意。
 
    清华：https://pypi.tuna.tsinghua.edu.cn/simple
 
@@ -5483,14 +5483,14 @@ PIP install 安装经常链接超时，失败
 
    临时使用：
 
-   可以在使用pip的时候加参数-i https://pypi.tuna.tsinghua.edu.cn/simple
+   可以在使用 pip 的时候加参数-i https://pypi.tuna.tsinghua.edu.cn/simple
 
-   例如：pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pyspider，这样就会从清华这边的镜像去安装pyspider库。
+   例如：pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pyspider，这样就会从清华这边的镜像去安装 pyspider 库。
     
 
    永久修改，一劳永逸：
 
-   Linux下，修改 ~/.pip/pip.conf (没有就创建一个文件夹及文件。文件夹要加“.”，表示是隐藏文件夹)
+   Linux 下，修改 ~/.pip/pip.conf (没有就创建一个文件夹及文件。文件夹要加“.”，表示是隐藏文件夹)
 
    内容如下：
 #+BEGIN_QUOTE
@@ -5499,7 +5499,7 @@ PIP install 安装经常链接超时，失败
    [install]
    trusted-host=mirrors.aliyun.com
 #+END_QUOTE
-   windows下，直接在user目录中创建一个pip目录，如：C:\Users\xx\pip，新建文件pip.ini。内容同上。
+   windows 下，直接在 user 目录中创建一个 pip 目录，如：C:\Users\xx\pip，新建文件 pip.ini。内容同上。
 
 **** MESSY 其实没有那么多的成年人，你也不要把所有成年人都当成年人看
 当你不把他看做成年人时，反倒可以理解一些想法和行为模式；
@@ -5558,7 +5558,7 @@ Failed to create initrd image.
 :DIARY:
 1. 两个好事者，发现了一个叫做‘混沌’的东西，他们觉得混沌好可怜啊，
 没有一窍一感，体验不到这个花花世界的美好，遂相约每天为混沌开
-一窍，第7天混沌死了。。。。。
+一窍，第 7 天混沌死了。。。。。
 
 2. 语言是不足以概括万事万物的，更多的东西无法用语言描述，一旦描述必然
 丢失很多精度。这也是古汉语和现在汉语的区别。
@@ -5580,10 +5580,10 @@ Failed to create initrd image.
 | cmb | 6214,         ,8937 |                  |
 :END:
 
-**** MESSY 自学ML得失总结
+**** MESSY 自学 ML 得失总结
 1. 不应该埋头造车，应该每学一段时间，就去面试几次；
    1. 我一直埋头学这学那，丝毫不知道现在业界需要什么样的人才，会面试什么东西，可以说毫无重点
-2. 应该先从汉语教材开始，先从科普性质的引导入门的课程开始，而不是直接看国外的or难度较大的
+2. 应该先从汉语教材开始，先从科普性质的引导入门的课程开始，而不是直接看国外的 or 难度较大的
    1. 我学数据结构的时候直接看国外的视频，导致得一直看着翻译
    2. 降低了学习效果，学习热情，拉长了学习周期，得不偿失
    3. 过于忽视国内的视频和教材，认为国外的好
@@ -5596,25 +5596,25 @@ Failed to create initrd image.
 
    说说自己的历程吧。
    我是一名非科班的自然语言，机器学习，数据挖掘关注者。
-   因工作关系，5年前需要做与自然语言处理的项目。当时的项目老大先是扔给我一本书《统计自然语言处理》，直接给我看蒙了。不能说一点都不懂，但是看的云里雾里，不知道get几层。
+   因工作关系，5 年前需要做与自然语言处理的项目。当时的项目老大先是扔给我一本书《统计自然语言处理》，直接给我看蒙了。不能说一点都不懂，但是看的云里雾里，不知道 get 几层。
    但看这本书的过程中，我狂搜了些自然语言处理的课件，有北大的，中科院的，都写的很好，从语言模型开始。从分词，标注，语法树，语意等等。也大体知道自然语言处理，分词法，语法，语义。然后是各种应用，信息检索，机器翻译等自然语言经典应用问题。
-   断断续续做了些小项目，基于语言模型的拼音输入法，仿照sun'pinyin写的，他们的blog写的很详细，从模型建模，到平滑处理，很详细，我也用python实现了一遍，当时这个输入法配合上一个简单的ui还在部门内部推广了，搞了个基于云的拼音输入法，获得个小奖品，很是洋洋得意。这个过程中，我看着sunpinyin的blog, 回过头又去看课件，去了解很细节的问题，如拉普拉斯平滑，回退平滑的细节等，收获很多。
-   后来老大告诉我，看自然语言问题时，可以找博士论文先看，因为博士论文一般都会来龙去脉讲的非常详细，看完一遍之后基本上这个问题就了解的差不多，然后就是follow业界的进度，那就是关注各种会议和期考，可自行百度和谷歌。
-   搞好这个拼音输入法，进入实际项目，做一套中文自然语言的基础处理引擎，好在不是让我一个人来，公司开始找大学合作，我做企业项目负责跟进的，大学负责具体算法，我跟着自己调查分词标注算法，了解了有基于词典的，语言模型的，hmm,crf的，那个crf的，我始终搞不大明白，后来先了解了hmm的vertbe算法，em算法，大学的博士给我讲了一遍crf，终于豁然开朗。还把解码过程写到了http://52nlp.cn上，关注的人还可以。从那以后我感觉我就真入门了。在来一个什么问题，我基本上也有套路来学习和研究了。
+   断断续续做了些小项目，基于语言模型的拼音输入法，仿照 sun'pinyin 写的，他们的 blog 写的很详细，从模型建模，到平滑处理，很详细，我也用 python 实现了一遍，当时这个输入法配合上一个简单的 ui 还在部门内部推广了，搞了个基于云的拼音输入法，获得个小奖品，很是洋洋得意。这个过程中，我看着 sunpinyin 的 blog, 回过头又去看课件，去了解很细节的问题，如拉普拉斯平滑，回退平滑的细节等，收获很多。
+   后来老大告诉我，看自然语言问题时，可以找博士论文先看，因为博士论文一般都会来龙去脉讲的非常详细，看完一遍之后基本上这个问题就了解的差不多，然后就是 follow 业界的进度，那就是关注各种会议和期考，可自行百度和谷歌。
+   搞好这个拼音输入法，进入实际项目，做一套中文自然语言的基础处理引擎，好在不是让我一个人来，公司开始找大学合作，我做企业项目负责跟进的，大学负责具体算法，我跟着自己调查分词标注算法，了解了有基于词典的，语言模型的，hmm,crf 的，那个 crf 的，我始终搞不大明白，后来先了解了 hmm 的 vertbe 算法，em 算法，大学的博士给我讲了一遍 crf，终于豁然开朗。还把解码过程写到了 http://52nlp.cn 上，关注的人还可以。从那以后我感觉我就真入门了。在来一个什么问题，我基本上也有套路来学习和研究了。
 
    总结下，
    1.先各种课件，加那本自然语言的书，搞清楚自然语言大概都有哪些问题，主要是为了解决什么问题的。
-   2.基于某个问题看博士论文，了解来龙去脉。然后follow业界进度。
-   3.找各种资源，会议的，期刊的，博客http://52nlp.cn(不是打广告，我不是博主，不过博客真心不错)
+   2.基于某个问题看博士论文，了解来龙去脉。然后 follow 业界进度。
+   3.找各种资源，会议的，期刊的，博客 http://52nlp.cn(不是打广告，我不是博主，不过博客真心不错)
    4.微博上关注各种这个领域的大牛，他们有时候会推荐很多有用的资料。
    当然，数学之美 我也读了，确实不错。
 
 **** MESSY 快速入门 NLP,跟随工程                                     :ML:NLP:
    Source: [2017-04-07 Fri], [[https://www.zhihu.com/question/19895141][自然语言处理怎么最快入门？ - 知乎]]
 
-   个人觉得可以先完整过一遍NLP的过程，自己经历过一遍，就可以更好了解怎么操作了。在经历的同时，也可以按需补充自己的知识。
+   个人觉得可以先完整过一遍 NLP 的过程，自己经历过一遍，就可以更好了解怎么操作了。在经历的同时，也可以按需补充自己的知识。
 
-   放一个Github，从语料库，特征选取，到算法对比，评价指标，还附带参考论文，可以试着跑一跑
+   放一个 Github，从语料库，特征选取，到算法对比，评价指标，还附带参考论文，可以试着跑一跑
 
    GitHub - ZixuanKe/Ch2r_ood_understanding
    https://github.com/ZixuanKe/Ch2r_ood_understanding
@@ -5624,7 +5624,7 @@ Failed to create initrd image.
    Captured On: [2017-04-10 Mon 11:07]
 *** 2017-04-11 Tuesday
 
-**** MESSY  [[http://baike.baidu.com/link?url=VZ2An0ArOW5hF9WfqCANwXRYbzwwGkYv8qTgHZtwq8qFU9VfDXnTpZekwQdARf-AvXfuNhYM-QSf2CgCHM-9s2ufEBuWqudiJulgtaSDReG][TSP问题_百度百科]]
+**** MESSY  [[http://baike.baidu.com/link?url=VZ2An0ArOW5hF9WfqCANwXRYbzwwGkYv8qTgHZtwq8qFU9VfDXnTpZekwQdARf-AvXfuNhYM-QSf2CgCHM-9s2ufEBuWqudiJulgtaSDReG][TSP 问题_百度百科]]
    Captured On: [2017-04-11 Tue 10:50]
 
 **** MESSY  [[http://baike.baidu.com/link?url=lIrKlRkZ78t6MH-XtU8AraXgmSNlIpEqATmNQrSdlp5SFwUrQvOSJI3NYNCez5hCVuXcyPbeJf9VXoRc4PR9uK_MVfPSeapzwGMGZkN3_eTn_hoTJN0DnMcFgpGLvxbosjKTOUEPJJJqPIIv3X-9Ua][模拟退火算法_百度百科]]
@@ -5633,42 +5633,42 @@ Failed to create initrd image.
 **** MESSY  [[https://www.youtube.com/user/saurabhschool/playlists?shelf_id=0&sort=dd&view=1][saurabhschool - YouTube]]                    :cs:youtube:interview:
    Captured On: [2017-04-11 Tue 13:23]
 
-   面试可以参考这里的youtube视频，针对面试中的数据结构及java的多线程问题等等；
+   面试可以参考这里的 youtube 视频，针对面试中的数据结构及 java 的多线程问题等等；
 
 **** MESSY
    Source: [2017-04-11 Tue], [[https://www.zhihu.com/question/48370147][为什么很少用启发式算法去获得多层神经网络的最优解？ - 知乎]]
 
 
    后来在深度学习的积累多了一些，可以自己回答了。就是两个字“太慢”。
-   深度学习的训练过程实质是一个非线性优化问题，要解一个non-convex 的优化问题。此类问题的解法中，local optimal和计算速度 （原谅本科是化学系的，来了美国读了几年化学PhD之后才转行读CS PhD，有些专业词汇不是很清楚中文叫什么）始终是矛盾的，换句话说，解的越快的算法，越容易得到local optimal，以下几个方法，计算速度从快到慢依次是： gradient descent, simulated annealing, genetic algorithm, exhaustive search. 其中simulated annealing, genetic algorithm都算是启发式算法。 当然，如果有充分的资源和时间，exhaustive search总能得到全局最优，但是现实情况下是不可能的。gradient descent是最容易本困在local optimal的。
-   对deep learning的这个问题来说，在目前条件下，很明显，计算速度才是问题，所以基本无一例外都是使用基于gradient descent进行优化的。而最近的几篇论文，包括https://arxiv.org/pdf/1605.07110v3.pdf和https://arxiv.org/pdf/1412.0233v3.pdf，都在理论上证明，local optimal在deep learning的优化过程中不是什么问题。
-   所以，deep learning和MLP中，基本都都是gradient descent进行优化，而没有用启发式解法的。
+   深度学习的训练过程实质是一个非线性优化问题，要解一个 non-convex 的优化问题。此类问题的解法中，local optimal 和计算速度 （原谅本科是化学系的，来了美国读了几年化学 PhD 之后才转行读 CS PhD，有些专业词汇不是很清楚中文叫什么）始终是矛盾的，换句话说，解的越快的算法，越容易得到 local optimal，以下几个方法，计算速度从快到慢依次是：gradient descent, simulated annealing, genetic algorithm, exhaustive search. 其中 simulated annealing, genetic algorithm 都算是启发式算法。 当然，如果有充分的资源和时间，exhaustive search 总能得到全局最优，但是现实情况下是不可能的。gradient descent 是最容易本困在 local optimal 的。
+   对 deep learning 的这个问题来说，在目前条件下，很明显，计算速度才是问题，所以基本无一例外都是使用基于 gradient descent 进行优化的。而最近的几篇论文，包括 https://arxiv.org/pdf/1605.07110v3.pdf 和 https://arxiv.org/pdf/1412.0233v3.pdf，都在理论上证明，local optimal 在 deep learning 的优化过程中不是什么问题。
+   所以，deep learning 和 MLP 中，基本都都是 gradient descent 进行优化，而没有用启发式解法的。
 
 **** MESSY 为什么很少用启发式搜索算法获得多层神经网络的最优解？   :ML:neural:
    Source: [2017-04-11 Tue], [[https://www.zhihu.com/question/48370147][为什么很少用启发式算法去获得多层神经网络的最优解？ - 知乎]]
 
 
    为什么很少用启发式算法去获得多层神经网络的最优解？
-   我理解多层神经网络比如CNN，核心也是求各个节点的最优权重来获得最佳的预测值，而求最优的解法中，启发式算法如遗传算法，蚁群算法为什么很少用来解这种多层神经网络问题?
+   我理解多层神经网络比如 CNN，核心也是求各个节点的最优权重来获得最佳的预测值，而求最优的解法中，启发式算法如遗传算法，蚁群算法为什么很少用来解这种多层神经网络问题?
 
-   Yan Zhang PhD in Computer Science后来在深度学习的积累多了一些，可以自己回答了。
+   Yan Zhang PhD in Computer Science 后来在深度学习的积累多了一些，可以自己回答了。
    就是两个字“太慢”。 深度学习的训练过程实质是一个非线性优化问题，要解一个
-   non-convex 的优化问题。此类问题的解法中，local optimal和计算速度 （原谅本科是
-   化学系的，来了美国读了几年化学PhD之后才转行读CS PhD，有些专业词汇不是很清楚中
-   文叫什么）始终是矛盾的，换句话说，解的越快的算法，越容易得到local optimal，以
+   non-convex 的优化问题。此类问题的解法中，local optimal 和计算速度 （原谅本科是
+   化学系的，来了美国读了几年化学 PhD 之后才转行读 CS PhD，有些专业词汇不是很清楚中
+   文叫什么）始终是矛盾的，换句话说，解的越快的算法，越容易得到 local optimal，以
    下几个方法，
    计算速度从快到慢依次是：
    gradient descent, simulated annealing, genetic algorithm, exhaustive search.
-   其中simulated annealing, genetic algorithm都算是启发式算法。
-   当然，如果有充分的资源和时间，exhaustive search总
-   能得到全局最优，但是现实情况下是不可能的。gradient descent是最容易本困在local
-   optimal的。对deep learning的这个问题来说，在目前条件下，很明显，计算速度才是
-   问题，所以基本无一例外都是使用基于gradient descent进行优化的。
+   其中 simulated annealing, genetic algorithm 都算是启发式算法。
+   当然，如果有充分的资源和时间，exhaustive search 总
+   能得到全局最优，但是现实情况下是不可能的。gradient descent 是最容易本困在 local
+   optimal 的。对 deep learning 的这个问题来说，在目前条件下，很明显，计算速度才是
+   问题，所以基本无一例外都是使用基于 gradient descent 进行优化的。
 
-   而最近的几篇论文，包括https://arxiv.org/pdf/1605.07110v3.pdf和
-   https://arxiv.org/pdf/1412.0233v3.pdf，都在理论上证明，local optimal在deep
-   learning的优化过程中不是什么问题。所以，deep learning和MLP中，基本都都是
-   gradient descent进行优化，而没有用启发式解法的。
+   而最近的几篇论文，包括 https://arxiv.org/pdf/1605.07110v3.pdf 和
+   https://arxiv.org/pdf/1412.0233v3.pdf，都在理论上证明，local optimal 在 deep
+   learning 的优化过程中不是什么问题。所以，deep learning 和 MLP 中，基本都都是
+   gradient descent 进行优化，而没有用启发式解法的。
 
 **** MESSY how to avoid local optimal in 启发式搜索算法
    Source: [2017-04-11 Tue], [[https://www.zhihu.com/question/19731925][启发式优化算法中，如何使之避免陷入局部最优解？ - 知乎]]
@@ -5679,12 +5679,12 @@ Failed to create initrd image.
    启发式算法中，局部最优值的陷入无法避免。启发式，本质上是一种贪心策略，这也在客观上决定了不符合贪心规则的更好（或者最优）解会错过。
 
    简单来说，避免陷入局部最优就是两个字：随机。
-   具体实现手段上，可以根据所采用的启发式框架来灵活地加入随机性。比如遗传里面，可以在交叉变异时，可以在控制人口策略中，也可以在选择父本母本样本时；禁忌里面，可以在禁忌表的长度上体现，也可以在解禁策略中使用，等等。这些都要结合具体问题特定的算例集，需要反复尝试摸索才行。参数的敏感性是一个问题，建议不要超过3个参数，参数越不敏感越好。不同算例集用不同种子运行多次（100次左右才有统计意义），统计平均性能即可。需注意全局的随机重启通常来说不是一个好办法，因为等于主动放弃之前搜索结果，万不得已不要用，或者就是不用。
+   具体实现手段上，可以根据所采用的启发式框架来灵活地加入随机性。比如遗传里面，可以在交叉变异时，可以在控制人口策略中，也可以在选择父本母本样本时；禁忌里面，可以在禁忌表的长度上体现，也可以在解禁策略中使用，等等。这些都要结合具体问题特定的算例集，需要反复尝试摸索才行。参数的敏感性是一个问题，建议不要超过 3 个参数，参数越不敏感越好。不同算例集用不同种子运行多次（100 次左右才有统计意义），统计平均性能即可。需注意全局的随机重启通常来说不是一个好办法，因为等于主动放弃之前搜索结果，万不得已不要用，或者就是不用。
 
    三个原则应该把握：越随机越好；越不随机越好；二者平衡最好。
 
    越随机越好
-   没有随机性，一定会陷入局部最优。为了获得更大的找到最优解的期望，算法中一定要有足够的随机性。具体体现为鲁棒性较好，搜索时多样性较好。算法的每一步选择都可以考虑加入随机性，但要控制好概率。比如，某个贪心策略下，是以概率1做某一动作，可以考虑将其改为以概率0.999做之前的操作，以剩余概率做其他操作。具体参数设置需调试。
+   没有随机性，一定会陷入局部最优。为了获得更大的找到最优解的期望，算法中一定要有足够的随机性。具体体现为鲁棒性较好，搜索时多样性较好。算法的每一步选择都可以考虑加入随机性，但要控制好概率。比如，某个贪心策略下，是以概率 1 做某一动作，可以考虑将其改为以概率 0.999 做之前的操作，以剩余概率做其他操作。具体参数设置需调试。
 
    越不随机越好
    随机性往往是对问题内在规律的一种妥协。即没有找到其内在规律，又不知道如何是好，为了获得更好的多样性，逼不得已加入随机。因此，对给定问题的深入研究才是根本：分辨出哪些时候，某个动作就是客观上能严格保证最优的——这点至关重要，直接决定了算法性能。最好的算法一定是和问题结构紧密相连的，范范地套用某个启发式的框架不会有出色的性能。当然，如果不是追求性能至上，而是考虑到开发效率实现成本这些额外因素，则另当别论。
@@ -5707,44 +5707,44 @@ Failed to create initrd image.
    9 人赞同了该回答
    看了前面的回答，基本都是说“局部搜索-跳出”这样的策略。从算法的层面来说，对付陷入局部最优的最简单的策略显然是 Restart 策略（重新开始，重启）。
 
-   1997年Science这篇论文sciencemag.org中指出，对于困难的计算问题，重启是一个非常经济的策略。一个最好的例子就是使用浏览器打开网页的时候，如果网页持续缓冲，那么人们通常的做法并不是一直等待网页缓冲完毕，而是重新刷新网页。对应到随机优化算法上，当算法长时间无法找到好解的时候，重新启动算法通常是一个好的策略。
+   1997 年 Science 这篇论文 sciencemag.org 中指出，对于困难的计算问题，重启是一个非常经济的策略。一个最好的例子就是使用浏览器打开网页的时候，如果网页持续缓冲，那么人们通常的做法并不是一直等待网页缓冲完毕，而是重新刷新网页。对应到随机优化算法上，当算法长时间无法找到好解的时候，重新启动算法通常是一个好的策略。
 
-   说一下其中的原理。首先，我们针对随机算法，更准确的说Las Vegas 算法，即算法的运行时间是一个随机变量，最终返回一个准确解的近似值。假定算法的运行时间服从某个分布，当算法运行到某个时点之后，有两个策略：
+   说一下其中的原理。首先，我们针对随机算法，更准确的说 Las Vegas 算法，即算法的运行时间是一个随机变量，最终返回一个准确解的近似值。假定算法的运行时间服从某个分布，当算法运行到某个时点之后，有两个策略：
    继续运行算法到结束，
    重新启动算法。
    比较这两种策略，论文指出，当运行时间的分布（running time distribution, RTD)满足有些条件时（如方差较大），重新启动算法的期望运行时间 比继续运行算法的时间要少
    .
-   这相当于多个算法并行运行，任何一个找到最优解就终止运行。重启策略承认我们对多峰问题没有特别好的有效的处理手段，然而反复运行算法总会找到好解。通常RTD用多次运行达到某个近似程度的累积分布表示，有兴趣的可以看Holger H. Hoos Stochastic Local Search。此外RTD普遍用于进化算法的对比评估。
+   这相当于多个算法并行运行，任何一个找到最优解就终止运行。重启策略承认我们对多峰问题没有特别好的有效的处理手段，然而反复运行算法总会找到好解。通常 RTD 用多次运行达到某个近似程度的累积分布表示，有兴趣的可以看 Holger H. Hoos Stochastic Local Search。此外 RTD 普遍用于进化算法的对比评估。
 
 
-   一个RTD的例子如下图（DE在单峰的Ellipsoid 函数上的running time distribution）。
+   一个 RTD 的例子如下图（DE 在单峰的 Ellipsoid 函数上的 running time distribution）。
 
-   在复杂TSP问题和多峰问题上，其形状可能是
+   在复杂 TSP 问题和多峰问题上，其形状可能是
 
 
-   在有很多局部极值的目标函数上，任何随机优化算法运行任意长时间找到全局最优解的概率都无法达到1。 这时候restart 策略总是适用的。并且相比各种复杂的跳出策略，简单的重启策略可能是更加实用的方案，尤其是问题很难而success probability很小的时候。
+   在有很多局部极值的目标函数上，任何随机优化算法运行任意长时间找到全局最优解的概率都无法达到 1。 这时候 restart 策略总是适用的。并且相比各种复杂的跳出策略，简单的重启策略可能是更加实用的方案，尤其是问题很难而 success probability 很小的时候。
 
    这种方法最大的优点就是，不需要对算法做任何修改，重新初始化即可。
 
-   重启策略在随机优化算法中主要是Evolution strategies 中用的比较多，最重要的之一就是CEC2005 的优胜算法http://ieeexplore.ieee.org/document/1554902/
+   重启策略在随机优化算法中主要是 Evolution strategies 中用的比较多，最重要的之一就是 CEC2005 的优胜算法 http://ieeexplore.ieee.org/document/1554902/
    GECCO 2012、13 的方法[1207.0206] Alternative Restart Strategies for CMA-ES。
    值得一提的是，如上面论文中的做法，对于多峰问题，增大种群规模几乎总是好的。
 
-   更多的研究可见Algorithm Portfolios
+   更多的研究可见 Algorithm Portfolios
    http://www.sciencedirect.com/science/article/pii/S0004370200000813 ,
    http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.2.4644&rep=rep1&type=pdf,
    Restart strategies in optimization: parallel and serial cases
    On algorithm portfolios and restart strategies
    http://alumnus.caltech.edu/~amir/restartjnl.pdf
 
-   最后指出，这种restart方法，实际起源于经典的算法而不是随机算法， 如conjugate gradient中也有相似的方法。Restart也用于神经网络里面，如 Stochastic Gradient Descent with Restarts .
+   最后指出，这种 restart 方法，实际起源于经典的算法而不是随机算法， 如 conjugate gradient 中也有相似的方法。Restart 也用于神经网络里面，如 Stochastic Gradient Descent with Restarts .
 
 
    是的，我扯了这么大一通，就是想告诉你: 再跑一次
 
 
    我的相关回答：
-   神经网络的训练可以采用二阶优化方法吗(如Newton, Quasi Newton)？
+   神经网络的训练可以采用二阶优化方法吗(如 Newton, Quasi Newton)？
    有哪些学术界都搞错了，忽然间有人发现问题所在的事情？ - 知乎用户的回答 - 知乎
 *** 2017-04-12 Wednesday
 
@@ -5753,10 +5753,10 @@ Failed to create initrd image.
 
 
    1. 数学、统计、计算机等相关专业硕士及以上学历；
-   2. 具有2年以上机器学习和深度学习相关领域的工作经验；
+   2. 具有 2 年以上机器学习和深度学习相关领域的工作经验；
    3. 对常用的机器学习和深度学习相关模型与算法原理理解透彻；
    4. 精通分布式系统（hadoop,spark）,能够在分布式框架上熟练开发相关模型；
-   5. 精通python，R，matlab等数据分析语言，熟悉数据挖掘相关的库；
+   5. 精通 python，R，matlab 等数据分析语言，熟悉数据挖掘相关的库；
    6. 有金融量化，图像处理及人工智能相关项目工作经验优先；
    7. 良好的逻辑思维能力，能够从海量数据中发现有价值的规律；
    8. 不惧困难，面临挑战充满激情，面临挫折充满斗志，面临质疑临危不惧；
@@ -5777,7 +5777,7 @@ Failed to create initrd image.
    Source: [2017-04-12 Wed], [[https://www.liepin.com/job/197942780.shtml?imscid=R000000075&ckid=c1fb07bda10c1946&headckid=c1fb07bda10c1946&pageNo=0&pageIdx8&totalIdx=8&sup=1][【高级机器学习工程师招聘】亚信科技最新招聘信息-猎聘网]]
 
 
-   1、 研究生及以上学历，3年以上相关工作经验，
+   1、 研究生及以上学历，3 年以上相关工作经验，
    2、 计算机基本功及数学基础，熟练运用各种常用算法和数据结构;
    3、 有丰富的数据挖掘/机器学习/自然语言处理/推荐算法等相关工作经验或者研究经历;
    4、 对技术有热情，乐于挑战，有责任心
@@ -5790,8 +5790,8 @@ Failed to create initrd image.
 
    数据挖掘&自然语言处理研发工程师
    1)了解机器学习和自然语言处理的常用算法（主题分类、聚类、自动推荐、中文分词、序列化标注、句法分析等），有相关经验工作者优先；
-   2)能熟练调用现有国内外深度机器学习框架者优先，如TensorFlow、Theano、Scikit-Learn；Deeplearning4j等；
-   3)熟悉java/python编程语言，有丰富的项目经验者优先；
+   2)能熟练调用现有国内外深度机器学习框架者优先，如 TensorFlow、Theano、Scikit-Learn；Deeplearning4j 等；
+   3)熟悉 java/python 编程语言，有丰富的项目经验者优先；
    4)概率学，统计学，线性代数等基础数学知识扎实；
    5)热爱大数据挖掘分析和自然语言处理，有浓厚的学习兴趣和专研精神。
 
@@ -5802,10 +5802,10 @@ Failed to create initrd image.
    1、深入理解数据挖掘的理论基础；
    2、熟悉常用算法，如分类、聚类、回归、关联规则等；
    3、有文本挖掘、时序数据挖掘、地理信息挖掘、信用建模项目经验者优先考虑；
-   4、精通数据挖掘的脚本语言：python、R、matlab、Octave、Julia其中的一种；
-   5、精通数据包SK-learn、Weka等类似工具；
-   6、熟悉常用的编程语言C，C++，Java等；
-   7、熟悉分布式系统hadoop，spark等；
+   4、精通数据挖掘的脚本语言：python、R、matlab、Octave、Julia 其中的一种；
+   5、精通数据包 SK-learn、Weka 等类似工具；
+   6、熟悉常用的编程语言 C，C++，Java 等；
+   7、熟悉分布式系统 hadoop，spark 等；
    8、熟悉常用的数据库。
 
 **** MESSY
@@ -5826,34 +5826,34 @@ Failed to create initrd image.
 
    任职要求：
    1、教育背景：自然语言处理、模式识别或机器学习相关专业本科以上学历；
-   2、经验：至少1年自然语言处理相关经验包括语法分析、句法分析、文本分类/聚类、问答系统、对话系统等；
+   2、经验：至少 1 年自然语言处理相关经验包括语法分析、句法分析、文本分类/聚类、问答系统、对话系统等；
    3、专业知识：熟悉语义分析和理解技术（相似度计算、知识表示、本体理论、分领域的 语义网络、机器推理等）；
-   4、具备良好的JAVA和C++编程能力；良好的抗压能力和团队精神。
+   4、具备良好的 JAVA 和 C++编程能力；良好的抗压能力和团队精神。
 
 **** MESSY
    Source: [2017-04-12 Wed], [[https://www.liepin.com/a/9069179.shtml?imscid=R000000075&ckid=c1fb07bda10c1946&headckid=c1fb07bda10c1946&pageNo=0&pageIdx18&totalIdx=18&sup=1][【个性化推荐算法部门负责人招聘_个性化推荐算法部门负责人工作职责】-猎聘网]]
 
 
-   1、计算机或者数学相关专业硕士及以上学历； 2、3年以上推荐系统，数据相关工作经验，有电商业务经验者优先； 3、具备机器学习、数据挖掘或自然语言处理等至少一种的研究背景和项目背景； 4、对常用的推荐算法（协同过滤，关联规则，LR等）有较深入了解，有实际算法调优经验； 5、掌握常用的数据挖掘和机器学习算法，如分类/聚类算法、预估算法； 6、熟悉大数据相关技术，包括Hadoop,Storm,Spark等； 7、具备Linux/Unix环境开发经验，熟悉以下Java/C++/python至少一种编程语言； 8、学习能力强，易沟通，团队合作精神佳；
+   1、计算机或者数学相关专业硕士及以上学历；2、3 年以上推荐系统，数据相关工作经验，有电商业务经验者优先；3、具备机器学习、数据挖掘或自然语言处理等至少一种的研究背景和项目背景；4、对常用的推荐算法（协同过滤，关联规则，LR 等）有较深入了解，有实际算法调优经验；5、掌握常用的数据挖掘和机器学习算法，如分类/聚类算法、预估算法；6、熟悉大数据相关技术，包括 Hadoop,Storm,Spark 等；7、具备 Linux/Unix 环境开发经验，熟悉以下 Java/C++/python 至少一种编程语言；8、学习能力强，易沟通，团队合作精神佳；
 *** 2017-04-17 Monday
 **** MESSY
    Source: [2017-04-17 Mon], [[https://segmentfault.com/a/1190000005859547][使用 pyenv + virtualenv 打造多版本 Python 开发环境 - PyLixm'Wiki - SegmentFault]]
 
 
-   本文最早发表于个人博客Pylixm'wiki: http://pylixm.cc
+   本文最早发表于个人博客 Pylixm'wiki: http://pylixm.cc
 
    配置环境：
 
    CentOS release 6.8
    pyenv 20160509
-   在工作开发中，一直使用 virtualenv 来管理python的包环境。很好的解决了不同项目使用不同python包的需求。对于多python版本的问题如何解决一直无解，虽然可以安装多个
+   在工作开发中，一直使用 virtualenv 来管理 python 的包环境。很好的解决了不同项目使用不同 python 包的需求。对于多 python 版本的问题如何解决一直无解，虽然可以安装多个
 
-   版本的python，靠绝对路径或靠创建虚拟环境的时候指定python（virtualenv -p）版本来解决，但总感觉不是那么的优雅。同事推荐了 pyenv ，一直没用过，特从网上找了些资料试着配置了下，记录如下。
+   版本的 python，靠绝对路径或靠创建虚拟环境的时候指定 python（virtualenv -p）版本来解决，但总感觉不是那么的优雅。同事推荐了 pyenv，一直没用过，特从网上找了些资料试着配置了下，记录如下。
 
    pyenv vs virtualenv
    pyenv 是针对 python 版本的管理，通过修改环境变量的方式实现；
 
-   virtualenv 是针对python的包的多版本管理，通过将python包安装到一个模块来作为python的包虚拟环境，通过切换目录来实现不同包环境间的切换。
+   virtualenv 是针对 python 的包的多版本管理，通过将 python 包安装到一个模块来作为 python 的包虚拟环境，通过切换目录来实现不同包环境间的切换。
 
    pyenv 原理
    pyenv 的美好之处在于，它并没有使用将不同的 $PATH 植入不同的 shell 这种高耦合的工作方式，而是简单地在 $PATH 的最前面插入了一个垫片路径（shims）：~/.pyenv/shims:/usr/local/bin:/usr/bin:/bin。所有对 Python 可执行文件的查找都会首先被这个 shims 路径截获，从而架空了后面的系统路径。
@@ -5863,7 +5863,7 @@ Failed to create initrd image.
    pyenv 提供了自动安装的工具，执行命令安装即可：
 
    curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-   需保证系统有 git ，否则需要新安装git工具。
+   需保证系统有 git，否则需要新安装 git 工具。
 
    手动安装
    将 pyenv 检出到你想安装的目录。建议路径为：$HOME/.pyenv
@@ -5885,26 +5885,26 @@ Failed to create initrd image.
 
    $ exec $SHELL
    pyenv 常用命令
-   python配置
+   python 配置
 
-   $ pyenv versions -- 查看系统当前安装的python列表
-   $ pyenv install -v 3.5.1 -- 安装python
-   $ pyenv uninstall 2.7.3 -- 卸载python
+   $ pyenv versions -- 查看系统当前安装的 python 列表
+   $ pyenv install -v 3.5.1 -- 安装 python
+   $ pyenv uninstall 2.7.3 -- 卸载 python
    $ pyenv rehash -- 创建垫片路径（为所有已安装的可执行文件创建 shims，如：~/.pyenv/versions/*/bin/*，因此，每当你增删了 Python 版本或带有可执行文件的包（如 pip）以后，都应该执行一次本命令）
-   python切换
+   python 切换
 
    $ pyenv global 3.4.0 -- 设置全局的 Python 版本，通过将版本号写入 ~/.pyenv/version 文件的方式。
    $ pyenv local 2.7.3 -- 设置面向程序的本地版本，通过将版本号写入当前目录下的 .python-version 文件的方式。通过这种方式设置的 Python 版本优先级较 global 高。
    pyenv 会从当前目录开始向上逐级查找 .python-version 文件，直到根目录为止。若找不到，就用 global 版本。
    $ pyenv shell pypy-2.2.1 -- 设置面向 shell 的 Python 版本，通过设置当前 shell 的 PYENV_VERSION 环境变量的方式。这个版本的优先级比 local 和 global 都要高。--unset 参数可以用于取消当前 shell 设定的版本。
    $ pyenv shell --unset
-   python优先级
+   python 优先级
 
    shell > local > global
 
    pyenv 插件: pyenv-virtualenv
    安装
-   使用自动安装pyenv 后，它会自动安装部分插件，通过pyenv-virtualenv 插件可以很好的和 virtualenv 结合：
+   使用自动安装 pyenv 后，它会自动安装部分插件，通过 pyenv-virtualenv 插件可以很好的和 virtualenv 结合：
 
    [root@linux3311 ~]# cd .pyenv/plugins/
    [root@linux3311 plugins]# ll
@@ -5918,16 +5918,16 @@ Failed to create initrd image.
 
    使用
    创建虚拟环境 $ pyenv virtualenv 2.7.10 my-virtual-env-2.7.10
-   若不指定python 版本，会汇报认使用当前环境python版本。
+   若不指定 python 版本，会汇报认使用当前环境 python 版本。
    列出当前虚拟环境 pyenv virtualenvs
    激活虚拟环境 pyenv activate
    退出虚拟环境 pyenv deactivate
    删除虚拟环境 pyenv uninstall my-virtual-env
-   使用pyenv 来管理python，使用 pyenv-virtualenv 插件来管理多版本 python包。
+   使用 pyenv 来管理 python，使用 pyenv-virtualenv 插件来管理多版本 python 包。
 
-   此时，还需注意，当我们将项目运行的 env 环境部署到生产环境时，由于我们的python 包是依赖python 的，需要注意生产环境的python版本问题(详见 这里)。
+   此时，还需注意，当我们将项目运行的 env 环境部署到生产环境时，由于我们的 python 包是依赖 python 的，需要注意生产环境的 python 版本问题(详见 这里)。
 
-   以上为个人拙见，欢迎小伙伴们留言交流。小伙伴们若有更好的python 多版本环境管理方案，希望留言不吝赐教，在此，先谢过了！
+   以上为个人拙见，欢迎小伙伴们留言交流。小伙伴们若有更好的 python 多版本环境管理方案，希望留言不吝赐教，在此，先谢过了！
 
    参考
    pyenv 下载地址 这里
@@ -5953,7 +5953,7 @@ Failed to create initrd image.
 
 **** MESSY  [[http://www.zmonster.me/2016/06/03/org-mode-table.html][强大的 Org mode(3): 表格的基本操作及公式、绘图 · ZMonster's Blog]]
    Captured On: [2017-04-18 Tue 11:12]
-   emacs中的表格竟然能直接生成图片，这个功能太猛了。
+   emacs 中的表格竟然能直接生成图片，这个功能太猛了。
 **** MESSY  [[https://www.douban.com/group/topic/34240539/][推荐推公式记笔记使用 TeXmacs]]
    Captured On: [2017-04-18 Tue 11:13]
 
@@ -6002,7 +6002,7 @@ print 1+1
    And this bit about org-confirm-babel-evaluate is kind of irrelevant to the question. I just have it set to nil.
 *** 2017-04-21 Friday
 
-**** MESSY 在 org的headline按下 “=”，来对真个headline所属content进行缩进
+**** MESSY 在 org 的 headline 按下 “=”，来对真个 headline 所属 content 进行缩进
    #+end_example
 
    Link:  [[file:~/Documents/org-notes/CS/DataStructure.org::*Merge%20Sort(a%20selection%20sort%20whose%20'S'%20and%20'I'%20are%20sorted%20list)][Merge Sort(a selection sort whose 'S' and 'I' are sorted list)]]
@@ -6025,8 +6025,8 @@ print 1+1
 5. https://www.youtube.com/watch?v=VjY7WAyP778
 *** 2017-04-30 Sunday
 
-**** MESSY 使用aboabo的 org-download 去插入图片在org中
-这个package需要 安装 gnome-screenshot
+**** MESSY 使用 aboabo 的 org-download 去插入图片在 org 中
+这个 package 需要 安装 gnome-screenshot
 [[http://linux.softpedia.com/get/Utilities/GNOME-Screenshot-102903.shtml%0A][Download gnome-screenshot]]
 安装这个包需要一些依赖：
 1. gtk3.0-dev
@@ -6035,19 +6035,19 @@ print 1+1
 *** 2017-05-04 Thursday
 
 **** MESSY 3 ways to set enviroment var in linux
-   Source: [2017-05-04 Thu], [[http://kangyang.blog.51cto.com/471772/590840][Linux里设置环境变量的方法（export PATH） - Mr. Kang - 51CTO技术博客]]
+   Source: [2017-05-04 Thu], [[http://kangyang.blog.51cto.com/471772/590840][Linux 里设置环境变量的方法（export PATH） - Mr. Kang - 51CTO 技术博客]]
 
 
-   使用linux的朋友越来越多了，在linux下做开发首先就是需要配置环境变量，下面以配
-   置java环境变量为例介绍三种配置环境变量的方法。
+   使用 linux 的朋友越来越多了，在 linux 下做开发首先就是需要配置环境变量，下面以配
+   置 java 环境变量为例介绍三种配置环境变量的方法。
 
-***** 1.修改/etc/profile文件
-      如果你的计算机仅仅作为开发使用时推荐使用这种方法，因为所有用户的shell都有
+***** 1.修改/etc/profile 文件
+      如果你的计算机仅仅作为开发使用时推荐使用这种方法，因为所有用户的 shell 都有
       权使用这些环境变量，可能会给系统带来安全性问题。
 
       (1)用文本编辑器打开/etc/profile
 
-      (2)在profile文件末尾加入：
+      (2)在 profile 文件末尾加入：
 
             JAVA_HOME=/usr/share/jdk1.5.0_05
             PATH=$JAVA_HOME/bin:$PATH
@@ -6058,19 +6058,19 @@ print 1+1
 
       (3)重新登录
       注解：
-             a. 你要将 /usr/share/jdk1.5.0_05jdk 改为你的jdk安装目录
-             b. linux下用冒号“:”来分隔路径
+             a. 你要将 /usr/share/jdk1.5.0_05jdk 改为你的 jdk 安装目录
+             b. linux 下用冒号“:”来分隔路径
              c. $PATH / $CLASSPATH / $JAVA_HOME 是用来引用原来的环境变量的值,在设置环境变量时特别要注意不能把原来的值给覆盖掉了，这是一种常见的错误。
-             d. CLASSPATH中当前目录“.”不能丢,把当前目录丢掉也是常见的错误。
-             e. export是把这三个变量导出为全局变量。
+             d. CLASSPATH 中当前目录“.”不能丢,把当前目录丢掉也是常见的错误。
+             e. export 是把这三个变量导出为全局变量。
              f. 大小写必须严格区分。
-***** 2. 修改.bashrc文件　　
+***** 2. 修改.bashrc 文件　　
       这种方法更为安全，它可以把使用这些环境变量的权限控制到用户级别，如果你需要
-      给某个用户权限使用这些环境变量，你只需要修改其个人用户主目录下的.bashrc文
+      给某个用户权限使用这些环境变量，你只需要修改其个人用户主目录下的.bashrc 文
       件就可以了。
 
-      (1)用文本编辑器打开用户目录下的.bashrc文件
-      (2)在.bashrc文件末尾加入：　　
+      (1)用文本编辑器打开用户目录下的.bashrc 文件
+      (2)在.bashrc 文件末尾加入：　　
 
               set JAVA_HOME=/usr/share/jdk1.5.0_05
               export JAVA_HOME
@@ -6080,9 +6080,9 @@ print 1+1
               export CLASSPATH
 
       (3)重新登录
-***** 3. 直接在shell下设置变量
-      不赞成使用这种方法，因为换个shell，你的设置就无效了，因此这种方法仅仅是临
-      时使用，以后要使用的时候又要重新设置，比较麻烦。只需在shell终端执行下列命
+***** 3. 直接在 shell 下设置变量
+      不赞成使用这种方法，因为换个 shell，你的设置就无效了，因此这种方法仅仅是临
+      时使用，以后要使用的时候又要重新设置，比较麻烦。只需在 shell 终端执行下列命
       令：
 
               export JAVA_HOME=/usr/share/jdk1.5.0_05
@@ -6115,24 +6115,24 @@ print 1+1
 *** 2017-05-18 Thursday
 *** 2017-05-30 Tuesday
 
-**** MESSY  Python模块之 __future__
-   Source: [2017-05-30 Tue], [[http://www.cnblogs.com/bluescorpio/archive/2009/09/09/1563634.html][Python模块之 __future__ - 小楼 - 博客园]]
+**** MESSY  Python 模块之 __future__
+   Source: [2017-05-30 Tue], [[http://www.cnblogs.com/bluescorpio/archive/2009/09/09/1563634.html][Python 模块之 __future__ - 小楼 - 博客园]]
 
 
-   Python模块之 __future__
+   Python 模块之 __future__
 
-   今天在学习Python Cookbook的时候，发现一句语法from __future__ import division，很奇怪__future__这个名字，网上搜了一下，原来是很有用的一个模块。
+   今天在学习 Python Cookbook 的时候，发现一句语法 from __future__ import division，很奇怪__future__这个名字，网上搜了一下，原来是很有用的一个模块。
 
-   详细说明见这里。按照官方的解释，至少确保在2.1之前版本的Python可以正常运行一些新的语言特性，需要使用语句 'from __future__ import *'。举例来说：
+   详细说明见这里。按照官方的解释，至少确保在 2.1 之前版本的 Python 可以正常运行一些新的语言特性，需要使用语句 'from __future__ import *'。举例来说：
 
    # Enable nested scopes in Python 2.1
    from __future__ import nested_scopes
 
-   如果使用这个语句，则该语句必须是模块或程序的第一个语句。此外，'__ future__' 模块中存在的特性最终将成为Python语言标准的一部分。到那时，将不再需要使用 '__future__' 模块。
+   如果使用这个语句，则该语句必须是模块或程序的第一个语句。此外，'__ future__' 模块中存在的特性最终将成为 Python 语言标准的一部分。到那时，将不再需要使用 '__future__' 模块。
 
    更多示例：
 
-   1. Python 2.6中也有一个 __future__ import 使得所有的字符串文本成为Unicode字符串。这就意味着\u转义序列可以用于包含Unicode字符。
+   1. Python 2.6 中也有一个 __future__ import 使得所有的字符串文本成为 Unicode 字符串。这就意味着\u 转义序列可以用于包含 Unicode 字符。
 
    from __future__ import unicode_literals
 
@@ -6140,14 +6140,14 @@ print 1+1
    '\u3081\u3000\u751f\u305f\u307e\u3054')
    print len(s) # 12 Unicode characters
 
-   2. Python 2.6可以通过 import __future__ 来将print从语言语法中移除，让你可以使用函数的形式。例如：
+   2. Python 2.6 可以通过 import __future__ 来将 print 从语言语法中移除，让你可以使用函数的形式。例如：
 
    from __future__ import print_function
    print('# of entries', len(dictionary), file=sys.stderr)
 
    3. 整数除法
 
-   python 2.5中：23/6 # 得3
+   python 2.5 中：23/6 # 得 3
    from __future__ import division 之后：
    23/6 # 得 3.8333333333333335
 *** 2017-05-31 Wednesday
@@ -6158,13 +6158,13 @@ print 1+1
 
    watch 命令简介
 
-   watch是做什么的？ 看一下系统怎么说
+   watch 是做什么的？ 看一下系统怎么说
 
    1 $ whatis watch
    2 watch(1)        - execute a program periodically, showing output fullscreen
    功能很明白，周期性执行某一命令，并将输出全屏显示
 
-   watch的基本用法是
+   watch 的基本用法是
 
    1 watch [options]  command
    最常用的参数是 -n， 后面指定是每多少秒来执行一次命令。
@@ -6178,14 +6178,14 @@ print 1+1
 *** 2017-06-01 Thursday
 
 **** MESSY
-   Source: [2017-06-01 Thu], [[http://www.cnblogs.com/kungfupanda/p/5237255.html][python中的__init__ 、__new__、__call__小结 - 功夫 熊猫 - 博客园]]
+   Source: [2017-06-01 Thu], [[http://www.cnblogs.com/kungfupanda/p/5237255.html][python 中的__init__ 、__new__、__call__小结 - 功夫 熊猫 - 博客园]]
 
 
-   python中的__init__ 、__new__、__call__小结
+   python 中的__init__ 、__new__、__call__小结
 
-   这篇文章主要介绍了python中的__init__ 、__new__、__call__小结,需要的朋友可以参考下
-   1.__new__(cls, *args, **kwargs)  创建对象时调用，返回当前对象的一个实例;注意：这里的第一个参数是cls即class本身
-   2.__init__(self, *args, **kwargs) 创建完对象后调用，对当前对象的实例的一些初始化，无返回值,即在调用__new__之后，根据返回的实例初始化；注意，这里的第一个参数是self即对象本身【注意和new的区别】
+   这篇文章主要介绍了 python 中的__init__ 、__new__、__call__小结,需要的朋友可以参考下
+   1.__new__(cls, *args, **kwargs)  创建对象时调用，返回当前对象的一个实例;注意：这里的第一个参数是 cls 即 class 本身
+   2.__init__(self, *args, **kwargs) 创建完对象后调用，对当前对象的实例的一些初始化，无返回值,即在调用__new__之后，根据返回的实例初始化；注意，这里的第一个参数是 self 即对象本身【注意和 new 的区别】
    3.__call__(self,  *args, **kwargs) 如果类实现了这个方法，相当于把这个类型的对象当作函数来使用，相当于 重载了括号运算符
     
 
@@ -6223,7 +6223,7 @@ print 1+1
    复制代码 代码如下:
 
    class Singleton1(object):
-       """ 重载new方法"""
+       """ 重载 new 方法"""
        def __new__(cls, *args, **kwargs):
            if not "_instance" in vars(cls):
                cls._instance = super(Singleton1, cls).__new__(cls, *args, **kwargs)
@@ -6232,7 +6232,7 @@ print 1+1
 
    ===========================================
     
-   注意1、__init__并不相当于C#中的构造函数，执行它的时候，实例已构造出来了。
+   注意 1、__init__并不相当于 C#中的构造函数，执行它的时候，实例已构造出来了。
 
    1
    2
@@ -6256,7 +6256,7 @@ print 1+1
    A.__init__(a,'hello')
    即__init__作用是初始化已实例化后的对象。
 
-   注意2、子类可以不重写__init__，实例化子类时，会自动调用超类中已定义的__init__
+   注意 2、子类可以不重写__init__，实例化子类时，会自动调用超类中已定义的__init__
 
    1
    2
@@ -6317,26 +6317,26 @@ print 1+1
    What Doesn't Kill Me Makes Me Stronger
 
 **** MESSY
-   Source: [2017-06-01 Thu], [[http://zqpythonic.qiniucdn.com/data/20091016221631/index.html][如何理解并正确使用python中的self init - python - huaihe0410]]
+   Source: [2017-06-01 Thu], [[http://zqpythonic.qiniucdn.com/data/20091016221631/index.html][如何理解并正确使用 python 中的 self init - python - huaihe0410]]
 
 
-   如何理解并正确使用python中的self init
-   《简明python教程》对self的用法介绍如下：
+   如何理解并正确使用 python 中的 self init
+   《简明 python 教程》对 self 的用法介绍如下：
     
-   类的方法与普通的函数只有一个特别的区别——它们必须有一个额外的第一个参数名称，但是在调用这个方法的时候你不为这个参数赋值，Python会提供这个值。这个特别的变量指对象本身，按照惯例它的名称是self。
+   类的方法与普通的函数只有一个特别的区别——它们必须有一个额外的第一个参数名称，但是在调用这个方法的时候你不为这个参数赋值，Python 会提供这个值。这个特别的变量指对象本身，按照惯例它的名称是 self。
 
-   虽然你可以给这个参数任何名称，但是 强烈建议 你使用self这个名称——其他名称都是不赞成你使用的。使用一个标准的名称有很多优点——你的程序读者可以迅速识别它，如果使用self的话，还有些IDE（集成开发环境）也可以帮助你。
-
-   =======================================================
-
-   给C++/Java/C#程序员的注释
-   Python中的self等价于C++中的self指针和Java、C#中的this参考。
+   虽然你可以给这个参数任何名称，但是 强烈建议 你使用 self 这个名称——其他名称都是不赞成你使用的。使用一个标准的名称有很多优点——你的程序读者可以迅速识别它，如果使用 self 的话，还有些 IDE（集成开发环境）也可以帮助你。
 
    =======================================================
 
-   你一定很奇怪Python如何给self赋值以及为何你不需要给它赋值。举一个例子会使此变得清晰。假如你有一个类称为MyClass和这个类的一个实例MyObject。当你调用这个对象的方法MyObject.method(arg1, arg2)的时候，这会由Python自动转为MyClass.method(MyObject, arg1, arg2)——这就是self的原理了。
+   给 C++/Java/C#程序员的注释
+   Python 中的 self 等价于 C++中的 self 指针和 Java、C#中的 this 参考。
 
-   这也意味着如果你有一个不需要参数的方法，你还是得给这个方法定义一个self参数。
+   =======================================================
+
+   你一定很奇怪 Python 如何给 self 赋值以及为何你不需要给它赋值。举一个例子会使此变得清晰。假如你有一个类称为 MyClass 和这个类的一个实例 MyObject。当你调用这个对象的方法 MyObject.method(arg1, arg2)的时候，这会由 Python 自动转为 MyClass.method(MyObject, arg1, arg2)——这就是 self 的原理了。
+
+   这也意味着如果你有一个不需要参数的方法，你还是得给这个方法定义一个 self 参数。
 
    我这里补充一下几个实例程序以加深理解：
 
@@ -6360,7 +6360,7 @@ print 1+1
 
    结是同上！
 
-   再改一下：（去掉self,会怎么样呢？）
+   再改一下：（去掉 self,会怎么样呢？）
 
    class Person:
     def sayHi():
@@ -6384,10 +6384,10 @@ print 1+1
    if __name__ == "__main__":
      run()
 
-   self是一种约定。在Python中，类方法的第一个参数表示对象本身，在Python中一般使用self。你也可以使用this.
+   self 是一种约定。在 Python 中，类方法的第一个参数表示对象本身，在 Python 中一般使用 self。你也可以使用 this.
 
    示例:
-   a是你想用的方法。但self是一种约定。在调用一个对象的方法时，对象本身被作为self参数传入。如：
+   a 是你想用的方法。但 self 是一种约定。在调用一个对象的方法时，对象本身被作为 self 参数传入。如：
 
    class A:
        def p(self, name):
@@ -6395,24 +6395,24 @@ print 1+1
    a=A()
    a.p('aa')
 
-   这时，相当于A.p(a, 'aa')
+   这时，相当于 A.p(a, 'aa')
    --------------------------------------------------------
    --------------------------------------------------------
    -------------------------------------------------------
    -----------------------------------------------------------
     
     
-   Python的对象不一定要有__init__方法，无论它是基类还是子类。因为__init__不是构造函数，Python对象在调用__init__的时候已被构造出来，称为“初始化”比较合适。
+   Python 的对象不一定要有__init__方法，无论它是基类还是子类。因为__init__不是构造函数，Python 对象在调用__init__的时候已被构造出来，称为“初始化”比较合适。
 
-   如果一个对象是子类，且需要有__init__，那么在__init__的第一个语句就是父类的__init__（除非父类是像dict一样的内置数据类型则不需要__init__）。调用完后再进行子类的相关初始化，作为方法覆盖。
+   如果一个对象是子类，且需要有__init__，那么在__init__的第一个语句就是父类的__init__（除非父类是像 dict 一样的内置数据类型则不需要__init__）。调用完后再进行子类的相关初始化，作为方法覆盖。
 
    一般在子类覆盖“专有类方法”，并触发相关动作，这样不必使用__init__也能进行更高级的初始化。
 
-   如果子类的方法覆盖了父类，想调用父类的方法怎么吗？Python没有super啊。很简单，直接“父类名.方法”即可。
+   如果子类的方法覆盖了父类，想调用父类的方法怎么吗？Python 没有 super 啊。很简单，直接“父类名.方法”即可。
 
    一般在类定义中方法之外的属性叫“类属性”，它跟定义在方法内的属性有什么区别呢？“ 类属性”可以使得不必生成实例也可以调用，而嵌在方法内的（特别是由__init__初始化后产生的属性），一定得产生实例才可以调用之。
 
-   所有的类的实例都享有统一的“类属性”，那这“类属性”是否就是类的常量？不是！通过在任意实例调用self.__class__.NAME就可以修改“类属性”，修改后所有的实例都将应用这一新的“类属性”。self.__class__即代表类的引用，不代表任何实例，实例就是self。
+   所有的类的实例都享有统一的“类属性”，那这“类属性”是否就是类的常量？不是！通过在任意实例调用 self.__class__.NAME 就可以修改“类属性”，修改后所有的实例都将应用这一新的“类属性”。self.__class__即代表类的引用，不代表任何实例，实例就是 self。
 
 **** MESSY
    Source: [2017-06-01 Thu], [[https://www.saltycrane.com/blog/2008/01/how-to-use-args-and-kwargs-in-python/#calling-a-function][How to use *args and **kwargs in Python - SaltyCrane Blog]]
@@ -6482,7 +6482,7 @@ print 1+1
    arg3: 3
 
 **** MESSY
-   Source: [2017-06-01 Thu], [[http://www.jb51.net/article/81151.htm][浅析Python编写函数装饰器_python_脚本之家]]
+   Source: [2017-06-01 Thu], [[http://www.jb51.net/article/81151.htm][浅析 Python 编写函数装饰器_python_脚本之家]]
 
 
    编写函数装饰器
@@ -6534,8 +6534,8 @@ print 1+1
    2
    >>> spam
    <__main__.tracer object at 0x03098410>
-   运行的时候，tracer类和装饰的函数分开保存，并且拦截对装饰的函数的随后的调用，以便添加一个逻辑层来统计和打印每次调用。
-   装饰之后，spam实际上是tracer类的一个实例。
+   运行的时候，tracer 类和装饰的函数分开保存，并且拦截对装饰的函数的随后的调用，以便添加一个逻辑层来统计和打印每次调用。
+   装饰之后，spam 实际上是 tracer 类的一个实例。
    @装饰器语法避免了直接地意外调用最初的函数。考虑如下所示的非装饰器的对等代码：
    ?
    1
@@ -6636,9 +6636,9 @@ print 1+1
    >>> egg(4,y=4)
    call 2 to egg
    256
-   也可以看到，这里的代码同样使用【类实例属性】来保存状态，即调用的次数self.calls。包装的函数和调用计数器都是针对每个实例的信息。
-   使用def函数语法写装饰器
-   使用def定义装饰器函数也可以实现相同的效果。但是有一个问题，我们也需要封闭作用域中的一个计数器，它随着每次调用而更改。我们可以很自然地想到全局变量，如下：
+   也可以看到，这里的代码同样使用【类实例属性】来保存状态，即调用的次数 self.calls。包装的函数和调用计数器都是针对每个实例的信息。
+   使用 def 函数语法写装饰器
+   使用 def 定义装饰器函数也可以实现相同的效果。但是有一个问题，我们也需要封闭作用域中的一个计数器，它随着每次调用而更改。我们可以很自然地想到全局变量，如下：
    ?
    1
    2
@@ -6668,7 +6668,7 @@ print 1+1
    @tracer
    def egg(x,y):
    print(x**y)
-   这里calls定义为全局变量，它是跨程序的，是属于整个模块的，而不是针对每个函数的，这样的话，对于任何跟踪的函数调用，计数器都会递增，如下测试：
+   这里 calls 定义为全局变量，它是跨程序的，是属于整个模块的，而不是针对每个函数的，这样的话，对于任何跟踪的函数调用，计数器都会递增，如下测试：
    ?
    1
    2
@@ -6694,8 +6694,8 @@ print 1+1
    >>> egg(4,y=4)
    call 4 to egg
    256
-   可以看到针对spam函数和egg函数，程序用的是同一个计数器。
-   那么如何实现针对每一个函数的计数器呢，我们可以使用Python3中新增的nonlocal语句，如下：
+   可以看到针对 spam 函数和 egg 函数，程序用的是同一个计数器。
+   那么如何实现针对每一个函数的计数器呢，我们可以使用 Python3 中新增的 nonlocal 语句，如下：
    ?
    1
    2
@@ -6751,9 +6751,9 @@ print 1+1
    65536
    call 2 to egg
    256
-   这样，将calls变量定义在tracer函数内部，使之存在于一个封闭的函数作用域中，之后通过nonlocal语句来修改这个作用域，修改这个calls变量。如此便可以实现我们所需求的功能。
+   这样，将 calls 变量定义在 tracer 函数内部，使之存在于一个封闭的函数作用域中，之后通过 nonlocal 语句来修改这个作用域，修改这个 calls 变量。如此便可以实现我们所需求的功能。
    陷阱：装饰类方法
-   【注意，使用类编写的装饰器不能用于装饰某一类中带self参数的的函数，这一点在Python装饰器基础中介绍过】
+   【注意，使用类编写的装饰器不能用于装饰某一类中带 self 参数的的函数，这一点在 Python 装饰器基础中介绍过】
    即如果装饰器是如下使用类编写的：
    ?
    1
@@ -6788,7 +6788,7 @@ print 1+1
    @tracer
    def giveRaise(self,percent):
    self.pay *= (1.0 + percent)
-   这时程序肯定会出错。问题的根源在于，tracer类的__call__方法的self——它是一个tracer实例，当我们用__call__把装饰方法名重绑定到一个类实例对象的时候，Python只向self传递了tracer实例，它根本没有在参数列表中传递Person主体。此外，由于tracer不知道我们要用方法调用处理的Person实例的任何信息，没有办法创建一个带有一个实例的绑定的方法，所以也就没有办法正确地分配调用。
+   这时程序肯定会出错。问题的根源在于，tracer 类的__call__方法的 self——它是一个 tracer 实例，当我们用__call__把装饰方法名重绑定到一个类实例对象的时候，Python 只向 self 传递了 tracer 实例，它根本没有在参数列表中传递 Person 主体。此外，由于 tracer 不知道我们要用方法调用处理的 Person 实例的任何信息，没有办法创建一个带有一个实例的绑定的方法，所以也就没有办法正确地分配调用。
    这时我们只能通过嵌套函数的方法来编写装饰器。
    计时调用
    下面这个装饰器将对一个装饰的函数的调用进行计时——既有针对一次调用的时间，也有所有调用的总的时间。
@@ -6885,7 +6885,7 @@ print 1+1
    [0, 2, 4, 6, 8]
    allTime = 0.2594409060462425
    map/comp = 1.42
-   这里要注意的是，map操作在Python3中返回一个迭代器，所以它的map操作不能和一个列表解析的工作直接对应，即实际上它并不花时间。所以要使用list(map())来迫使它像列表解析那样构建一个列表
+   这里要注意的是，map 操作在 Python3 中返回一个迭代器，所以它的 map 操作不能和一个列表解析的工作直接对应，即实际上它并不花时间。所以要使用 list(map())来迫使它像列表解析那样构建一个列表
    添加装饰器参数
    有时我们需要装饰器来做一个额外的工作，比如提供一个输出标签并且可以打开或关闭跟踪消息。这就需要用到装饰器参数了，我们可以使用装饰器参数来制定配置选项，这些选项可以根据每个装饰的函数而编码。例如，像下面这样添加标签：
    ?
@@ -6989,7 +6989,7 @@ print 1+1
    => listcomp:0.00034,0.00104
    >>> listcomp.alltime
    0.0010432902706075842</locals>
-   有关Python编写函数装饰器相关知识小编就给大家介绍到这里，希望对大家有所帮助！
+   有关 Python 编写函数装饰器相关知识小编就给大家介绍到这里，希望对大家有所帮助！
 *** 2017-06-03 Saturday
 
 **** MESSY exec-path 相关
@@ -7438,7 +7438,7 @@ https://www.youtube.com/channel/UCmzfq5WPcApoj8-XCrJMBig
 **** MESSY watch youtube [How to speed up a python program 11400times]
 https://www.youtube.com/watch?v=e08kOj2kISU
 
-**** MESSY pdf-tool 查看pdf文件乱码问题
+**** MESSY pdf-tool 查看 pdf 文件乱码问题
 根据 github 安装好所有依赖以后，仍让乱码，
 最后通过 *安装 xpdf* 解决
 *** 2017-06-06 Tuesday
@@ -7453,7 +7453,7 @@ https://www.youtube.com/watch?v=e08kOj2kISU
 
    处理数据
 
-   这个过程就是为了得到一个可以循环操作的宏，可以包括查找、复制、删除等一切emacs中的正常操作。例如：从1个窗口中，拷贝需要的数据后，移动到另外一个窗口，粘贴数据，将光标移动到下一个位置，最后再将光标回到原来的窗口位置。
+   这个过程就是为了得到一个可以循环操作的宏，可以包括查找、复制、删除等一切 emacs 中的正常操作。例如：从 1 个窗口中，拷贝需要的数据后，移动到另外一个窗口，粘贴数据，将光标移动到下一个位置，最后再将光标回到原来的窗口位置。
 
    循环执行宏
 
@@ -7469,11 +7469,11 @@ https://www.youtube.com/watch?v=e08kOj2kISU
    推荐
    其实，这些操作在文档中有说明，只是根据自己的经验和习惯设定不同的宏，确实可以将一些很处理重复的，很麻烦的数据文件变得很简单，很整洁！我很喜欢这个功能，极力推荐给大家使用！
 
-**** MESSY Advanced Python course in NYU 非常全面的python教程，从初级到高级，纽约大学 https://www.youtube.com/channel/UCHEGSn2vswSkH1LNXpfQ3IA/playlists :youtube:edu:cs:python:
+**** MESSY Advanced Python course in NYU 非常全面的 python 教程，从初级到高级，纽约大学 https://www.youtube.com/channel/UCHEGSn2vswSkH1LNXpfQ3IA/playlists :youtube:edu:cs:python:
 
 * 数据挖掘：理论与算法
 **** introduction
-     在数据科学，DRIP是什么的缩写（不含标点符号）data rich information poor
+     在数据科学，DRIP 是什么的缩写（不含标点符号）data rich information poor
      weka is simple, and has GUI. you can glance data mining by it
 
      - *difference between cluster and classification*
@@ -7515,8 +7515,8 @@ https://www.youtube.com/watch?v=e08kOj2kISU
 
      单选题  (1/1 分数)
      下列哪一种情况被称为过学习现象：
-     - [ ] 在训练集上A优于B，在测试集上A也优于B
-     - [X] 在训练集上A优于B，在测试集上B优于A - 正确
+     - [ ] 在训练集上 A 优于 B，在测试集上 A 也优于 B
+     - [X] 在训练集上 A 优于 B，在测试集上 B 优于 A - 正确
      - [ ] 相对于分类数据集，决策树过于简单 在训练集上决策树的误差很小
 
      单选题  (1/1 分数)
@@ -7600,19 +7600,19 @@ https://www.youtube.com/watch?v=e08kOj2kISU
    学习过程是否需要人工干预 学习样本是否需要人工标记 学习样本是否需要人工标记 - 正确 学习结果是否需要人工解释 学习参数是否需要人工设置
      显示答案 揭示答案
    单选题  (1/1 分数)
-   已知池中有两种鱼，比例为7:3，若随机捞上一条，按照70%和30%概率随机猜测其种类，则整体误差最接近于：
+   已知池中有两种鱼，比例为 7:3，若随机捞上一条，按照 70%和 30%概率随机猜测其种类，则整体误差最接近于：
 
 
    20% 30% 40% 40% - 正确 50%
      显示答案 揭示答案
    单选题  (1/1 分数)
-   2015年10月，中国共产党第十八届中央委员会第五次全体会议公报指出：坚持计划生育基本国策，积极开展应对人口老龄化行动，实施全面二孩政策。提问：小明的妈妈有两个孩子，已知其中一个是男孩儿，问另一个也是男孩儿的概率是：
+   2015 年 10 月，中国共产党第十八届中央委员会第五次全体会议公报指出：坚持计划生育基本国策，积极开展应对人口老龄化行动，实施全面二孩政策。提问：小明的妈妈有两个孩子，已知其中一个是男孩儿，问另一个也是男孩儿的概率是：
 
 
    二分之一 三分之一 三分之一 - 正确 四分之一 真的不关我的事
      显示答案 揭示答案
    单选题  (1 满分)
-   已知甲乙丙三人射击命中率分别为0.8，0.6和0.5，若每人各开一枪，则目标被命中的概率最接近：
+   已知甲乙丙三人射击命中率分别为 0.8，0.6 和 0.5，若每人各开一枪，则目标被命中的概率最接近：
 
 
    - 未答复 0.85 0.90 0.95 1.00
@@ -7634,13 +7634,13 @@ https://www.youtube.com/watch?v=e08kOj2kISU
    只能处理低维属性 只能处理离散型属性 分类效果一般 属性之间的条件独立性假设 属性之间的条件独立性假设 - 正确
      显示答案 揭示答案
    单选题  (1/1 分数)
-   以下关于两个变量X和Y说法正确的是：
+   以下关于两个变量 X 和 Y 说法正确的是：
 
 
    若独立一定不相关 若独立一定不相关 - 正确 若不相关一定独立 若独立不一定不相关 我已经晕了
      显示答案 揭示答案
    单选题  (1/1 分数)
-   两个事件A和B条件独立指的是：
+   两个事件 A 和 B 条件独立指的是：
 
    P(A, B)=P(A)P(B) P(A, B)=P(A|B)P(B) P(A|B, C)=P(A|C) P(A|B, C)=P(A|C) - 正确 P(A|B)=P(A)
      显示答案 揭示答案
@@ -7663,7 +7663,7 @@ https://www.youtube.com/watch?v=e08kOj2kISU
 记性好，没办法 刻骨铭心，矢志不渝 天长地久有时尽，此情绵绵无绝期 神经元的大规模分布式信息存储机制 神经元的大规模分布式信息存储机制 - 正确
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
-如图所示的感知机（阈值为0）实现的逻辑功能是：
+如图所示的感知机（阈值为 0）实现的逻辑功能是：
 #+BEGIN_SRC ditta
 
 #+END_SRC
@@ -7671,7 +7671,7 @@ https://www.youtube.com/watch?v=e08kOj2kISU
 或门 与门 与门 - 正确 非门 与非门
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
-在感知机的判决函数中，w0的作用是：
+在感知机的判决函数中，w0 的作用是：
 
 为了后续学习算法推导的方便 其实在实际中可以略去 控制判决平面到原点的距离 控制判决平面到原点的距离 - 正确 控制判决平面的方向
 
@@ -7684,14 +7684,14 @@ https://www.youtube.com/watch?v=e08kOj2kISU
 权重应增加 权重应减小 权重应减小 - 正确 不能确定
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
-根据Delta规则，在stochastic learning模式下，若神经元的实际输出大于期望输出，权重应：
+根据 Delta 规则，在 stochastic learning 模式下，若神经元的实际输出大于期望输出，权重应：
 
 顺势而为：增大 反其道而行之：减小 若相应输入大于零：减小 若相应输入大于零：减小 - 正确 若相应输入小于零：减小
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
 以下关于感知机说法正确的是：
 
-在batch learning模式下，权重调整出现在学习每个样本之后 只要参数设置得当，感知机理论上可以解决各种分类问题 感知机的训练过程可以看成是在误差空间进行梯度下降 感知机的训练过程可以看成是在误差空间进行梯度下降 - 正确 感知机的激励函数必须采用门限函数
+在 batch learning 模式下，权重调整出现在学习每个样本之后 只要参数设置得当，感知机理论上可以解决各种分类问题 感知机的训练过程可以看成是在误差空间进行梯度下降 感知机的训练过程可以看成是在误差空间进行梯度下降 - 正确 感知机的激励函数必须采用门限函数
 
 **** MESSY Tsinghua Data analysis exercise-Neural Networks, 4.3
 单选题  (1/1 分数)
@@ -7705,7 +7705,7 @@ https://www.youtube.com/watch?v=e08kOj2kISU
 分而治之，对原始问题空间进行划分 将原始问题向更高维空间映射 在输出层和隐含层之间形成非线性的分界面 将原始问题在隐含层映射成线性可分问题 将原始问题在隐含层映射成线性可分问题 - 正确
 提交  显示答案 揭示答案
 多选题  (1/1 分数)
-采用Sigmod函数作为激励函数的主要原因是：
+采用 Sigmod 函数作为激励函数的主要原因是：
 
 有固定的输出上下界, 导数存在解析解, 处处可导, - 正确 有固定的输出上下界 计算复杂度较低 导数存在解析解 处处可导
 
@@ -7723,7 +7723,7 @@ https://www.youtube.com/watch?v=e08kOj2kISU
 单选题  (1/1 分数)
 为了克服学习空间中存在的局部最优点应当：
 
-尝试从不同的初始点开始训练 尝试从不同的初始点开始训练 - 正确 将权重初始化为接近于0的值 采用较小的学习率 增加隐含层神经元个数
+尝试从不同的初始点开始训练 尝试从不同的初始点开始训练 - 正确 将权重初始化为接近于 0 的值 采用较小的学习率 增加隐含层神经元个数
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
 关于学习率参数的设置，正确的描述是：
@@ -7737,22 +7737,22 @@ https://www.youtube.com/watch?v=e08kOj2kISU
 
 **** MESSY Tsinghua Data analysis exercise-SVM, 5.1
 单选题  (1/1 分数)
-在SVM领域中，margin的含义是：
+在 SVM 领域中，margin 的含义是：
 
 盈利率 马金 间隔 间隔 - 正确 保证金
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
-线性SVM和一般线性分类器的区别主要是：
+线性 SVM 和一般线性分类器的区别主要是：
 
 是否进行了空间映射 是否确保间隔最大化 是否确保间隔最大化 - 正确 是否能处理线性不可分问题 训练误差通常较低
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
-为什么通常要选择margin最大的分类器？
+为什么通常要选择 margin 最大的分类器？
 
 所需的支持向量个数最少 计算复杂度最低 训练误差最低 有望获得较低的测试误差 有望获得较低的测试误差 - 正确
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
-假设超平面为w*x+b=0，其margin的大小为：
+假设超平面为 w*x+b=0，其 margin 的大小为：
 
 1/|w| 2/|w| 2/|w| - 正确 |b|/|w| 2|b|/|W|
 提交  显示答案 揭示答案
@@ -7763,12 +7763,12 @@ https://www.youtube.com/watch?v=e08kOj2kISU
 
 **** MESSY Tsinghua Data analysis exercise-SVM, 5.2
      单选题  (1/1 分数)
-在SVM的求解过程中，支持向量与alpha的关系是：
+在 SVM 的求解过程中，支持向量与 alpha 的关系是：
 
-alpha=0的数据点是支持向量 alpha>0的数据点是支持向量 alpha>0的数据点是支持向量 - 正确 alpha<0的数据点是支持向量 两者没有固定关系
+alpha=0 的数据点是支持向量 alpha>0 的数据点是支持向量 alpha>0 的数据点是支持向量 - 正确 alpha<0 的数据点是支持向量 两者没有固定关系
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
-在SVM当中，主要的运算形式是：
+在 SVM 当中，主要的运算形式是：
 
 向量内积 向量内积 - 正确 矩阵乘法 矩阵转置 矩阵分解
 提交  显示答案 揭示答案
@@ -7778,17 +7778,17 @@ alpha=0的数据点是支持向量 alpha>0的数据点是支持向量 alpha>0的
 解决线性不可分问题 解决不完全线性可分问题 解决不完全线性可分问题 - 正确 降低算法时间复杂度 提高算法分类精确
 **** MESSY Tsinghua Data analysis exercise-SVM, 5.3
      单选题  (1/1 分数)
-在SVM当中进行空间映射的主要目的是：
+在 SVM 当中进行空间映射的主要目的是：
 
 降低计算复杂度 提取较为重要的特征 对原始数据进行标准化 提高原始问题的可分性 提高原始问题的可分性 - 正确
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
-对于SVM，在映射后的高维空间直接进行计算的主要问题是：
+对于 SVM，在映射后的高维空间直接进行计算的主要问题是：
 
 模型可解释性差 计算复杂度高 计算复杂度高 - 正确 容易出现奇异矩阵 容易出现稀疏矩阵
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
-所谓kernel trick，指的是：
+所谓 kernel trick，指的是：
 
 利用在原始空间定义的函数替代高维空间的向量内积操作 利用在原始空间定义的函数替代高维空间的向量内积操作 - 正确 利用在高维空间定义的函数替代原始空间的向量内积操作 核函数的导数具有简单的解析解，简化了运算 核函数具有固定的上下界，可以输出（-1, +1）区间中的连续值
 提交  显示答案 揭示答案
@@ -7798,17 +7798,17 @@ alpha=0的数据点是支持向量 alpha>0的数据点是支持向量 alpha>0的
  提高算法的可解释性 生成数量较少的支持向量 生成数量较多的支持向量 避免高维空间运算，降低算法复杂度
 **** MESSY Tsinghua Data analysis exercise-SVM, 5.4
      单选题  (1 满分)
-SVM核心技术的发展经历了：
+SVM 核心技术的发展经历了：
 
- 10年 20年 30年 40年
+ 10 年 20 年 30 年 40 年
 提交
 单选题  (1 满分)
-线性SVM思想最初被提出的时候，你在：
+线性 SVM 思想最初被提出的时候，你在：
 
  上幼儿园 上小学 上中学 不知道在哪儿
 提交
 单选题  (1/1 分数)
-一个分类模型的capacity指的是：
+一个分类模型的 capacity 指的是：
 
 能够解决几分类问题 能解决多大规模的问题 能将多少个点分开，不论如何分配标签 能将多少个点分开，不论如何分配标签 - 正确 能达到的精确度
 提交  显示答案 揭示答案
@@ -7853,22 +7853,22 @@ SVM核心技术的发展经历了：
 簇内数据点散布越小越好 簇中心点之间的距离越大越好 簇的个数越小越好 需要考虑数据点间的连通性 需要考虑数据点间的连通性 - 正确
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
-对于Silhouette图表述正确的是：
+对于 Silhouette 图表述正确的是：
 
-每个点的取值范围为[0, 1] 每个点的取值越接近于0越好 可以体现出簇的紧凑性 可以体现出簇的紧凑性 - 正确 对于离群点，取值可能超过1
+每个点的取值范围为[0, 1] 每个点的取值越接近于 0 越好 可以体现出簇的紧凑性 可以体现出簇的紧凑性 - 正确 对于离群点，取值可能超过 1
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
-关于K-Means算法的表述正确的是：
+关于 K-Means 算法的表述正确的是：
 
 对数据分布没有特殊的要求 能较好处理噪点和离群点 对初始中心点较为敏感 对初始中心点较为敏感 - 正确 计算复杂度较高
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
-K-Means算法中的初始中心点：
+K-Means 算法中的初始中心点：
 
 可随意设置 必须在每个簇的真实中心点的附近 必须足够分散 直接影响算法的收敛结果 直接影响算法的收敛结果 - 正确
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
-在Sequential Leader算法中：
+在 Sequential Leader 算法中：
 
 需对数据集进行多次遍历 无法人为控制最终聚类的个数 需要事先生成初始中心点 聚类结果可能受数据访问顺序影响
 **** MESSY Tsinghua Data analysis exercise-Clustering, 6.3
@@ -7885,12 +7885,12 @@ K-Means算法中的初始中心点：
 单选题  (1/1 分数)
 在混合高斯模型中，每个高斯的权重：
 
-可以为负值 相加必须等于0 相加必须等于1 相加必须等于1 - 正确 须由用户预先设定
+可以为负值 相加必须等于 0 相加必须等于 1 相加必须等于 1 - 正确 须由用户预先设定
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
-以K-Means算法为例，期望最大化算法中的：
+以 K-Means 算法为例，期望最大化算法中的：
 
-模型参数指的是每个数据点的簇标号 隐含参数指的是每个数据点的簇标号 隐含参数指的是每个数据点的簇标号 - 正确 模型参数指的是簇的个数（即K值） 隐含参数指的是簇中心点坐标
+模型参数指的是每个数据点的簇标号 隐含参数指的是每个数据点的簇标号 隐含参数指的是每个数据点的簇标号 - 正确 模型参数指的是簇的个数（即 K 值） 隐含参数指的是簇中心点坐标
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
 在掷硬币的例子中，期望最大化算法的隐含参数指的是：
@@ -7898,24 +7898,24 @@ K-Means算法中的初始中心点：
 每组实验中正面朝上的次数 每组实验中选择的硬币 每组实验中选择的硬币 - 正确 每枚硬币正面朝上的概率 每枚硬币被选中的次数
 **** MESSY Tsinghua Data analysis exercise-Clustering, 6.4
      单选题  (1/1 分数)
-与K-Means相比，基于密度的DBSCAN的优点不包括：
+与 K-Means 相比，基于密度的 DBSCAN 的优点不包括：
 
 能妥善处理噪点和离群点 能处理不规则的数据分布 不需要预先设定簇的个数 较低的计算复杂度 较低的计算复杂度 - 正确
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
-在DBSCAN中，对数据点类型的划分中不包括：
+在 DBSCAN 中，对数据点类型的划分中不包括：
 
 中心点 中心点 - 正确 核心点 边缘点 噪点
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
-在DBSCAN中，对于噪点：
+在 DBSCAN 中，对于噪点：
 
 划分到最近的簇 所有噪点单独形成一个簇 直接无视 直接无视 - 正确 不做特别区分
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
 在层次型聚类中：
 
-需要用户预先设定聚类的个数 需要用户预先设定聚类个数的范围 对于N个数据点，可生成1到N个簇 对于N个数据点，可生成1到N个簇 - 正确 对于N个数据点，可生成1到N/2个簇
+需要用户预先设定聚类的个数 需要用户预先设定聚类个数的范围 对于 N 个数据点，可生成 1 到 N 个簇 对于 N 个数据点，可生成 1 到 N 个簇 - 正确 对于 N 个数据点，可生成 1 到 N/2 个簇
 提交  显示答案 揭示答案
 单选题  (1/1 分数)
 在层次型聚类中，两个点集之间的距离计算方法通常不包括：
@@ -7944,7 +7944,7 @@ K-Means算法中的初始中心点：
 1. 理论方面，我推荐最经典的一本书《统计学习方法》，这书可能不是最全的，但是讲得最精髓，薄薄一本，适合面试前突击准备。
 
 我认为一些要点是：
-统计学习的核心步骤：模型、策略、算法，你应当对logistic、SVM、决策树、KNN及各种聚类方法有深刻的理解。能够随手写出这些算法的核心递归步的伪代码以及他们优化的函数表达式和对偶问题形式。
+统计学习的核心步骤：模型、策略、算法，你应当对 logistic、SVM、决策树、KNN 及各种聚类方法有深刻的理解。能够随手写出这些算法的核心递归步的伪代码以及他们优化的函数表达式和对偶问题形式。
 
 非统计学习我不太懂，做过复杂网络，但是这个比较深，面试可能很难考到。
 
@@ -7955,21 +7955,21 @@ K-Means算法中的初始中心点：
 2. 工程实现能力与编码水平
 机器学习从工程实现一般来讲都是某种数据结构上的搜索问题。
 
-你应当深刻理解在1中列出的各种算法对应应该采用的数据结构和对应的搜索方法。比如KNN对应的KD树、如何给图结构设计数据结构？如何将算法map-red化等等。
-一般来说要么你会写C，而且会用MPI，要么你懂Hadoop，工程上基本都是在这两个平台实现。实在不济你也学个python吧。
+你应当深刻理解在 1 中列出的各种算法对应应该采用的数据结构和对应的搜索方法。比如 KNN 对应的 KD 树、如何给图结构设计数据结构？如何将算法 map-red 化等等。
+一般来说要么你会写 C，而且会用 MPI，要么你懂 Hadoop，工程上基本都是在这两个平台实现。实在不济你也学个 python 吧。
 
-3. 非常令人失望地告诉你尽管机器学习主要会考察1和2
-但是实际工作中，算法的先进性对真正业务结果的影响，大概不到30%。当然算法必须要足够快，离线算法最好能在4小时内完成，实时算法我没搞过，要求大概更高。
+3. 非常令人失望地告诉你尽管机器学习主要会考察 1 和 2
+但是实际工作中，算法的先进性对真正业务结果的影响，大概不到 30%。当然算法必须要足够快，离线算法最好能在 4 小时内完成，实时算法我没搞过，要求大概更高。
 
-机器学习大多数场景是搜索、广告、垃圾过滤、安全、推荐系统等等。对业务有深刻的理解对你做出来的系统的结果影响超过70%。这里你没做过实际的项目，是完全不可能有任何体会的，我做过一个推荐系统，没有什么算法上的高大上的改进，主要是业务逻辑的创新，直接就提高了很明显的一个CTR（具体数目不太方便透露，总之很明显就是了）。如果你做过实际的项目，一定要主动说出来，主动让面试官知道，这才是最大最大的加分项目。
+机器学习大多数场景是搜索、广告、垃圾过滤、安全、推荐系统等等。对业务有深刻的理解对你做出来的系统的结果影响超过 70%。这里你没做过实际的项目，是完全不可能有任何体会的，我做过一个推荐系统，没有什么算法上的高大上的改进，主要是业务逻辑的创新，直接就提高了很明显的一个 CTR（具体数目不太方便透露，总之很明显就是了）。如果你做过实际的项目，一定要主动说出来，主动让面试官知道，这才是最大最大的加分项目。
 
-最后举个例子，阿里内部机器学习挑战赛，无数碾压答主10000倍的大神参赛。最后冠军没有用任何高大上的算法而是基于对数据和业务的深刻理解和极其细致的特征调优利用非常基本的一个算法夺冠。所以啥都不如真正的实操撸几个生产项目啊。
+最后举个例子，阿里内部机器学习挑战赛，无数碾压答主 10000 倍的大神参赛。最后冠军没有用任何高大上的算法而是基于对数据和业务的深刻理解和极其细致的特征调优利用非常基本的一个算法夺冠。所以啥都不如真正的实操撸几个生产项目啊。
 编辑于 2016-12-08
 ***** 1
-SVM的原理，SVM里面的核
-K-means，如何用hadoop实现k-means
-naive bayes和logistic regression的区别
-LDA的原理和推导
+SVM 的原理，SVM 里面的核
+K-means，如何用 hadoop 实现 k-means
+naive bayes 和 logistic regression 的区别
+LDA 的原理和推导
 做广告点击率预测，用哪些数据什么算法
 推荐系统的算法中最近邻和矩阵分解各自适用场景
 用户流失率预测怎么做（游戏公司的数据挖掘都喜欢问这个）
@@ -7983,7 +7983,7 @@ LDA的原理和推导
 我非常后悔的一点是我现在才想起来总结。有一个题是游戏玩家流失率预测，我被问过两次。
 但是每次我都说是个分类问题。最近我突然想起来去网上查了下，有两个点，数据不平衡问
 题和时间序列分析。我网上查到是一个大学教授和人人游戏合作的课题。我然后查了下这个
-老师的publication。没发现相关的论文。可能公司不让发表吧。
+老师的 publication。没发现相关的论文。可能公司不让发表吧。
 
 这些问题的特点是很基础很简单，因为实际中很少用复杂的算法，复杂的算法不好控制，而
 且理论要求高。另一个特点是注重考查实际工程能力，我经常被问到自己实现了哪些算法。
@@ -7991,27 +7991,27 @@ LDA的原理和推导
 
 我觉得如果现在再给我准备的机会。我会准备下面几点。首先是计算机基础知识和算法，这
 些都是会正常考察的。有些公司考的少，有些公司正常考察。针对机器学习这部分，需要理
-论扎实，还需要自己动手实现代码。另外hadoop，mpi，最近比较火的spark，应该都是加分
+论扎实，还需要自己动手实现代码。另外 hadoop，mpi，最近比较火的 spark，应该都是加分
 项。另一个是接触下实际的数据分析系统。我在学校里面看的论文，都是讲算法的多，讲应
 用系统的少。这个可以靠之前的实习，也可以看些比较实用的论文。
 
 PS 我是题主，自问自答下。
 PS2 我面试的都是国内互联网公司和游戏公司。
 ***** 1
-抛砖引玉，在读硕士，半个月前去面了某公司机器学习intern铩羽而归了。机器学习部分一个面试官问了我一个小时，我估计如果真正能上的人光机器学习部分应该还会多来几轮。
+抛砖引玉，在读硕士，半个月前去面了某公司机器学习 intern 铩羽而归了。机器学习部分一个面试官问了我一个小时，我估计如果真正能上的人光机器学习部分应该还会多来几轮。
 
 首先介绍自己的研究经历。会随机问一些细节。
 我面的推荐，问了各类协同过滤的好与坏。
 
-然后我说我做过LDA，问我，Dirichlet Distribution的定义和性质，并问我，为什么它和
-multinomial distribution是共轭的，顺便问了我啥叫共轭分布。
+然后我说我做过 LDA，问我，Dirichlet Distribution 的定义和性质，并问我，为什么它和
+multinomial distribution 是共轭的，顺便问了我啥叫共轭分布。
 
-问了一个很有意思的问题，现实应用中的Top-N推荐问题和学术研究中的评分预测问题之间有什么不同。
+问了一个很有意思的问题，现实应用中的 Top-N 推荐问题和学术研究中的评分预测问题之间有什么不同。
 
-问我ItemCF的工程实现，面对大数据如何实现，又追问了有没有什么工程优化算法。这个问
-题我没答好，一开始我说了一个MapReduce模型，他问能不能更快一点，我就卡那了。。。
+问我 ItemCF 的工程实现，面对大数据如何实现，又追问了有没有什么工程优化算法。这个问
+题我没答好，一开始我说了一个 MapReduce 模型，他问能不能更快一点，我就卡那了。。。
 最后面试官告诉我，不能只从算法角度分析，要从系统设计分析，利用内存来减小
-MapReduce的吞吐量。（当然也许从MapReduce那一刻开始我就输了也不一定）
+MapReduce 的吞吐量。（当然也许从 MapReduce 那一刻开始我就输了也不一定）
 
 
 最后考了我一个基本概念，什么叫判别模型什么叫生成模型。
@@ -8026,7 +8026,7 @@ MapReduce的吞吐量。（当然也许从MapReduce那一刻开始我就输了�
 ***** 1
 可以参考我的这篇文章《机器学习面试的那些事儿》，有时间再补充点其他的内容。
 
-假设我们做过一个垃圾邮件分类器的项目。为了建立这个分类器，我们首先对数据进行清理及预处理，如缺失数据的处理、数据的归一化等。在获得初始特征向量后，用PCA进行了特征选择。利用特征选择得到的特征向量及对应数据，训练一个随机森林的分类器作为我们的垃圾邮件分类器。针对的这样一个项目，有这样几个点可以进行挖掘和准备。
+假设我们做过一个垃圾邮件分类器的项目。为了建立这个分类器，我们首先对数据进行清理及预处理，如缺失数据的处理、数据的归一化等。在获得初始特征向量后，用 PCA 进行了特征选择。利用特征选择得到的特征向量及对应数据，训练一个随机森林的分类器作为我们的垃圾邮件分类器。针对的这样一个项目，有这样几个点可以进行挖掘和准备。
 
 
 1. 项目简介
@@ -8041,7 +8041,7 @@ MapReduce的吞吐量。（当然也许从MapReduce那一刻开始我就输了�
 
 这类问题同样是机器学习面试中最普遍最常见的一类问题，面试的形式一般为介绍一个你最
 喜欢的模型，或是介绍项目中应用的某种模型。与项目简介相同，模型简介也应力求简洁，
-用最简短的几句话，讲清楚模型是用了什么样的原理完成了怎样的目标。wikipedia中关于
+用最简短的几句话，讲清楚模型是用了什么样的原理完成了怎样的目标。wikipedia 中关于
 随机森林的定义给我们提供了一个非常好的学习模板，可以用来借鉴：
 
 
@@ -8053,7 +8053,7 @@ classes (classification) or mean prediction (regression) of the individual
 trees(基本原理).
 
 
-但是，wikipedia中大部分模型的描述更偏书面化的表达，并不适合原封不动地照搬到面试中。我们需要将它转化为更口语化的表达。
+但是，wikipedia 中大部分模型的描述更偏书面化的表达，并不适合原封不动地照搬到面试中。我们需要将它转化为更口语化的表达。
 
 
 3. 模型的优缺点
@@ -8061,7 +8061,7 @@ trees(基本原理).
 模型的优缺点与模型简介是紧密相关的，可以将两个问题结合起来一起准备。比如之前我们
 谈到了什么是随机森林，紧接着可以谈一下随机森林有什么优点，如：a. 对于很多数据集
 表现良好，精确度比较高；b. 不容易过拟合；c. 可以得到变量的重要性排序；d. 既能处
-理离散型数据，也能处理连续型数据，且不需要进行归一化处理； e. 能够很好的处理缺失
+理离散型数据，也能处理连续型数据，且不需要进行归一化处理；e. 能够很好的处理缺失
 数据；f. 容易并行化等等。同时，将理论与实践结合也是非常好的切入点，如随机森林的
 诸多优点是如何体现在垃圾邮件分类器项目中，这样的结合能更好的展示出面试人对于模型
 的理解及掌控。
@@ -8076,11 +8076,11 @@ trees(基本原理).
 
 例如，在模型的优缺点中，我们提到了随机森林可以对变量重要性进行排序。相应地，我们
 应该能够解释随机森林是如何对变量重要性进行排序，有哪几种常见的排序指标，比如利用
-OOB误分率的改变或者分裂时信息增益的变化等。当然，问题并非到此终止，基于上面提到
-的两种常见的变量重要性排序指标，又可以衍生出新的问题。例如，针对OOB误分率这个指
-标，解释一下什么是OOB，随机森林中OOB是如何计算的，它有什么样的优缺点；针对信息增
+OOB 误分率的改变或者分裂时信息增益的变化等。当然，问题并非到此终止，基于上面提到
+的两种常见的变量重要性排序指标，又可以衍生出新的问题。例如，针对 OOB 误分率这个指
+标，解释一下什么是 OOB，随机森林中 OOB 是如何计算的，它有什么样的优缺点；针对信息增
 益，同样会有很多与之有关的问题，如什么是信息增益，如何计算信息增益，什么是熵，什
-么是GINI指数，他们之间的区别是什么，他们之间的区别会对建树产生怎样的影响等。
+么是 GINI 指数，他们之间的区别是什么，他们之间的区别会对建树产生怎样的影响等。
 
 
 再如，在垃圾邮件分类器项目中，有一部分数据存在缺失，而随机森林具有处理缺失数据的
@@ -8101,7 +8101,7 @@ OOB误分率的改变或者分裂时信息增益的变化等。当然，问题�
 问题：为什么选择随机森林而非其他模型，比如朴素贝叶斯或者支持向量机。一般来说，面
 试者可以从数学理论和工程实现两个方面进行比较回答。从理论上讲，数据表现出来的特征，
 以及模型所基于的假设都是很好的突破口;从工程实现上讲，实现的难易程度，是否易于
-scale都是可以考虑的点。
+scale 都是可以考虑的点。
 
 
 6. 开放性问题
@@ -8114,7 +8114,7 @@ scale都是可以考虑的点。
 
 再次回到垃圾邮件分类器项目，这个项目中有多个开放性问题可以被提问。比如，1. 邮件
 数据存在缺失，通常情况下，如何对缺失数据进行处理？2. 垃圾邮件分类是一个非平衡数
-据集分类的问题，针对这一类问题，我们应该如何进行建模。3. 项目中，PCA被用于特征选
+据集分类的问题，针对这一类问题，我们应该如何进行建模。3. 项目中，PCA 被用于特征选
 择，除此而外，还有哪些方法可以用来进行特征选择？
 
 
@@ -8131,8 +8131,8 @@ C. The Elements of Statistical Learning. By Trevor Hastie, Robert Tibshirani and
 D. Pattern Recognition and Machine Learning. By Christopher Bishop.
 
 
-A.和B.是Stanford和CMU机器学习课程的课件，里面涵盖了各种常用算法，应该力求掌握这
-些算法。C.和D.是经典中的经典，难度适中，内容没有太理论，语言也没有太晦涩，是机器
+A.和 B.是 Stanford 和 CMU 机器学习课程的课件，里面涵盖了各种常用算法，应该力求掌握这
+些算法。C.和 D.是经典中的经典，难度适中，内容没有太理论，语言也没有太晦涩，是机器
 学习内功修炼的不二法门。
 
 
@@ -8142,8 +8142,8 @@ A.和B.是Stanford和CMU机器学习课程的课件，里面涵盖了各种常�
 ***** 1
 数据结构算法水题+常用机器学习算法推导+模型调优细节+业务认识
 *****  1
-算法有svm  em算法  都要推导证明
-因为我做过文本主题  所以问了很多lda的知识
+算法有 svm  em 算法  都要推导证明
+因为我做过文本主题  所以问了很多 lda 的知识
 其它的就比较扯了
 ***** 1
 常用模型和算法，至少有那么一两个能推导，能说出适用范围，能自己实现，有过应用。
@@ -8154,96 +8154,96 @@ A.和B.是Stanford和CMU机器学习课程的课件，里面涵盖了各种常�
 
 ***** 1
 先总结几点，再谈个人经历。
-1. 基本的Model要懂
-Kmeans必须懂 KNN懂原理不用写 SVM、MR和Pagerank多看看，遇到问题多用这些方法讨论
+1. 基本的 Model 要懂
+Kmeans 必须懂 KNN 懂原理不用写 SVM、MR 和 Pagerank 多看看，遇到问题多用这些方法讨论
 （不关乎信仰，面试官都懂）
 
-2. 高层次的Model是关乎信仰的，不需要浪费时间在上面
-比如LDA。以前信贝爷，觉得高大上。做过才知道坑有多深，出paper搞点黑数据可以，真正
-业界要用效果甚不稳定。HMM可以做语句分析优化，别的地方用也不显著。绝大多数时候搞
-个word net，做个tf idf就足够了，不行自己再加些hardcode，效果也比所谓的model好，
+2. 高层次的 Model 是关乎信仰的，不需要浪费时间在上面
+比如 LDA。以前信贝爷，觉得高大上。做过才知道坑有多深，出 paper 搞点黑数据可以，真正
+业界要用效果甚不稳定。HMM 可以做语句分析优化，别的地方用也不显著。绝大多数时候搞
+个 word net，做个 tf idf 就足够了，不行自己再加些 hardcode，效果也比所谓的 model 好，
 性能也高。另一说就是面试官不期望你懂这么高级的模型，就跟他们不能因为你不会拉小提
 琴而觉得你智商不够把你拒掉一样。
 
 3. 人品、自信、反客为主的面试思路
-以我的个人经历（Observation）（详见文末），不懂但人品好就拿到了Offer，懂但人品不
-好就拿不到Offer。（请随意Predict）个人比较成功的面筋是看好面试官的cd间隔放大招：
-比如看简历沉没的时候主动说high light一下，有条件就把线上的project拿出来秀；代码
+以我的个人经历（Observation）（详见文末），不懂但人品好就拿到了 Offer，懂但人品不
+好就拿不到 Offer。（请随意 Predict）个人比较成功的面筋是看好面试官的 cd 间隔放大招：
+比如看简历沉没的时候主动说 high light 一下，有条件就把线上的 project 拿出来秀；代码
 写完主动说说能有什么改进思路，把面试官拐跑，就不会被他带到挖好的坑上来了。
 
 4. 数据敏感性
 比如预估数据规模和运行时间。
 
-经历过以下几种case，不知是否match。
-1. 10年，北京，刚毕业。申请国外phd跪了。魂友指明路去T大某ML实验室历练。提前两周
+经历过以下几种 case，不知是否 match。
+1. 10 年，北京，刚毕业。申请国外 phd 跪了。魂友指明路去 T 大某 ML 实验室历练。提前两周
    看了下，感觉最懂的也只有贝叶斯公式了（其余只知道个缩写看着眼熟）约了时间也只
    能硬着头皮去了。
 结果老板就看了看简历，只问我啥时候可以过去。=_=
 
-2. 一年半后，在美读硕。经济压力山大，暑假前就开始找实习（真心困难，因为当时招ML
-   或者Data Scientist的都只招Fulltime或者经老板介绍的PhD）简历投了也没人鸟，感觉
-   还是懂iOS Android的吃香。好不容易遇到个start-up，面试时候我主动展示之前做的项
-   目，挺满意，让我写个Page Rank，30分钟拍好Over。（允许看wiki看公式）老板不懂/
-   不信LDA，反正SVM各种搞。
+2. 一年半后，在美读硕。经济压力山大，暑假前就开始找实习（真心困难，因为当时招 ML
+   或者 Data Scientist 的都只招 Fulltime 或者经老板介绍的 PhD）简历投了也没人鸟，感觉
+   还是懂 iOS Android 的吃香。好不容易遇到个 start-up，面试时候我主动展示之前做的项
+   目，挺满意，让我写个 Page Rank，30 分钟拍好 Over。（允许看 wiki 看公式）老板不懂/
+   不信 LDA，反正 SVM 各种搞。
 
-3. 有同学拿到EBay电面，抓我去帮忙递纸条，问的概率论基础，线性回归，码字符串处理，
+3. 有同学拿到 EBay 电面，抓我去帮忙递纸条，问的概率论基础，线性回归，码字符串处理，
    都是基本功。
 
-4. 后来面了次Yelp，电面第二轮，代码拍太快了，导致他有时间问了第二个Follow up
-   question，投票统计相关，我提了两种normalize方案，都不太完善，后来就不要我了。
+4. 后来面了次 Yelp，电面第二轮，代码拍太快了，导致他有时间问了第二个 Follow up
+   question，投票统计相关，我提了两种 normalize 方案，都不太完善，后来就不要我了。
 
-5. FB一直没理我，估计是之前在Graph上面抓数据超了两次limit被封过ID（他们自己文档
-   不写清楚）Google问的都是基本码农问题，跟ML关系不大。因为面的Test，码完让我自
+5. FB 一直没理我，估计是之前在 Graph 上面抓数据超了两次 limit 被封过 ID（他们自己文档
+   不写清楚）Google 问的都是基本码农问题，跟 ML 关系不大。因为面的 Test，码完让我自
    己出数据，我出多了，被鄙视，锯。
 
-6. 去面Bing。Super Day面了6个人，前面问算法，后面吃着混沌面问的Query分析。最后没
-   给Offer，因为收了N记2万5员工用完招人名额。（据说还给EVP打了报告，没批。算了）
+6. 去面 Bing。Super Day 面了 6 个人，前面问算法，后面吃着混沌面问的 Query 分析。最后没
+   给 Offer，因为收了 N 记 2 万 5 员工用完招人名额。（据说还给 EVP 打了报告，没批。算了）
 
 最后忠告：
 攒人品。
-信自己的数学和逻辑直觉，不要信Model。
+信自己的数学和逻辑直觉，不要信 Model。
 信不信贝爷和得不得永生是相对独立事件。
 所以“信贝爷得永生”在贝爷的公理范围内至少是悖论。
-关于考察方面，上面已经讲得很详细了，直接给你贴几个面试数据挖掘实习生经验贴，都是15年崭新的血与泪啊。（网站是100块钱的国外虚拟空间，没有进行什么优化处理，所以网页打开会非常慢，请见谅。）
+关于考察方面，上面已经讲得很详细了，直接给你贴几个面试数据挖掘实习生经验贴，都是 15 年崭新的血与泪啊。（网站是 100 块钱的国外虚拟空间，没有进行什么优化处理，所以网页打开会非常慢，请见谅。）
 ***** 1
 百度数据挖掘实习工程师一、二现场面试（深圳）
-阿里巴巴电话面试2面总结（数据挖掘，天猫事业部）
-百度NLP电话面试总结
+阿里巴巴电话面试 2 面总结（数据挖掘，天猫事业部）
+百度 NLP 电话面试总结
 
 如何准备面试呢？个人经验：
 
-1. 代码算法：基本算法（如快排等，需要熟练掌握） + 剑指Offer（面试经常出相似的题） + LeetCode（剑指Offer的补充，增强动手能力）
-2. 机器学习：李航《统计学习方法》（读3遍都不为过啊！） + Coursera
+1. 代码算法：基本算法（如快排等，需要熟练掌握） + 剑指 Offer（面试经常出相似的题） + LeetCode（剑指 Offer 的补充，增强动手能力）
+2. 机器学习：李航《统计学习方法》（读 3 遍都不为过啊！） + Coursera
    Stanford《Machine Learning》（讲得很基础，但是没有告诉你所以然） + Coursera
-   台湾大学《机器学习高级技法》（里面详解了SVM，Ensemble等模型的推导，优劣）
+   台湾大学《机器学习高级技法》（里面详解了 SVM，Ensemble 等模型的推导，优劣）
 3. 请详细地回忆自己做过的项目，项目用了什么算法，为什么用它，有什么优缺点等。如
-   果没项目经验可以参加天猫大数据比赛和Kaggle比赛。
+   果没项目经验可以参加天猫大数据比赛和 Kaggle 比赛。
 4. 教你如何迅速秒杀掉：99%的海量数据处理面试题。（基本每次都有一道海量数据处理的面试题）
 
-1 决策树的模型很重要，不会问你ID3这些简单的，甚至CART都不会，不过会问GBDT，随机森林。
-2 SVM不可能不问。
+1 决策树的模型很重要，不会问你 ID3 这些简单的，甚至 CART 都不会，不过会问 GBDT，随机森林。
+2 SVM 不可能不问。
 3 理解得很深才能给面试官讲明白。
 
 会逻辑回归就够了，其他的大致看看，编程扎实一点，特征怎么抽怎么处理的详细了解一下，
-就够了，没那么多扯犊子东西。主要靠练，准备的话看看C加加，熟悉一下自己的项目。
+就够了，没那么多扯犊子东西。主要靠练，准备的话看看 C 加加，熟悉一下自己的项目。
 ***** 1
 一、一些常见的机器学习算法
-1. 如果有背景，item和cf协同过滤的优缺点，如何从计算公式证明，各种情况的惩罚，
-   hadoop上mr的实现，包括各种情况的惩罚。
+1. 如果有背景，item 和 cf 协同过滤的优缺点，如何从计算公式证明，各种情况的惩罚，
+   hadoop 上 mr 的实现，包括各种情况的惩罚。
 2. 线性回归的梯度下降和牛顿法求解公式的推导
 3. 贝叶斯分类器的优化和特殊情况的处理
 决策树的的训练……
 
 二、单机的算法如数据结构
-1.最简单的top n
-2 偶尔会有一些简单的poj
+1.最简单的 top n
+2 偶尔会有一些简单的 poj
 3.数据结构
 
 三、系统设计，包括算法和工程系统
 1. 如一个热门微博排行榜等
 
 ***** 1
-最近在Quora上看到了一个相关回到，于是搬到这里来。
+最近在 Quora 上看到了一个相关回到，于是搬到这里来。
 链接在此 quora.com 的页面
 搞机器学习的阅读英文肯定毫无压力了，就不翻译了
 
@@ -8323,20 +8323,20 @@ intern who had taken the time to solve a Kaggle problem and done reasonably
 well.
 ***** 1
 1. 实现一个分布式的矩阵向量乘的算法。。。
-好吧 这个我学过 blabla讲了一堆 也不知道对不对
-2. 最速下降法和共轭梯度法 wolfe条件 最速下降法和共轭梯度法的收敛速度如何判断。。。
-两种方法的概念答上来了 wolfe条件没准备到 收敛速度大概回答了一下 我印象中只记得共
+好吧 这个我学过 blabla 讲了一堆 也不知道对不对
+2. 最速下降法和共轭梯度法 wolfe 条件 最速下降法和共轭梯度法的收敛速度如何判断。。。
+两种方法的概念答上来了 wolfe 条件没准备到 收敛速度大概回答了一下 我印象中只记得共
 轭梯度的误差估计了
-3. 约束优化的KKT条件 KKT条件在边界区域的搜索行为的物理意义是什么。。。
-KKT条件ok 物理意义没答上来
-4. 实现一个分布式的topN算法。。。
-topN看过 不过分布式嘛。。。 就是追着你问 问到你不会为止
-5. 为什么可以使用logistic回归。。。
-这个我不懂。。。 好吧 hr让我去看看《离散选择方法》这本书。。。 算是学到了
+3. 约束优化的 KKT 条件 KKT 条件在边界区域的搜索行为的物理意义是什么。。。
+KKT 条件 ok 物理意义没答上来
+4. 实现一个分布式的 topN 算法。。。
+topN 看过 不过分布式嘛。。。 就是追着你问 问到你不会为止
+5. 为什么可以使用 logistic 回归。。。
+这个我不懂。。。 好吧 hr 让我去看看《离散选择方法》这本书。。。 算是学到了
 6. 你了解的机器学习算法有哪些。。。
 这个简单。。。
 7  选一个你熟悉的算法 详细推导公式过程。。。
-推公式我在行 不过hr貌似不感冒
+推公式我在行 不过 hr 貌似不感冒
 8  一个实际应用的问题 因为没有背景 所以只好放弃
 然后就没有然后了
 ** Coder
@@ -8353,41 +8353,41 @@ topN看过 不过分布式嘛。。。 就是追着你问 问到你不会为止
 項（我們稱為間斷變項, discrete variable），例如醫學統計最常遇到的就是「死亡與否」、
 「有無生病」、「有無發生」，此時依變項只有兩種情況，那麼傳統的線性迴歸再也不適用
 於配適這樣的類別性資料，原因有很多，例如殘差常態性不可能成立、依變項的預測值可能
-會超過1等等。此時若對依變項作一個轉換，稱作logit轉換則可以解決以上諸多問題（關於
+會超過 1 等等。此時若對依變項作一個轉換，稱作 logit 轉換則可以解決以上諸多問題（關於
 詳細的轉換過程要參見教科書）。
 
 
 傳統線性迴歸的迴歸係數（regression coefficient）的解釋為「當自變項增加一個單位，
-依變項則會增加多少單位」，但是在Logistic regression的迴歸係數解釋為「當自變項增
-加一個單位，依變項1相對依變項0的機率會增加幾倍」，也就是說「自變項增加一個單位，
-依變項有發生狀況（習慣稱為Event）相對於沒有發生狀況（non-event）的比值」，這個比
+依變項則會增加多少單位」，但是在 Logistic regression 的迴歸係數解釋為「當自變項增
+加一個單位，依變項 1 相對依變項 0 的機率會增加幾倍」，也就是說「自變項增加一個單位，
+依變項有發生狀況（習慣稱為 Event）相對於沒有發生狀況（non-event）的比值」，這個比
 值就是勝算比（Odds ratio, OR）。我們可以這樣說，除了迴歸係數的解釋方法不太相同之
-外，基本上可說傳統線性迴歸跟Logistic regression是一樣的分析。
+外，基本上可說傳統線性迴歸跟 Logistic regression 是一樣的分析。
 
 
-以上我們提到的是當依變項是二元的（Binary）時的Logistic regression，不過有的時候
-依變項的類別會超過3類，例如人格心裡學就常常把人格分成「五大人格」，而且這五個人
+以上我們提到的是當依變項是二元的（Binary）時的 Logistic regression，不過有的時候
+依變項的類別會超過 3 類，例如人格心裡學就常常把人格分成「五大人格」，而且這五個人
 格之間是互斥的（沒有順序關係），此時想要「預測」這個人的人格會是哪一種類型的迴歸
-方法就是多項邏輯模型（Multinomial logistic regression），它是Logistic regression
+方法就是多項邏輯模型（Multinomial logistic regression），它是 Logistic regression
 的擴充，解釋方法都一樣。唯一不同之處在於要將依變項其中一個類別設為「參照組」
 （Baseline category / Reference group），假設依變項有三類，那麼迴歸係數解讀為
-「當自變項增加一個單位，依變項A相對依變項C的機率會增加幾倍」，此時依變項C為我們
+「當自變項增加一個單位，依變項 A 相對依變項 C 的機率會增加幾倍」，此時依變項 C 為我們
 選定的參照組（分母，或說被比較的那一組），參照組可隨意設定，因為結果會完全一樣。
 (我想上統計課程)
 
 
-最後要提到的當依變項是順序尺度，例如「傷病等級」分成3類，但是並非為等距變項，此
+最後要提到的當依變項是順序尺度，例如「傷病等級」分成 3 類，但是並非為等距變項，此
 時要預測的統計工具可選用比例勝算模型（Odds proportional model）或累積機率模型
 （Cumulative probability model）。此時迴歸係數的解讀為「當自變項增加一個單位，依
-變項A相對依變項B與C的機率以及依變項A與B相對依變項C的機率會增加幾倍」，所以是一種
+變項 A 相對依變項 B 與 C 的機率以及依變項 A 與 B 相對依變項 C 的機率會增加幾倍」，所以是一種
 累積機率的概念，實務上也很常用。
 
 
-最後推薦國內 劉應興 教授翻譯的「類別資料分析導論」，原作者為Alan Agresti，是一本
-很棒的Logistic regression導論，如果覺得這本書太簡單，可考慮研讀David Kleinbaum的
+最後推薦國內 劉應興 教授翻譯的「類別資料分析導論」，原作者為 Alan Agresti，是一本
+很棒的 Logistic regression 導論，如果覺得這本書太簡單，可考慮研讀 David Kleinbaum 的
 Logistic regression: A self-learning text，是一本應用性與原理性都兼顧到的好書。
 *** logsitic regression -2
-解讀 logistic regression在 什麼是線性迴歸？(What is Multiple Linear Regression?)
+解讀 logistic regression 在 什麼是線性迴歸？(What is Multiple Linear Regression?)
 談論過迴歸分析主要可用來作預測與作因果分析，那既然迴歸分析這麼好，為什麼還要談
 logistic regression (中文有人翻：羅吉斯迴歸) 呢？
 
@@ -8401,9 +8401,9 @@ coefficient 是 0.066 的話，解讀就是：當 IV 增加 1 的時候，DV 發
 
 為了解決這個問題，統計學家用 odds ratio (勝算比) 於 logistic regression 之中。要
 說勝算比之前，要先了解什解什麼是勝算。勝算指的是：一件事情發生的機率與一件事情沒
-發生機率的比值。以拋硬幣為例，拿到正面與拿到反面的機率都是 0.5，所以odds ratio
-就是 0.5 / 0.5 = 1。如果一件事情的發生的機率是 0.1 ，那勝算是 0.1 / 0.9 = 1/9 。
-如果一件事情發生的機率是 0.9 ，那勝算是 0.9 / 0.1 = 9。所以勝算是介於 0 與無限大
+發生機率的比值。以拋硬幣為例，拿到正面與拿到反面的機率都是 0.5，所以 odds ratio
+就是 0.5 / 0.5 = 1。如果一件事情的發生的機率是 0.1，那勝算是 0.1 / 0.9 = 1/9。
+如果一件事情發生的機率是 0.9，那勝算是 0.9 / 0.1 = 9。所以勝算是介於 0 與無限大
 之間。
 
 odds ratio 則是兩件事情的 odds 作比較。舉個例子來說，如果高學歷的人寫部落格的勝
@@ -8412,10 +8412,10 @@ odds ratio 則是兩件事情的 odds 作比較。舉個例子來說，如果高
 3.48。
 
 那如何解讀 logistic regression 的結果呢？通常你會看到文章裡呈現兩種結果：一種如
-果沒特別指名的話，就叫 coefficient，它的 DV 是某件事的 log odds ratio ，是勝算比
-取了自然對數；一種是 odds ratio 。這兩種值是可以互相轉換的，如果你的 log odds
-ratio 得到的 coefficient 是 0.405，你可以計算 odds ratio ，在 stata 指令列輸入
-dis exp(0.405)，會得到1.500。所以在讀文章的時候一定要讀清楚作者呈現的是 log odds
+果沒特別指名的話，就叫 coefficient，它的 DV 是某件事的 log odds ratio，是勝算比
+取了自然對數；一種是 odds ratio。這兩種值是可以互相轉換的，如果你的 log odds
+ratio 得到的 coefficient 是 0.405，你可以計算 odds ratio，在 stata 指令列輸入
+dis exp(0.405)，會得到 1.500。所以在讀文章的時候一定要讀清楚作者呈現的是 log odds
 ratio 或是 odds ratio。
 
 結果怎麼解讀呢？可從 log odds ratio 開始，解讀是：當 IV 增加一單位，log odds 會
@@ -8426,14 +8426,14 @@ ratio 或是 odds ratio。
 log odds ratio: 當 IV 增加 1，log odds ratio of 某件事會增加 0.405 (請原諒我的英
 式中文@@)。
 
-odds ratio: 當 IV 增加1，odds of 某件事會增加 (1.5-1)*100% = 50%。所以如果本來是
-2，增加 50%的話，會變成 2 * 50% + 2 = 3 。換句話說，你也可以直接解讀為：當 IV 增
-加1，odds 某件事 (或是某件事的勝算。注意：這裡是勝算，不是勝算比) 會變成原本的值
-乘以1.5。
+odds ratio: 當 IV 增加 1，odds of 某件事會增加 (1.5-1)*100% = 50%。所以如果本來是
+2，增加 50%的話，會變成 2 * 50% + 2 = 3。換句話說，你也可以直接解讀為：當 IV 增
+加 1，odds 某件事 (或是某件事的勝算。注意：這裡是勝算，不是勝算比) 會變成原本的值
+乘以 1.5。
 
-如果你的勝算比 odds ratio 的 coefficient 是 0.667，那應該怎麼解讀呢？當 IV 增加1，
-某件事的勝算會變成原本的值 (or 勝算) 乘以0.667。所以原本的勝算比如果是 3 的話，
-當 IV 增加1時，某件事的勝算會變成 2。你也可以說：當 IV 增加 1 時，某件事的勝算會
+如果你的勝算比 odds ratio 的 coefficient 是 0.667，那應該怎麼解讀呢？當 IV 增加 1，
+某件事的勝算會變成原本的值 (or 勝算) 乘以 0.667。所以原本的勝算比如果是 3 的話，
+當 IV 增加 1 時，某件事的勝算會變成 2。你也可以說：當 IV 增加 1 時，某件事的勝算會
 減少 (1-.667)* 100% =33%
 
 * 数据挖掘面经
@@ -9455,3 +9455,7 @@ HashFunction(int size){
               )
              )
      #+END_SRC
+* how to solve company-fontends nill when eshell start
+  I modify [[file:~/.emacs.d/layers/+tools/shell/funcs.el::(defun%20spacemacs/eshell-switch-company-frontend%20()][spacemacs//eshell-switch-compnay]] func  by add
+  (require 'company)
+  this solution come from github, not refer website here

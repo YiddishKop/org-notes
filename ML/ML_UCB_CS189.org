@@ -2,7 +2,7 @@
 ** a python script to download lec-note automatically
 :LOG:
 开始设置自动执行，但貌似由于某些网页不遵循排序（找不到）会引发程序终止，
-后改为录制宏，手动更改每次i的值，以此观测并及时修正网页地址
+后改为录制宏，手动更改每次 i 的值，以此观测并及时修正网页地址
 :END:
 
 #+NAME: geturl
@@ -325,8 +325,8 @@ Read ESL, Section 4.5–4.5.1
      [[file:Machine Learning/screenshot_2017-04-30_22-55-32.png]]
      left is sample space of 3-dimensional space
      right picture is a set of circular 'cake' which means 2-dimension isosurface with different radius
-     但是更多时候，我们会有很多feature，也就是很多维度的向量，each feature 1 dimension.
-     比如处理图像，一张 4pixel × 4pixel 图像就是 16-dimension feature-vector(有一个15-dimensional surface),
+     但是更多时候，我们会有很多 feature，也就是很多维度的向量，each feature 1 dimension.
+     比如处理图像，一张 4pixel × 4pixel 图像就是 16-dimension feature-vector(有一个 15-dimensional surface),
      each pixel may have 6 bytes space to represent different color. it is huge dimensional space.
 
      #+DOWNLOADED: /tmp/screenshot.png @ 2017-04-30 23:07:59
@@ -446,13 +446,13 @@ Read ESL, Section 4.5–4.5.1
      这个点与交点之间的线段在这个垂直向量上的映射就是这个点到这个平面的距离。
 
      或者这样理解，函数 w.x = y
-     当 w.x = y 在2维时， w.x=常量 是一条线;
-     当 w.x = y 在3维时， w.x=常量 是一个面;
+     当 w.x = y 在 2 维时，w.x=常量 是一条线;
+     当 w.x = y 在 3 维时，w.x=常量 是一个面;
      按照'上加下减，左加右减'的原则
-     w.x=0形成的平面 向上平移1 变成 w.x=1
-     w.x=0形成的平面 向下平移1 变成 w.x=-1
+     w.x=0 形成的平面 向上平移 1 变成 w.x=1
+     w.x=0 形成的平面 向下平移 1 变成 w.x=-1
 
-     所以 signed distance of x' to H（因为通过[[*升维法：What if separating hyperplane doesn't pass through origin?][升维法]],H始终可以表示为 w.x=0）, 就是H经过平移
+     所以 signed distance of x' to H（因为通过[[*升维法：What if separating hyperplane doesn't pass through origin?][升维法]],H 始终可以表示为 w.x=0）, 就是 H 经过平移
      alpha 距离得到的平面 H' 恰好包含 x'
 
      Moreover, the distance from H to the origin is alpha.  [How do we know that?]
@@ -537,7 +537,7 @@ Read ESL, Section 4.5–4.5.1
        algorithms work.
 ***** Represent a sample: a row of features
 
-      一行就是一个sample，一列就是一种feature。
+      一行就是一个 sample，一列就是一种 feature。
 
               feature1  feature2 feature3 feature4 feature5
               +--------+--------+--------+--------+--------+
@@ -594,7 +594,7 @@ Read ESL, Section 4.5–4.5.1
       - yi is our prediction;
       - z  is correct classification.
 
-      注意 if y_i z < 0 那么 -y_i z > 0 的， 所以这个loss fn 是越接近于0
+      注意 if y_i z < 0 那么 -y_i z > 0 的， 所以这个 loss fn 是越接近于 0
       越好，如果是正值且很大说明不好，分的不是很理想。
 
       [Here, z is the classifier's prediction, and y_i is the correct answer.]
@@ -609,8 +609,8 @@ Read ESL, Section 4.5–4.5.1
 ***** Define risk function
       risk 是标准浮动的空间, 简单说 R(w) = sum(L(测，真))
       loss 是测试结果和现实情况之间的误差度量，
-      如果结果都在hyperplane同一边，L(测，真) = 0;
-      如果结果分在hyperplane的两边，L(测，真) = -yi*z. = -(X_i.w)*z
+      如果结果都在 hyperplane 同一边，L(测，真) = 0;
+      如果结果分在 hyperplane 的两边，L(测，真) = -yi*z. = -(X_i.w)*z
 
       Idea:
       We define a risk_function R that is _positive_ if some constraints are _violated_.
@@ -714,16 +714,16 @@ Read ISL, Section 9–9.1
      说白了就是 *坐标系* 变换:
      - 原来坐标系(x-space)的坐标轴是：feature_1,feature_2,feature_3...
      - 新的坐标系(w-space)的坐标轴是：w_1, w_2, w_3...
-     - 而且根据constraint，w.x=0
+     - 而且根据 constraint，w.x=0
 
      同一个函数 yi(w.xi)>=0 用不同的坐标系就会绘出不一样的图形。巧的是如果使用
-     x-space坐标系，其中的点在 w-space 恰好是面;其中的面在 w-space 恰好是点。
+     x-space 坐标系，其中的点在 w-space 恰好是面;其中的面在 w-space 恰好是点。
 
      *现在已知 x-space 的点，求 x-space 的面*
      我就把问题转化为:
      *现在已知 w-space 的面，求 w-space 的点*
-     而且，因为w.x=0的限制条件，所以
-     *x-space的点(向量)与w-space的面垂直;反之亦然*
+     而且，因为 w.x=0 的限制条件，所以
+     *x-space 的点(向量)与 w-space 的面垂直;反之亦然*
 
      #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 18:44:41
      [[file:Machine Learning/screenshot_2017-05-02_18-44-41.png]]
@@ -733,10 +733,10 @@ Read ISL, Section 9–9.1
      Observe that the x-space sample points are the normal vectors for the
      w-space lines. We can choose w to be anywhere in the shaded region
 
-     原问题空间中求hyperplane{x:x.w=0}范围的问题，通过 dual 转换为上图中求w向量范围的问题(灰色区域是w向量的取值范围)。
+     原问题空间中求 hyperplane{x:x.w=0}范围的问题，通过 dual 转换为上图中求 w 向量范围的问题(灰色区域是 w 向量的取值范围)。
      #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 11:31:36
      [[file:Machine Learning/screenshot_2017-05-02_11-31-36.png]]
-     这个plot是关于 R(w) 在 w-space 的图像。可以看到，深绿色区域是 R(w) = 0 的点。
+     这个 plot 是关于 R(w) 在 w-space 的图像。可以看到，深绿色区域是 R(w) = 0 的点。
      这里假设 w 是二维向量。
 
      If we want to enforce inequality x . w >= 0, that means
@@ -793,7 +793,7 @@ Read ISL, Section 9–9.1
         注意：反梯度法的 loss-fn 是要计算所有样本的误差之和
 
         这里梯度 grad R(w) 得到的是一个 R(w) 以最快速度变大的方向， 所以如果我希望 R(w) 以最快速度变小，那么
-        就应该朝梯度的反方向移动点 w(或叫向量w), 梯度的反向就是负梯度：- Grad[R(w)]， 这就是梯度下降法或叫 _负梯度法_ 。
+        就应该朝梯度的反方向移动点 w(或叫向量 w), 梯度的反向就是负梯度：- Grad[R(w)]， 这就是梯度下降法或叫 _负梯度法_ 。
 
         At any point w, we walk downhill in direction of steepest descent, - grad R(w).
 
@@ -821,10 +821,10 @@ Read ISL, Section 9–9.1
 ***** Running time of Gradient descent algo
       Problem:  Slow!  _Each step_ takes _O(nd)_ time.
       因为 所有 sample 都要检测 y_i X_i . w <? 0 ,而 w 向量又是 d 维的。
-      所以单次循环的时间复杂度是： O(nd)
+      所以单次循环的时间复杂度是：O(nd)
 
       - n 表示有 n 个样本;
-      - d 表示有 d 个feature; 一个feature表示一维度。
+      - d 表示有 d 个 feature; 一个 feature 表示一维度。
 
       注意：反梯度法的 loss-fn 是要计算所有样本的误差之和
 
@@ -862,7 +862,7 @@ Read ISL, Section 9–9.1
         return w
       #+END_QUOTE
 ***** when SGD work well: loss-fn must be convex
-      SGD虽然更快更灵活能在线添加样本，但是没有GD的适用范围广。GD能处理的问题，SGD未必能处理。
+      SGD 虽然更快更灵活能在线添加样本，但是没有 GD 的适用范围广。GD 能处理的问题，SGD 未必能处理。
 
       In general, you CAN NOT assume that if you _optimize a sum of fn_ that you can
       optimize each fn _separately in turn_ and find a minimum of the sum.
@@ -871,7 +871,7 @@ Read ISL, Section 9–9.1
       very nice property called _convexity_. The sum of a bunch of convex fn is
       convex and that's what makes SGD work
 
-      这里的意思是说，如果 loss-fn 是凸函数，那么就是可以使用SGD，如果不是，就不能用SGD。
+      这里的意思是说，如果 loss-fn 是凸函数，那么就是可以使用 SGD，如果不是，就不能用 SGD。
 
       [By the way, stochastic gradient descent does not work for every problem that
        gradient descent works for.  The perceptron risk function happens to have
@@ -952,10 +952,10 @@ Read ISL, Section 9–9.1
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 16:29:19
       [[file:Machine Learning/screenshot_2017-05-02_16-29-19.png]]
 
-      样本原本有2个特征：x,y。所有样本点都分在一个平面上。通过增一个维度变成三维
+      样本原本有 2 个特征：x,y。所有样本点都分在一个平面上。通过增一个维度变成三维
       空间，这样所有的点仍然都处在原来的那个平面上，只不过这个平面在新空间表示为：
-      X_d+1 = 1我要做的是在这个空间中使用 SGD or GD 算法得到 w', 然后去掉最后一
-      位得到 w。这个w，相当于原来的 w' 平面与 X_d+1 = 1 平面的交线.
+      X_d+1 = 1 我要做的是在这个空间中使用 SGD or GD 算法得到 w', 然后去掉最后一
+      位得到 w。这个 w，相当于原来的 w' 平面与 X_d+1 = 1 平面的交线.
 
       Run perceptron algorithm in (d + 1)-dimensional space.
 
@@ -977,12 +977,12 @@ Read ISL, Section 9–9.1
      这里请先参考 Tsinghua-Datamining 课程课件：chap4 Neural Networks-ppt@10
      :END:
 
-     梯度下降法有3中变形形式，它们之间的区别为我们在计算目标函数的梯度时使用到多少数
+     梯度下降法有 3 中变形形式，它们之间的区别为我们在计算目标函数的梯度时使用到多少数
      据。根据数据量的不同，我们在参数更新的精度和更新过程中所需要的时间两个方面做出权
      衡。
 
 ***** 2.1 批梯度下降法
-      Vanilla梯度下降法，又称为批梯度下降法（batch gradient descent），在整个训练数据
+      Vanilla 梯度下降法，又称为批梯度下降法（batch gradient descent），在整个训练数据
       集上计算损失函数关于参数θ的梯度：
 
       θ=θ − η ⋅ ∇θJ(θ)
@@ -1004,30 +1004,30 @@ Read ISL, Section 9–9.1
 
 ***** 2.2 随机梯度下降法
       :Reference:
-      [[http://scikit-learn.org/stable/modules/sgd.html][参考 scikit-learn python包]]
+      [[http://scikit-learn.org/stable/modules/sgd.html][参考 scikit-learn python 包]]
       :END:
 
-      相反，随机梯度下降法（stochastic gradient descent, SGD）根据每一条训练样本x(i)和标签y(i)更新参数：
+      相反，随机梯度下降法（stochastic gradient descent, SGD）根据每一条训练样本 x(i)和标签 y(i)更新参数：
 
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 13:58:26
       [[file:Machine Learning/screenshot_2017-05-02_13-58-26.png]]
 
       对于大数据集，因为批梯度下降法在每一个参数更新之前，会对相似的样本计算梯度，
-      所以在计算过程中会有冗余。而SGD在每一次更新中只执行一次，从而消除了冗余。
-      因而，通常SGD的运行速度更快，同时，可以用于在线学习。SGD以高方差频繁地更新，
-      导致目标函数出现如图1所示的剧烈波动。
+      所以在计算过程中会有冗余。而 SGD 在每一次更新中只执行一次，从而消除了冗余。
+      因而，通常 SGD 的运行速度更快，同时，可以用于在线学习。SGD 以高方差频繁地更新，
+      导致目标函数出现如图 1 所示的剧烈波动。
 
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 13:59:04
       [[file:Machine Learning/screenshot_2017-05-02_13-59-04.png]]
-      图1：SGD波动（来源：Wikipedia）
+      图 1：SGD 波动（来源：Wikipedia）
 
-      与批梯度下降法的收敛会使得损失函数陷入局部最小相比，由于SGD的波动性，一方
-      面，波动性使得SGD可以跳到新的和潜在更好的局部最优。另一方面，这使得最终收
-      敛到特定最小值的过程变得复杂，因为SGD会一直持续波动。然而，已经证明当我们
-      缓慢减小学习率，SGD与批梯度下降法具有相同的收敛行为，对于非凸优化和凸优化，
-      可以分别收敛到局部最小值和全局最小值。与批梯度下降的代码相比，SGD的代码片
+      与批梯度下降法的收敛会使得损失函数陷入局部最小相比，由于 SGD 的波动性，一方
+      面，波动性使得 SGD 可以跳到新的和潜在更好的局部最优。另一方面，这使得最终收
+      敛到特定最小值的过程变得复杂，因为 SGD 会一直持续波动。然而，已经证明当我们
+      缓慢减小学习率，SGD 与批梯度下降法具有相同的收敛行为，对于非凸优化和凸优化，
+      可以分别收敛到局部最小值和全局最小值。与批梯度下降的代码相比，SGD 的代码片
       段仅仅是在对训练样本的遍历和利用每一条样本计算梯度的过程中增加一层循环。注
-      意，如6.1节中的解释，在每一次循环中，我们打乱训练样本。
+      意，如 6.1 节中的解释，在每一次循环中，我们打乱训练样本。
 
       #+BEGIN_SRC python
       for i in range(nb_epochs):
@@ -1038,19 +1038,19 @@ Read ISL, Section 9–9.1
       #+END_SRC
 
 ***** 2.3 小批量梯度下降法
-      小批量梯度下降法最终结合了上述两种方法的优点，在每次更新时使用n个小批量训练样本：
+      小批量梯度下降法最终结合了上述两种方法的优点，在每次更新时使用 n 个小批量训练样本：
 
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 13:59:59
       [[file:Machine Learning/screenshot_2017-05-02_13-59-59.png]]
 
       这种方法，a)减少参数更新的方差，这样可以得到更加稳定的收敛结果；b)可以利用
       最新的深度学习库中高度优化的矩阵优化方法，高效地求解每个小批量数据的梯度。
-      通常，小批量数据的大小在50到256之间，也可以根据不同的应用有所变化。当训练
+      通常，小批量数据的大小在 50 到 256 之间，也可以根据不同的应用有所变化。当训练
       神经网络模型时，小批量梯度下降法是典型的选择算法，当使用小批量梯度下降法时，
-      也将其称为SGD。注意：在下文的改进的SGD中，为了简单，我们省略了参数
+      也将其称为 SGD。注意：在下文的改进的 SGD 中，为了简单，我们省略了参数
       x(i:i+n);y(i:i+n)。
 
-      在代码中，不是在所有样本上做迭代，我们现在只是在大小为50的小批量数据上做迭代：
+      在代码中，不是在所有样本上做迭代，我们现在只是在大小为 50 的小批量数据上做迭代：
       #+BEGIN_SRC python
       for i in range(nb_epochs):
           np.random.shuffle(data)
@@ -1060,7 +1060,7 @@ Read ISL, Section 9–9.1
       #+END_SRC
 ***** 3 挑战
 
-      虽然Vanilla小批量梯度下降法并不能保证较好的收敛性，但是需要强调的是，这也给我们留下了如下的一些挑战：
+      虽然 Vanilla 小批量梯度下降法并不能保证较好的收敛性，但是需要强调的是，这也给我们留下了如下的一些挑战：
 
       1. 选择一个合适的学习率可能是困难的。学习率太小会导致收敛的速度很慢，学习
          率太大会妨碍收敛，导致损失函数在最小值附近波动甚至偏离最小值。
@@ -1071,10 +1071,10 @@ Read ISL, Section 9–9.1
          频率差异很大时，我们也许不想以同样的学习率更新所有的参数，对于出现次数
          较少的特征，我们对其执行更大的学习率。
       4. 高度非凸误差函数普遍出现在神经网络中，在优化这类函数时，另一个关键的挑
-         战是使函数避免陷入无数次优的局部最小值。Dauphin等人[5]指出出现这种困难
+         战是使函数避免陷入无数次优的局部最小值。Dauphin 等人[5]指出出现这种困难
          实际上并不是来自局部最小值，而是来自鞍点，即那些在一个维度上是递增的，
          而在另一个维度上是递减的。这些鞍点通常被具有相同误差的点包围，因为在任
-         意维度上的梯度都近似为0，所以SGD很难从这些鞍点中逃开。
+         意维度上的梯度都近似为 0，所以 SGD 很难从这些鞍点中逃开。
 **** 梯度下降优化算法
      这里请先参考 Tsinghua-Datamining 课程课件：chap4 Neural Networks-ppt@28
 
@@ -1083,17 +1083,17 @@ Read ISL, Section 9–9.1
 
 ***** 4.1 动量法
 
-      SGD很难通过陡谷，即在一个维度上的表面弯曲程度远大于其他维度的区域[19]，这
-      种情况通常出现在局部最优点附近。在这种情况下，SGD摇摆地通过陡谷的斜坡，同
-      时，沿着底部到局部最优点的路径上只是缓慢地前进，这个过程如图2a所示。
+      SGD 很难通过陡谷，即在一个维度上的表面弯曲程度远大于其他维度的区域[19]，这
+      种情况通常出现在局部最优点附近。在这种情况下，SGD 摇摆地通过陡谷的斜坡，同
+      时，沿着底部到局部最优点的路径上只是缓慢地前进，这个过程如图 2a 所示。
 
 
       这里写图片描述
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 14:19:29
       [[file:Machine Learning/screenshot_2017-05-02_14-19-29.png]]
-      图2：来源：Genevieve B. Orr
+      图 2：来源：Genevieve B. Orr
 
-      如图2b所示，动量法[16]是一种帮助SGD在相关方向上加速并抑制摇摆的一种方法。
+      如图 2b 所示，动量法[16]是一种帮助 SGD 在相关方向上加速并抑制摇摆的一种方法。
       动量法将历史步长的更新向量的一个分量γ增加到当前的更新向量中（部分实现中交
       换了公式中的符号）
 
@@ -1103,7 +1103,7 @@ Read ISL, Section 9–9.1
 
       θ=θ−vt
 
-      动量项γ通常设置为0.9或者类似的值。
+      动量项γ通常设置为 0.9 或者类似的值。
 
       从本质上说，动量法，就像我们从山上推下一个球，球在滚下来的过程中累积动量，
       变得越来越快（直到达到终极速度，如果有空气阻力的存在，则γ<1）。同样的事情
@@ -1111,15 +1111,15 @@ Read ISL, Section 9–9.1
       对于在梯度点处改变方向的维度，其动量项减小。因此，我们可以得到更快的收敛速
       度，同时可以减少摇摆。
 
-***** 4.2 Nesterov加速梯度下降法
+***** 4.2 Nesterov 加速梯度下降法
 
       然而，球从山上滚下的时候，盲目地沿着斜率方向，往往并不能令人满意。我们希望
       有一个智能的球，这个球能够知道它将要去哪，以至于在重新遇到斜率上升时能够知
       道减速。
 
-      Nesterov加速梯度下降法（Nesterov accelerated gradient，NAG）[13]是一种能够
-      给动量项这样的预知能力的方法。我们知道，我们利用动量项γvt−1来更新参数θ。
-      通过计算θ−γvt−1能够告诉我们参数未来位置的一个近似值（梯度并不是完全更新），
+      Nesterov 加速梯度下降法（Nesterov accelerated gradient，NAG）[13]是一种能够
+      给动量项这样的预知能力的方法。我们知道，我们利用动量项γvt−1 来更新参数θ。
+      通过计算θ−γvt−1 能够告诉我们参数未来位置的一个近似值（梯度并不是完全更新），
       这也就是告诉我们参数大致将变为多少。通过计算关于参数未来的近似位置的梯度，
       而不是关于当前的参数θ的梯度，我们可以高效的求解 ：
 
@@ -1129,24 +1129,24 @@ Read ISL, Section 9–9.1
 
       θ=θ−vt
 
-      同时，我们设置动量项γ大约为0.9。动量法首先计算当前的梯度值（图3中的小的蓝
-      色向量），然后在更新的累积梯度（大的蓝色向量）方向上前进一大步，Nesterov加
-      速梯度下降法NAG首先在先前累积梯度（棕色的向量）方向上前进一大步，计算梯度
+      同时，我们设置动量项γ大约为 0.9。动量法首先计算当前的梯度值（图 3 中的小的蓝
+      色向量），然后在更新的累积梯度（大的蓝色向量）方向上前进一大步，Nesterov 加
+      速梯度下降法 NAG 首先在先前累积梯度（棕色的向量）方向上前进一大步，计算梯度
       值，然后做一个修正（绿色的向量）。这个具有预见性的更新防止我们前进得太快，
-      同时增强了算法的响应能力，这一点在很多的任务中对于RNN的性能提升有着重要的
+      同时增强了算法的响应能力，这一点在很多的任务中对于 RNN 的性能提升有着重要的
       意义[2]。
 
 
       这里写图片描述
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 14:20:58
       [[file:Machine Learning/screenshot_2017-05-02_14-20-58.png]]
-      图3：Nesterov更新（来源：[[http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf][G. Hinton的课程6c]]）
+      图 3：Nesterov 更新（来源：[[http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf][G. Hinton 的课程 6c]]）
 
-      对于NAG的直观理解的另一种解释可以参见
-      http://cs231n.github.io/neural-networks-3/，同时Ilya Sutskever在其博士论文
+      对于 NAG 的直观理解的另一种解释可以参见
+      http://cs231n.github.io/neural-networks-3/，同时 Ilya Sutskever 在其博士论文
       [18]中给出更详细的综述。
 
-      既然我们能够使得我们的更新适应误差函数的斜率以相应地加速SGD，我们同样也想
+      既然我们能够使得我们的更新适应误差函数的斜率以相应地加速 SGD，我们同样也想
       要使得我们的更新能够适应每一个单独参数，以根据每个参数的重要性决定大的或者
       小的更新。
 
@@ -1154,69 +1154,69 @@ Read ISL, Section 9–9.1
 
       Adagrad[7]是这样的一种基于梯度的优化算法：让学习率适应参数，对于出现次数较
       少的特征，我们对其采用更大的学习率，对于出现次数较多的特征，我们对其采用较
-      小的学习率。因此，Adagrad非常适合处理稀疏数据。Dean等人[6]发现Adagrad能够
-      极大提高了SGD的鲁棒性并将其应用于Google的大规模神经网络的训练，其中包含了
-      YouTube视频中的猫的识别。此外，Pennington等人[15]利用Adagrad训练Glove词向
+      小的学习率。因此，Adagrad 非常适合处理稀疏数据。Dean 等人[6]发现 Adagrad 能够
+      极大提高了 SGD 的鲁棒性并将其应用于 Google 的大规模神经网络的训练，其中包含了
+      YouTube 视频中的猫的识别。此外，Pennington 等人[15]利用 Adagrad 训练 Glove 词向
       量，因为低频词比高频词需要更大的步长。
 
-      前面，我们每次更新所有的参数θ时，每一个参数θi都使用的是相同的学习率η。
-      由于Adagrad在t时刻对每一个参数θi使用了不同的学习率，我们首先介绍Adagrad对
-      每一个参数的更新，然后我们对其向量化。为了简洁，令gt,i为在t时刻目标函数关
-      于参数θi的梯度：
+      前面，我们每次更新所有的参数θ时，每一个参数θi 都使用的是相同的学习率η。
+      由于 Adagrad 在 t 时刻对每一个参数θi 使用了不同的学习率，我们首先介绍 Adagrad 对
+      每一个参数的更新，然后我们对其向量化。为了简洁，令 gt,i 为在 t 时刻目标函数关
+      于参数θi 的梯度：
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 14:21:58
       [[file:Machine Learning/screenshot_2017-05-02_14-21-58.png]]
 
       gt,i=∇θJ(θi)
 
-      在t时刻，对每个参数θi的更新过程变为：
+      在 t 时刻，对每个参数θi 的更新过程变为：
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 14:22:12
       [[file:Machine Learning/screenshot_2017-05-02_14-22-12.png]]
 
       θt+1,i=θt,i−η⋅gt,i
 
-      对于上述的更新规则，在t时刻，基于对θi计算过的历史梯度，Adagrad修正了对每一个参数θi的学习率：
+      对于上述的更新规则，在 t 时刻，基于对θi 计算过的历史梯度，Adagrad 修正了对每一个参数θi 的学习率：
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 14:22:27
       [[file:Machine Learning/screenshot_2017-05-02_14-22-27.png]]
 
       θt+1,i=θt,i−ηGt,ii+ϵ−−−−−−−√⋅gt,i
 
-      其中，Gt∈Rd×d是一个对角矩阵，对角线上的元素i,i是直到t时刻为止，所有关于
-      θi的梯度的平方和（Duchi等人[7]将该矩阵作为包含所有先前梯度的外积的完整矩
-      阵的替代，因为即使是对于中等数量的参数d，矩阵的均方根的计算都是不切实际
-      的。），ϵ是平滑项，用于防止除数为0（通常大约设置为1e−8）。比较有意思的是，
+      其中，Gt∈Rd×d 是一个对角矩阵，对角线上的元素 i,i 是直到 t 时刻为止，所有关于
+      θi 的梯度的平方和（Duchi 等人[7]将该矩阵作为包含所有先前梯度的外积的完整矩
+      阵的替代，因为即使是对于中等数量的参数 d，矩阵的均方根的计算都是不切实际
+      的。），ϵ是平滑项，用于防止除数为 0（通常大约设置为 1e−8）。比较有意思的是，
       如果没有平方根的操作，算法的效果会变得很差。
 
-      由于Gt的对角线上包含了关于所有参数θ的历史梯度的平方和，现在，我们可以通过
-      Gt和gt之间的元素向量乘法⊙向量化上述的操作：
+      由于 Gt 的对角线上包含了关于所有参数θ的历史梯度的平方和，现在，我们可以通过
+      Gt 和 gt 之间的元素向量乘法⊙向量化上述的操作：
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 14:23:03
       [[file:Machine Learning/screenshot_2017-05-02_14-23-03.png]]
 
       θt+1=θt−ηGt+ϵ−−−−−√⊙gt
 
-      Adagrad算法的一个主要优点是无需手动调整学习率。在大多数的应用场景中，通常
-      采用常数0.01。
+      Adagrad 算法的一个主要优点是无需手动调整学习率。在大多数的应用场景中，通常
+      采用常数 0.01。
 
-      Adagrad的一个主要缺点是它在分母中累加梯度的平方：由于没增加一个正项，在整
+      Adagrad 的一个主要缺点是它在分母中累加梯度的平方：由于没增加一个正项，在整
       个训练过程中，累加的和会持续增长。这会导致学习率变小以至于最终变得无限小，
-      在学习率无限小时，Adagrad算法将无法取得额外的信息。接下来的算法旨在解决这
+      在学习率无限小时，Adagrad 算法将无法取得额外的信息。接下来的算法旨在解决这
       个不足。
 
 ***** 4.4 Adadelta
 
-      Adadelta[21]是Adagrad的一种扩展算法，以处理Adagrad学习速率单调递减的问题。
-      不是计算所有的梯度平方，Adadelta将计算计算历史梯度的窗口大小限制为一个固定
-      值w。
+      Adadelta[21]是 Adagrad 的一种扩展算法，以处理 Adagrad 学习速率单调递减的问题。
+      不是计算所有的梯度平方，Adadelta 将计算计算历史梯度的窗口大小限制为一个固定
+      值 w。
 
-      在Adadelta中，无需存储先前的w个平方梯度，而是将梯度的平方递归地表示成所有
-      历史梯度平方的均值。在t时刻的均值E[g2]t只取决于先前的均值和当前的梯度（分
+      在 Adadelta 中，无需存储先前的 w 个平方梯度，而是将梯度的平方递归地表示成所有
+      历史梯度平方的均值。在 t 时刻的均值 E[g2]t 只取决于先前的均值和当前的梯度（分
       量γ类似于动量项）：
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 14:23:27
       [[file:Machine Learning/screenshot_2017-05-02_14-23-27.png]]
 
       E[g2]t=γE[g2]t−1+(1−γ)g2t
 
-      我们将γ设置成与动量项相似的值，即0.9左右。为了简单起见，我们利用参数更新
-      向量Δθt重新表示SGD的更新过程：
+      我们将γ设置成与动量项相似的值，即 0.9 左右。为了简单起见，我们利用参数更新
+      向量Δθt 重新表示 SGD 的更新过程：
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 14:23:41
       [[file:Machine Learning/screenshot_2017-05-02_14-23-41.png]]
 
@@ -1224,14 +1224,14 @@ Read ISL, Section 9–9.1
 
       θt+1=θt+Δθt
 
-      我们先前得到的Adagrad参数更新向量变为：
+      我们先前得到的 Adagrad 参数更新向量变为：
 
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 14:23:54
       [[file:Machine Learning/screenshot_2017-05-02_14-23-54.png]]
 
       Δθt=−ηGt+ϵ−−−−−√⊙gt
 
-      现在，我们简单将对角矩阵Gt替换成历史梯度的均值E[g2]t：
+      现在，我们简单将对角矩阵 Gt 替换成历史梯度的均值 E[g2]t：
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 14:24:32
       [[file:Machine Learning/screenshot_2017-05-02_14-24-32.png]]
 
@@ -1243,7 +1243,7 @@ Read ISL, Section 9–9.1
       [[file:Machine Learning/screenshot_2017-05-02_14-24-47.png]]
       Δθt=−ηRMS[g]tgt
 
-      作者指出上述更新公式中的每个部分（与SGD，动量法或者Adagrad）并不一致，即更
+      作者指出上述更新公式中的每个部分（与 SGD，动量法或者 Adagrad）并不一致，即更
       新规则中必须与参数具有相同的假设单位。为了实现这个要求，作者首次定义了另一
       个指数衰减均值，这次不是梯度平方，而是参数的平方的更新：
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 14:25:03
@@ -1257,8 +1257,8 @@ Read ISL, Section 9–9.1
       [[file:Machine Learning/screenshot_2017-05-02_14-25-16.png]]
       RMS[Δθ]t=E[Δθ2]t+ϵ−−−−−−−−−√
 
-      由于RMS[Δθ]t是未知的，我们利用参数的均方根误差来近似更新。利用
-      RMS[Δθ]t−1替换先前的更新规则中的学习率η，最终得到Adadelta的更新规则：
+      由于 RMS[Δθ]t 是未知的，我们利用参数的均方根误差来近似更新。利用
+      RMS[Δθ]t−1 替换先前的更新规则中的学习率η，最终得到 Adadelta 的更新规则：
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 14:25:36
       [[file:Machine Learning/screenshot_2017-05-02_14-25-36.png]]
 
@@ -1266,16 +1266,16 @@ Read ISL, Section 9–9.1
 
       θt+1=θt+Δθt
 
-      使用Adadelta算法，我们甚至都无需设置默认的学习率，因为更新规则中已经移除了
+      使用 Adadelta 算法，我们甚至都无需设置默认的学习率，因为更新规则中已经移除了
       学习率。
 
 ***** 4.5 RMSprop
 
-      RMSprop是一个未被发表的自适应学习率的算法，该算法由Geoff Hinton在其
-      Coursera课堂的课程6e中提出。
+      RMSprop 是一个未被发表的自适应学习率的算法，该算法由 Geoff Hinton 在其
+      Coursera 课堂的课程 6e 中提出。
 
-      RMSprop和Adadelta在相同的时间里被独立的提出，都起源于对Adagrad的极速递减的
-      学习率问题的求解。实际上，RMSprop是先前我们得到的Adadelta的第一个更新向量
+      RMSprop 和 Adadelta 在相同的时间里被独立的提出，都起源于对 Adagrad 的极速递减的
+      学习率问题的求解。实际上，RMSprop 是先前我们得到的 Adadelta 的第一个更新向量
       的特例：
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 14:25:51
       [[file:Machine Learning/screenshot_2017-05-02_14-25-51.png]]
@@ -1284,24 +1284,24 @@ Read ISL, Section 9–9.1
 
       θt+1=θt−ηE[g2]t+ϵ−−−−−−−−√gt
 
-      同样，RMSprop将学习率分解成一个平方梯度的指数衰减的平均。Hinton建议将γ设
-      置为0.9，对于学习率η，一个好的固定值为0.001。
+      同样，RMSprop 将学习率分解成一个平方梯度的指数衰减的平均。Hinton 建议将γ设
+      置为 0.9，对于学习率η，一个好的固定值为 0.001。
 
 ***** 4.6 Adam
 
       自适应矩估计（Adaptive Moment Estimation，Adam）[9]是另一种自适应学习率的
-      算法，Adam对每一个参数都计算自适应的学习率。除了像Adadelta和RMSprop一样存
-      储一个指数衰减的历史平方梯度的平均vt，Adam同时还保存一个历史梯度的指数衰减
-      均值mt，类似于动量：
+      算法，Adam 对每一个参数都计算自适应的学习率。除了像 Adadelta 和 RMSprop 一样存
+      储一个指数衰减的历史平方梯度的平均 vt，Adam 同时还保存一个历史梯度的指数衰减
+      均值 mt，类似于动量：
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 14:26:49
       [[file:Machine Learning/screenshot_2017-05-02_14-26-49.png]]
       mt=β1mt−1+(1−β1)gt
 
       vt=β2vt−1+(1−β2)g2t
 
-      mt和vt分别是对梯度的一阶矩（均值）和二阶矩（非确定的方差）的估计，正如该算
-      法的名称。当mt和vt初始化为0向量时，Adam的作者发现它们都偏向于0，尤其是在初
-      始化的步骤和当衰减率很小的时候（例如β1和β2趋向于1）。
+      mt 和 vt 分别是对梯度的一阶矩（均值）和二阶矩（非确定的方差）的估计，正如该算
+      法的名称。当 mt 和 vt 初始化为 0 向量时，Adam 的作者发现它们都偏向于 0，尤其是在初
+      始化的步骤和当衰减率很小的时候（例如β1 和β2 趋向于 1）。
 
       通过计算偏差校正的一阶矩和二阶矩估计来抵消偏差：
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 14:26:02
@@ -1310,46 +1310,46 @@ Read ISL, Section 9–9.1
 
       v^t=vt1−βt2
 
-      正如我们在Adadelta和RMSprop中看到的那样，他们利用上述的公式更新参数，由此
-      生成了Adam的更新规则：
+      正如我们在 Adadelta 和 RMSprop 中看到的那样，他们利用上述的公式更新参数，由此
+      生成了 Adam 的更新规则：
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 14:27:02
       [[file:Machine Learning/screenshot_2017-05-02_14-27-02.png]]
 
       θt+1=θt−ηv^t−−√+ϵm^t
 
-      作者建议β1取默认值为0.9，β2为0.999，ϵ为10−8。他们从经验上表明Adam在实际
+      作者建议β1 取默认值为 0.9，β2 为 0.999，ϵ为 10−8。他们从经验上表明 Adam 在实际
       中表现很好，同时，与其他的自适应学习算法相比，其更有优势。
 
 ***** 4.7 算法可视化
 
       下面两张图给出了上述优化算法的优化行为的直观理解。（还可以看看这里关于
-      Karpathy对相同的图片的描述以及另一个简明关于算法讨论的概述）。
+      Karpathy 对相同的图片的描述以及另一个简明关于算法讨论的概述）。
 
-      在图4a中，我们看到不同算法在损失曲面的等高线上走的不同路线。所有的算法都是
-      从同一个点出发并选择不同路径到达最优点。注意：Adagrad，Adadelta和RMSprop能
-      够立即转移到正确的移动方向上并以类似的速度收敛，而动量法和NAG会导致偏离，
-      想像一下球从山上滚下的画面。然而，NAG能够在偏离之后快速修正其路线，因为NAG
+      在图 4a 中，我们看到不同算法在损失曲面的等高线上走的不同路线。所有的算法都是
+      从同一个点出发并选择不同路径到达最优点。注意：Adagrad，Adadelta 和 RMSprop 能
+      够立即转移到正确的移动方向上并以类似的速度收敛，而动量法和 NAG 会导致偏离，
+      想像一下球从山上滚下的画面。然而，NAG 能够在偏离之后快速修正其路线，因为 NAG
       通过对最优点的预见增强其响应能力。
 
-      图4b中展示了不同算法在鞍点出的行为，鞍点即为一个点在一个维度上的斜率为正，
-      而在其他维度上的斜率为负，正如我们前面提及的，鞍点对SGD的训练造成很大困难。
-      这里注意，SGD，动量法和NAG在鞍点处很难打破对称性，尽管后面两个算法最终设法
-      逃离了鞍点。而Adagrad，RMSprop和Adadelta能够快速想着梯度为负的方向移动，其
-      中Adadelta走在最前面。
+      图 4b 中展示了不同算法在鞍点处的行为，鞍点即为一个点在一个维度上的斜率为正，
+      而在其他维度上的斜率为负，正如我们前面提及的，鞍点对 SGD 的训练造成很大困难。
+      这里注意，SGD，动量法和 NAG 在鞍点处很难打破对称性，尽管后面两个算法最终设法
+      逃离了鞍点。而 Adagrad，RMSprop 和 Adadelta 能够快速想着梯度为负的方向移动，其
+      中 Adadelta 走在最前面。
 
       SGD without momentum
-      (a)损失去面的等高线上SGD优化
+      (a)损失去面的等高线上 SGD 优化
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 14:28:57
       [[file:Machine Learning/screenshot_2017-05-02_14-28-57.png]]
 
 
       SGD with momentum
-      (b)在鞍点处的SGD优化
+      (b)在鞍点处的 SGD 优化
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 14:29:32
       [[file:Machine Learning/screenshot_2017-05-02_14-29-32.png]]
-      图4：来源和全部动画：Alec Radford
+      图 4：来源和全部动画：Alec Radford
 
-      正如我们所看到的，自适应学习速率的方法，即 Adagrad、 Adadelta、 RMSprop 和
+      正如我们所看到的，自适应学习速率的方法，即 Adagrad、Adadelta、RMSprop 和
       Adam，最适合这些场景下最合适，并在这些场景下得到最好的收敛性。
 
 ***** 4.8 选择使用哪种优化算法？
@@ -1358,16 +1358,16 @@ Read ISL, Section 9–9.1
       学习率算法可能会得到最好的结果。选用这类算法的另一个好处是无需调整学习率，
       选用默认值就可能达到最好的结果。
 
-      总的来说，RMSprop是Adagrad的扩展形式，用于处理在Adagrad中急速递减的学习率。
-      RMSprop与Adadelta相同，所不同的是Adadelta在更新规则中使用参数的均方根进行
-      更新。最后，Adam是将偏差校正和动量加入到RMSprop中。在这样的情况下，RMSprop、
-      Adadelta和Adam是很相似的算法并且在相似的环境中性能都不错。Kingma等人[9]指
-      出在优化后期由于梯度变得越来越稀疏，偏差校正能够帮助Adam微弱地胜过RMSprop。
-      综合看来，Adam可能是最佳的选择。
+      总的来说，RMSprop 是 Adagrad 的扩展形式，用于处理在 Adagrad 中急速递减的学习率。
+      RMSprop 与 Adadelta 相同，所不同的是 Adadelta 在更新规则中使用参数的均方根进行
+      更新。最后，Adam 是将偏差校正和动量加入到 RMSprop 中。在这样的情况下，RMSprop、
+      Adadelta 和 Adam 是很相似的算法并且在相似的环境中性能都不错。Kingma 等人[9]指
+      出在优化后期由于梯度变得越来越稀疏，偏差校正能够帮助 Adam 微弱地胜过 RMSprop。
+      综合看来，Adam 可能是最佳的选择。
 
-      有趣的是，最近许多论文中采用不带动量的SGD和一种简单的学习率的退火策略。已
-      表明，通常SGD能够找到最小值点，但是比其他优化的SGD花费更多的时间，与其他算
-      法相比，SGD更加依赖鲁棒的初始化和退火策略，同时，SGD可能会陷入鞍点，而不是
+      有趣的是，最近许多论文中采用不带动量的 SGD 和一种简单的学习率的退火策略。已
+      表明，通常 SGD 能够找到最小值点，但是比其他优化的 SGD 花费更多的时间，与其他算
+      法相比，SGD 更加依赖鲁棒的初始化和退火策略，同时，SGD 可能会陷入鞍点，而不是
       局部极小值点。因此，如果你关心的是快速收敛和训练一个深层的或者复杂的神经网
       络，你应该选择一个自适应学习率的方法。
 *** MAXIMUM MARGIN CLASSIFIERS
@@ -1378,7 +1378,7 @@ Read ISL, Section 9–9.1
     [[file:Machine Learning/screenshot_2017-05-02_16-49-22.png]]
 
 **** new constraint
-     Margin 是分界面hyperplane 到最近点的垂直距离，所以有两个margin，一边一个。
+     Margin 是分界面 hyperplane 到最近点的垂直距离，所以有两个 margin，一边一个。
      由上图   -1 <= Margin <= 1 可以用同样的方法推导出新的 constraint 公式：
      #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 16:49:54
      [[file:Machine Learning/screenshot_2017-05-02_16-49-54.png]]
@@ -1445,7 +1445,7 @@ Read ISL, Section 9–9.1
      the three lines meet.
 
      用之前的图（如下）对比理解，上图仅仅展示了 w-space 空间的样子;
-     而下图左边是 x-space, 右边是 w-space 。
+     而下图左边是 x-space, 右边是 w-space。
      #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-02 10:27:51
      [[file:Machine Learning/screenshot_2017-05-02_10-27-51.png]]
 
@@ -1577,7 +1577,7 @@ Read ISL, Section 9–9.1
                 O----------->
         [Draw circle decision boundary]
 
-        单词： ellipsoid, 椭圆体;
+        单词：ellipsoid, 椭圆体;
               sphere   , 球体
               hyperboloid, 双曲面
               paraboloid, 抛物面
@@ -1737,13 +1737,13 @@ Read ISL, Section 9–9.1
 *** Summarize of lec-4
      首先，通过 *线性方程* 得到一个 hyperplane;
      其次，通过 *升维* 把所有问题都转化为 *过原点* 问题;
-     其次，通过 *对偶* 把所有问题都转化为 *优化w空间* 问题;
-     其次，通过 *yi技巧* 得到线性可分问题的 constraint-fn;
+     其次，通过 *对偶* 把所有问题都转化为 *优化 w 空间* 问题;
+     其次，通过 *yi 技巧* 得到线性可分问题的 constraint-fn;
      其次，通过 *所有样本误差之和* 可以实现 GD;
      其次，通过 *单个样本误差 + convex-loss-fn* 可以实现 SGD;
      其次，通过 *SVMh* 解决 GD/SGD 的 biased;
      其次，通过 *hyperparameter: C of SVMs, k of k-nearst, p of polynomial* 控制 under/over fitting;
-     其次，通过 *+-1 和 yi技巧* 得到 SVMh 问题的 constraint-fn;
+     其次，通过 *+-1 和 yi 技巧* 得到 SVMh 问题的 constraint-fn;
      其次，通过 *引入ξ(called 'zai')* 得到 SVMs 解决 SVMh 的 outliers;
      其次，通过 *ξ and C* 得到 SVMs 问题的 constraint-fn;
      其次，通过 *升维* 把线性不可分问题转为高阶线性可分问题;
@@ -1825,7 +1825,7 @@ Read ISL, Section 9–9.1
 
 **** Unconstrained Optimization
      -------------
-     根据， AMATH301 课程提示：
+     根据，AMATH301 课程提示：
      unconstrained problem include:
      - Derivative based method
        - GD
@@ -1847,7 +1847,7 @@ Read ISL, Section 9–9.1
                         [In other words, you cannot walk downhill from w.]
 
                         这样的算法有 GD，SGD，simulated anealing, genetic algo
-                        但是，GD/SGD 用于continuous-fn,  后两者用于 不连续函数
+                        但是，GD/SGD 用于 continuous-fn,  后两者用于 不连续函数
 
                ^                  ---
                |--              --   --         ----          -
@@ -1910,15 +1910,15 @@ Read ISL, Section 9–9.1
           x Newton-Raphson (may need Hessian matrix of f)
         = stochastic (blind)   [trains on one sample per iteration, or a small batch]
       - Nonlinear conjugate gradient              [uses the same line search methods]
-        - 不是朝着grad反方向移动，通常认为这个方向未必是最好的方向。
+        - 不是朝着 grad 反方向移动，通常认为这个方向未必是最好的方向。
       - Newton's method (needs Hessian matrix)
 
 ***** Algs for nonsmooth f:
       - Steepest descent
         = blind
         = with direct line search (e.g. golden section search)
-          direct line search 也很适用于那些你只有数据，但是没有函数的情况。这时候用direct line
-          search 也同样可以得到一个minimum。
+          direct line search 也很适用于那些你只有数据，但是没有函数的情况。这时候用 direct line
+          search 也同样可以得到一个 minimum。
           direct line search 并不是用 grad，因为 grad 在 nonsmooth-fn 中的结果并不十分可信。
 
       These algs find a local minimum.

@@ -1,0 +1,398 @@
+[专业/学校/教授] CMU CS 课程介绍   [复制链接] |试试 Instant~ |关注本帖
+
+
+生活的诸多方面，有什么是你一度感觉很不适应、很不习惯的吗？现在适应的如何了？有什
+么方面是你希望自己能早点知道的，可以提醒新人注意吗？:
+
+
+你以前是在哪个国家读的本科？在美国感觉学习负担压力大吗？感觉读本科和读研究生，有
+哪些不同？:
+
+
+一周需要学习多久才能跟上？你觉得拿 A 拿 B 难吗？:
+
+
+平常除了上课之外，跟教授们联系多吗？是否有机会跟着做些研究？:
+
+
+平常除了多跟同胞交流，是否经常跟外国同学 party? 一般一起玩什么呢？有什么值得注意
+的地方可以提醒新人注意的吗？:
+
+
+你获取求职信息的主要途径是什么？学校里的 career service/job fair 多吗？你觉得有用吗？:
+
+
+美国的学习和生活有什么方面是你特别喜欢的？:
+
+
+美国的学习和生活有什么方面是你最不喜欢的？:
+
+
+你来美之前英语水平如何？（比如托福考了多少），你觉得跟美国同学和老师学习和生活上
+交流有障碍吗？经过一段时间，是否有提高？主要通过什么途径提高？:
+
+
+
+
+x 懒癌晚期患者拖到毕业半年后才写完这篇文章，主要是最近有太多学弟学妹们问我选课的问题，所以就想把这篇文章赶出来造福 CMU 的同学们。介绍一下自己，我是 15spring 入学的 MS in ECE, 16 年五月份毕业，目前在 Google 工作。在 CMU 一年半的学习生涯中收获了很多，同时也走了一些弯路，所以写下这篇课程介绍的文章，供学弟学妹们参考。我以下介绍的这些课都是我自己实际上过的，并且都拿了 A 的，每门课包括了课号、我所上的学期、课名、介绍以及针对考试的一些建议。
+
+15213 (15 spring) Introduction to Computer Systems 这门课我想不需要做过多介绍，
+CMU 的招牌课程，基本是每个在 CMU 学 CS 的人都必选的课。唯一需要提醒的是，如果有机会在
+暑假修这门课，那么请务必在暑假就把它修掉，因为有很多后续课程都需要这门课作为先修，
+而且即使是硕士生也不能 waive。为了在进入 CMU 之后可以自由地选课，花费暑假的时间学
+15213 是值得的。平时作业是 7 个 lab，再加期中期末两门考试，期末考试考全学期内容。如
+果不读 textbook 的话，周花费大概在 10-15 小时（然而如果你有空余的时间，强烈推荐读一
+遍 textbook，基本读完面试中的“硬知识点”就不虚了）。Cracking the exam: 看 ppt＋刷
+历年题足矣，如果时间紧可以只刷题。
+
+15619 (15 spring) Cloud Computing 著名的 cc，基本是每个中国人都会修的课程。这是一
+门纯 project 课和纯网课，基本是每周一个 individual project、每周一次 quiz 的节奏。后
+半学期会有 team project (三人)，和每周的 individual project、quiz 同时进行。
+Individual projects 的东西很杂，包括 AWS (EC2, S3, ASG, EMR, ELB)、DB(HBase,
+MySQL, DynamoDB)、Hadoop(MapReduce, Hbase, HDFS, Hive, YARN, Spark)以及很多奇奇
+怪怪的东西(Concurrency, shell scripting, etc.)。Team project 主要是搭一个 Web
+Service，包括前端和后端。期间会用到 Load balancing, horizontal scaling and
+Database storage 的知识。整个 system 需要满足一定的 throughput 和 latency 的需求。 听说
+从上学期开始支持的 query 包括 read 和 write，更加加大了 team project 的难度。 总的来说，
+这门课唱好唱衰的声音都有，Quora 和知乎上都有专门关于 15-619 课程讨论。说这门课好的
+人，觉得这门课什么知识都会涉及到一些，有种一门课抵十门的感觉，而且也接触到了各种
+“高大上”上的东西，比如 MapReduce, Hadoop, Spark。 说这门课差的人觉得这门课在各
+方面都走马观花、浅尝辄止，所谓的高大上的东西也早就已经是十多年前的陈旧知识，而且
+这门课用时太多（有 team project 的时候基本是每周 50 个小时的工作量），花了大量时间却
+没有学到太多的东西，“性价比”太低。 我觉得双方都说得很有道理，cc 就是这样一门课。
+对于适合的学生来说（e.g. 转 cs 的学生，对 Mapreduce, Hadoop, scalable web service 不
+了解的），这门课可以让你了解到一些和 cloud computing、web service 相关的名词，如果
+面试的时候碰到不至于懵逼。而对于 cs 科班学生以及自学能力较强的学生，这门课的性价比
+就会显得较低，可能会感觉花费了大量时间也没学到几个知识点。最后，我对选这门课有几
+个建议：1、选队友很重要，有没有大腿不一定很重要，但一定不要有猪队友（e.g. 不干活、
+帮倒忙）；2、如果有可能，最好选了 DS(e.g. 15640)的课程后再来修 cc，对 team project
+的理解会加深，也能学到更多东西；3、如果觉得这门课性价比低，或者真的想学一些 cloud
+computing 相关的前沿知识，请修 acc (15719). Cracking the exam: 这门课没有 exam，只
+有每周的 quiz。真.大神可以边做 quiz 边看 material，一般人还是建议提前个两三个小时先
+看一下。
+
+15719 (16 spring) Advanced cloud computing 说完了 cc 再来说 acc。Acc 虽然说是 cc 的进阶
+版，但其实周花费会低于 cc。这门课由 CMU CS 系的扛把子 Garth Gibson 主讲，Majd(cc 的
+instructor)辅助。课程内容涵盖了 cloud computing 的各方面前沿知识，包括 elasticity
+(auto scaling), encapsulation, virtulization, programming model (MapReduce,
+Spark), storage (GFS, SDS, K-V), scheduling, mobile computing, fault tolerance,
+tail latency, security, network (SDN), stream processing 和 tracing (logging)。
+这门课每节课上课之前会布置 3-4 篇和 lecture topic 相关的经典 paper(e.g. Google 的三
+篇经典 paper)，其中有一篇是要求必须读，其他几篇选读。Garth 课前会随机抽人起来回答
+paper 里的一些内容，不算太难，只要你读过 paper 都能说一点东西出来（然而无论你答成
+什么样 Garth 都会嘲讽你:))。课程的 project 我们这一届有三个（前两个 individual
+project，第三个 2 人 group project)，第一个是用 OpenStack 搭一个 private cloud 并自己
+实现 LB 和 auto scaling service(i.e. 实现类似 ELB 和 ASG 的功能，所以当用户用你的
+private cloud 请求 VM 之后可以再配置 LB 和 auto scaling)。第二个是用 sprak 优化一个机器
+学习的算法，有 buget 和 optimization factor 的要求，这个 project 和 10605 的最后一个
+project 是基本一样的。第三个是搭一个 private cloud, 在其基础上部署 YARN，再给 YARN 写
+一个 customized 的 scheduler. 最后这个 project 会持续后半学期，有三个 checkpoint。 这
+个 project 最 cool 的一点在于每个小组都会分到五台 physical node，然后你再在上面搭
+virtual machine，模拟出一个 cluster。需要注意的是，由于这门课开设时间较短，
+project 还不成熟，所以今后的 project 可能会有所调整。我是上了 cc 之后再上的 acc，我发
+现我在 acc 上学到了更多的东西，而 cc 更像是糊里糊涂地做了一堆 project 却不求甚解。如果
+一个人要了解 cloud computing 的相关知识(注意是 clouding computing，不是 Hadoop/AWS 使
+用方法)我更推荐 acc 这门课。这门课从课程设置上来说属于 phd level 的课程，但是上课的
+基本都是 MS，所以大家不用太担心自己跟不上。这门课 Garth 也经常会请一些业界／学术界
+的大牛来讲 guest lecture，比如我们那一学期就请了微软的来讲 Azure 还有 Linkedin 的来讲
+stream processing. Cracking the exam: 有期中和期末两次考试，加起来占 50%的成绩，
+期末考试只考后半学期内容。考试允许带一张双面的 cheat sheet, 然而并没有什么卵用:)。
+Garth 出的考试题就如同其他的业界大牛一般：十分灵活、需要对相关 topic 有很深的理解，
+属于那种就算开卷也没什么卵用的类型。所以想拿 A 的同学，上课请认真听讲、记笔记，考
+前请认真看 PPT，尽你最大可能去理解里面的内容。要求阅读的 Paper reading 对考试有一
+定帮助，如果有时间也请复习一遍。考试前一周的时候，Garth 会放出来几套前几年的考试
+题，推荐在复习完了之后做，重点是熟悉题目的风格以及加深你自己对课程 topic 的理解
+（碰到原题什么的就不要指望了，也不要用这些题去“套”课程考试的重点）。总的来说这
+门课的考试是很有难度的。PS：这门课的期中期末考试*都是*随堂考（一次 lecture 的时间），
+这有优点也有缺点。比如期末考试，这门课会在考试周之前的最后一次课考试，这样你在考
+试周可以少复习一门课，但也意味着你要在其他课还在赶最后的 final project 的时候还抽
+出时间复习准备考试。. visit 1point3acres.com for more. 15746 (15 fall) Storage
+Systems 这是 Garth Gibson 教的另一门课，也是 Garth 的老本行（他本人就是因为提出了 RAID
+而出名）。另外一位老师是 Greg Ganger，也是一位大牛。这门课的内容前半学期会讲一些
+偏硬件和底层的内容(Disk, SSD, Filesystem, FS journal, disk arrays)，后半学期会讲
+现代比较时髦的内容（Distributed file systems, Multi-Server file systems,
+Parallel file systems, Cloud file systems）。总的来说这门课和 acc 一样，都属于那种
+“我知道这门课内容很好但是我就是听不懂啊！”的课。反正我自己后半学期都一直处于云
+里雾里的状态 QAQ。这门课像 acc，每节课也会有几篇经典 paper，一篇必读另外几篇选读(并
+不会提问 XD)。这门课这门课也会有 guest lecture。Garth 领导的 Parallel Data Lab 培养出
+了很多优秀的学生，以至于现在业界正火的各种 Distributed file systems 的 developer 基
+本都有 Garth 的学生。像我们那学期就请了一个 Google 的人来给我们讲 Colossus (Google
+File System 2.0)，而讲完之后我们连 ppt 都没有拿到，因为 Colossus 相关内容还属于“比
+较机密所以可以现场学术交流，但是不能给你材料”的类型。这些内容也只有跟着 Garth 我
+们才能接触到吧。这门课的 project 总共有两个，前半学期做一个，后半学期做一个，每个
+project 都有三个 checkpoint，均为 individual project。第一个 project 是给 SSD 写一个
+FTL(Flash Translation Layer)，需要实现 Address translation, Garbage Collection、
+Wear leveling 等 SSD 的特性。做完这个 project 后你对 SSD 是啥就有一个比较感性的认识了，
+毕竟 SSD 是下一代的硬盘，多了解一些它的特性还是很有好处的。后半学期要做一个
+Cloud/Local SSD Hybrid FS。这也是很有趣的一个项目，大概就是一个混合硬盘，大文件
+会放在云上，小文件以及大文件的元数据（文件名、创建时间等）会放在本地硬盘，当你读
+取小文件或者大文件元数据时(e.g. ls command)会直接从本地读取，而当你要读取大文件
+时会去云端下载。这是这个 FS 的基本思想，也是 checkpoint 1 要实现的内容，随后还需要对
+这个 FS 进行优化(deduplication, checkpoint2 的内容), 以及支持 FS snapshot
+(checkpoint 3 的内容，不懂的同学可以类比 ghost 系统:))。 我个人认为这个 project 十分
+有意思，因为基本所有功能全靠自己写，老师基本只提供 OS 层面的一些文件操作以及云端的
+Get(), Put()方法。而最后写好的 Hybird 文件系统也十分酷，因为它对 user 是 transparent
+的，也就是之前说的什么从本地读取大文件元数据、从云端 Download 大文件，这些对 user 来
+说都是不可见的，user 就看见一个文件系统，如果他不去测网速之类的，根本不知道这个文
+件是存在哪的、怎么存的。. from: 1point3acres.com/bbs Cracking the exam: 类似于
+acc (是不是觉得这门课和 acc 太像了！谁让老师是同一个人呢)，这门课也是期中期末两次
+考试，也是十分灵活、很考验对 topic 的理解，考前也会放出前几年的题，也是 lecture 随堂
+考，也是期末只考后半学期内容。复习建议也类似于 acc：平时上课认真听讲记笔记，尽可
+能去理解课程内容。考试前再尽可能去理解一遍，然后就听天由命吧：）。考试也允许带一
+页 cheat sheet，也并没有什么卵用，唯一的建议是把计算 MTBF 的那些公式给抄上去，可以
+少背几个公式。对了，这门课的 paper reading 完全不会出现在 exam 里，也就是说时间很紧
+张又想拿 A 的同学，只复习 slides 即可 (我可没鼓励你们不去看 paper 啊，虽然课上不提问，
+考试也不考，但是如果你想更多地理解老师课上讲的内容，还是去看看 paper)。
+
+15641 (15 fall) Computer Networks 说完了两门高阶课程，我们来说一门本科生的课
+(15441)。这门课是 CMU CS major 本科生五选一的 system 课的其中一门(其余四门是 15410,
+15418, 15440, 15411)。总的来说这门课的难度属于几门 system 课里比较低的(流传的难度
+排序是：15410 >= 15411 > 15418 > 15440 >= 15441)。但我仍然被这门课狠狠地虐了一遍
+（我只能说，选好队友很重要。。）。这门课的 lecture 内容没有太特别的地方，基本和国
+内的计算机网络课差不多，前半学期会从 physical layer 一直讲到 transport layer，重
+点自然是 TCP/IP 协议，后半学期会讲一些 application layer 的东西(Web, P2P, CDN, QoS,
+Video streaming, security)以及一些“现代”的网络技术(mobile network, wireless,
+last-mile question 还有三网融合)。总的来说是一门不折不扣的计算机网络课吧，老师
+(Peter Steenkiste)讲的还是很细致很清楚的，他中间曾经出差，请另一位老师来代了一次
+课，那真的是没有对比就没有伤害，代课老师基本就是在念 ppt。让我觉得这门课很值的是
+它的 project，这门课共三个 project，第一个是 individual, 第二个第三个是 2 人 group
+project。第一个 project 要求你实现一个 web server (纯 C 实现), 支持 Get(), Post(),
+CGI, HTTPS 等。要求用 lex and yacc 来 parse 请求，并发处理要求不能用 process/thread 来
+实现，而要用 I/O multiplexing (i.e. select()). 在我看来这个 project 很实用，一方面
+理解了 web 内部的机制，另一方面感受了如何用 I/O 复用来实现并发，这和之前的进程／线程
+模型完全不一样。 第二个 project 是要实现一个 P2P 的 File transfer system (用 C 实现迅雷，
+就问你酷不酷！)。这个 project 的主要难度是要自己实现 TCP 协议，包括 retransmission,
+sliding window and congestion control。相信我做完这个 project 你就可以拍着胸脯说 I
+know something about TCP 并且对设计 TCP 协议的人充满绵绵不绝的崇拜。 第三个 project
+是要实现一个 CDN system 来满足 Video adaptive streaming。这个 project 比较简单，主要
+是要实现 DNS 协议以及 CDN server 的 load balancing。比较有趣的部分是 application 本身
+(Video adaptive steaming), 你需要自己实现一个根据网络情况从 480p 到 1080p 蓝光会员来
+播放视频的 system。对了，这门课的 project 为了让学生更好地理解“协议”，所以会要求
+学生去读 RFC，具体是 RFC 2616 (Web)以及 RFC 1035 (DNS)，并且根据 RFC 来实现协议（i.e.
+老师并不会告诉你具体需求，反正是实现协议，一切按照协议标准来)，怎么说呢，也算一
+种锻炼吧。 除了三个 project 外，这门课还有四次 homework, 基本属于一个晚上能搞定的
+工作量，主要是帮助理解课程内容吧。. 涓€浜�-涓夊垎-鍦帮紝鐙鍙戝竷 Crackig the
+exam: 这门课有期中期末两次考试，期中考前半学期内容，期末考*整个学期*的内容。考试
+不算难，但会比较灵活。复习建议就是刷 ppt 和做前几年的考试题（请善用 Google 搜索）。
+考试前请把 homework 都复习一遍，会考到类似的题目。期末考试前请把期中考试的卷子拿出
+来再复习一遍，会考到类似的题目。
+
+18641 (15 fall) Java for Smart Phone Development 说完 CS 系的 641，再来说说 ECE 系的
+641，四个字：不值得上:)。这门课 CS 学院的人估计不会选，主要是 ECE 和 INI 的同学们。这
+门课的前半学期是讲 java SE，会从基本语法一直讲到 Multithreading, socket
+programming, HTTP and servlet 以及 JDBC，后半学期会讲 Android development，最后会有
+一个 team project(3 人)实现一个 Android app。听上去是不是感觉干货满满！不仅能学
+java 还能做 app，简直神课啊！然而如果我告诉你以上内容都要你自学呢？这门课老师讲课
+基本没有什么用，照着 ppt 念，而且 ppt 还是过时了的，给的例子在新的 Android OS 上根本不
+能 run（其实也不是很新的 Android，4.0、5.0 这个样子吧）。我上这门课基本都是靠
+https://developer.android.com 度过的，不得不说官方教程就是好，讲解清楚还有 sample
+code。如果你觉得这门课自学不算个事的话，那么还有更令人抓狂的：老师经常改作业需求。
+这门课是每周有一个 individual project 要求做一个小 application，需要用到这周讲的
+feature。但是老师经常改作业的需求，你可以提前体会到程序员是多么痛恨 pm 改需求。关
+键是这门课还很看重 OO design，所有程序都要求手画 UML 图，每次一改需求，又要重画 UML。
+所以我到后来在交作业前两天就不上 piazza（一个课程论坛）了，因为基本上每次上都会发
+现某个同学提问说老师这里是不是应该这样啊，然后老师就会说不是的应该是 balabala，然
+后全班同学都发现自己理解错了，都开始疯狂地修改:)。以至于到最后都没有人在 piazza 上
+问作业相关的问题，因为问一次改一次，还是不要问的好，这样还可以拿 handout 来 argue。
+Team project 并不限制内容，但会要求写很多 design doc, requirement analysis，说实话
+这些东西连同前面的 OO design，其实还是有用的，但是实在敌不过一个一直改需求的老师。
+所以建议，如果不是没课上了，请不要上这门课。ECE 的同学我最后会介绍几门用来抵 60 学
+分核心课的课。Cracking the exam: 这门课没有考试，但后半学期 team project 上来，每
+周还有 individual project (just like cc)，load 还是不小的。
+
+18645 (15 spring) How to Write Fast Code ECE 版的 parallel computing，无论是课程质
+量还是课程难度都远远低于 15418。如果你在纠结这两门上哪一门，请不要犹豫，去选 15418
+吧:)。 这门课的主要内容有三大块，CPU based parallel computing (ILP, SIMD,
+OpenMP), GPU based parallel computing (CUDA) and cloud parallel computing
+(MapReduce and Spark)。其实从课程内容来看还是很不错的，无奈乎老师讲课水平太差以
+及课程要求太低，这些内容都是浅尝辄止。这门课有三次作业和四次 project，作业都是独
+自完成，project 都是组队完成（2-3 人）。基本上作业就是帮你熟悉 project 的开发环境，
+跑一个 sample program 再把输出结果提交上去。而 project 相对有意思一点，前三次 project
+各自对应课程的三大块内容，要求你用 OpenMP, CUDA 以及 MapReduce 来优化一个基础算法
+(矩阵乘法、K-means、N-gram)，project 的评分参照两点：你的优化程序相对于原始算法的
+运算速度，以及你的程序相对于别的小组的程序的运算速度。做得最好的 team 还可以去做
+presentaion，给大家讲你们的优化思路 XD. 第四个 project 要求你自行选题，用课程学到的
+parallel computing 的方法去优化一个实际算法，并且写一篇小论文。 我们组当时选的是
+中值滤波，把三个方法都用了一遍，发现还是 mapreduce 大法好:)。 总的来说这门课的缺
+点在于课程内容太浅，project 也没有什么锻炼量，如果 ECE 的同学想找一门不是太水的水课
+来抵学分，那还是可以一上的。 鏉ユ簮涓€浜�.涓夊垎鍦拌鍧�. Cracking the exam: 期
+中期末两次考试，期末考*全部学期*的内容，允许携带一页 cheat sheet。这个 cheat sheet
+很有用，因为这门课的考试会考一些比较干的知识点，所以可以提前把一些名词解释、公式
+(重点：怎么计算 GPU 的 GFLOPS)给写上。大家考试前过一遍 ppt，边过边把 cheat sheet 整理
+出来即可。考试不算难，但期中考试时间可能会严重不够（因为是随堂考）。
+
+18899 (15 spring and 15 fall) Applied Machine Learning (A4) and Data & Inference
+(A3) TL;DR: 除非你是 ECE 的同学并且需要用水课抵 60 学分，不然你可以跳过这一段了。这
+是两门课，但是课号一样（不同 section），老师也一样，所以放在一起说。我最初是抱着
+认真学习的态度去的(Applied Machine Learning,听上去是不是很实用！)然而事实证明这
+两门是不折不扣的水课，我给几个关键词：成绩=10%平时成绩+3*30%三次作业、一次作业=
+十小时、无考试。平心而论这两门课是可以不水的，Applied Machine Learning 主要讲各种
+机器学习算法，然而完全比不上 ng 的课，Data & Inference 主要讲数据处理和数据可视化，
+然而还不上我本科时在实验室打杂自学的内容。总的来说就是老师要求太低了，上课有一半
+时间在举(che)例(dan)，讲了很多实际的例子。不过作为一门水课，它很好地完成了自己的
+目标。PS：老师(Patrick McSharry)是牛津毕业，有着迷人的口音，上课无聊的时候听听
+他的口音还是很不错的。Cracking the exam: 都说了没有考试了你还想怎样 :(
+
+15640 (16 spring) Distributed Systems 这也是一门只要有可能每个中国学生都会选的神
+课。需要注意的是，这门课有两个版本，Yuvraj Agarwal 和 Srini Seshan 上的 fall 学期以及
+Satya 和 Babu 上的 spring 学期。Fall 的 15640 用 go 语言，更加偏向于应用一些（e.g. 实现
+mapreduce、比特币挖矿），Spring 的 15640 用 C 和 Java,更加偏系统一些。因为我上的是
+spring 的课，所以以下介绍主要对应 Satya 的 15640。这门课我感觉就是一个大杂烩，如果你
+像我一样上过 15641、15605、15719、15746 四门课，那么我觉得这门课并没有太大的必要。
+这门课的主讲人 Satya 是 AFS 的发明者，所以他上课的很多内容和 project 都是围绕着
+Distributed File system，当然这其中很多东西对 general distributed system 也是适用
+的。这门课前半学期主讲 RPC、Caching，其中 caching 是大头。RPC 可以说是一切 DS 的基础，
+而 caching 则会聚焦到很多 DS 的难点问题，比如怎么解决共享资源的锁。后半学期会讲
+scaling 和 Fault tolerance (Failure Resiliency)，其中 Fault tolerance 是大头。很多经
+典的问题和算法比如 Transaction, Jounralling, 2PC, Replication, Paxos 都会涉及到，
+还是能开开眼界。除了上面这些，还会讲 Concurrency, GFS, computation scale out (MR,
+MPI, Spark, P2P)等零碎知识点。总的来说是一门好课，老师 Satya 讲得很细很慢，按他自
+己的话说就是宁愿学生们学得少一点但是学精了，而不希望学了很多但都一知半解。不过我
+个人还是觉得他讲课太慢了 XD。另外他总是强调这门课并不是要告诉你现在世界上那些“时
+髦”的算法、架构而是希望你能学会一些即使再过二十年也不会过时的核心知识。我觉得他
+说的还是很有道理的，我同时上着这门课和 15719，就刚好是这门课会讲一些基本的东西,而
+acc 就会给你讲一些很前沿的云计算技术，然而这些“云”归根到底还是依赖于 DS 的这些基
+本知识。这门课有四个 project，四次 homework，均为单人完成。四次 homework 就是做一些
+简单的题，帮助理解课程内容。第一个 project 是用 C 实现一个 Remote File System (多个
+Client 和一个 server，文件都存在 Server，client 通过 RPC 操作文件)。这个 project 的难点
+是实现 RPC，因为会有一些复杂的数据结构需要 marshalling and unmarshalling，以及需要
+考虑一些 corner case。第二个 project 是在第一个 project 的基础上实现 caching，即当
+client 从 server 得到文件后可以 cache 在本地，下次访问就不需要从 server 处再去拿。这个
+project 的难点是 Concurrency，即当多个 clinet 要访问同一个文件的时候 caching 的处理。
+这两个 project 是前半学期的内容，分别对应 RPC 和 caching 两大块课程内容。第三个 project
+是实现 Auto-scaling，需要动态地根据 server 的 RPS 来增减 node 数，难点在于测试样例十分
+恶心，有日常小高峰也有黑五大高峰，很难写出一个满足各种情况 auto-scaling 的程序，需
+要不断修正程序参数。第四个 project 是自行实现一个 2PC system，主要帮助理解 2PC 吧，没
+有太大难度。总的来说四个 project 下来你对 DS, client, server 这些东西也能玩得比较转
+了，值得一做。Cracking the exam: 期中期末两次考试，期末考_全部_内容。考试不难，
+把 ppt 里的东西弄懂即可。需要提醒的是，考高分并不容易，因为考试不难所以批改反而很
+严格，答题的时候注意不要漏写、略写，审题的时候要仔细。. From 1point 3acres bbs
+15605 (16 spring) Operating System Design and Implementation.鏈枃鍘熷垱鑷
+�1point3acres 璁哄潧（后退，我要开始装逼了），压轴的课来了，CMU 传说中的 OS 课。本着
+“我不入地狱，谁入地狱”的精神，我去上了这门传说中 CMU 最难的课。先透露一下课程
+load：每周三次课，五个 project，两次作业，两次考试，一篇读书报告，工作量大概每周
+50 小时，P3 时每周 60 小时有的吧。这门课的广度、深度都超过了一般的课，一般老师没有两
+把刷子真的是上不下来的。前半学期是比较正常的 OS 内容，Stack, Hardware, Process,
+Thread, Deadlock, Virtual Memory，Scheduling, 但是难度会十分大，毕竟一般 os 课的这
+些内容在 15213 里早就讲了，所以这门课主要就会讲很深的内容，比如如何用 stack 实现
+Thread 和 Process、如何实现 lock 等。前半学期讲的这些基本也就是所有 project 需要实现的
+内容。 后半学期画风突变，开始走广度路线，会讲 NFS(AFS), Virtulization, Storage,
+Cache Coherence, Memory Consistency, security, Filesystem, Transaction, Driver,
+Lockfree(RCU)等层出不穷的内容，一节课一个全新 topic。除此之外，每节课上课之前还会
+有个“十分钟”小课堂，老师会讲一些 C 编程的“奇技淫巧”，比如如何用 C 实现面向对象编
+程、如何使用版本控制等等，这些对 project 很有帮助。我当初是把这门课和 15640, 15719
+两门课一起上的，三门课在一起真的有一种相辅相成的感觉，有时 OS 才讲了 Transcation,
+DS 就会讲 Journalling 而 acc 就会讲 journal-based Fault tolerance，感觉就是 OS 在讲单机
+的内容，DS 在讲 cluster 的内容，而 acc 又在一个更高的层次上讲一个 cloud 的内容。但无论
+怎样，有些技术、思想会反反复复出现，以不同的形式，不同的手段。我当初也是误打误撞
+选了这样三门课，但感觉这些 system 的课真的是相通的。说回这门课，两次作业题量都不大，
+但是很 tricky，基本是关于 lock, memory consistency 的问题，属于那种思考难度很大，很
+容易就想错的了题。 一份读书报告，是要求你在开学时选一本书（老师会指定一个书单／
+论文集列表，基本是 OS 相关的），一学期内自己抽时间把书读完，最后写一份两页纸的读书
+报告。这个作业其实敷衍的话也不难，但其实有人这样 push 你去读一本书，也未尝不是件好
+事。我当初选的是《Linux Kernel Development》 (Robert Love)，一学期读完后收获很大。
+最后来详细说说五个 project，这估计也是很多人最关心的部分（对了所有都是 C 实现，我并
+不是很明白为何有人认为 OS 还可以用 java 写）：P0，单人 project，主要作用是“筛选”出
+那些不适合这门课的同学，如果这个 project 你都做得很吃力，那么基本上你就可以放弃这
+门课了。。。这个 project 主要是要写一个 C library, 实现 trackback 的功能，即当某个函
+数调用 traceback()这个函数，可以在屏幕上打印出函数的的调用栈（从 main 一直到该函数），
+只要 debug 单步调试过的人应该对这个功能很熟悉。实现这个不算难，主要是考验对 stack 的
+理解。P1, 单人 project，主要是给写 console, keyboard 和 timer 三个 devices 写 driver，
+并在三个 driver 之上写一个小游戏(run 在 kernel mode)。这个 project 主要是熟悉 x86
+kernel programming，同时自己写的 device driver 也会在 P3 和 P4 用到。P2, group project
+（两人，后面的 P3、P4 也一样）， 写一个 user space 的 thread library。就像普通的
+thread library 一样，需要实现 pthread_create(), pthread_join(), pthread_exit(),
+pthread_gettid()等常用函数。此外还需要写 mutex, condition variables, semaphores,
+R/W locks 等锁的 library（实际上你如果要实现一个 thread library, 这些基本的锁都是
+必要的）。这个 project 开始，就有各种抓狂的东西进来了，为了一个 bug 调三天是常有的事，
+因为涉及到不同 thread 的 stack 还有各种锁，所以很容易出现 bug，有些还很难发现。这个
+project 用的 kernel 是一个老师写好的 kernel，但它的 behavior、system call 等都是你 P3 需
+要实现，因此也算是提前熟悉一些 kernel specs。P3, 也就是传说中的大 boss，你需要自
+己实现一个 kernel, 包括各种 system call (fork(), exec(), wait()，exit(), read(),
+print()等), virtual memory management, preemptive multitasking, scheduler 等等。
+同时把你 P1 的 device driver (有了 keyboard 和 console 才有输入输出嘛)以及 P2 的 thread
+library 整合进去。这个 project 的 handout 就有 55 页，时间跨度是两个月，然而你还是会感
+觉时间不够用啊时间不够用。基本做完这个 project，你对 OS 的了解层度就比一般人要深不
+少了。P4, 算是一个 post-P3 project, 这个 project 必须在教授承认你已经做完了 P3 的情况
+下才能继续，否则就不能做 P4，别人做 P4 的时间你接着做 P3，因为 P3 算是整个 OS 课最核心的
+内容。每年 P4 的内容都不一样，比如给 kernel 再写一个 file system, 支持更多的 device
+driver 等等。我们这一年分到的都是使 kernel 能在 multi-processor 上工作，采用的是 AMP 模
+型。总的来说十分有趣，不同 core 之间需要收发 message, 在 OS 里玩出了 DS 的感觉。再说一
+下 project 的评分方式，老师给你一部分测试样例，包括 unit test 和 stressing test 等，但
+是你交上去后还会有另一部分测试样例。 这门课一大特色是助教会把你的 code 全部打出来，
+然后用红笔帮你修正，相当于帮你做了 code review。Review 完了之后会有一个 1:1 的
+interview, 他会问你一些 design 和 implementation 的问题，也会指出你的一些缺陷，是很
+好的学习机会。最后你的成绩是测试样例通过率、code design 和 code style 等的综合。值
+得强调的一点是，这门课不仅注重 implementation 也注重 design(请看课名)。OS 是一个很大
+的 system，你如何设计各个 component 使得整个 system 能完整地运转，这也是这门课要求你
+掌握的一个重要的能力。当然了你这门课上完之后，C programming 的能力也会突飞猛进，
+特别是 debug 能力 XD。整个 OS 课上下来，project 做完，会学到很多东西，让你搞清楚之前很
+多似是而非的概念，同时又可以帮助对 DS, acc 等 system 课的理解，最后达到一种融会贯通
+的状态。有很多人都听说这门课太难，而不敢去上，但你要知道，你学得越痛苦，最后学到
+东西也越多。我有时候真的觉得，花了高价学费来到了 CMU，不上上传说中的神课真的可惜
+了，就像是你去了少林寺拜师学艺，然而却不想学洗髓经一样。这里我将 OS 比做洗髓经是有
+原因的，OS 这门课就像你的内功，不会有马上立竿见影的效果，但是为你今后 CS 的学习成长
+打下了基础，铺平了了道路。同时 CMU OS 的教授把这门课称为"transformative"的课，我想
+“洗髓”正是其最好的翻译吧。所以如果你有份好学的心，真的推荐这门课。最后说明一点，
+这门课在选课的时候需要教授一个个把学生加到这门课里，也就是说需要教授认可你才可以
+上这门课，那么如果才算认同呢？按照我的经验，你至少需要 15213 + 一门其他 CMU 的
+system 课(15411, 15440, 15441, 15418)都拿 A，注意 15619 这样的 application 的课在教授
+看来完全没有卵用。Cracking the exam: 期中期末两次考试，很多 PPT 都不会考！很多 PPT
+都不会考！很多 PPT 都不会考！特别是那些体现“广度”的 ppt，基本都不会考，所以你不要
+再像我一样去背 OS 在启动时候要经过哪些过程之类很琐碎的知识点了。那么这门课考试考什
+么呢？ 现场写程序！对的，你没有看错，现场给你 library 和 System call, 让你开始实现
+算法，我真的是在考试场写出了面试 onsite 的感觉啊。 所以说，project 很重要，一定要认
+真 design 认真 code，同时认真读同伴写的 code。
+
+最后一段再推荐一些我没有上过但是听说不错的课。首先是本科 CS 剩余的两门 system 的课
+15411, 15418，然后是高阶 system 课 15721 (这门课我试听过，真的不错，教你如何实现一
+个 memory based database system，老师讲课细致，ppt 做得很艺术，然而无奈位置太少没
+有挤进去), 15826。除此之外还有一些 application 课, 15415, 15437，一些基础课 15210
+(强烈推荐，用 functional programming 来实现各种算法和数据结构，既学了函数式编程又
+学了算法), 15214, 15251。 最后是一些给 ECE 孩子们的抵 60 学分核心课的: 之前的 15746,
+15826, 15719, 15721 都不错, 18649, 18697, 请不要上 18842，据称是一门烂课。还有一些
+抵 60 学分的水课（所以你可以抽出时间来上 15 的好课）: 18645, 18899, 18660。. 1point
+3acres 璁哄潧
+
+周日花了一下午+一晚上的时间，终于写完了这篇文章。如今已经毕业半年，也步入了社会
+开始工作，这时才发现自己很怀念学生时光，那种不顾一切只想着学习的专注，那份赶 due
+到凌晨四五点的执着，那丝通宵 debug 最终找到 bug 的喜悦，和小伙伴为了一个 design 的问题
+而争得面红耳赤，现在在工作中都很难体会到了，也不知是少了什么，可能是没有当初那么
+“纯粹”了吧。希望还在 CMU 的同学们好好珍惜校园时光，无论是其中的惬意还是劳累，都
+会是你今后一份珍贵的回忆。
+
+ 感谢师兄分享，作为 16FALL 的 ECE MS，继续为 CMU 课程介绍添砖加瓦，下面谈谈我这学期上过的课程：
+
+10701 introduction to machine learning（fall），主讲人是 eric xing，自己人，上课
+不用担心口音问题，课程内容从机器学习基础入手，一路讲到一些时髦的内容，比如贝叶斯
+网络，主题模型，分布式 ML 等，缺点就是讲得挺快，深度学习一次课就讲完，然后马上作
+业里 CNN,RNN 求导计算就出现了...平时作业一半编程一半理论推导，编程部分手写各种机
+器学习算法解决实际问题，理论部分通常需要查阅资料慢慢研究，坚持下来会有酣畅淋漓的
+感觉。有期中没有期末，期中不难，闭卷，减轻准备一页纸的负担（良心啊），没有期末考
+试（更良心），与之对应的是自主定题的 team project，我瞄了一眼有不少有趣的应用，
+做 dota 阵容胜率分析的，增强网络实现游戏 ai 的，或者深度学习在图像的应用，还是很
+有趣的。平时 2 周 1due，我因为之前有机器学习基础，只有在有 due 的那一周才开工，
+一般 20-30 小时/2 周。如果不想学太多理论，可以选 10601A/B，有 2 个 section 各有
+所长，据说 A 讲得好但不深入，B 讲得差但内容不错。
+
+16720 computer vision（fall），主讲人是三哥，是一门挺难的课程，惭愧的是我上课长
+期处于云里雾里状态，不过作业设计的挺好的，开始做作业的时候再重新自学撸一遍才有种
+恍然大悟的感觉。和 701 一样，也是 2 周一 due，matlab 编程，20-30 小时/2 周，没有期中期
+末，team project 也是各种时髦的项目，比如眼睛眨眼的识别，情绪识别，车辆识别等。我
+虽然应付了作业，但要上好这门课需要自己投入更多的时间，课程内容覆盖图像识别，图像
+拼接，物体追踪，3D 重建等，另有大半月讲深度学习在 CV 上的应用，请了 oculus 的工程师来
+讲 RNN 和 lstm 模型，对有兴趣于 CV 领域的同学来说是不可多得的课。. visit
+1point3acres.com for more.
+
+15688 practical in data science (fall)，2016 年首开，是一门具有成为 CC 潜质的神
+课，在 data science 越来越火的情况下，各种培训课程应运而生，而 CMU 也开设了自己
+的课程，http://www.datasciencecourse.org，内容和一般数据科学公开课差不多，从数据
+抓取，处理分析，分类聚类到可视化等，作业在 python notebook 里完成，被迫熟练运用
+pandas 和 numpy，没有期中期末考，team project 要求自己抓取数据去处理一个实际问题，
+大家也是各显神通，产生了很多有趣的想法，有同学抓取 LOL 的数据做段位预测，也有深
+度学习 tensorflow 下的各种项目。除了作业和 project，每个人还被要求写一个
+tutorial，指导别人解决数据科学问题 http://datasciencecourse.org/tutorials.html，
+贡献了很多学习资料。和 701 一样，也是 2 周一 due，30 小时+/2 周，因为首开，作业
+里有各种坑，workload 不轻，但总体来说依然是一门好课。
+
+还有很多好课比如 search engine，web development，deep learning 等，等后来人铺路了

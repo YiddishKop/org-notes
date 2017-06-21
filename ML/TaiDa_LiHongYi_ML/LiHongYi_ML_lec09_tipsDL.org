@@ -1,15 +1,15 @@
 * Recipe of Deep Learning
-  Deep learning, 虽然参数很多，但确实不容易overfitting。
-  K-NN, DecisionTree 训练集上一做就是100%正确，这才是overfitting。
-  DL在训练集上就不太容易获得好的结果，所以即便在测试集上也不好，这个也
-  不算是overfitting
+  Deep learning, 虽然参数很多，但确实不容易 overfitting。
+  K-NN, DecisionTree 训练集上一做就是 100%正确，这才是 overfitting。
+  DL 在训练集上就不太容易获得好的结果，所以即便在测试集上也不好，这个也
+  不算是 overfitting
 
   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 12:56:40
   [[file:Recipe of Deep Learning/screenshot_2017-06-10_12-56-40.png]]
 
-  如果出现overfitting，调整了这三个训练步骤之后，还是要再检查一遍训练集是否足够好。
+  如果出现 overfitting，调整了这三个训练步骤之后，还是要再检查一遍训练集是否足够好。
 ** Do not always blame Overfitting
-   下图的 56-layer 并没有overfitting，因为训练集和测试集都是这样的表现
+   下图的 56-layer 并没有 overfitting，因为训练集和测试集都是这样的表现
    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 12:59:26
    [[file:Recipe of Deep Learning/screenshot_2017-06-10_12-59-26.png]]
 
@@ -17,9 +17,9 @@
    1. local minimum
    2. saddle point
    3. plateau(高原:低斜率，但高)
-   这个并不是overfitting，也不是underfitting，就是没有train好。
+   这个并不是 overfitting，也不是 underfitting，就是没有 train 好。
 
-** 对于DL的优化分成·「针对训练or测试」两种
+** 对于 DL 的优化分成·「针对训练 or 测试」两种
    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 13:07:05
    [[file:Recipe of Deep Learning/screenshot_2017-06-10_13-07-05.png]]
 
@@ -33,48 +33,44 @@
 
 ** Bad results on Training Data:
 *** New Activation Function
-    如果是训练集不好，有可能是function-set不行，也就是net structure没设计好。
+    如果是训练集上效果不好，有可能是 function-set 不行，也就是 net structure 没设计好。
     比如 激活函数不好
 **** Hard to get the power of Deep
 
      #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 13:11:34
-
      [[file:Recipe of Deep Learning/screenshot_2017-06-10_13-11-34.png]]
 
-**** 为什么layer越多，正确率不增反降？
+**** 为什么 layer 越多，正确率不增反降？
      一个可能的原因是：梯度消失 and 梯度爆炸
-
-
 ***** Vanishing Gradient Problem
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 14:52:06
       [[file:Recipe of Deep Learning/screenshot_2017-06-10_14-52-06.png]]
 ***** sigmoid 会衰减变化量
       backpropagtion 的意义是用梯度，也就是微分。
-      求的是某一个w的增加量对于loss-fn(cross-entropy)的变化量的比值：
+      求的是某一个 w 的增加量对于 loss-fn(cross-entropy)的变化量的比值：
       ∂C/∂w = ?
       但是由于 sigmoid 函数对于·「差距的衰减」作用，
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 14:49:54
       [[file:Recipe of Deep Learning/screenshot_2017-06-10_14-49-54.png]]
-
-      导致越靠近input-layer的w的变化量:∂w每经过一个神经元
-      (sigmoid)都会变小，所以随着经过的layer越来越多，更新w对于output layer的
-      影响越来越小，所以最后output:y' 几乎是不变的。所以∂C也几乎是不变的。
+      导致越靠近 input-layer 的 w 的变化量:∂w 每经过一个神经元
+      (sigmoid)都会变小，所以随着经过的 layer 越来越多，更新 w 对于 output layer 的
+      影响越来越小，所以最后 output:y' 几乎是不变的。所以∂C 也几乎是不变的。
       所以 ∂C/∂w = every SMALL
 
-      反之靠近output-layer的w的变化量:∂w由于经过的神经元很少，衰减很少，对于
-      output-layer的影响就大，∂C就大。
+      反之靠近 output-layer 的 w 的变化量:∂w 由于经过的神经元很少，衰减很少，对于
+      output-layer 的影响就大，∂C 就大。
       所以 ∂C/∂w = every LARGE
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 14:51:17
       [[file:Recipe of Deep Learning/screenshot_2017-06-10_14-51-17.png]]
 
-**** 如何解决：更换激活函数为ReLU
+**** 如何解决：更换激活函数为 ReLU
      z - input
      a - output
 
      #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 15:05:10
      [[file:Recipe of Deep Learning/screenshot_2017-06-10_15-05-10.png]]
 
-     1. 对于那些输出为0的神经元，根本不会影响最后一层的输出
+     1. 对于那些输出为 0 的神经元，根本不会影响最后一层的输出
 
      #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 15:19:28
      [[file:Recipe of Deep Learning/screenshot_2017-06-10_15-19-28.png]]
@@ -82,7 +78,6 @@
      可以直接拿掉
 
      #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 15:19:44
-
      [[file:Recipe of Deep Learning/screenshot_2017-06-10_15-19-44.png]]
 
      2. 对于那些输出不为零的神经元，整个构成一个瘦长的线性网络
@@ -90,12 +85,12 @@
      [[file:Recipe of Deep Learning/screenshot_2017-06-10_15-20-57.png]]
      这里就不存在·「差距衰减」的问题，
      但是还有两个问题：
-     1. 我们并不喜欢linear network 这种模型太弱了。
+     1. 我们并不喜欢 linear network 这种模型太弱了。
      2. ReLU 没办法微分。
 
      其实这两个问题都不是问题：
-     1. 联合起来当x取值较大的时候并不是linear network
-     2. ReLU只在输入为0的位置不可微分，但很少遇到需要这里的微分。
+     1. 联合起来当 x 取值较大的时候并不是 linear network
+     2. ReLU 只在输入为 0 的位置不可微分，但很少遇到需要这里的微分。
 
 **** ReLU - variants
      #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 15:28:58
@@ -103,27 +98,25 @@
 
      Leaky ReLU and Parametric ReLU
 
-     为什么激活函数一定要事先指定呢？
-     对 ReLU 再次进化
+     激活函数不一定要事先指定
+     ===> 对 ReLU 再次进化
 **** ReLU - advanced: Maxout
      Learnable activation function
      激活函数是自动学出来的
      1. group
-     哪些value会group在一起是事先决定的。
-     每个group内的元素个数可以随便选。
+     哪些 value 会 group 在一起是事先决定的。
+     每个 group 内的元素个数可以随便选。
      2. 选 max 作为输出
      #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 15:33:51
      [[file:Recipe of Deep Learning/screenshot_2017-06-10_15-33-51.png]]
 
 
-     就不加activate-function了。
+     就不加 activate-function 了。
 ***** ReLU is a special cases of Maxout
-
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 15:37:50
       [[file:Recipe of Deep Learning/screenshot_2017-06-10_15-37-50.png]]
 
 ***** Maxout is more that ReLU
-
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 15:39:03
       [[file:Recipe of Deep Learning/screenshot_2017-06-10_15-39-03.png]]
 
@@ -132,40 +125,40 @@
       [[file:Recipe of Deep Learning/screenshot_2017-06-10_15-40-31.png]]
 
 ***** How to train Maxout network
-      Maxout 没法微分，这个怎么用Gradient来训练呢？
+      Maxout 没法微分，这个怎么用 Gradient 来训练呢？
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 15:44:11
       [[file:Recipe of Deep Learning/screenshot_2017-06-10_15-44-11.png]]
 
       没有接到的部分，就可以直接拿掉，当你一个输入进来，之后其实他就是一个
-      细长的 linear network, 你根本不需要考虑Maxout的拐点没法微分的问题
+      细长的 linear network, 你根本不需要考虑 Maxout 的拐点没法微分的问题
 
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 15:44:56
       [[file:Recipe of Deep Learning/screenshot_2017-06-10_15-44-56.png]]
 
-      所以你需要train的不是Maxout，而是这个linearNetwork
+      所以你需要 train 的不是 Maxout，而是这个 linearNetwork
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 15:46:04
       [[file:Recipe of Deep Learning/screenshot_2017-06-10_15-46-04.png]]
 
-      但是，好像那些被删除的链接的 weight 怎么办？他们没有被train
+      但是，好像那些被删除的链接的 weight 怎么办？他们没有被 train
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 15:49:11
       [[file:Recipe of Deep Learning/screenshot_2017-06-10_15-49-11.png]]
 
-      当你给他不同的输入时（x）,maxout会选择各种不同的链接，所以概率上
-      每一个连线(weight)是都会被train到的。
+      当你给他不同的输入时（x）,maxout 会选择各种不同的链接，所以概率上
+      每一个连线(weight)是都会被 train 到的。
 
       : Maxout 和 Max-pooling(CNN)是完全一样的。
 
 *** Adaptive Learning Rate
 **** RMSProp
      Error surface can be very complex when training NN
-     即便在同一个方向上 learning rate 也必须快速的变动(adagrad在某一个方向(dimension)的learningrate是固定的)
+     即便在同一个方向上 learning rate 也必须快速的变动(adagrad 在某一个方向(dimension)的 learningrate 是固定的)
 
      review grad
-     (下图中去掉根号部分就是gradient-descent)
+     (下图中去掉根号部分就是 gradient-descent)
 
      review AdaGrad(dimension-wise + 2nd derivative)
 
-     学习率从原来的·「除以1」变成·「除以平方和开根号」
+     学习率从原来的·「除以 1」变成·「除以平方和开根号」
 
      #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 16:07:32
      [[file:Recipe of Deep Learning/screenshot_2017-06-10_16-07-32.png]]
@@ -174,16 +167,16 @@
      [[file:Recipe of Deep Learning/screenshot_2017-06-10_16-11-34.png]]
 
      Error surface can be very complex when training NN
-     即便在同一个方向上 learning rate 也必须快速的变动(adagrad在某一个方向(dimension)的learningrate是固定的)
+     即便在同一个方向上 learning rate 也必须快速的变动(adagrad 在某一个方向(dimension)的 learningrate 是固定的)
 
      #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 16:13:37
      [[file:Recipe of Deep Learning/screenshot_2017-06-10_16-13-37.png]]
 
-     Adagrad进阶版：RMSProp
-     根号里面引入·「gt的可调节权重」--- α
-     手动设置，一般设置个0.9之类的。
-     手动调整α，α小---倾向于相信新的gradient告诉你的曲线的平滑或陡峭的程度。
-     α大---倾向于相信以前的gradients
+     Adagrad 进阶版：RMSProp
+     根号里面引入·「gt 的可调节权重」--- α
+     手动设置，一般设置个 0.9 之类的。
+     手动调整α，α小---倾向于相信新的 gradient 告诉你的曲线的平滑或陡峭的程度。
+     α大---倾向于相信以前的 gradients
 
      | adagrad          | RMSProp                                      |
      | Root Mean Square | RMS with _previous gradients being _decayed_ |
@@ -203,8 +196,8 @@
       #+BEGIN_QUOTE
       不用太担心 local-minimum 的问题，其实在 error-surface 上没有太多
       local-minimum 的情况。因为如果你是 local-minimum 你就必须在每一个
-      dimension 都是如上图的形状，假设某一个参数w相对Loss-fn是这种形状的
-      概率是 p，因为NN参数非常多，那么1000个w同时出现这种形状的概率是p^1000
+      dimension 都是如上图的形状，假设某一个参数 w 相对 Loss-fn 是这种形状的
+      概率是 p，因为 NN 参数非常多，那么 1000 个 w 同时出现这种形状的概率是 p^1000
       参数越多，local-minimum 出现的概率越低。
       #+END_QUOTE
 
@@ -212,7 +205,7 @@
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 16:27:56
       [[file:Recipe of Deep Learning/screenshot_2017-06-10_16-27-56.png]]
 
-      将惯性引入GradientDescent
+      将惯性引入 GradientDescent
 
 **** Momentum
 
@@ -227,7 +220,7 @@
      [[file:Recipe of Deep Learning/screenshot_2017-06-10_16-45-42.png]]
 
      Movement: movement of last step minus gradient at present
-     引入·「惯性的权重参数」--- λ, λ大就代表更看重惯性，λ小代表更看重当前的Gradient
+     引入·「惯性的权重参数」--- λ, λ大就代表更看重惯性，λ小代表更看重当前的 Gradient
 
      | GradientDescent   | Momentum(v)         |
      |-------------------+---------------------|
@@ -245,7 +238,7 @@
      v2 = -λη∇L(θ0) - η∇L(θ1)
      ...
 
-     越之前的gradient的weight越小
+     越之前的 gradient 的 weight 越小
 
 
      #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 16:54:26
@@ -316,7 +309,7 @@
      Closer to zero, 离 0 越来越近
      因为 η,λ 都很小，1 - η*λ = 0.99
      所以每次做更新，都是把 wt 先乘以 0.99
-     这样某一个前面的 w， 比如w1 因为每次都要 *0.99,所以会越来越靠近 0
+     这样某一个前面的 w， 比如 w1 因为每次都要 *0.99,所以会越来越靠近 0
 
 **** L1 Regularization
 
@@ -330,37 +323,40 @@
 
 **** L1 和 L2 有什么不同
      一样的，always decay ==> always delete
-     在L2-regularization中，如果出现很·「大」的w，由于是·「按比例」缩放所以w会很·「快」的变小。
-     在L1-regularization中，如果出现很·「大」的w，由于是·「按量」缩放所以w会很·「慢」的变小。
+     在 L2-regularization 中，如果出现很·「大」的 w，由于是·「按比例」缩放所以 w 会很·「快」的变小。
+     在 L1-regularization 中，如果出现很·「大」的 w，由于是·「按量」缩放所以 w 会很·「慢」的变小。
 
-     在L2-regularization中，如果出现很·「小」的w，由于是·「按比例」缩放所以w会很·「慢」的变小。
-     在L1-regularization中，如果出现很·「小」的w，由于是·「按量」缩放所以w会很·「快」的变小。
+     在 L2-regularization 中，如果出现很·「小」的 w，由于是·「按比例」缩放所以 w 会很·「慢」的变小。
+     在 L1-regularization 中，如果出现很·「小」的 w，由于是·「按量」缩放所以 w 会很·「快」的变小。
 
-     所以总体来说，L1产生的w矩阵会比较·「稀疏」，既有很大的w，也有很多（=0）的w
-     所以总体来说，L2产生的w矩阵会比较·「稠密」，大部分w都不大或者接近0（！=0）
+     所以总体来说，L1 产生的 w 矩阵会比较·「稀疏」，既有很大的 w，也有很多（=0）的 w
+     所以总体来说，L2 产生的 w 矩阵会比较·「稠密」，大部分 w 都不大或者接近 0（！=0）
 
-     CNN里面想产生sparse的结果的image，所以用L1
+     CNN 里面想产生 sparse 的结果的 image，所以用 L1
+
+     TODO: https://www.youtube.com/watch?v=sO4ZirJh9ds&index=64&t=109s&list=WL
+     这个教程很好，似乎 regularization 引出了 convex optimization 的某些概念
 
 **** Regularization - weight decay, 跟人脑的机制很像。
 
      #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 17:38:59
      [[file:Recipe of Deep Learning/screenshot_2017-06-10_17-38-59.png]]
 
-     6岁初识世界，很多都感兴趣，会建立大量的神经连接。
-     但是到14岁，由于很多神经元都用不到，也有很多事情不去玩了(类比没用的weight不去update，就会慢慢decay到0)
+     6 岁初识世界，很多都感兴趣，会建立大量的神经连接。
+     但是到 14 岁，由于很多神经元都用不到，也有很多事情不去玩了(类比没用的 weight 不去 update，就会慢慢 decay 到 0)
      所以很多神经元连接就消失了。
 
 *** Regularization 和 Early stopping 的本质
-    虽然在NN中Regularization有些帮助，但是帮助不是很大，没有像SVM这么依赖regularization。
+    虽然在 NN 中 Regularization 有些帮助，但是帮助不是很大，没有像 SVM 这么依赖 regularization。
 
-    我们一般给NN的参数初始值都是很小的，或者接近于0的。我们下面做的事情就是让这些参数离0越来越远。
-    Early Stopping 是减少·「离0的次数」
-    Regularization 是减少·「离0的步幅」
-    总体来说都是让参数·「不要离0太远」
+    我们一般给 NN 的参数初始值都是很小的，或者接近于 0 的。我们下面做的事情就是让这些参数离 0 越来越远。
+    Early Stopping 是减少·「离 0 的次数」
+    Regularization 是减少·「离 0 的步幅」
+    总体来说都是让参数·「不要离 0 太远」
 *** Dropout
 **** Traning
      =======
-     在每一次更新w之前，对layer做sampling---决定要不要丢掉
+     在每一次更新 w 之前，对 layer 做 sampling---决定要不要丢掉
 
      #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 17:42:15
      [[file:Recipe of Deep Learning/screenshot_2017-06-10_17-42-15.png]]
@@ -381,7 +377,7 @@
      2. Using the new NN for training
      3. For each mini-batch, we resampling the dropout neurons
 
-     在训练的时候，很明显 dropout 削弱了模型的能力，所以使用dropout之后，训练效果会变差
+     在训练的时候，很明显 dropout 削弱了模型的能力，所以使用 dropout 之后，训练效果会变差
      所以，一定要确保在使用 dropout 之前，是训练集效果很好，测试集效果不好，才能使用。
      如果 训练集 本身就不好，那么 dropout 只会让训练集越来越差。
 
@@ -422,7 +418,7 @@
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 18:05:09
       [[file:Recipe of Deep Learning/screenshot_2017-06-10_18-05-09.png]]
 
-      如果不乘以(1-p)%, 那么 training和testing 的输出不一致，
+      如果不乘以(1-p)%, 那么 training 和 testing 的输出不一致，
       这样 testing 反而会不好
       所以需要乘以(1-p)% 来大概的保证结果是一致的。
 
@@ -436,15 +432,15 @@
      Ensemble Learning 在比赛中很常用，
 
 ***** Ensemble Learning 为什么 work
-      之前讨论过 error 来自于两个方面： bias , variance
+      之前讨论过 error 来自于两个方面：bias , variance
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 18:11:41
       [[file:Recipe of Deep Learning/screenshot_2017-06-10_18-11-41.png]]
 
-      如果模型能力强：bias 造成的error小，variance 造成的error大
-      如果模型能力弱：bias 造成的error大，variance 造成的error小
+      如果模型能力强：bias 造成的 error 小，variance 造成的 error 大
+      如果模型能力弱：bias 造成的 error 大，variance 造成的 error 小
 
-      所以如果有很多能力较弱的model，平均起来看，可以消去 bias 造成的error
-      所以如果有很多能力较强的model，平均起来看，可以消去 variance 造成的error
+      所以如果有很多能力较弱的 model，平均起来看，可以消去 bias 造成的 error
+      所以如果有很多能力较强的 model，平均起来看，可以消去 variance 造成的 error
 
       而且还可以利用 parallel 来 traing 各自的 model
 
@@ -457,16 +453,16 @@
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-10 18:15:59
       [[file:Recipe of Deep Learning/screenshot_2017-06-10_18-15-59.png]]
 
-      RandomForest 就是实践这种精神的一种方法，每一个DecisionTree随便train一下
-      都会overfitting，但是当很多DecisionTree放在一起的时候，就不容易overfitting
+      RandomForest 就是实践这种精神的一种方法，每一个 DecisionTree 随便 train 一下
+      都会 overfitting，但是当很多 DecisionTree 放在一起的时候，就不容易 overfitting
 
 ***** Training of Dropout
       ==========================
       _Dropout will produce many different structure of NN_
 
-      因为每个minibatch 在进行 update的时候，都会做一次 sampling 产生出不同的 structure
+      因为每个 minibatch 在进行 update 的时候，都会做一次 sampling 产生出不同的 structure
       因为这种 sampling 会作用在所有的 神经元，当然也包括 input-layer，所以，每次的输入
-      也被sampling 成不同的‘输入’，所以完全可以看成是上面的 ensamble learning 的重现。
+      也被 sampling 成不同的‘输入’，所以完全可以看成是上面的 ensamble learning 的重现。
 
       different input + different structure
 
@@ -479,8 +475,8 @@
       - using one mini-batch to train one network
       - some parameters in the network are shared
       虽然一个 network 使用 一个 mini-batch 来 train
-      但是某一个神经元，有可能出现在好几个mini-batch中，
-      所以这个神经元就是被·「好几个mini-batch」train的。
+      但是某一个神经元，有可能出现在好几个 mini-batch 中，
+      所以这个神经元就是被·「好几个 mini-batch」train 的。
 
 ***** Testing of Dropout
       ========================
@@ -519,14 +515,14 @@
       ensamble average and dropout weight*(1-p)% will be equall
 
       但是很明显，不会所有的 dropout 方法最后都和 ensamble 方法的结果相同。
-      *只有linear的NN* 才有可能产生这种结果。
+      *只有 linear 的 NN* 才有可能产生这种结果。
 
       所以有些人
 
 **** 获得了这样的灵感
-     既然只有lienar nn 才能让 dropout 产生和 ensamble 完全相同的结果。
+     既然只有 lienar nn 才能让 dropout 产生和 ensamble 完全相同的结果。
      那我干脆就使用 linear NN 效果肯定更好。
 
-     比如使用激活函数为 ReLU or Maxout,这样的NN在使用dropout之后效果肯定非常好。
+     比如使用激活函数为 ReLU or Maxout,这样的 NN 在使用 dropout 之后效果肯定非常好。
 
-     实际上确实如此。以为内ReLU 和 Maxout的激活函数跟linear-fn很相近
+     实际上确实如此。以为内 ReLU 和 Maxout 的激活函数跟 linear-fn 很相近

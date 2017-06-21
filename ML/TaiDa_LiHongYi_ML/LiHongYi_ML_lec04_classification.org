@@ -1,119 +1,120 @@
 * Classification
 
-  如果用 regression 直接做 classification，用+1/-1来表示结果。
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 09:28:44
-[[file:Classification/screenshot_2017-06-07_09-28-44.png]]
+  如果用 regression 直接做 classification，用+1/-1 来表示结果。
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 09:28:44
+  [[file:Classification/screenshot_2017-06-07_09-28-44.png]]
 
-这会造成·「y值太大的那些点会被照顾太多」，这样分界面会从我们希望的绿色转向紫色。
-这是由于regression的loss-fn.并不适合做classification。也就是我们·「看待
-residue」的方式要改变，也就是说衡量模型好坏的标准要改变。
+  这会造成·「y 值太大的那些点会被照顾太多」，这样分界面会从我们希望的绿色转向紫色。
+  这是由于 regression 的 loss-fn.并不适合做 classification。也就是我们·「看待
+  residue」的方式要改变，也就是说衡量模型好坏的标准要改变。
 
-传统的方法有：perceptron，SVM
+  传统的方法有：perceptron，SVM
 
-这里介绍一种基于概率分布的观点：
+  这里介绍一种基于概率分布的观点：
 ** Gaussian Distribution
 
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 09:46:28
- [[file:Classification/screenshot_2017-06-07_09-46-28.png]]
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 09:46:28
+   [[file:Classification/screenshot_2017-06-07_09-46-28.png]]
 
- 想想bayes定理：以 P(A and B) 的交换律为基础而形成的定理。
- 1. 已经知道从A/B各自抽取的概率
- 2. 已经知道A/B各自包含蓝绿球的比例
- 3. ==> 问抽一个蓝球，来自与A的概率
+   想想 bayes 定理：以 P(A and B) 的交换律为基础而形成的定理。
+   1. 已经知道从 A/B 各自抽取的概率
+   2. 已经知道 A/B 各自包含蓝绿球的比例
+   3. ==> 问抽一个蓝球，来自与 A 的概率
 
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 09:48:13
- [[file:Classification/screenshot_2017-06-07_09-48-13.png]]
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 09:48:13
+   [[file:Classification/screenshot_2017-06-07_09-48-13.png]]
 
- 如果把盒子换成分类的话：
+   如果把盒子换成分类的话：
 
- 1. 已经知道从A/B各自抽取的概率     | 1. 已经知道A/B类型各自的占比
- 2. 已经知道A/B各自包含蓝绿球的比例 |  2. 已经知道某个样本点是A/B的概率
- 3. ==> 问抽一个蓝球，来自与A的概率    | 3. ===> 这个样本点是A类型的概率
+   1. 已经知道从 A/B 各自抽取的概率     | 1. 已经知道 A/B 类型各自的占比
+   2. 已经知道 A/B 各自包含蓝绿球的比例 |  2. 已经知道某个样本点是 A/B 的概率
+   3. ==> 问抽一个蓝球，来自与 A 的概率    | 3. ===> 这个样本点是 A 类型的概率
 
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 10:00:29
- [[file:Classification/screenshot_2017-06-07_10-00-29.png]]
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 10:00:29
+   [[file:Classification/screenshot_2017-06-07_10-00-29.png]]
 
- 想得到(3),就得显得道 (1)(2), 所以我们想通过trainingdata来获得.
-#+BEGIN_QUOTE Generative Model
-Generative Model
+   想得到(3),就得显得道 (1)(2), 所以我们想通过 trainingdata 来获得.
 
- 这种想法很有用，叫做 Generative Model
- 你可以通过这个模型Generate一个x，P(x),如果你知道x的distribution，你就可以
- 产生x。
+   #+BEGIN_QUOTE Generative Model
+   Generative Model
 
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 10:00:23
- [[file:Classification/screenshot_2017-06-07_10-00-23.png]]
+   这种想法很有用，叫做 Generative Model
+   你可以通过这个模型 Generate 一个 x，P(x),如果你知道 x 的 distribution，你就可以
+   产生 x。
 
-#+END_QUOTE
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 10:00:23
+   [[file:Classification/screenshot_2017-06-07_10-00-23.png]]
 
- Prior Probability
-    算步骤(1): P(C1) P(C2)
-    直接通过 labeled data 来计算所有样本中C1类，C2类各自的占比
- Probability from Class
-    这个比较麻烦，新来的一个testpoint:x,他不在trainingdata的C1样本中。我怎么判断
-    他是出自C1的概率呢？
-    换种思路：trainingdata 的所有 C1 样本也是从某个更大的C1'样本集合中抽取出来的
-    而新来的 testpoint 就是出自C1'.
-    我们假设 C1 是通过 Gaussian distribution 从C1'中抽取出来的。
-    所以如果我能得到这个 Gaussian distribution，我就能得到 P(x|C1')
+   #+END_QUOTE
 
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 10:13:22
- [[file:Classification/screenshot_2017-06-07_10-13-22.png]]
+   Prior Probability
+   算步骤(1): P(C1) P(C2)
+   直接通过 labeled data 来计算所有样本中 C1 类，C2 类各自的占比
+   Probability from Class
+   这个比较麻烦，新来的一个 testpoint:x,他不在 trainingdata 的 C1 样本中。我怎么判断
+   他是出自 C1 的概率呢？
+   换种思路：trainingdata 的所有 C1 样本也是从某个更大的 C1'样本集合中抽取出来的
+   而新来的 testpoint 就是出自 C1'.
+   我们假设 C1 是通过 Gaussian distribution 从 C1'中抽取出来的。
+   所以如果我能得到这个 Gaussian distribution，我就能得到 P(x|C1')
 
- 这是高斯分布的概率密度公式，他正比与高斯分布的概率值
- 有两个变数，Σ μ, 同样的x，如果带入不同的 Σ μ, 就会产生不同的高斯分布
- 如果 trainingdata 中所有的 C1 点都是通过某个 Σ μ 抽取出来的，那么
- 我就可以通过 trainingdata 中的所有 C1 点来得到 Σ μ, 得到这个高斯分布
- 我再带入 testpoint:x, 就可以得到P(x|C1')~~P(x|C1)
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 10:13:22
+   [[file:Classification/screenshot_2017-06-07_10-13-22.png]]
 
- 可以看出，如果 x 离 μ 越近这个 P(x|C1')的概率就越高，反之很低。
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 10:23:06
- [[file:Classification/screenshot_2017-06-07_10-23-06.png]]
+   这是高斯分布的概率密度公式，他正比与高斯分布的概率值
+   有两个变数，Σ μ, 同样的 x，如果带入不同的 Σ μ, 就会产生不同的高斯分布
+   如果 trainingdata 中所有的 C1 点都是通过某个 Σ μ 抽取出来的，那么
+   我就可以通过 trainingdata 中的所有 C1 点来得到 Σ μ, 得到这个高斯分布
+   我再带入 testpoint:x, 就可以得到 P(x|C1')~~P(x|C1)
 
- 下面的问题是如何找到 Σ μ
+   可以看出，如果 x 离 μ 越近这个 P(x|C1')的概率就越高，反之很低。
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 10:23:06
+   [[file:Classification/screenshot_2017-06-07_10-23-06.png]]
+
+   下面的问题是如何找到 Σ μ
 ** Maximum Likelihood
-   任何一种高斯分布都·「有可能」抽取出训练集的C1点。
-   只是有些地方概率高，有些地方概率低，但没有一个地方概率是0。
+   任何一种高斯分布都·「有可能」抽取出训练集的 C1 点。
+   只是有些地方概率高，有些地方概率低，但没有一个地方概率是 0。
 
-   但是不同的高斯分布抽取出C1的概率不一样。
+   但是不同的高斯分布抽取出 C1 的概率不一样。
 
    从中选取 likelihood 最大的那个高斯分布
    Likelihood 公式：
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 10:42:11
-[[file:Classification/screenshot_2017-06-07_10-42-11.png]]
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 10:42:11
+   [[file:Classification/screenshot_2017-06-07_10-42-11.png]]
 
 
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 10:43:05
-[[file:Classification/screenshot_2017-06-07_10-43-05.png]]
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 10:43:05
+   [[file:Classification/screenshot_2017-06-07_10-43-05.png]]
 
-求微分就可以解答
+   求微分就可以解答
 
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 10:43:30
-[[file:Classification/screenshot_2017-06-07_10-43-30.png]]
-
-
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 10:43:58
-[[file:Classification/screenshot_2017-06-07_10-43-58.png]]
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 10:43:30
+   [[file:Classification/screenshot_2017-06-07_10-43-30.png]]
 
 
-然后算出每一种 trainingdata 的分类所对应的 maximum likehood Gaussian
-
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 10:45:50
-[[file:Classification/screenshot_2017-06-07_10-45-50.png]]
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 10:43:58
+   [[file:Classification/screenshot_2017-06-07_10-43-58.png]]
 
 
- Prior Probability
-    算步骤(1): P(C1) P(C2)
-    直接通过 labeled data 来计算所有样本中C1类，C2类各自的占比
- Probability from Class
-    P(x|C1) = Gaussian(μ1,Σ1)
-    P(x|C2) = Gaussian(μ2,Σ2)
- Now we can do classification
-    P(C1|x) = P(x|C1)P(C1)/P(x)
-            = P(x|C1)P(C1)/ (x in C1) or (x in C2)
-            = P(x|C1)P(C1)/(P(x|C1)P(C1) + P(x|C2)P(C2))
-    if P(C1|x) > 0.5 , x ∈ C1
-#+BEGIN_SRC ditaa
+   然后算出每一种 trainingdata 的分类所对应的 maximum likehood Gaussian
+
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 10:45:50
+   [[file:Classification/screenshot_2017-06-07_10-45-50.png]]
+
+
+   Prior Probability
+   算步骤(1): P(C1) P(C2)
+   直接通过 labeled data 来计算所有样本中 C1 类，C2 类各自的占比
+   Probability from Class
+   P(x|C1) = Gaussian(μ1,Σ1)
+   P(x|C2) = Gaussian(μ2,Σ2)
+   Now we can do classification
+   P(C1|x) = P(x|C1)P(C1)/P(x)
+   = P(x|C1)P(C1)/ (x in C1) or (x in C2)
+   = P(x|C1)P(C1)/(P(x|C1)P(C1) + P(x|C2)P(C2))
+   if P(C1|x) > 0.5 , x ∈ C1
+   #+BEGIN_SRC ditaa
 
        +----------------------+--------------------------+
        |                      |                          |
@@ -124,39 +125,38 @@ Generative Model
        |                      |                          |
        |  p(c1)               |                  P(c2)   |
        +----------------------+--------------------------+
-#+END_SRC
-
+   #+END_SRC
 
 
 ** Modifying Model
    make Covariance Matrix Σ same
-   Σ 是跟input量成正比的，当input太大的时候，Σ会增长的很快。
-   所以让他们一样，这样减少参数，避免overfitting
+   Σ 是跟 input 量成正比的，当 input 太大的时候，Σ会增长的很快。
+   所以让他们一样，这样减少参数，避免 overfitting
 
    modify Gaussian
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 11:18:15
-[[file:Classification/screenshot_2017-06-07_11-18-15.png]]
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 11:18:15
+   [[file:Classification/screenshot_2017-06-07_11-18-15.png]]
 
-modify Maximumu likelihood
-
-
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 11:20:10
-[[file:Classification/screenshot_2017-06-07_11-20-10.png]]
-
-微分这个 maximum liklihood 公式，得到最好的 Σ μ:
-μ1' = average of C1
-μ2' = average of C2
-Σ'  = C1比例 × Σ1 + C2比例 × Σ2
-其中 Σ1Σ2 是用最原始的方法得到的两个 covariance matrix
+   modify Maximumu likelihood
 
 
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 11:26:58
-[[file:Classification/screenshot_2017-06-07_11-26-58.png]]
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 11:20:10
+   [[file:Classification/screenshot_2017-06-07_11-20-10.png]]
 
-可以看到，当我们强制 covariance 相等时通过 微分最大似然函数 得到的两个概率分布
-然后再通过 post-probability 算出的 [[boundary]] 是线性的
+   微分这个 maximum liklihood 公式，得到最好的 Σ μ:
+   μ1' = average of C1
+   μ2' = average of C2
+   Σ'  = C1 比例 × Σ1 + C2 比例 × Σ2
+   其中 Σ1Σ2 是用最原始的方法得到的两个 covariance matrix
 
-·「总结」
+
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 11:26:58
+   [[file:Classification/screenshot_2017-06-07_11-26-58.png]]
+
+   可以看到，当我们强制 covariance 相等时通过 微分最大似然函数 得到的两个概率分布
+   然后再通过 post-probability 算出的 [[boundary]] 是线性的
+
+   ·「总结」
 *** tree steps
     Funcion Set -> Post probability of different P(x|c1) and P(x|c2)
 
@@ -173,28 +173,28 @@ modify Maximumu likelihood
 
 ** Many other Probability Distribution
    人来决定这个 tradoff，复杂的概率模型 bias 就小，variance 就大。
-*** 假设input多个feature相互独立来简化概率模型 :Navie Bayes:
-    从向量上看，没有任何关系就是，两个向量的相似度为0，那么他们应该是·「垂直的」。
+*** 假设 input 多个 feature 相互独立来简化概率模型 :Navie Bayes:
+    从向量上看，没有任何关系就是，两个向量的相似度为 0，那么他们应该是·「垂直的」。
     从概率上看，没有任何关系就是·「独立事件」。
-    如果我们假设inputpoint的各个维度(feature)之间没有任何关系：
+    如果我们假设 inputpoint 的各个维度(feature)之间没有任何关系：
     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 11:52:56
     [[file:Classification/screenshot_2017-06-07_11-52-56.png]]
 
-    那么，一个K维度高斯，就被转换成K个一维度高斯的乘积。这大大简化了K维度高斯的 Σμ 的计算。
-    但是这么做是有风险的有可能损失了·「特征间关系」这一信息。让模型没法对·「正确的特征做强
-    有力的映射」。最后形成underfitting。
+    那么，一个 K 维度高斯，就被转换成 K 个一维度高斯的乘积。这大大简化了 K 维度高斯的 Σμ 的计算。
+    但是这么做是有风险的,有可能损失了·「特征间关系」这一信息。让模型没法对·「正确的特征做强
+    有力的映射」。最后会出现 underfitting。
 
     #+BEGIN_QUOTE
     这种·「独立性假设」化简概率模型然后来做分类的方法就叫做 Naive Bayes Classifier
     #+END_QUOTE
 
 *** 根据问题目标来决定概率模型：
- 1. 两个 feature，Bernoulli Distribution
+    1. 两个 feature，Bernoulli Distribution
 
 
 ** Dive into Posterior Probability                                  :Sigmoid:
 
-*** 引入sigmoind
+*** 引入 sigmoind
     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 12:02:32
     [[file:Classification/screenshot_2017-06-07_12-02-32.png]]
 
@@ -218,8 +218,8 @@ modify Maximumu likelihood
     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-07 12:13:31
     [[file:Classification/screenshot_2017-06-07_12-13-31.png]]
 
-    之前已经对比过， post-probability 就是 function set
-    可以看到，最后的 post-probability 被化简成一个 ·「线性组合的sigmoid激活」
+    之前已经对比过，post-probability 就是 function set
+    可以看到，最后的 post-probability 被化简成一个 ·「线性组合的 sigmoid 激活」
     这也解释了，为什么之前做了 ·「假设协方差矩阵相等」这个让步之后，得到的 <<boundary>> 是线性的。
 
 
