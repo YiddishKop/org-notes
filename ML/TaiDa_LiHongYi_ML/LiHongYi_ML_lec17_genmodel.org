@@ -2053,7 +2053,7 @@ C = -ΣlogP(xt|x1:t,h)
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 22:25:11
       [[file:Deep Generative Model/screenshot_2017-06-21_22-25-11.png]]
 
-
+****** Maximizing Expected Reward -1
       #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 22:26:43
       [[file:Deep Generative Model/screenshot_2017-06-21_22-26-43.png]]
       想象出有一个人，他在模型输出之后，会把模型的输入和输出一起拿过来看一看
@@ -2091,3 +2091,10 @@ C = -ΣlogP(xt|x1:t,h)
       .  Rθ = ΣP(h)         ΣR(h,x)Pθ(x|h)
       .        ---           -----  -----
       .       所以可能的输入    reward 所有可能的输出
+
+      下面的事情就是找到一个 θ 来最大化 这个 Rθ
+
+****** Maximizing Expected Reward -2
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 23:13:40
+[[file:Deep Generative Model/screenshot_2017-06-21_23-13-40.png]]
+>>> 这里又见到： 积分（和式） -> 期望 -> 取样
