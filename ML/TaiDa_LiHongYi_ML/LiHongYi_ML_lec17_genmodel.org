@@ -1856,26 +1856,26 @@ fPT(S)越低 --> diversity 高
 encoder 达到 regular 的效果。
 ----------------------------------------------------------------
 
-**** MAGAN
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 14:02:31
- [[file:Deep Generative Model/screenshot_2017-06-21_14-02-31.png]]
- EBGAN 中的 LD 中的 m 设置多少合适呢？
+*** MAGAN
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 14:02:31
+[[file:Deep Generative Model/screenshot_2017-06-21_14-02-31.png]]
+EBGAN 中的 LD 中的 m 设置多少合适呢？
 
- 只看两张图中 EBGAN 的部分：
- ppt 上面是 real data 的 energy
-     可以看到好像前给个轮数模型的力气都用来让 generated data 的能量上升了
-     所以 real data 在前几轮并没有发生什么变化，直到后面才开始下降。
- ppt 下面是 generated data 的 energy, 其中黑线是 m 的 log 能量值
-     可以看到，随着轮数进行的越来越多，生成图片的能量值确实会超过 m.
+只看两张图中 EBGAN 的部分：
+ppt 上面是 real data 的 energy
+    可以看到好像前给个轮数模型的力气都用来让 generated data 的能量上升了
+    所以 real data 在前几轮并没有发生什么变化，直到后面才开始下降。
+ppt 下面是 generated data 的 energy, 其中黑线是 m 的 log 能量值
+    可以看到，随着轮数进行的越来越多，生成图片的能量值确实会超过 m.
 
- 再看 MAGAN 的部分： 两张图中的能量都是在下降，似乎是说，生成器很快就学会如
- 何生成以假乱真的图片了
+再看 MAGAN 的部分： 两张图中的能量都是在下降，似乎是说，生成器很快就学会如
+何生成以假乱真的图片了
 
- MAGAN, 动态的 margin
- Dynamic margin m:
- As the generator generates _better_ images, the margin becomes _smaller_ and smaller
+MAGAN, 动态的 margin
+Dynamic margin m:
+As the generator generates _better_ images, the margin becomes _smaller_ and smaller
 
-**** LSGAN(Loss-sensitive GAN)
+*** LSGAN(Loss-sensitive GAN)
      LSGAN 也是一个 adaptive margin
 
       Reference: Guo-Jun Qi, “Loss-Sensitive Generative
@@ -1921,52 +1921,53 @@ D(x) - D(G(z)) > 两个图片之间的差距Δ(x,G(z)), 这个就是 margin
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 18:53:20
 [[file:Deep Generative Model/screenshot_2017-06-21_18-53-20.png]]
 
-**** BEGAN(Boundary Equilibrium GAN)
-     Ref: David Berthelot, Thomas Schumm, Luke Metz,
-     “BEGAN: Boundary Equilibrium Generative
-     Adversarial Networks”, arXiv preprint, 2017
+*** BEGAN(Boundary Equilibrium GAN)
+    Ref: David Berthelot, Thomas Schumm, Luke Metz,
+    “BEGAN: Boundary Equilibrium Generative
+    Adversarial Networks”, arXiv preprint, 2017
 
-     着他妈产生的人脸也太 tm 好了吧
-     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 19:00:27
-     [[file:Deep Generative Model/screenshot_2017-06-21_19-00-27.png]]
+    着他妈产生的人脸也太 tm 好了吧
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 19:00:27
+    [[file:Deep Generative Model/screenshot_2017-06-21_19-00-27.png]]
 
-     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 19:01:20
-     [[file:Deep Generative Model/screenshot_2017-06-21_19-01-20.png]]
-     之前说过直接 - D(G(z)) 会有问题，这里是加了一个跟轮数有关的 kt.
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 19:01:20
+    [[file:Deep Generative Model/screenshot_2017-06-21_19-01-20.png]]
+    之前说过直接 - D(G(z)) 会有问题，这里是加了一个跟轮数有关的 kt.
 
-     一开始 k0 = 0, 也就是说不管 D(G(z)),只让鉴别器把精力放在 最小化 D(x)上
+    一开始 k0 = 0, 也就是说不管 D(G(z)),只让鉴别器把精力放在 最小化 D(x)上
 
-     什么时候 kt 开始增加呢？也就是什么时候开始考虑 fake image, 开始考虑把 D(G(z))开始拉高呢？
-     γ 是一个需要自己设置的值； λ 就像 learning-rate 一样是一个正值。
+    什么时候 kt 开始增加呢？也就是什么时候开始考虑 fake image, 开始考虑把 D(G(z))开始拉高呢？
+    γ 是一个需要自己设置的值； λ 就像 learning-rate 一样是一个正值。
 
-     当 D(G(z))/D(x) < γ， 也就是当 D(G(z)) 太小的时候,也就是当 fake image
-     的 reconstruction-error 太小的时候。
+    当 D(G(z))/D(x) < γ， 也就是当 D(G(z)) 太小的时候,也就是当 fake image
+    的 reconstruction-error 太小的时候。
 
-     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 19:01:33
-     [[file:Deep Generative Model/screenshot_2017-06-21_19-01-33.png]]
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 19:01:33
+    [[file:Deep Generative Model/screenshot_2017-06-21_19-01-33.png]]
 
-     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 19:01:45
-     [[file:Deep Generative Model/screenshot_2017-06-21_19-01-45.png]]
-     上面的是机器生成的，下面的是 celebA 的。
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 19:01:45
+    [[file:Deep Generative Model/screenshot_2017-06-21_19-01-45.png]]
+    上面的是机器生成的，下面的是 celebA 的。
 
-     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 19:24:07
-     [[file:Deep Generative Model/screenshot_2017-06-21_19-24-07.png]]
-     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 19:23:38
-     [[file:Deep Generative Model/screenshot_2017-06-21_19-23-38.png]]
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 19:24:07
+    [[file:Deep Generative Model/screenshot_2017-06-21_19-24-07.png]]
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 19:23:38
+    [[file:Deep Generative Model/screenshot_2017-06-21_19-23-38.png]]
 
-**** Ensemble of GAN
-**** RL and GAN for sentence generation and Chat-bot
-     作业四
-     Outline
-     • Policy Gradient
-     • SeqGAN
-        • Two techniques: MCMC, partial
-        • Experiments: SeqGAN and dialogue
-     • Original GAN
-        • MadliGAN
-        • Gumbel
-***** Review: Chat-bot
-      sequence-to-sequence learning
+*** Ensemble of GAN
+*** RL and GAN for sentence generation and Chat-bot
+    作业四
+    Outline
+    • Policy Gradient
+    • SeqGAN
+       • Two techniques: MCMC, partial
+       • Experiments: SeqGAN and dialogue
+    • Original GAN
+       • MadliGAN
+       • Gumbel
+**** Review: Chat-bot
+     sequence-to-sequence learning
+***** Chat-bot 基本架构
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 21:34:37
 [[file:Deep Generative Model/screenshot_2017-06-21_21-34-37.png]]
 要记得之前的对话，之前说过的句子也要放进 encoder 里面去
@@ -2001,11 +2002,10 @@ encoder 给了 generator 一个 vector. 然后 generator 产生一个 word 的�
 
 如果给 红色的方块 encoder 加入 attention mechanism 的话，encoder 会是不一样的。
 
-
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 21:54:56
 [[file:Deep Generative Model/screenshot_2017-06-21_21-54-56.png]]
 
-如何训练 generator 呢？
+***** 如何训练 generator 呢？
 training 的时候你有标准答案，标准答案会告诉说，现在应该输出什么样的 sentence.
 假设 sentence 应该是 ABB.
 
@@ -2020,15 +2020,14 @@ training 的时候你有标准答案，标准答案会告诉说，现在应该�
 把所有的 C: C1,C2,C3... 统统加起来作为 loss-fn.
 调整所有的 encoder 和 generator 的参数来 minimize loss-fn.
 
-
+***** 最小化 cross-entropy 就是最大化 likelyhood
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 22:03:24
 [[file:Deep Generative Model/screenshot_2017-06-21_22-03-24.png]]
 [勘误] -logP(x1|h)P(xt|x1:t-1,h)... 应该是 -logP(x1|h)P(x2|x1:1,h)...
                     ^    ^                             ^
-就是展开 C 的和式，然后 log 相加变成相乘再 log.
+就是展开 C 的和式，然后 log 相加变成相乘再 log: loga + logb = log(a*b)
 
-minimize cross-entropy 之和，就是 maximize log likelyhood.
-为甚么呢？
+minimize cross-entropy 之和，就是 maximize log likelyhood. 为甚么呢？
 
 假设我们的训练数据是：（h,x^），input h, output should be x^.
 h and x^ 都是 sentence.
@@ -2045,56 +2044,562 @@ t=3 P(x3|x2,x1,h)                        |-> P(x3,x2,x1,h) = P(x^,h)
 C = -ΣlogP(xt|x1:t,h)
   = -logP(x^|h)
         -------
+          V
 这个公式代表什么呢？
 就是如果给定 h,希望输出 x^ 的概率越大越好。
 所以传统的方法 train 这个模型的方法就是：maximize likelyhood.
-下面讲怎么用 RL 来代替最大似然来训练这个模型。
-***** RL
-      #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 22:25:11
-      [[file:Deep Generative Model/screenshot_2017-06-21_22-25-11.png]]
+下面讲怎么用 RL 来代替 maximum likelyhood 来训练这个模型。
+**** RL
+     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 22:25:11
+     [[file:Deep Generative Model/screenshot_2017-06-21_22-25-11.png]]
 
-****** Maximizing Expected Reward -1
-      #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 22:26:43
-      [[file:Deep Generative Model/screenshot_2017-06-21_22-26-43.png]]
-      想象出有一个人，他在模型输出之后，会把模型的输入和输出一起拿过来看一看
-      是不是 input 和 outpu 匹配的足够好。人会给这个输入和输出打分：
-      Reward(h,x)
+     注意 RL 与最大似然的训练样本产生方式不同：
+     最大似然直接使用已有的训练数据 （句子问，句子答）：
+     (h1,x^1)
+     (h2,x^2)
+     (h3,x^3)
 
-      机器要做的就是 update θ，使得之后 input 产生新的 output,这个新的
-      (h,x') 对可以获得 Reward 越高越好。
+     这种，通过调整模型参数
+     让這些训练数据的概率在已知(？)的概率分布中是最高的。
+     而 RL 的样本是通过上一代（第一代近乎随机）分布产生，然后觉给人来打分产生的。
+     (h1,x1) R(h1,x1)
+     (h2,x2) R(h2,x2)
+     (h3,x3) R(h3,x3)
+     RL 的样本都是这样的。
 
-      Expected Reward: R-θ
-      R-θ 的意思是：如果 chat-bot(encoder+generator) 以后都用 θ 这套参数
-      跟人互动，他 _期待得到的 Reward_ 会是多少。
+     样本结构不同，产生方式不同，就决定目标函数也不同：
+     ps, 似乎 gradient descent 用来解决 loss-fn 最小化。
+     ps, 似乎 gradient ascent  用来解决 概率     最大化。
+     两者都是最大化【对的】样本产生的概率，如何知道哪些是【对的】
+     最大似然通过训练集获得，强化学习通过 R(h,x) 函数获得。
+     所以最大似然的概率最大化目标通过【积分，期望，取样，平均】是：1/NΣlogPθ(x^i|hi)
+     所以强化学习的概率最大化目标通过【积分，期望，取样，平均】是：1/NΣR(xi,hi)logPθ(xi|hi)
 
-      .  Rθ = ΣP(h)ΣR(h,x)Pθ(x|h)
-      .       -----
-      .       v
-      .       穷举世界上所有可能的输入 h 的概率之和
-      .
-      .  Rθ = ΣP(h)ΣR(h,x)Pθ(x|h)
-      .            -------
-      .             v
-      .           所有可能的 Reward,为甚么是所有可能的 Reward 呢？
-      .           因为给固定的 h, 这个 chat-bot 的输出可能是不一样的，
-      .           因为 chat-bot = encoder + generator,
-      .           而 generator 是一个 RNN 他的输出是一个 distribution
-      .           然后 sample 出一个 word, 有一定的随机性。
-      .           虽然有随机性，但是分布是固定的，怎么固定的呢？通过 h 和 θ。
-      .                                                /
-      .  Rθ = ΣP(h)ΣR(h,x)Pθ(x|h)   <-----------------/
-      .                   -------
-      .                    v
-      .                 在给定 h 和 chat-bot 的一套参数 θ 的时候
-      .                 chat-bot 输出 x 的几率是多少。
-      .
-      .  Rθ = ΣP(h)         ΣR(h,x)Pθ(x|h)
-      .        ---           -----  -----
-      .       所以可能的输入    reward 所有可能的输出
+     两者的 Gradient 也很相似：
+     最大似然：1/NΣl∇ogPθ(x^i|hi)
+     强化学习：1/NΣR(xi,hi)∇logPθ(xi|hi)
 
-      下面的事情就是找到一个 θ 来最大化 这个 Rθ
+     最大似然像是【应试教育】，有标准答案
+     强化学习像是【素质教育】，没有标准答案，只有过程中的失败和成功
+***** Maximizing Expected Reward -1
+     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 22:26:43
+     [[file:Deep Generative Model/screenshot_2017-06-21_22-26-43.png]]
+     想象出有一个人，他在模型输出之后，会把模型的输入和输出一起拿过来看一看
+     是不是 input 和 outpu 匹配的足够好。人会给这个输入和输出打分：
+     Reward(h,x)
 
-****** Maximizing Expected Reward -2
+     机器要做的就是 update θ，使得之后 input 产生新的 output,这个新的
+     (h,x') 对可以获得 Reward 越高越好。
+
+     Expected Reward: R-θ
+     R-θ 的意思是：如果 chat-bot(encoder+generator) 以后都用 θ 这套参数
+     跟人互动，他 _期待得到的 Reward_ 会是多少。
+
+     .  Rθ = ΣP(h)ΣR(h,x)Pθ(x|h)
+     .       -----
+     .       v
+     .       穷举世界上所有可能的输入 h 的概率之和
+     .
+     .  Rθ = ΣP(h)ΣR(h,x)Pθ(x|h)
+     .            -------
+     .             v
+     .           所有可能的 Reward,为甚么是所有可能的 Reward 呢？
+     .           因为给固定的 h, 这个 chat-bot 的输出可能是不一样的，
+     .           因为 chat-bot = encoder + generator,
+     .           而 generator 是一个 RNN 他的输出是一个 distribution
+     .           然后 sample 出一个 word, 有一定的随机性。
+     .           虽然有随机性，但是分布是固定的，怎么固定的呢？通过 h 和 θ。
+     .                                                /
+     .  Rθ = ΣP(h)ΣR(h,x)Pθ(x|h)   <-----------------/
+     .                   -------
+     .                    v
+     .                 在给定 h 和 chat-bot 的一套参数 θ 的时候
+     .                 chat-bot 输出 x 的几率是多少。
+     .
+     .  Rθ = ΣP(h)         ΣR(h,x)Pθ(x|h)
+     .        ---           -----  -----
+     .       所以可能的输入    reward 所有可能的输出
+
+     下面的事情就是找到一个 θ 来最大化 这个 Rθ
+
+***** Maximizing Expected Reward -2
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-21 23:13:40
 [[file:Deep Generative Model/screenshot_2017-06-21_23-13-40.png]]
->>> 这里又见到： 积分（和式） -> 期望 -> 取样
+>>> 这里又见到： 积分（和式）-> 期望 -> 取样 -> 平均
+
+但是想要求 θ* = argmax Rθ
+需要用 Gradient ascent， 需要求 ∂R/θ
+
+where is θ？
+但是这里经过 积分（求和）－》期望－》取样－》平均 这一套近似之后
+变量里已经没有 θ 了。 虽然形式上的没有 θ，但其实 θ 是隐藏起来了。
+θ 会影响 sample 出来的值。
+
+但我们用 Gradient ascent 是需要形式上的θ的。怎么办？Policy Gradient
+
+****** 引入 policy Gradient,解决没有 θ 问题
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 10:01:34
+[[file:Deep Generative Model/screenshot_2017-06-22_10-01-34.png]]
+>>> 这里又见到： 积分（和式）-> 期望 -> 取样 -> 平均
+[勘误]: ∇Rθ = ΣP(h)ΣR(h,x)∇Pθ(x|h) ≈ 1/NΣR(hi,xi)∇Pθ(xi|hi)
+                                                       ^  ^
+前页 ppt 是先用 积分，期望，取样，平均 来近似，然后再求 gradient.
+颠倒一下顺序，先求 Grandient 然后 积分，期望，取样，平均
+
+这里 N 是样本个数，i 代表第 i 个样本。
+
+****** Gradient Ascent
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 10:07:40
+[[file:Deep Generative Model/screenshot_2017-06-22_10-07-40.png]]
+如果某件事情人觉得是对的 R(hi,xi) is positive
+那么就应该让这件事情在概率分布中更容易发生：increase Pθ(xi|hi)
+反之亦反
+
+****** 实做时的问题：对比 likelyhood 和 policy gradient
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 10:11:39
+[[file:Deep Generative Model/screenshot_2017-06-22_10-11-39.png]]
+x^i 第 i 个正确的样本
+xi  第 i 个样本
+
+最大似然的意思是，让正确的样本的概率最大
+强化学习的意思是，让正确的样本概率增加，错误的样本概率减小，增加减小通过权重 R(hi,xi)实现
+
+最大似然由于使用【正确的样本】进行训练，所以他相当于已经预知这个样本都是
+符合【人的要求】的，相当于给每个样本的 R 值都是 1.
+而 RL 的训练样本应该是随机样本，判别好坏交给 R(h,x) 函数，然后通过 R 的判别结果作为权重
+动态的让 正确的样本概率增加，错误的样本概率减少。
+
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 10:57:27
+[[file:Deep Generative Model/screenshot_2017-06-22_10-57-27.png]]
+可以这样理解，R(hi,xi) 是多少，就把（hi，xi）复制多少份，这样去 train
+[作业二，就是实现 seq-to-seq]
+
+实做初始化的参数 theta 不需要从 random 开始。 可以用最大似然得到 theta0.
+
+****** Add a Baseline: 纠正 sample 的后遗症
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 11:23:51
+[[file:Deep Generative Model/screenshot_2017-06-22_11-23-51.png]]
+>>> 用 sample 来近似期望和积分的后遗症
+当 R 是正值的时候，对应的样本概率应该上升。这是之前 ppt 的结论。
+如果使用期望和积分是没有问题的，因为他涵盖了所有样本的情况，每一个
+实数点的概率都会根据 R 的不同而调整。
+
+但当我们使用 sample 的时候，就是离散的，有很多点是没有被取样到的。
+如果这时候取样到的点是正值，這些点的概率会一直上升，可以使用的上升
+空间还是被认为是‘1’，概率和为 1.這些点会挤占那些没被取样到的点的
+概率。随着這些 R 值为正的取样到的点概率不断上升，那些没被取样到的点
+可能 R 值也是正的，但是概率被他人挤占了－－－這些点概率下降了。
+
+这样得到的分布是肯定不对的。
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 11:31:30
+[[file:Deep Generative Model/screenshot_2017-06-22_11-31-30.png]]
+这里提供的方法就是用一个阈值：b,来过滤掉虽然正值但比较小的 reward.
+这样做的好处是：相当于整体下调了当前 smaple 到的样本的 reward 之和。
+只让足够大的 reward 的点上升，让 reward 不够大的点概率下降，这样不会
+耗尽所有的上升空间。
+
+[李老师这里要助教来讲如何得到合适的 b,但是没有这部分视频]
+
+
+****** Alpha Go style:两个机器交互，R 打分交给函数来做
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 11:36:54
+[[file:Deep Generative Model/screenshot_2017-06-22_11-36-54.png]]
+刚才的样本结构：
+(h1,x1) R(h1,x1)
+(h2,x2) R(h2,x2)
+(h3,x3) R(h3,x3)
+这样人需要一直看着，一个个打分，实在太累了。
+这里采用一种机器与机器互动，打分交给 evaluation function 的方式，类似 alpha go 的学习模式。
+
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 11:41:16
+[[file:Deep Generative Model/screenshot_2017-06-22_11-41-16.png]]
+Reward 函数怎么定，是一件比较 tricky 的事情，作业中要求自己定义。
+这里提供一种方法，把 Reward 拆成幾個小的 rewards, 每一个小 reward
+有一个自己的目标，然后权重 lambda 就是你多看重这个小目表。
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 11:47:20
+[[file:Deep Generative Model/screenshot_2017-06-22_11-47-20.png]]
+可以比较晚进入死循环的状态！
+
+还有眾多 policy gradient 之外的技术可以使用，这个请参考 ML 课程中
+的最后一讲，以及一些论文。
+
+Reinforcement learning?
+• One can use any advanced RL techniques here.
+• For example, actor-critic
+• Dzmitry Bahdanau, Philemon Brakel, Kelvin Xu, Anirudh
+Goyal, Ryan Lowe, Joelle Pineau, Aaron Courville, Yoshua
+Bengio. "An Actor-Critic Algorithm for Sequence
+Prediction." ICLR, 2017.
+
+*** SeqGAN
+:Ref:
+Lantao Yu, Weinan Zhang, Jun Wang, Yong Yu, “SeqGAN: Sequence
+Generative Adversarial Nets with Policy Gradient”, AAAI, 2017
+
+Jiwei Li, Will Monroe, Tianlin Shi, Sébastien Jean, Alan Ritter, Dan
+Jurafsky, “Adversarial Learning for Neural Dialogue Generation”, arXiv
+preprint, 2017
+:END:
+    怎么用 GAN 来训练，sentence generation or chat-bot
+
+**** GAN for Sentence Generation
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 11:52:16
+ [[file:Deep Generative Model/screenshot_2017-06-22_11-52-16.png]]
+ 这里依然使用 RNN 作为 Generator。这时候就不需要 code 在这个 normal distribution
+ 来提供·「随机性」， 因为 RNN 的输出本身就是一个 distribution. 他会再从这个 distribution
+ 中 sample 一个点作为 sentence x。
+
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 12:02:16
+ [[file:Deep Generative Model/screenshot_2017-06-22_12-02-16.png]]
+ train 这个 model 需要两个步骤：
+ 1. 训练鉴别器：鉴别器的目标就是让 fake sentence 对应的输出越低越好
+    让 real sentence 对应的输出越高越好。这里的鉴别器可以使用任何的
+    GAN 来做，普通的 GAN 来是 WGAN 都可以。
+ 2. 训练生成器：稍微有点麻烦
+
+ [作业三是 conditional GAN]
+
+**** GAN for Chat-bot
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 12:07:29
+ [[file:Deep Generative Model/screenshot_2017-06-22_12-07-29.png]]
+ Chat-bot 跟 sentence generation 不同需要使用 conditional GAN
+
+ 一个 chat-bot 就是一个生成器，然后放在整个 GAN 里面来 train.
+ 目标就是让 chat-bot 产生的句子越来越像人对话。
+
+ 这里使用 conditional GAN. 鉴别器的输入是两个东西：一个是 chat-bot
+ 的输入，另一个是 chat-bot 的输出，然后通过比对真正的人的对话，来给
+ chat-bot 输入和 chat-bot 输出的匹配程度打分。
+
+
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 12:11:25
+ [[file:Deep Generative Model/screenshot_2017-06-22_12-11-25.png]]
+
+
+
+***** 到底生成器的训练会有什么问题呢？
+
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 12:14:31
+ [[file:Deep Generative Model/screenshot_2017-06-22_12-14-31.png]]
+ [注意]GAN 的生成器和鉴别器都可以是 CNN or RNN，GAN 只是一个更大的 generative 框架
+ 回忆我们之前怎么训练 GAN 生成器的：固定本代鉴别器参数通过 BP 算法调整生成器参数成为下代
+ 生成器，让他生成出本代鉴别器无法分辨的产品。
+
+ 但是这里使用了 RNN 作为生成器的框架之后，RNN 是先输出一个概率分布，然后从这个分布中 smaple
+ 出一个产品作为输出。而鉴别器使用 conditional GAN 框架把上一个鉴别器的输出和本次生成的单词
+ 联合考虑给出是否匹配的分数，传给下一个鉴别器。
+
+ 由于这个过程中 RNN 使用了 smaple.所以我们没办法再通过普通 GAN 所使用的 BP 算法逆传播回去
+ 更新生成器的参数－－－中间的传播过程被 smaple 给隔断了。或者这样理解：生成器 RNN 的参数即使
+ 有些需变化，只要最后的 sample 是取概率最大的点作为输出，他整体产生的句子根本不会改变。
+
+ 这里也许有人会说使用 WGAN,之前也讲过 WGAN 用来实现 seq 的方法。WGAN 没有 sample,而是
+ 直接输出一个概率分布，也自然没有产生 单词 BAA, 也自然没有把上一个 time 的单词输出到下一个
+ time 中这样的过程。
+
+ WGAN 和 seqGAN 是两种框架，李老师鼓励学生通过试验分析两种框架的优劣。
+
+
+
+***** seqGAN 改用 RL 训练生成器
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 12:32:02
+[[file:Deep Generative Model/screenshot_2017-06-22_12-32-02.png]]
+之前讲解 RL 下的 chat-bot 的时候，使用类似这样的数据点：
+(h1,x1) R(h1,x1)
+(h2,x2) R(h2,x2)
+(h3,x3) R(h3,x3)
+使用这样的数据点可以替换掉以前使用最大似然的方法的数据点：
+(h1,x^1)
+(h2,x^2)
+(h3,x^3)
+目标函数和 Gradient ascent 函数都发生改变。
+
+使用 RL 的 reward 来作为鉴别器，R(hi,xi) 就变成 D(hi,xi)
+D(hi,xi) 就是鉴别器的输出，我们也是要通过 Gradient Aascent
+最大化这个通过【积分－期望－样本－平均】 获取的目标函数。
+
+***** g-step and d-step
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 12:47:00
+[[file:Deep Generative Model/screenshot_2017-06-22_12-47-00.png]]
+
+然后整个过程就变成，g-step 和 d-step 交替进行：
+g-step: 训练生成器
+从 θt sample 出一堆 data (hi,xi),然后交给鉴别器取打分 D(hi,xi)
+通过新的 target-fn 和 新的 gradient 利用 Gradient ascent 方法
+更新 θt --> θt+1
+
+d-step: 训练鉴别器（人）
+给‘人’一堆真假数据，让他学习如何分辨他们，并给他们打分。
+
+***** how to improve seqGAN
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 12:52:28
+[[file:Deep Generative Model/screenshot_2017-06-22_12-52-28.png]]
+这里大概介绍了为什么（概率模型包含生成模型和判别模型）生成模型需要大量数据：因为某一部分的
+概率确实可以通过其他部分来补足修正。
+
+【地图炮】，一棒子打死一堆人。
+.     比如这里 hi = what is your name, xi = i dont know
+.     很显然这是一个不好的匹配，xi 这个回答容易让对话过早结束，不符合人们对话的日常习惯。
+.     所以 D(hi,xi)-b 肯定是负值，然后这会让 logP(xi|hi) 下调自己的概率。
+.
+.     回忆之前的模型，xi 这个句子是通过每一个 time 产生一个 word 组合而成：
+.     logP(xi|hi) = logP(xi1|hi) + logP(xi2|hi,xi1) + logP(xi3|hi,xi1,xi2)
+.     当使用 RL as generator 时，整体下调这个句子的概率就有可能下条每个 time 上产生各自
+.     单词的概率：
+.                  【地图炮】，一棒子打死一堆人。
+.
+.     比如同时下调 ‘I’ 'dont' 'know' 三个单词的概率，但是第一个单词是被【误伤】的。
+.     I 开头没有必要下调：what is your name, I'm John
+
+如果数据量很大就可以相互补充：
+
+.     如果数据量很大，有各种各样的句子（比如很多 I 开头的句子），
+.     I 被【误伤】就可以在另一对样本中被【疗养】
+
+但是如果数据量不大，概怎么办呢？
+.     可以细化到【给所有之前的单词给一个 reward】，这样可以控制每一个单词的概率增减
+
+****** Method1: Reward for Every Generation Step
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 13:00:55
+ [[file:Deep Generative Model/screenshot_2017-06-22_13-00-55.png]]
+ T 表示经过 T 个 time,每个 time 输出一个单词，总计 T 个单词。
+ Q(hi,xi1,xi2,...) 对比原式理解  R = Σ(R(xi,hi)-b)logP(xi|hi)
+                               R = Σ{(Q(x1,h1)-b)logP(x1|h1)+
+                                     (Q(x2,x1,h1)-b)logP(x2|h1,x1)+
+                                     (Q(x3,x2,x1,h1)-b)logP(x3|h1,x1,x2)
+ .
+ .   /-----------------------\
+ .   h -->chatbot--> x1 -->R(x1,h)
+ .
+ .   /-----------------------\
+ .x1,h -->chatbot--> x2 -->R(x2,x1,h)
+ [对 RL 的 seq generation 理解不够]
+
+ 这样就可以理解 Q 为甚么是这个样子了？
+ 然后如何计算 Q: 1. 蒙特卡洛搜寻算法 2. DFPDS
+
+******* Method1:MC for Q(hi,xi1,xi2...)
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 13:01:05
+  [[file:Deep Generative Model/screenshot_2017-06-22_13-01-05.png]]
+
+  利用生成器，但是固定第一个单词是 'I',然后让他生成各种各样的句子，
+  把這些句子都交给 D(hi,x) 来打分，然后把所有分数取平均就是 Q(hi,'I') 的值
+
+******* Method2:DFPDS for Q(hi,xi1,xi2...)
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 13:01:14
+  [[file:Deep Generative Model/screenshot_2017-06-22_13-01-14.png]]
+
+  训练一个可以吃进‘句子一部分’并给出分数的鉴别器。
+  普通的鉴别器是 h(what is your name) + x(i am john) ---> 鉴别器 --> scalar
+  现在训练的鉴别器要能吃进 I am 和 I 并且也输出 positive scalar.
+  这就是 Q(h,x1:t)
+
+  >>>>>>>>>>>>[qqq] 这里没听懂 <<<<<<<<<<<<<<
+
+****** Method2: Teacher Forcing
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 13:01:25
+ [[file:Deep Generative Model/screenshot_2017-06-22_13-01-25.png]]
+
+ 从训练数据中抽出一部分作为 seqGAN 的训练数据，之前 seqGAN 的训练数据
+ 是从分布中直接 sample 出来的，没有利用這些已知的数据。
+
+ >>>>>>>>>>>>[qqq] 这里没听懂 <<<<<<<<<<<<<<
+
+***** 如何衡量生成的句子的好坏：Synthetic Data
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 13:01:37
+[[file:Deep Generative Model/screenshot_2017-06-22_13-01-37.png]]
+对话质量是一件很主观的事情，怎么衡量对话质量的好坏呢？
+
+把 seqGAN 先当作一个学生，用一个很容易比对好坏的模型 LSTM 去生成一些 data
+用他来作为数据，喂给 seqGAN 看 seqGAN 的【学习能力】如何，看他能不能学到
+LSTM 这个生成模型的概率分布。
+
+然后让 LSTM 计算所有 seqGAN 生成的句子的 NLL,越 small 越 better.
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 13:01:47
+[[file:Deep Generative Model/screenshot_2017-06-22_13-01-47.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 13:01:58
+[[file:Deep Generative Model/screenshot_2017-06-22_13-01-58.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 13:02:15
+
+[[file:Deep Generative Model/screenshot_2017-06-22_13-02-15.png]]
+MLE = maximum likelyhood
+
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 13:02:26
+[[file:Deep Generative Model/screenshot_2017-06-22_13-02-26.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 13:03:20
+[[file:Deep Generative Model/screenshot_2017-06-22_13-03-20.png]]
+
+To learn more ......
+• Professor forcing
+• Alex Lamb, Anirudh Goyal, Ying Zhang, Saizheng
+Zhang, Aaron Courville, Yoshua Bengio, “Professor
+Forcing: A New Algorithm for Training Recurrent
+Networks”, NIPS, 2016
+• Handling discrete output by methods other than
+policy gradient
+• MaliGAN, Boundary-seeking GAN
+• Yizhe Zhang, Zhe Gan, Lawrence Carin, “Generating Text
+via Adversarial Training”, Workshop on Adversarial
+Training, NIPS, 2016
+• Matt J. Kusner, José Miguel Hernández-Lobato, “GANS
+for Sequences of Discrete Elements with the Gumbel-
+softmax Distribution”, arXiv preprint, 2016
+
+*** Evaluation of GAN(and other generative models)
+:Ref:
+• Lucas Theis, Aäron van den Oord, Matthias Bethge,
+“A note on the evaluation of generative models”,
+arXiv preprint, 2015
+这篇 paper 不是针对 GAN 写的，而是针对所有的 Generative model 生成模型
+所以具有普适性
+:END:
+
+**** 通过混合高斯的 likelyhood 来评断
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 15:01:03
+ [[file:Deep Generative Model/screenshot_2017-06-22_15-01-03.png]]
+ 一般情况下，我们如何衡量生成模型的好坏呢？
+ 训练的时候会拿出【一部分训练集数据】训练，训练完之后，拿另一部分数据，用这个生成模型
+ 求每一个数据点的产生概率，然后算出 log likelyhood 越大越好。 这种验证方法适用于
+ 生成模型是一个固定公式的情况，比如高斯混合模型。
+
+ 但是这种方法没法用在 GAN 上，因为 GAN 不会形成一个固定公式，无法计算 PG(xi).自然
+ 也就无法使用 log likelyhood 的值来衡量模型好坏，GAN 只能做 sample,他从一个 Prior
+ distribution 中 sample 一些点经过自己的转换之后生成另一些点。
+
+ GAN 只会做这个，也只能通过这种方法来提供一些【随机性】，但是这样的生成模型如何衡量好坏呢？
+
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 15:01:13
+ [[file:Deep Generative Model/screenshot_2017-06-22_15-01-13.png]]
+ 虽然不知道这个 Generator 的概率公式，但是我可以用一个【有概率公式】的分布来
+ 模拟这个 Generator 的概率分布：a model has formula ≈ Generator
+ 常用的方法是：用一个混合高思模型来逼近 GAN ,从 prior distribution 生成的点
+ 经过 GAN 之后产生的点，假设每一个点都是一个高斯分布产生的，为了简化计算假设所有
+ 高斯的协方差矩阵都一样，计算所有点的 mean,作为混合高斯的 μ。
+
+ 这样得到一个最【像 GAN】的混合高斯模型，再从训练集中拿出一部分点，通过混合高斯模
+ 型的公式计算每一个点的 log likelyhood 值，他们的和越大越好。
+
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 15:01:22
+ [[file:Deep Generative Model/screenshot_2017-06-22_15-01-22.png]]
+ 但是我需要 GAN 生成多少个点，来求取一个能近似 GAN 的高斯混合模型呢？
+ 试验表明这件事情很 weird. 总是没有一个有说服性的说法。
+
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 15:01:29
+ [[file:Deep Generative Model/screenshot_2017-06-22_15-01-29.png]]
+ 另外一边，Likelyhood 真的能代表 quality 么？
+ 比如有一个 GAN 产生了一堆 diversity 很小的图片，但是图片质量非常高。
+ 比如都是春日。然后我找一个能最像这个 GAN 的混合高斯模型，然后再用样本集
+ 中的数据带入这个混合高斯模型的公式去计算 likelyhood,但是由于样本集中
+ 可能只有很少的春日。但是这个高斯模型是根据只产生春日的 GAN 逼近出来的。
+ 所以这个 likelyhood 肯定是非常小的。这就矛盾了：图像质量很高的 GAN
+ 通过这种高斯混合近似得出的 likelyhood 却很小。
+
+ 另外，如果有一个 GAN 很好的产生图片而且通过高斯混合估计出的 likelyhood
+ 也很高，假设还有一个 GAN 他只有前一个 GAN 1% 的产生能力，基于这种假设
+ 算一下两者 likelyhood 值差距却只有 4.6 ,4.6 根本没什么差距。 这也很
+ 蛋疼：质量相差很大，likelyhood 却相差很小。
+
+ 这一切都指向一个问题：也许用高斯混合的 likelyhood 去估计 GAN 是不准确的。
+
+**** 通过 well-trained CNN 来评断
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 15:01:38
+ [[file:Deep Generative Model/screenshot_2017-06-22_15-01-38.png]]
+
+ 如果不能使用高斯混合的 likelyhood 来估计 GAN 的质量，还有什么方法呢？
+ 可以通过一个【已经训练好的分类器 CNN】,CNN 的输出是一个 P(y|x),对于 6 分类
+ 问题大概是这样子：
+
+ .               _    _
+ .              / 0.1 /
+ .              / 0.1 /
+ .  x -> CNN -> / 0.7 /  每一个位置都代表 x 属于这个 分类 i 的概率
+ .              / 0.05/
+ .              / 0.05/
+ .              / 0   /
+ .               -    -
+
+ CNN 衡量图片质量：
+ - 如果 GAN 生成的图片，经过 CNN 分类器输出的结果是【某一位很突出】的说明 CNN
+   可以很好的判别图片是什么，也就是说图片质量比较好；如果 CNN 输出的结果【每一位都很
+   平均】说明 CNN 分辨不出这个图片是什么，说明图片质量不好。
+   怎么计算这件事情，就是把 CNN 输出的概率向量，用 cross-entropy 计算，cross-entropy
+   用来衡量这各向量各个值的分散程度，所以 cross-entropy 越小越好。
+
+ CNN 衡量图片差异性：diversity
+ - 把 GAN 生成的一堆图片都放到 CNN 分类器中，把所有输出的概率向量相加取平均得到的还是一个向量，
+   然后计算这个向量的 cross-entropy,如果值越大越说明 GAN 生成的图片 diversity 很好。
+
+ 这是衡量 GAN 的两个维度：quality and diversity. 两个都要算，才能决定 GAN 的好坏。
+
+
+
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 16:38:40
+ [[file:Deep Generative Model/screenshot_2017-06-22_16-38-40.png]]
+ 这篇 paper 把上述 CNN 衡量 GAN 的方法整合起来，并且给出了公式：
+ 这个公式化简之后，可以得到一个 Negative entropy 和一个 cross entropy.
+
+ 这个 negative entropy 就是 P(y|x) 自己跟自己的 cross entropy 的负值,
+ 对应上页 ppt 的【质量衡量】，我们希望 cross entropy 越小越好，也就是
+ Negative entropy 越大越好。
+
+ 这个 cross entropy 是 P(y|x) 和 P(y) 的 cross entropy, 对应【差异性衡量】
+ 希望这个值越大越好。
+
+ 所以两个都是越大越好，所以希望这个公式（inception score) 也是越大越好。
+
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 15:01:45
+ [[file:Deep Generative Model/screenshot_2017-06-22_15-01-45.png]]
+ 用 inception score 来衡量各种 GAN
+
+
+
+**** 判断 GAN 是否有创新是很难的
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 15:01:53
+ [[file:Deep Generative Model/screenshot_2017-06-22_15-01-53.png]]
+
+**** missing mode 有办法衡量
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-22 15:02:02
+ [[file:Deep Generative Model/screenshot_2017-06-22_15-02-02.png]]
+ 有 mode callapse
+ 因为你没办法看完所有的 dataset,所以你也就没法知道哪些部分没有生成。
+
+ 怎么知道哪些 mode 被 misssing 了呢？
+ learn 一个 鉴别器，input 生成器的图片 和 database 的图片，然后
+ 看哪些图片被超高概率的认为是真的。
+
+ >>>>>>>>>>>> [qqq] 没听懂 <<<<<<<<<<<<<<<<<<<
+** Application of GAN
+*** Video Generation by GAN
+:Ref:
+Michael Mathieu, Camille Couprie, Yann LeCun, Deep multi-
+scale video prediction beyond mean square error, ICLR, 2016
+Pac-Man: https://github.com/dyelax/Adversarial_Video_Generation
+UCF101: http://cs.nyu.edu/~mathieu/iclr2016extra.html
+:END:
+
+*** Image super resolution by GAN
+:Ref:
+• Image super resolution
+•Christian Ledig, Lucas Theis, Ferenc Huszar, Jose Caballero, Andrew
+Cunningham, Alejandro Acosta, Andrew Aitken, Alykhan Tejani, Johannes
+Totz, Zehan Wang, Wenzhe Shi, “Photo-Realistic Single Image Super-
+Resolution Using a Generative Adversarial Network”, CVPR, 2016
+
+:END:
+*** Speech Synthesis
+:Ref:
+• Speech synthesis
+• Takuhiro Kaneko, Hirokazu Kameoka, Nobukatsu
+Hojo, Yusuke Ijima, Kaoru Hiramatsu, Kunio Kashino,
+“Generative Adversarial Network-based Postfiltering for
+Statistical Parametric Speech Synthesis”, ICASSP 2017
+• Yuki Saito, Shinnosuke Takamichi, and Hiroshi Saruwatari,
+"Training algorithm to deceive anti-spoofing verification
+for DNN-based speech synthesis, ”, ICASSP 2017
+:END:
