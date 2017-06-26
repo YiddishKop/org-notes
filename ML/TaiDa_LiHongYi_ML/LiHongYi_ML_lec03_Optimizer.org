@@ -144,9 +144,7 @@
    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-06 21:53:10
    [[file:Gradient descent/screenshot_2017-06-06_21-53-10.png]]
 
-
 ** Newton method
-
    GD 的本质是考虑了 Taylor Series 的一次式。
    如果考虑他的二次式就是 Newton method.
 

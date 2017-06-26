@@ -1,0 +1,55 @@
+* Hightway Network and Grid LSTM
+  Special Structure 之三
+** Highway Network
+   把 RNN 用在 feedforward network 上
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-25 14:35:47
+   [[file:Hightway Network and Grid LSTM/screenshot_2017-06-25_14-35-47.png]]
+
+   feedforward network 跟 RNN 很像，只是有两点不同：
+   1. 前馈网络只有一个输入，而 RNN 在每一个 layer 出都有一个输入
+   2. 前馈网络所有 layer 的参数都不同，而 RNN 每一个 layer 的参数都相同
+
+*** 从 GRU 到 highway network
+    考虑是不是可以把 RNN 当作一个特殊的 feedforward network 来用，
+    由于 RNN 的特殊性，架构可以很深很深。
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-25 14:35:54
+    [[file:Hightway Network and Grid LSTM/screenshot_2017-06-25_14-35-54.png]]
+    把 reset gate 拿掉，因为 feedf network 只有在开始的时候有输入，
+    所以不能 reset. 而且这样做参数也更少，这很重要，因为 feedf net
+    每一层 layer 的参数都不一样。这样总体少很多。
+
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-25 14:36:02
+    [[file:Hightway Network and Grid LSTM/screenshot_2017-06-25_14-36-02.png]]
+    GRU 里面 update gate 是 input gate 与 forget gate 的总和
+    两者联动形成 update gate
+
+    tips : Highway network --> Residual network
+
+
+*** highway net 好处，自动 congtrol layer 层数
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-25 14:36:13
+    [[file:Hightway Network and Grid LSTM/screenshot_2017-06-25_14-36-13.png]]
+
+    highway net 好处，自动 congtrol layer 层数
+
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-25 14:36:21
+    [[file:Hightway Network and Grid LSTM/screenshot_2017-06-25_14-36-21.png]]
+
+** Grid LSTM
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-25 14:36:28
+   [[file:Hightway Network and Grid LSTM/screenshot_2017-06-25_14-36-28.png]]
+
+
+*** 2d - grid LSTM
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-25 14:36:35
+    [[file:Hightway Network and Grid LSTM/screenshot_2017-06-25_14-36-35.png]]
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-25 16:17:29
+    [[file:Hightway Network and Grid LSTM/screenshot_2017-06-25_16-17-29.png]]
+    原来的 LSTM 是这样子
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-25 14:36:40
+    [[file:Hightway Network and Grid LSTM/screenshot_2017-06-25_14-36-40.png]]
+    现在的 grid LSTM 是这样子
+
+*** 3d - grid LSTM
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-25 14:36:46
+    [[file:Hightway Network and Grid LSTM/screenshot_2017-06-25_14-36-46.png]]

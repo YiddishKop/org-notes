@@ -491,115 +491,237 @@ k 向量详细运算过程（李老师略过）
 **** 加入 regular 防止网络瞎鸡巴分配 attention
      #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:53:35
      [[file:RNN/screenshot_2017-06-23_18-53-35.png]]
- :Ref:
- Kelvin Xu, Jimmy Ba, Ryan Kiros, Kyunghyun Cho, Aaron
- Courville, Ruslan Salakhutdinov, Richard Zemel, Yoshua
- Bengio, “Show, Attend and Tell: Neural Image Caption
- Generation with Visual Attention”, ICML, 2015
- :END:
+     :Ref:
+     Kelvin Xu, Jimmy Ba, Ryan Kiros, Kyunghyun Cho, Aaron
+     Courville, Ruslan Salakhutdinov, Richard Zemel, Yoshua
+     Bengio, “Show, Attend and Tell: Neural Image Caption
+     Generation with Visual Attention”, ICML, 2015
+     :END:
 
- 1. 给 attention(weight) 设置 regularization 强迫 attention 是你喜欢的样子
-    由于 attention(weight) 的决定权完全交给整个 NN 去训练，不加任何限制就会产生失控的情况。
-    由于 attention(weight) 会决定每次 decode 的侧重点不一样，所以 attention(weight)对于最后
-    的结果有重大影响。
-    为了不让 NN 瞎鸡巴给 attention(weight),需要人为干预注意力权重的分配，尽量让每一个 component
-    都被【注意到】，也就是说每个 component 最终获得的权重之和，应该都相等并且等于某个值 τ .
- 2. bad attention
-    注意看上面的柱状图：
-    这里上标：第幾個 frame; 下标：time
-    每张图片下方是他在 4 个时间的 attention(weight)
-    可以看到，第二张图在 第 2,4 个时间的权重相当高。
-    因为每个时间都会产生一个解释该【attention 截取的 seq 片段】的 word.
-    所以 第 2,4 个时间产生的 word 都是：woman.
-    结果这个四个 frame 构成的视频产生的 caption 是：xx woman xx woman
-    这和我们希望他产生：woman is cooking  是很不一致的。
+     1. 给 attention(weight) 设置 regularization 强迫 attention 是你喜欢的样子
+        由于 attention(weight) 的决定权完全交给整个 NN 去训练，不加任何限制就会产生失控的情况。
+        由于 attention(weight) 会决定每次 decode 的侧重点不一样，所以 attention(weight)对于最后
+        的结果有重大影响。
+        为了不让 NN 瞎鸡巴给 attention(weight),需要人为干预注意力权重的分配，尽量让每一个 component
+        都被【注意到】，也就是说每个 component 最终获得的权重之和，应该都相等并且等于某个值 τ .
+     2. bad attention
+        注意看上面的柱状图：
+        这里上标：第幾個 frame; 下标：time
+        每张图片下方是他在 4 个时间的 attention(weight)
+        可以看到，第二张图在 第 2,4 个时间的权重相当高。
+        因为每个时间都会产生一个解释该【attention 截取的 seq 片段】的 word.
+        所以 第 2,4 个时间产生的 word 都是：woman.
+        结果这个四个 frame 构成的视频产生的 caption 是：xx woman xx woman
+        这和我们希望他产生：woman is cooking  是很不一致的。
 
- 3. good attention
-    为了保证 每一个 component 在完成 caption 时所分配的权重和 = τ .
-    所以给整个架构在训练的时候加一个 regularization: 一旦违反这个限制就被惩罚
+     3. good attention
+        为了保证 每一个 component 在完成 caption 时所分配的权重和 = τ .
+        所以给整个架构在训练的时候加一个 regularization: 一旦违反这个限制就被惩罚
 
 **** Mismatch between Train and Test
 
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:53:47
- [[file:RNN/screenshot_2017-06-23_18-53-47.png]]
-训练的时候，给下一个 RNN 的输入都是训练集也就是 Reference 给出的标准答案
-训练完成之后，进入 Testing 环节（这里是 Generation 环节）
+     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:53:47
+     [[file:RNN/screenshot_2017-06-23_18-53-47.png]]
+     训练的时候，给下一个 RNN 的输入都是训练集也就是 Reference 给出的标准答案
+     训练完成之后，进入 Testing 环节（这里是 Generation 环节）
 
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:53:54
+     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:53:54
 
- [[file:RNN/screenshot_2017-06-23_18-53-54.png]]
->>> 公共技巧
------------------------------------------------------------------------------
-生成的时候，这里有一个小的技巧，RNN 的输出是一个 distribution vector,想获得输出有两种方法：
-1. 输出概率最高的那一位对应的字母作为输出
-   这种方法比较【稳定】，相同的输入肯定带来相同的输出
-2. 从这个概率分布中 sample 一个作为输出
-   这种方法比较【随机】，相同的输入可能带来不同的输出
------------------------------------------------------------------------------
+     [[file:RNN/screenshot_2017-06-23_18-53-54.png]]
+     >>> 公共技巧：如何获得【随机】or【稳定】的 RNN 输出
+     -----------------------------------------------------------------------------
+     生成的时候，这里有一个小的技巧，RNN 的输出是一个 distribution vector,想获得输出有两种方法：
+     1. 输出概率最高的那一位对应的字母作为输出
+        这种方法比较【稳定】，相同的输入肯定带来相同的输出
+     2. 从这个概率分布中 sample 一个作为输出
+        这种方法比较【随机】，相同的输入可能带来不同的输出
+     -----------------------------------------------------------------------------
 
-1. Exposure Bias: 朝错误的方向努力，只会让你离目标越来越远
-   注意训练的时候，每一个 time 的输入除了 condition 之外还输入一个【标准答案】
-   但是在 generate 的时候是【没有标准答案】的，所以我们是把上一个 time 的输出作为
-   下一个 time 的输入。
-   这时会产生两种错误：
-   1) generate 的时候，如果 sample 到另一个结果，因为这里是 seq to seq ,需要考虑上
-      下文信息，一旦某一步错了，他会对后续的结果产生影响，就会产生完全不同的结果。
-   2) 第二种情况是，训练时的一点点错误，会给生成时造成巨大的错误，下页 PPT 探讨，
-      训练时的错误率：5%, 在生成时会被放大到甚至 100%.
-     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:54:03
-     [[file:RNN/screenshot_2017-06-23_18-54-03.png]]
+     1. Exposure Bias: 朝错误的方向努力，只会让你离目标越来越远
+        注意训练的时候，每一个 time 的输入除了 condition 之外还输入一个【标准答案】
+        但是在 generate 的时候是【没有标准答案】的，所以我们是把上一个 time 的输出作为
+        下一个 time 的输入。
+        这时会产生两种错误：
+        1) generate 的时候，如果 sample 到另一个结果，因为这里是 seq to seq ,需要考虑上
+           下文信息，一旦某一步错了，他会对后续的结果产生影响，就会产生完全不同的结果。
+        2) 第二种情况是，训练时的一点点错误，会给生成时造成巨大的错误，下页 PPT 探讨，
+           训练时的错误率：5%, 在生成时会被放大到甚至 100%.
+           #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:54:03
+           [[file:RNN/screenshot_2017-06-23_18-54-03.png]]
 
-     one step wrong in trained model, when this model used in generation,
-     this 'one step wrong' will lead to totally wrong.
+           one step wrong in trained model, when this model used in generation,
+           this 'one step wrong' will lead to totally wrong.
 
 
-***** 尝试修改 train 过程
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:54:12
-[[file:RNN/screenshot_2017-06-23_18-54-12.png]]
-1. 原来 train 的时候用这个 time 的 reference 作为下个 time 的输入
-   改为
-   train 的时候用这个 time 的输出作为下个 time 的输入。
-   这样 train 和 generation 就保持一致了。
-   *但这样 train 不起来*
-2. 为甚么 train 不起来呢？
-   可以从 gradient 的角度来分析每一次【输出 != reference】的时候 gradient
-   会如何调整【输出的概率分布】来看：
-   time1: reference = A, output =B; ref ≠ output.
-          increase the A's probability of output distribution
-          但此时，根据 1) 的修改，你选择 output 作为下一个 time 的输出，
-          所以对于 time2: input B will make a A, but ref = B
-          so B will increase probability.
-   但是现在由于 A 的上升，慢慢的让 time1 的输出由 B->A, 所以这个时候 time2
-   的输出变成了 A, 之前的那条规则：“input B will make A, but ref=B
-   so B will increase probability” 就废了，就没用了。
-   所以这种情况会一直发生，有种‘一直在错过’的感觉。
-***** Scheduled sampling
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:54:21
- [[file:RNN/screenshot_2017-06-23_18-54-21.png]]
-意思是说，既然纠结于选 ref 还是选 output. 那就给个概率：一定几率选 ref, 一定几率选 output.
+***** 尝试修改 train 过程：不可行
+      #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:54:12
+      [[file:RNN/screenshot_2017-06-23_18-54-12.png]]
+      1. 原来 train 的时候用这个 time 的 reference 作为下个 time 的输入
+         改为
+         train 的时候用这个 time 的输出作为下个 time 的输入。
+         这样 train 和 generation 就保持一致了。
+         *但这样 train 不起来*
+      2. 为甚么 train 不起来呢？
+         可以从 gradient 的角度来分析每一次【输出 != reference】的时候 gradient
+         会如何调整【输出的概率分布】来看：
+         time1: reference = A, output =B; ref ≠ output.
+         increase the A's probability of output distribution
+         但此时，根据 1) 的修改，你选择 output 作为下一个 time 的输出，
+         所以对于 time2: input B will make a A, but ref = B
+         so B will increase probability.
+         但是现在由于 A 的上升，慢慢的让 time1 的输出由 B->A, 所以这个时候 time2
+         的输出变成了 A, 之前的那条规则：“input B will make A, but ref=B
+         so B will increase probability” 就废了，就没用了。
+         所以这种情况会一直发生，有种‘一直在错过’的感觉。
+***** 尝试修改 Generate 过程：Scheduled sampling
+      #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:54:21
+      [[file:RNN/screenshot_2017-06-23_18-54-21.png]]
+      意思是说，既然纠结于选 ref 还是选 output. 那就给个概率：一定几率选 ref, 一定几率选 output.
 
-一般是给一个 ref decay 的概率: 一开始只考虑 ref,然后慢慢增加 output 的概率。
+      一般是给一个 ref decay 的概率: 一开始只考虑 ref,然后慢慢增加 output 的概率。
 
-经过试验可以断定，这样比只选 ref or output 的模型都要好：
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:54:31
- [[file:RNN/screenshot_2017-06-23_18-54-31.png]]
+      经过试验可以断定，这样比只选 ref or output 的模型都要好：
+      #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:54:31
+      [[file:RNN/screenshot_2017-06-23_18-54-31.png]]
 
-***** Beam Search
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:54:39
- [[file:RNN/screenshot_2017-06-23_18-54-39.png]]
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:54:49
- [[file:RNN/screenshot_2017-06-23_18-54-49.png]]
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:54:58
- [[file:RNN/screenshot_2017-06-23_18-54-58.png]]
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:55:05
- [[file:RNN/screenshot_2017-06-23_18-55-05.png]]
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:55:16
- [[file:RNN/screenshot_2017-06-23_18-55-16.png]]
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:55:23
- [[file:RNN/screenshot_2017-06-23_18-55-23.png]]
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:55:34
- [[file:RNN/screenshot_2017-06-23_18-55-34.png]]
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:55:42
- [[file:RNN/screenshot_2017-06-23_18-55-42.png]]
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:55:50
- [[file:RNN/screenshot_2017-06-23_18-55-50.png]]
+***** 尝试修改 Generate 过程：Beam Search
+****** Greedy algo 的弊端
+       #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:54:39
+       [[file:RNN/screenshot_2017-06-23_18-54-39.png]]
+
+       1. 树状图解释 Greedy algo
+          很好的解释了‘每一步都是选择【他能看到的概率中最高的】’ 这件事情。
+
+       2. Greedy algo
+          其实整个 RNN 的架构就相当于一个 Greedy algo 算法：
+          time 1 的输出是这个 RNN 输出的概率分布种最大的；
+          time 2 的输出是这个 RNN 输出的概率分布种最大的；
+          time 3 的输出是这个 RNN 输出的概率分布种最大的；
+          每一步，他都是选择【他能看到的概率中最高的那个】，但其实我们想要的结果是：
+          P(time1, time2, time3) 是一个联合概率分布。
+
+          从这个树状图可以看出，按照我们之前的 Greedy 的做法，是红色路线，但是
+          很有可能存在一条绿色路线，他的整体联合概率分布是更高的。
+
+          但是我们没办法【穷举】出所有的路线，然后每一个都计算一次概率。
+
+       3. Beam Search
+          Beam Search 是介于【贪婪】和【穷举】之间的算法
+
+****** Beam Search 原理
+       #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:54:49
+       [[file:RNN/screenshot_2017-06-23_18-54-49.png]]
+       [勘误] 右上角的图应该是 generate 的，这里使用了 training 的。
+
+       |----------+---------------------+-------------|
+       | Greedy   | Beam                | Brute force |
+       |----------+---------------------+-------------|
+       | best one | best beam size ones | all         |
+       |----------+---------------------+-------------|
+
+       Beam Search algo 是介于 Greedy 和 Brute force 之间的算法，
+
+       .   Greedy 是【我只看一步，在所有我能看到的中选最好的一个】
+       .                       ^
+       .                       |
+       .                       |
+       .   Beam   是【我只看一步，在所有我能看到的中选最好的几个】
+       .                       ^
+       .                       |
+       .                       |
+       .   Brute  是【我只看一步，选择所有的】
+
+       #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:54:58
+       [[file:RNN/screenshot_2017-06-23_18-54-58.png]]
+       上面树状节点，就相当于经历了一个 RNN 节点
+       注意 ppt 最下面那些方块，是一个树状图形
+
+**** 为甚么不直接使用分布
+     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:55:05
+     [[file:RNN/screenshot_2017-06-23_18-55-05.png]]
+     猛一看返回分布，比使用 ref or output 都好的原因：
+     1. 直接传概率分布，好处：解决了【smapling 阻止 BP 算法】的问题
+     2. 直接传概率分布，好处：不用搞什么 greedy or beam 可以直接传概率
+     ---------------------------------------------------------
+     为甚么不能传分布？
+     .....................
+     情景：
+     u: 你觉得如何？
+     m: 高兴想笑 or 难过想哭   +高兴想哭 难过想笑+
+     .....................
+     这个时候 machine 的回答 ‘高兴想笑’ 和 ‘难过想哭’ 都可以,但是 '高兴想哭'
+     和 '难过想笑' 就不搭调了。
+
+     >>> 误搭配
+     如果使用 sample from output distribution 的方法是没有【误搭配】问题的，因为
+     存在一种 点到点 的推理关系： 高兴 --> 想笑  or  难过 --> 想哭
+     但是如果直接返回一个概率分布的话，因为 高兴想笑和难过想哭 都行，第一个单词的概率也
+     是大体相当的，把这个分布返回给第二个 RNN 就要出问题了：
+
+     高兴 ≈ 难过
+     --->
+     想笑 ≈ 想哭
+
+     所以这件事情就很随机了，会产生各种各种各样的组合，肯定包含【误组合】的情况。
+
+**** Object level vs Component level loss-fn
+     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:55:16
+     [[file:RNN/screenshot_2017-06-23_18-55-16.png]]
+     1. component 级别的最优，并不能保证整体最优
+        component 级别的优化，是针对局部的，并不能保证整体的【意义】：
+        当我们计算每一个 RNN 输出的单词的 cross-entory 然后把他们加总
+        作为优化目标时，当每个输出都是基本合理的情况下，cross-entropy
+        已经很小了，这时候再继续优化的动力就会不足。
+        比如： 我们需要的是‘ the dog is running fast’
+        但很多情况这个结构再 'the dog is is fast' 时优化就基本停止了
+        因为此时的 cross-entropy 已经很低了。
+
+        所以我们极需要一个 Object level 的目标函数用来衡量【整体】的好坏。
+
+        但是这件事情非常不容易，且不说能否找到这样一个函数 R,就算已经找到了，
+        由于这个问题的【离散性】，对于 R(y,y^) 这种函数，Gradient Descent
+        对其优化也是很无力的，为甚么呢？ 见下
+
+     2. >>> 公共技巧：Gradient Descent 无力处理【离散问题】
+        -------------------------------------------------------
+        对于离散问题，比如这里的 seq 2 seq,他的结果不是随着概率而连续变化的
+        .....................
+        情景：
+        u: 你觉得如何？
+        m: 难过想笑 (想调整为‘高兴想笑’）
+        .....................
+        一般处理离散问题，都会在得到一个概率分布，然后跟一个 softmax 选取概率
+        最大的作为结果，这时候微调参数产生的概率分布上的微小改变并不足以【让概率
+        最大的位置易主】：
+        .     优化前                             优化后
+        .   --------                          ---------
+        .   难过  高兴  -->Gradient descent-->  难过  高兴
+        .   78%  22%                           65%  35%
+        .   \_______/                         \_______/
+        .       v                                 v
+        .    softmax                           softmax
+        .       v                                 v
+        .      难过                               难过
+
+        所以连续 GD 优化一旦被停止就没法继续进行了。
+        -------------------------------------------------------
+**** RL 呼之欲出：Object level vs Component level loss-fn
+     Facebook 提出的方法，用来解决整体优化和离散优化的问题
+     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:55:23
+     [[file:RNN/screenshot_2017-06-23_18-55-23.png]]
+
+     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:55:34
+     [[file:RNN/screenshot_2017-06-23_18-55-34.png]]
+     1. RNN 输出的概率分布 看成 RL:Action Set
+     2. output 结果      看成 RL:Action taken
+     3. 把所有的输入（来自上一层的输出＋condition）都看成是 action taken
+        之后的 Observation
+     4. 所有的前面的步骤 reward = 0; 最后一步输出一个【整体】之后才给出
+        reward.
+     5. 目标就是 maximize Reward
+
+     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:55:42
+     [[file:RNN/screenshot_2017-06-23_18-55-42.png]]
+
+     #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-23 18:55:50
+     [[file:RNN/screenshot_2017-06-23_18-55-50.png]]

@@ -1,0 +1,133 @@
+* Recursive Network
+  Special Deep Learning Structure 之三
+  他是 Recurrent Network 的一种更 general 的形式。
+** What is recursive net, intuition by Sentiment Analysis
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-24 11:24:48
+  [[file:Recursive Network/screenshot_2017-06-24_11-24-48.png]]
+
+  整体架构就是，前面有 sizeof(sentence's word) 个相同的 RNN:f
+  然后经过一个 NN:g 然后输出一个 5 维度的 vector 表示这个 sentence 的
+  sentiment
+
+
+  1. 语义分析就是分析句子的情感色彩：悲观 or 乐观 等等
+  2. RNN 是 Recursive Structure 的一种特殊情况：f 只接一个 x
+  3. recursive structure 需要对 f 进行设计：x 与 h 是 same dimension
+     也就是 f 的输入和输出是 same dimension
+
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-24 11:25:00
+  [[file:Recursive Network/screenshot_2017-06-24_11-25-00.png]]
+
+
+
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-24 11:25:07
+  [[file:Recursive Network/screenshot_2017-06-24_11-25-07.png]]
+
+  1. 根据 syntactic structure 构建网络
+  2. very good != Very + good
+
+
+
+
+
+
+
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-24 11:25:15
+  [[file:Recursive Network/screenshot_2017-06-24_11-25-15.png]]
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-24 11:25:23
+  [[file:Recursive Network/screenshot_2017-06-24_11-25-23.png]]
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-24 11:25:28
+  [[file:Recursive Network/screenshot_2017-06-24_11-25-28.png]]
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-24 11:25:36
+  [[file:Recursive Network/screenshot_2017-06-24_11-25-36.png]]
+  如何做到语义相加呢？ 用 training data 自动学出来
+  1. 转向: not
+  2. 强化: very
+
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-24 11:25:46
+  [[file:Recursive Network/screenshot_2017-06-24_11-25-46.png]]
+
+
+** Recursive Nueral Tensor Network
+   重新设计 f 用来解决【语义转向】和【语义强化】的表达问题
+   - 整体是 Recursive
+   - ☆ Component 的 funtion f 是 Nueral Tensor Network
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-24 11:25:56
+   [[file:Recursive Network/screenshot_2017-06-24_11-25-56.png]]
+
+   1. 如果 f 是一个 neural network 的话，那么他的 input: a b 的形式
+      只有一种，就是 a b 串起来形成一个大的 vector 作为 input layer
+
+   2. >>> 公共技巧：任何一层 hiden layer 的输出都可以写成这样的公式
+      output = act-fn(W•x)
+
+      .           x        W        W•x   act-fn
+      .    ==============================================
+      .
+      .        layer-1              l-2     l-2    l-2
+      .        .output            .input   .act  .output
+      .     ○----->-- ...     ... -----------○----->-
+      .          x11                               x21
+      .
+      .     ○----->-- ...     ... -----------○----->-
+      .          x12                               x22
+      .
+      .     ○----->-- ...  W  ... -----------○----->-
+      .          x13                               x23
+      .
+      .     ○----->-- ...     ... -----------○----->-
+      .          x14                               x24
+      .
+      .     ○----->-- ...     ... -----------○----->-
+
+   3. 转向和强化，单单通过相加关系，定不能成，还需要相乘
+      之前讲过 'not'  是转向，good + not  ---> bad
+      之前讲过 'very' 是强化，good + very ---> bingo
+
+      所以 f 不能仅仅是个简单的 neural network, 还必须包含向量之间的相乘关系
+
+      .   x = [a b]
+      .                    _      _
+      .                   | xTW1x |
+      .   output = act-fn(| xTW2x |  + W'•x)
+      .                   | xTW3x |
+      .                    -      -
+
+      W1,W2,W3,W' 是不同的 4 个矩阵
+      需要多少个 W1,W2,W3... 是根据 f 的 output vector 的维度来决定的。
+      而 f 的 output vector 维度需要整体设计
+
+      #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-24 11:26:03
+      [[file:Recursive Network/screenshot_2017-06-24_11-26-03.png]]
+      #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-24 11:26:11
+      [[file:Recursive Network/screenshot_2017-06-24_11-26-11.png]]
+
+** Matrix-Vector Recursive Network
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-24 11:26:19
+   [[file:Recursive Network/screenshot_2017-06-24_11-26-18.png]]
+
+   把每一个 word 的 embedding ([qqq]word embedding 是什么意思？）
+   理解为两个部分： 固有的含义 + 如何影响其他 word
+
+** Tree LSTM
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-24 11:26:26
+   [[file:Recursive Network/screenshot_2017-06-24_11-26-26.png]]
+   f 是 LSTM 的话，还是参照 syntactic structure.
+   LSTM + recursive network = Tree LSTM
+   这样整体就构成了 Tree LSTM
+
+** 如何训练一个 NN 可以识别‘意义相同的句子’：sentence relatedness
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-24 11:26:36
+   [[file:Recursive Network/screenshot_2017-06-24_11-26-36.png]]
+
+   找很多 意义相同的 pair 句子。然后丢到右边图的那个架构里。
+   >>> 单个 recusive NN 的作用就是
+   -----------------------------------------------------------
+   整体架构就是，前面有 sizeof(sentence's word) 个相同的 RNN:f
+   然后经过一个 NN:g 然后输出一个 5 维度的 vector 表示这个 sentence 的
+   sentiment
+   -----------------------------------------------------------
+
+   现在两个句子通过两个 Recursive NN 得到两个 sentiment vector,然后
+   这两个 sentiment vector 经过一个 NN 用来判断两个 vector 的相似度。
+   整个网络要通过很多 意义相同的 pair 句子训练。
