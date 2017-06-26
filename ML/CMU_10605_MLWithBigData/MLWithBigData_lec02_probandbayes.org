@@ -1,0 +1,222 @@
+* Probability and Scalability
+** Learning and Counting
+*** Joint Distribution
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:23:37
+[[file:Probability and Scalability/screenshot_2017-06-26_17-23-37.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:23:52
+[[file:Probability and Scalability/screenshot_2017-06-26_17-23-52.png]]
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:24:07
+[[file:Probability and Scalability/screenshot_2017-06-26_17-24-07.png]]
+预测中间单词 C ,
+需要计算 prob of C by given ABDE , 也就是上页 ppt 中 affect or effect.
+P(C|ABDE)
+除此之外看看上页 PPT 的表格，有些格子是空的，所以还要预测：
+P(C|ABD) P(C|BD) P(C)
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:24:19
+[[file:Probability and Scalability/screenshot_2017-06-26_17-24-19.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:24:33
+[[file:Probability and Scalability/screenshot_2017-06-26_17-24-33.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:24:44
+[[file:Probability and Scalability/screenshot_2017-06-26_17-24-44.png]]
+
+*** Density Esitimation
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:24:54
+[[file:Probability and Scalability/screenshot_2017-06-26_17-24-54.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:25:04
+[[file:Probability and Scalability/screenshot_2017-06-26_17-25-04.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:25:16
+[[file:Probability and Scalability/screenshot_2017-06-26_17-25-16.png]]
+这里提供了一种关于 classifier 的另外的思路：
+把 class y 也作为联合概率的一部分，去计算 P(x,y),
+     - 对于贰元分类：P(x)>0.5
+     - 多元分类：P(x,y1) P(x,y2) ... P(x,yk) 中概率最高的，就说明 x 属于他
+
+
+
+*** Why Density Estimation is better
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:25:37
+[[file:Probability and Scalability/screenshot_2017-06-26_17-25-37.png]]
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 19:15:08
+[[file:Probability and Scalability/screenshot_2017-06-26_19-15-08.png]]
+这个例子举的太恰当了，
+分类模型：是一层固定高度的海岸线，他在冰山上截取一个【圈】，映射在二维图像上的表现就是【圈里是一类，圈外是另一类】
+密度估计：是无数不同高度的海岸线，他们在冰山上截取出无数个【同心圆】，你可以自由选取任何一个高度的海岸线，截取出
+        一个【圈】，【圈里是一类，圈外是另一类】
+
+The difference between _Classification_ and _Density Esitimation_
+
+The two class case you can kind of think about a density estimation
+as sort of measuring the _topology of the space_ of probabilities and
+classification is basically just sort of telling you whether you're
+over or below some _thrshold_, so it's kind of the difference between
+you know a topoligical map of some undersea landscape versus just a
+map that tells you where the shoreline is.
+
+So, there is more information in the density estimator which is a good
+thing sometimes a bad thing determined by whether there is more parameters
+to estimate.
+
+** Naive Bayes
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:26:16
+[[file:Probability and Scalability/screenshot_2017-06-26_17-26-16.png]]
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:26:24
+[[file:Probability and Scalability/screenshot_2017-06-26_17-26-24.png]]
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:26:33
+[[file:Probability and Scalability/screenshot_2017-06-26_17-26-33.png]]
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:26:40
+[[file:Probability and Scalability/screenshot_2017-06-26_17-26-40.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:26:50
+[[file:Probability and Scalability/screenshot_2017-06-26_17-26-50.png]]
+
+*** MLE and MAP
+    trivial, dirichlet
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:27:00
+ [[file:Probability and Scalability/screenshot_2017-06-26_17-27-00.png]]
+Dirichlet(MAP) is a smoothing?
+
+**** Bayes is not an useful algo
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:27:11
+ [[file:Probability and Scalability/screenshot_2017-06-26_17-27-11.png]]
+注意这里：
+In Naive Bayes: P(C|A) = P(C) = #C/#total
+BUT, _Big difference between Joint and Naive_
+
+>>> [公共技巧] Joint and Bayes 这里差距很大存在两种可能：
+---------------------------------------------------
+1. Joint distribution, 用查数法，囿于数据量不够大。
+2. Bayes distribution, 用独立性，囿于变量之间关系。
+---------------------------------------------------
+
+**** Make this interesting: from bayes to conditional independent
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:27:26
+  [[file:Probability and Scalability/screenshot_2017-06-26_17-27-26.png]]
+  Bayes rule:
+  .      P(x1,x2,...,y) = P(x1)*P(x2)*...*P(y)
+  Conditional indenpendent:
+  .      P(x1,x2,...,y) = P(x1,x2,...|y)*P(y)
+  .                     = P(x1|y)*P(x2|y)*...*P(y)
+  .                     = P(x1|x2,x3,x...y)*P(x2|x1,x3,x...y)*...*P(y)
+
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:27:35
+  [[file:Probability and Scalability/screenshot_2017-06-26_17-27-35.png]]
+  - dom(Y) 有点像是值【域】，定义【域】的【域】，这里就是 Y 的定义域
+  这个很有意思：dataset 超过内存容量
+
+
+**** Bayes classifier -v0
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:27:46
+  [[file:Probability and Scalability/screenshot_2017-06-26_17-27-46.png]]
+  - 整个过程分为 train 和 test 两个循环
+  - train 中用一个 hashtable 来统计所有的标签出现次数
+  - 这里的 hashtable can fit in memory,下节课会讲如果内存存不下 hashtable 怎么办
+
+  把 train 中统计的数据应用到 test 里：
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:27:57
+  [[file:Probability and Scalability/screenshot_2017-06-26_17-27-57.png]]
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:28:38
+  [[file:Probability and Scalability/screenshot_2017-06-26_17-28-38.png]]
+
+
+***** smoothing
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:28:51
+   [[file:Probability and Scalability/screenshot_2017-06-26_17-28-51.png]]
+   - 为了防止出现 0 概率导致最后结果也是 0 ,所以加入 smoothing
+   - Imaging that I've seen [m] examples
+   - qx = 1/|dom(Xj)|
+   - qy = 1/|dom(Y)|
+   - m*qx = 1
+
+   One problem you often get dealing with probabilities is that when
+   you start looking at _multiple products of probabilities_, the numbers
+   get really really _small fast_. It's probably ok with four context words
+   but I went to 8 or 16 context words then we might have _round off errors_
+   and this might just sort of get _approximated as 0_.
+
+   So a better way of doing that is to do this in _log space_. So instead of
+   looking at products look at the _sum of logs_.
+
+   P(x1,x2,x3,...,y') = P(x1|y')P(x2|y')...P(xd|y')P(y')
+   等式两边同时取 log
+***** log space
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:29:10
+   [[file:Probability and Scalability/screenshot_2017-06-26_17-29-10.png]]
+
+   One problem you often get dealing with probabilities is that when
+   you start looking at _multiple products of probabilities_, the numbers
+   get really really _small fast_. It's probably ok with four context words
+   but I went to 8 or 16 context words then we might have _round off errors_
+   and this might just sort of get _approximated as 0_.
+
+   So a better way of doing that is to do this in _log space_. So instead of
+   looking at products look at the _sum of logs_.
+
+   P(x1,x2,x3,...,y') = P(x1|y')P(x2|y')...P(xd|y')P(y')
+   等式两边同时取 log
+
+   参照之前预测完形填空（effect or affect）的例子：
+   d = 4
+   y1 = effect; y2 = affect
+***** despite 'Order'
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:29:17
+   [[file:Probability and Scalability/screenshot_2017-06-26_17-29-17.png]]
+   想想你是如何计算 P(x13 = hockey|Y=sports)
+   P(x13 = hockey|Y=sports)
+   = P('hockey' and 'sports') / P(sports)
+   = C('hockey' and 'sports') / C('sports')
+   所以不管这个 hockey 出现在第 13 个位置还是出现在第 3 个位置，概率值都是一样的，这对于用
+   [查数法]来计算是都一样的。
+
+   *so, instead of treating them as different variables, treat them as different*
+   *copies of the same variables*
+
+   *而且这样更便于统计，也减小了 hashtable 的大小*
+
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:29:28
+   [[file:Probability and Scalability/screenshot_2017-06-26_17-29-28.png]]
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:29:36
+   [[file:Probability and Scalability/screenshot_2017-06-26_17-29-36.png]]
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:29:52
+   [[file:Probability and Scalability/screenshot_2017-06-26_17-29-52.png]]
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:29:59
+   [[file:Probability and Scalability/screenshot_2017-06-26_17-29-59.png]]
+   可能单独计算 C(Y=y') 并不容易，所以可以直接计算 C([anyword] occur with y')
+   两者的意义是一样的。后者的计算可以直接从 hashtable 中获得。
+
+
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:30:13
+   [[file:Probability and Scalability/screenshot_2017-06-26_17-30-13.png]]
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:30:25
+   [[file:Probability and Scalability/screenshot_2017-06-26_17-30-25.png]]
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:30:36
+   [[file:Probability and Scalability/screenshot_2017-06-26_17-30-36.png]]
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:30:44
+   [[file:Probability and Scalability/screenshot_2017-06-26_17-30-44.png]]
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:30:54
+   [[file:Probability and Scalability/screenshot_2017-06-26_17-30-54.png]]
+*** Rocchio's Algorithm
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:31:24
+[[file:Probability and Scalability/screenshot_2017-06-26_17-31-24.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:31:32
+[[file:Probability and Scalability/screenshot_2017-06-26_17-31-32.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:31:42
+[[file:Probability and Scalability/screenshot_2017-06-26_17-31-42.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:31:50
+[[file:Probability and Scalability/screenshot_2017-06-26_17-31-50.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:33:06
+[[file:Probability and Scalability/screenshot_2017-06-26_17-33-06.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:33:14
+[[file:Probability and Scalability/screenshot_2017-06-26_17-33-14.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:33:26
+[[file:Probability and Scalability/screenshot_2017-06-26_17-33-26.png]]
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:34:16
+[[file:Probability and Scalability/screenshot_2017-06-26_17-34-16.png]]
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:34:25
+[[file:Probability and Scalability/screenshot_2017-06-26_17-34-25.png]]

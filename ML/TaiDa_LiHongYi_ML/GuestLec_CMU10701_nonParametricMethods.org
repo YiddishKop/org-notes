@@ -1,0 +1,96 @@
+CMU10701:
+https://www.youtube.com/channel/UC3IXpkDpzturFkkvGJ-HeMg
+更关注 概率视角下 的机器学习
+里面涉及大量概率论的知识
+
+* NON-Parametric methods
+** Parametric methods
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:53:03
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-53-03.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:53:13
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-53-13.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:53:22
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-53-22.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:53:33
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-53-33.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:53:44
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-53-44.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:53:56
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-53-56.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:54:05
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-54-05.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:54:14
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-54-14.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:54:33
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-54-33.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:54:44
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-54-44.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:54:56
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-54-56.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:55:06
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-55-06.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:55:15
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-55-15.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:55:24
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-55-24.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:55:32
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-55-32.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:55:41
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-55-41.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:55:49
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-55-49.png]]
+** From Density estimation to Classification
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:56:26
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-56-26.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:56:35
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-56-35.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:56:44
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-56-44.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:56:52
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-56-52.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:56:59
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-56-59.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:57:05
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-57-05.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:57:12
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-57-12.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:57:19
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-57-19.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:57:27
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-57-27.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:57:35
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-57-35.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:57:42
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-57-42.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:57:51
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-57-51.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:58:01
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-58-01.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:58:12
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-58-12.png]]
+
+
+** From Classification to Regression
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:58:45
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-58-45.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:58:53
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-58-53.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:59:00
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-59-00.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:59:08
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-59-08.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:59:15
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-59-15.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:59:27
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-59-27.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:59:37
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-59-37.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:59:46
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-59-46.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 18:59:55
+[[file:Non-Parametric methods/screenshot_2017-06-26_18-59-55.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 19:00:03
+[[file:Non-Parametric methods/screenshot_2017-06-26_19-00-03.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 19:00:18
+[[file:Non-Parametric methods/screenshot_2017-06-26_19-00-18.png]]

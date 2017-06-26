@@ -1,0 +1,49 @@
+* overview
+** Asymptotic Analysis: Basic Principles
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 16:57:37
+[[file:overview/screenshot_2017-06-26_16-57-37.png]]
+O 是上界
+Ω 是下界
+** Jeff Dean
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 16:42:26
+   [[file:overview/screenshot_2017-06-26_16-42-26.png]]
+   google guy who invented MapReduce, here is some jokes about him:
+   #+BEGIN_QUOTE
+   Compilers don’t warn Jeff Dean. Jeff Dean warns compilers.
+
+   Jeff Dean builds his code before committing it, but only to
+   check for compiler and linker bugs.
+
+   Jeff Dean writes directly in binary. He then writes the
+   source code as a documentation for other developers.
+
+   Jeff Dean once shifted a bit so hard, it ended up on another
+   computer.
+
+   When Jeff Dean has an ergonomic evaluation, it is for the
+   protection of his keyboard.
+
+   gcc -O4 emails your code to Jeff Dean for a rewrite.
+
+   When he heard that Jeff Dean's autobiography would be
+   exclusive to the platform, Richard Stallman bought a
+   Kindle.
+
+   Jeff Dean puts his pants on one leg at a time, but if he had
+   more legs, you’d realize the algorithm is actually only
+   O(logn)
+   #+END_QUOTE
+*** Jeff Dean says, everyone should know
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 16:41:08
+    [[file:overview/screenshot_2017-06-26_16-41-08.png]]
+    Memory access/instructions are qualitatively different from disk access
+
+    Seeks are qualitatively different from sequential reads on disk
+
+    Cache, disk fetches, etc work best when you stream through data sequentially
+
+    Best case for data processing: stream through the data once in sequential order,
+    as it’s found on disk.
+
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:12:58
+[[file:overview/screenshot_2017-06-26_17-12-58.png]]
