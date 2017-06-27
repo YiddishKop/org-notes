@@ -1,0 +1,177 @@
+Content-Type: text/enriched
+Text-Width: 80
+
+<x-color><param>#DFAF8F</param>* assign ment 1</x-color>
+  16 Fall 的作业是封闭的，只有 15 Fall 可以使用
+
+  <x-color><param>#D0BF8F</param>[[http://curtis.ml.cmu.edu/w/courses/index.php/Syllabus_for_Machine_Learning_with_Large_Datasets_10-605_in_Fall_2016][16 Fall]]</x-color>
+
+  <x-color><param>#D0BF8F</param>[[http://curtis.ml.cmu.edu/w/courses/index.php/Syllabus_for_Machine_Learning_with_Large_Datasets_10-605_in_Spring_2015][15 Fall]]</x-color>
+
+
+<x-color><param>#BFEBBF</param>** Important Note</x-color>
+   This assignment is the first of three that use the Naive Bayes algorithm. You
+   will be expected to reuse the code you develop for this assignment for future
+   assignments.
+
+   Thus, the more you adhere to good programming practices now (e.g. abstraction,
+   encapsulation, documentation), the easier the subsequent assignments will be.
+
+<x-color><param>#BFEBBF</param>** Naive Bayes</x-color>
+   Much of machine learning with big data involves - sometimes exclusively -
+   counting events. Multinomial Naive Bayes fits nicely into this framework. The
+   classifier needs just a few counters.
+
+   For this assignment we will be performing document classification using
+   <underline>_streaming Multinomial Naive Bayes_</underline>. We call it <underline>_streaming_</underline> because the input
+   and output of each program are <underline>_read from stdin and written to stdout_</underline>. This
+   allows us to use Unix pipe “|” to chain our programs together. For example:
+
+   : cat train.txt | java NBTrain | java NBTest test.txt
+
+   The streaming formulation allows us to <underline>_process large amounts_</underline> of data without
+   having to hold it all in memory. Let y be the labels for the training documents
+   and wi be the ith word in a document. Here are the counters we need to maintain:
+
+   : (Y=y) for each label y the number of training instances of that class
+   : (Y=*) here * means anything, so this is just the total number of training instances.
+   : (Y=y,W=w) number of times token w appears in a document with label y.
+   : (Y=y,W=*) total number of tokens for documents with label y.
+
+   The learning algorithm just increments counters:
+
+   #+BEGIN_QUOTE algo
+   for each example {y [w1,...,wN]}:
+   increment #(Y=y) by 1
+   increment #(Y=*) by 1
+   for i=1 to N:
+   increment #(Y=y,W=wi) by 1
+   increment #(Y=y,W=*) by N
+   #+END_QUOTE
+
+   You may elect to use a <underline>_tab-separated_</underline> format for the event counters as well:
+   eg, a pair <<event,count> is stored on a line with two tab-separated fields.
+   Classification will take a new document with words w1,...,wN and score each
+   possible label y with the log probability of y (as covered in class).
+
+   For now (hint), you may <underline>_keep a hashtable in memory_</underline>, with keys like
+   “Y=news”, “Y=sports,W=aardvark”, etc. You may NOT load all the training
+   documents in memory. That is, you must make one pass through the data to
+   collect the count statistics you need to do classification. Then, write these
+   counts (feature dictionary) to disk via stdout. Important Notes:
+
+
+   - At classification time, use Laplace smoothing with α = 1 as described here:
+
+     <x-color><param>#D0BF8F</param>http://en.wikipedia.org/wiki/Additive_smoothing</x-color>.
+
+
+   - You may assume that all of the test documents will fit into memory.
+
+
+   - With the exception of the test set, all files should be read from stdin and
+     written to stdout
+
+
+   - Use this function to change documents into features:
+     #+BEGIN_SRC java
+     <x-color><param>#F0DFAF</param>static</x-color> <x-color><param>#7CB8BB</param>Vector</x-color><<<x-color><param>#7CB8BB</param>String</x-color>> <x-color><param>#93E0E3</param>tokenizeDoc</x-color>(<x-color><param>#7CB8BB</param>String</x-color> <x-color><param>#DFAF8F</param>cur_doc</x-color>) {
+         <x-color><param>#7CB8BB</param>String</x-color>[] <x-color><param>#DFAF8F</param>words</x-color> = cur_doc.split(<x-color><param>#CC9393</param>"\\s+"</x-color>);
+         <x-color><param>#7CB8BB</param>Vector</x-color><<<x-color><param>#7CB8BB</param>String</x-color>> <x-color><param>#DFAF8F</param>tokens</x-color> = <x-color><param>#F0DFAF</param>new</x-color> <x-color><param>#7CB8BB</param>Vector</x-color><<<x-color><param>#7CB8BB</param>String</x-color>>();
+         <x-color><param>#F0DFAF</param>for</x-color> (<x-color><param>#7CB8BB</param>int</x-color> <x-color><param>#DFAF8F</param>i</x-color> = 0; i << words.<x-color><param>#7CB8BB</param>length</x-color>; i++) {
+             words[i] = words[i].replaceAll(<x-color><param>#CC9393</param>"\\W"</x-color>, <x-color><param>#CC9393</param>""</x-color>);
+             <x-color><param>#F0DFAF</param>if</x-color> (words[i].length() > 0) {
+                 tokens.add(words[i]);
+             }
+         }
+         <x-color><param>#F0DFAF</param>return</x-color> tokens;
+     }
+     #+END_SRC
+
+<x-color><param>#BFEBBF</param>** The Data</x-color>
+   For this assignment, we are using the <underline>_Reuters Corpus_</underline>, which is a set of news
+   stories split into a hierarchy of categories. There are <underline>_multiple class labels_</underline>
+   <underline>_per document_</underline>. This means that there is more than one correct answer to the
+   question “What kind of news article is this?” For this assignment, we will
+   ignore all class labels except for those <underline>_ending in CAT_</underline>. This way, we’ll just
+   be classifying into the top-level nodes of the hierarchy:
+
+
+   : CCAT: Corporate/Industrial
+   : ECAT: Economics
+
+   : GCAT: Government/Social
+   : MCAT: Markets
+
+
+   There are some documents with more than one CAT label. Treat those documents
+   as if you observed the same document <underline>_once for each CAT label_</underline> (that is, add to
+   the counters for all labels ending in CAT). If you’re interested, a
+   description of the class hierarchy can be found at
+
+
+   <x-color><param>#D0BF8F</param>http://jmlr.csail.mit.edu/papers/volume5/lewis04a/a02-orig-topics-hierarchy/rcv1.topics.hier.orig</x-color>.
+
+
+   The data for this assignment is at: /afs/cs.cmu.edu/project/bigML/RCV1 Note
+   that you may need to issue the command kinit before you can access the afs
+   files. The format is one document per line, with the class labels first
+   (comma separated), a tab character, and then the document. There are three
+   file sets:
+
+
+   : RCV1.full.*
+   : RCV1.small.*
+   : RCV1.very_small.*
+
+
+   The two file sets with “small” in the name contain smaller subsamples of
+   the full data set. They are provided to assist you in debugging your code.
+   Each data set appears in full in one file, and is split into a train and test
+   set, as indicated by the file suffix.
+
+<x-color><param>#BFEBBF</param>** Deliverables</x-color>
+   You should implement the algorithm by yourself instead of using any existing
+   machine learning toolkit.
+
+
+   The training code <underline>_NBTrain.java_</underline> should be able to run, using commands:
+
+
+   : cat train.txt | java NBTrain
+
+
+   This will output the streaming counts for the NB model, in the tab-separated two
+   column form:
+
+
+   : Y=CCAT,W=he 3.0
+   : Y=CCAT,W=saw 1.0
+   : Y=CCAT,W=her 3.0
+   : Y=CCAT,W=duck 4.0
+   : Y=CCAT,W=or 1.0
+   : Y=CCAT,W=* 123.0
+   : Y=CCAT 10.0
+   : Y=* 10.0
+   : ~~~
+
+
+   The test code provide a one-per-line prediction for each test case, so the
+   full streaming command is:
+
+   : cat train.txt | java NBTrain | java NBTest test.txt
+
+
+   which produces the following output:
+   : Best Class<<tab>LogProbability
+
+
+   Here, the Best Class is the class with the maximum log probability.
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-27 17:44:39
+   <x-color><param>#D0BF8F</param>[[file:Important Note/screenshot_2017-06-27_17-44-39.png]]</x-color>
+
+
+   Note that we will be using natural logarithm. Here’s an example of the output
+   format:
+   : CCAT -1042.8524
+   : GCAT -4784.8523

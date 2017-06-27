@@ -34,7 +34,6 @@ P(C|ABD) P(C|BD) P(C)
      - 多元分类：P(x,y1) P(x,y2) ... P(x,yk) 中概率最高的，就说明 x 属于他
 
 
-
 *** Why Density Estimation is better
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:25:37
 [[file:Probability and Scalability/screenshot_2017-06-26_17-25-37.png]]
@@ -60,25 +59,26 @@ thing sometimes a bad thing determined by whether there is more parameters
 to estimate.
 
 ** Naive Bayes
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:26:16
-[[file:Probability and Scalability/screenshot_2017-06-26_17-26-16.png]]
+*** Naive Bayes Intro
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:26:16
+ [[file:Probability and Scalability/screenshot_2017-06-26_17-26-16.png]]
 
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:26:24
-[[file:Probability and Scalability/screenshot_2017-06-26_17-26-24.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:26:24
+ [[file:Probability and Scalability/screenshot_2017-06-26_17-26-24.png]]
 
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:26:33
-[[file:Probability and Scalability/screenshot_2017-06-26_17-26-33.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:26:33
+ [[file:Probability and Scalability/screenshot_2017-06-26_17-26-33.png]]
 
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:26:40
-[[file:Probability and Scalability/screenshot_2017-06-26_17-26-40.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:26:50
-[[file:Probability and Scalability/screenshot_2017-06-26_17-26-50.png]]
-
-*** MLE and MAP
-    trivial, dirichlet
- #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:27:00
- [[file:Probability and Scalability/screenshot_2017-06-26_17-27-00.png]]
-Dirichlet(MAP) is a smoothing?
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:26:40
+ [[file:Probability and Scalability/screenshot_2017-06-26_17-26-40.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:26:50
+ [[file:Probability and Scalability/screenshot_2017-06-26_17-26-50.png]]
+*** Naive Bayes improvement
+**** MLE vs MAP
+     trivial, dirichlet
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:27:00
+  [[file:Probability and Scalability/screenshot_2017-06-26_17-27-00.png]]
+ Dirichlet(MAP) is a smoothing?
 
 **** Bayes is not an useful algo
  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:27:11
@@ -93,7 +93,7 @@ BUT, _Big difference between Joint and Naive_
 2. Bayes distribution, 用独立性，囿于变量之间关系。
 ---------------------------------------------------
 
-**** Make this interesting: from bayes to conditional independent
+**** Make Bayes useful: from Bayes to Conditional Independent
   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:27:26
   [[file:Probability and Scalability/screenshot_2017-06-26_17-27-26.png]]
   Bayes rule:
@@ -106,24 +106,27 @@ BUT, _Big difference between Joint and Naive_
   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:27:35
   [[file:Probability and Scalability/screenshot_2017-06-26_17-27-35.png]]
   - dom(Y) 有点像是值【域】，定义【域】的【域】，这里就是 Y 的定义域
-  这个很有意思：dataset 超过内存容量
+  - 这个很有意思：dataset 超过内存容量
+    lec01 的 Jeff Dean 的分析，存储涉及 Harddisk 时最会的方式就是“只从硬盘读一次”：
+    *sequential read*
 
+**** ☆☆☆ How to make Bayes useful
+***** 基本算法
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:27:46
+   [[file:Probability and Scalability/screenshot_2017-06-26_17-27-46.png]]
+   - 整个过程分为 train 和 test 两个循环
+   - train 中用一个 hashtable 来统计所有的标签出现次数
+   - 这里的 hashtable can fit in memory,下节课会讲如果内存存不下 hashtable 怎么办
+   - 这里 dom(Y) 是说 Y 的定义域，如果 y 是离散的比如多分类问题，dom(Y)就是所有 label
+   - |dom(Y)| 就是 label 的数量
 
-**** Bayes classifier -v0
-  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:27:46
-  [[file:Probability and Scalability/screenshot_2017-06-26_17-27-46.png]]
-  - 整个过程分为 train 和 test 两个循环
-  - train 中用一个 hashtable 来统计所有的标签出现次数
-  - 这里的 hashtable can fit in memory,下节课会讲如果内存存不下 hashtable 怎么办
+   把 train 中统计的数据应用到 test 里：
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:27:57
+   [[file:Probability and Scalability/screenshot_2017-06-26_17-27-57.png]]
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:28:38
+   [[file:Probability and Scalability/screenshot_2017-06-26_17-28-38.png]]
 
-  把 train 中统计的数据应用到 test 里：
-  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:27:57
-  [[file:Probability and Scalability/screenshot_2017-06-26_17-27-57.png]]
-  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:28:38
-  [[file:Probability and Scalability/screenshot_2017-06-26_17-28-38.png]]
-
-
-***** smoothing
+***** 改进 1: smoothing
    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:28:51
    [[file:Probability and Scalability/screenshot_2017-06-26_17-28-51.png]]
    - 为了防止出现 0 概率导致最后结果也是 0 ,所以加入 smoothing
@@ -143,7 +146,7 @@ BUT, _Big difference between Joint and Naive_
 
    P(x1,x2,x3,...,y') = P(x1|y')P(x2|y')...P(xd|y')P(y')
    等式两边同时取 log
-***** log space
+***** 改进 2: log space
    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:29:10
    [[file:Probability and Scalability/screenshot_2017-06-26_17-29-10.png]]
 
@@ -162,7 +165,7 @@ BUT, _Big difference between Joint and Naive_
    参照之前预测完形填空（effect or affect）的例子：
    d = 4
    y1 = effect; y2 = affect
-***** despite 'Order'
+***** 改进 3: despite 'Order'
    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:29:17
    [[file:Probability and Scalability/screenshot_2017-06-26_17-29-17.png]]
    想想你是如何计算 P(x13 = hockey|Y=sports)
@@ -183,40 +186,204 @@ BUT, _Big difference between Joint and Naive_
    [[file:Probability and Scalability/screenshot_2017-06-26_17-29-36.png]]
    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:29:52
    [[file:Probability and Scalability/screenshot_2017-06-26_17-29-52.png]]
+***** 改进 4: another counter for anyword co-occur with y'
    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:29:59
    [[file:Probability and Scalability/screenshot_2017-06-26_17-29-59.png]]
    可能单独计算 C(Y=y') 并不容易，所以可以直接计算 C([anyword] occur with y')
-   两者的意义是一样的。后者的计算可以直接从 hashtable 中获得。
+   两者的意义是一样的。后者的计算需要另外一个 hashtable 条目。
 
 
    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:30:13
    [[file:Probability and Scalability/screenshot_2017-06-26_17-30-13.png]]
    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:30:25
    [[file:Probability and Scalability/screenshot_2017-06-26_17-30-25.png]]
+   注意参数，a_the b_main d_of e_the 是说预测 c: effect 或者 affect 时，周围单词是哪些
+
+**** Complexity of Naive Bayes
    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:30:36
    [[file:Probability and Scalability/screenshot_2017-06-26_17-30-36.png]]
+   1. 算法核心 hashtable
+      整个算法的核心就是 [hashtable], 他像是处在 harddisk 和 memroy 之间的缓存。
+      只要一个数据只要读一次硬盘，然后填充进 hashtable 之中，读完所有数据硬盘则不再
+      需要。 下面所有的工作都是围绕 hashtable 展开，而 hashtable 可以被内存容下。
+      (下节课会讨论 hashtable 过大内存容不下的情况).
+
+   2. 算法复杂度：
+      - train 的复杂度就是 O(n)
+      - test  的复杂度就是 O(|dom(Y)|)
+
+   3. 如果想把训练好的模型用于其他机器上，那么 hashtable 就要存在硬盘之中
+      如下页 ppt 示：
+
+**** Complexity of hashtable 用在其他机器
    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:30:44
    [[file:Probability and Scalability/screenshot_2017-06-26_17-30-44.png]]
+
+   一、【这台计算机】从硬盘读入 training data 次数
+   -------------------------------------------------------------------------
+   O(n)
+
+   二、【这台计算机】给 hashtable 填表，并把 hashtable 存入硬盘，供其他机器使用
+   -------------------------------------------------------------------------
+   如果我想在其他机器使用这个 bayes 模型，我就需要把 hashtable 放在硬盘上，
+   这样每次统计一个条目（一个 counter），就需要往硬盘上写一次。有两种方法可以
+   bound 住这个写操作的次数：
+   1. O(min(|dom(x)|*|dom(Y)|, n))
+      1) 写的次数不可能超过 num of training data.
+      2) 因为我们统计的是所有 xi and y' 的组合，所以写的次数不会超过 |dom(x)|*|dom(Y)|
+      所以取 min((1), (2))
+      当训练数据很多，读写次数就是 |dom(x)|*|dom(Y)|
+      当训练数据很少，读写次数就是 num of training data
+   2. 当 dom(Y) 很小时，O(|dom(x)|)
+      O(|dom(x)|*|dom(Y)|) = O(|dom(x)|*scalar)
+                           = O(|dom(x)|)
+
+   三、【其他计算机】把 hashtable 读出硬盘，给当前机器使用
+   -------------------------------------------------------------------------
+   1. 把 hashtable 从硬盘读入内存中，读取硬盘次数就是 hashtable 的大小，如果 dom(Y) 很小
+      这个操作的读取硬盘次数就是：O(|V|)
+   2. 把 testing data 从硬盘读入内存，读取硬盘次数就是 O(n'), n' 是 testing data 大小
+   3. 如果 dom(Y) 很小，那么测试的复杂度就可以忽略
+   4. 这个过程中整体的复杂度就由读硬盘构成：O(|V|+n')
+
+
+   四、【其他计算机】内存占用量
+   -------------------------------------------------------------------------
+   O(min(|dom(x)|*|dom(Y)|, n))
+*** Streaming learning algo 总结
    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:30:54
    [[file:Probability and Scalability/screenshot_2017-06-26_17-30-54.png]]
-*** Rocchio's Algorithm
+   1. _Read only once_
+      This is a landscape of Streaming Learning Algo,  means read each data
+      ONLY ONCE. You go through training data ONE, you go through it IN ORDER,
+      sequentail order.
+
+   2. _At any point, online_
+      You can do classificatin at any point, and the
+      classification can be updated at any poin.
+
+   3. _Order dosen't matter_
+      In real life we may not be able to control the order of the examples and
+      changing the order of examples, if you have a billion examples, will take
+      a mount of time. Sorting them or even randomly reorder them could be an
+      expensive operation.
+
+   >>> [公共技巧]: _Only Naive Bayes can hold (1)(2)(3)_
+   -------------------------------------------------------------------
+   So Naive Bayes is sort of like the ultimate streaming learning that
+   satisfies all these things very nicely.
+   -------------------------------------------------------------------
+
+
+
+
+
+** Rocchio's Algorithm (another streaming learning algo)
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:31:24
 [[file:Probability and Scalability/screenshot_2017-06-26_17-31-24.png]]
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:31:32
 [[file:Probability and Scalability/screenshot_2017-06-26_17-31-32.png]]
+
+*** Rocchio algo(TFIDF) 基本概念
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:31:42
 [[file:Probability and Scalability/screenshot_2017-06-26_17-31-42.png]]
+1. some parameter
+   .|V| 是词典中单词的总数； |D| 是文章的总数； |d| 是 d 文章中的单词数
+   DF  - document frequency         - 包含 w 的文章的数目（这个数目越大说明 w 越不值钱）
+   TF  - time frequency             - w 出现在 d 文章中的次数（这个值越大越值钱）
+   IDF - Inverse document frequency - |D|/DF(这个值越大说明 DF 越小，说明 w 越值钱)
+
+2. u(w,d) = log(TF + 1) * log(IDF)
+   u(w,d) 是计算 d 与 w 的关联程度。
+   why '+ 1'?
+   TF 很有可能 = 0.
+   TF=0 取 log 是负无穷。没必要。
+   为了保证 [word w 对于 d 一点不重要] 就是 [u(w,d)=0].
+   所以 '+ 1'
+
+3. document vactor: u(d) = <u(w1,d),u(w2,d),...,u(w|v|,d)>
+   文章中所有单词的关联程度组成的向量，但是为了该向量不占用太多内存，
+   所以只记录 _那些文章中出现的单词_ 的关联程度，
+   而 _不是整个词典中的单词_ 的关联程度。
+
+   因为一篇文章中的单词肯定存在重复，所以 u(d) 向量的维度最多就是 |d|,
+   d 文章中的单词数目。so dimension of u(d) = O(|d|)
+
+   这里依然推荐使用 hashtable 来存储，每个 u(d) 就是一个不同的 hashtable
+   每篇文章被表示为一个不同的 hashtable.
+
+   one easy way of storing this data would be again with a hashtable. so
+   we just store the non-zero values, so for each wi that occur
+   in the document will store this number---u(wi,d), so then the hashtable
+   will explicitly knock door the zero values. I should say when I'm talking
+   about hashtables here. I'm assuming that you've done something about it.
+   (shown in previous ppt.)
+   If you ask this counter hash table how many times this event occured and
+   the answer is zero. so hash table has never seen it. It's not a key in the
+   hashtable then you would return 0.
+
+4. class vector: u(y)
+   由于 3) 中关于 u(d) 的讨论，每篇文章被表示成一个不同的 hashtable.
+   但是在计算 u(y) 的时候，由于需要考虑所有的文章，所以这个向量 u(y) 的维度只能是词典中的
+   单词数。
+
+   dimension of u(y) = O(|V|)
+
+   所有属于 y 分类的 document vector 的单位向量的平均 - 所有不属于 y 分类的 document
+   vector 的单位向量的平均
+   >>> [公共技巧]
+   -----------------------------------------------------------------------
+   至于如何计算，所有文章的不同的 hashtable 所代表的向量的单位向量，这个可以通过在生成每篇
+   文章的向量的时候，都按照词典中单词的顺序，记录下每个单词的编号。也就是 hashtable 中不但
+   记录 u(wi,d) 还记录 wi 在 vocabulary 中的位置。这个方便计算 u(y) 时各种不同文章的
+   不同 hashtable 交流和运算。
+   -----------------------------------------------------------------------
+
+   至此，每个 class 都被定义成一个向量 u(y)
+
+6. 当 u(y) 计算公式中 α＝ 1 ; β = 0.
+   means just average the positive examples labeld 'y'
+   几何上 u(y) 就只计算了所有属于 'y' 类文章的几何中心。
+
+7. find wich class vector is this document vector closest to
+   取 class vector 的单位向量和 document vector 的单位向量的内积
+   (也就是只关注方向） 的最大值。
+
+
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:31:50
 [[file:Probability and Scalability/screenshot_2017-06-26_17-31-50.png]]
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:33:06
 [[file:Probability and Scalability/screenshot_2017-06-26_17-33-06.png]]
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:33:14
 [[file:Probability and Scalability/screenshot_2017-06-26_17-33-14.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:33:26
-[[file:Probability and Scalability/screenshot_2017-06-26_17-33-26.png]]
 
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:34:16
-[[file:Probability and Scalability/screenshot_2017-06-26_17-34-16.png]]
 
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:34:25
-[[file:Probability and Scalability/screenshot_2017-06-26_17-34-25.png]]
+** NB(SVM) + TFIDF
+
+*** 核心原理
+    Naive Bayes is a kind of tied SVM.
+    _SVM_ can also implemented by _streaming algo,_
+    and almost as fast as Naive Bayes.
+
+>>> [公共技巧] TFIDF, weights -> appear times
+-----------------------------------------------------------------
+用 TFIDF 法给单词以新的权重
+1. Essentially about TFIDF + NB:
+   First doing tf-idf to get weights of all counts;
+   Then doing NB pretending that each word appears [weight] times.
+
+2. Essentially about TFIDF + SVM:
+   Fist tf-idf get weights;
+   Then use SVM pretending samples occur [weight] times.
+-----------------------------------------------------------------
+
+*** 试验数据
+    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:33:26
+ [[file:Probability and Scalability/screenshot_2017-06-26_17-33-26.png]]
+
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:34:16
+ [[file:Probability and Scalability/screenshot_2017-06-26_17-34-16.png]]
+
+
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:34:25
+ [[file:Probability and Scalability/screenshot_2017-06-26_17-34-25.png]]

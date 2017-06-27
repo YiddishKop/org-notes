@@ -7470,6 +7470,31 @@ https://www.youtube.com/watch?v=e08kOj2kISU
    其实，这些操作在文档中有说明，只是根据自己的经验和习惯设定不同的宏，确实可以将一些很处理重复的，很麻烦的数据文件变得很简单，很整洁！我很喜欢这个功能，极力推荐给大家使用！
 
 **** MESSY Advanced Python course in NYU 非常全面的 python 教程，从初级到高级，纽约大学 https://www.youtube.com/channel/UCHEGSn2vswSkH1LNXpfQ3IA/playlists :youtube:edu:cs:python:
+*** 2017-06-27 Tuesday
+
+**** MESSY 如何快速给 org 文字添加 bold, italic, underline 等格式
+     如何快速给文字添加：加粗，斜体，下划线 等格式？
+     1. vim 模式下选中；
+     2. 命令：
+        1) ~, x b~ : bold
+        2) ~, x i~ : italic
+        1) ~, x u~ : underline
+
+**** MESSY how to install eclipse by its installer in ubuntu
+     1. Download the installer here
+     2. Extract the archive, e.g the 64-bit version
+        ~tar xf eclipse-inst-linux64.tar.gz~
+     3. Change your folder
+        ~cd eclipse-installer~
+     4. Run the installer WITHOUT sudo to UPGRADE the installer
+        ~./eclipse-inst~
+
+**** MESSY How to install eclim
+     安装 eclipse 的 package 版本，不要使用 installer
+
+**** MESSY Setting up Emacs for java dev
+     http://www.goldsborough.me/emacs,/java/2016/02/24/22-54-16-setting_up_emacs_for_java_development/
+
 
 * 数据挖掘：理论与算法
 **** introduction
