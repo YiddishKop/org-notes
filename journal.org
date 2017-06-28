@@ -7494,7 +7494,13 @@ https://www.youtube.com/watch?v=e08kOj2kISU
 
 **** MESSY Setting up Emacs for java dev
      http://www.goldsborough.me/emacs,/java/2016/02/24/22-54-16-setting_up_emacs_for_java_development/
+*** 2017-06-28 Wednesday
 
+**** MESSY 使用 gradle 来编译和运行 eclim project
+     必须是 ~src/main/java~ 的目录结构，否则提示找不到 main class
+
+**** MESSY how to activate a virtual env in anaconda
+     ~source activate <env_name>~
 
 * 数据挖掘：理论与算法
 **** introduction

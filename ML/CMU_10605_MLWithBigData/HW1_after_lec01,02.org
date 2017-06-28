@@ -40,6 +40,7 @@ Text-Width: 80
 
    The learning algorithm just increments counters:
 
+
    #+BEGIN_QUOTE algo
    for each example {y [w1,...,wN]}:
    increment #(Y=y) by 1
@@ -48,6 +49,7 @@ Text-Width: 80
    increment #(Y=y,W=wi) by 1
    increment #(Y=y,W=*) by N
    #+END_QUOTE
+
 
    You may elect to use a <underline>_tab-separated_</underline> format for the event counters as well:
    eg, a pair <<event,count> is stored on a line with two tab-separated fields.
@@ -89,6 +91,8 @@ Text-Width: 80
      #+END_SRC
 
 <x-color><param>#BFEBBF</param>** The Data</x-color>
+
+   数据集及其格式
    For this assignment, we are using the <underline>_Reuters Corpus_</underline>, which is a set of news
    stories split into a hierarchy of categories. There are <underline>_multiple class labels_</underline>
    <underline>_per document_</underline>. This means that there is more than one correct answer to the

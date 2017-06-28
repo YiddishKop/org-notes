@@ -1,0 +1,164 @@
+* Streaming Naive Bayes
+  Things to Remember
+  ----------------------------------------------------------------
+  - Zipf's law and the prevalence of rare features/words
+  - Communication complexity
+  - Stream and sort
+  - Complexity of merge sort
+  - How pipes implement parallel processing
+  - How buffering output before a sort can improve performance
+  - How stream-and-sort can implement event-counting for naive Bayes
+  ----------------------------------------------------------------
+** Recap
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:17:32
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-17-32.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:17:42
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-17-42.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:18:36
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-18-36.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:18:56
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-18-56.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:19:04
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-19-04.png]]
+
+** what's next
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:19:25
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-19-25.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:19:30
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-19-30.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:19:42
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-19-42.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:19:53
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-19-53.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:20:07
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-20-07.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:20:19
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-20-19.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:20:31
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-20-31.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:20:44
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-20-44.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:20:57
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-20-57.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:05
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-05.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:12
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-12.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:19
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-19.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:26
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-26.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:40
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-40.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:46
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-46.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:52
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-52.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:22:00
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-22-00.png]]
+
+** How to organize data to enable Large-scale counting
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:22:32
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-22-32.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:23:10
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-23-10.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:22:57
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-22-57.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:23:25
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-23-25.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:23:34
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-23-34.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:23:48
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-23-48.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:23:55
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-23-55.png]]
+
+** Sorting out of memory with pipes
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:24:20
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-24-20.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:24:31
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-24-31.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:24:41
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-24-41.png]]
+
+** The stream-and-sort desing pattern for naive bayes
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:25:12
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-25-12.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:25:20
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-25-20.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:25:29
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-25-29.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:25:35
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-25-35.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:25:42
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-25-42.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:25:50
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-25-50.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:25:58
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-25-58.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:26:07
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-26-07.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:26:14
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-26-14.png]]
+
+** Stream-and-sort + Local Partial counting
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:26:41
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-26-41.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:26:48
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-26-48.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:26:56
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-26-56.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:27:08
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-27-08.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:27:15
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-27-15.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:27:23
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-27-23.png]]
+
+** More Stream-and-sort examples
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:27:47
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-27-47.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:29:34
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-29-34.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:29:40
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-29-40.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:29:47
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-29-47.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:29:53
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-29-53.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:30:03
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-30-03.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:30:11
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-30-11.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:30:18
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-30-18.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:30:24
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-30-24.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:30:41
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-30-41.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:30:50
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-30-50.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:30:56
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-30-56.png]]
+
+** Looking ahead: parallelizing stream and sort
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:31:36
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-31-36.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:31:43
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-31-43.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:31:50
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-31-50.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:31:58
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-31-58.png]]
+
+** confession: this naive bayes has a problem
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:32:26
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-32-26.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:32:34
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-32-34.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:32:40
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-32-40.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:32:47
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-32-47.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:32:53
+[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-32-53.png]]
