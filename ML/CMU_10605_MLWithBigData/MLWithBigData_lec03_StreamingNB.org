@@ -22,41 +22,144 @@
 [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-19-04.png]]
 
 ** what's next
+   根据：P(x1,x2,x3,...,y')
+   = P(x1,x2,x3,...,xk|y')P(y')
+   = P(x1|y')P(x2|y'),...,P(xk|y')P(y')
+   = C(word = x1; label = y')/C(word = any; label = y')*....*C(y')/C(Y)
+
+   根据 Bayes 转换后的概率公式，我们想要统计的就是
+   [w=xi;l=y'] = ?num
+   这种 <key,value> 的关系，最适合两种数据结构：Hashtable, Database
+   但是这两种数据结构都有很大的弊端，尤其是在面对大量数据的时候。
+
+   >>> 两种结构的弊端：
+   ------------------------------------
+   Hashtable issue: memory is too small
+   Database  issue: seeks are slow
+   ------------------------------------
+*** Hashtable issue: memory is too small
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:19:25
 [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-19-25.png]]
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:19:30
 [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-19-30.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:19:42
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-19-42.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:19:53
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-19-53.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:20:07
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-20-07.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:20:19
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-20-19.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:20:31
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-20-31.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:20:44
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-20-44.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:20:57
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-20-57.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:05
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-05.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:12
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-12.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:19
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-19.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:26
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-26.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:40
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-40.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:46
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-46.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:52
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-52.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:22:00
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-22-00.png]]
 
+**** Vocabulary size = Hashtable size
+     Vocabulary size 就决定了有多少个 [key] (-> [w=xi;l=y'])
+     虽然 Vocabulary size = sqrt(num of corpus words)
+     但当 corpus 的单词足够多时, Vocabulary size 对应的 hashtable 也可以大到
+     _无法被内存容纳_.
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:19:42
+  [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-19-42.png]]
+ 整体上看，Vocabulary size 是数据集 corpus 单词总量的方根。
+
+*** Database  issue: seeks are slow
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:19:53
+ [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-19-53.png]]
+
+ Problem when using database:
+ 1. 数据太大无法 cache 进内存
+    when you're using a database and you're accessing the value of the count eg you
+    want to increment it, then what you're basically doing is _a random access_.
+
+    Now if you have a _small_ dataset and a good database implementation, there'll be
+    _a lot of caching_ that's means a lot of the _database_ will be moved into
+    _memory_, you're not going to go out to disk very often so the performance will
+    seem to be OK.
+
+    But if you have a _large_ enough database then even if those _seeks_ are
+    infrequent even if then only happen 10% or 1% or even 1 time out of a thousand,
+    then they'll kill you because you know in the midst of all your carefully
+    optimized code which is just moving electrons around in computer memory.
+
+    There's actually going to be _once in a while_ you're going to have to take
+    thing that looks like a needle nose plier in hard disk there and move it from
+    place to place in actual _physical space_.
+
+2. 硬盘碎片，让访问硬盘越来越慢
+   而且随着时间推移，随着硬盘碎片的增多，大文件存储的分散，访问时间会越来越长。
+
+   存储一个超大文件，硬盘上也许没有连续的空间可以容纳下这么大的文件，所以硬盘会把
+   文件拆开存储到不同的扇区不同的区块中，他们都是不连续的，这时候再去访问硬盘，物
+   理磁头需要来回移动无数次。
+
+
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:20:07
+ [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-20-07.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:20:19
+ [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-20-19.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:20:31
+ [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-20-31.png]]
+ 随着时间推移，硬盘会有很多碎片，这时候存储一个超大文件，硬盘上也许没有连续的空间可以
+ 容纳下这么大的文件，所以硬盘会把文件拆开存储到不同的扇区不同的区块中，他们都是不连续
+ 的，这时候再去访问硬盘，物理磁头需要来回移动无数次。速度更慢。
+
+*** 改进方法：Memory-based distributed database
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:20:44
+  [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-20-44.png]]
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:20:57
+  [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-20-57.png]]
+
+**** 1 hash 1 machine to many hash many machine
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:05
+  [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-05.png]]
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:12
+  [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-12.png]]
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:19
+  [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-19.png]]
+
+**** Communication Complexity
+     Time Complexity
+     Space Complexity
+     Communication Complexity
+
+
+     >>> Communication Complexity
+     ------------------------------
+      - money
+      - request to right machine
+      - request across network
+     ------------------------------
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:26
+  [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-26.png]]
+
+**** Problem with request across network
+    Getting stuff off the network is about
+    as terrible as getting it off disk
+
+    用网络和用硬盘的传输效率是一样的差劲：
+    net.time = 40 ram.time; disk.time = 120 ram.time
+
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:40
+  [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-40.png]]
+
+**** 'How big' vs 'How local'
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:46
+   [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-46.png]]
+
+*** 其他改进方法：哈希表压缩，时间换空间
+    Distribution is good, but it can not solve everything,
+    it cost _Communication Complexity_
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:52
+   [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-52.png]]
+   这里重点讨论【时间如何换空间】，后面的课会讨论【哈希表压缩】
+
+   Supposing the memory is like twice to small, so the data would half
+   fits in memory, but not all of the data.
+
+   Then what can I do, is there some trick I could do?
+   方法： _把哈希表分成能 fit in memory 的小块_
+
+**** large-vocabulary counting
+     这是一个【普适性】的统计算法，不仅仅适用 Bayes.
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:22:00
+   [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-22-00.png]]
+   what I basically going to do is I will take the data and randomly split it
+   into two parts and I'll store all the counts for the first part
+   then, going to go over and store all the counts for the second part.
+
+   Next, construct a hash function(not a hashtable)
+   这个 hash-fn 的作用是把事件 event 转换成一个数字，而这个数字仅仅代表了 _这个数据属于哪一波_ 的，总共
+   K 波数据。
 ** How to organize data to enable Large-scale counting
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:22:32
 [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-22-32.png]]

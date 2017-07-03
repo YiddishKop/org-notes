@@ -7502,6 +7502,9 @@ https://www.youtube.com/watch?v=e08kOj2kISU
 **** MESSY how to activate a virtual env in anaconda
      ~source activate <env_name>~
 
+**** MESSY 入党信息
+     1. 姓名：袁龙     2. 性别：男    3;
+
 * 数据挖掘：理论与算法
 **** introduction
      在数据科学，DRIP 是什么的缩写（不含标点符号）data rich information poor
