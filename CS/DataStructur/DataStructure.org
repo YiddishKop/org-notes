@@ -8,7 +8,7 @@
 ** a python script to download lec-note automatically
 :LOG:
 开始设置自动执行，但貌似由于某些网页不遵循排序（找不到）会引发程序终止，
-后改为录制宏，手动更改每次i的值，以此观测并及时修正网页地址
+后改为录制宏，手动更改每次 i 的值，以此观测并及时修正网页地址
 :END:
 
 #+NAME: geturl
@@ -185,13 +185,13 @@ the rotations.  Let's watch the size fields as we insert a new node X into a
 splay tree.  (The following numbers are sizes, _not_ keys.)
 
 1. 先看
-   1. 首先记录自己是父亲的左or右孩子，eg l
-   2. 再看父亲是祖父的左or右孩子,    eg r
+   1. 首先记录自己是父亲的左 or 右孩子，eg l
+   2. 再看父亲是祖父的左 or 右孩子,    eg r
 2. 看完，按照 l r 找对应操作： 对应 zag zig, 对应 右转 左传
 3. 开始转
-   1. 先从以自己的父亲为跟节点的子树开始转，按照 zag zig 顺序，这里是zag右转;
-   2. 再按照自己的祖父为根节点的子树开始转，按照 zag zig 顺序，这里是zig左转;
-4. 自己来到新的位置,有了新的父亲和祖父，从1开始重复
+   1. 先从以自己的父亲为跟节点的子树开始转，按照 zag zig 顺序，这里是 zag 右转;
+   2. 再按照自己的祖父为根节点的子树开始转，按照 zag zig 顺序，这里是 zig 左转;
+4. 自己来到新的位置,有了新的父亲和祖父，从 1 开始重复
 
 Note that the very first rotation is at the grandparent of node X (zig-zig).
 
@@ -437,19 +437,19 @@ RANDOMIZED ANALYSIS
 ===================
 Randomized analysis， 要求的是广度;
 Amortized  analysis， 要求的是深度;
-广度的意思是说，我希望样本的分布更均匀，像quicksort(pivot)，hashtable(hashcode)，有依赖随机的属性。这个属性会影响算法结果。
+广度的意思是说，我希望样本的分布更均匀，像 quicksort(pivot)，hashtable(hashcode)，有依赖随机的属性。这个属性会影响算法结果。
 深度的意思是说，我的结果依赖于我之前执行的次数，执行的越多越好，有点像循环进化的意思，比如 disjoint set(path compression), splaytree
 
 
 *** Principle of randomized analysis
 randomized analysis is also proving the average running time of an algorithm.
 
-quickSort 最差复杂度是O(n^2),但是如果你运行quickSort again and agian and again...
+quickSort 最差复杂度是 O(n^2),但是如果你运行 quickSort again and agian and again...
 it will get the average running time O(nlogn),which is the best result in
 comparison-based(2-way desicion) algorithms.
 
-需要注意的是，这里的原理跟以hashtable,splayTree,disjointSet为代表的演进派数据结
-构（amortized analysis）不同这里不是因为一直优化一直balance the tree 而获得的时
+需要注意的是，这里的原理跟以 hashtable,splayTree,disjointSet 为代表的演进派数据结
+构（amortized analysis）不同这里不是因为一直优化一直 balance the tree 而获得的时
 间复杂度的减少，而是通过一直投硬币一直投硬币...来获得一个稳定的概率分布。
 *** what is a randomized algorithms
 _Randomized_algorithms_ are algorithms that make decisions based on rolls of
@@ -515,12 +515,12 @@ Expectation 实际就是一种 average，一种概率分布下的平均。
  *expected costs of all the operations.*
  
 *** use Randomized analysis in HashTables
-    用在hashtable，处理的核心估计问题是：
-      处理collision，当一个bucket中存有多个item时
-      hashtable的api()的 average running time.
+    用在 hashtable，处理的核心估计问题是：
+      处理 collision，当一个 bucket 中存有多个 item 时
+      hashtable 的 api()的 average running time.
     用到的基本模型是：
-      n个弹珠（key）放进N个袋子（bucket）中，平均起来看（Expectation）
-      会有多少个弹珠出现在袋子b中
+      n 个弹珠（key）放进 N 个袋子（bucket）中，平均起来看（Expectation）
+      会有多少个弹珠出现在袋子 b 中
  -----------
 #+BEGIN_QUOTE
  when i say a randomly chosen bucket, I do not mean that every time we hash a key
@@ -558,7 +558,7 @@ Expectation 实际就是一种 average，一种概率分布下的平均。
  Assume our hash table uses chaining and does not allow duplicate keys.
  If an entry is inserted whose key matches an existing entry, the old entry is
  replaced.
-**** analyze find(), n个弹珠（keys）放在N个袋子（buckets）中
+**** analyze find(), n 个弹珠（keys）放在 N 个袋子（buckets）中
  Suppose we perform the operation find(k), and the key k hashes to a bucket b.
  Bucket b contains at most one entry with key k, so the cost of the search is
  one dollar, plus an additional dollar for every entry stored in bucket b whose
@@ -587,9 +587,9 @@ Expectation 实际就是一种 average，一种概率分布下的平均。
 
    E[T] = 1 + n/N,
 
- 到这里，看到一些概率论里的影子了，其实这里就是 n个key，往N个桶里随即分配的问题。只不过加了
- 一些限制，比如n不能超过N太多（collision太多），比如N不能超n太多（内存空间浪费太多）。
- 对于每一个key来说，从N个桶中选一个，都是1/N的概率。
+ 到这里，看到一些概率论里的影子了，其实这里就是 n 个 key，往 N 个桶里随即分配的问题。只不过加了
+ 一些限制，比如 n 不能超过 N 太多（collision 太多），比如 N 不能超 n 太多（内存空间浪费太多）。
+ 对于每一个 key 来说，从 N 个桶中选一个，都是 1/N 的概率。
 
 ***** Load factor occurs
 
@@ -614,12 +614,12 @@ Expectation 实际就是一种 average，一种概率分布下的平均。
 
 *** use Randomized analysis in Quicksort
     [TODO]
-    用在hashtable，处理的核心估计问题是：
-      处理collision，当一个bucket中存有多个item时
-      hashtable的api()的 average running time.
+    用在 hashtable，处理的核心估计问题是：
+      处理 collision，当一个 bucket 中存有多个 item 时
+      hashtable 的 api()的 average running time.
     用到的基本模型是：
-      n个弹珠（key）放进N个袋子（bucket）中，平均起来看（Expectation）
-      会有多少个弹珠出现在袋子b中
+      n 个弹珠（key）放进 N 个袋子（bucket）中，平均起来看（Expectation）
+      会有多少个弹珠出现在袋子 b 中
 
 ---------
 #+NAME: difference between mergeSort and quickSort
@@ -642,7 +642,7 @@ Expectation 实际就是一种 average，一种概率分布下的平均。
                                                           +-+ +--+
 #+END_SRC
 mergeSort 和 quickSort 看起来一样，其实大相径庭，简直就是相反的：
-mergeSort 重合不重分，合完了排序才算完; 时间主要用在合上; 每一层都需要合并 n 个数值，合并每层都耗时相似O(n)
+mergeSort 重合不重分，合完了排序才算完; 时间主要用在合上; 每一层都需要合并 n 个数值，合并每层都耗时相似 O(n)
 quickSort 重分不重合，分完了排序就完了; 时间主要用在分上; [[(level deeper, sort less, cost less)][越往深层走，这层需要排序(分割)的数列越少，这层的耗时越少]]
 
 Recall that mergesort sorts n items in O(n log n) time because the recursion
@@ -657,20 +657,20 @@ To analyze quicksort, let's analyze the EXPECTED depth the input key k will
 reach in the tree.  (In effect, we're measuring a _vertical slice_ of the
 recursion tree instead of a horizontal slice.)  Assume no two keys are equal,
 since that is the slowest case.
-这里的意思是说，我没法向分析mergeSort那样按水平切片去分析，取而代之我使用竖直切片去分析quickSort
-我去看每一个元素的会存活(未排序定)的深度(时间复杂度随深度降低)的Expected值，然后把他们加起来求整体Expected值。
+这里的意思是说，我没法向分析 mergeSort 那样按水平切片去分析，取而代之我使用竖直切片去分析 quickSort
+我去看每一个元素的会存活(未排序定)的深度(时间复杂度随深度降低)的 Expected 值，然后把他们加起来求整体 Expected 值。
 
 Quicksort chooses a random pivot.  The pivot is equally likely to be the
 smallest key, the second smallest, the third smallest, ..., or the largest.
 For each case, the probability is 1/n.  Since we want a roughly balanced
-partition, let's say that the least floor(n/4) keys(排定数列中位置最前的1/4)
-and the greatest floor(n/4) keys(排定数列中位置最靠后的1/4) are "bad" pivots,
+partition, let's say that the least floor(n/4) keys(排定数列中位置最前的 1/4)
+and the greatest floor(n/4) keys(排定数列中位置最靠后的 1/4) are "bad" pivots,
 and the other keys are "good" pivots. Since there are at most n/2 bad pivots,
 the probability of choosing a bad pivot is <= 0.5.
-这个意思是说pivot的选择，<<带来两种结果>>，如果选择的pivot很好，正好处在排序完成后的中间位置，那么 key k 有可能处在1/4-3/4
-其中一个partition中，这两个partition的问题空间都比原来的要小不少，good;
-但是如果选择差的pivot，而且他正好处在排序完成后的末尾or开头位置，那么 key k 有可能处在0 - 1
-中的1位置，也就是说，整个问题空间完全没改变。这样他更容易survivor in deep level.耗时也就更多。
+这个意思是说 pivot 的选择，<<带来两种结果>>，如果选择的 pivot 很好，正好处在排序完成后的中间位置，那么 key k 有可能处在 1/4-3/4
+其中一个 partition 中，这两个 partition 的问题空间都比原来的要小不少，good;
+但是如果选择差的 pivot，而且他正好处在排序完成后的末尾 or 开头位置，那么 key k 有可能处在 0 - 1
+中的 1 位置，也就是说，整个问题空间完全没改变。这样他更容易 survivor in deep level.耗时也就更多。
 
 If we choose a good pivot, we'll have a 1/4-3/4 split or better, and our chosen
 key k will go into a subset containing at most three quarters of the keys,
@@ -681,8 +681,8 @@ Let D(n) be a random variable equal to the _deepest depth_ at which key k appear
 when we sort n keys.  D(n) varies from run to run, but we can reason about its
 expected value.  Since we choose a bad key no more than half the time,
 
-由于 D(n) 是 deepest depth, [[带来两种结果]] 每一种都选最差的：1/4 - 3/4 选key k 在3/4中;
-                                                      0  -  1  选key k 在 1 中;
+由于 D(n) 是 deepest depth, [[带来两种结果]] 每一种都选最差的：1/4 - 3/4 选 key k 在 3/4 中;
+                                                      0  -  1  选 key k 在 1 中;
 
   E[D(n)] <= 1 + 0.5 E[D(n)] + 0.5 E[D(3n / 4)].
 
@@ -793,7 +793,7 @@ but you're not required to read or understand it for this class.
 
 Randomized analysis， 要求的是广度;
 Amortized  analysis， 要求的是深度;
-广度的意思是说，我希望样本的分布更均匀，像quicksort(pivot)，hashtable(hashcode)，有依赖随机的属性。这个属性会影响算法结果。
+广度的意思是说，我希望样本的分布更均匀，像 quicksort(pivot)，hashtable(hashcode)，有依赖随机的属性。这个属性会影响算法结果。
 深度的意思是说，我的结果依赖于我之前执行的次数，执行的越多越好，有点像循环进化的意思，比如 disjoint set(path compression), splaytree
 *** AMORTIZED ANALYSIS in hash table api
 ==================
@@ -837,15 +837,15 @@ there are two different ways in which an alogrithm can be better than its worst 
  from N to 2N, taking 2N additional seconds.  This resizing scheme ensures that
  the [[*Performance of Hash Table:][load factor]] n/N is always less than one.
 
- 虽然我们是想考察‘由于插入引起hashtable扩容数组’所引起的时间消耗，但我们不是直接分析这步操作，
+ 虽然我们是想考察‘由于插入引起 hashtable 扩容数组’所引起的时间消耗，但我们不是直接分析这步操作，
  我们要分析 average running time, 所以我们从一个‘空’的数据结构开始，这也是所有 Amortized
- analysis 的前提，假设一切从头开始从‘空’开始一步步生成hashtable。
+ analysis 的前提，假设一切从头开始从‘空’开始一步步生成 hashtable。
 
  Suppose every newly constructed hash table is empty and has just one bucket--
  that is, initially n = 0 and N = 1.  After i insert operations, n = i.  The
  number of buckets N must be a power of two, and we never allow it to be less
  than or equal to n; so N is the smallest power of two > n, which is <= 2n.
- 这里好像是假设，数组扩容一个单位耗费1妙，往数组中写入一个值也耗费1妙。
+ 这里好像是假设，数组扩容一个单位耗费 1 妙，往数组中写入一个值也耗费 1 妙。
 
  The total time in seconds for _all_ the table resizing operations is
 
@@ -869,8 +869,8 @@ there are two different ways in which an alogrithm can be better than its worst 
  really slow operation might cause a noticeable glitch in response time.
  
 ***** Disadvantage of average method
- 虽然 average method 很方便的衡量了insert()操作的平均时间，但 average method没法处理
- 和估计 delete() 的时间，因为你通过insert()增加元素，通过delete()减少元素，两者可以有
+ 虽然 average method 很方便的衡量了 insert()操作的平均时间，但 average method 没法处理
+ 和估计 delete() 的时间，因为你通过 insert()增加元素，通过 delete()减少元素，两者可以有
  无数种组合，没法把他们都加起来然后平均。
 **** The Accounting Method
  ---------------------
@@ -901,12 +901,12 @@ there are two different ways in which an alogrithm can be better than its worst 
    the operation performs.
 
  if amortized cost > actual cost,
-    比如amortize估计每几步操作就会产生resize hashtable，
-    但实际上，代码中并不考虑快满了就resize hashtable的情况。
+    比如 amortize 估计每几步操作就会产生 resize hashtable，
+    但实际上，代码中并不考虑快满了就 resize hashtable 的情况。
     extra dollars saved in an imaginary bank to be spend in later operations
  if actual cost > amortized cost,
-    比如amortize估计没几步操作就会产生resize hashtable,
-    但实际上，代码中每进行一次操作，都会resize hashtable。
+    比如 amortize 估计没几步操作就会产生 resize hashtable,
+    但实际上，代码中每进行一次操作，都会 resize hashtable。
     that means you have to withdraw money from the bank to pay for you overcharge
 
  The amortized cost is usually a fixed function of n (e.g. $5 for insertion into
@@ -954,28 +954,28 @@ there are two different ways in which an alogrithm can be better than its worst 
       insert:  5 dollars
       remove:  5 dollars
       find:    1 dollar
-      为什么find cost很少，因为他永远不会resize hashtable
+      为什么 find cost 很少，因为他永远不会 resize hashtable
 ***** Varify whether our guess is right or wrong
 ****** value of n and N when start accouting
-      下面的事情就是来验证，我们对api()消耗所做出的猜测是否正确
-      假设n 和 N是当hashtable为空或者刚刚resize后的值
-               这里的假设就和 average method 不一样， average method 是假设一切从零开始，hashtable
+      下面的事情就是来验证，我们对 api()消耗所做出的猜测是否正确
+      假设 n 和 N 是当 hashtable 为空或者刚刚 resize 后的值
+               这里的假设就和 average method 不一样，average method 是假设一切从零开始，hashtable
                一开始也是空的，慢慢插入;
-               accounting method 假设是 empty or just resized，空或者刚刚被resize过。
+               accounting method 假设是 empty or just resized，空或者刚刚被 resize 过。
 
       这样假设之后，n 在每一次开始时（empty or just resized）
-      都处在[N/2 - 1, N/2 + 1]之间, 注意这里的N是经过resize之后的hashtable大小。
-               比如，一开始N = 8, n = 8
+      都处在[N/2 - 1, N/2 + 1]之间, 注意这里的 N 是经过 resize 之后的 hashtable 大小。
+               比如，一开始 N = 8, n = 8
                insert(), ==> N = 8*2 = 16, n = 8 + 1 = 9
                          ==> n = 16/2 + 1 = _N/2 + 1_;
-               比如，一开始N = 8, n = 2
+               比如，一开始 N = 8, n = 2
                delete(), ==> N = 8/2 =4,   n = 2 - 1 = 1
                          ==> n = 4/2 -1   = _N/2 - 1_;
 ****** our target
        最重要的是通过这个公式，我们不用知道之前操作的时间消耗([[*Disadvantage of average method][combination of series of operations]])，
-       我们可以直接通过现在的n和N估算出目前银行里存有多少dollars。
+       我们可以直接通过现在的 n 和 N 估算出目前银行里存有多少 dollars。
 
-       只要我们可以估算出，in a long term, 银行里的前不会小于0（实际时间消耗 < 估算时间消耗）,即可。
+       只要我们可以估算出，in a long term, 银行里的前不会小于 0（实际时间消耗 < 估算时间消耗）,即可。
 ****** how to analyse the dollars in bank by insert()
        We charge an amortized $5 for an insert or remove operation.  Every insert or
        remove operation costs one actual dollar (not counting resizing) and puts the
@@ -995,7 +995,7 @@ there are two different ways in which an alogrithm can be better than its worst 
 
        After we resize, the bank balance might be zero again, but it isn't negative.
 
-               比如，一开始N = 9, n = 16
+               比如，一开始 N = 9, n = 16
                    |------------------------------+-------------------+-----+----|----\
                    | insert(), ==> n = 10, N = 16 | actual_cost = 1$  |     |    |    |
                    |                              | amortized   = 5$  |   4 |  4 |    |
@@ -1010,7 +1010,7 @@ there are two different ways in which an alogrithm can be better than its worst 
                    |                              | amortized   = 5$  |   4 | 16 |    |                      |
                    |------------------------------+-------------------+-----+----|    |                      |
                    | insert(), ==> n = 14, N = 16 | actual_cost = 1$  |     |    |    |                      |
-                   |                              | amortized   = 5$  |   4 | 20 |    |                      |> 一轮一轮的看,整体dollars总是>0
+                   |                              | amortized   = 5$  |   4 | 20 |    |                      |> 一轮一轮的看,整体 dollars 总是>0
                    |------------------------------+-------------------+-----+----|    |                      |
                    | insert(), ==> n = 15, N = 16 | actual_cost = 1$  |     |    |    |                      |
                    |                              | amortized   = 5$  |   4 | 24 |    |                      |
@@ -1022,12 +1022,12 @@ there are two different ways in which an alogrithm can be better than its worst 
                    |                              | amortized   = 5$  |     |    |
 
 
-       4|n - N/2| 这里的n是指在 N/2+1 ~ N 之间游走时，会一直[[store dollars]]。
-       当n = N+1 的时候开始 [[withdraw dollars]]
+       4|n - N/2| 这里的 n 是指在 N/2+1 ~ N 之间游走时，会一直[[store dollars]]。
+       当 n = N+1 的时候开始 [[withdraw dollars]]
 
 
-       当n = N+1, 会导致 N-->2N, 这里重新分配一个2N大小的数组，消耗2N dollars时间。
-       但我总体来看，一轮一轮的看，银行里的dollars 不会小于0,所以 amortized 估计总是大于 actual
+       当 n = N+1, 会导致 N-->2N, 这里重新分配一个 2N 大小的数组，消耗 2N dollars 时间。
+       但我总体来看，一轮一轮的看，银行里的 dollars 不会小于 0,所以 amortized 估计总是大于 actual
        所以：
               insert:  5 dollars
               remove:  5 dollars
@@ -1118,8 +1118,8 @@ Today's reading:  Goodrich & Tamassia, Section 10.3.
 ===========
 A splay tree is a type of _balanced binary search tree_.[[*BINARY SEARCH TREES][BINARY SEARCH TREES]] .
 splaytree 并不是一颗一直保持 balanced 的二叉树，而是 in a long term, it will more
-and more balance, 他是在演进（每一步api操作都会演进）的过程中不断把访问过的node调整到
-根节点位置， _这样下次访问该node时，cost O(1)_.
+and more balance, 他是在演进（每一步 api 操作都会演进）的过程中不断把访问过的 node 调整到
+根节点位置， _这样下次访问该 node 时，cost O(1)_.
 
 Structurally, it is identical to an ordinary binary search tree; the only
 difference is in the algorithms for finding, inserting, and deleting entries.
@@ -1129,9 +1129,9 @@ number of entries in the tree.  Any single operation can take Theta(n) time in
 the worst case.  But any sequence of k splay tree operations, with the tree
 initially empty and never exceeding n items, takes O(k log n) worst-case time.
 
-论单个的operation（API里的那几个），splay tree都只有线性时间theta(n), 这并不是很快，
-但是splay tree是一棵岁操作而优化的树，节点被访问的越多越靠近树根，而且每一个api里的operation
-都会做rotation操作，去重新balance这颗树。所以长久来看一系列的操作平均复杂度是 O(log n),n
+论单个的 operation（API 里的那几个），splay tree 都只有线性时间 theta(n), 这并不是很快，
+但是 splay tree 是一棵岁操作而优化的树，节点被访问的越多越靠近树根，而且每一个 api 里的 operation
+都会做 rotation 操作，去重新 balance 这颗树。所以长久来看一系列的操作平均复杂度是 O(log n),n
 是树的节点数量。
 
 Although 2-3-4 trees make a stronger guarantee (_every_ operation on a 2-3-4
@@ -1151,7 +1151,7 @@ many applications.
 
 **** Tree Rotations
 --------------
-rotation是唯一一个可以使树的高度减一的操作。这给树的rebalance带来很好的启发。
+rotation 是唯一一个可以使树的高度减一的操作。这给树的 rebalance 带来很好的启发。
 #+NAME: anotherRotationInterpretation
 #+BEGIN_SRC ditaa
 
@@ -1214,9 +1214,9 @@ keys in C are greater than or equal to Y; and keys in B are >= X and <= Y.
 _Rotations are also used in AVL trees and red-black trees_, which are discussed
 by Goodrich and Tamassia, but are not covered in this course.
 
-树的rotation，如[[tree rotation]]
-X向右rotation，就相当于拎着X，这时候Y自动向下来到右边，右子树太重所以没拎动，来到Y这了。
-X向左rotation，。。。。。。X，。。。Y。。。。。。左边，左。。。。。。。。。，来到Y这了。
+树的 rotation，如[[tree rotation]]
+X 向右 rotation，就相当于拎着 X，这时候 Y 自动向下来到右边，右子树太重所以没拎动，来到 Y 这了。
+X 向左 rotation，。。。。。。X，。。。Y。。。。。。左边，左。。。。。。。。。，来到 Y 这了。
 
 Unlike 2-3-4 trees, splay trees are not kept perfectly balanced, but they tend
 to stay reasonably well-balanced most of the time, thereby averaging O(log n)
@@ -1231,31 +1231,31 @@ running time in special cases).
  | rotation | Parent,Me     | Me,parent     |  me    |
  |          | zi(a)g zi(a)g | zi(a)g za(i)g | zi(a)g |
 
- zi(a)gzi(a)g rule的主要作用就是 balance the tree.
+ zi(a)gzi(a)g rule 的主要作用就是 balance the tree.
  防止遇到，[[unbalanced tree]]
 
 ***** See up two(one) levels: G and P, every time
 1. 先看
-   1. 首先记录自己是父亲的左or右孩子，eg l
-   2. 再看父亲是祖父的左or右孩子,    eg r
+   1. 首先记录自己是父亲的左 or 右孩子，eg l
+   2. 再看父亲是祖父的左 or 右孩子,    eg r
 2. 看完，按照 l r 找对应操作： 对应 zag zig, 对应 右转 左传
 3. 开始转
-   1. 先从以自己的父亲为跟节点的子树开始转，按照 zag zig 顺序，这里是zag右转;
-   2. 再按照自己的祖父为根节点的子树开始转，按照 zag zig 顺序，这里是zig左转;
-4. 自己来到新的位置,有了新的父亲和祖父，从1开始重复
+   1. 先从以自己的父亲为跟节点的子树开始转，按照 zag zig 顺序，这里是 zag 右转;
+   2. 再按照自己的祖父为根节点的子树开始转，按照 zag zig 顺序，这里是 zig 左转;
+4. 自己来到新的位置,有了新的父亲和祖父，从 1 开始重复
 
  采用层层递‘上’的策略：
  每次向前看两代 Grandparent and parent, 确定自己是 lofl(rofr),lofr(rofl),l(r)
  然后，rotation 2 times according to lr. 这样之后自己上升了两层，
- 然后， 再向前看两代，然后在rotation, 又前进两层。。。。
- 当父亲节点就是跟节点root时，就只要rotation一次即可。
+ 然后， 再向前看两代，然后在 rotation, 又前进两层。。。。
+ 当父亲节点就是跟节点 root 时，就只要 rotation 一次即可。
 
    +-------+
    V       |
  检视 ---> 旋转  ===> near root
 
 **** Main api of Splay Tree
-_所有的操作都和BinarySearchTree一样， 不一样的就是每种操作之后都要加上 Splay it to root._
+_所有的操作都和 BinarySearchTree 一样， 不一样的就是每种操作之后都要加上 Splay it to root._
 ***** [1]  Entry find(Object k); [[*%5B1%5D%20Entry%20find(Object%20k);][find() in BST]]
 
 The find() operation in a splay tree begins just like the find() operation in
@@ -1381,10 +1381,10 @@ the node containing 4 is removed, its parent (containing 5) splays to the root.
 
 If the key k is not in the tree, splay the node where the search ended to the
 root, just like in a find() operation.
-对于 remove() 当有一个key没有找到时，你仍需要返回一些东西,为什么呢？
-因为，当你找的时候，也许他位于很深的位置，如果这次找你不做点什么，那么下次你再找同一个key的时候
-他仍然花费这么多时间，所以为了符合splaytree的核心特色（不断优化的树），即便什么都找不到，你仍然
-要做splay，仍然要继续balance这颗树。这时就splay the node last visited(where the search
+对于 remove() 当有一个 key 没有找到时，你仍需要返回一些东西,为什么呢？
+因为，当你找的时候，也许他位于很深的位置，如果这次找你不做点什么，那么下次你再找同一个 key 的时候
+他仍然花费这么多时间，所以为了符合 splaytree 的核心特色（不断优化的树），即便什么都找不到，你仍然
+要做 splay，仍然要继续 balance 这颗树。这时就 splay the node last visited(where the search
 ended) to the root
 
 
@@ -1454,25 +1454,25 @@ expect.
 
 ** AVL TREE
    AVL tree is a height-balanced BST
-   1. 找到avl-tree深度的上界，并且不断sharp上界
+   1. 找到 avl-tree 深度的上界，并且不断 sharp 上界
       1. 开始用递归估算法，然后用给假设演绎证明法
-   2. 找出avl-tree的三个structure features
-   3. 通过3个features找到与深度有关的更多features
+   2. 找出 avl-tree 的三个 structure features
+   3. 通过 3 个 features 找到与深度有关的更多 features
    4. insert(),need v,x,y,z(1st unbalanced when find from inserted node:v, y is z's child, x is y's child, in this line) rotation,
       1. 要求是 middle key endedup being at thetop
       2. ll or rr -> rotate once; rotate(y,z)
       3. lr or rl -> rotate twice; rotate(x,y), rotate(x,z)
-      4. 所有的rotate操作都只需要constant time，O(1),因为只需要改变几个链接就行，有大量的保持不变
-   5. delete(),很麻烦，-1的效果有可能一直上传，而不仅仅是xyz三者，所以
-      找到z（fist unbalance node）,rotate to balance this subtree, then if this balance tree's height -1, then go up to next unbalance
+      4. 所有的 rotate 操作都只需要 constant time，O(1),因为只需要改变几个链接就行，有大量的保持不变
+   5. delete(),很麻烦，-1 的效果有可能一直上传，而不仅仅是 xyz 三者，所以
+      找到 z（fist unbalance node）,rotate to balance this subtree, then if this balance tree's height -1, then go up to next unbalance
       node, which influenced by the rebalanced tree whose height reduce 1.
 
 ** Red-Black Tree
    what we want is using R&B tree as BST, but not losing its red and black property
-   R&B-tree 如何保持平衡的呢，如果他只衡量黑node的个数作为高度？
+   R&B-tree 如何保持平衡的呢，如果他只衡量黑 node 的个数作为高度？
    最高（所有点都算）是 2*|黑点| 最矮的情况是 1*|黑点|
    保证通往某个点的每一条路线上经过的黑点数量一致
-   所以rotate 或 recolor 之后，仍需要保证两点：所有的父辈的路线高度原来是多少，处理之后还是多少。
+   所以 rotate 或 recolor 之后，仍需要保证两点：所有的父辈的路线高度原来是多少，处理之后还是多少。
    Red-Black tree is a kind of BST
    case (1),just throw problem up 2 levels, (2)(3) really solver the problem.
    so case(1) will throw problem to his grandpa, grandpa go on checking and
@@ -1503,7 +1503,7 @@ Counting Sort 更适合 Array 相比 LinkedList
 **** Item without value
 If the items we sort are naked keys, with _no associated values_, bucket sort
 can be simplified to become _counting_sort_.
-这句是否意味着 CountingSort 也遵循 [[*Bucket Sort][Bucket Sort]] 对待排数列的要求：Q个Bucket，排序1～Q数字
+这句是否意味着 CountingSort 也遵循 [[*Bucket Sort][Bucket Sort]] 对待排数列的要求：Q 个 Bucket，排序 1～Q 数字
 
 In counting sort, we use no queues at all;
 we need merely _keep a count of how many copies of each key_ we have encountered.
@@ -1546,13 +1546,13 @@ Begin by counting the keys in x.
 #+END_SRC
 
 **** Scan of counts array
-对于只有key的情况： 直接从 数列 ---------> counts array
+对于只有 key 的情况： 直接从 数列 ---------> counts array
                             num:index
 
-                                                                        ________scan累计获取位置
+                                                                        ________scan 累计获取位置
                                                                         V       |
 对于(key,value):        数列 ---------> input array,x ----------> counts array -----------> output array,y
-                            按顺序挂到                 提供index              (i,c[i])=(key,value)
+                            按顺序挂到                 提供 index              (i,c[i])=(key,value)
 
 
 Next, do a _scan_ of the "counts" array so that counts[i] contains the number
@@ -1592,8 +1592,8 @@ next item with key k goes into the next slot.
 #+NAME: scan2y
 #+BEGIN_SRC java
   for (i = 0; i < x.length; i++) {
-    y[counts[x[i].key]] = x[i];    // x[i]存放的是ref2item
-    counts[x[i].key]++;            // 通过x[i]检索counts，
+    y[counts[x[i].key]] = x[i];    // x[i]存放的是 ref2item
+    counts[x[i].key]++;            // 通过 x[i]检索 counts，
   }
 #+END_SRC
 
@@ -1643,22 +1643,22 @@ next item with key k goes into the next slot.
 
 **** 整体来看
  input ->按顺序挂在数组上-> array:x
-                               ->x[i].key作为index;key出现次数作为内容-> array:counts
-                                                                                 ->从后往前sum-> scan:counts ->
- 当scan：counts形成之后，x[i]问，我应该在哪，那我就去counts查一下就找到自己的位置了。
+                               ->x[i].key 作为 index;key 出现次数作为内容-> array:counts
+                                                                                 ->从后往前 sum-> scan:counts ->
+ 当 scan：counts 形成之后，x[i]问，我应该在哪，那我就去 counts 查一下就找到自己的位置了。
 
  i = 0 -> len(x):
-   j = x[i].key; // x中存的是 counts的index
-   h = counts[j];// counts中存的是 y的index
-   y[h] = x[i];  // y中存的是 排序后的x
-   counts[j]++;  // counts被访问一次就自动加1,因为counts存的是y的index，所以下一次访问应该自动往后排
+   j = x[i].key; // x 中存的是 counts 的 index
+   h = counts[j];// counts 中存的是 y 的 index
+   y[h] = x[i];  // y 中存的是 排序后的 x
+   counts[j]++;  // counts 被访问一次就自动加 1,因为 counts 存的是 y 的 index，所以下一次访问应该自动往后排
 **** BucketSort and CountingSort
 
- q: maximum key of items; 对应bucket(or queue)
+ q: maximum key of items; 对应 bucket(or queue)
  n: number of items
 
- [[*Bucket Sort][Bucket Sort]] or [[*Counting Sort][Counting Sort]] 对于键值key的最大值or范围有很苛刻的要求。
- [[*Bucket Sort][Bucket Sort]] or [[*Counting Sort][Counting Sort]] 更适合处理 items的key的分布范围和items数量保持一致的数列。
+ [[*Bucket Sort][Bucket Sort]] or [[*Counting Sort][Counting Sort]] 对于键值 key 的最大值 or 范围有很苛刻的要求。
+ [[*Bucket Sort][Bucket Sort]] or [[*Counting Sort][Counting Sort]] 更适合处理 items 的 key 的分布范围和 items 数量保持一致的数列。
  比如，min(item.key) = 1; max(item.key)=100; ====> q = 100
       number(item) = 100;                   ====> n = 100
       q = O(n) BucketSort or [[*Counting Sort][Counting Sort]]
@@ -1666,8 +1666,8 @@ next item with key k goes into the next slot.
       number(item) = 100;                         ====> n = 100
       q >> n +BucketSort or [[*Counting Sort][Counting Sort]]+ [[*Radix Sort][Radix Sort]]
 
- BucketSort 的核心是 item with key I goes into queue(key) I;    如果key值过大，queue要有多少个？
- CountingSort 的核心是 借助以key值为index的数组counts进行排序; 如果key值过大，那counts数组要申请很大。
+ BucketSort 的核心是 item with key I goes into queue(key) I;    如果 key 值过大，queue 要有多少个？
+ CountingSort 的核心是 借助以 key 值为 index 的数组 counts 进行排序; 如果 key 值过大，那 counts 数组要申请很大。
  RadixSort 的核心是 进行 ceiling(b/ log_2 q) 轮 BucketSort or CountingSort
 
 **** Running Time of CountingSort
@@ -1712,7 +1712,7 @@ as if its key is the first digit of its true key.
      |  59|               |3693|                      |7104|        |9993|
      |2178|               |7834|                      |2114|        |3949|
      ------               ------                      ------        ------
-不满8位数的，首位按 0 算
+不满 8 位数的，首位按 0 算
 
 Once we've dealt all 1,000 items into ten queues, we could sort each queue
 recursively on the second digit; then sort the resulting queues on the third
@@ -1729,9 +1729,9 @@ Hence, once we've sorted on the last digit, the numbers 55,555,552 and
 55,555,558 will remain ever after in sorted order, because their other digits
 will be sorted [[*What is a Stable Sort][stably]].  Consider an example with three-digit numbers:
 
-stable的意思是如果key相同，两个数输入时的顺序和排序完输出时的顺序保持一致;
-因为这里是一轮一轮进行的，所以上一轮的输出就是下一轮的输入，某一轮对末尾digit进行排序，
-把55,555,552排在55,555,558 之前，之后由于两个数字全部一样，那么两个数字顺序保持不变。
+stable 的意思是如果 key 相同，两个数输入时的顺序和排序完输出时的顺序保持一致;
+因为这里是一轮一轮进行的，所以上一轮的输出就是下一轮的输入，某一轮对末尾 digit 进行排序，
+把 55,555,552 排在 55,555,558 之前，之后由于两个数字全部一样，那么两个数字顺序保持不变。
 
 这一点非常重要，由于下一轮不会打破上一轮的排序，所以才允许层层进行排序。
 
@@ -1744,8 +1744,8 @@ last two digits.  After we sort on the most significant digit, the numbers are
 completely sorted.
 
 **** Sorting two *DIGITS* at a time
-当我们每次只排一位，一轮轮的排序，每一轮都是0～9,共10个bucket(queue), radix=10;
-当。。。。。。二位，。。。。。。，每一轮都是0～99,共100个bucket(queue), radix=100;
+当我们每次只排一位，一轮轮的排序，每一轮都是 0～9,共 10 个 bucket(queue), radix=10;
+当。。。。。。二位，。。。。。。，每一轮都是 0～99,共 100 个 bucket(queue), radix=100;
 所以，q, key，bucket，queue, radix 这四个概念是相关的。甚至可以说是一样的。
 
 Returning to our [[99,999,999][eight-digit]] example, we can do better than sorting on one
@@ -1765,13 +1765,13 @@ the digit we use as a sort key during one pass of bucket or counting sort.
 ***** How many passes must we perform?
 
       Each pass inspects _(log_2 q)_ bits of each key.
-      10进制：这个很好理解，如果是每次比较1位，那么需要0～9  共 10个bucket，(log_10 10)=1
-       2进制：。。。。。。，。。。。。。。1位，。。。。0～1  共  2个bucket，(log_2   2)=1
-             。。。。。。，。。。。。。。8位，。。。。0～255共256个bucket，(log_2 256)=8
+      10 进制：这个很好理解，如果是每次比较 1 位，那么需要 0～9  共 10 个 bucket，(log_10 10)=1
+       2 进制：。。。。。。，。。。。。。。1 位，。。。。0～1  共  2 个 bucket，(log_2   2)=1
+             。。。。。。，。。。。。。。8 位，。。。。0～255 共 256 个 bucket，(log_2 256)=8
 
       If all the keys can be represented in b bits,
-      以64bit系统为例，每一轮(each pass)搞定8 bits，那么共需要8轮来排定一个64bit数字。
-      而64bit数字可以表示正整数的范围是：0~9,223,372,036,854,775,807
+      以 64bit 系统为例，每一轮(each pass)搞定 8 bits，那么共需要 8 轮来排定一个 64bit 数字。
+      而 64bit 数字可以表示正整数的范围是：0~9,223,372,036,854,775,807
       这里，b=64, q=256, ceiling(b / log_2 q) = ceiling(64 / log_2 256) = 8
 
       the number of passes is _ceiling(b / log2 q)_.
@@ -1781,11 +1781,11 @@ the digit we use as a sort key during one pass of bucket or counting sort.
       |                      log  q
       |                         2
 
-      因为 RadixSort 相当于进行多轮 BucketSort or CountingSort，共ceiling(b / log_2 q),
+      因为 RadixSort 相当于进行多轮 BucketSort or CountingSort，共 ceiling(b / log_2 q),
       而每一轮都都耗时(Running time of [[*Running time of BucketSort][B]] and [[*Running Time of CountingSort][C]]) O(q+n):
-      - q: 需要初始化q个queue;
-      - n: 需要把n个items放在相应的queue上;
-      所以结果是： O(n+q)*ceiling(b/log_2 q)
+      - q: 需要初始化 q 个 queue;
+      - n: 需要把 n 个 items 放在相应的 queue 上;
+      所以结果是：O(n+q)*ceiling(b/log_2 q)
 
 ***** How should we choose the number of queues q?
 
@@ -1824,7 +1824,7 @@ the digit we use as a sort key during one pass of bucket or counting sort.
          |    O((n+sqrt(n)) *     (b/log2 sqrt(n)))
          |  = O((n+sqrt(n)) * 2 * (b/log2 n))
 
-         这样需要进行的轮数仅仅是翻倍，但使用的queue却指数级减少，占用memory显著减少
+         这样需要进行的轮数仅仅是翻倍，但使用的 queue 却指数级减少，占用 memory 显著减少
          With this choice, the number of buckets is far smaller, but we only
          double the number of passes.make q equal to n rounded down to the next
          power of two.
@@ -1884,14 +1884,14 @@ One example is finding the median of a set of keys.  In an array of n items,
 we are looking for the item whose index is j = floor(n / 2) in the sorted list.
 
 *** Quickselect
-这里如果不用quickselect，如果我用heapsort去做会如何？
-1. heapsort可以很快的取出最大最小值，so
+这里如果不用 quickselect，如果我用 heapsort 去做会如何？
+1. heapsort 可以很快的取出最大最小值，so
 2. 如果要求 kth largest item from n elements
-3. 先初始化一个heap, 耗时 n
+3. 先初始化一个 heap, 耗时 n
 4. 然后取第一个最大值，rebalance heap 耗时 logn
 5. 执行上一步 k 次
 6. 总计 n + klogn
-[扩展] 其实这里可以把最后复杂度变成： n + klogk
+[扩展] 其实这里可以把最后复杂度变成：n + klogk
 The idea here is that somehow you're going to do this method so that your heap
 instead of modifying a heap that has all the elements in it. You're modifying
 a heap that has at most K elements in it, where k is biggest that you're looking
@@ -1899,7 +1899,7 @@ for.
 
 
 
-如果采用quicksort，先排序呢？
+如果采用 quicksort，先排序呢？
 毫无疑问，更差一些，排序的时间是 nlogn
 
 
@@ -2030,8 +2030,8 @@ In other words, when q is in O(n).
 q: maximum key of items;
 n: number of items
 
-BucketSort or [[*Counting Sort][Counting Sort]] 对于键值key的最大值or范围有很苛刻的要求。
-BucketSort or [[*Counting Sort][Counting Sort]] 更适合处理 items的key的分布范围和items数量保持一致的数列。
+BucketSort or [[*Counting Sort][Counting Sort]] 对于键值 key 的最大值 or 范围有很苛刻的要求。
+BucketSort or [[*Counting Sort][Counting Sort]] 更适合处理 items 的 key 的分布范围和 items 数量保持一致的数列。
 比如，min(item.key) = 1; max(item.key)=100; ====> q = 100
      number(item) = 100;                   ====> n = 100
      q = O(n) BucketSort or [[*Counting Sort][Counting Sort]]
@@ -2272,7 +2272,7 @@ from an item to the root of its tree.  For example, find(Empire Air) will
 follow the path of references until it reaches US Air.  The cost of this
 operation is proportional to the item's depth in the tree.
 
-因为一直是把小的树，往更大的树上嫁接，所以三层最少也需要8个nodes。
+因为一直是把小的树，往更大的树上嫁接，所以三层最少也需要 8 个 nodes。
 
 **** 2 ways to speed up find()
 we'll consider two optimizations that make finds faster.
@@ -2341,14 +2341,14 @@ we'll consider two optimizations that make finds faster.
   start this([[(union(int root1, int root2))][union]]) by _doing a find on each of these two nodes_ finding the roots
   of the two trees and then doing the union.
 
-  注意这个union和find操作对解决之前的 [[minimum spanning tree]] ,一个weighted图的最小生成树问题:
+  注意这个 union 和 find 操作对解决之前的 [[minimum spanning tree]] ,一个 weighted 图的最小生成树问题:
   minimum spanning tree:
-  1. 遍历E，不断从 E 中选择weighted最小的线段(v,w)
-  2. 如果v，w联通(可以通过判断两者各自所属set是否是一个set，find函数，比如list-based disjoint data structue,每个node
-     都存了自己的root-node索引，就可以直接find v和w 的 root-node看是否相同，不同则说明两者不是一个set，也就不联通)
-     则忽略，如果不联通，则union(set(v),set(w))(这个操作在 list-based disjoint 上就是把数目更小的set的每个node的
-     root-node索引设置成数目更多的set的root-node即可),然后将 v-w 存入结果中（结果应该是 v-w, g-h, h-w, v-z...）这个样子。
-  3. 一旦某个set包含了所有node（这在 list-based disjoint 表现为所有node的root-node 的reference都一样）就可以停止遍历E了。
+  1. 遍历 E，不断从 E 中选择 weighted 最小的线段(v,w)
+  2. 如果 v，w 联通(可以通过判断两者各自所属 set 是否是一个 set，find 函数，比如 list-based disjoint data structue,每个 node
+     都存了自己的 root-node 索引，就可以直接 find v 和 w 的 root-node 看是否相同，不同则说明两者不是一个 set，也就不联通)
+     则忽略，如果不联通，则 union(set(v),set(w))(这个操作在 list-based disjoint 上就是把数目更小的 set 的每个 node 的
+     root-node 索引设置成数目更多的 set 的 root-node 即可),然后将 v-w 存入结果中（结果应该是 v-w, g-h, h-w, v-z...）这个样子。
+  3. 一旦某个 set 包含了所有 node（这在 list-based disjoint 表现为所有 node 的 root-node 的 reference 都一样）就可以停止遍历 E 了。
 
   回忆 graph 问题的两种 traversal 方法：
   1. DFS： 可以用 recurvise 方式实现，
@@ -2426,8 +2426,8 @@ we'll consider two optimizations that make finds faster.
  The solution is to maintain _an additional array_ that maps root items to set
  names (and perhaps vice versa, depending on the application's needs). For
  instance, the array "name" might map 0(where US Air stored) to Microsoft.
- 这个意思大概是维护另一个数组--name[]，数组下标与root节点的在另一数组的下标相同，但存储的
- 是该set的名字，比如这里的microsoft：
+ 这个意思大概是维护另一个数组--name[]，数组下标与 root 节点的在另一数组的下标相同，但存储的
+ 是该 set 的名字，比如这里的 microsoft：
  _______________________________
  | US Air | xxxx | xxxx | xxxx |
  -------------------------------
@@ -2456,16 +2456,16 @@ we'll consider two optimizations that make finds faster.
    prior to the find.
    The only way to increase the height of the tree by one is to at least double
    its size from the minimum possible size.
-   就像之前如果find()一个叶子节点，需要从叶子->父节点->...->root。所以这又是一个树的深度
-   问题，所以树的深度就是O(log(n))
+   就像之前如果 find()一个叶子节点，需要从叶子->父节点->...->root。所以这又是一个树的深度
+   问题，所以树的深度就是 O(log(n))
 
  - Average running time of find() by path compression: _Constant_
    Path compression does not improve this worst-case time, but
    it improves the _average_ running time substantially--although a find operation
    can take Theta(log u) time, path compression will make that operation fast if
    you do it again.  The average running time of find and union operations in the
-   quick-union data structure(注意，对于disajoint数据结构：quick-union就是指tree-based,
-   quick-find 就是list-based) is so close to a constant that it's hardly worth
+   quick-union data structure(注意，对于 disajoint 数据结构：quick-union 就是指 tree-based,
+   quick-find 就是 list-based) is so close to a constant that it's hardly worth
    mentioning that, in a rigorous asymptotic sense, it's slightly slower.
 
  - quick-Union Total: theta(u+f*alpha(f+u,u)), _constant_ approximately
@@ -2500,7 +2500,7 @@ Given an unsorted list I of items, quicksort chooses a "pivot" item v from I,
 then puts each item of I into one of two unsorted lists, depending on whether
 its key is less or greater than v's key.  (Items whose keys are equal to v's
 key can go into either list; we'll discuss this issue later.)
-教授说，pivot的选择太复杂，不在这里讨论
+教授说，pivot 的选择太复杂，不在这里讨论
 
 *** Algorithm of quick sort
 a little likely to [[*Divide and conquer and Recursive][merge sort]]
@@ -2546,22 +2546,22 @@ the lists), but it is trickier to analyze because the recursion tree is not
 perfectly balanced, and _some keys survive to deeper levels than others._
 
 mergeSort 和 quickSort 看起来一样，其实大相径庭，简直就是相反的：
-mergeSort 重合不重分，合完了排序才算完; 时间主要用在合上; 每一层都需要合并 n 个数值，合并每层都耗时相似O(n)
+mergeSort 重合不重分，合完了排序才算完; 时间主要用在合上; 每一层都需要合并 n 个数值，合并每层都耗时相似 O(n)
 quickSort 重分不重合，分完了排序就完了; 时间主要用在分上; [[(level deeper, sort less, cost less)][越往深层走，这层需要排序(分割)的数列越少，这层的耗时越少]]
 
 1. Divide:
    - mergeSort 从中间位置一分为二
-   - quickSort 选择一个pivot，分成 {>pivot} {<pivot} 两部分
-   - quickSort 的pivot的选择策略很重要（已排序数组选第一个作为pivot => O(n^2)）
+   - quickSort 选择一个 pivot，分成 {>pivot} {<pivot} 两部分
+   - quickSort 的 pivot 的选择策略很重要（已排序数组选第一个作为 pivot => O(n^2)）
 2. Conquer:
-   - mergeSort 重merge，轻divide
-   - quickSort 重divide，轻merge
-   - quickSort 似乎divide完就算排列完毕了
+   - mergeSort 重 merge，轻 divide
+   - quickSort 重 divide，轻 merge
+   - quickSort 似乎 divide 完就算排列完毕了
 3. array vs linkedList
    - mergeSort 适合 linkedList
    - quickSort 适合 array
 4. In-place:
-   - mergeSort 要使用额外的 O(n) 空间，又不适合array实现，所以无法做到 in-place sort
+   - mergeSort 要使用额外的 O(n) 空间，又不适合 array 实现，所以无法做到 in-place sort
    - quickSort 可以很好的适应 in-place sort,但是代码很 tricky。
 
 *** Running time
@@ -2633,8 +2633,8 @@ same key, then _every_ item will go into list I1,   ----------------------- ---
 and quicksort will have quadratic running time!     I1                       v
 (See illustration at right.)
 
-对于用链表实现的quickSort，把待排数列分成三个部分能更好的处理
-pivot重复数字的问题： I1, Iv, I2
+对于用链表实现的 quickSort，把待排数列分成三个部分能更好的处理
+pivot 重复数字的问题：I1, Iv, I2
                                                     ---------------------------
 When sorting a linked list, a far better solution   |5 | 7 | 5 | 0 | 6 | 5 | 5|
 is to partition I into _three_ unsorted lists I1,   ---------------------------
@@ -2659,7 +2659,7 @@ pivots during the partitioning step for the _next_ round of partitioning.)
 
 *** Quicksort on Arrays : In-place                                    :I1vI2:
 -------------------
-数组实现的quickSort，还是把待排数列分成两部分： I1,I2
+数组实现的 quickSort，还是把待排数列分成两部分：I1,I2
 
 Quicksort shines for sorting arrays.  In-place quicksort is very fast.  But
 a fast in-place quicksort is tricky to code.  It's easy to write a buggy or
@@ -2734,10 +2734,10 @@ public static void quicksort(Comparable[] a, int low, int high) {
     int j = high;
     // this do while loop is 紧凑且干净，important for fast
     do {
-      do { i++; } while (a[i].compareTo(pivot) < 0);               // i逐渐增加，当i=high时，while语句会=0.
-      do { j--; } while ((a[j].compareTo(pivot) > 0) && (j > low));// 但是j--没有这个保证，所以需要加上>low
-                                                                   // 另外，这两个do-while很经典，因为这样做
-                                                                   // 就避免了用if语句去检测是否与pivot相等的操作
+      do { i++; } while (a[i].compareTo(pivot) < 0);               // i 逐渐增加，当 i=high 时，while 语句会=0.
+      do { j--; } while ((a[j].compareTo(pivot) > 0) && (j > low));// 但是 j--没有这个保证，所以需要加上>low
+                                                                   // 另外，这两个 do-while 很经典，因为这样做
+                                                                   // 就避免了用 if 语句去检测是否与 pivot 相等的操作
                                                                    // 如果不等就不做交换，这个操作。如果一开始就把
                                                                    // 判等语句放在前面，会比较慢
       if (i < j) {
@@ -2886,13 +2886,13 @@ Heapsort is a selection sort in which I is a heap.
   }
 **** Running time
 bottomUpHeap() runs in linear time, and each removeMin() takes O(log n)
-（由树的深度决定的running-time，一般都是 O(logn)） time.
+（由树的深度决定的 running-time，一般都是 O(logn)）time.
 Hence, heapsort is an O(n log n)-time sorting algorithm.
 
 **** In-place by array
 There are several ways to do heapsort in place; I'll describe just one.
 Maintain the heap _backward_ at the _end_ of the array.
-从数组末尾开始，往数组头的方向生成heap. root在数组末尾.
+从数组末尾开始，往数组头的方向生成 heap. root 在数组末尾.
 
 This makes the
 indexing a little more complicated, but not substantially so.  As items are
@@ -2955,31 +2955,31 @@ The recursion bottoms out at one-item lists.
 
 How long does mergesort take?
 The answer is made apparent by examining its recursion tree.
-这里仅仅展示了 bottom2up 的conquer的过程，这里的树型结构是递归的 分割合并 产生的，
-向下divede时 ：每次都在2/n处分割，耗时 O(1)*(1+ceiling(log_2 n)), 可以忽略不计。总共产生了深度为 1+ ceiling(log_2 n) 的递归调用栈;
-向上conquer时：排序就是在这个阶段执行的，每一层都需要处理O(n)个数据的合并排序, 耗时 O(n)*(1+ceiling(log_2 n))= O(nlogn)
+这里仅仅展示了 bottom2up 的 conquer 的过程，这里的树型结构是递归的 分割合并 产生的，
+向下 divede 时 ：每次都在 2/n 处分割，耗时 O(1)*(1+ceiling(log_2 n)), 可以忽略不计。总共产生了深度为 1+ ceiling(log_2 n) 的递归调用栈;
+向上 conquer 时：排序就是在这个阶段执行的，每一层都需要处理 O(n)个数据的合并排序, 耗时 O(n)*(1+ceiling(log_2 n))= O(nlogn)
 这样看，merge-sort 取名很贴切，就是在 divide and conquer 的 merge 阶段执行 sort
 
 
-    conquer                                                                            |
-      ^       -------------------------------  --\                                     |
-      |       |0 | 1 | 3 | 4 | 5 | 7 | 8 | 9|    |                                     |
-      |       -------------------------------    |                                     |
-      |              /               \           |                                     |
-      |       --------------- ---------------    |                                     |
-      |       |3 | 5 | 7 | 9| |0 | 1 | 4 | 8|    |                                     |
-      |       --------------- ---------------    \                                     |
-      |          /       \       /       \        >  1 + ceiling(log_2  n) levels      |
-      |       ------- ------- ------- -------    /                     |               |
-      |       |3 | 7| |5 | 9| |4 | 8| |0 | 1|    |                     |               |
-      |       ------- ------- ------- -------    |                     |               |
-      |        /   \   /   \   /   \   /   \     |                     |               |
-      |       --- --- --- --- --- --- --- ---    |                     |               |
-      |       |7| |3| |9| |5| |4| |8| |0| |1|    |                     |               v
-      |       --- --- --- --- --- --- --- ---  --/                     |             divide
-              \_____________________________/                          |
-                            v                                          v
-                       O(n) time per level ----------------------->  O(nlogn)time
+.       conquer                                                                            |
+.         ^       -------------------------------  --\                                     |
+.         |       |0 | 1 | 3 | 4 | 5 | 7 | 8 | 9|    |                                     |
+.         |       -------------------------------    |                                     |
+.         |              /               \           |                                     |
+.         |       --------------- ---------------    |                                     |
+.         |       |3 | 5 | 7 | 9| |0 | 1 | 4 | 8|    |                                     |
+.         |       --------------- ---------------    \                                     |
+.         |          /       \       /       \        >  1 + ceiling(log_2  n) levels      |
+.         |       ------- ------- ------- -------    /                     |               |
+.         |       |3 | 7| |5 | 9| |4 | 8| |0 | 1|    |                     |               |
+.         |       ------- ------- ------- -------    |                     |               |
+.         |        /   \   /   \   /   \   /   \     |                     |               |
+.         |       --- --- --- --- --- --- --- ---    |                     |               |
+.         |       |7| |3| |9| |5| |4| |8| |0| |1|    |                     |               v
+.         |       --- --- --- --- --- --- --- ---  --/                     |             divide
+.                 \_____________________________/                          |
+.                               v                                          v
+.                          O(n) time per level ----------------------->  O(nlogn)time
 
 (Note that this tree is not a data structure.  It's the structure of a sequence
 of recursive calls, like a game tree.)
@@ -3026,7 +3026,7 @@ BFS is a lot like level-order tree traversal.
       for (each vertex w such that (v, w) is an edge in E) {                    // |  |          +-------------------------------+ queue build (for-loop)
         if (!w.visited) {                                                       // |  |          |   |->|  |->|  |->|   ......   |
           w.visit(v);                         // Do some unspecified thing to w //-+  |          v   |  v  |  v  |  v            v
-          w.visited = true;                        // Mark the vertex w visited // |  |         子1访问 子2访问 子3访问子4访问       子n访问
+          w.visited = true;                        // Mark the vertex w visited // |  |         子 1 访问 子 2 访问 子 3 访问子 4 访问       子 n 访问
           q.enqueue(w);                                                         // |  |          |  /   |  /  |  /  |            |
         }                                                                       // |  |          v /    v /   v /   v            v
       }                                                                         // |  |        进队/    进/   进/    进队         进队
@@ -3053,10 +3053,10 @@ accomplishes both these tasks.             }
                                                                       |    |
                                                                       v  --3
                                                                     __2     \3
-注意这里是如何保证每个node存储的都是最短路径？                          _1    \2    \3
-1. 首先利用queue确保层层推进; 越先访问的，路径越短;                      \1   |2    |3
-2. 其次利用visited保证每个node's depth 只被写入一次;                *  |1   |2    |3
-   所以后访问的，想改写前面node's depth 是forbidden 的;                /1   /2    /3
+注意这里是如何保证每个 node 存储的都是最短路径？                          _1    \2    \3
+1. 首先利用 queue 确保层层推进; 越先访问的，路径越短;                      \1   |2    |3
+2. 其次利用 visited 保证每个 node's depth 只被写入一次;                *  |1   |2    |3
+   所以后访问的，想改写前面 node's depth 是 forbidden 的;                /1   /2    /3
                                                                     --2     /3
                                                                         ---3
 
@@ -3166,7 +3166,7 @@ Kruskal's algorithm computes the mimimum spanning tree of G as follows.
 [4]  Iterate through the edges in sorted order.
      For each edge (u, w):
 [4a]   If u and w are not connected by a path in T, add (u, w) to T.
-这个意思就是由图，生成树(没有环路),然后确保整棵树的weight最小。
+这个意思就是由图，生成树(没有环路),然后确保整棵树的 weight 最小。
 
 
 Because this algorithm never adds (u, w) if some path already connects u and w,
@@ -3228,7 +3228,7 @@ What is the running time of Kruskal's algorithm?
    - If we use an adjacency matrix, the running time is in O(|V|^2 + |E| log |E|),
      because it takes Theta(|V|^2) time simply to make a list of all the edges.
 *** [greedy algo]Prim's Algo for Finding minimum spanning tree
-    minimum spanning tree 肯定是有n个节点，且有n-1条连接的这么个树。
+    minimum spanning tree 肯定是有 n 个节点，且有 n-1 条连接的这么个树。
 
     greedy algo: take the smallest as you can ,and keep adding.
     kruskal: let forest grow together.
@@ -3244,12 +3244,12 @@ What is the running time of Kruskal's algorithm?
                   partent, no left, no right. parent represents the current potential finge
     value array, how dose it cost to include this node into the spanning tree.
                  we only change it if it do better,means an item of array will smaller.
-         1 heap: candidates for the next node, 为什么需要heap，注意heap的特点，可以用O(1)的速度取出最大or最小值。
-                 这里就可以从candidates中取出最小值。
+         1 heap: candidates for the next node, 为什么需要 heap，注意 heap 的特点，可以用 O(1)的速度取出最大 or 最小值。
+                 这里就可以从 candidates 中取出最小值。
                  heap store all nodes in it,
 
     running time: n + nlogn + elogn
-    注意，这里使用的是heap + 2 arrays， 这种方法适用于稀疏矩阵。
+    注意，这里使用的是 heap + 2 arrays， 这种方法适用于稀疏矩阵。
          还可以使用二维矩阵， 他的复杂度最差是 O(n^2), 适合于非稀疏矩阵。
 *** Shortest path tree and Distances
 #+BEGIN_SRC ditaa
@@ -3357,7 +3357,7 @@ What is the running time of Kruskal's algorithm?
                            Wednesday, April 2, 2014
 *** GRAPHS
 ======
-有很多算法都是对DFS的改进形成的，比如查看有无环路, find Strongly connected components(directed Graph)
+有很多算法都是对 DFS 的改进形成的，比如查看有无环路, find Strongly connected components(directed Graph)
 DFS can identify planar graph, in time propotional to the nodes in linear time.
 
 *** some definition
@@ -3475,7 +3475,7 @@ complete graph.
 *** Toplogical Sorting
 ------------------
 教授说，任何一个算法都不能脱离数据结构，
-当你使用一个算法的时候，最好根据具体问题，事先制定好自己所使用的数据结构，然后再在数据结构基础上定义api.最后实现算法。
+当你使用一个算法的时候，最好根据具体问题，事先制定好自己所使用的数据结构，然后再在数据结构基础上定义 api.最后实现算法。
 数据结构是存储和操作数据的工具;
 算法是操作工具的步骤;
 需要注意的是算法的本质和核心就是步骤，一般要么是循环，要么是递归，所以
@@ -3496,8 +3496,8 @@ complete graph.
      +---+                                +---+
   P  | 5 |--->4                        P  | 5 |
      +---+                                +---+
-注意，为什么graph算法复杂度中经常出现n（节点数量），因为对于有向图如果所有边都连接A，而其他节点都没有边，那么根据算法检查A之后
-你还需要依次检查其余所有节点，所以最差复杂度会包含n个节点,但实际上他们并没有边连接。
+注意，为什么 graph 算法复杂度中经常出现 n（节点数量），因为对于有向图如果所有边都连接 A，而其他节点都没有边，那么根据算法检查 A 之后
+你还需要依次检查其余所有节点，所以最差复杂度会包含 n 个节点,但实际上他们并没有边连接。
 如果有边连接那就直接算在边里算一次就好了，没有边连接所以需要加上节点数量。
 
 Toplogical sorting 开始
@@ -3534,15 +3534,15 @@ Only make sense when the graph is Directed.
 
 Improvement-1:
 在数据结构阶段多做一些，多咀嚼一些数据给算法。
-增加一列存放每个node的 in-degree. 并不直接操作后面的 adjacent list。
-算法仅仅操作 indegree 这一列：遍历indegree=0 的node ，凡出现者，in-degree --;
-但是，你没法区分新出现的0,和早就已经是0的节点。毕竟你不想重复遍历之前已经为0的那些节点了。
+增加一列存放每个 node 的 in-degree. 并不直接操作后面的 adjacent list。
+算法仅仅操作 indegree 这一列：遍历 indegree=0 的 node，凡出现者，in-degree --;
+但是，你没法区分新出现的 0,和早就已经是 0 的节点。毕竟你不想重复遍历之前已经为 0 的那些节点了。
 
 Improvement-2:
-我们需要能保证某种顺序的结构---queue.把每次检索到的inDegree=0的节点 enqueue();
-dequeue()一个，遍历连接nodes，凡所出现，indegree--, 如果某个indegree--之后为0,直接enqueue.
-当queue is empty, algorithms done!
-算法复杂度仅仅是：你enqueue() 了 n个节点，每个节点的连接检测一次 e， so, O(n+e) or approximate O(e)
+我们需要能保证某种顺序的结构---queue.把每次检索到的 inDegree=0 的节点 enqueue();
+dequeue()一个，遍历连接 nodes，凡所出现，indegree--, 如果某个 indegree--之后为 0,直接 enqueue.
+当 queue is empty, algorithms done!
+算法复杂度仅仅是：你 enqueue() 了 n 个节点，每个节点的连接检测一次 e，so, O(n+e) or approximate O(e)
 
 
 *** Graph Representations
@@ -3614,7 +3614,7 @@ for a _sparse graph_, but less efficient for a _complete_graph_.  A complete
 graph is a graph having every possible edge; that is, for every vertex u and
 every vertex v, (u, v) is an edge of the graph.
 
-同理如果是满载矩阵，而且verex都是字符串，该怎么办呢？
+同理如果是满载矩阵，而且 verex 都是字符串，该怎么办呢？
 先用 hash table 对字符串做映射：string -> ints.
 然后 再用数字作为矩阵的行列来存储在二维数组中。
 
@@ -3641,11 +3641,11 @@ every vertex v, (u, v) is an edge of the graph.
 @. <Input some code here 3>
 
 #+END_SRC
-通过在skeleton中不同位置添加不同代码来实现不同的功能：大图中包含独立小图，图中环路，toplogical sorting,strongly connected
+通过在 skeleton 中不同位置添加不同代码来实现不同的功能：大图中包含独立小图，图中环路，toplogical sorting,strongly connected
 
 **** 如果不是完全联通的图，比如有三个内部相连外部独立的图，我该怎么输出每个图的遍历结果呢？
-1. 设置外循环，去遍历每一个节点执行dfs(i)，而不是只dfs()一个节点
-2. 对每一个内部递归去stack某个点，并在本次循环执行完毕之后 empty and output the stack,最好设置count变量保存这个独立的图的是第几个。
+1. 设置外循环，去遍历每一个节点执行 dfs(i)，而不是只 dfs()一个节点
+2. 对每一个内部递归去 stack 某个点，并在本次循环执行完毕之后 empty and output the stack,最好设置 count 变量保存这个独立的图的是第几个。
 #+NAME: algo for several separte GFS
 #+BEGIN_SRC java
 // DFS 某个独立的图伪代码
@@ -3666,8 +3666,8 @@ every vertex v, (u, v) is an edge of the graph.
 #+END_SRC
 
 **** 如何识别并找出图中的环路？
-要识别环路就要区分几种边： forward edge, backward edge, cross edge, tree edge.
-tree edge: 就是真正visited的路径;
+要识别环路就要区分几种边：forward edge, backward edge, cross edge, tree edge.
+tree edge: 就是真正 visited 的路径;
 backward edge:
 
 #+BEGIN_SRC java
@@ -3691,7 +3691,7 @@ backward edge:
 
 **** Toglogical sortting by DFS
 这是一种比之前使用的方法更好的解决 toplogical sortting 更好的方法。
-可以通过记录每一个你遍历过的节点，然后反向输出即可得到这个toplogical sortting
+可以通过记录每一个你遍历过的节点，然后反向输出即可得到这个 toplogical sortting
 
 
 
@@ -3723,7 +3723,7 @@ Strongly connected graph 是指图中任何一点都可以到达其他点的有�
 every directed graph can be split up into an equivalence class of strongly connected
 components. These 3 are considered equivalence class of strongly connected.
 
-这对于你求有很多独立有向小图的大图的minimum spanning tree 也很有作用，你首先就需要得到这么多小图
+这对于你求有很多独立有向小图的大图的 minimum spanning tree 也很有作用，你首先就需要得到这么多小图
 这里‘独立’就是指是否 strongly connected，‘连接而不独立’ 就是指 connected but not strongly connected.
 相当于连接性整体上升了一个档次。
 #+NAME: algo for identifing strongly connected graph
@@ -3806,7 +3806,7 @@ undirected tree, BFS performs a level-order tree traversal.
 In a graph, unlike a tree, there may be several ways to get from one vertex to
 another.
 
-如何处理多路径造成的vertex多次被访问的问题？
+如何处理多路径造成的 vertex 多次被访问的问题？
 Therefore, each vertex has a boolean field called "visited" that
 tells us if we have visited the vertex before, so we don't visit it twice.
 When we say we are "marking a vertex visited", we are setting its "visited"
@@ -3867,7 +3867,7 @@ v  |  v   v  |  v   v  |  v   v  |  v   v  |  v    v  |  v   v  |  v   v  |  v  
 | u=1 |   | u=1 |   | u=1 |   | u=1 |   | u=1  |   | u=1 |   | u=1 |   | u=1  |   |   |
 DFS runs in:
 
-O(|V| + |E|) (为什么还要加上edge？因为每个vertex的每个edge都要检测->[[(for-loop)]])
+O(|V| + |E|) (为什么还要加上 edge？因为每个 vertex 的每个 edge 都要检测->[[(for-loop)]])
 time if you use an adjacency list;
 
 O(|V|^2) time if you use an adjacency matrix. Hence, an adjacency list is
@@ -3880,7 +3880,7 @@ Just do DFS from u, and see if v gets visited.  (If not, you can't there from he
 I'll discuss BFS in the next lecture.
 
 *** How to specify 'Cycle path' in graph
-    1. 通过设置 visited 可以 check 是否含有 cycle path，但是没法将这个cycle path完整的打印出来
+    1. 通过设置 visited 可以 check 是否含有 cycle path，但是没法将这个 cycle path 完整的打印出来
 *** More on the Running Time of DFS
 -------------------------------
 Why does DFS on an adjacency list run in O(|V| + |E|) time?
@@ -3981,7 +3981,7 @@ a node with keys [20, 40, 50] has four children.
 - and at the fourth child, k >= 50.
 like this [[lec27-pic1]]
 
-234-tree 也是order的,因为 binarytree就是ordered
+234-tree 也是 order 的,因为 binarytree 就是 ordered
 
 **** Main api of 234-tree
 WARNING:  The algorithms for insertion and deletion I'll discuss today are
@@ -4020,14 +4020,14 @@ that on binary trees, and it visits the keys in sorted order.
 insert(), like find(), walks down the tree in search of the key k.  If it finds
 an entry with key k, it proceeds to that entry's _"left child"_ and continues.
 
-这里 left child 是针对某个key的，不是针对整个node，比如node = [20,40,80], 80的left-child
-就是 40~80 的这个child。
+这里 left child 是针对某个 key 的，不是针对整个 node，比如 node = [20,40,80], 80 的 left-child
+就是 40~80 的这个 child。
 
-一般我们会限制每个node能存储的最多keys，比如这里max(# of keys)=3
+一般我们会限制每个 node 能存储的最多 keys，比如这里 max(# of keys)=3
 insert() 最大的问题是如何在插入之后仍然保持整棵树的平衡，解决方法就是 _检测分割提升法_:
-在插入之前按照find()方法从root开始找位置，不同的是在找的过程中一旦 _检测_ 到达到存储上线的node
-就对其 _分割_ 并 _提升_ 中间节点为父节点。最后再在叶子node中的适当位置插入。
-这个方法只在叶子node进行添加，不会在某个父节点进行，父节点的改变主要是满载时改变or子节点满载上呈给
+在插入之前按照 find()方法从 root 开始找位置，不同的是在找的过程中一旦 _检测_ 到达到存储上线的 node
+就对其 _分割_ 并 _提升_ 中间节点为父节点。最后再在叶子 node 中的适当位置插入。
+这个方法只在叶子 node 进行添加，不会在某个父节点进行，父节点的改变主要是满载时改变 or 子节点满载上呈给
 父节点。
 
 Unlike find(), insert() sometimes modifies             ----         -------
@@ -4074,12 +4074,12 @@ Sometimes, an insertion operation _increases the height_ of the tree by one by c
 the entry you want to remove (having key k).
 - If it's in a leaf, you remove it.
 - If it's in an internal node, you replace it with the entry with the next higher key.
-  ( +似乎这个也可以实现类似binary search tree的spell自动纠错功能+ ),前面这个想法是错的。
-  这里的意思是说，一旦找到这个key，就用右子树中最小的(smallest higher)代替这个key的位置.
+  ( +似乎这个也可以实现类似 binary search tree 的 spell 自动纠错功能+ ),前面这个想法是错的。
+  这里的意思是说，一旦找到这个 key，就用右子树中最小的(smallest higher)代替这个 key 的位置.
 
-That entry is always in a leaf(原因同insert()，因为在实际插入/删除之前都要进行‘检测 分割/合并 上升/下降 法’).
-意思是，在找这个节点的过程中(directily leaf or changging internal with smallest higher),要对只有一个entry的节点进行处理。
-目的是不让删除节点造成234-树整体的不平衡
+That entry is always in a leaf(原因同 insert()，因为在实际插入/删除之前都要进行‘检测 分割/合并 上升/下降 法’).
+意思是，在找这个节点的过程中(directily leaf or changging internal with smallest higher),要对只有一个 entry 的节点进行处理。
+目的是不让删除节点造成 234-树整体的不平衡
 In either case, you remove an entry from a leaf in the end.
 
 Like insert(), remove() changes nodes of the tree as it walks down.  Whereas
@@ -4104,7 +4104,7 @@ a subtree S from the sibling to the 1-key node (now a 2-key node).
 Goodrich & Tamassia call rotations "transfer" operations.
 Note that we CAN'T steal a key from a _non-adjacent sibling_.
 
-当相邻的兄弟有多于一个entry,
+当相邻的兄弟有多于一个 entry,
 用旋转，兄传父，父传我
 
 (2)  If no adjacent sibling has more than one     -------               ----
@@ -4117,7 +4117,7 @@ sibling is also absorbed, and the 1-key node  ==== ---- ----    ---------- ----
 becomes a 3-key node.  The figure illustrates
 remove's action when it reaches "10".  This is called a "fusion" operation.
 
-当相邻的兄弟只有一个entry且父节点不止一个节点，
+当相邻的兄弟只有一个 entry 且父节点不止一个节点，
 用融合,偷父合兄
 
 (3)  If the parent is the root and contains only one key, and the sibling
@@ -4125,7 +4125,7 @@ contains only one key, then the current 1-key node, its 1-key sibling, and the
 1-key root are fused into one 3-key node that serves as the new root.  The
 height of the tree decreases by one.
 
-当父节点是根节点且只有一个entry，兄弟节点也只有一个entry，
+当父节点是根节点且只有一个 entry，兄弟节点也只有一个 entry，
 和三为一，树深度减一；
 
 Eventually we reach a leaf.  After we process the leaf, it has at least two
@@ -4147,7 +4147,7 @@ to the 1-key node labeled  ---- ---- ---- ---- ---- ---- ------- ---- ---- ----
 for 1-key nodes, we fuse 50 with its sibling and parent to create a new 3-key
 root labeled "20 xx 50".
 
-有没有可能父节点不是根节点，且也只有一个entry的情况？
+有没有可能父节点不是根节点，且也只有一个 entry 的情况？
 不可能，因为我是从上往下检查的，如果父节点只有一个，那肯定在检查到他时就已经处理了。
 
 Next, we visit the node                     ----------
@@ -4239,18 +4239,18 @@ ______________________
 This idea can be used with hash tables, binary search trees, and 2-3-4 trees.
 
 ** Red Black Tree
-   不但每一个external节点的black height一样，每一个子树的black height也一样。
-   跟AVL树一样，都要统计某种高度，这里就是 black-height, avl 是统计balance height.
-   balance height的统计方法是，每个node都算1, avl树要求，每个节点的左右子树balance height 相差最多为1
-   black   height的统计方法时，上面有几个black-node,  r&b 树要求所有 external node 的black height都一样
-   delete() 跟BST一样的概念，就是你删除的实际是：leaf(can be Red or Black) or a leaf' parent(by analysis, it ONLY has one situtation: parent is
+   不但每一个 external 节点的 black height 一样，每一个子树的 black height 也一样。
+   跟 AVL 树一样，都要统计某种高度，这里就是 black-height, avl 是统计 balance height.
+   balance height 的统计方法是，每个 node 都算 1, avl 树要求，每个节点的左右子树 balance height 相差最多为 1
+   black   height 的统计方法时，上面有几个 black-node,  r&b 树要求所有 external node 的 black height 都一样
+   delete() 跟 BST 一样的概念，就是你删除的实际是：leaf(can be Red or Black) or a leaf' parent(by analysis, it ONLY has one situtation: parent is
    Black and childern is Red),如果某个节点只有左孩子或右孩子，
 
-   [注意] 这里的delete只是删除r or b 节点，不是指删除external node。 在 RB树中，
-   external node并不算做节点，节点只有两种：R and B只有这三种情况，对于最后一种，
-   可以分析 BB，RR，RB，BR四种组合，最后发现删除操作只会出现在这种组合BR中
+   [注意] 这里的 delete 只是删除 r or b 节点，不是指删除 external node。 在 RB 树中，
+   external node 并不算做节点，节点只有两种：R and B 只有这三种情况，对于最后一种，
+   可以分析 BB，RR，RB，BR 四种组合，最后发现删除操作只会出现在这种组合 BR 中
 
-   [注意] 删除一个rorb节点，就用一个external node代替这个节点。比如图1
+   [注意] 删除一个 rorb 节点，就用一个 external node 代替这个节点。比如图 1
    #+NAME: 3SitutationsWhenDelete
    #+BEGIN_SRC ditaa
 
@@ -4284,9 +4284,9 @@ This idea can be used with hash tables, binary search trees, and 2-3-4 trees.
                                        +-+    +-+
                                        +-+    +-+
    #+END_SRC
-   (1)(3) 情况都好处理，就是(2)会造成external的black height 减少一，所以怎么办，依旧是rotation。
-   red black 的所有操作都可以和234tree对比。基本相互呼应。
-   red black 的删除 delete() 操作对于图（2）的情况，哪个父亲的black-node被删除了，就以这个父亲为考虑起点，往下分析，功能分析出六种情况。
+   (1)(3) 情况都好处理，就是(2)会造成 external 的 black height 减少一，所以怎么办，依旧是 rotation。
+   red black 的所有操作都可以和 234tree 对比。基本相互呼应。
+   red black 的删除 delete() 操作对于图（2）的情况，哪个父亲的 black-node 被删除了，就以这个父亲为考虑起点，往下分析，功能分析出六种情况。
 ** lec 26 Binary Search Tree
                               CS 61B: Lecture 26
                             Monday, March 31, 2014
@@ -4384,9 +4384,9 @@ albeit more slowly.
 
 五种搜索结果：最大，最小，正好，比正好稍小（大）
 
-[[1]] 的一个很好的例子是spell自动纠错，当你忘记某些单词的拼法，就打近似的，这样binary search tree可以
+[[1]] 的一个很好的例子是 spell 自动纠错，当你忘记某些单词的拼法，就打近似的，这样 binary search tree 可以
 帮你定位到相近的系统存储的单词中（the entry nearest another entry）;
-当你处理的key是数字时，你可以这样搜索：give me the smallest entry that's greater than or equal
+当你处理的 key 是数字时，你可以这样搜索：give me the smallest entry that's greater than or equal
 to 26.
 
 binary search tree 的功能覆盖了 heap 和 hash table, 而且提供的更多，但是更慢。
@@ -4445,7 +4445,7 @@ public Entry find(Object k) {
 }
  #+END_SRC
 
- 当你想精确的查找某个entry，用hashtable会更有效率。
+ 当你想精确的查找某个 entry，用 hashtable 会更有效率。
 
  This method only finds exact matches.  What if we want to find the smallest key
  greater than or equal to k, or the largest key less than or equal to k?
@@ -4467,10 +4467,10 @@ public Entry find(Object k) {
    3  14      29    a null pointer, return the best key you found on the path.
                     You can implement largestKeyNotLarger(k) symmetrically.
 
- 很明显，如果你查找的key不在 binary search tree 中，你的搜索会‘路过’比你大的最小entry和比你小的最大entry
+ 很明显，如果你查找的 key 不在 binary search tree 中，你的搜索会‘路过’比你大的最小 entry 和比你小的最大 entry
  这时，你只需要在代码中增加两个变量分别记录‘比你小的最大值’和‘比你大的最小值’即可找到他们。
- or 你可以通过另一个trick找到两个值，就是最近的一次'choose left'和'choose right',以上图为例，最近一次‘向左’是
- 28， 最近的一次向右是25.通过在代码中记录并随时覆盖，就可以找到他们。（个人认为这种方法更好）
+ or 你可以通过另一个 trick 找到两个值，就是最近的一次'choose left'和'choose right',以上图为例，最近一次‘向左’是
+ 28， 最近的一次向右是 25.通过在代码中记录并随时覆盖，就可以找到他们。（个人认为这种方法更好）
  
 ***** [2]  Entry min(); Entry max();
 
@@ -4500,13 +4500,13 @@ public Entry find(Object k) {
       So, what we really do about deleting , _we just delete a leaf or a leaf' partent_
 
       删除要分三种情况，待删节点没有孩子，只有一个孩子，有两个孩子
-      有两个孩子就删除其successor, 其successor肯定没有左孩子or干脆没孩子，因为如果有左孩子说明排序是这样的，待删<'successor_L'<successor<successor_R
-      因为是直接后继（successor）, 所以successor肯定没有左孩子
+      有两个孩子就删除其 successor, 其 successor 肯定没有左孩子 or 干脆没孩子，因为如果有左孩子说明排序是这样的，待删<'successor_L'<successor<successor_R
+      因为是直接后继（successor）, 所以 successor 肯定没有左孩子
       If it has 2 children, i went to the successor of that node, I copied the content of this successor into that node
       then, I deleted the successor. The actual node I deleted was the successor node and successor node has only one or
       no children
       所以删除带有两个孩子的节点，实际就归结为 ‘有一个孩子的’ or ‘没有孩子的’ 两个问题。
-      AVL-tree Splay-tree的所有操作，其实跟这里的binary search tree的操作很相似,不同的是都要avl和splay都要rotation
+      AVL-tree Splay-tree 的所有操作，其实跟这里的 binary search tree 的操作很相似,不同的是都要 avl 和 splay 都要 rotation
 
  remove() is the most difficult operation.  First, find a node with key k using
  the same algorithm as find().  Return null if k is not in the tree; otherwise,
@@ -4556,7 +4556,7 @@ public Entry find(Object k) {
  Be aware that Goodrich and Tamassia use sentinel nodes for the leaves of
  their binary trees; I think these waste an unjustifiably large amount of space.
 
- [TODO] 这个remove()一定要注意：
+ [TODO] 这个 remove()一定要注意：
      2
     / --\
    1    7
@@ -4564,9 +4564,9 @@ public Entry find(Object k) {
       5   8
      /
     4
-比如这里要删除root 2, 但是2有左右子树，不能直接删除，要删除 nearest higher:4
-先用 4 replace 2, 然后把带有4的node删除, 问题是，这个node是否是字典型node，包含value和key的？
-这里树中的数字明显是key，那么如果仅仅是“用key4去替换key2”，那么是不是就改变了原来的key:value对了？
+比如这里要删除 root 2, 但是 2 有左右子树，不能直接删除，要删除 nearest higher:4
+先用 4 replace 2, 然后把带有 4 的 node 删除, 问题是，这个 node 是否是字典型 node，包含 value 和 key 的？
+这里树中的数字明显是 key，那么如果仅仅是“用 key4 去替换 key2”，那么是不是就改变了原来的 key:value 对了？
 **** Running Times of Binary Search Tree Operations
  ----------------------------------------------                      1
       o       In a perfectly balanced binary tree (left) with         \
@@ -4668,7 +4668,7 @@ public interface PriorityQueue {
 See page 340 of Goodrich & Tamassia for how they implement an "Entry".
 
 *** Binary Heaps:  An Implementation of Priority Queues
-    heap是什么，就把他简单理解为每次可以吐出最小值的queue即可。虽然两者
+    heap 是什么，就把他简单理解为每次可以吐出最小值的 queue 即可。虽然两者
     根本不同，但功能上是这样。
 ---------------------------------------------------
 A _complete_binary_tree_ is a binary tree in which every row(level) is full, except
@@ -4776,13 +4776,13 @@ going to change anyway.
                       |                          |
                      floor(i/2)                 index=i
 
-此时insert 2， 2暂时不放进去，原数组末尾留空，直接比较2和 floor(i/2);
-然后把6挪到末尾：
+此时 insert 2，2 暂时不放进去，原数组末尾留空，直接比较 2 和 floor(i/2);
+然后把 6 挪到末尾：
 |   | 2 | 5 | 3 | 9 |   | 11 | 4 | 17 | 10 | 8 | 6 |
                       ^                          ^
                       |                          |
                      floor(i/2)                 index=i
-再比较2 和 floor(floor(i/2) / 2)...
+再比较 2 和 floor(floor(i/2) / 2)...
 最后再把 2 填进去
 |   | 2 |   | 3 | 9 | 5 | 11 | 4 | 17 | 10 | 8 | 6 |
           ^
@@ -4979,8 +4979,8 @@ nodes.  A tree has the property that there is exactly one path (no more, no
 less) between any two nodes of the tree.  A _path_ is a sequence of one or more
 nodes, each consecutive pair being connected by an edge.
 
-注意 tree 的变形，实际上你可以把一棵树的任何一个node作为root，只需要把他‘提起来’即可。
-注意 graph 和 tree 的关系，tree一开始就是无环路图，然后选中一个note为root之后，整个tree才形成。
+注意 tree 的变形，实际上你可以把一棵树的任何一个 node 作为 root，只需要把他‘提起来’即可。
+注意 graph 和 tree 的关系，tree 一开始就是无环路图，然后选中一个 note 为 root 之后，整个 tree 才形成。
 
 In a _rooted_ tree, one distinguished node is called the _root_.  Every node c,
 except the root, has exactly one _parent_ node p, which is the first node after
@@ -5134,8 +5134,8 @@ A preorder traversal visits the nodes in this order.
 Each node is visited only once, so a preorder traversal takes O(n) time, where
 n is the number of nodes in the tree.  All the traversals we will consider take
 O(n) time.
-注意只有 [[(visit)][visit]] 真正访问了node，而 preorder 的其他操作只相当于 _移动光标_
-递归仅处理高度为1的树, preorder traversal：
+注意只有 [[(visit)][visit]] 真正访问了 node，而 preorder 的其他操作只相当于 _移动光标_
+递归仅处理高度为 1 的树, preorder traversal：
 1. visit root
 2. move cursor to left
 3. move cursor to right
@@ -5179,7 +5179,7 @@ order) before the node itself.
 而这里是 if childL? -> visit -> if [[(sibling)][sibling]]?
 
 
-递归仅处理高度为1的树, postOrder traversal：
+递归仅处理高度为 1 的树, postOrder traversal：
 1. move cursor to left
 2. visit
 3. move cursor to right
@@ -10443,7 +10443,7 @@ http://blog.csdn.net/woshioosm/article/details/7438834
     #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-05 10:45:27
     [[file:Data Structure/screenshot_2017-05-05_10-45-27.png]]
 
-    我们讨论shortest path，并不讨论 particular node to another
+    我们讨论 shortest path，并不讨论 particular node to another
     particular node
     we talk about from every node to every other node
 
@@ -10456,7 +10456,7 @@ http://blog.csdn.net/woshioosm/article/details/7438834
     if z1 > x1, that would be a problem, not computed yet
 
     用 dynamic programming 解决 matrix chain 问题（找到计算量最少的计算顺序）让我意识到：
-    神奇，dynamic programming , 回溯， greedy algo, divide and conquer, 分支界限法(branch and bound)
+    神奇，dynamic programming , 回溯，greedy algo, divide and conquer, 分支界限法(branch and bound)
     这是编程的五种思想框架，之于编程就像，社会主义资本主义之于国家，
     这么重要的框架为什么大学教育不教？？？
 
@@ -10478,7 +10478,7 @@ http://blog.csdn.net/woshioosm/article/details/7438834
 
     BTW, 因为还要比对 production-rule，所以总体的时间复杂度为：
     O(n^3*m) m is a fixed constant---the number of production rules
-    但是查找可以通过hash或其他方法来加速
+    但是查找可以通过 hash 或其他方法来加速
 
     knapsack problem
     greedy strategy: go for our next most thing
@@ -10496,7 +10496,7 @@ http://blog.csdn.net/woshioosm/article/details/7438834
     分成：取第三种物品和不取第三种物品
 
     key2: The base case of fomula to avoid infinite loop
-    为了识别base case，考虑几种特殊情况
+    为了识别 base case，考虑几种特殊情况
     eg. C(8,0) C(5,1), C(0,3)
     C(8,0) = 0 , because this notion means you choose nothing, then you get nothing
     C(0,3) = 0 ,
@@ -10520,7 +10520,7 @@ http://blog.csdn.net/woshioosm/article/details/7438834
     .                                .DFS problem
 
 
-    所以这里算法的本质变成了： change the vocabulary of one algo problem domain to another domain
+    所以这里算法的本质变成了：change the vocabulary of one algo problem domain to another domain
     3-colorbility <= Statisfibility
     eg. change the english to the boolean formula
     2SAT <= Strongly componets
@@ -10535,7 +10535,7 @@ http://blog.csdn.net/woshioosm/article/details/7438834
     <<Data structure and Network algorithms>>, author: Tarjan
 
     sorting <= Convex hull
-    有点像是，如果你解决了某个图的 convex hull，也就已经‘顺便’解决了sorting，像是副产品 byproduct
+    有点像是，如果你解决了某个图的 convex hull，也就已经‘顺便’解决了 sorting，像是副产品 byproduct
     当然这个 reduction 是具有技巧的，也就是只能把 待排数列，通过平方转化成 parabola, y = x^2
 
     #+DOWNLOADED: /tmp/screenshot.png @ 2017-05-08 15:42:44
@@ -10545,7 +10545,7 @@ http://blog.csdn.net/woshioosm/article/details/7438834
     影响时间复杂度最多的是‘回退，go back to last node’, 但是已经被‘回退的点’ 是不会
     参加下次回退的，所以随着‘回退的越多，则下次发生回退的时间复杂度越少’。 有点像是
     Amortized analysis.
-    这种有点像是后进先出,FILO, 而且已经处理的不再利用的结构，用stack：
+    这种有点像是后进先出,FILO, 而且已经处理的不再利用的结构，用 stack：
     left turn node --> push
     ritht turn node --> pop
 

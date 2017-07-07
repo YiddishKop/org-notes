@@ -1,1 +1,141 @@
 * Map-Reduce
+** Looking ahead: parallelizing stream and sort
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:04:29
+[[file:Map-Reduce/screenshot_2017-07-07_20-04-29.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:04:38
+[[file:Map-Reduce/screenshot_2017-07-07_20-04-38.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:04:46
+[[file:Map-Reduce/screenshot_2017-07-07_20-04-46.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:04:57
+[[file:Map-Reduce/screenshot_2017-07-07_20-04-57.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:05:15
+[[file:Map-Reduce/screenshot_2017-07-07_20-05-15.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:05:54
+[[file:Map-Reduce/screenshot_2017-07-07_20-05-54.png]]
+** How to run assignment 1 in parallel
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:06:10
+[[file:Map-Reduce/screenshot_2017-07-07_20-06-10.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:06:24
+[[file:Map-Reduce/screenshot_2017-07-07_20-06-24.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:06:34
+[[file:Map-Reduce/screenshot_2017-07-07_20-06-34.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:06:46
+[[file:Map-Reduce/screenshot_2017-07-07_20-06-46.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:06:58
+[[file:Map-Reduce/screenshot_2017-07-07_20-06-58.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:07:09
+[[file:Map-Reduce/screenshot_2017-07-07_20-07-09.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:07:34
+[[file:Map-Reduce/screenshot_2017-07-07_20-07-34.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:07:44
+[[file:Map-Reduce/screenshot_2017-07-07_20-07-44.png]]
+** Motivating Example
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:08:56
+[[file:Map-Reduce/screenshot_2017-07-07_20-08-56.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:09:08
+[[file:Map-Reduce/screenshot_2017-07-07_20-09-08.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:09:17
+[[file:Map-Reduce/screenshot_2017-07-07_20-09-17.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:09:24
+[[file:Map-Reduce/screenshot_2017-07-07_20-09-24.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:09:43
+[[file:Map-Reduce/screenshot_2017-07-07_20-09-43.png]]
+** Hadoop: Intro
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:10:13
+[[file:Map-Reduce/screenshot_2017-07-07_20-10-13.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:10:21
+[[file:Map-Reduce/screenshot_2017-07-07_20-10-21.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:10:28
+[[file:Map-Reduce/screenshot_2017-07-07_20-10-28.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:10:37
+[[file:Map-Reduce/screenshot_2017-07-07_20-10-37.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:10:51
+[[file:Map-Reduce/screenshot_2017-07-07_20-10-51.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:11:00
+[[file:Map-Reduce/screenshot_2017-07-07_20-11-00.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:11:09
+[[file:Map-Reduce/screenshot_2017-07-07_20-11-09.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:11:15
+[[file:Map-Reduce/screenshot_2017-07-07_20-11-15.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:11:22
+[[file:Map-Reduce/screenshot_2017-07-07_20-11-22.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:11:29
+[[file:Map-Reduce/screenshot_2017-07-07_20-11-29.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:11:40
+[[file:Map-Reduce/screenshot_2017-07-07_20-11-40.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:11:47
+[[file:Map-Reduce/screenshot_2017-07-07_20-11-47.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:11:57
+[[file:Map-Reduce/screenshot_2017-07-07_20-11-57.png]]
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:12:59
+[[file:Map-Reduce/screenshot_2017-07-07_20-12-59.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:13:35
+[[file:Map-Reduce/screenshot_2017-07-07_20-13-35.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:13:49
+[[file:Map-Reduce/screenshot_2017-07-07_20-13-49.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:14:01
+[[file:Map-Reduce/screenshot_2017-07-07_20-14-01.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:14:11
+[[file:Map-Reduce/screenshot_2017-07-07_20-14-11.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:14:18
+[[file:Map-Reduce/screenshot_2017-07-07_20-14-18.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:14:25
+[[file:Map-Reduce/screenshot_2017-07-07_20-14-25.png]]
+*** Map reduce with Hadoop streaming
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:14:50
+[[file:Map-Reduce/screenshot_2017-07-07_20-14-50.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:14:58
+[[file:Map-Reduce/screenshot_2017-07-07_20-14-58.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:15:06
+[[file:Map-Reduce/screenshot_2017-07-07_20-15-06.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:15:14
+[[file:Map-Reduce/screenshot_2017-07-07_20-15-14.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:15:27
+[[file:Map-Reduce/screenshot_2017-07-07_20-15-27.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:15:37
+[[file:Map-Reduce/screenshot_2017-07-07_20-15-37.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:15:47
+[[file:Map-Reduce/screenshot_2017-07-07_20-15-47.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:15:54
+[[file:Map-Reduce/screenshot_2017-07-07_20-15-54.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:16:01
+[[file:Map-Reduce/screenshot_2017-07-07_20-16-01.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:16:08
+[[file:Map-Reduce/screenshot_2017-07-07_20-16-08.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:16:19
+[[file:Map-Reduce/screenshot_2017-07-07_20-16-19.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:16:29
+[[file:Map-Reduce/screenshot_2017-07-07_20-16-29.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:16:38
+[[file:Map-Reduce/screenshot_2017-07-07_20-16-38.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:16:47
+[[file:Map-Reduce/screenshot_2017-07-07_20-16-47.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:16:57
+[[file:Map-Reduce/screenshot_2017-07-07_20-16-57.png]]
+*** Debugging Map-Reduce
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:17:19
+[[file:Map-Reduce/screenshot_2017-07-07_20-17-19.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:17:27
+[[file:Map-Reduce/screenshot_2017-07-07_20-17-27.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:17:34
+[[file:Map-Reduce/screenshot_2017-07-07_20-17-34.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:17:40
+[[file:Map-Reduce/screenshot_2017-07-07_20-17-40.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:17:47
+[[file:Map-Reduce/screenshot_2017-07-07_20-17-47.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:17:54
+[[file:Map-Reduce/screenshot_2017-07-07_20-17-54.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:18:01
+[[file:Map-Reduce/screenshot_2017-07-07_20-18-01.png]]
+*** Combiners in Hadoop
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:18:24
+[[file:Map-Reduce/screenshot_2017-07-07_20-18-24.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:18:31
+[[file:Map-Reduce/screenshot_2017-07-07_20-18-31.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:18:40
+[[file:Map-Reduce/screenshot_2017-07-07_20-18-40.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:18:48
+[[file:Map-Reduce/screenshot_2017-07-07_20-18-48.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:18:55
+[[file:Map-Reduce/screenshot_2017-07-07_20-18-55.png]]

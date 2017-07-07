@@ -21,7 +21,7 @@
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:19:04
 [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-19-04.png]]
 
-** what's next
+** 哈希表和数据库的弊端及其改进方法
    根据：P(x1,x2,x3,...,y')
    = P(x1,x2,x3,...,xk|y')P(y')
    = P(x1|y')P(x2|y'),...,P(xk|y')P(y')
@@ -93,7 +93,7 @@
  容纳下这么大的文件，所以硬盘会把文件拆开存储到不同的扇区不同的区块中，他们都是不连续
  的，这时候再去访问硬盘，物理磁头需要来回移动无数次。速度更慢。
 
-*** 改进方法：Memory-based distributed database
+*** 改进方法 1：Memory-based distributed database
   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:20:44
   [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-20-44.png]]
   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:20:57
@@ -106,6 +106,10 @@
   [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-12.png]]
   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:19
   [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-19.png]]
+  这种架构是说：
+  我需要很多太计算机来解决【内存不够承载 hashtable】的问题，
+  数据集存在 1st pc,我通过 1st pc 来做统计生成消息(increment message),并把消息
+  传送给存储了该 key 的某个其他机器上，让那台机器增加这个 key 的 value
 
 **** Communication Complexity
      Time Complexity
@@ -136,12 +140,26 @@
    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:46
    [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-46.png]]
 
-*** 其他改进方法：哈希表压缩，时间换空间
-    Distribution is good, but it can not solve everything,
-    it cost _Communication Complexity_
+*** 改进方法 2：哈希表压缩
+    这里重点讨论【时间如何换空间】，后面的课会讨论【哈希表压缩】
+*** 改进方法 3：时间换空间
    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:21:52
    [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-21-52.png]]
-   这里重点讨论【时间如何换空间】，后面的课会讨论【哈希表压缩】
+   >>> 前情提要
+   ----------------------------------------------------------
+       Distribution is good, but it can not solve everything,
+    it cost _Communication Complexity_
+    尤其是需要指定 increament msg: C[x] += D 的发送目标，普通的方式
+    是寻找所有的机器，找到 event x 所在的哈希表，
+
+    这里给出一种不需要 seek all machines 的方法：
+    通过构建一个哈希函数来给所有 event 映射到 1~K 哈希值的方式来分波，
+    某个机器仅仅处理 1~K 的某一波。
+
+    这个方法同时适用于【分布式方法】和【本地式普通方法】
+    - 把哈希表存在不同的机器
+    - 把哈希表分成很多部分，每一部分都用本地内存统计然后存入硬盘，最后合并
+   ----------------------------------------------------------
 
    Supposing the memory is like twice to small, so the data would half
    fits in memory, but not all of the data.
@@ -153,73 +171,284 @@
      这是一个【普适性】的统计算法，不仅仅适用 Bayes.
    #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:22:00
    [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-22-00.png]]
-   what I basically going to do is I will take the data and randomly split it
-   into two parts and I'll store all the counts for the first part
-   then, going to go over and store all the counts for the second part.
 
-   Next, construct a hash function(not a hashtable)
-   这个 hash-fn 的作用是把事件 event 转换成一个数字，而这个数字仅仅代表了 _这个数据属于哪一波_ 的，总共
-   K 波数据。
+   >>> 算法
+   ---------------------------------------------------------------------------
+   1. construct a hash function(not a hashtable)
+      这个 hash-fn 的作用是把事件 event 转换成一个数字，而这个
+      数字仅仅代表了 _这个数据属于哪一波_ 的，总共 K 波数据。
+   2. 循环 K 次更新每个单词的统计数目
+      what I basically going to do is I will take the data and randomly split it
+      into two parts and I'll store all the counts for the first part then,
+      going to go over and store all the counts for the second part.
+   ---------------------------------------------------------------------------
+
+   >>> 理解
+   ---------------------------------------------------------------------------
+   1. 但是这个方法可以接受
+      扫描了 K 次硬盘每次取一部分 data 拿到内存做统计，
+      也是 sequential acess 且每个数据只访问了一次。
+   2. 相当于把分布式方法中的 increament message: C[x] increase D 进行了本地化
+      分布式方法中需要在各个机器之间传递消息，而这里相当于把【机器之间的消息】进行了本地化
+      以降低 communication complexity
+   3. 这个方法是【通用查数统计技巧】，不仅仅适用 bayes
+   ---------------------------------------------------------------------------
+
+   >>> 公共技巧：内存外统计算法
+   ---------------------------------------------------------------------------
+   总体思路：如果从数据集中得到的 vacabulary 超过内存数倍，
+   就把数据集分成内存大小的子集合。分别处理和统计，最后再合并
+   1. 分：构建一个 hash-fn 用来 _转换单词为数字_ ，决定他是属于哪一波
+   2. 计：每一波数据做统计，并把结果存在硬盘（文件）中
+   3. 合：再把所有的统计结果加总
+   ---------------------------------------------------------------------------
+
 ** How to organize data to enable Large-scale counting
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:22:32
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-22-32.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:23:10
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-23-10.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:22:57
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-22-57.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:23:25
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-23-25.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:23:34
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-23-34.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:23:48
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-23-48.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:23:55
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-23-55.png]]
+   >>> 前提：
+   ----------------------------------------
+   vocabulary size = sqrt(所有文章单词总数)
+   vocabulary size = hashtable item size
+   ----------------------------------------
 
-** Sorting out of memory with pipes
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:24:20
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-24-20.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:24:31
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-24-31.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:24:41
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-24-41.png]]
+   >>> 现在的问题是：
+   ------------------------------------------------------------------------------------
+   如果 dataset 不能 fit in memory,那么就使用 hashtable 来统计 dataset, 代之以 fit in memory.
+   如果 dataset hashtable 都不能 fit in memory,
+   1) 使用 database 需要 seek 硬盘，会随着 _硬盘碎片_ 增多越来越慢
+   2) 使用 distributed memory 需要 _communication complexity_, 而根据 Jeff Dean 网络传输数据和
+      硬盘读写数据差不多慢
+   3) 使用 trade off time for space 需要读写硬盘 K 次，但每个硬盘数据仅仅访问了一次，速度可以接受但
+      依旧不够效率。
+   ------------------------------------------------------------------------------------
+
+   >>> 改进方法 2)
+   针对 distributed memory 方法做改进，这个方法最耗时的地方是需要 seek a
+   hashtable from all machines 去完成 increament message: C[x]
+   increase D. 也就是从这么多机器中存储的哈希表中找到存储了 word x 的那一个。
+
+   如果我们能对所有的 vocabulary 做一个 _排序_ ，而所有的哈希表也是根据这个排序
+   构建的，那么我就可以根据 word x 对应的 hash 值直接找到对应的机器，而不用对所
+   用机器做查询（seek）
+
+*** MergeSort out of memory
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:22:32
+ [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-22-32.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:23:10
+ [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-23-10.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:22:57
+ [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-22-57.png]]
+
+ [[file:~/Documents/org-notes/CS/DataStructur/DataStructure.org::*Merge%20Sort(a%20selection%20sort%20whose%20'S'%20and%20'I'%20are%20sorted%20list)][Merge Sort in DataStructure Notes]]
+
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:23:25
+ [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-23-25.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:23:34
+ [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-23-34.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:23:48
+ [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-23-48.png]]
+
+
+*** Unix Sort out of memory (quicksort and merge)
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:23:55
+ [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-23-55.png]]
+ >>> 学生提问：这页 ppt 最后一步的操作是不能在内存中完成的，那该如何操作？
+ ------------------------------------------------------------
+ 参考这里的合并过程，可以把两个内存中的数组换成两个硬盘中的文件即可。
+ [[file:~/Documents/org-notes/CS/DataStructur/DataStructure.org::*Merge%20Sort(a%20selection%20sort%20whose%20'S'%20and%20'I'%20are%20sorted%20list)][Merge Sort in DataStructure Notes]]
+ you can look at first item in each of those two temporary files,
+ to find whichever is smaller,write it to the output file,then
+ advance that file's pointer to the next line
+ --------------------------------------------------------------
+
+ >>> 学生再问：但是这样不断在多个文件之间切换/访问/写入会不会太耗时了？
+ --------------------------------------------------------------
+ 实际上你可以把其中一个文件内容读入内存，另一个文件就放在硬盘中，但是我们可以
+ go thru in disk more or less sequentially. 而且现在针对硬盘有很多
+ 设计上的改进，比如 _缓存机制_ 让硬盘可以预知你下一次会访问硬盘中的哪些地方。
+ 虽然他们比内存慢了 1000 倍之多，但是如果我们仅仅是在幾個文件之间切换/访问/写入，
+ 这种预知机制可以给我们省去非常多的时间。
+ --------------------------------------------------------------
+
+*** Pipes with unix-sort out of memory
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:24:20
+ [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-24-20.png]]
+ ~generate lins | sort | process lines~
+ 这是一个 _通用的框架_ ，但是有很多系统对他的实现相当的 _愚蠢_ :
+ _彻底_ 完成 generate lins, 然后 sort,
+ _彻底_ 完成 sort 然后 process linse.
+
+ 但是 unix os 不是这样做的，unix os 是三者 _同时_ 进行，每个 pipe 都是一个 多线程 queue
+
+**** Unix pipe is implemented by queue and multithread
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:24:31
+  [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-24-31.png]]
+ queue is not big, maybe 64K:
+ if queue is full  means writing faster than reading, writing process is blocked;
+ if queue is empty means writing slower than reading, reading process is blocked;
+
+  #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:24:41
+  [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-24-41.png]]
+ sort is going to
+ 1) read in a chunk(buffer-size, unix-sort parameter) of data at a time;
+ 2) sorting them and create a bunch of spill files;
+ 3) merge all spill files.
+    when _stream closes_ it _knows_ there's _no more data_,
+    that's when it starts doing the final merge.
+
+ 所以参照上页 ppt 可以得出相同的 block 顺序：
+ block stream when sort falls behind;
+ block sort when stream falls behind;
+
+ 优点：
+ The sort process is going to be sucking in _only buffer size memory_ at a time
 
 ** The stream-and-sort desing pattern for naive bayes
+   ~generate linse | sort | process lines~ 提供了一种可以 scale up Naive bayes 的方式
+   这里 sort 的对象是所有的 increase message, 也就是对同一个 event 的 increase msg 尽量
+   sort 在一起，这样可以使得硬盘访问更有效率（不用来回移动硬盘机械指针）
+
+   而且很好的利用了 OS 的特性来组织多线程的操作：
+   different block in different situation;
+   每次仅仅适用 buffer-size 内存。
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:25:12
 [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-25-12.png]]
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:25:20
 [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-25-20.png]]
+instead increasing hashtable items, I just going to write a string
+out to _standard output_, think of this as a _message_ which is going
+to my _counting subsystem_.
+
+What I want to do is organized those messages so I can do the counting
+with locality without having to jump around.
+
+So I wang to get all the messages to _talk about the same events together_
+there is actually an easy way to do that if this('java MyTrainertrain') is
+what emits all those counter update, we just want to _pass it to sort_, then
+finally we'll have another process that's going to go ahead and combine
+those counts.
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:25:29
 [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-25-29.png]]
+I'm going to be outputting these things formatted, is sort of like
+incidental: 'Y=ANY<tab>+=<tab>1'.
+probably a <tab> would be better for a computer, but the main point
+is it starts with the event name and then somewhere else in this
+message is amount that I want to implement
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:25:35
 [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-25-35.png]]
+
+
+1. where I'm just emitting all these event counts all I store
+   in memory is one document at a time and really I dont even
+   have to do that if I didnt want to both say I'm storing one
+   doc at a time
+2. In sort phase I'm creating these intermediate spill files but
+   I'm only storing buffer size data at a time, so I can precisely
+   control the amout of memory I want to throw into my sort process
+
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:25:42
 [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-25-42.png]]
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:25:50
 [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-25-50.png]]
+Going forward I want to talk about Machine A is a _Mapping_
+Machine C is a _Reducing_.
+
+The nice thing about this is that this process is very generic OK
+we can use it for lots of different things and it's also something
+that's very easy to parallize so we can have a bunch of machines
+that do this counting you know separately independently on different
+parts of the data. then we have to figure out how to do this sorting
+process separately independewntly with a whole bunch of different
+machines and how to do this logic of this combination this reduced
+process separately.
+
+trivial
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:25:58
 [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-25-58.png]]
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:26:07
 [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-26-07.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:26:14
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-26-14.png]]
+
+*** 算法复杂度
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:26:14
+ [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-26-14.png]]
 
 ** Stream-and-sort + Local Partial counting
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:26:41
 [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-26-41.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:26:48
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-26-48.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:26:56
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-26-56.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:27:08
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-27-08.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:27:15
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-27-15.png]]
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:27:23
-[[file:Streaming Naive Bayes/screenshot_2017-06-28_16-27-23.png]]
 
-** More Stream-and-sort examples
-#+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:27:47
+
+*** 针对 Stream-and-sort 做一些优化
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:26:48
+ [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-26-48.png]]
+ 这里 n 应该是所有文章的单词数，m 应该是 vocabulary size, 也就是 hashtable 的数目
+ n 是这样的
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-04 19:23:24
+ [[file:Streaming Naive Bayes/screenshot_2017-07-04_19-23-24.png]]
+ m 是这样的
+ |----------------------+------|
+ | Y=business           |  234 |
+ | Y=business ^ X=aaa   |  123 |
+ | Y=business ^ X=zynga |   23 |
+ | Y=sports ^ X=hat     |  981 |
+ | Y=sports ^ hockey    | 2343 |
+ | Y=sports             |   23 |
+ |----------------------+------|
+
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:26:56
+ [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-26-56.png]]
+原来的算法会经常出现：
+|----------------|
+| Y=business +=1 |
+| Y=business +=1 |
+| Y=business +=1 |
+| Y=business +=1 |
+| Y=business +=1 |
+| Y=business +=1 |
+| Y=business +=1 |
+| ~~~            |
+|----------------|
+这样重复的语句无疑会造成很多内存资源的浪费，因为他要传输给 count 做计数。
+所以可以考虑在 train(也就是 generate linse 过程) 的中做一些统计的事情：
+考虑一个定长的 hashtable,当这个 hashtable 满了的时候就作为 message
+输出给 sort, 而不是一条 msg 一条 msg 去输出。毕竟我们需要的只是这个数字。
+_以一当百_ 的使用效率，原来需要给 sort process 输出 100 条相同的 msg.
+现在只需要输入一条 msg 即可。
+
+输出给 sort process 之后原来的 hashtable 就立即清空。
+
+这里的 哈希表 可以非常小，可以是 100 条目，甚至 10 条目，不需要存储所有的 event.
+这是 stream 的处理方式，完全不需要担心 hashtable 大小的问题，你可以自己指定大小。
+
+>>> [good question] 学生提问：
+-----------------------------------------------------------------
+如果 stream-and-sort 最后输出的模型太大，没法放进某一台 pc 的 memory 中，那么
+该如何利用这个算法呢？
+教授说：这是目前我们学习的 lec1~3 Bayes 算法最大的缺点。可能未来 10 天左右才会
+学到如何处理这件事情。
+
+[qqq] 这里我没理解啥意思啊？模型不就是一个表格么，里面存储了每种 event 的数目。
+当我要预测一个文章的分类时，我就从硬盘文件种读出来不就行了么？
+
+[[*confession: this naive bayes has a problem][看这里有交代]]
+-----------------------------------------------------------------
+
+
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:27:08
+ [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-27-08.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:27:15
+ [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-27-15.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:27:23
+ [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-27-23.png]]
+
+ This is what I call the _stream and sort paradigm_, so
+ we talked about one thing _naive bayes_ and in particular
+ really we boil naive bayes down to counting a lot of
+ different things. Here are some other things you
+ can do with the same pattern, so one thing this advantage
+ that's nice about this is it's very _reusable_.
+
+** [没看直接被我忽略了，以后应该补上]More Stream-and-sort examples
+
+   #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:27:47
 [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-27-47.png]]
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:29:34
 [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-29-34.png]]
@@ -255,6 +484,27 @@
 [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-31-58.png]]
 
 ** confession: this naive bayes has a problem
+   >>> 这里回答了之前那个学生问的问题：model 太大的话没法放进 memory 中，该怎么用呢？
+   ----------------------------------------------------------------
+   at the end of this lec, we get a classifier, but I can't
+   actually do anything with it because I cant load it into
+   memory, by now we assume that the test set is small, so
+   you cant load the counters(model) into memory but you could
+   load the test set into memory, how dose that help you, in
+   actually it doesn't help immediately but the only counters
+   we're need are the ones in the test set. So we can break
+   this up into two different phases.
+
+   1. Go thru the test set and determin what events I need to
+      classify the test set. So I'll set up a little hash set
+      I'll go through every example I'll figure out what counters
+      I would look at if I had all of them in memory.
+      因为我们假设 test set 可以 fit in memory, 所以这个从 conters(model)
+      找到的能用到的相关统计条目也时可以 fit in memory 的。
+      the model is too big, but I dont actually need all of it. I
+      only need the things that I am going to be used in the test
+      phase.
+   ----------------------------------------------------------------
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:32:26
 [[file:Streaming Naive Bayes/screenshot_2017-06-28_16-32-26.png]]
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-28 16:32:34
