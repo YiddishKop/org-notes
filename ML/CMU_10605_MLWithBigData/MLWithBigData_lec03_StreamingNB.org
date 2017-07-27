@@ -1,5 +1,5 @@
 * Streaming Naive Bayes
-  Things to Remember
+** >>> Things to Remember
   ----------------------------------------------------------------
   - Zipf's law and the prevalence of rare features/words
   - Communication complexity

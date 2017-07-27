@@ -1,4 +1,16 @@
 * overview
+*** Readings
+    The Unreasonable Effectiveness of Data - Halevy, Pereira, Norvig
+*** >>> Things to remember
+    1. Why use big data?
+       - Simple learning methods with large data sets can outperform complex learners with smaller datasets
+       - The ordering of learning methods, best-to-worst, can be different for small datasets than from large datasets
+       - The best way to improve performance for a learning system is often to collect more data
+       - Large datasets often imply large classifiers
+    2. Asymptotic analysis
+       - It measures number of operations as function of problem size
+       - Different operations (eg disk seeking, scanning, memory access) can have very very different costs
+       - Disk access is cheapest when you scan sequentially
 ** Asymptotic Analysis: Basic Principles
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 16:57:37
 [[file:overview/screenshot_2017-06-26_16-57-37.png]]

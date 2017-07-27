@@ -1,0 +1,230 @@
+* Map-Reduce
+** >>> Things to remember
+   Hadoop terminology: HDFS, shards, job tracker, combiner, mapper, reducer etc.
+** Looking ahead: parallelizing stream and sort
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:04:29
+[[file:Map-Reduce/screenshot_2017-07-07_20-04-29.png]]
+Counting logic --> generates these little updates eg. C[x] += D
+.                  x is an event.
+Sort           --> sort all the messages, 如此以来对相同的 event 的更新
+.                  就会放在一起，这样减少了硬盘指针的来回机械寻址过程，相当于
+.                  locality
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:04:38
+[[file:Map-Reduce/screenshot_2017-07-07_20-04-38.png]]
+把排序后的 C[x] += D 这样的 update 语句分成 spill files
+
+spill is just like 'ten thousand keys in the file'
+these spill files which are all sorted.
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:04:46
+[[file:Map-Reduce/screenshot_2017-07-07_20-04-46.png]]
+把这个模型分成两个部分：一个 counter machine and 一个 combine machine
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:04:57
+[[file:Map-Reduce/screenshot_2017-07-07_20-04-57.png]]
+进一步扩展：两个 counter machine and 两个 combine machine
+I have a lot of documents, and I randomly split them in two
+halves: blue one and red one and give every half to a machine
+So that every machine only deal with half the number of docs.
+
+also spill files will have two cagegories purple or green.
+so it'll compute a hash code and you know just check the order
+bits that hash code and see whether this looks like a purple thing
+or a green.
+
+counter machine :docs is split by doc ID; counters is split by event name;
+
+then, we have to take these guys route them to the right reducing machine.
+
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:05:15
+[[file:Map-Reduce/screenshot_2017-07-07_20-05-15.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:05:54
+[[file:Map-Reduce/screenshot_2017-07-07_20-05-54.png]]
+** How to run assignment 1 in parallel
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:06:10
+[[file:Map-Reduce/screenshot_2017-07-07_20-06-10.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:06:24
+[[file:Map-Reduce/screenshot_2017-07-07_20-06-24.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:06:34
+[[file:Map-Reduce/screenshot_2017-07-07_20-06-34.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:06:46
+[[file:Map-Reduce/screenshot_2017-07-07_20-06-46.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:06:58
+[[file:Map-Reduce/screenshot_2017-07-07_20-06-58.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:07:09
+[[file:Map-Reduce/screenshot_2017-07-07_20-07-09.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:07:34
+[[file:Map-Reduce/screenshot_2017-07-07_20-07-34.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:07:44
+[[file:Map-Reduce/screenshot_2017-07-07_20-07-44.png]]
+** Motivating Example
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:08:56
+[[file:Map-Reduce/screenshot_2017-07-07_20-08-56.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:09:08
+[[file:Map-Reduce/screenshot_2017-07-07_20-09-08.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:09:17
+[[file:Map-Reduce/screenshot_2017-07-07_20-09-17.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:09:24
+[[file:Map-Reduce/screenshot_2017-07-07_20-09-24.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:09:43
+[[file:Map-Reduce/screenshot_2017-07-07_20-09-43.png]]
+shard
+
+** Hadoop: Intro
+
+*** Map-reduce 框架
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:10:13
+ [[file:Map-Reduce/screenshot_2017-07-07_20-10-13.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:10:21
+ [[file:Map-Reduce/screenshot_2017-07-07_20-10-21.png]]
+
+*** Map-reduce 例子说明
+    phase 1: doc -map-> word-counters
+    这里的 map-reduce 中的 map 是说，可以让多少篇文章同时被处理，
+    比如这里有 map 1~3 也就是同时可以有三篇文章被处理，而处理的方法
+    都是统计每篇文章每个单词的数目：
+    ~lisp:   (map counter [doc1, doc2, doc3])~
+    ~python: map(counter-fn, [doc1, doc2, doc3])~
+
+    phase 2: word-counters -sort-> word-counters with same key locate together
+    这里的 sort 是以 word 为标准进行排序，这样之后相同的 word 的统计就会放在一起，
+    方便下一步进行加总。
+
+    phase 3: word-counters -resuce-> sum up word-counters with same key
+    经过步骤 2 把所有相同单词的 counter 加总起来
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:10:28
+ [[file:Map-Reduce/screenshot_2017-07-07_20-10-28.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:10:37
+ [[file:Map-Reduce/screenshot_2017-07-07_20-10-37.png]]
+    phase 1: doc -map-> word-counters
+    这里的 map-reduce 中的 map 是说，可以让多少篇文章同时被处理，
+    比如这里有 map 1~3 也就是同时可以有三篇文章被处理，而处理的方法
+    都是统计每篇文章每个单词的数目：
+    ~lisp:   (map counter [doc1, doc2, doc3])~
+    ~python: map(counter-fn, [doc1, doc2, doc3])~
+
+
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:10:51
+ [[file:Map-Reduce/screenshot_2017-07-07_20-10-51.png]]
+
+    phase 2: word-counters -sort-> word-counters with same key locate together
+    这里的 sort 是以 word 为标准进行排序，这样之后相同的 word 的统计就会放在一起，
+    方便下一步进行加总。
+
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:11:00
+ [[file:Map-Reduce/screenshot_2017-07-07_20-11-00.png]]
+
+    phase 3: word-counters -resuce-> sum up word-counters with same key
+    经过步骤 2 把所有相同单词的 counter 加总起来
+
+
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:11:09
+ [[file:Map-Reduce/screenshot_2017-07-07_20-11-09.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:11:15
+ [[file:Map-Reduce/screenshot_2017-07-07_20-11-15.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:11:22
+ [[file:Map-Reduce/screenshot_2017-07-07_20-11-22.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:11:29
+ [[file:Map-Reduce/screenshot_2017-07-07_20-11-29.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:11:40
+ [[file:Map-Reduce/screenshot_2017-07-07_20-11-40.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:11:47
+ [[file:Map-Reduce/screenshot_2017-07-07_20-11-47.png]]
+ 这是数据存储的例子，数据被分成 10 份，且每一份有另外两个备份。所以总体看
+ 是这份数据总共有 30 份，而且每一份都大概是 1G 大小。这样会造成很多浪费。
+ 最好是把数据分成 block(64k) 的整数倍，这样可以避免硬盘碎片化。
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:11:57
+ [[file:Map-Reduce/screenshot_2017-07-07_20-11-57.png]]
+
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:12:59
+ [[file:Map-Reduce/screenshot_2017-07-07_20-12-59.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:13:35
+ [[file:Map-Reduce/screenshot_2017-07-07_20-13-35.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:13:49
+ [[file:Map-Reduce/screenshot_2017-07-07_20-13-49.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:14:01
+ [[file:Map-Reduce/screenshot_2017-07-07_20-14-01.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:14:11
+ [[file:Map-Reduce/screenshot_2017-07-07_20-14-11.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:14:18
+ [[file:Map-Reduce/screenshot_2017-07-07_20-14-18.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:14:25
+ [[file:Map-Reduce/screenshot_2017-07-07_20-14-25.png]]
+*** Map reduce with Hadoop streaming
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:14:50
+[[file:Map-Reduce/screenshot_2017-07-07_20-14-50.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:14:58
+[[file:Map-Reduce/screenshot_2017-07-07_20-14-58.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:15:06
+[[file:Map-Reduce/screenshot_2017-07-07_20-15-06.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:15:14
+[[file:Map-Reduce/screenshot_2017-07-07_20-15-14.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:15:27
+[[file:Map-Reduce/screenshot_2017-07-07_20-15-27.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:15:37
+[[file:Map-Reduce/screenshot_2017-07-07_20-15-37.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:15:47
+[[file:Map-Reduce/screenshot_2017-07-07_20-15-47.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:15:54
+[[file:Map-Reduce/screenshot_2017-07-07_20-15-54.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:16:01
+[[file:Map-Reduce/screenshot_2017-07-07_20-16-01.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:16:08
+[[file:Map-Reduce/screenshot_2017-07-07_20-16-08.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:16:19
+[[file:Map-Reduce/screenshot_2017-07-07_20-16-19.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:16:29
+[[file:Map-Reduce/screenshot_2017-07-07_20-16-29.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:16:38
+[[file:Map-Reduce/screenshot_2017-07-07_20-16-38.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:16:47
+[[file:Map-Reduce/screenshot_2017-07-07_20-16-47.png]]
+#+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:16:57
+[[file:Map-Reduce/screenshot_2017-07-07_20-16-57.png]]
+Reducer<Text, IntWritable, Text, IntWritable>
+.        key,  value     ,  key, value
+*** Debugging Map-Reduce
+**** Can't control order
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:17:19
+ [[file:Map-Reduce/screenshot_2017-07-07_20-17-19.png]]
+ MapReduce is not hard, but it's _hard to break algorithms into_
+ _MpaReduce_ steps. So that's a particular kind of _algorithms design_.
+
+ We'll work through a bunch of examples over the next few days
+
+**** No static variable
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:17:27
+ [[file:Map-Reduce/screenshot_2017-07-07_20-17-27.png]]
+ 不要设置静态变量，因为其他机器里的程序根本无法正确使用【静态变量】
+
+**** No communication between mappers(reducers)
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:17:34
+ [[file:Map-Reduce/screenshot_2017-07-07_20-17-34.png]]
+mapper 与 mapper 之间，reducer 与 reducer 之间不要产生任何交流
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:17:40
+ [[file:Map-Reduce/screenshot_2017-07-07_20-17-40.png]]
+
+**** Not all problem can be MapReducer
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:17:47
+ [[file:Map-Reduce/screenshot_2017-07-07_20-17-47.png]]
+
+
+**** Transform to MapReduce framework
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:17:54
+ [[file:Map-Reduce/screenshot_2017-07-07_20-17-54.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:18:01
+ [[file:Map-Reduce/screenshot_2017-07-07_20-18-01.png]]
+*** Combiners in Hadoop
+**** 执行 reducer 的两个条件
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:18:24
+ [[file:Map-Reduce/screenshot_2017-07-07_20-18-24.png]]
+ 1) Mappers 都执行完毕
+ 2) Mappers 的输出都排序完毕
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:18:31
+ [[file:Map-Reduce/screenshot_2017-07-07_20-18-31.png]]
+**** what is a combiner
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:18:40
+ [[file:Map-Reduce/screenshot_2017-07-07_20-18-40.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:18:48
+ [[file:Map-Reduce/screenshot_2017-07-07_20-18-48.png]]
+ #+DOWNLOADED: /tmp/screenshot.png @ 2017-07-07 20:18:55
+ [[file:Map-Reduce/screenshot_2017-07-07_20-18-55.png]]

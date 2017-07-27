@@ -1,14 +1,16 @@
 * Probability and Scalability
->>> Things to remember:
----------------------------------------------------------------
-1) The joint probability distribution
-2) Brute-force estimation of a joint distribution
-3) Density estimation and how it can be used for classification
-4) Naive Bayes and the conditional independence assumption
-5) Asymptotic complexity of naive Bayes
-6) What are streaming machine learning algorithms:
-   ML algorithms that never load in the data
----------------------------------------------------------------
+*** Readings
+    Required: my notes on streaming and Naive Bayes
+*** >>> Things to remember:
+ ---------------------------------------------------------------
+ 1) The joint probability distribution
+ 2) Brute-force estimation of a joint distribution
+ 3) Density estimation and how it can be used for classification
+ 4) Naive Bayes and the conditional independence assumption
+ 5) Asymptotic complexity of naive Bayes
+ 6) What are streaming machine learning algorithms:
+    ML algorithms that never load in the data
+ ---------------------------------------------------------------
 ** Learning and Counting
 *** Joint Distribution
 #+DOWNLOADED: /tmp/screenshot.png @ 2017-06-26 17:23:37
