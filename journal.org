@@ -7504,6 +7504,23 @@ https://www.youtube.com/watch?v=e08kOj2kISU
 
 **** MESSY 入党信息
      1. 姓名：袁龙     2. 性别：男    3;
+** 2017-08 August
+*** 2017-08-02 Wednesday
+
+**** MESSY color unicode to color
+     最简单的方式是直接 M-x rainbow-mode
+*** 2017-08-06 Sunday
+
+**** MESSY 关于 conda 如何管理包
+我想为某个 conda 的虚拟环境安装包，
+比如为我的虚拟环境 tensorflow 安装 feedparser 包该怎么做呢？
+1. 如果这个包已经被 conda 下载过：conda install feedparser
+   那么这个包其实已经存在你电脑里了，只是没有被包含进虚拟环境中，这时
+   可以直接 source active tesnsorflow 激活该虚拟环境
+   然后 conda install feedparser 即可
+2. 如果还没有通过 conda 下载过，就可以直接下载，然后在虚拟环境中再下载一次
+   这样做其实只下载了一次，激活虚拟环境后下载只是将其包含进虚拟环境的包
+   列表中而已，并没有执行下载动作。
 
 * 数据挖掘：理论与算法
 **** introduction
