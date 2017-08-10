@@ -7521,6 +7521,14 @@ https://www.youtube.com/watch?v=e08kOj2kISU
 2. 如果还没有通过 conda 下载过，就可以直接下载，然后在虚拟环境中再下载一次
    这样做其实只下载了一次，激活虚拟环境后下载只是将其包含进虚拟环境的包
    列表中而已，并没有执行下载动作。
+*** 2017-08-08 Tuesday
+
+**** MESSY 配置 emacs jupyter note book 过程
+     1) 在 ~spc f e d~ 配置文件中加入 ~ipython-notebook~ laye
+     2) shell 启动 jupyter notebook: ~jupyter notebook~
+     3) 步骤 2 会显示网址 ,port 和 token
+     4) emacs 中 M-x ~ein:notebooklist-login~, 提示输入 _port 和 token_
+     5) emacs 中 M-x ~ein:notebooklist-open~ 即可打开
 
 * 数据挖掘：理论与算法
 **** introduction
