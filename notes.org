@@ -1,8 +1,8 @@
 *Tips*
 1. 這裏的文檔需要美化格式
-2. [掛],盡量把自己看過的相關網頁等,都[掛]在自己已經有的node下面
+2. [掛],盡量把自己看過的相關網頁等,都[掛]在自己已經有的 node 下面
 3. 把小的信息通過[通過長時間累積的]掛, 來集合成[專題]
-4. 當某個節點過大,直接新建orgfile存儲,並留下鏈接即可
+4. 當某個節點過大,直接新建 orgfile 存儲,並留下鏈接即可
 5. Q&A 盡量歸類,不要獨立成節點
 --------------------------
 * Quick notes
@@ -10,9 +10,9 @@
    |   | window always on top | M spc |   |
 
 ** 问题查找与解决
-*** 如何查找自己需要的pkg或layer说明?
-    通过 SPC-h-R 来查找所有spacemacs doc 匹配关键字.
-*** 如何在user-config 中定义按键,覆盖evil-state-map中的按键.
+*** 如何查找自己需要的 pkg 或 layer 说明?
+    通过 SPC-h-R 来查找所有 spacemacs doc 匹配关键字.
+*** 如何在 user-config 中定义按键,覆盖 evil-state-map 中的按键.
     #+BEGIN_SRC emacs-lisp
 
     #+END_SRC
@@ -32,10 +32,10 @@
     "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
     )
 
-    ;;; 有一个待解决问题, 在.emacs.d/elpa/evil/evil-commands.el中定义了下滑函数,evil-maps.el定义了其绑定键C-e.
+    ;;; 有一个待解决问题, 在.emacs.d/elpa/evil/evil-commands.el 中定义了下滑函数,evil-maps.el 定义了其绑定键 C-e.
     ;;; 期待以后能学到改变方法.
-    ;;; DONE 上面这个问题解决了,就是user-init主要放置初始化内容.user-config是启动最后才做的事情.
-    ;;;      我的解决方法仅仅是规避原来的C-e按键.放在 user-config中定义.
+    ;;; DONE 上面这个问题解决了,就是 user-init 主要放置初始化内容.user-config 是启动最后才做的事情.
+    ;;;      我的解决方法仅仅是规避原来的 C-e 按键.放在 user-config 中定义.
     (defun dotspacemacs/user-config ()
     "Configuration function for user code.
     This function is called at the very end of Spacemacs initialization after
@@ -50,57 +50,57 @@
     )
 *** 如何通过命令行修改某些参数的值 
     SPC SPC, counsel-set-variable, 中查询你要修改的变量修改即可
-*** 如何创建自己的layer(从原来的emacs配置拷贝) 
-**** layer基本配置
-     1. spc spc , configuration-layer/create-layer. 简单配置自己的layer的一些元素.(参考spc h R 中提供的layer相关结构文档).
-     2. 其中结构中packages.el(安装的包,以及进行包相关配置).funcs.el主要定义一些函数*(其实也可以定义在packages.el的user-packages函数里)funcs.el中尽量定义全局函数.
-     3. 定义hotkeys就放在keybindings.el里面.
-     4. config.el 一些与layers相关的配置
-     5. layers. 声明额外的layers.
-**** pkg初始化函数
-     1. 每一个安装在 defconst yiddi-packages 函数中的pkg,都对应一个(defun yiddi/init-<pkgName>())函数来进行一些hotkey等的初始化
-     2. spacemacs/set-leader-keys 通过这个函数设置hotkey(除去SPC的部分),并绑定对应启动的功能函数
-*** 三种方式更改pkg参数 
+*** 如何创建自己的 layer(从原来的 emacs 配置拷贝) 
+**** layer 基本配置
+     1. spc spc , configuration-layer/create-layer. 简单配置自己的 layer 的一些元素.(参考 spc h R 中提供的 layer 相关结构文档).
+     2. 其中结构中 packages.el(安装的包,以及进行包相关配置).funcs.el 主要定义一些函数*(其实也可以定义在 packages.el 的 user-packages 函数里)funcs.el 中尽量定义全局函数.
+     3. 定义 hotkeys 就放在 keybindings.el 里面.
+     4. config.el 一些与 layers 相关的配置
+     5. layers. 声明额外的 layers.
+**** pkg 初始化函数
+     1. 每一个安装在 defconst yiddi-packages 函数中的 pkg,都对应一个(defun yiddi/init-<pkgName>())函数来进行一些 hotkey 等的初始化
+     2. spacemacs/set-leader-keys 通过这个函数设置 hotkey(除去 SPC 的部分),并绑定对应启动的功能函数
+*** 三种方式更改 pkg 参数 
     1. 包安装位置有 packages.el 里面会有部分配置.
-    2. 在init.el中有user-config.
-    3. 在自定义layer的配置文件中,有config.el,里面也有
-*** 如何在某个minor-mode的编辑模式下用evil的快捷键,kjhl? 
+    2. 在 init.el 中有 user-config.
+    3. 在自定义 layer 的配置文件中,有 config.el,里面也有
+*** 如何在某个 minor-mode 的编辑模式下用 evil 的快捷键,kjhl? 
     evilified-state-evilify-map 函数, refer to doc for how to use it.
 *** 如何知道目前的编辑模式是 evil 还是 emacs?
-    看mode-line 哪一行,
-    - 浅黄色 : 简化版evilmode
+    看 mode-line 哪一行,
+    - 浅黄色 : 简化版 evilmode
     - 深黄色 : evil-normal
     - 绿色   : evil-insert
     - 灰色   : evil-visual
-*** 遇到配置配了,spc feR 也生效了,但是重启后就出error 
+*** 遇到配置配了,spc feR 也生效了,但是重启后就出 error 
     这种问题一般都是 spacemacs 启动加载顺序造成的.
-    1. 重启之前emacs中所有符号都已经加载(赋值了)
+    1. 重启之前 emacs 中所有符号都已经加载(赋值了)
     2. 重启之后有加载顺序,很有可能你的配置中的某个函数的所属库是在你当前配置之后加载的.
-    3. 这时spacemacs肯定就启动不了了.
-    4. [解决] 理论上initel -> user-config 函数中的配置是最后加载的.
-    5. 所以最懒,最安全,最不美的做法,就是统统放进user-config里.
-*** 对于spacemacs默认安装的包的配置如何做更改? 
+    3. 这时 spacemacs 肯定就启动不了了.
+    4. [解决] 理论上 initel -> user-config 函数中的配置是最后加载的.
+    5. 所以最懒,最安全,最不美的做法,就是统统放进 user-config 里.
+*** 对于 spacemacs 默认安装的包的配置如何做更改? 
     1. 首先在你的 layer->packages.el-><layer-name>/post-init-packages 函数中,添加该包名
-    2. 比如 auto-complete layer, company包,默认给两个字符才会启用自动补全,我希望是1个就启动
-    3. 这时候我可以在我的自定义layer的package.el中配置.
+    2. 比如 auto-complete layer, company 包,默认给两个字符才会启用自动补全,我希望是 1 个就启动
+    3. 这时候我可以在我的自定义 layer 的 package.el 中配置.
     #+BEGIN_SRC emacs-lisp
     (defun yiddi/post-init-company()
       (setq company-minimum-prefix-length 1))
     #+END_SRC
-    我们不想直接改company的原始配置,因为他在.emacs.d文件夹里,我们没必要管理emacs的200
-    多个包,所以没有git 整个文件夹,而是git了另一个.spacemacs.d里的自己的配置.
+    我们不想直接改 company 的原始配置,因为他在.emacs.d 文件夹里,我们没必要管理 emacs 的 200
+    多个包,所以没有 git 整个文件夹,而是 git 了另一个.spacemacs.d 里的自己的配置.
 *** 一般的安装和配置包的过程是这样的 
-    1. 首先spc h spc查看有没有安装这个包,如果有
-    2. 不用安装,直接在自己的layer-> packages.el 中对其进行更改即可
+    1. 首先 spc h spc 查看有没有安装这个包,如果有
+    2. 不用安装,直接在自己的 layer-> packages.el 中对其进行更改即可
        #+BEGIN_SRC emacs-lisp
        (defun <layer-name>/<post-init-pkgname>()
          (setq <pkg-variable> <value>)
        #+END_SRC
-*** 自定义layer package.el 配置三剑客函数
+*** 自定义 layer package.el 配置三剑客函数
     1. pre-init-<pkg-name>
     2. init-<pkg-name>
     3. post-init-<pkg-name>
-    就是按上面的顺序,在spacemacs启动时会调用三个函数.
+    就是按上面的顺序,在 spacemacs 启动时会调用三个函数.
 *** 如何安装自己需要的包
     在 spc fed --> additional package() 直接添加自己需要的包名
 *** how to find file you want?
@@ -316,7 +316,7 @@
    3) =C-c C-x <tab>= record the start time of this org branch
    4) =C-c C-x C-o=   record the end time of this org branch
 ** automatic logging of status changes                                  :LOG:
-***     Goal: get a logbook entry whenever a TODO keyword chenges
+*** Goal: get a logbook entry whenever a TODO keyword chenges
     #+BEGIN_SRC org
    #+SEQ_TODO:TODO(t@/!)
    t - hotkey assigned to that TODO keyword
@@ -931,37 +931,37 @@ python -m doctest test_HelloWorld.py 2>&1
    net-card, using the NAT tech. step-by-step, as follow note:
 *** Configuration
 **** setting share in inner netcard
-     最简单的办法解决问题（此方法简单容易，非常类似于windows下的“共享”，只是windows
-     下是在外网网卡上点击“共享”，而ubuntu是在内网网卡上选择“与其他计算机共享”）：
-     打开 系统设置->网络设置->选中内网网卡(这里是eth1)->点击“选项”->点击ipv4设
-     置->在“方法”的下拉框中选中“与其他计算机共享”->保存，立即OK！
+     最简单的办法解决问题（此方法简单容易，非常类似于 windows 下的“共享”，只是 windows
+     下是在外网网卡上点击“共享”，而 ubuntu 是在内网网卡上选择“与其他计算机共享”）：
+     打开 系统设置->网络设置->选中内网网卡(这里是 eth1)->点击“选项”->点击 ipv4 设
+     置->在“方法”的下拉框中选中“与其他计算机共享”->保存，立即 OK！
 **** setting NAT
-     　　本文介绍如何使用iptables来实现NAT转发，事实上就是将一台机器作为网关（gateway）
-     来使用。我们假设充当网关的机器至少有网卡eth0和eth1，使用eth0表示连接到外网的网卡，
-     使用eth1表示连接到内网交换机上的网卡，内部子网为10.0.0.0，通过NAT机制，内网中的
-     机器可以通过网关机器访问Internet，而不需要额外的公网IP。
+     　　本文介绍如何使用 iptables 来实现 NAT 转发，事实上就是将一台机器作为网关（gateway）
+     来使用。我们假设充当网关的机器至少有网卡 eth0 和 eth1，使用 eth0 表示连接到外网的网卡，
+     使用 eth1 表示连接到内网交换机上的网卡，内部子网为 10.0.0.0，通过 NAT 机制，内网中的
+     机器可以通过网关机器访问 Internet，而不需要额外的公网 IP。
 
      　　本文中的配置值需要根据具体环境适当更改。
-***** Gateway端
+***** Gateway 端
 
-      　　1. 给内网网卡配置静态IP（此前确保另一张外网网卡eth0已经能够正常访问Internet。
-      已经为eth1配置过内网静态IP的可以跳过本步）
+      　　1. 给内网网卡配置静态 IP（此前确保另一张外网网卡 eth0 已经能够正常访问 Internet。
+      已经为 eth1 配置过内网静态 IP 的可以跳过本步）
       sudo ip addr add 10.0.0.11/24 dev eth1
-      　　这里假设eth1的IP为10.0.0.11,。
-      　　2. 配置NAT规则
+      　　这里假设 eth1 的 IP 为 10.0.0.11,。
+      　　2. 配置 NAT 规则
       sudo iptables -A FORWARD -o eth0 -i eth1 -s 10.0.0.0/24 -m conntrack --ctstate NEW -j ACCEPT
       sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
       sudo iptables -t nat -F POSTROUTING
       sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
       　　第一条规则允许转发初始网络包，第二条规则允许转发已经建立连接后的网络包，第三
-      条则设置NAT。
-      　　接下来需要保存iptables规则，确保每次重启时能够加载NAT规则：
+      条则设置 NAT。
+      　　接下来需要保存 iptables 规则，确保每次重启时能够加载 NAT 规则：
 
-      　　2.1 保存iptables规则
+      　　2.1 保存 iptables 规则
       sudo iptables-save | sudo tee /etc/iptables.sav
-      　　2.2 编辑/etc/rc.local文件，将下面的一行添加到“exit 0”之前：
+      　　2.2 编辑/etc/rc.local 文件，将下面的一行添加到“exit 0”之前：
       iptables-restore < /etc/iptables.sav
-      　　这样以后每次重启机器时都会自动加载NAT相关的iptables规则。　　
+      　　这样以后每次重启机器时都会自动加载 NAT 相关的 iptables 规则。　　
 
       　　3 启用路由转发，编辑/etc/sysctl.conf 文件，删除起始的“#”，解除
       #net.ipv4.ip_forward=1
@@ -969,40 +969,40 @@ python -m doctest test_HelloWorld.py 2>&1
       sudo sysctl -p
       　　这样我们就完成了网关一端的设置。
 
-***** Client端
+***** Client 端
 
-      　　一旦网关机器设置完成，任何OS的客户端都能够通过连接到网关而访问外部网络。这里以Ubuntu Server作为client为例，假设client的eth0连接到网关eth1所在的内网10.0.0.0上，
-      　　1. 为eth0指派静态IP（需与server端的eth1在同一网段，如果已经配置过则可以跳过本步），编辑/etc/network/interfaces文件：
+      　　一旦网关机器设置完成，任何 OS 的客户端都能够通过连接到网关而访问外部网络。这里以 Ubuntu Server 作为 client 为例，假设 client 的 eth0 连接到网关 eth1 所在的内网 10.0.0.0 上，
+      　　1. 为 eth0 指派静态 IP（需与 server 端的 eth1 在同一网段，如果已经配置过则可以跳过本步），编辑/etc/network/interfaces 文件：
       auto eth0
       iface eth0 inet static
       address 10.0.0.31
       netmask 255.255.255.0
       gateway 10.0.0.11
       dns-nameservers YourDNSServer
-      　　因为我们的网关服务端并没有充当DNS服务器，此处需要额外指定client的DNS服务器，
+      　　因为我们的网关服务端并没有充当 DNS 服务器，此处需要额外指定 client 的 DNS 服务器，
       通常从网络服务提供商（ISP）那里获得。
       　　2. 接下来配置路由网关
       sudo route add default gw 10.0.0.11 dev eth0
-      　　使网关配置生效，如果以前已经生成过/etc/resolv.conf文件中的nameserver字段，那么这时client应该已经能够访问外部网络了，否则需要编辑/etc/resolv.conf，添加字段：
+      　　使网关配置生效，如果以前已经生成过/etc/resolv.conf 文件中的 nameserver 字段，那么这时 client 应该已经能够访问外部网络了，否则需要编辑/etc/resolv.conf，添加字段：
       nameserver YourDNSServer
-      　　由于在/etc/network/interfaces文件中已经配置过dns-nameservers，所以重新启动client机器时不会影响DNS配置。
-      　　此时client已经能够通过网关机器访问外网，如果不知道ISP的DNS服务器地址，可以使用OpenDNS作为替代。
-****  高级Gateway配置
+      　　由于在/etc/network/interfaces 文件中已经配置过 dns-nameservers，所以重新启动 client 机器时不会影响 DNS 配置。
+      　　此时 client 已经能够通过网关机器访问外网，如果不知道 ISP 的 DNS 服务器地址，可以使用 OpenDNS 作为替代。
+****  高级 Gateway 配置
 
-     　　可以为gateway机器配置DHCP和DNS服务器功能，从而简化客户端机器的联网配置，同时
-     省却为client配置DNS的过程；
+     　　可以为 gateway 机器配置 DHCP 和 DNS 服务器功能，从而简化客户端机器的联网配置，同时
+     省却为 client 配置 DNS 的过程；
 
-     　　1. 安装dnsmasq
+     　　1. 安装 dnsmasq
      sudo aptitude install dnsmasq
-     　　2. 备份dnsmasq的配置文件以备参考
+     　　2. 备份 dnsmasq 的配置文件以备参考
      sudo cp /etc/dnsmasq.conf /etc/dnsmasq.conf-backup
-     　　3. 编辑dnsmasq的配置文件/etc/dnsmasq.conf，添加下面两行：
+     　　3. 编辑 dnsmasq 的配置文件/etc/dnsmasq.conf，添加下面两行：
      interface=eth1
      dhcp-range=10.0.0.100,10.0.0.250,72h
-     　　注意这是为gateway机器配置DHCP/DNS，interface字段需要设为该机器连接到内网的那个网卡，同时DHCP的IP池应该在我们之前配置的那个网段中。
-     　　4. 重启dnsmasq服务
+     　　注意这是为 gateway 机器配置 DHCP/DNS，interface 字段需要设为该机器连接到内网的那个网卡，同时 DHCP 的 IP 池应该在我们之前配置的那个网段中。
+     　　4. 重启 dnsmasq 服务
      sudo /etc/init.d/dnsmasq restart
-     　　这样client端就能够获取动态IP和自动解析域名了。
+     　　这样 client 端就能够获取动态 IP 和自动解析域名了。
      #+BEGIN_SRC shell
 sudo iptables -AFORWARD -o wlp8s0 -i enp7s0 -s 10.42.0.1/24 -m conntrack --ctstate NEW -j ACCEPT
 sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
@@ -1014,10 +1014,10 @@ sudo iptables -t nat -A POSTROUTING -o wlp8s0 -j MASQUERADE
     https://bbs.archlinux.org/viewtopic.php?id=147790
     https://www.linuxbabe.com/linux-server/how-to-enable-etcrc-local-with-systemd
 *** about systemd
-    换了一台新笔记本，于是装上了最新的Ubuntu 1610,结果从旧机器导文件过来的时候发
-    现系统里没有rc.local，一下感觉醉醉的。google查了下，原来是1610把rc.local服务
-    化了，看来systemd已经决心独立了。。话说这个sysvinit流传的下来的东东生命力确实顽
-    强，而且真的很好用啊。解决方法： 首先创建systemd的服务脚本
+    换了一台新笔记本，于是装上了最新的 Ubuntu 1610,结果从旧机器导文件过来的时候发
+    现系统里没有 rc.local，一下感觉醉醉的。google 查了下，原来是 1610 把 rc.local 服务
+    化了，看来 systemd 已经决心独立了。。话说这个 sysvinit 流传的下来的东东生命力确实顽
+    强，而且真的很好用啊。解决方法： 首先创建 systemd 的服务脚本
 *** How to write systemd script
     1. create systemd-script in =/etc/systemd/system/=
     2. vim this script, add some items like below
@@ -1223,49 +1223,49 @@ WantedBy=multi-user.target
      ""
 
 ** how to install nvidia-driver in linux
-Linux secure boot(安全启动)时添加Nvidia显卡驱动
-开启Secure boot情况下，在Fedora 21下安装Nvidia 显卡驱动的方法。
-Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
-下载后添加可执行权限：
-#chmod +x NVIDIA-Linux*.run
-注意，安装Nvidia显卡需要满足的两个条件是
-1. nouveau（默认的显卡驱动）驱动程序必须禁用
-2. Xserver（图形界面） 要停止运行
-以上两个问题的解决方法如下：
+   Linux secure boot(安全启动)时添加 Nvidia 显卡驱动
+   开启 Secure boot 情况下，在 Fedora 21 下安装 Nvidia 显卡驱动的方法。
+   Nvidia 显卡驱动可以从官网上下载最新版>> 点击进入
+   下载后添加可执行权限：
+   #chmod +x NVIDIA-Linux*.run
+   注意，安装 Nvidia 显卡需要满足的两个条件是
+   1. nouveau（默认的显卡驱动）驱动程序必须禁用
+   2. Xserver（图形界面） 要停止运行
+   以上两个问题的解决方法如下：
 
-首先按Ctrl + Alt + F2进入终端
-输入root的帐号和密码后执行以下操作
+   首先按 Ctrl + Alt + F2 进入终端
+   输入 root 的帐号和密码后执行以下操作
 
-1. 禁用nouveau显卡驱动
-#sudo dracut --omit-drivers nouveau /boot/initramfs-$(uname -r).img $(uname -r) --force
+   1. 禁用 nouveau 显卡驱动
+   #sudo dracut --omit-drivers nouveau /boot/initramfs-$(uname -r).img $(uname -r) --force
 
-2. 停止Xserver
-#service gdm stop
-#service lightgdm stop
-3. 安装编译所需的程序
-#yum install gcc kernel-devel
+   2. 停止 Xserver
+   #service gdm stop
+   #service lightgdm stop
+   3. 安装编译所需的程序
+   #yum install gcc kernel-devel
 
-然后进入放NVIDIA-linux*.run的目录，执行该文件，按照提示进行操作。
-由于我这台机器已经安装好了驱动程序，就不再执行了（所以截图也就没有了）。
-注意在执行过程中，会出现提示是否使用dkms，由于在secure boot下使用dkms会导致无法开机，这里选择NO(否)。
-经过编译后会提示是否sign the kernel module（为内核模块签名），这里要选择是。接下来会继续问使用已有的密钥给模块签名还是重新生成。
-这里选在重新生成密钥。继续下去之后，密钥会在/usr/share/nvidia/下生成一个nvidia*.der（私钥）文件和nvidia*.key（公钥）文件，当提示是否删除已生成的密钥文件时，选择否，
-因为之后要用到这两个文件。继续安装程序到最后会提示无法启动模块。这是因为生成的密钥还没有添加到内核的信任库中。
-添加密钥到内核的信任列表中：
+   然后进入放 NVIDIA-linux*.run 的目录，执行该文件，按照提示进行操作。
+   由于我这台机器已经安装好了驱动程序，就不再执行了（所以截图也就没有了）。
+   注意在执行过程中，会出现提示是否使用 dkms，由于在 secure boot 下使用 dkms 会导致无法开机，这里选择 NO(否)。
+   经过编译后会提示是否 sign the kernel module（为内核模块签名），这里要选择是。接下来会继续问使用已有的密钥给模块签名还是重新生成。
+   这里选在重新生成密钥。继续下去之后，密钥会在/usr/share/nvidia/下生成一个 nvidia*.der（私钥）文件和 nvidia*.key（公钥）文件，当提示是否删除已生成的密钥文件时，选择否，
+   因为之后要用到这两个文件。继续安装程序到最后会提示无法启动模块。这是因为生成的密钥还没有添加到内核的信任库中。
+   添加密钥到内核的信任列表中：
 
-#sudo mokutil --import /usr/share/nvidia/nvida*.der
+   #sudo mokutil --import /usr/share/nvidia/nvida*.der
 
-接下来会提示输入密码，两次输入密码后重启系统。
-#reboot
+   接下来会提示输入密码，两次输入密码后重启系统。
+   #reboot
 
-重启进入bootloader之后，由于进行了添加密钥操作，会触发shim，shim会要求输入上一步输入的密码来导入密钥。按步骤操作。
+   重启进入 bootloader 之后，由于进行了添加密钥操作，会触发 shim，shim 会要求输入上一步输入的密码来导入密钥。按步骤操作。
 
-导入密钥之后，启动时内核就可以成功加载编译过的Nvidia显卡驱动了。
+   导入密钥之后，启动时内核就可以成功加载编译过的 Nvidia 显卡驱动了。
 * git
 ** Git:[[http://learngitbranching.js.org/][An interesting web for git-study]]
-*** git checkout 的本质就是移动HEAD
+*** git checkout 的本质就是移动 HEAD
 *** git status -s
-    这个命令会只获取stage中改变的部分
+    这个命令会只获取 stage 中改变的部分
 *** git commits :delta
     Git Commits
 
@@ -1279,7 +1279,7 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
 
     Git 的分支非常轻量。它们只是简单地指向某个提交纪录——仅此而已.
 
-*** commit 是前移pointer, branch 是创建pointer
+*** commit 是前移 pointer, branch 是创建 pointer
 *** git merge : 隐式的 delta+pointer
     git merge xxx (to me)
 
@@ -1287,25 +1287,25 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
     Rebasing 就是取出一系列的提交记录，"复制"它们，然后在别的某个地方放下来。
     git rebase (me to) xxx
     更快捷的方式是:
-    git rebase <to> <from>, 之后分支在source上.
+    git rebase <to> <from>, 之后分支在 source 上.
     Git Rebase
 
 *** 分离 HEAD
     git checkout (Head to) <commit>
-    HEAD 就是指针的指针,原来指向的是 分支名指针,分离head,就是把二级指针降级为一级指针
-    一般情况: HEAD -> <分支名> -> <commit> :分离HEAD: HEAD -> commit <- master
+    HEAD 就是指针的指针,原来指向的是 分支名指针,分离 head,就是把二级指针降级为一级指针
+    一般情况: HEAD -> <分支名> -> <commit> :分离 HEAD: HEAD -> commit <- master
     HEAD 通常指向分支名（比如 bugFix）。你提交时，改变了 bugFix 的状态，这一变化通过 HEAD 变得可见。
 
-*** git log: 查看commit hash值
+*** git log: 查看 commit hash 值
 
 *** 相对引用
 
-    使用 ^ ,HEAD向上移动1个位置:
+    使用 ^ ,HEAD 向上移动 1 个位置:
     master^ 相当于 "master 的父提交"
     master^^ 是 master 的父父提交（上上代祖先）
     使用 ~<num> 向上移动多个位置:
     git checkout HEAD~4
-    git branch -f master C4 (强行移动master分支到C4 commit)
+    git branch -f master C4 (强行移动 master 分支到 C4 commit)
 
 *** 撤销 Git 里面的变动: revert(远端) reset(本地)
 
@@ -1314,11 +1314,11 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
     在 Git 里主要用两种方法来撤销变动 —— 一种是 git reset，另外一种是 git revert。让我们在下一个窗口逐一了解它们。
     git reset 把分支记录回退到上一个提交记录来实现撤销改动。
     git reset HEAD~1
-    回退代表什么,代表原来的delta(变化部分)没有了,所以代码库还是没改之前的.
+    回退代表什么,代表原来的 delta(变化部分)没有了,所以代码库还是没改之前的.
     为了撤销更改并传播给别人，我们需要使用 git revert。举个例子
     git revert HEAD (通过提交来传播撤销)
 
-    因为 HEAD 是二级指针,指向当前branch, 所以只要不分离HEAD,移动当前分支就是移动HEAD.
+    因为 HEAD 是二级指针,指向当前 branch, 所以只要不分离 HEAD,移动当前分支就是移动 HEAD.
 
 *** cherry-pick: 转移工作区: 拉新排序
     本系列的第一个命令是 git cherry-pick, 命令形式为:
@@ -1329,7 +1329,7 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
     现在有一个仓库, 我们想将 side 分支下的工作复制到 master 分支, 我们可以通过 rebase 完成这一点(已经学过了哈), 但是这里我们想通过 cherry-pick 来完成.
 
 *** Git Interactive Rebase: 拉新排序
-    注意每次rebase,都会从更高的父节点创建新分支,所以不用担心原节点的树结构被打破
+    注意每次 rebase,都会从更高的父节点创建新分支,所以不用担心原节点的树结构被打破
     git rebase -i (my)<HEAD~n>(to)XXX
     如果你知道你所需要的提交对象(相应的 hash), 那用 Git cherry-pick 就非常方便了 -- 很难有简单的方式了
     但是如果你不清楚你想要的提交对象的 hash 呢? 幸好 Git 帮你想到了这一点, 我们可以利用交互 rebase -- 如果你想衍合一系列的提交, 这就是最方便的方法了
@@ -1343,7 +1343,7 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
 
     现在唯一的问题就是要把我在 bugFix 分支里的工作合并回 master 分支。我可以简单地把 master 分支快进（fast-forward），但这样的话 master 分支就会包含我这些调试语句了。
 
-*** 为了保证printf_to_debug语句彻底独立,应该新建branch
+*** 为了保证 printf_to_debug 语句彻底独立,应该新建 branch
 
 *** 提交变换戏法
 
@@ -1383,7 +1383,7 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
 
     因为 tag 在 commit tree 上表示的是一个锚点，Git 有一个指令可以用来显示离你最近的锚点（也就是 tag），而且这个指令叫做 git describe！
 
-    当你已经完成了一个 git bisect（一个找寻有 bug 的 commit 的指令），或者是当你使用的是你跑去度假的同事的电脑时， git describe 可以帮助你了解你离最近的 tag 差了多少个 commit。
+    当你已经完成了一个 git bisect（一个找寻有 bug 的 commit 的指令），或者是当你使用的是你跑去度假的同事的电脑时，git describe 可以帮助你了解你离最近的 tag 差了多少个 commit。
     git describe 的​​使用方式：[0/0]
 
     git describe <ref>
@@ -1394,7 +1394,7 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
 
     <tag>_<numCommits>_g<hash>
 
-    <tag> 表示的是离 <ref> 最近的 tag， numCommits 是表示这个 tag 离 <ref> 有多少个 commit， <hash> 表示的是你所给定的 <ref> 所表示的 commit 的前七个 id。
+    <tag> 表示的是离 <ref> 最近的 tag，numCommits 是表示这个 tag 离 <ref> 有多少个 commit， <hash> 表示的是你所给定的 <ref> 所表示的 commit 的前七个 id。
 
 *** 多分支 rebase
 
@@ -1423,7 +1423,7 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
 
     现在我们的 master 分支是比 one two 和 three 要多几个提交。出于某种原因，我们需要把其他三个分支更新到 master 分支上新近的几个不同提交上。（update these three other brances with modified versions of the last few commits on master）
 
-    分支 one 需要重新排序和撤销， two 需要完全重排，而 three 只需要提交一次。
+    分支 one 需要重新排序和撤销，two 需要完全重排，而 three 只需要提交一次。
 
     慢慢摸索会找到答案的 —— 你完事记得用 show solution 看看我们的答案哦。
 
@@ -1446,12 +1446,12 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
 
      大多数的开发者会将它们的远端命名为 origin, 而非 o. 这是如此的普遍, 以致于当你用 git clone 时,得到的仓库名就是 origin
 
-     不幸的是, 我们的UI不适用 origin, 我们使用缩写 o, :) 记住, 当你使用真正的 Git 时, 你的远程仓库很可能被命名为 origin!
+     不幸的是, 我们的 UI 不适用 origin, 我们使用缩写 o, :) 记住, 当你使用真正的 Git 时, 你的远程仓库很可能被命名为 origin!
 
 
 **** 如果检出 remote(o/master) 分支, 会发生什么呢?
-     如果检出本地的master,就是把HEAD指向master分支.
-     如果检出远端的master,HEAD就不会指向o/master,而是指向o/master所指的commit
+     如果检出本地的 master,就是把 HEAD 指向 master 分支.
+     如果检出远端的 master,HEAD 就不会指向 o/master,而是指向 o/master 所指的 commit
      git checkout o/master; git commit
 
      正如你所见, Git 处于了分离 HEAD, 当添加新的提交时, o/master 不被更新, 这是因为 o/master 仅伴随远端更新而更新.
@@ -1479,13 +1479,13 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
 
      git fetch, 不能改变你的本地状态. 你不会更新你的 master 或者 任何与文件系统相关的东西.
 
-     所以, 你可以将git fetch 的执行 视为下载
+     所以, 你可以将 git fetch 的执行 视为下载
 
 *** Git Pull :拉远合近 = fetch and merge
 
-    git fetch 是不管你当前在哪个分支的(HEAD指向),它就只看o/master在哪,然后拉一个新分支出来
-    但是git pull/push 都是要看HEAD指向的. 换言之,
-    git pull --rebase  = 从远端master fetch and rebase me to o/master
+    git fetch 是不管你当前在哪个分支的(HEAD 指向),它就只看 o/master 在哪,然后拉一个新分支出来
+    但是 git pull/push 都是要看 HEAD 指向的. 换言之,
+    git pull --rebase  = 从远端 master fetch and rebase me to o/master
 
     现在我们已经知道了如何用 git fetch 获取远端的变化, 现在我们学习如果将这些变化更新到我们的工作.
 
@@ -1495,7 +1495,7 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
     git rebase o/master
     git merge o/master
     etc, etc
-    实际上, fetch / merge 变更是这样的普通, 以至于git 提供了一个实现你两个功能的命令 -- git pull.
+    实际上, fetch / merge 变更是这样的普通, 以至于 git 提供了一个实现你两个功能的命令 -- git pull.
 
 *** Simulating collaboration
     git fakeTeamwork
@@ -1551,8 +1551,8 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
     integrating feature branch work onto master, and
     pushing and pulling from the remote
 
-    1. 先fetch 一个新的远端分支出来
-    2. 而后将本地feature 分支逐一,rebase上去(rebase <from> <to>)
+    1. 先 fetch 一个新的远端分支出来
+    2. 而后将本地 feature 分支逐一,rebase 上去(rebase <from> <to>)
 *** Why not merge?
 
 
@@ -1607,9 +1607,9 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
       will set the foo branch to track o/master. If foo is currently checked out you can even leave it off:
 
       *git branch -u o/master*
-*** 从本地分支push,在远端会新建一个这样的分支
-**** 有个本地分支,一直在开发,然后想push到远程上也作为分支,怎么做?
-     直接在本地建好分支一直开发,不用track,然后直接push
+*** 从本地分支 push,在远端会新建一个这样的分支
+**** 有个本地分支,一直在开发,然后想 push 到远程上也作为分支,怎么做?
+     直接在本地建好分支一直开发,不用 track,然后直接 push
 *** Push arguments
 
     Great! Now that you know about remote tracking branches we can start to uncover some of the mystery behind how git push, fetch, and pull work. We're going to tackle one command at a time but the concepts between them are very similar.
@@ -1617,9 +1617,9 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
     First we'll look at git push. You learned in the remote tracking lesson that git figured out the remote and the branch to push to by looking at the properties of the currently checked out branch (the remote that it "tracks"). This is the behavior with no arguments specified, but git push can optionally take arguments in the form of:
 
     *git push <repo> <branch:from>*
-    这个命令的好处是,直接推送到远端repo中的相关联分支中,如果远端没有这个分支,那么会在远端建立并直接关联.
+    这个命令的好处是,直接推送到远端 repo 中的相关联分支中,如果远端没有这个分支,那么会在远端建立并直接关联.
 **** what is a <place> parameter you say?
-     好用就好用在,即便现在是另一个分支上,也可以通过指明从谁那push来做到推送内容,而不用一直切来切去,跟rebase <to><from> 一样
+     好用就好用在,即便现在是另一个分支上,也可以通过指明从谁那 push 来做到推送内容,而不用一直切来切去,跟 rebase <to><from> 一样
      We'll dive into the specifics soon, but first an example. Issuing the command:
 
      *git push origin master*
@@ -1636,7 +1636,7 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
     上一节是说,要推送的关联(remote track)的分支上.
     而这一节更加灵活可以指定位置推送,不仅仅可以指定远端分支位置,还可以指定本地分支位置.通过相对定位符来指定位置.
 
-    也就是说,push origin语句,如果不加参数默认是找关联(git push origin master),如果加参数那就直接找参数(git push origin master:foo)
+    也就是说,push origin 语句,如果不加参数默认是找关联(git push origin master),如果加参数那就直接找参数(git push origin master:foo)
 
     还记得之前课程说的吧, 当为 git push 指定 master 为 place 时, 我们可以设置 要提交的来源 和 提交到目的地.
 
@@ -1656,7 +1656,7 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
     git push origin foo^:master
 
     这是个很迷幻的命令, 但它是合理的 -- Git 将 foo^ 解析为一个位置, 上传新提交到远端的目的地.
-*** Git fetch arguments : 跟push 参数命令方向相反
+*** Git fetch arguments : 跟 push 参数命令方向相反
 
     我们刚学习了 git push 的参数, 特别是 <place> 参数, 更特别的冒号分隔(<source>:<destination>). 这些参数可以用于 git fetch 吗?
 
@@ -1729,7 +1729,7 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
     哇, 这就一个命令. 我们在本地创建了一个叫 foo 的分支, 远端的 master 分支, 被下载到了本地 foo 分支. 然后再 merge 到我们的当前分支. 终于完啦! 9000!!!
 *** oh-my-zsh 配置别名
     cat ~/.oh-my-zsh/plugins/git/git.plugin.zsh
-    发现是一堆alias
+    发现是一堆 alias
 
     alias g='git'
 
@@ -1749,16 +1749,16 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
     alias gbsr='git bisect reset'
     alias gbss='git bisect start'
 ** Git 学习
-   1. 默认从远程仓库clone下来的repo,具有默认的仓库代号origin,这个名字就代表其作者所创建的repo
-   2. 当你从spasemacs官方git clone下来一个版本后,你加入了自己的修改,想保存在自己的git上
+   1. 默认从远程仓库 clone 下来的 repo,具有默认的仓库代号 origin,这个名字就代表其作者所创建的 repo
+   2. 当你从 spasemacs 官方 git clone 下来一个版本后,你加入了自己的修改,想保存在自己的 git 上
       你就可以,添加一个仓库(repo) git remote add, 顺便添加自己给取的一个代号(eg. yid).
-   3. git remote -v 看到的就是: repo在你本地的代号 和 具体的git repo网址
+   3. git remote -v 看到的就是: repo 在你本地的代号 和 具体的 git repo 网址
 ** Git 学习
-   1. 我在使用spacemacs的官方版本,但是出现问题了.这个问题被提出在 issue 中,并且被另一个人修复且提request了.
-   2. 这时,我还想使用spacemacs的这功能,怎么办?
-   3. 直接fetch 这个问题解决人的repo的这个分支(分支名称可以在pull request页面查询到)
-   4. teminal会这么显示: : *branch spacemacs-sover -> FETCH_HEAD : 其中fetch_head是git自动给的名字
-   5. 这个时候checkout出来一个分支,用来保护master分支代码 : git checkout -branch <取个分支名:eg fixUpStream> FETCH_HEAD
+   1. 我在使用 spacemacs 的官方版本,但是出现问题了.这个问题被提出在 issue 中,并且被另一个人修复且提 request 了.
+   2. 这时,我还想使用 spacemacs 的这功能,怎么办?
+   3. 直接 fetch 这个问题解决人的 repo 的这个分支(分支名称可以在 pull request 页面查询到)
+   4. teminal 会这么显示: : *branch spacemacs-sover -> FETCH_HEAD : 其中 fetch_head 是 git 自动给的名字
+   5. 这个时候 checkout 出来一个分支,用来保护 master 分支代码 : git checkout -branch <取个分支名:eg fixUpStream> FETCH_HEAD
 
 * spacemacs
 ** definition
@@ -1847,11 +1847,11 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
    |---+------------------------------------------------------------------+-------------------------+--------------------|
 *** file
    | =spc f f=     | find file from current directory(C-h to gu up-level of directory)        |
-   | =spc p f=     | 在当前项目中查找文件 三种主要pkg counsel-git / projectile/ ido-find-file |
+   | =spc p f=     | 在当前项目中查找文件 三种主要 pkg counsel-git / projectile/ ido-find-file |
    | =spc f L=     | counsel-locate :find file across the whole ubuntu system                |
    | =spc f l=     | find file literally (对编码格式不是本系统的有用)                         |
    | =spc f h=     | find file in hex mode                                                    |
-   | =spc f o=     | 使用外部文件打开,必须先用spacemacs打开之后方可使用                       |
+   | =spc f o=     | 使用外部文件打开,必须先用 spacemacs 打开之后方可使用                       |
    | =spc f E=     | sudo edit                                                                |
    | =spc f D=     | delete current file and buffer                                           |
    | =spc f j=     | file jump the current file                                               |
@@ -1948,7 +1948,7 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
 *** pandoc
 *** TODO org-download
     URL: https://github.com/abo-abo/org-download
-    setting file: [[file:~/.emacs.d/layers/+emacs/org/packages.el::(defun%20org/init-org-download%20()][org-download在配置文件中的位置]]
+    setting file: [[file:~/.emacs.d/layers/+emacs/org/packages.el::(defun%20org/init-org-download%20()][org-download 在配置文件中的位置]]
     drag picture directly to your org file
 
 *** lispy
@@ -2064,25 +2064,25 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
 	       company-oddmuse company-dabbrev)
         #+END_SRC
         - 从前到后,依次查看所有 *backend* 是否适合当前输入的文字
-        - 可以从buffer状态栏查看当前使用的 *backend* (会根据文本自动切换backend)
-        - 也可以手动通过 M-x <input backend-name> 来手动激活该backend的自动补全
+        - 可以从 buffer 状态栏查看当前使用的 *backend* (会根据文本自动切换 backend)
+        - 也可以手动通过 M-x <input backend-name> 来手动激活该 backend 的自动补全
      2. *C-h v company-bakends*
      3. try company-file and company-ispell, M-x
      4. *C-h C-f* to view the backend implementation
      | company-frontends | 是指前端補全框架                                                                                            |
-     | company-backends  | 有很多.其中最后一个,就是前面都匹配不到了,最后一个是compnay-Deabbre ,他会匹配你当前打开的所有buffer中的词项. |
-     |                   | company-File 这是另一个backend, 是负责输入文件目录.'/' 触发.                                                |
+     | company-backends  | 有很多.其中最后一个,就是前面都匹配不到了,最后一个是 compnay-Deabbre ,他会匹配你当前打开的所有 buffer 中的词项. |
+     |                   | company-File 这是另一个 backend, 是负责输入文件目录.'/' 触发.                                                |
 **** why my company sucks
-***** 为什么我的company会失效?
+***** 为什么我的 company 会失效?
       1. 失效如何定位?
-	  首先看补全package是否需要 server 端,还是只有本地 backends.
-	  我的ubuntu就是因为没有安装python-pip,所以一直显示 "can't install anaconda-server"
-	  安装之后,又提示jedi有什么问题.
+	  首先看补全 package 是否需要 server 端,还是只有本地 backends.
+	  我的 ubuntu 就是因为没有安装 python-pip,所以一直显示 "can't install anaconda-server"
+	  安装之后,又提示 jedi 有什么问题.
       2. 然后确定自己是否使用了正确的 backends
 
-***** 如何指定某个backend
-      我们可以自己写个函数来给某些mode添加backend
-      比如默认python中可能是没有 company-anaconda backend的
+***** 如何指定某个 backend
+      我们可以自己写个函数来给某些 mode 添加 backend
+      比如默认 python 中可能是没有 company-anaconda backend 的
       我们可以这样
       #+BEGIN_SRC emacs-lisp
       (add-hook 'python-mode-hook
@@ -2090,51 +2090,51 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
           (set (make-local-variable 'company-bakcends)  '(company-anaconda))))
       #+END_SRC
 ***** 两种补全方式
-      1. [本地]就是在本地存有很多backends.然后根据本地backends补全.
+      1. [本地]就是在本地存有很多 backends.然后根据本地 backends 补全.
       2. [远程]就是 company-(anaconda/jedi/ycmd/tern) 的补全方式,需要安装服务器端.
 *** cask
-    [cask] 目前学习了两种安装方式,一个是cask一个是非cask的. 非cask是首先检查
-    initpackage列表中的pkg是否都安装了?如果没有会安装他们,之后才开始进行一些列的
-    init.el配置. cask的方式,是要通过设定你的export path来设置 emacs默认启动版本
-    和cask的安装路径,来通过 cask install 来安装. 这之后才会执行一些init.el配置.
+    [cask] 目前学习了两种安装方式,一个是 cask 一个是非 cask 的. 非 cask 是首先检查
+    initpackage 列表中的 pkg 是否都安装了?如果没有会安装他们,之后才开始进行一些列的
+    init.el 配置. cask 的方式,是要通过设定你的 export path 来设置 emacs 默认启动版本
+    和 cask 的安装路径,来通过 cask install 来安装. 这之后才会执行一些 init.el 配置.
     这里都是先装包,再配置. 这样做的目的只有一个: 再一个新的环境中,下载我们的配置,直
     接使用. 或称: 配置,正确迁移. [progn] 是将多条语句捆绑成一条. 经常用在只允许
     一条语句的地方.
     [pp] 是 pretty print .
     [macroexpand] 用来展开一个宏,注意在后面加 quote--- '
-**** 如何通过cask回退 older-version pkg?
-     1. melpa 是通过pkg源码的github,抓取最新release.github上每个release都有自己的commit号和MD5码.
-     2. 可以通过 ~/.emacs.d/cask 文件来管理 *下载源* *每个包的下载commit号*
+**** 如何通过 cask 回退 older-version pkg?
+     1. melpa 是通过 pkg 源码的 github,抓取最新 release.github 上每个 release 都有自己的 commit 号和 MD5 码.
+     2. 可以通过 ~/.emacs.d/cask 文件来管理 *下载源* *每个包的下载 commit 号*
 	 *格式: (depends-on "pkg-name" :git "pkgpage-in-github" :reg "commit-code")*
-     - pkgpage 是melpa中每个pkg的github页;
-     - commit-code 可以在该github页上通过release找到稳定版, 通过commit找到提交版.
+     - pkgpage 是 melpa 中每个 pkg 的 github 页;
+     - commit-code 可以在该 github 页上通过 release 找到稳定版, 通过 commit 找到提交版.
        eg: (depends-on "monokai-theme" :git "https://github.com/oneKelvinSmith/monokai-emacs" :ref "61c0ff7")
-       3. (不要通过emacs package删除) *通过terminal删除要回退的包*
-       4. 通过terminal cask install 安装 cask 文件中指定的版本
-	 这样是可以安装回任意版本的pkg.但是重启emacs之后, *不要* 去package-list中更新.因为还是会更新最新的.
+       3. (不要通过 emacs package 删除) *通过 terminal 删除要回退的包*
+       4. 通过 terminal cask install 安装 cask 文件中指定的版本
+	 这样是可以安装回任意版本的 pkg.但是重启 emacs 之后, *不要* 去 package-list 中更新.因为还是会更新最新的.
 
 *** usa-package
-**** use-package 是更安全的require
-     上面是 use-package 通过macroexpand展开的内容. 注意提示符message Cannot load %s.这个经常在emacs编译 init.el 时出现.
-**** use-package a-pkg分成多个部分
-     - :init 是表示在require a-pkg之前定义
-     - :config 是表示在require a-pkg之后定义
-       [tips] 我们尽量少的使用require整个pkg,而是应当通过autoload来事先加载一部分功能,从而使用需要的命令
-     - :commands 是usepackage声明autoload的方法.
+**** use-package 是更安全的 require
+     上面是 use-package 通过 macroexpand 展开的内容. 注意提示符 message Cannot load %s.这个经常在 emacs 编译 init.el 时出现.
+**** use-package a-pkg 分成多个部分
+     - :init 是表示在 require a-pkg 之前定义
+     - :config 是表示在 require a-pkg 之后定义
+       [tips] 我们尽量少的使用 require 整个 pkg,而是应当通过 autoload 来事先加载一部分功能,从而使用需要的命令
+     - :commands 是 usepackage 声明 autoload 的方法.
      - :bind 用来绑定快捷键,甚至可以制定 mode-map
-     - :ensure 保证在use-packge执行之前,从源中下载最新版
+     - :ensure 保证在 use-packge 执行之前,从源中下载最新版
      - :pin 如果想下载另一个源,可以在这里指定
 
 *** anaconda-mode
     通過 pip install anaconda-mode 會直接安裝三個依賴包
-    - anaconda是一个用于数据分析的py包的库,维护了几百个可用的py包.
-    - anaconda-mode 是专门为emacs的python-mode编写的自动补全pkg,专门用来从一个本地服务器匹配补全.
-      - anaconda-mode:其工作需要本地端有factory-service的支持,用于获取自动补全的内容(可以通过pip安装)
-      - Jedi:是一个自动补全和静态分析python库的工具,anaconda-mode依赖了这个包(可以通过pip安装)
-    - company-mode 提供了更好的ui和更多的补全设置,eg 很多类型的backends. 可以配合anaconda-mode提供的backends使用
+    - anaconda 是一个用于数据分析的 py 包的库,维护了几百个可用的 py 包.
+    - anaconda-mode 是专门为 emacs 的 python-mode 编写的自动补全 pkg,专门用来从一个本地服务器匹配补全.
+      - anaconda-mode:其工作需要本地端有 factory-service 的支持,用于获取自动补全的内容(可以通过 pip 安装)
+      - Jedi:是一个自动补全和静态分析 python 库的工具,anaconda-mode 依赖了这个包(可以通过 pip 安装)
+    - company-mode 提供了更好的 ui 和更多的补全设置,eg 很多类型的 backends. 可以配合 anaconda-mode 提供的 backends 使用
 **** 安装过程出现的问题
      1. Server error: ValueError('need more than 0 values to unpack',)
-        有人提出这个问题,但是anaconda-mode作者说,这是jedi的bug [[https://github.com/proofit404/anaconda-mode/issues/224][jedi的bug?]]
+        有人提出这个问题,但是 anaconda-mode 作者说,这是 jedi 的 bug [[https://github.com/proofit404/anaconda-mode/issues/224][jedi 的 bug?]]
 *** multiple-cursor-mode and cua-mode ?
     it is so annoying to make this list of checkboxes, I refer =cua-mode= , =multiple-cursor-mode= , but both are not execute very well in
     evil edit-mode ,so i frequently swich emacs-mode and evil-mode by =C-z= .
@@ -2149,23 +2149,23 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
        3. =C-spc= again to cancel the highlight state, then you get MULTIPLE CURSOR
        4. now, its your fasion time!
 ** configuration
-*** 如何安装不在melpa的包(自己写的包)
-    1. 查看该包github网站,获得其.el文件中的provide 值-->也就是具体包名
-    2. 自己layer的packages函数中包含该名,并加参数
+*** 如何安装不在 melpa 的包(自己写的包)
+    1. 查看该包 github 网站,获得其.el 文件中的 provide 值-->也就是具体包名
+    2. 自己 layer 的 packages 函数中包含该名,并加参数
        #+BEGIN_SRC emacs-lisp
        (<pkgName> :location (recipe :fetch github :repo "<URLofpkgInGithub>"))
        #+END_SRC
-    3. 配置该包的init函数
+    3. 配置该包的 init 函数
 *** layers.el---如何大量配置包参数
-    通过自定义的layer->packages.el->post-init-pkgname()去进行简单的pkg参数
+    通过自定义的 layer->packages.el->post-init-pkgname()去进行简单的 pkg 参数
     调教是没问题的,但是如果我对大部分参数都不满意,参数又多达几百个,这种方法不适用.
-    1. 自己layer下,定义 layer.el,用于移除掉一些layer.
-    2. 比如Chinese layer下有个youdao字典的包,我不想要.
+    1. 自己 layer 下,定义 layer.el,用于移除掉一些 layer.
+    2. 比如 Chinese layer 下有个 youdao 字典的包,我不想要.
        #+BEGIN_SRC emacs-lisp
        (configuration-layer/remove-layer 'youdao-dictionary)
        #+END_SRC
 *** set all customize settings in one file
-    最好通过下面的语句,这样会在 init.el 同层目录生成一个custom.el文件,用来存放这些个性化配置
+    最好通过下面的语句,这样会在 init.el 同层目录生成一个 custom.el 文件,用来存放这些个性化配置
     (setq custom-file (expand-file-name "custom.el" dotspacemacs-directory))
     (load custom-file 'no-error 'no-message)
 *** where other settings locate
@@ -2174,22 +2174,22 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
     spc f e d 下面 dotspacemacs-additional-packages '() 列表中
 *** find README of any layer in spacemacs
     (通过 SPC h SPC 进入)
-    每一个layer的配置文件的同层目录中(spc f j) 都存放了一个 readme文件,详细介绍了这个layer中所有包的说明及安装方式/hotkeys
+    每一个 layer 的配置文件的同层目录中(spc f j) 都存放了一个 readme 文件,详细介绍了这个 layer 中所有包的说明及安装方式/hotkeys
 
-    每一个layer 都有很多变量, 这些变量都在readme里面有介绍.
-    每一个layer 的文件夹内,都存有config.el, 其中的配置可以在(layer层配置的variables配置),
-    当加载这个layer的时候,会配置config.el
+    每一个 layer 都有很多变量, 这些变量都在 readme 里面有介绍.
+    每一个 layer 的文件夹内,都存有 config.el, 其中的配置可以在(layer 层配置的 variables 配置),
+    当加载这个 layer 的时候,会配置 config.el
 
-    直接在 init.el 文件的configuration-layer中的layer对应位置:
+    直接在 init.el 文件的 configuration-layer 中的 layer 对应位置:
     #+BEGIN_SRC
    (better-defaults :variable better-defaults-move-to-end-of-code-first t)
     #+END_SRC
 *** exclude some unwanted packages
-    - 我想查看 SPC fed congfig 下某个layer都安装了哪些package.怎么做?
-      在 dotspacemacs-configuration-layers 下面的某个layer名字上 SPC-h-SPC
-      查询到package后, SPC-fed ,配置文件里有个 "dotspacemacs-exclude-packages '()" 名字放到括号里即可
-      然后选择一个进去,可以看到整个layer的配置.
-    - 如果spacemacs启动的时候某个pkg报错,实在找不到原因,也可以通过上面的方法删除之.
+    - 我想查看 SPC fed congfig 下某个 layer 都安装了哪些 package.怎么做?
+      在 dotspacemacs-configuration-layers 下面的某个 layer 名字上 SPC-h-SPC
+      查询到 package 后, SPC-fed ,配置文件里有个 "dotspacemacs-exclude-packages '()" 名字放到括号里即可
+      然后选择一个进去,可以看到整个 layer 的配置.
+    - 如果 spacemacs 启动的时候某个 pkg 报错,实在找不到原因,也可以通过上面的方法删除之.
 ** debug
 *** hotkeys for debug
 **** emacs is frozen
@@ -2224,8 +2224,6 @@ Nvidia显卡驱动可以从官网上下载最新版>> 点击进入
       emacs is like a traslator to transport information between different packages.
       you need to know the node and tube, the methods how to use them.
 
-* elisp
-** function implement demo
 * pandoc
 need install pandoc in os
 ~sudo apt-get install pandoc~

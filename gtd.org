@@ -18,9 +18,9 @@
    1. commant "search vpn"?
    2. commant "8.8.8.8"
    3. ...
-** SOMEDAY [#B] 通讀子龍的emacs配置                               :spacemacs:
+** SOMEDAY [#B] 通讀子龍的 emacs 配置                               :spacemacs:
 
-** DONE [#B] 學習如何給chrome capture的文章做腳注筆記
+** DONE [#B] 學習如何給 chrome capture 的文章做腳注筆記
    CLOSED: [2017-03-27 Mon 11:20] SCHEDULED: <2017-03-13 Mon 09:00>
    :PROPERTIES:
    :Effort:   10
@@ -35,16 +35,16 @@
    :PROPERTIES:
    :Effort:   30
    :END:
-[[file:journal.org::*%E5%A4%A7%E7%A5%9E%E6%94%B9%E9%80%B2elfeed%E7%9A%84%E9%A1%8F%E8%89%B2%E9%A1%AF%E7%A4%BA,%E4%B8%A6%E5%A2%9E%E5%8A%A0%E6%89%93%E5%88%86%E5%8A%9F%E8%83%BD][大神改進elfeed的顏色顯示,並增加打分功能]]
+[[file:journal.org::*%E5%A4%A7%E7%A5%9E%E6%94%B9%E9%80%B2elfeed%E7%9A%84%E9%A1%8F%E8%89%B2%E9%A1%AF%E7%A4%BA,%E4%B8%A6%E5%A2%9E%E5%8A%A0%E6%89%93%E5%88%86%E5%8A%9F%E8%83%BD][大神改進 elfeed 的顏色顯示,並增加打分功能]]
 
-** TODO [#B] 昨天沒有解決給elfeed entry 打分並高亮
+** TODO [#B] 昨天沒有解決給 elfeed entry 打分並高亮
    SCHEDULED: <2017-03-13 Mon 10:00>
 [[file:~/.spacemacs.d/layers/zilongshanren-misc/packages.el::;;%20yiddi:add%20to%20customize%20the%20appearance%20of%20elfeed]]
 LOGBOO:
 1. 我開始在 zilong 配置中增加了 elfeed
 2. 此後就一直出現, elfeed-feeds 被重置的問題
 3. 這一次打分程序無效
-4. 我就又把elfeed 從子龍的生命packages中刪除了
+4. 我就又把 elfeed 從子龍的生命 packages 中刪除了
 END:
 
 ** DONE [#C] 給老哥電話訂家具
@@ -66,18 +66,21 @@ END:
 
 ** TODO [#B] 整理 journal.org 中的所有文章格式整理,美化,並歸檔
 
-** TODO [#B] 這個問題沒有解決,代碼是正確的,但elfeed-scratch中並沒有顯示出效果
-[[file:~/.spacemacs.d/layers/zilongshanren-misc/packages.el::;;%20starting%20point.][大神定制elfeeed entry顏色顯示]]
+** TODO [#B] 這個問題沒有解決,代碼是正確的,但 elfeed-scratch 中並沒有顯示出效果
+[[file:~/.spacemacs.d/layers/zilongshanren-misc/packages.el::;;%20starting%20point.][大神定制 elfeeed entry 顏色顯示]]
 
-** TODO [#B] 查看那天觀看用emacs進行科學研究的youtube視頻
+** TODO [#B] 查看那天觀看用 emacs 進行科學研究的 youtube 視頻
    重點在於,他用了哪些包,以此來擴展一下自己的視野
 
-** TODO [#A] 繼續整理自己的全知識doc
+** TODO [#A] 繼續整理自己的全知識 doc
    DEADLINE: <2017-03-13 Mon 11:30> SCHEDULED: <2017-03-14 Tue 08:00>
 
-** STARTED [#B] 學習skeleton-mode                                  :PERSONAL:
-   DEADLINE: <2017-03-14 Tue 16:00> SCHEDULED: <2017-03-14 Tue 14:00>
+** CANCELLED [#B] 學習 skeleton-mode                               :PERSONAL:
+   CLOSED: [2017-08-11 Fri 19:09] DEADLINE: <2017-03-14 Tue 16:00> SCHEDULED: <2017-03-14 Tue 14:00>
    :LOGBOOK:
+   - State "CANCELLED"  from "DONE"       [2017-08-11 Fri 19:09] \\
+     并没有实施，似乎并不重要
+   - State "DONE"       from "STARTED"    [2017-08-11 Fri 19:09]
    CLOCK: [2017-03-15 Wed 09:56]--[2017-03-15 Wed 13:12] =>  3:16
    CLOCK: [2017-03-15 Wed 09:49]--[2017-03-15 Wed 09:53] =>  0:04
    CLOCK: [2017-03-15 Wed 09:25]--[2017-03-15 Wed 09:34] =>  0:09
@@ -94,20 +97,24 @@ END:
 
    :END:
 
-** DONE [#B] 搞清楚pandoc-mode是怎麼運行的,最好能實現自動化把html轉爲org
+** DONE [#B] 搞清楚 pandoc-mode 是怎麼運行的,最好能實現自動化把 html 轉爲 org
    CLOSED: [2017-03-27 Mon 11:22]
    :LOGBOOK:
    - State "DONE"       from "TODO"       [2017-03-27 Mon 11:22]
    :END:
-   比如一旦發現download文件中出現html,就自動轉換爲某個文件夾下的org
+   比如一旦發現 download 文件中出現 html,就自動轉換爲某個文件夾下的 org
 
-** TODO [#B] 找個模板能讓 src-block 裏的代碼背景色高粱
+** DONE [#B] 找個模板能讓 src-block 裏的代碼背景色高粱
+   CLOSED: [2017-08-11 Fri 19:08]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-08-11 Fri 19:08]
+   :END:
 
-** TODO [#B] appointment好像起作用了,看看他是如何工作的.
-   我記得應該是加在 org zilong package 位置的代碼,關於 reminder的.
-   他是12min before 提醒的,彈出了一個小buffer左下角,持續了幾秒鍾,消失了
+** TODO [#B] appointment 好像起作用了,看看他是如何工作的.
+   我記得應該是加在 org zilong package 位置的代碼,關於 reminder 的.
+   他是 12min before 提醒的,彈出了一個小 buffer 左下角,持續了幾秒鍾,消失了
    看看如何設置
-   13:48左右
+   13:48 左右
 
 
 ** TODO 學習這種思想
@@ -120,23 +127,26 @@ END:
             progress. It also makes it easier to remember to follow up.
          2. 用鏈接來組織筆記架構,用鏈接來記錄每天任務的完成列表存檔
 
-** TODO [#B] 監工窗臺維修進度, 2017-03-15.
-   SCHEDULED: <2017-03-17 Fri 09:30>
+** DONE [#B] 監工窗臺維修進度, 2017-03-15.
+   CLOSED: [2017-08-11 Fri 19:08] SCHEDULED: <2017-03-17 Fri 09:30>
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-08-11 Fri 19:08]
+   :END:
    如果兩天還沒開始動工,就警告租房補償.
    他有可能在消極怠工,拖時間.反正我就耗着,你也得住.
    這樣,我們已經累積溝通好幾次了.這個問題必須搞好.反正現在都流行上訪投訴.
-   再不行我就打315,也剛過去沒幾天.你看着辦,我現在也不要賠償,你就給我把窗戶
+   再不行我就打 315,也剛過去沒幾天.你看着辦,我現在也不要賠償,你就給我把窗戶
    弄好.
 
 
 ** TODO [#B] 應該把學習編程當成翻譯課,每天練習翻譯
    SCHEDULED: <2017-03-16 Thu 09:00>
 
-** TODO [#B]  學習陳斌的文章, yasnippet 內部是支持代碼運行的,似乎...有點想法
+** TODO [#B] 學習陳斌的文章, yasnippet 內部是支持代碼運行的,似乎...有點想法
    SCHEDULED: <2017-03-20 Mon 09:00>
 http://blog.binchen.org/posts/how-to-use-yasnippets-to-produce-email-templates-in-emacs.html
 
-** TODO [#B]  看看這個視頻中的公式是如何直接輸出出來的.
+** TODO [#B] 看看這個視頻中的公式是如何直接輸出出來的.
    SCHEDULED: <2017-03-20 Mon 09:00>
 https://www.youtube.com/watch?v=cRUCiF2MwP4
 
@@ -144,8 +154,11 @@ https://www.youtube.com/watch?v=cRUCiF2MwP4
    SCHEDULED: <2017-03-20 Mon 09:00>
 https://xapian.org/docs/
 
-** TODO [#B] 總結一下 mu4e 的配置
-   SCHEDULED: <2017-03-20 Mon 09:00>
+** DONE [#B] 總結一下 mu4e 的配置
+   CLOSED: [2017-08-11 Fri 19:06] DEADLINE: <2017-08-11 Fri> SCHEDULED: <2017-03-20 Mon 09:00>
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2017-08-11 Fri 19:06]
+   :END:
 http://www.brool.com/post/using-mu4e/
 
 ** TODO  學習一下那個如何記賬的夥計 youtube
@@ -157,11 +170,21 @@ http://www.brool.com/post/using-mu4e/
    - State "DONE"       from "TODO"       [2017-03-27 Mon 11:19]
    :END:
 
-** TODO [#B] 给org不同的block分配不同的颜色
+** CANCELLED [#B] 给 org 不同的 block 分配不同的颜色
+   CLOSED: [2017-08-11 Fri 19:06]
+   :LOGBOOK:
+   - State "CANCELLED"  from "TODO"       [2017-08-11 Fri 19:06] \\
+     鉴于 org note 并不是那么美观，而且这个耗时的任务暂时应该搁浅
+   :END:
    比如我在做笔记时，习惯用 quote-block 记录算法，
    用 src-block 记录代码，我希望一眼就能区分两者。
    所以我需要对不同的 block 设置不同的颜色
 
-** TODO [#B] 利用EGO这个中文静态站点来搞自己的网页
+** CANCELLED [#B] 利用 EGO 这个中文静态站点来搞自己的网页
+   CLOSED: [2017-08-11 Fri 19:07]
+   :LOGBOOK:
+   - State "CANCELLED"  from "TODO"       [2017-08-11 Fri 19:07] \\
+     始终没能抽出时间来处理自己的网页，暂时搁浅，等有时间再说
+   :END:
 
 https://emacs-china.github.io/EGO/

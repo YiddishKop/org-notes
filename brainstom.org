@@ -16,7 +16,7 @@
     like org-protocol --- capture content between chrome and emacs-org, I think it is more convinient to hack
     emacs to make has-reading-method apply smoothly.
 ** IMAGING 這個可以借助 yasnippet 的模板功能結合自己收集的代碼片段,發揮很大作用,因爲自己收集的代碼很多時候也不知道該怎麼利用.
-   這個注意非常棒,可以考慮升級爲proj
+   這個注意非常棒,可以考慮升級爲 proj
 
  Source: [2017-03-17 Fri], [[http://www.howardism.org/Technical/LP/introduction.html][Introduction to Literate Programming]]
  Essentially, you describe your program in prose with inserted bits of code. A
@@ -35,19 +35,19 @@ toward literate programming
 ** STARTED [#B] 把腳注調整成像有道詞典這種直接顯示的模式               :proj:
    :LOGBOOK:
    CLOCK: [2017-03-16 Thu 16:30]--[2017-03-16 Thu 17:13] =>  0:43
-   1. 第一階段基本完成,可以按 f10 顯示footnote了
+   1. 第一階段基本完成,可以按 f10 顯示 footnote 了
    :END:
 
   [2017-03-14 Tue 12:52]
 
-  - [X] 給 org-footnote-create 加個wrapper, 讓其在新的buffer中新建這個筆記,就像org-capture一樣
+  - [X] 給 org-footnote-create 加個 wrapper, 讓其在新的 buffer 中新建這個筆記,就像 org-capture 一樣
   - (defun org-footnote-at-reference-p () [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-footnote.el::(defun%20org-footnote-at-reference-p%20()]]  [2017-03-16 Thu 16:31]
 
   - (line-number-at-pos) can get line num of current line  [2017-03-16 Thu 16:37]
 
   - (defun org-footnote-get-definition (label) [[file:~/.emacs.d/elpa/org-plus-contrib-20170210/org-footnote.el::(defun%20org-footnote-get-definition%20(label)]]  [2017-03-16 Thu 17:09]
 
-** IMAGING [#B]  就想搞一個這樣的注釋,能把腳注或者其他,像有道詞典一樣顯示出來
+** IMAGING [#B] 就想搞一個這樣的注釋,能把腳注或者其他,像有道詞典一樣顯示出來
 
           (entry (or org-capture-entry (org-capture-select-template keys)))  ------>
                                                                     | The template code
@@ -70,7 +70,7 @@ toward literate programming
 
   [2017-03-15 Wed 14:28]
 
-** IMAGING [#B] 把每天emacs上收集的任務和知識,自動整理好發到郵箱裏
+** IMAGING [#B] 把每天 emacs 上收集的任務和知識,自動整理好發到郵箱裏
 
 
   [2017-03-16 Thu 13:36]
@@ -83,14 +83,14 @@ toward literate programming
 
   [2017-03-17 Fri 11:01]
 
-** IMAGING [#B] 最好能用 pandoc 把自己每一篇保存的文章自動轉換成 org 並放在org-notes目錄下.
+** IMAGING [#B] 最好能用 pandoc 把自己每一篇保存的文章自動轉換成 org 並放在 org-notes 目錄下.
 
 
   [2017-03-17 Fri 13:35]
 
-** IMAGING [#B] 如何把堅果雲中存儲的文檔都列在一個 叫bookrack.org 的文件上且自動更新
-   1. 置前看到的一篇鏈接所有事情在org中,是否可以提供一些grep鏈接來list所有這些東西
-   2. 是否需要定義定時器事件,每5min自動更新列表
+** IMAGING [#B] 如何把堅果雲中存儲的文檔都列在一個 叫 bookrack.org 的文件上且自動更新
+   1. 置前看到的一篇鏈接所有事情在 org 中,是否可以提供一些 grep 鏈接來 list 所有這些東西
+   2. 是否需要定義定時器事件,每 5min 自動更新列表
 
   [2017-03-17 Fri 15:55]
 
@@ -100,11 +100,11 @@ toward literate programming
 
   [2017-03-17 Fri 16:24]
 
-** IMAGING [#B] 我寫的footnote-popup 爲什麼不能啓用,而是非要先執行一些youdao才能彈出來
+** IMAGING [#B] 我寫的 footnote-popup 爲什麼不能啓用,而是非要先執行一些 youdao 才能彈出來
 
   [2017-03-17 Fri 17:12]
 
-** SOMEDAY [#B] 把四輪學習法做進emacs
+** SOMEDAY [#B] 把四輪學習法做進 emacs
 
   [2017-03-19 Sun 00:08]
 
