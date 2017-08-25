@@ -9518,3 +9518,9 @@ HashFunction(int size){
   I modify [[file:~/.emacs.d/layers/+tools/shell/funcs.el::(defun%20spacemacs/eshell-switch-company-frontend%20()][spacemacs//eshell-switch-compnay]] func  by add
   (require 'company)
   this solution come from github, not refer website here
+* The simplest method to install source code pro in macbook
+For Step 3 regarding installing Source Code Pro, it might be nice to provide
+macOS users a quick incantation to get the font:
+
+~brew tap caskroom/fonts~
+~brew cask install font-source-code-pro~
