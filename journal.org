@@ -7529,7 +7529,18 @@ https://www.youtube.com/watch?v=e08kOj2kISU
      3) 步骤 2 会显示网址 ,port 和 token
      4) emacs 中 M-x ~ein:notebooklist-login~, 提示输入 _port 和 token_
      5) emacs 中 M-x ~ein:notebooklist-open~ 即可打开
+** 2017-09 September
+*** 2017-09-05 Tuesday
+*** 2017-09-06 Wednesday
 
+**** MESSY  [[https://www.youtube.com/watch?v=KzFe4T0PwQ8&t=137s][(72) Apache Spark vs. MapReduce #WhiteboardWalkthrough - YouTube]]
+   Captured On: [2017-09-06 Wed 22:43]
+   非常好的，解释了很多 spark 基本且重要的概念
+
+**** MESSY  [[http://training.databricks.com/workshop/sparkcamp.pdf][]]
+   Captured On: [2017-09-06 Wed 22:55]
+   spark 初级教程的 ppt
+   https://www.youtube.com/watch?v=EuWDz2Vb1Io
 * 数据挖掘：理论与算法
 **** introduction
      在数据科学，DRIP 是什么的缩写（不含标点符号）data rich information poor
@@ -9524,3 +9535,25 @@ macOS users a quick incantation to get the font:
 
 ~brew tap caskroom/fonts~
 ~brew cask install font-source-code-pro~
+* 配置 JAVA_HOME
+1. 永久修改，对所有用户有效
+    # vi /etc/profile
+    //按键盘[Shift + g], 在 profile 文件最后添加下面的内容:
+    export JAVA_HOME = /home/myuser/jdk1.7.0_03
+    export PATH = $JAVA_HOME/bin:$PATH
+    export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+    [注]：修改文件后如果想马上生效，还要运行 #source /etc/profile
+
+2. 永久修改，对单一用户有效
+    //修改用户目录下的.bash_profile 文件
+     $ vi /home/myuser/.bash_profile
+    //在文件最后添加下面的内容
+     export JAVA_HOME = /home/myuser/jdk1.7.0_03
+     export PATH = $JAVA_HOME/bin:$PATH
+     export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+     [注]：修改文件后如果想马上生效，还要运行 #source /home/myuser/.bash_profile
+
+3. 只对当前 bash /shell 生效
+    $ export JAVA_HOME = /home/myuser/jdk1.7.0_03
+    $ export PATH = $JAVA_HOME/bin:$PATH
+    $ export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
