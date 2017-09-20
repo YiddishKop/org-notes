@@ -7541,6 +7541,19 @@ https://www.youtube.com/watch?v=e08kOj2kISU
    Captured On: [2017-09-06 Wed 22:55]
    spark 初级教程的 ppt
    https://www.youtube.com/watch?v=EuWDz2Vb1Io
+*** 2017-09-19 Tuesday
+
+**** MESSY 关于 ensime 的一些神奇 bug
+事情经过：
+1. 开始使用 ensime，直接输入 <spc><spc> ensime 没出什么问题
+2. 经过查看 ensime 文档： <spc> h <spc> 得知每个 project 都需要一个 ensime session
+3. coursera 下载第一个课程作业，使用上述方法没问题，但是第二天再开机就出现问题了，提示
+   ~Error reading configuration file, nil: (wrong-type-argument stringp nil)~
+4. 找了半天不知道怎么错的，然后无意中按了一个命令 ~<spc> <spc> ensime-sbt-doclean~ 好像有可以了
+
+**** 就今天知道的关于 ensime sbt 的一些信息
+     似乎 sbt 本身有一个默认的编译地址： ~/target/scala-2.12
+     如果工程没有声明自己的依赖和编译目的地，就会编译到上述目录中
 * 数据挖掘：理论与算法
 **** introduction
      在数据科学，DRIP 是什么的缩写（不含标点符号）data rich information poor
