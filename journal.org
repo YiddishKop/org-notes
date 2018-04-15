@@ -9570,3 +9570,10 @@ macOS users a quick incantation to get the font:
     $ export JAVA_HOME = /home/myuser/jdk1.7.0_03
     $ export PATH = $JAVA_HOME/bin:$PATH
     $ export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+* 2018
+** 2018-04 April
+*** 2018-04-14 Saturday
+
+**** MESSY
+   Source: [2018-04-14 Sat], **** MESSY  [[][]]
+      Captured On: [2018-04-14 Sat 19:19]
