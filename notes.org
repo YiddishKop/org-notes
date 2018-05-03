@@ -117,6 +117,7 @@ Tips*
     2. find the package.el, hotekys offen defined in it
 *** how to reload a mode without closing the emacs
     spc :  (m-x) input diminish-undo, then input eg. company-mode. it will reload company-mode in current buffer
+
 *** how to get the source code of the package?
     many methods can make it:
     1. =M-x: helm locate library=  load all the library code(includes the .el which not load in current emacs)
