@@ -8,7 +8,7 @@
 找到这样一个function：
 f(pokemon 的属性) = combat power after evolution
 
-ML的training 得分三个步骤：
+ML的 training 得分三个步骤：
 1. Model 函数集
 2. goodness 评价函数好坏
 3. choose 选择最好的
