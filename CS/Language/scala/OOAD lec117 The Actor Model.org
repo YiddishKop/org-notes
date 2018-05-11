@@ -1,0 +1,128 @@
+* OOAD lec117 The Actor Model
+  Instead of calling methods on your actors, you give them message and each actor has an inbox , that inbox acts as a cue, the first message that’s received is going to be the first processed
+
+  [[https://s17.postimg.cc/5yto2agvj/screenshot_99.png][sequence diagram of objects call]]
+
+  if we have 2 threads, one for object A, another for object C, then they all call method of B: foo and bar.
+
+  Both methods may modify the same field of B, then this will lead to a conflict: race condition.
+
+** Actor in scala
+
+   > Actor base trait that should be extended by or mixed to create an Actor with the semantics of the 'Actor Model':http://en.wikipedia.org/wiki/Actor_model
+   > An actor has a well-defined (non-cyclic) life-cycle.
+   - RUNNING (created and started actor) - can receive messages
+   - SHUTDOWN (when 'stop' is invoked) - can't do anything
+   > The Actor's own akka.actor.ActorRef is available as `self`, the current message’s sender as `sender()` and the akka.actor.ActorContext as `context`. The only abstract method is `receive` which shall return the initial behavior of the actor as a partial function (behavior can be changed using `context.become` and `context.unbecome`).
+
+** How Actor solve the Race Condition?
+   [[https://s17.postimg.cc/qlmz1a52n/screenshot_103.png][Actor Model objects call]]
+
+   - A would send a message of ‘foo’ to B
+   - B would work on that message
+   - while at same time, C sends a message of ‘bar’ to B
+   - this message will sit in an inbox until B is done
+
+*** simple rules must follow
+    - Actors must not share mutable data each other
+      - they must not send message which contain mutable data, in other word message must immutable.
+    - make message using case class
+      - case classes are nice way to make small and mutable data structures, and can do pattern matching.
+
+
+
+** What is an ~Actor~ ?
+
+   [[https://youtu.be/7erJ1DV_Tlo][Introduction to Actor Model by Creator of Actor]]
+
+   #+BEGIN_QUOTE
+   The Actor Model provides a higher level of abstraction for writing concurrent and distributed systems. It alleviates the developer from having to deal with explicit locking and thread management, making it easier to write correct concurrent and parallel systems. Actors were defined in the 1973 paper by Carl Hewitt but have been popularized by the Erlang language, and used for example at Ericsson with great success to build highly concurrent and reliable telecom systems.
+   #+END_QUOTE
+
+   [Q] what is exactly an `actor` is?
+
+   > The `actor` is a fundamental unit of computation, as the fundamental unit of computation ,it must embobdy `3` things:
+   1. processing
+      because you’ve got to get something done
+   2. storage
+      because you have to be able to remember things
+   3. communication
+
+   [Q] what `mailbox`, `message queue`, `lock` etc means in `actor`
+
+   > One `actor` is no `actor`,they must come in `systems`.
+   > Each `actor` in `system` should have `addresses`,  so that one `actor` can send a `message` to another `actor`, there’s no reason an `actor` like factorial can’t have an `address` for it self so that’s the way you implement recursion.
+   > Fundamental properties of `actor`:
+   1. everything is an `actor`
+   2. an `actor` has a `mailbox`,  while a `mailbox` is an `actor`, then a `mailbox` has a `mailbox` , this is disaster, we need axiom.
+
+   [Q] what are the `axioms`?
+
+   1. when an `actor` receives a `message`, what can this `actror` do is it can create some more `actors`. It can send `messages` to `actors` that it has `addresses` before, and it can say it can designate(指定) what it’s going to do with the next `message` it receives.
+
+   [Q] `1st axioms` is something to do with `continuation`?
+   No, `continuation` was an old idea for Von Neumann machine, `continuation` is the lambda expression that you execute after you finish doing the current one, so that’s a `single-thread` kind of idea.
+   the `1st axiom` has to do with `concurrency`,  eg. if you’re checking account and you have a balance of 5$, you might receive a deposit `message` with 6$, now your balance is 11$. so, you say when I process the next `message`, I process it with a balance of 11$. I don’t change any of the names I have now. I’m just the change applies to the next message that comes in.
+
+   [Q] `1st axiom` is more likely a sequential process?
+   No, yet an `actor` can deal with one `message` at a time, but the `implementers` know how to `pipeline messages` in certain cases and in the case when you’re going to process the next message in exactly the same way, you’re processing the current message, somebody like factorial, you can do all of them at the same time. so factorial can be processing arbitrarily many messages at the same time.
+   but comceptually, `actor` process one `message` at a time, but `implementers` can kind of make that more concurrent.
+
+   [Q] what if an actor sends a message to itself, maybe directly or indirectly. would it go into a deadlock?
+   next important thing is `Future`, the idea of a `Future` is that you can create an `actor` for any result while it’s still being compted, you don’t know whether it’s finished computed or starting. but you can now have an `address`  for something. `Future` are actors you pass them around like we say `Future`  a factorial of 100 billion and you might take a long time to compute the factorial of 100 billion, but you get the `future` immediately now, and you can pass it around and you can store it, you can send it in a `message`. So now, if you want to send yourself a `message`, you will not go into a `deadlock`.
+
+   [Q] we designate what to do with the next `message`, how is that difference from creating a new `actor`?
+   because I’m the checking account I have a balance of 5$, and I get it to +6$, if I created a new actor with a balance of 11$, that would be no good, because they expect the old actor to have a balance of 11$.
+
+   [Q] what then the `address` of an `actor` be equivalent to its identity?
+   9:08/42:33
+   `actors`  and `addresses` are many to many relationship.
+
+   [Q] how can I at any level of looking at my system whether I have one actor or multiple actors behind an address?
+   you can not tell.
+
+   [Q] where are these address come from, and how are these actors created?
+
+   [Q] In that sense, address seem to be like capabilities?
+   yes
+
+   [Q] are messages guarantee to be received?
+   No, just try best.
+
+   [Q] what this kind of other properties of the channels between actors?
+   there is no channel.
+
+   [Q] can actor duplicate messages?
+   No, a message will be delivered at most once.
+
+   [Q] distinguish the `non-deterministic`  and `indeterministic`
+
+
+   [[https://s17.postimg.cc/jtrykjlin/screenshot_100.png][the regular process of an Actor model]]
+
+   - when get `start msg`, I send myself a `go msg` and a `stop msg`;
+   - when get a `go msg`, just send myself a `go msg` and count+1
+   - when get a `stop msg`, I stop and report the count.
+
+   This is something that no `non-deterministic` Turing machine can do. because this thing can stop with a count being arbitrarily large, it wasn’t somebody decided how big the count was going to be; the size of the count was dependent on how long it took this `stop msg` to arrive. so this is a way where you move from `non-determinacy` to `indeterminacy` .
+
+   there is something called `state`, the `state` of the computation, which is fixed. that’s why it’s possible to prove that if you have a state machine model of computation that has to have bounded `non-determinism`, where’s this has a `configuration model` we have, the local state here, the `count` . this model is more powerful than `state based model`.
+
+
+   [Q] how do `actor` related to `Petri Net` [PetriNet]<https://en.wikipedia.org/wiki/Petri_net>?
+
+
+   [Q] In the actor model, can you know how to express `synchronization` ?
+   Let’s think about the checking accout, checking account is not something you can do in functional programming, because the checking account is sitting here and there can be many parties out there we don’t know who, who’s going to make next withdraw from this checking account into some ATM some place. So the way the `actor` didn’t bother deals with this as an individual `actor` processes one message at a time, but it’s indeterminate which message will withdraw will arrive next. So you might have somebody in Tokyo who’s depositing $7, while somebody in England is taking out $8, and I might only have a balance of $2, and it depends on which the order in which the message arrive is indeterminate and the outcome will depend on that whether you get your money or not. `synchronization` in some sense is built into the rule that `one message is handled at a time`, that’s the fundamental where you know the primitive point of `synchronization`. That’s where `arbiter` comes in.  `arbiter` is something that Turing machine can not do.
+
+   [Q] so, what is an `arbitor`?
+   `arbitor` is something that you can make out of straight and gates and other boolean components, it has 2 inputs, and 2 outputs.
+   Here is the deal, you start off with both these `0`, you’re allowed to put in both of these at the same time but ONLY ONE of them will come out as a `1`. Not both of them. Just One. Our computers are becoming absolutely chock-full(塞满) of them, our multiprocessor systems have them which make things `indeterminate`. And so now, it’s convenient more difficulty debug our programs because it used to be that we put the same input in and run it again and get the same bug, but now we put in the same input and it does something completely different, it is indeterminacy inside.
+
+   [[https://s17.postimg.cc/nddwajbfj/screenshot_101.png][arbitor]]
+
+   [Q] is this can be said it’s like flip a coin? if yes, it is a `non-determinisitc`?
+   No, we don’t know how long it’s going to take inside of `arbitor`. It more like the `arbitor at tennis match`.
+
+   [Q] How Future avoid deadlock?
+   Probably that line was out of place, there was no `deadlock` in that `"recursive"` scenario. It was just a possible `infinite loop`. In general to avoid deadlock with actors, the trick is in giving up `global consistency`. Say I have an actor A for a bank account 1 and an actor B for account 10002. Both customers want to transfer money to each other. Customer 1 sends a message to actor A to remove $5 from itself and the instruction to tell B to add $5 to itself. Customer 2 sends a message to B to remove $7 from itself and to tell A to add $7 from itself. As you can see, there can be no deadlocks here, but the system goes through `globally inconsistent` states and it may get stuck in one of them if there is a `message loss`.

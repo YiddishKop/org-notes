@@ -110,7 +110,11 @@ END:
    - State "DONE"       from "TODO"       [2017-08-11 Fri 19:08]
    :END:
 
-** TODO [#B] appointment 好像起作用了,看看他是如何工作的.
+** DONE [#B] appointment 好像起作用了,看看他是如何工作的.
+   CLOSED: [2018-04-17 Tue 08:19]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2018-04-17 Tue 08:19]
+   :END:
    我記得應該是加在 org zilong package 位置的代碼,關於 reminder 的.
    他是 12min before 提醒的,彈出了一個小 buffer 左下角,持續了幾秒鍾,消失了
    看看如何設置
@@ -189,4 +193,76 @@ http://www.brool.com/post/using-mu4e/
 
 https://emacs-china.github.io/EGO/
 
-** TODO [#B] This is just a test, so deleted some time
+
+** TODO [#B] Programming I/O and exception
+    DEADLINE: <2018-04-17 Tue 09:00>
+*** question
+    build a input stream reading from a file and display the file content in console
+*** requiement
+    1. using the *loan patter* to handle IOException and FileNotFoundException
+    2. need GUI, *file chooser* to choose the file you want to read, and a *dialog* to display alert if exception occur.
+
+** TODO [#B] why we should always use BufferedInput/OutpuStream
+   DEADLINE: <2018-04-17 Tue 09:00>
+
+** TODO [#B] what is difference between double and double-as-string
+   1. space cost?
+   2. time cost?
+
+** TODO [#B] serializable
+   1. how to make some object serializable?
+   2. how to serialize an object
+
+** TODO [#B] 2 tags used to customize the serialization
+   1. what are they.
+   2. what problems they solve
+
+** TODO [#B] Design a Chater programming :Programming:
+
+
+*** requirement
+    1. support private msg between user and user
+    2. allow multiple users connecting and sending msg
+    3. tips connected and disconnected
+    4. support displaying user's name.
+
+** TODO [#B] write a code snippet to get content from URL :Programming:
+   DEADLINE: <2018-04-21 Sat 09:00>
+   use 3 methods please.
+
+** TODO [#B] write things back and forth :English:
+
+** TODO [#B] how to hide and show function or comment block
+   by ~HideShow-mode~, which is included with Emacs 20 and later
+   [[https://www.emacswiki.org/emacs/HideShow][hide and show]]
+
+   frequently used command:
+
+   | C-c @ C-M-s | show all         |
+   | C-c @ C-M-h | hide all         |
+   | C-c @ C-s   | show block       |
+   | C-c @ C-h   | hide block       |
+   | C-c @ C-c   | toggle hide/show |
+
+** TODO [#B] Manifest + Array(1)(0) :TechCombo:
+    #+BEGIN_SRC scala
+      class MutableDLL[A: Manifest] extends mutable.Buffer[A]{
+        private class Node(var data: A, var prev: Node, var next: Node)
+        private var end = new Node(new Array[A](1)(0),null, null)
+      }
+
+    #+END_SRC
+
+    ~private var end = new Node(??? ,null, null)~
+    because of the type of data we don't know now, so we can not give it a value. but as a concrete instance, ~end Node~ must have a value for his 1st Ctor argument.
+
+    what can we do now?
+    *wrap it by a type constructor, unwrap it by a method of this type constructor*
+
+    The simple way to give a value to A, is *also do that in run-time*, means we also delegate this work to the guy who give a specific type of A.
+
+    But how can we do that?
+
+    *wrap* it in an container before ,then *unwrap* it by expression. Good news is we also don't deal with the element data directly. ~wrap~ is a type constructor and ~unwrap~ is an method defined in that type constructor.
+
+** TODO [#B] define a list-likely type wich can add different stuff :Programming:

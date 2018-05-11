@@ -1,0 +1,809 @@
+* Network
+** Networking: TCP Sockets
+
+:Reference:
+1. [[https://docs.oracle.com/javase/8/docs/api/java/io/PrintStream.html][PrintStream API]]
+:END:
+
+:Definition:
+<<TCP UDP web>>
+1. TCP
+   TCP focus on : ~java.net.ServerSocket~ and ~java.net.Socket~
+   stands for the *Transmission Control Protocol* and it's one way for a computer to chat another;
+
+3. UDP
+   stands for the *Uniform Datagram protocol* which is used in for certain sepecific applications.
+
+4. Server:
+   wait and accept connections
+
+5. Client:
+   make connection to Server
+
+6. PortNumber:
+   1. *1~1000 reserved*; *4000~6000 maybe good*;
+   2. ONLY one program can have a port open at a given time; if 2 instances of the same program both use server socket, it won't work.
+
+:END:
+
+:API:
+<<java.net.ServerSocket/Socket>>
+~java.net~ package
+
+1. Server and API
+   ~<ServerSocketObj>.ServerSocket(int port): Socket~:
+   used to build a server socket, bound to a specific port.
+
+   ~<ServerSocketObj>.accept(): void~:
+   *a blocking call*, when we call ~accept()~ method, the Server will wait until some other programs come in and makes a connection.Once connection build, ~accept~ return to us a ~socket~
+
+2. Client and API
+   ~<SocketObj>.Socket(String host, int port): void~:
+   create a *stream socket and connects it to the specified port* number on the named host. The Server and Client have to agree on the port number they're going to talk through.
+
+   ~<SocketObj>.close(): void~:
+   you should close a socket like you *close a file*, they both are I/O
+
+   ~<SocketObj>.getInputStream(): InputStream~:
+   beside getting the ~InputStream~ from file, we also can get it from a Socket, this is why decorator pattern excellent: ~new DataInputStream(new BufferedInputStream(InputStream: something))~ this "something" is a subclass of *InputStream*, you can get from file or socket by polymorphism.
+
+   ~<SocketObj>.getOutputStream(): OutputSream~:
+   analygous
+
+
+<<scala.io.StdIn>>
+1. def readLine(text: String, args: Any*): String
+   Print and *flush* formatted text to the default output, and read a full line from the default input. Returns null if the end of the input stream has been reached.
+
+:END:
+
+:Code:
+#+BEGIN_SRC scala ChatServer.scala
+package networking
+
+import java.io.{BufferedReader, InputStreamReader, PrintStream}
+import java.net.{ServerSocket, Socket}
+import java.util.concurrent.ConcurrentHashMap
+
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.collection.JavaConverters._
+
+object ChatServer extends App {
+  case class User(name: String,
+                  sock: Socket,
+                  in: BufferedReader,
+                  out: PrintStream)
+
+  val users = new ConcurrentHashMap[String, User]().asScala
+
+  Future {
+    checkConnections()
+  }
+
+  def checkConnections(): Unit = {
+    val ss = new ServerSocket(4444)
+    println("accepting")
+    while(true) {
+      //println("accepting")
+      val sock = ss.accept()
+      //println("Got socket" + sock)
+      val in = new BufferedReader(new InputStreamReader(sock.getInputStream))
+      val out = new PrintStream(sock.getOutputStream)
+      // allow user to input name in separate thread avoid blocking the...
+      Future {
+        // for improvement, you can make 2 lines below as a
+        // while-loop, to check if input name existed to avoid
+        // duplication
+        out.println("what is your name?")
+        val name = in.readLine
+        val user = User(name, sock, in, out)
+        users += name -> user
+        user.out.println("welcome: " + user.name)
+        println(user.name + " connected!")
+        println(user.name + user.sock)
+      }
+    }
+  }
+
+  while(true) {
+    for ((name, user)<- users) {
+      doChat(user)
+    }
+    Thread.sleep(100)
+  }
+
+  // check certain BufferReader, if no input return None; if there is, return String
+  def nonblockingRead(in: BufferedReader): Option[String] = {
+    if(in.ready()) Some(in.readLine) else None
+  }
+
+  /* check certain user has input for us or not
+   if it dose have, read in, and send it to
+   every users connected. There are some way to
+   extend this function: eg,
+   1. appropriate other users instead of every user
+   2. send to certain ONE user, if supporting private msg.
+   But, now just send to every one.
+   */
+  def doChat(user: User): Unit = {
+    nonblockingRead(user.in).foreach { input =>
+      if(input == ":quit") {
+        user.sock.close
+        println(user.name + " disconnected!")
+        users -= user.name
+      } else {
+        for((n, u)<- users) {
+          u.out.println(user.name + " : "+ input)
+        }
+      }
+    }
+  }
+}
+#+END_SRC
+
+#+BEGIN_SRC scala ChatClient.scala
+package networking
+
+import java.io.{BufferedReader, InputStreamReader, PrintStream}
+import java.net.Socket
+
+import scala.io.StdIn._
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+
+
+
+object ChatClient extends App {
+  println("making socket")
+  val sock = new Socket("localhost", 4444)
+  println("socket made")
+  val in = new BufferedReader(new InputStreamReader(sock.getInputStream))
+  val out = new PrintStream(sock.getOutputStream)
+
+  // println("type something")
+  // val input = readLine // read a line from io.StDin
+  //   out.println(input)
+  // val s = in.readLine
+  // println("server responded: "+s)
+
+  // spawn a new thread by future
+  // FIXME, if client disconnect by input ":quit", this
+  // while loop keeps going on and print "null"
+  Future {
+    while (input != ":quit") {
+      val p = in.readLine() // a blocking call waiting server response
+      if (p != null) println(p)
+    }
+  }
+
+  var input = ""
+
+  // still in main thread
+  while(input != ":quit") {
+    input = readLine // a blocking call waiting user input
+    out.println(input)
+  }
+
+  // sock.close
+}
+
+#+END_SRC
+:END:
+
+:Image:
+
+[[https://s18.postimg.cc/3p3zd6l2h/screenshot_98.png][Illustration of Socket in eyes of Server]]
+
+[[https://s9.postimg.cc/q1oql3pxb/screenshot_108.png][Illustration of Chat Client]]
+
+[[https://s9.postimg.cc/omn5wcm9b/screenshot_107.png][Illustration of Chat Server]]
+
+:END:
+
+*** Application: Chat App, a scratch
+#+BEGIN_SRC scala
+      package networking
+
+      import java.net.ServerSocket
+      import java.io.BufferedInputStream
+      import java.io.BufferedOutputStream
+      import java.io.PrintStream
+
+      object SimpleNetwork {
+        def main(args: Array[String]): Unit = {
+          val ss = new ServerSocket(4444)
+          val sock = ss.accept()// a blocking call
+          val is = new BufferedInputStream(sock.getInputStream)
+          val os = new PrintStream(new BufferedOutputStream(sock.getOutputStream))
+          os.println("hi, there.")
+          os.flush // bufferdOutputStream will keep things in buffer, so need flush() method to clear the buffer and output. Say that buffer is good for performance, but when you need something to be forcefully sent or to clear, you need to flush it
+          while(is.available()<5) { Thread.sleep(100) }// wait, do nothing
+          val buf = new Array[Byte](is.available())
+          is.read(buf)
+          val input = new String(buf)
+          println(input)
+          os.println(input)
+
+        }
+      }
+
+#+END_SRC
+
+[[https://s18.postimg.cc/3p3zd6l2h/screenshot_98.png][Illustration of Socket in eyes of Server]]
+
+Client in the eyes of Server is just like a File;
+Analagous, Server in the eyes of Client is also a File;
+*Socket is just a File*.
+
+
+*** programming the Chat Client
+
+[[https://s9.postimg.cc/q1oql3pxb/screenshot_108.png][Illustration of Chat Client]]
+
+*problem of blocking call for client*
+
+#+BEGIN_SRC scala
+      object ChatClient extends App {
+        println("making socket")
+        val sock = new Socket("localhost", 4444)
+        println("socket made")
+        val in = new BufferedReader(new InputStreamReader(sock.getInputStream))
+        val out = new PrintStream(sock.getOutputStream)
+
+        // !!!where problem comes from
+        while(true) {
+          val input = readLine // a blocking call waiting user input
+          out.println(input)
+          val p = in.readLine() // a blocking call waiting server input
+          println(p)
+        }
+
+      }
+#+END_SRC
+
+In general, there seems to be no sematic problem that we build a ~while(true)~ to loop:
+1. user input (*blocking*)
+2. print user input to socket
+3. read response from socket (*blocking*)
+
+
+But, two blocking call occur in same while-loop actually will lead to some issues when running, because (1)(3) are blocking call, so if client *blocked* at waiting user input, meanwhile server give you some message through socket, these msg will lost.
+
+So, No way that (1)(3) being done together inside the same thread. We basically *need to have two separate threads that are working on these different pieces of functionality*.
+
+#+BEGIN_SRC scala split two blocking call in two separate thread
+      // spawn a new thread by future
+      Future {
+        while (input != ":quit") {
+          // a blocking call waiting server response
+          val p = in.readLine()
+          println(p)
+        }
+      }
+
+      // still in main thread
+      var input = ""
+      while(input != ":quit") {
+        // a blocking call waiting user input
+        input = readLine
+        out.println(input)
+      }
+
+#+END_SRC
+
+
+*** programming the Chat Server
+we want to move forward a small step based on code previous section, to accept lots of connections and then keep a list of users.
+
+The tasks of chat server should be as list below shows:
+1. waiting for connection
+2. keep the information of users who connected: name,socket etc.
+3. a case class to store user information
+4. everytime a different socket connected, store user information
+5. a collection to store all users
+6. every connection should run separately in different thread, or else it will blocking other user
+7. everytime a socket connected, should build BufferedReader and InputStreamReader binded to this socket, like every file should have its own reader and writer to handle reading and writing.
+8. support private message between user to user
+
+
+2 important functions:
+   1. ~<ServerSocketObj>.accept~ return a socket
+   2. ~bufferedReader.ready~ return a boolean.
+
+      [[https://s9.postimg.cc/omn5wcm9b/screenshot_107.png][Illustration of Chat Server]]
+
+
+
+*** wrapper around ~ConcurrentHashMap~ :collection:
+#+BEGIN_SRC scala
+      import scala.collection.JavaConverters._
+
+      // .asScala convert a ConcurrentHashmap to a scala map
+      val users = new ConcurrentHashMap[String, User]().asScala
+
+      // if not scala map, you cannot use it in for and do pattern match
+      for ((name, user)<- users) {
+        doChat(user)
+      }
+#+END_SRC
+
+code shows above will build a wrapper around the ~ConcurrentHashMap~ by ~.asScala~ method, and this wrapper will provide the Scala type map functionality, so we can treat it just like a scala map, and do all the things we're used to with a scala map, but it will actually be a ~ConcurrentHashMap~ underneath it, so it'll be safe for the two threads to use it.
+
+
+*** create object by mix-in a trait :typeSystem:
+
+SynchronizedBuffer is a trait, you should use it by mix-in --- Mix-in on a trait, when you're doing the mix-in you give the base type followed by a keyword ~with~ followed by a trait, and this trait is some like a *wrapper*.
+
+#+BEGIN_SRC scala
+    val ab = new A with B
+#+END_SRC
+
+** URLs
+
+:Reference:
+1. [[https://docs.oracle.com/javase/8/docs/api/java/net/URL.html][java.net.URL]]
+2. [[http://www.scala-lang.org/api/2.12.4/scala/io/Source.html][scala.io.Source]]
+3. [[https://stackoverflow.com/questions/4659659/why-does-inputstreamread-return-an-int-and-not-a-byte?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa][why read() return an int instead of a byte]]
+:END:
+
+:Definition:
+<<Http and URL>>
+1. Http
+   http --- "Hypertext Transport Protocol", which is a text based interface that computers can use to talk to one another.
+2. URL
+   Specifying where things are located using URLs --- Uniform Resource Locator, there happens to be a class in ~java.net.URL~
+:END:
+
+:API:
+<<java.net.URL>>
+1. ~openConnection(): URLConnection~
+   Returns a URLConnection instance that represents a connection to the remote object referred to by the URL.
+2. ~openStream(): InputStream~
+   Opens a connection to this URL and returns an *InputStream* for *reading from that connection*.
+
+
+<<java.net.URLConnection>>
+1. ~getContentLength(): int~
+   Returns the value of the content-length header field.
+
+<<java.io.InputStream>>
+1. read(): abstract int
+   Reads the next byte of data from the input stream.
+2. read(byte[] b): int
+   Reads some number of bytes from the input stream and stores them into the buffer array b.
+
+<<scala.io.Source>> ONLY for comanion object of ~Source~
+1. ~def fromFile(file: File, bufferSize: Int)(implicit codec: Codec): BufferedSource~
+   *Creates Source from file*, using given *character encoding*, setting its description to filename.
+2. ~def fromInputStream(is: InputStream)(implicit codec: Codec): BufferedSource~
+3. ~def fromURL(url: URL)(implicit codec: Codec): BufferedSource~
+   same as fromInputStream(url.openStream())(codec)
+
+
+:END:
+
+:Code:
+
+:END:
+
+:Image:
+
+
+:END:
+
+*** URL as a Stream like File or Socket
+    #+BEGIN_QUOTE
+    Can be seen as a File, and also should be closed like a File
+
+    | InputStream |                            |
+    |-------------+----------------------------|
+    | File        | FileInputStream(FileName)  |
+    | Object      | ObjectInputStream          |
+    | Socket      | <socketObj>.getInputStream |
+    | *URL*       | <URLObj>.openStream        |
+
+    #+END_QUOTE
+
+*** method-1 to read content of an URL page by scala.io.Source
+
+    #+BEGIN_SRC scala
+      val source = io.Source.fromURL("http://www.cs.trinity.edu/~mlewis")
+      val urlCon = source.mkString
+    #+END_SRC
+
+*** method-2 to read content of an URL page by java.net.URL
+
+    #+BEGIN_SRC java
+      import java.io._
+      import java.net._
+
+      val url = new URL("http://www.cs.trinity.edu/~mlewis")
+
+      // get a URL as inputStream
+      val is = url.openStream
+
+      // create a buffer to store, because you don't know how many bytes the page contains
+      val buf = collection.mutable.Buffer[Byte]()
+
+      // the read return type Int, must keep that in mind
+      var res = is.read
+      while(res >= 0) {
+        buf += res.toByte
+        res = is.read
+      }
+
+      buf
+
+      // a constructor of String takes an byte array
+      val content = new String(buf.toArray)
+
+      // close like it's a File
+      is.close
+
+    #+END_SRC
+
+*** method-3 to read content of an URL page by java.net.URL
+    when you want know how long the URL page is, you can use ~URL.openConnection~
+
+    URLConnection has a method ~getContentLength~, by which you can get the length of an URL page
+
+
+    #+BEGIN_SRC java
+      import java.io._
+      import java.net._
+
+      val url = new URL("http://www.cs.trinity.edu/~mlewis")
+
+      // get length of URL page by URLConnection.getContentLength
+      val connection = url.openConnection
+      val buffer = Array.fill(connection.getContentLength)(0.toByte)
+
+      // read content from URL page by InputStream.read(buf[])
+      val is = url.openStream
+      is.read(buffer)
+      new String(buffer)
+      is.close
+
+    #+END_SRC
+
+
+    
+
+
+*** why read() method of an InputStream return a Int instead of a byte?
+    It returns an int because when the stream can no longer be read, it returns -1.
+
+    If it returned a byte, then -1 could not be returned to indicate an error because -1 is a valid byte. In addition, you could not return value above 127 or below -128 because Java only handles signed bytes.
+
+
+** TODO RMI: Remote Method Invocation
+
+
+:Definition:
+1. RMI
+   remote method invocation, means you get to call methods on objects that are remote. Which use socket, stream, serialization.
+2. remote object registry
+3. Remote
+   The Remote interface serves to identify interfaces whose methods may be invoked from a non-local virtual machine.
+4. Naming
+   [[https://docs.oracle.com/javase/8/docs/api/java/rmi/Naming.html][Naming]]
+
+   The Naming class provides methods for storing and obtaining references to remote objects in a remote object registry.
+
+   Each method of the Naming class takes a name that is a *java.lang.String in URL format* (without the scheme component) of the form as one of its arguments:
+
+    *//host:port/name*
+
+   where host is the host (remote or local) where the registry is located, port is the port number on which the registry accepts calls, and where name is a simple string uninterpreted by the registry. Both host and port are optional. If host is omitted, the host defaults to the local host. If port is omitted, then the port defaults to 1099, the "well-known" port that RMI's registry, rmiregistry, uses.
+
+5. Registry
+   [[https://docs.oracle.com/javase/8/docs/api/java/rmi/registry/Registry.html][Registry]]
+
+   In its typical usage, a Registry enables RMI client bootstrapping: it provides a simple means for a client to obtain an initial reference to a remote object. Therefore, a registry's remote object implementation is typically exported with a well-known address, such as with a well-known ObjID and TCP port number (default is 1099).
+
+   Registry is a remote interface to a simple remote object registry that provides methods for storing and retrieving remote object references bound with arbitrary string names. The ~bind~, ~unbind~, and ~rebind~ methods are used to alter the name bindings in the registry, and the ~lookup~ and ~list~ methods are used to query the current name bindings.
+
+6. LocateRegistry
+   [[https://docs.oracle.com/javase/8/docs/api/java/rmi/registry/LocateRegistry.html][LocateRegistry]]
+
+   LocateRegistry is used to obtain a reference to a bootstrap remote object registry on a particular host (including the local host), or to create a remote object registry that accepts calls on a specific port.
+:END:
+
+:API:
+<<[[https://docs.oracle.com/javase/8/docs/api/java/rmi/package-summary.html][java.rmi]]>>
+
+<<java.rmi.registry.Registry>> Interface
+1. void	bind(String name, Remote obj)
+   Binds a remote reference to the specified name in this registry
+2. void	rebind(String name, Remote obj)
+   Replaces the binding for the specified name in this registry with the supplied remote reference.
+
+<<java.rmi.registry.LocateRegistry>> class
+1. static createRegistry(int port): Registry
+   Creates and exports a Registry instance on the local host that accepts requests on the specified port.
+
+:END:
+
+   at a fundamental level, all networking is being done through sockets, RMI just *wraps* things up and gives up a higher level of libraray and gives us the ability to do exactly what the name implies it --- *allow us to invoke or call methods remotely*. You can have a reference to an object that's actually on another machine and call the methods on it instead of having to with our sockets.
+
+   As an example, when we want to add the support for private msg between user to user to the Chat program above in [[*Networking: TCP Sockets][Networking: TCP Sockets]].
+
+   #+BEGIN_QUOTE handle various types of msg
+   This is truely a challenge:
+   1. we have a single scoket for each user
+   2. when we get a msg from that socket, we have to look that msg and decide whether it should be a private or public.
+   3. In a large application, we wouldn't just have two type of msg(public and private) sending back and forth
+   4. as number of types of msg grow up, it's hard to organize on your own.
+   #+END_QUOTE
+
+   Then, RMI comes!!!
+
+   Instead of *packing* something up and sending it through a socket as a message that has to be *unpackaged* and *interpreted* on the other side, that's all happening underneath the hood and you just call a method and the system packages stuff up sends it across the network,unpackaged it does the call on the other computer and then packages up and send you back the result.
+
+
+
+
+   #+BEGIN_SRC java
+   java.rmi
+
+
+   #+END_SRC
+
+*** TODO RMI: sending Drawings through Sockets
+    Give the our RMI program the ability to basically send drawings from one program to another
+
+
+* TODO *Mark lewis Scala 2(lec54~62 with scala.swing) and OADT(lec163~174 with scalaFX) has very excellent lectures about the network and RMI, it's a pitty that I have no enough time to work through, so left msg here, some day I will come back and review.*
+
+* some codes have programmed,but with some error and note shoud archive.
+** RMIChatClient.scala
+   #+BEGIN_SRC scala
+        package networking
+
+     import java.rmi.{Naming, RemoteException}
+     import java.rmi.server.UnicastRemoteObject
+
+     import scalafx.application.JFXApp
+     import scalafx.event.ActionEvent
+     import scalafx.scene.Scene
+     import scalafx.scene.control._
+     import scalafx.scene.layout.BorderPane
+
+     /*
+      1. Make remote interfaces (as trait)
+      2. Make implementation that extends UnicastRemoteObject and the remote interface.
+      3. Make Server bind itself to something called rmi registry
+         so there has to be this program running some place that is this *Registry*, and we need to bind to it. The way we do that, is ~Naming~, which has a bind method and rebind method, the bind method, if there's something taht alread has that name will throw an exception, rebind() if there's something that already has that name will kick it off and use this one instead.
+      4. Client does a name lookup
+         the server will run first and bind itself, on the client side we need to *look up the server*, so the server will be set to once again this is inside of Naming.lookup(name), and this "name" should agree with the name the Server registed in registry. This will give back the object of type Remote --- server.We'll have to play a little bit more with this because right now it's just a remote, and we need it to be a remote server.
+      5. Bring up the registry.
+         we need an RMI registry running someplace, now it turns out one RMI registry can server lots of various programs, so you only really need to run one on your computer and you can do it from command line. doing that is challenging though because it has to be in the right class path to see all of your compiled code, the easiest way to do that is inside of the API under java.rmi.LocateRegistry, which has a method called ~createRegistry~, you can give it a port number as argument, and default port number is 1099. And if you use it in your code, it will automatically get the right class path.
+      ,*/
+
+
+     /* @remote will gives tagged interface(or trait) two extension:
+      1. extends from java.rmi
+      2. automaticlly make every method in this trait could throw remote exception
+     ,*/
+     trait RemoteClient extends java.rmi.Remote{
+       def name:String throws java.rmi.RemoteException// other computer could ask for client's name
+       def message(sender: RemoteClient, text: String): Unit throws java.rmi.RemoteException
+       def clientUpdate(clients: Seq[RemoteClient]): Unit throws java.rmi.RemoteException
+     }
+
+     /* UnicastRemoteObject, one of the basic interface provided by java.rmi, that allows something to basically be an rmi object
+      ,*/
+     object RMIChatClient extends UnicastRemoteObject with JFXApp with RemoteClient {
+       val dialog = new TextInputDialog("localhost")
+
+       // Some GUIs
+       dialog.title = "Server machines"
+       dialog.contentText = "what server do you want to connect to?"
+       dialog.headerText = "Server Name"
+
+       /* don't need portnumber here, because registry is bound to a well known port 1099 a default portnumber, and I don't always want to do localhost, it's nice to pop up a GUI that ask what machine we'd like to connect to.
+        ,*/
+       val (_name, server) = dialog.showAndWait() match {
+         case Some(machine) =>
+           /*
+            this Naming.lookup gives us back a type ~Remote~, it's kind of like how read object gave you back an object and we had to do something to make sure that it was waht we wanted, we're going to have to do the same thing here
+            ,*/
+           Naming.lookup(s"rmi://$machine/ChatServer") match {
+             /*
+              note, this is not an RMI server or a RMIChatServer, this is not the type we're getting back, we are getting back one of RemoteServer(a trait defined in RMIChatServer), but now RMIChatServer is a subtype of RemoteServer, but this is significant because it's being passed remotely we don't get a copy of RMIChatServer, we do not actually get an instance of this type, we get some other subtype of RemoteServer that the JVM has created for us. We don't have to write it, but it's the thing that's actually handling all of our networking stuff.
+              ,*/
+             case server: RemoteServer =>
+               val dialog = new TextInputDialog("")
+               dialog.title = "Chat Name"
+               dialog.contentText = "what name do you want to go by?"
+               dialog.headerText = "User Name"
+               dialog.showAndWait() match {
+                 case Some(name) => (name,server)
+                 case None => sys.exit(0)
+               }
+             case _ =>
+               println("there were problems")
+               sys.exit(0)
+           }
+
+         // don't select anything
+         case None => sys.exit(0)
+       }
+
+       /*
+        we got our server, but we have to connect, in RMIChatServer there is a method called ~connect~ and it jsut returns unit, so that will make the server know that we are present and then it will tell everyone else that we are now there.
+        ,*/
+       server.connect(this)
+
+       val chatArea = new TextArea
+       chatArea.editable = false
+       /*
+        we have a user list, and a chat area we have these clients here which we will be able to update because when the client updates we're going to change that and then probably need to update the user list.
+        ,*/
+       var clients = server.getClients
+       val userList = new ListView(clients)
+       /*
+        the chatfield is just a new text fild, so the text field they're going to type into the text area they probably shouldn't be able to edit
+        ,*/
+       val chatField = new TextField
+       /*
+        when they hit enter which calls the action on it, we're going to need something to happen.
+        . 1. we should check the text in the chatFiled isn't empty
+        ,*/
+       chatField.onAction = (ae: ActionEvent) => {
+         if(chatField.text().trim.nonEmpty) {
+           /* if nothing selected in userList, msg will be sent to everyone
+           ,* */
+           val recipients = if(userList.selectionModel().getSelectedItems.isEmpty) {
+             server.publicMessage(this, chatField.text().trim)
+             // recipient will be all the client.
+             clients
+           } else {
+             userList.selectionModel().getSelectedIndices.map(i => clients(i)).toSeq
+           }
+           recipients.foreach { r =>
+             try {
+               r.message(this, chatField.text.trim)
+             } catch {
+               case ex: RemoteException => chatArea.appendText("Couldn't  send to on recipient")
+             }
+           }
+           chatField.text = ""
+         }
+       }
+
+       stage = new JFXApp.PrimaryStage {
+         title = "RMI Chat"
+         /*
+          we need a text area that will show the chat;
+          we need a text field where the user can type on and then when they hit enter it will send their chat message
+          we need a list view of the other users that are in there, so that they can select what users they want their chat to go to
+          what i'm actually going to do for this is i'm going to make one border pain , and put the field across the top, and put the list on the left side, and put the area in the center, both area and the list need to go inside of scroll paint.
+          ,*/
+         scene = new Scene(600, 600){
+           val chatScroll = new ScrollPane
+           chatScroll.content = chatArea
+           val userScroll = new ScrollPane
+           userScroll.content = userList
+           val border = new BorderPane
+           border.top = chatField
+           border.left = userScroll
+           border.center = chatScroll
+           root = border
+         }
+       }
+
+       def name:String = _name
+
+       def message(sender: RemoteClient, text: String): Unit = Platform.runLater {
+         chatArea.appendText(sender.name + " : " + text+"\n")
+       }
+
+       def clientUpdate(clients: Seq[RemoteClient]): Unit = Platform.runLater {
+         this.clients = clients
+         if(userList!=null) userList.items = ObservableBuffer(clients.map { c =>
+                                                                c.name
+                                                              })
+       }
+
+
+     }
+
+
+   #+END_SRC
+** RMIChatServer.scala
+   #+BEGIN_SRC scala
+
+     package networking
+
+     import java.rmi.{Naming, RemoteException}
+     import java.rmi.registry.LocateRegistry
+     import java.rmi.server.UnicastRemoteObject
+
+     import scala.collection.mutable
+
+     trait RemoteServer extends java.rmi.Remote{
+       // client who connect, and will tell server.
+       def connect(client: RemoteClient): Unit throws java.rmi.RemoteException
+       // client who decide to stop, and will tell server.
+       def disconnect(client: RemoteClient): Unit  throws java.rmi.RemoteException
+       // I want the clients to be able to ask the server for a sequence of all of the different clients.
+       def getClients: Seq[RemoteClient] throws java.rmi.RemoteException
+       // send msg from one client to all the other clients.
+       def publicMessage(client: RemoteClient, text: String): Unit throws java.rmi.RemoteException
+
+     }
+
+     object RMIChatServer extends UnicastRemoteObject with App with RemoteServer {
+       LocateRegistry.createRegistry(1099)
+       /*
+        In java or scala, there is a class called Naming, it has 2 important methods: bind() and rebind()
+        ,*/
+       Naming.rebind("ChatServer", this)
+
+       private val clients = mutable.Buffer[RemoteClient]()
+
+       def connect(client: RemoteClient): Unit = {
+         /*
+          add new connected client to our list, and let other client know
+          a new client connected.
+          ,*/
+         clients += client
+         sendUpdate
+       }
+
+       def disconnect(client: RemoteClient): Unit = {
+         /*
+          analagous to the connect() method
+          ,*/
+         clients -= client
+         sendUpdate
+       }
+
+       def getClients: Seq[RemoteClient] = {
+         /*
+          normally return a buffer like this would be risky because it would be mutable, but RMI has interesting passing semantics,turns out you can't pass everything in RMI, underneath the hood, there is an ObjectOutputStream and an ObjectIputStream, they're writing things back and forth, just like what we did with our sockets, an ObjectOutputStream can only write things that are serializable and so turns out with RMI, the passing semantics, there are basically three possiblities:
+
+          1. it is somthing can be serializable, like all primitive type, and built-in collection types and anything we make serializable, if it's that type, it winds up being passed *by value*,which means that it actually makes a copy, it bundles up, so our remote client when we return this ~clients~ from ~getClients~, it's actually going to make a copy of the buffer and send that copy of the buffer over to the client which means that the buffer can't change our original one, so pass a buff a mutable collection is absolutely safe.
+
+          The other way that you can pass things is to pass things remotely, turns out that each of the remote clients inside of ~Seq[RemoteClient]~ is of a subtype of ~Remote~ and so all the things that are remote they get passed by a *remote reference*, so the buffer itself gets copied but all the contents in it don't, instead of getting a copy of that you get a remote reference to it. That allows so then when a client calls this method(~getClients~) it gets a collection of a whole bunch of things, for those things know about what computer what port what name to call stuff on the other computers, so they can actually talk directly to one another, if they wish to.
+
+          summary:
+          buffer is mutable but pass by-value;
+          RemoteClient pass by-name(reference);
+          so, return buffer[RemoteClient] is safe and functional
+          ,*/
+         clients
+       }
+       def publicMessage(client: RemoteClient, text: String): Unit = {
+         /*
+          a client itsefl is remote, so that actually could potentially throw a remote exception and
+          ,*/
+         val message = client.name + " : " + text
+         clients.foreach(_.message(client, message))
+       }
+
+       private def sendUpdate: Unit = {
+         /*
+          needs to run through each the clients and for each one we're
+          going to send them a clientUpdate and pass the result as the evidence of filting or not, by which we can get a dead clients
+          collection. Minus them from original collection.
+          ,*/
+         val deadClients = clients.filter{ c =>
+           try {
+             /* if we can run through this line, means this client still work, and we return false, else it must throw RemoteException and we can catch it and return true.
+             ,*/
+             c.clientUpdate(clients)
+             false
+           } catch {
+             // because @remote, we can catch RemoteException
+             case ex: RemoteException => true
+           }
+         }
+         // -- is apply to two sets, means excluding
+         clients --= deadClients
+       }
+     }
+
+   #+END_SRC

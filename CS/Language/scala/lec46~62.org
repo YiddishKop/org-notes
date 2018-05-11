@@ -1,0 +1,554 @@
+* The java.io Package
+
+:REFERENCE:
+1. [[https://www.ibm.com/developerworks/cn/java/j-lo-chinesecoding/][chinese encoding in java]]
+2. [[https://www.ibm.com/developerworks/cn/java/j-lo-javaio/#icomments][deep dive into java IO]]
+:END:
+
+~java.io~ work well with binary data
+
+** java.io.File
+   1. ask/change some permission in that file: RXW
+   2. you can delete/create file
+   3. *you can get all files under certain directory* as a String list or a File list.
+
+
+** java.io.Input/OutputStream<abs>
+   the basic functionality of an InputStream is it reads arrays of bytes at a *fundamental level*. all the data on the computer is a bunch of bytes, so you can read whatever you want, its the ONLY question to conver from bytes into the *structure* that you want
+
+   java.io.Input/OutputStream which is abstract class, and ONLY provide the simplest method which will read/write one byte per time.
+   * ~InputStream~
+     ~void read()~
+     ~void read(byte[] b)~
+   * ~OutputStream~
+     ~void write(byte[] b)~
+
+
+   java.io.Input/OutputStream has 3 kinds of subclass:
+   1. specify the data source
+      1. FileInput/OutputStream
+      2. Socket I/O(not subclass of InputStream, just list here for readon above)
+   2. extend Input/OutputStream by Decorator pattern
+      1. change the reading/writing manner
+         1. BufferedInput/OutputStream
+      2. providing additional functionality
+         1. DataInput/OutputStream
+
+*** java.io.FileInput/OutputStream
+    inherits from ~java.io.InputStream~, when you read from it, it takes data from the file
+
+    inherits from ~java.io.OutputStream~, when you write to it, it push data to the file
+
+    [[https://s7.postimg.cc/ieu6gqb63/screenshot_95.png][illustration of stream and file]]
+
+
+*** handle Exception by try-catch-finally
+
+    #+BEGIN_SRC scala
+      package example
+
+      import scala.swing.FileChooser
+      import java.io.FileInputStream
+      import java.io.FileNotFoundException
+      import scala.swing.Dialog
+
+
+      object PlayWithStreams {
+        def main(args: Array[String]): Unit = {
+          val chooser = new FileChooser
+          if(chooser.showOpenDialog(null) == FileChooser.Result.Approve) {
+            val file = chooser.selectedFile
+            try{
+              val fis = new FileInputStream(file)
+              val buf = new Array[Byte](file.length.toInt)
+              try{
+                fis.read(buf)
+              } catch {
+                case ex: IOException =>
+                Dialog.showMessage(null, "There was an error while reading the file", "Errro", Dialog.Message.Error, null)
+                ex.printStackTrace()
+              } finally {
+                fis.close()
+                println(new String(buf))
+              }
+            } catch {
+              case ex: FileNotFoundException =>
+                Dialog.showMessage(null, "file not found", "Errro", Dialog.Message.Error, null)
+                ex.printStackTrace()
+            }
+          }
+        }
+      }
+    #+END_SRC
+
+    when we create a ~new FileInputStream(file)~ object, there are several ways that could go wrong:
+    1. the ~file~ we passed in might *not exist*
+       ~java.io.FileNotFoundException:~
+    2. file exist, but not have proper *permission*
+
+
+    how to deal with Exception
+    use a ~try catch~ block, to check(try) and catch/handle(catch) the exception
+
+    #+BEGIN_SRC scala
+      try{
+        // some clauses may lead to exception
+        clause1
+        clause2
+        clause3
+        clause4
+      } catch {
+        // a case partial function, eg.
+        case ex: exType1 => exHandlement
+        case ex: exType2 => exHandlement
+        case ex: exType3 => exHandlement
+      }
+    #+END_SRC
+
+    *ATTENTION*:
+    try block build a variable life time range, so if something refer to the *variable in try block*, also should be put in try block. Or, you may need embedding another try and catch block which as an *inner try block* can access the variable of *outter try block*.
+
+
+    *ATTENTION*:
+    try block will *cut the code flow* when an exception occur, eg. clause2 cause an exception, then it will jumpt directly to catch block and *ignore the clause3 and clause4* , the worse thing is, if we *open some* scoket or file *before the exception clause*, then they are not closed, and not closed forever until GC start to collect them. THIS IS VERY BAD!
+
+    *ATTENTION*:
+    If you have some code like open socket or file, you should put the ~close handlement~ in ~final~ block.
+
+
+*** TODO handle Exception by Loan Pattern
+
+    #+BEGIN_SRC scala
+      package example
+
+      import scala.swing.FileChooser
+      import java.io.FileInputStream
+      import java.io.FileNotFoundException
+      import scala.swing.Dialog
+
+
+      object PlayWithStreams {
+
+        def doWithFileInput[A](fileName: String)(body: InputStream => A): A ={
+        // wrap FileInputStream(subclass of InputStream) by BufferedInputSream for efficiency
+          val fis = new BufferedInputStream(FileInputStream(fileName))
+          try{
+            body(fis)
+          } finally {
+            fis.close
+          }
+        }
+
+        def main(args: Array[String]): Unit = {
+          val chooser = new FileChooser
+          if(chooser.showOpenDialog(null) == FileChooser.Result.Approve) {
+            val file = chooser.selectedFile
+            try{
+              doWithFileInput(file.getAbsolutePath()) (fis => {
+                val buf = new Array[Byte](file.length.toInt)
+                fis.read(buf)
+                println(new String(buf))
+              })
+            } catch {
+              case ex: IOException =>
+                Dialog.showMessage(null, "There was an error while reading the file", "Errro", Dialog.Message.Error, null)
+                ex.printStackTrace()
+
+              case ex: FileNotFoundException =>
+                Dialog.showMessage(null, "file not found", "Errro", Dialog.Message.Error, null)
+                ex.printStackTrace()
+            }
+          }
+        }
+      }
+
+    #+END_SRC
+
+    Usually, *IO related API* doesn't know how to handle the it if something goes wrong, if you try to access file without proper permission, or some inproper things, the library code desn't know what is the right thing to do.
+
+    So,in most cases, in IO program, exceptions will not be caught(too many kinds of exception to list in catch case clause). It will just *propagate to higher method*, until being handled.
+
+
+    *propagate to higher method*, is where the loan pattern comes from: we can define a higher order curry function ONLY embedded the try and finally block, as a HELPER function. What second parameter list do is to accept a function for the purpose to bunch lines of code, which may lead to a IOException or FileNotFoundException.
+
+
+    TODO : need a deep dive into the helper function in code snippet above.
+
+
+** java.io.Reader/Writer
+*** java.io.InputStreamReader and BufferedReader
+
+    :Info:
+    #+BEGIN_QUOTE InputStreamReader
+    java.lang.Object
+    java.io.Reader
+    java.io.InputStreamReader
+    #+END_QUOTE
+
+    #+BEGIN_QUOTE BufferedReader
+    java.lang.Object
+    java.io.Reader
+    java.io.BufferedReader
+    #+END_QUOTE
+
+    #+BEGIN_SRC java
+      // Creates a buffering character-input stream that uses a default-sized input buffer.
+      BufferedReader(Reader in)
+
+      // Creates a buffering character-input stream that uses an input buffer of the specified size.
+      BufferedReader(Reader in, int sz)
+    #+END_SRC
+
+    #+BEGIN_SRC java
+    String	readLine()
+    Reads a line of text.
+    #+END_SRC
+
+    :END:
+
+    ~InputStreamReader~ is a decorator(wrapper) of ~InputStream~, ~Reader~ deal with character input instead of byte input, the reason to use a ~InputStreamReader~ is to use a ~BufferedReader~, which is analagous deal with *character input* instead of byte input.
+
+    The ~BufferedReader~ class has a method ~readLine()~
+
+
+** 2 ways to extend Input/OutputStream by Decorator pattern
+*** Decorating Streams and Buffering
+    #+BEGIN_QUOTE
+    Decorating one type by another type, is something like make one type as the type of constructor argument of antoher type.
+    #+END_QUOTE
+
+    By introduction before, we know that ~java.io.InputStream/OutputStream~ are both *abstract*, means they don't know from where to read or write; meanwhile ~java.io.FileInputStream/FileOutputStream~ as the subclass are concrete, when we create we supposed to specify the file.
+
+  ~java.io.InputStream/OutputStream~ supply a very simple API, only allowed to read and write by byte. How we can add some functionality to them? There are different ways you can do, in Java we use a design pattern called *decorator*.
+
+  *Decorator allows us to take an input stream, and wrap it inside of another input stream, the same with output stream.*
+
+  This wrapping used to either provide some change of behavior of how things read/write or to provide additional functionality.
+
+  Change *behavior* of reading or writing, you may wrap it inside of another class,which also be an input stream, like:
+  * BufferedInput/OutputStream
+
+  Provide some additional *functionality* to API
+  * FileInputStream
+  * FileReader
+  * etc.
+
+  refer to
+  1. [[https://www.ibm.com/developerworks/cn/java/j-lo-javaio/#icomments][Deep dive into the IO of Java]]
+  2. [[https://www.ibm.com/developerworks/cn/java/j-lo-chinesecoding/][Deep dive into the byte encoding in java]]
+
+*** kind-1 : change behavior of reading/writing: BufferedInput/OutputStream
+
+    #+BEGIN_QUOTE
+    java.lang.Object
+       \-java.io.InputStream
+          \-java.io.FilterInputStream
+             \-java.io.BufferedInputStream
+    #+END_QUOTE
+
+    No additional functionality, BUT make reading/writing more efficient
+
+    #+BEGIN_SRC java
+    // constructor of BufferedInputStream
+    BufferedInputStream(InputStream in)
+    // or
+    BufferedInputStream(InputStream in, int size)
+    // `size` here indicate the langth of buffer who used to cache the byte read by inputStream.
+    #+END_SRC
+
+    you see that, argument of Ctor has a *InputStream* type, So BufferedInputStream is a *wrapper* of the regular InputStream, and InputStream can almost read from anything, which make BufferedInputStream also can read from anything.
+
+    The ONLY reason to use BufferedInputStream is for efficiency:
+    * InputStream read 1byte/time *directly* from file(or other source)
+    * BufferedInputStream will *implicitly* read buch bytes in *buffer* as *cache*, then every time call read() will read 1 byte *from buffer* instead of directly from file(or other source)
+
+
+    [[https://s7.postimg.cc/v2sbchejv/screenshot_97.png][BufferedInputStream vs. InputStream]]
+
+    *Professor recommand that, should wrap all the subclass of InputStream and OutputStream(like FileInputStream,etc) by BufferedInput/OutputStream*
+
+*** kind-2 : provid additional funcionality Binary Data
+    How we deal with binary data, how we do type conversion between byte and other type?
+
+    you can do type conversion by your own:
+    1. double -> rawBits : `doubleToRawLongBigs(double value)`
+    2. rawBits -> double : `longBitsToDboule(long bits)`
+
+
+    Some time you don't want to write things out as Strings of numbers(usually, when you read from or write to file, you deal with strings) but actually write out the double itself as just 8 bytes. So we have `DataInput/OutputStream`
+
+
+    #+BEGIN_QUOTE
+    java.lang.Object
+       \-java.io.InputStream
+          \-java.io.FilterInputStream
+             \-java.io.DataInputStream
+    #+END_QUOTE
+
+    #+BEGIN_SRC java
+    // constructor of DataInputStream, analogous with BufferedInputStream
+    DataInputStream(InputStream in)
+    #+END_SRC
+
+    ~DataInputStream~ gives you the ability to read and write values in a *binary format*, like method ~readDouble()~ and ~writeDouble(double value)~.
+
+    why would you use a binary format instead of a text format, and we've seen that we can use ~Source~ for reading text, we can use the ~printWriter~ for writing text, we even saw how we could use the ~FileInputStream~ and ~FileOutputStream~ and also do things with text.
+
+    1. print double-string takes more space
+       It turns out that the *text is not a very efficient way to represent certain types of data in particular numbers*, if you write a lot of numbers to a file, writing them as text will *takes a lot more space*, when you print out a *double-string* with full accuracy you'll often print out 16 digits in addition to the 16 digits you'll have more things like decimal, comma, negative symbols etc.), but *the double in memory is just 8 bytes*, a Double can be handled with full information.
+
+    2. print double-string takes more time
+       Not only does it take more space but it's really slow, the conversion from a string-double to what goes into memory takes a fair bit of work, but when you're reading 10 million doubles, this conversion to and back will cost too significant time.
+
+
+    So ~<DataInputStream>.readDouble()~ allow us to deal with data more efficiently to put it inside of a file in a way that is fundamentally closer to what's actually in the memory.
+
+
+
+*** if we combine 2 kinds of decorator
+    #+BEGIN_SRC java
+     val os = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("binary.bin")))
+    #+END_SRC
+
+    you can see that,
+    1. we *speed up* the ~OutputStream~ reading efficiency by buffered manner through kind-1 decorator;
+    2. we *add API function* to the ~OutputStream~ by kind-2 decorator;
+    3. when you combine them,must follow the combine order: ~DataOutpuStream >>> BufferedOutputStream~, else you can not use the additional function provide by ~DataOutpuStream~
+
+
+
+    #+BEGIN_SRC scala
+      def testDecoratorPattern = {
+      // build a binary by DataOutputStream
+        val os = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("binary.bin")))
+        val nums = Array.tabulate(100)(i => 0.1*i)
+        os.writeInt(nums.length)
+        nums.foreach(os.writeDouble)
+        os.close
+
+
+      // read binary transform to Int or double by method ~readInt/Double~
+        val is = new DataInputStream(new BufferedInputStream(new FileInputStream("binary.bin")))
+        val nums = Array.fill(is.readInt)(is.readDouble)
+        is.close
+        nums.foreach(println)
+      }
+
+    #+END_SRC
+
+    BTW, you will find that, ~DataOutputStream~ will produce a *binary* output, and you can use ~M-x hexl-mode~ to convert content into hexadecimal after you open it in emacs.
+
+
+*** Shortcoming and Merit of DataInput/OutputStream
+
+    you could find that every *primitive type* in java has a related method in ~DataInput/OutputStream~:
+    * writeByte
+    * writeBoolean
+    * writeChar
+    * writeChars
+    * writeInt
+    * writeDouble
+    * etc
+
+
+    *Everyone has his shortcomings and merits* ,DataInput/OutputStream *CANNOT* deal with *Object IO*
+
+** Serialization
+   DataInputStream cannot handel object, so we have another weapon: Serialization.
+
+   Serialization is the act of taking data *object* and *converting* it to a *stream* of something you can save of send ,as opposed to the object in memory itself, you can either put out in a file so that you can read it in later or you could send it across the network.
+
+   serialization actually is converting an *object* to a *sequence of bytes*.
+
+   #+BEGIN_SRC scala
+   // `shapes` is the target to serialize
+     val shapes = Array(new Circle(5, Color.red),
+                     new Rectangle(4, 3, Color.green))
+
+   #+END_SRC
+
+   Code above shows that, if you want to convert an object to a stream, what you need to do?
+   1. you need keep all the *values of arguments* of Ctor
+   2. if the object has some structure like a list of sub-object, you must keep the *information of order*
+
+   Java has a feature called default serialization and it allows you to do binary serialization of objects and do it without you having to write the entire code that we just describe.
+
+   may be not suit for all scenario, but for some simple task like transporting by network, this default method is enough.
+
+*** ObjectInputStream(ObjectOutputStream)
+
+    #+BEGIN_SRC scala
+          object Serialization {
+        def main(args: Array[String]) {
+          val shapes = Array(new Circle(5, Color.red),
+                             new Rectangle(4, 3, Color.green))
+          val oos = new ObjectOutputStream(new BufferedOutputStream
+                                             (new FileOutputStream("shapes.bin")))
+          oos.writeObject(shapes)
+          oos.close()
+
+          // return: [Llittleexamples.Shape;@3eba23e5
+        }
+      }
+
+    #+END_SRC
+
+    If you want some object to be *serializable*, you must tell *compiler* that.The way you do that is to make the type you want to serialize extends ~serializable~, you just need declaring ~extends serializable~, and all the subclass of this type will automatically serializable.
+
+    Always, when you serialize an object, even the object is a List or other collection, in the eyes of compiler, it's *ONLY ONE OBJECT*, you serialize it, you write it to the file, you read it from the file, then you CANNOT handle it as a collection, which means ~foreach()~ ~.length~ is illegal.
+
+    #+BEGIN_SRC scala
+      val ois = new ObjectInputStream(new BufferedInputStream
+                                        (new FileInputStream("shapes.bin")))
+      val shapes = ois.readObject()
+      println(shapes)
+      shapes.foreach(println)// WRONG to use foreach
+      ois.close()
+
+      // compile error
+    #+END_SRC
+
+    How to make compile knows exactly what's the type of serializable object is?
+
+    Yepp, in scala you can use a *pattern match* to match the result of ~ois.readObject~ to an type ~Array[Shape]~ or ~Nothing~, and when you use pattern match to match and get value of a type, and use API of this type later. You must make sure the pattern will give back *a proper type*, in general, pattern match produce a *sum-type of ADTs* value, NOT EXACTLY any one type given by case clause.
+
+    In this scenario, there are 2 case, 1st match ~Array[String]~, 2nd match ~Nothing~, and we can infer the type of this pattern match clause by the *sum-type* rule:
+
+    ~Array[String] + Nothing = Array[String]~
+
+    #+BEGIN_QUOTE
+    Keep in mind that, ONLY two types equal based on algebraic data types, which means *isomorphism* in Category Theory, these two types are TRUELY at some level same, then you can apply the API function of ~Array[String]~ to result of pattern match.
+    #+END_QUOTE
+
+    #+BEGIN_SRC scala
+      // read from binary file
+      val ois = new ObjectInputStream(new BufferedInputStream
+                                        (new FileInputStream("shapes.bin")))
+      val shapes = ois.readObject match {
+        case arr:Array[Shape] => arr
+        // Exception will gives you a type: Nothing
+        // that is good, because in categor theory, this is a mayor type
+        // and may or type is a sume type in algbraic data type, means
+        // arr + nothing = arr + 0 = arr, no problem
+        case _ => throw new Exception("Value read was not an array")
+      }
+      println(shapes)
+      shapes.foreach(println)
+      ois.close()
+
+      /* return:
+      [Llittleexamples.Shape;@28dacf4e
+      littleexamples.Circle@5978845
+      littleexamples.Rectangle@7bc99706
+      */
+    #+END_SRC
+
+    And you can override the ~toString~ method of subclasses to give back more specific information about the object.
+
+*** serialVersionUID incompatible
+    #+BEGIN_QUOTE
+    [error] (run-main-4) java.io.InvalidClassException: littleexamples.Circle; local class incompatible:
+
+    - stream classdesc serialVersionUID = -2792271175705076432,
+
+    - local class serialVersionUID = -2084849081503267771
+    #+END_QUOTE
+
+    you can see this compile information, it occurs when you serialize an object and store in file, then you modify the class, after that you get the object in file by ~readObject~ method, compile will compare the *serialization type in saved file* and *local type of .class file* each of them have an *serialVersionUID*, ONLY 2 id equal, can do *deserialization*
+
+
+** Details of Serialization
+   Drawbacks of default serialization
+
+
+*** If I don't want to serialize all information of an object
+    Tag ~@transient~ can be added in *front of type/method/variable member* of class definition to tell the compiler NOT writing out this member when do serialization.
+
+    Tag is a kind of metadata information of a class, metadata is a special declaration to comunicate directly with compiler telling it to do or not to do something.
+
+    And, when using Tag to a ~val~ member in class definition there will be some thing inevitable happens:
+    - ~val~ means once assignment happens, can never modify
+    - ~var~ is something you can modify at any time
+    So, if you put a @transient tag in front of a ~val~ member, you do serialization and store the object to a file, the ~transient val~ will be *assigned a default value* because the compiler thought that the information of ~transient val~ should not be kept. This may cause some unknown error.
+
+    #+BEGIN_SRC scala
+    // BAD
+      @transient private val propPanel = new Panel{
+        //..private
+      }
+
+      def getPropPanel = propPanel
+    #+END_SRC
+
+    So, ONLY use ~@transient~ tag for ~var~ NOT ~val~.
+
+    #+BEGIN_SRC scala
+    // GOOD
+      @transient private var propPanel:Panel = null
+
+      def getPropPanel = {
+        if (propPanel == null) propPanel = new Panel
+        else propPanel
+      }
+    #+END_SRC
+
+*** If I modify the class after serialization
+
+    #+BEGIN_SRC scala
+      @SerialVersionUID(128858)
+      class Rectangle(width:Double, height:Double, c:Color) extends Shape(c) {???}
+
+    #+END_SRC
+
+    Tag ~@SerialVersionUID(128858)~ can be put in front of class declaration of a class definition, to bind its serialversionUID to a fixed number.
+
+    The insteresting thing is that, when you force your ID to some fixed value, the compile will not annoy you that the ID is imcompatible, GOOD or BAD, the bad thing is that when you modify your class like add some val member just after you have serialize the object and store it in file. Then when you deserialize object from the file, *the reconstruction of this object will follow a NEW RULE given by the CURRENT definition of class.* The new rule said "I have a val member, but you dont have, so I'll give you some default value." This default may lead to some unknown error in future.
+
+
+*** If I want to customize the saving thing
+    when your serializable class has something that CANNOT serializable(maybe not extends Serializable), the serialization will fall. keep in mind that, all the members of a serializable class should be serializable or transient.
+
+    how to customize the Serialization is introduced in professor's book, and this time will be skipped, for the reason that it's a advanced topic.
+
+** XML Serialization
+
+   :INFO:
+SUMMARIZATION
+object ==> XML ==> object
+how we can write functions so that we can take our objects and convert them to XML and then have code that converts them back.
+:END:
+
+   2 things to make this happen:
+   1. define a ~def toXML:xml.Node~ method to do serialization
+   2. define a ~apply~ method in companion object of this class to  do deserialization.
+
+
+   #+BEGIN_SRC scala
+      // in shape class
+     def toXML: xml.Node
+     // in shape companion object
+     def apply(node:xml.Node):Shape = {
+       (node \ "@type").text match {
+         case Circle.typeString =>
+           val radius = (node \ "@radius").text.toDouble
+           val rgb = (node \ "@color").text.toInt
+           new Circle(radius, new Color(rgb))
+         case "Rectangle" =>
+           val width = (node \ "@width").text.toDouble
+           val height = (node \ "@height").text.toDouble
+           val rgb = (node \ "@color").text.toInt
+           new Circle(width, height, new Color(rgb))
+       }
+
+     // in circle class
+     def toXML: xml.Node =
+       <shape type={Circle.typeString} radius={radius.toString} color={c.getRGB.toString()}/>
+     }
+   #+END_SRC
+
+*** drawbacks of obj -> XML -> obj
+    there are certain types of data that XML is NOT GOOD at representing, *for any large data set*, XML is probably not ideal;
+    *whole thing with lots of doubles*, XML is probably not ideal;
+    *for thins like bufferedImage*, XML is probably not ideal; bufferedImage should be writen out in binary format.
+
+    XML always used to refer to some other file like PNG,JPEG, and give you a filename and then when you do the saving off of the XML, you also save the images assuming that they're going to change.

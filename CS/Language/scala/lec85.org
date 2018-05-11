@@ -1,0 +1,388 @@
+* More Recursion and Graphs
+  [[https://s14.postimg.cc/x0bk63spt/screenshot_125.png][Illustration of Directed Graph]]
+
+** Q and A
+
+*** [QA]Circle lead to infinite loop
+    Program may trap into an inifinite loop, because you don't consume the List from which we choose the median vertex.
+
+    #+BEGIN_SRC scala
+    canReach(0,1,graph2)
+    canReach(2,1,graph2)
+    canReach(3,1,graph2)
+    canReach(0,1,graph2)
+    #+END_SRC
+
+    [TODO, should review chapter Maze]
+    Rember that we have similar problem in *Maze*, the 1st half of video lectures, and we solve it by a *bread crumbs*
+
+    Here, I solve it by introduce a new argument(called ~path~) to build a helper function, by this new argument, I can keep track of the candidats available, and exclude one every recursion.
+
+    #+BEGIN_SRC scala
+      def helper(cur: Int, dest: Int, graph: Array[Array[Int]], path: mutable.Buffer[Int]):Boolean = {
+        if(cur == dest) true
+        else if ( path.isEmpty ) false
+        else {
+          var ret = false
+          for(i <- path) {
+            if( graph(cur)(i) > 0) {
+              ret ||= helper(i, dest, graph, path - i)
+            }
+          }
+          ret
+        }
+      }
+    #+END_SRC
+** 2 ways to represent a Graph in code
+
+*** More OO way
+    we have our type for *vertex* and *edge*
+
+    #+BEGIN_SRC scala
+      object Graph {
+        case class Edge(val dest:Vertex, val weight:Int)
+        class Vertex {
+          val edges = mutable.Buffer[Edge]()
+        }
+        // represent a graph by an Array of Vertex
+        val graph1 = Array.fill(4)(new Vertex)
+        graph1(0).edges += Edge(graph1(1),2) += Edge(graph1(2),3)
+      }
+    #+END_SRC
+
+*** More compact way: adjacent Matrix
+    row of values --- the distance from this vertex to others
+
+    #+BEGIN_SRC scala
+      object Graph {
+        case class Edge(val dest:Vertex, val weight:Int)
+        class Vertex {
+          val edges = mutable.Buffer[Edge]()
+        }
+
+        // OO way
+        val graph1 = Array.fill(4)(new Vertex)
+        graph1(0).edges += Edge(graph1(1),2) += Edge(graph1(2),3)
+
+        // Adjacent Matrix way
+        val graph2 = Array(Array(0, 2, 3, 0),
+                           Array(0, 0, 5, 4),
+                           Array(0, 0, 0, 2),
+                           Array(1, 0, 0, 0))
+      }
+    #+END_SRC
+
+    [[https://s14.postimg.cc/x0bk63spt/screenshot_125.png][Illustration of Directed Graph]]
+
+    For a Directed Graph above, can be represented by a Adjacent Matrix below.
+
+    |   | 0 | 1 | 2 | 3 |
+    |---+---+---+---+---|
+    | 0 | 0 | 2 | 3 | 0 |
+    | 1 | 0 | 0 | 5 | 4 |
+    | 2 | 0 | 0 | 0 | 2 |
+    | 3 | 1 | 0 | 0 | 0 |
+
+    For a non-Directed Graph, the Adjacent Matrix will be a *Symmetric Matrix*
+
+    If a graph have a huge vertices and few edges between them, this would be a Sparse Matrix, this array still have O(N^2) elements in it we should store in memory, a waste memory.
+
+** Graph Reachability
+   [[https://s17.postimg.cc/3zldmoq33/screenshot_126.png][A new Directed Graph]]
+
+   TODO, put exists higher order function in One note proper palace.
+
+*** Circle lead to infinite loop
+    Program may trap into an inifinite loop, because you don't consume the List from which we choose the median vertex.
+
+    #+BEGIN_SRC scala
+    canReach(0,1,graph2)
+    canReach(2,1,graph2)
+    canReach(3,1,graph2)
+    canReach(0,1,graph2)
+    #+END_SRC
+
+    [TODO, should review chapter Maze]
+    Rember that we have similar problem in *Maze*, the 1st half of video lectures, and we solve it by a *bread crumbs*
+
+    Here, I solve it by introduce a new argument(called ~path~) to build a helper function, by this new argument, I can keep track of the candidats available, and exclude one every recursion.
+
+    #+BEGIN_SRC scala
+      def helper(cur: Int, dest: Int, graph: Array[Array[Int]], path: mutable.Buffer[Int]):Boolean = {
+        if(cur == dest) true
+        else if ( path.isEmpty ) false
+        else {
+          var ret = false
+          for(i <- path) {
+            if( graph(cur)(i) > 0) {
+              ret ||= helper(i, dest, graph, path - i)
+            }
+          }
+          ret
+        }
+      }
+    #+END_SRC
+
+** Shortes Path
+*** [QA] why  ~if-else~ is more recommanded than only ~if~
+    In some scenario, when we want to get the result of ~if-else~ clause,we actually get a ~sum-type~. Underneath the hood, ~if-else~ is like the ~Option~, ~Try~, ~Either~ they are all "may-or" type.
+
+    May-or type:
+    1. if-else
+    2. Try
+    3. Option
+    4. Future
+    5. Either
+
+    and when we only use ~if~ instead of ~if-else~, ~else~ will automatically and implicitly produce a ~Unit~ type result, but ~Unit~ type is *1* not *0* in scala.
+
+    | sum-type                | isomorphism result |
+    |-------------------------+--------------------|
+    | if Boolean              | 2 + 1 = 3          |
+    | if Boolean else Boolean | 2 + 2 = 4          |
+    | Option[Boolean]         | 2 + 1 = 3          |
+
+    when we have code like below, we want to get result from ~if~ clause
+    #+BEGIN_SRC scala
+      val pathLength = for (i <- graph(cur).indices) yield {
+        if (!visited(i) && graph(cur)(i)>0) {
+          graph(cur)(i) + shortestPath(i, dest, graph, visited)
+        }
+      }
+      pathLength.min
+      // error: type Any could not comparable
+    #+END_SRC
+
+    The element's type of ~pathLength~ is *[Int]+1* NOT exactly *[Int]*, so it will be lifted to a higher common type --- ~Any~, which can not compare. The ~Buffer[Any]~ has no method ~min()~
+
+*** [QA] what ~[B:A]~ means on the ground. :upperTypeBound:
+    take two examples into account about what exactly ~[B:A]~ dose?
+**** two examples using upperTypeBound
+    The definition of ~min()~ in ~Buffer~
+    #+BEGIN_SRC scala
+      def min[B >: A](implicit cmp: Ordering[B]): A = {
+        if (isEmpty)
+          throw new UnsupportedOperationException("empty.min")
+        reduceLeft((x, y) => if (cmp.lteq(x, y)) x else y)
+      }
+    #+END_SRC
+
+    My definition of ~ImmutableSLL~ to understand further more:
+    #+BEGIN_SRC scala
+      sealed abstract class ImmutableSLL[+A] extends LinearSeq[A] {
+        // (1) Cons[A] isSubTypeOf ImmutableSLL[A] by extends
+        // (2) ImmutableSLL[A] isSubTypeOf ImmutableSLL[B] by [+A] and [B >: A]
+        // ==> Cons[A] isSubTypeOf Immutable[B]
+        def ::[B >: A](elem: B): ImmutableSLL[B] = new Cons(elem, this)
+      }
+    #+END_SRC
+
+**** tale of upperTypeBound
+    #+BEGIN_QUOTE
+    [B>:A] joking :)
+    I love you, you don't love me, but I will keep you in my mind, give you a *place* in my heart, when you want to come back some day, it's seems like you never leave.
+    #+END_QUOTE
+
+**** keys to understand: *LIFTING* and *HYBRID*
+    The key word for ~[B>:A]~ is *place* --- give ~A~ a place for lifting some day. By ~[B>:A]~ you can deal with *hybrid of kinds* of ~A~, eg:
+
+    #+BEGIN_SRC scala
+    val buf = Buffer(1,"2",3.0)
+    #+END_SRC
+
+    if definition of min is:
+
+    #+BEGIN_SRC scala
+    def min[A]= {???}
+    #+END_SRC
+
+    then this min() method can ONLY apply to the pure element type Buffer, all element with ONE type.
+
+    by ~[B:>A]~
+    #+BEGIN_SRC scala
+    def min[B>:A]= {???}
+    #+END_SRC
+
+    we can deal with ~lifted A~ some day in future, when declare ~[B>:A]~ compiler will lift the various kinds of type to a lowerest common suptype. So, ~[B>:A]~ makes a function will still work in future. It's a future mark.
+
+
+*** [QA] why ~implicit abstract type constructor parameter~ is more powerful than interface : a locked powerfu toolkit :typeConstructor:QA:implicit:upperTypeBound:
+    Here, ~min~ method require an implicit paramter which is a type constructor of suptype of ~A~, this type constructor provide the functionality of ordering by the method ~lteq~ , ~compare~ etc.
+
+    Codes above give us an important inspirations:
+
+**** Functional warpper
+    *Abstract Type constructor* is alwasy NOT the entity-wrapper, BUT the *functional-wrapper* by the way of implementing related functional method using the Inner type( type variable ).
+       1. ~Ordering[B]~ provide the *order* and *compare* functionality, by implementing ~compare~ ~lteq~ using ~B~
+       2. ~ImmutableSLL[A]~ provide the *linked* and *combine* functionality, by implementing ~::~ using ~A~
+
+**** Unlock the treasure
+    *Abstract Type consturctor* is locked by the his abstract method, and If you want to get the treasure in the container, you must unlock it *yourself*, by giving the definition of abstract member, you can get bunch of tools.
+
+**** Cake pattern to all-in-one
+    In code structure view, ~implicit abstract type constructor parameter~ is more powerful than ~interface~ like ~comparable~ in java. Because you can have many kinds of preparations in companion object of this ~abstract type constructor~.
+
+**** advanced higher order function parameter
+     when your function need a function argument, implicit abstract type constructor could be a candidate.
+
+     instead of directly passing a literal function, you can using implicit abstract type constructor instead, you just gives your definition of the core abstract function of the abs type Ctor, then you can use bunch of method of that type constructor as util to build your methods.
+
+    #+BEGIN_QUOTE
+    function with *implicit abs type Ctor parameter* can be seen as the advanced *higher order function*.
+    #+END_QUOTE
+
+
+**** More and More powerful by [B>:A]
+     As analyzed above, ~[B>:A]~ can make method still work for various kinds of inside types. If:
+
+     #+BEGIN_QUOTE
+     [B>:A] + implicit abstract type constructor parameter
+     #+END_QUOTE
+
+     you get:
+     1. ability to lift various types automatically
+     2. authority to decide action of wrapper
+     3. many prepared cakes by implicits
+
+*** [QA] One tech combo can get from the [B>:A] :upperTypeBound:
+    Codes above also gives two important *tech combo*:
+    when you want some type consturctor(container) can accept various types of element, you should use *BBB*: ~[B >: A], B, ImmutableSLL[B]~
+
+*** [QA] when and how to use type constructor :typeConstructor:QA:implicit:
+    Codes above also gives another two important rule of using type Ctor:
+    1. type constructor has 2 kinds: trait type Ctor and class type Ctor.
+       1) trait type Ctor always gives a bunch of function but need you give the core funtion, then you can using all the other functions, like ~scala.matho.Ordering~, always occur as implicit parameter, you should define the core function ~compare~, then you can use bunch of other methods as util.
+       2) class tyep Ctor always used as the return type, to make the container and mixed in different type.
+    2. type constructor has 2 kinds: as argument type and as return type
+       1) as argument: usually *used as implicit parameter*
+       2) as return: usually used to *add polymorphism*.
+
+
+** Further more about the ~scala.math.Ordering~ and ~scala.util.Sorting~ :Ordering:Sorting:compare:
+
+*** all primitive type has pre-defined Ordering[T]
+    #+BEGIN_SRC scala
+    import scala.match.Ordering
+    // -1
+    3 compare 4
+    // -25
+    'a' compare 'z'
+    // -9
+    "cbd" compare "love"
+    // -1
+    5.2 compare 3.9
+    #+END_SRC
+
+    [Note] that compare of two Char will compute the *alphabetic distance*, so as to String, compare() will compute the header Char's alphabetic distance.
+
+    Code above has a hidden convertion progress: [[https://github.com/scala/scala/blob/c2a5883891a68180b143eb462c8b0cebc8d3b021/src/library/scala/math/Ordering.scala#L241][source code of Ordering.scala]] , take ~Char~ as example.
+
+    #+BEGIN_SRC scala Ordering trait
+      class Ops(lhs: T) {
+        def <(rhs: T) = lt(lhs, rhs)
+        def <=(rhs: T) = lteq(lhs, rhs)
+        def >(rhs: T) = gt(lhs, rhs)
+        def >=(rhs: T) = gteq(lhs, rhs)
+        def equiv(rhs: T) = Ordering.this.equiv(lhs, rhs)
+        def max(rhs: T): T = Ordering.this.max(lhs, rhs)
+        def min(rhs: T): T = Ordering.this.min(lhs, rhs)
+      }
+
+      /*
+       This is a type implicitly conversion, and when code below:
+       lhs1 > lhs2
+       ===> type mismatch, > is not method of T
+       ===> compiler find whether implicit type conversion exist.
+       ===> find mkOrderingOps ===>
+       new Ops(lhs1). > new Ops(lhs2)
+      ,*/
+      implicit def mkOrderingOps(lhs: T): Ops = new Ops(lhs)
+
+      override def reverse: Ordering[T] = new Ordering[T] {
+        override def reverse = outer
+        def compare(x: T, y: T) = outer.compare(y, x)
+      }
+
+      def on[U](f: U => T): Ordering[U] = new Ordering[U] {
+        def compare(x: U, y: U) = outer.compare(f(x), f(y))
+      }
+    #+END_SRC
+
+    #+BEGIN_SRC scala Ordering companion obj
+      trait CharOrdering extends Ordering[Char] {
+        def compare(x: Char, y: Char) = java.lang.Character.compare(x, y)
+      }
+      implicit object Char extends CharOrdering
+
+      /*
+      (1) Sort the T by the result S of some expression of T, and you must return the basis on which we can sort the T.
+
+      (2) And it's obviously that Ordering is a functional wrapper, dislike List[T] wrapping T to a new shape, Ordering[T] just wrapping T to a stronger T, no modifications on shape.
+      ,*/
+      def by[T, S](f: T => S)(implicit ord: Ordering[S]): Ordering[T] = new Ordering[T] {
+        def compare(x: T, y: T) = ord.compare(f(x), f(y))
+        override def lt(x: T, y: T): Boolean = ord.lt(f(x), f(y))
+        override def gt(x: T, y: T): Boolean = ord.gt(f(x), f(y))
+        override def gteq(x: T, y: T): Boolean = ord.gteq(f(x), f(y))
+        override def lteq(x: T, y: T): Boolean = ord.lteq(f(x), f(y))
+      }
+    #+END_SRC
+
+
+    3 compare 4
+    ===> error type mismatch
+    ===> compiler find implicit convertion
+    ===> find a
+
+*** about ~implicit class~
+    [[https://docs.scala-lang.org/overviews/core/implicit-classes.html][about the implicit class/object/trait]]
+
+    #+BEGIN_SRC scala
+      object helper {
+        implicit class Har(x: Int) {
+          def prt = {
+            println("nininininini")
+          }
+        }
+      }
+
+      object testImplicit {
+        import helper._
+
+        def main(args: Array[String]) {
+          3 prt
+        }
+      }
+    #+END_SRC
+
+    Implicit class, will implicitly build an object using the variable who has same type with its Constructor argument type.
+
+    ~3 prt~ ==> ~Har(3).prt~
+
+    #+BEGIN_QUOTE
+    3 prt
+    ===> type mismatch
+    ===> compiler find implicits for type ~Int~
+    ===> find the ~implicit~ class ~Har~ whose Ctor type is ~Int~
+    ===> check wheather ~prt~ method exist inside of ~Har~
+    ===> implicit convert from ~3~ to ~Har(3)~
+    ===> ~Har(3).prt~
+    #+END_QUOTE
+
+**** using Sorting to sort Array with primitive element inside
+     #+BEGIN_SRC scala
+     import scala.math.Ordering
+     import scala.util.Sorting
+
+     val arr = Array.fill(20)(util.Random.nextInt(100)))
+     Sorting.quickSort(arr)(Ordering.by(_))
+
+     #+END_SRC
+
+
+
+*** compare by multiple conditions
+
+*** using ~Soring~ to sort array or buffer in place
+
+*** Itegral , Ordering, Numeric

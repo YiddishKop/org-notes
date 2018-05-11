@@ -1,0 +1,43 @@
+* Refactoring Smells
+  #+BEGIN_QUOTE
+  when you *Refact* your code, you make changes to *how things are done* without change *what is done*
+  #+END_QUOTE
+
+  The big idea is when your program gets *BIGGER AND BIGGER*, you might have situations where it's doing the right thing, BUT the way that it's doing it just *isn't quite ideal*, that part which *"isn't ideal"* is called *smelly :( code*  ,need *REFACT*
+
+** different kinds of smelly code
+*** 1st: alternate classes with different interfaces
+    #+BEGIN_QUOTE
+    ~java.util.Enumeration~ and ~java.util.Iterator~ do *very similar* things.
+
+    Then, you have two classes they do almost the same thing, or the classes don't do the same thing , but their methods do the same thing.
+
+    In scala, it's better, eg. in ~scala.collection~ package we have a method called ~map()~, and it's always called ~map()~
+
+    java.util.Enumeration still ther in API, because many codes are based on it, it's a historicall reason, instead, now people always use java.util.Iterator.
+    #+END_QUOTE
+*** 2nd: refused bequest
+    #+BEGIN_QUOTE
+    when you want to inherit from a suptype ,but you *don't want to use many methods* of the suptype, then you *should not inherit*.
+
+    When you inherit from sth, means current class has some realation ship to the suptype, but if you have a realationship between them ,dose not mean there must be an inheritance.
+    #+END_QUOTE
+*** 3rd: too long comments
+    #+BEGIN_QUOTE
+    You must *maintain the comments* as well as the code, you modify the code, at the same time you must modify the comments properly. It's very annoy and hard to do that if your project is huge large.
+
+    the better way to do that, is less comments with *code self-documenting*
+    #+END_QUOTE
+*** 4th: too large class
+    #+BEGIN_QUOTE
+    A class with thouends of lines code, is hard to maintain.
+    #+END_QUOTE
+*** 5th: too large method
+    #+BEGIN_QUOTE
+    the proper length of method is just can whole displayed in a screen
+    #+END_QUOTE
+
+** Principle
+   1. Unit test should happend before and after refactory.
+   2. You don't need refactory at beginning.
+   3. The target at beginning is code can work.

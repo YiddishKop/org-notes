@@ -1,0 +1,531 @@
+* Abstract Data Types
+** Definition
+*** ADT
+   a way of storing information and getting that information back , *abstract* have the likely means as *abstract method*, that is we specify *what they do but not how they do them*.
+*** Stack
+   who comes the *longest* who server *first*
+*** Queue
+   who comes the *shortest* who server *first*
+*** O-notation
+   mathematical definition of this is how many operations are happening, that *number winds up growing more slowly* than some certain point.
+
+   [[https://s14.postimg.cc/wo9dyeojl/screenshot_109.png][O-notation illustration]]
+
+   g(n) is O(f(n)), if there exist c and m such that c*f(n)>g(n) for all n>m
+
+** Q&A
+*** [Q] why CAN NOT new Array directly with type variabel ?  :scala:question:
+   why code below error?
+   #+BEGIN_SRC scala
+     // ERROR
+     private val data = new Array[A](10)
+   #+END_SRC
+
+   because when you new an Array, it's will be given a default value to every element at run-time, so if you declare an Array of Int, you get Array of ~0~ at run-time; if you declare an Array of String, you get Array of ~null~ at run-time. But, if declaration of Array has a type variable, then issue comes, type variable can be anything, compiler don't know what kind of element you will put in.
+
+*** [A] why CAN NOT new Array directly with type variabel ?    :scala:answer:
+    tell compiler ~A~ has a ~Manifest~
+
+    #+BEGIN_SRC scala
+      class ArrayStack[A : Manifest] extends MyStack[A] {
+      private val data = new Array[A](10)
+    #+END_SRC
+
+    ~[A : Manifest]~ is some syntactic sugar that' going on in the background.
+
+    #+BEGIN_SRC scala
+      def arr[T] = new Array[T](0)                          // does not compile
+      def arr[T](implicit m: Manifest[T]) = new Array[T](0) // compiles
+      def arr[T: Manifest] = new Array[T](0)                // shorthand for the preceding
+    #+END_SRC
+
+    A Manifest[T] is an opaque descriptor for type T. Its supported use is to give access to the erasure of the type as a Class instance, as is necessary for the creation of native Arrays if the class is not known at compile time.
+
+*** [Q] why ~new Array.length * 2~ will give O(1) time complexity ? :scala:question:
+    why code below still has O(1) time-complexity ?
+    #+BEGIN_SRC scala
+      // still O(1)
+      def push(o: A) {
+        if(top >= data.length) {
+          // O(n) complexity if ~data.length + n~
+          // val tmp = new Array[A](data.length * 2)
+          // O(1) complexity if ~data.length * 2~
+          val tmp = new Array[A](data.length * 2)
+          for (i <- data.indices) tmp(i) = data(i)
+          data = tmp
+        }
+        data(top) = o
+        top += 1
+      }
+    #+END_SRC
+
+    #+BEGIN_QUOTE
+    32 + 16 + 8 + 4 + 2 + 1 = 2*32
+    1 + 1/2 + 1/4 + 1/8 + ... = 2
+    #+END_QUOTE
+
+    any length will go down to a double thing, even things go to inifinite. and the times we have tod do copy operations goes down logarithmically and so on average when you add up all of my copies it will wind up adding up to basically two times the number of things that I've pushed on which is still O(1)
+
+
+*** [A] why ~new Array.length * 2~ will give O(1) time complexity  :scala:question:
+    please just keep in mind, I really don't understand it.
+
+*** [Q] why not setting the location of poped of dequeued value to 0?
+    why not ~data(front)=0~ and ~data(pop)=0~?
+    #+BEGIN_SRC scala
+      // dequeue, doesn't set ~data(front) = 0~
+      def dequeue(): A = {
+        val fr = data(front)
+        front += 1
+        fr
+      }
+    #+END_SRC
+
+    #+BEGIN_SRC scala
+      // pop, doesn't set ~data(front) = 0~
+      def pop(): A = {
+        top -= 1
+        data(top)
+      }
+    #+END_SRC
+
+
+*** [A] why not setting the location of poped of dequeued value to 0
+    *No need to* also *Can not*
+    1. No need to
+       In Array based Queue and Stack, we use and ONLY use *index* to trace the location and all value can be *rewrite*.
+    2. Can not
+       We don't exactly know the type of `A`---type variable, we can not give a value to an variable unknown type.
+
+    The *most important* thing is *NEVER EVRE* deal with element of collection directly, because its type is *UNKNOWN*
+
+*** [Q] why ~+=~ return ~Seq.this.type~
+    #+BEGIN_SRC scala
+      //Appends a single element to this buffer.
+      abstract def +=(elem: A): Buffer.this.type
+
+      //Prepends a single element to this buffer.
+      abstract def +=:(elem: A): Buffer.this.type
+    #+END_SRC
+*** [A] why ~+=~ return ~Seq.this.type~
+    Only by this way, you can *chain* the operator ~+=~ or ~+=:~
+    #+BEGIN_SRC scala
+    1 +=: 8 +=: lst += 5 += 7
+    #+END_SRC
+*** [Q] how to give a ~variable~ whose ~type is type variable~ a default value
+
+    #+BEGIN_SRC scala
+      class MutableDLL[A] extends mutable.Buffer[A]{
+        private class Node(var data: A, var prev: Node, var next: Node)
+        // Not sure about the type A, we can not do assignment directly
+        private var end = new Node(??? ,null, null)
+      }
+    #+END_SRC
+
+    ~private var end = new Node(??? ,null, null)~
+    because of the type of data we don't know now, so we can not give it a value. but as a concrete instance, ~end Node~ must have a value for his 1st Ctor argument.
+
+*** [A1] how to give a ~variable~ whose ~type is type variable~ a default value
+
+    #+BEGIN_SRC scala
+      class MutableDLL[A: Manifest] extends mutable.Buffer[A]{
+        private class Node(var data: A, var prev: Node, var next: Node)
+        private var end = new Node(new Array[A](1)(0),null, null)
+      }
+    #+END_SRC
+
+    * *By ~[A : Manifest]~ we can build an Array wity ~[A]~ as element's type*
+    * *By ~new Array[A](1)(0)~ we can get the value of A*
+
+    what can we do now?
+    *wrap it by a type constructor, unwrap it by a method of this type constructor*
+
+    The simple way to give a value to A, is *also do that in run-time*, means we also delegate this work to the guy who give a specific type of A.
+
+    But how can we do that?
+
+    *wrap* it in an container before ,then *unwrap* it by expression. Good news is we also don't deal with the element data directly. ~wrap~ is a type constructor and ~unwrap~ is an method defined in that type constructor.
+
+*** [A2] how to give a ~variable~ whose ~type is type variable~ a default value
+
+    #+BEGIN_SRC scala
+      class MutableDLList[A] extends mutable.Buffer[A] {
+        // delegate this task to place holder ~_~, like some syntactic sugar
+        private var default: A = _
+        private class Node(var data: A, var prev: Node, var next: Node)
+        private val end = new Node(default, null, null)
+        //...
+      }
+    #+END_SRC
+
+    What does work is ~var a: A = _~ (note var instead of val). As Chuck says in his answer, this initialises the variable to a default value. From the Scala Language Specification:
+
+    #+BEGIN_QUOTE
+    0 if T is Int or one of its subrange types,
+    0L if T is Long,
+    0.0d if T is Double,
+    0.0f if T is Float,
+    false if T is Boolean,
+    () if T is Unit,
+    null for all other types T.
+    #+END_QUOTE
+
+    means that you can use place holder --- ~_~ as a runtime initializer. which doesn't need to *wrap* it by creating an Array with precondition of adding ~[A : Manifest]~, also doesn't need to *unwrap* it by certain method of the type constructor
+** Inspiration
+   1. The most important thing about ADT is NEVER deal with element of collection directly, because its type is *UNKNOWN*
+** Stack and Queue
+   just copy code here, to illustrate
+** Linked List Based Stack
+   just copy code here, to illustrate
+** Linked List Based Queue
+   just copy code here, to illustrate
+** Array based Stack
+   just copy code here, to illustrate
+** Array based Queue
+   we don't need to allocate more memory like Array based Stack, instead we can *make it circular*.
+
+   #+BEGIN_SRC scala
+     for(i <- 0 until data.length-1)
+       tmp(i) = data((i + front)% data.length)
+   #+END_SRC
+
+   [[https://s9.postimg.cc/fch0suni7/screenshot_110.png][circle and reverse by ~for~ and ~%~]]
+
+
+** Unit Tests and JUnit
+   just copy code here, to illustrate
+
+** The List/Seq ADT
+
+   In the java libraries there's an Interface, an abstract type called *List*, in scala it's probably better represented by *Seq*, ~List~ in scala we have play with, underneath the hood, it implement the *Seq* trait
+
+   we can have two version of List: unmutable and mutable, which can be recoganized by the return type of the method in API:
+
+   #+BEGIN_SRC scala mutable-version
+  def add(a:A, index:Int):Unit
+  def remove(index:Int):Unit
+   #+END_SRC
+
+   #+BEGIN_SRC scala unmutable-version
+  def add(a:A, index:Int):MyList[A]
+  def remove(index:Int):MyList[A]
+   #+END_SRC
+
+   you can find that, mutable-version's method will return Unit, for the reson that modification happened in original collection directly; while unmutable-version's method will return you a new collection, *with elements modified*.
+
+***  API
+    [[http://www.scala-lang.org/api/2.12.4/scala/collection/Seq.html][scala.collection.Seq]]
+    [[http://www.scala-lang.org/api/2.12.4/scala/collection/mutable/Buffer.html][scala.collection.mutable.Buffer]]
+
+
+** Nature of Arrays and Linked Lists
+*** what is an Array
+
+    [[https://s18.postimg.cc/o0i4oixvd/screenshot_112.png][Array illustration]]
+
+    Array really is a contiguous chunk of memory in the computer.
+
+    Array based List is
+    - *fast at randomly accessing*
+    - *slow at randomly adding and removing*.
+*** what is an Linked List
+
+    [[https://s18.postimg.cc/axmi4tkdl/screenshot_113.png][Linked List illustration]]
+
+
+    Linked List based List is
+    - *slow at randomly accessing*
+    - *fast at randomly adding and removing*.
+
+** Mutable Singly LinkedList
+*** scala.collection.mutable.Buffer
+    Buffer is an *abstract* *mutable* ~Seq subtype~, so if you want to extends from Buffer, you must implement all the abstract method of it.
+
+    1. ~+=~ and ~+=:~
+       [[https://s9.postimg.cc/5rfh6qvz3/screenshot_113.png][illustration of prepend and append]]
+       [[https://s9.postimg.cc/bgvpqwp8v/screenshot_113.png][illustration of prepend and append if empty]]
+    2. ~remove~
+       [[https://s9.postimg.cc/wwx14xepb/screenshot_113.png][illustration of remove]]
+       [[https://s9.postimg.cc/pjm8j871b/screenshot_113.png][if remove the tail Node]]
+    3. ~iterator~
+       ~iterator~ in scala, has ~next()~ and ~hasNext()~
+       The purpose of ~iterator~ is you can walk through a linked list or an array or whatever and do it all in the same manner. If they can give you an iterator, you can do the job by making a simple loop by ~hasNext~,~next~ methods.
+
+       Iterator allows you to walk through a list even if you know nothing about its internal structure. Example here, ~Node~ is private, nothing outside of this list can walk through Nodes, but we've encapsulated that inside of ~next()~ method here(*some like a getter method*), so code outside doesn't have to know about the ~Nodes~.
+    4. ~apply~
+       Never ever walk through a linked list using ~apply~, because a loop embedded inside.
+** Mutable Double Linked List
+   two links between two Nodes, *previous* and *next*
+
+   [[https://s31.postimg.cc/9f3pcjtpn/screenshot_124.png][Double Lined List]]
+
+*** No need keep head and tail point
+   Don't kepp head(hd) and tail(tl) point here, for 2 reasons:
+   #+BEGIN_QUOTE
+   1. head and tail point make code complex
+      everytime we modify head and tail point in code, will be an boundary condition.
+   2. Double linked list is more like a circle, NO need to keep a head and tail information.
+   #+END_QUOTE
+*** Double linked list is better thant Single one
+   Double vs Single linked list
+   1. Single linked list has only a few application where that's helpful.
+   2. Double linked list is more helpful, because we make a list circular.
+
+*** Sentinel Node
+   Must keep in mind that, there is a special Node in Double linked list, often called *sentinel*, but actually it's an *END* Node.
+
+   #+BEGIN_QUOTE
+   headNode.prev ---> endNode
+   endNode.next ---> headNode
+   tailNode.next ---> endNode
+   endNode.prev ---> tailNode
+   #+END_QUOTE
+
+
+** Immutable Singly Linked List
+   Immutable means, you CAN NOT change anything.
+*** Immutable SLL vs. mutable SLL
+   | immutable SLL                    | mutalbe SLL                         |
+   |----------------------------------+-------------------------------------|
+   | * the type itself is a ~Node~    | * a ~Node~ defined inside           |
+   | * *only* keep track *first* Node | * keep track *head* and *tail* Node |
+   | * don't do things at tail        | * do things at tail                 |
+
+   why we can ~cons~ element to the ~list~ so efficiently, because we implemented ~list~ with ~linked list~, this operation ONLY add one element at head without changing the original list.
+
+*** NO immutable DLL
+    because the we always define the methods of Double Linked List by handling the pointer(prev and next), but that's have no efficient way to do in immutable scenario.
+
+    So, when refer to *immutable list*, that means *immutable single linked list*
+*** [Q] what does key word ~sealed~ means?
+    means you only allowed to extend this class inside of this file, I want that because I don't want other people to be able to make subtypes of this.That gives me control over exactly what subtypes exist.
+
+*** [Q] why defined a subclass like this, stange format?
+    #+BEGIN_SRC scala
+      class Cons[A](data: A, next: ImmutableSLL[A]) extends ImmutableSLL[A] {
+      // a little like the ~def +=(a:A): Seq.this.type~, convinient when combining multiple of this operator.
+      }
+    #+END_SRC
+
+    a little like the ~def +=(a:A): Seq.this.type~, convinient when combining multiple of this operator.
+*** [Q] How to make a containter can *lift element's type automatically* like ~List~
+    #+BEGIN_SRC scala
+      sealed abstract class ImmutableSLL[A] extends LinearSeq[A] {
+        def ::(elem: A): ImmutableSLL[A] = new Cons(elem, this)
+      }
+      class Cons[A](data: A, next: ImmutableSLL[A]) extends ImmutableSLL[A] {
+        //...
+      }
+      class MyNil extends ImmutableSLL[Nothing] {//...}
+    #+END_SRC
+
+    #+BEGIN_SRC scala
+      /*
+       ERROR!!!
+       MyNil is ImmutableSLL[Nothing] but 2nd argument of Cons is ImmutableSLL[A]
+       */
+      new Cons(1,MyNil)
+    #+END_SRC
+
+    #+BEGIN_SRC scala
+      val lst1 = 1 :: 2 :: 3 :: Nil  // List[Int]
+      val lst2 = "hi" :: lst1        // List[Any]
+      val lst2 = 4.0 :: lst1         // List[AnyVal]
+
+      import collection.mutable
+      val buf1 = mutable.ListBuffer(1,2,3)
+      val buf2 = "hi" +=: buf1       // ERROR
+      val buf2 = 4 +=: buf1          // RIGHT
+    #+END_SRC
+
+    ~List~ type is more flexible, When add element that is of different type, compiler will find *the lowest common super type* of these things as the result type of A in ~List~.
+
+    ~Buffer~ type can NOT do this. If you handle Buffer, you couldn't add stuff to it that was of different types
+*** [A] How to make a containter can *lift element's type automatically* like ~List~
+
+    (1) Cons[A] isSubTypeOf ImmutableSLL[A] by extends
+    (2) ImmutableSLL[A] isSubTypeOf ImmutableSLL[B] by [+A] and [B >: A]
+    ==> Cons[A] isSubTypeOf Immutable[B]
+
+    #+BEGIN_SRC scala
+      sealed abstract class ImmutableSLL[+A] extends LinearSeq[A] {
+        /*
+         (1) Cons[A] isSubTypeOf ImmutableSLL[A] by ~extends~
+         (2) ImmutableSLL[A] isSubTypeOf ImmutableSLL[B] by ~[+A]~ and ~[B >: A]~
+         ==> Cons[A] isSubTypeOf Immutable[B]
+         ,*/
+        def ::[B >: A](elem: B): ImmutableSLL[B] = new Cons(elem, this)
+      }
+
+      class Cons[A](data: A, next: ImmutableSLL[A]) extends ImmutableSLL[A] {
+        //...
+      }
+    #+END_SRC
+
+    List is like what we defined ImmutableSLL,
+
+      val lst1 = 1 :: 2 :: 3 :: Nil  // List[Int]
+      val lst2 = "hi" :: lst1        // List[Any]
+
+    #+BEGIN_QUOTE
+    (1) "hi" will be lifted to type ~Any~ to fit in the type ~[B]~ automatically
+    (2) ~new Cons(elem, this)~ is ~new Cons(Any, this)~
+    (3) ~this~ will be lifted to type ~Immutable[Any]~ to fit in the type ~[A]~ automatically
+    (4) ~new Cons(elem, this)~ is ~new Cons(Any, Immutable[Any])~
+    #+END_QUOTE
+
+
+*** [+A] vs. [-A] vs. [A]
+
+     | covariant type        | contravariant type    | invariant type         |
+     |-----------------------+-----------------------+------------------------|
+     | [+A]                  | [-A]                  | [A]                    |
+     | List[A] <: List[SupA] | List[A] >: List[SupA] | List[A] !!! List[SupA] |
+
+     so, when you declare an *covariant* type variable [+A], then you can *use a Suptype of A as the augument or return type* of a method in defintion of class, like here:
+
+     #+BEGIN_SRC scala
+       def ::        (elem: A): ImmutableSLL[A] = new Cons(elem, this)
+       def ::[B >: A](elem: B): ImmutableSLL[B] = new Cons(elem, this)
+     #+END_SRC
+
+     ~[B >: A], B, TypeCtor[B]~ is classical use case
+** How to design a Recursion Type like immutable List
+
+   there 3 important component must included:
+   #+BEGIN_QUOTE
+   1. [+A]
+      1. cons-like method on [B>:A]
+   2. base subtype
+      1. a wrapper type of Nothing
+      2. length() 0
+      3. apply() exception
+      4. isEmpty() true
+      5. head() exception
+      6. tail() exception
+
+   3. step-one-further subtype
+      1. a wrapper type of [A]
+      2. with 2 arguments, ele and recursion type
+      3. length() recur fn
+      4. apply() recur fn
+      5. isEmpty() false
+      6. head() ele
+      7. tail() recursion type
+   #+END_QUOTE
+
+   #+BEGIN_SRC scala
+     package adt
+
+     import collection.immutable.LinearSeq
+
+     // like a recursion type, analagous to the recursion function
+     sealed abstract class ImmutableSLL[+A] extends LinearSeq[A] {
+       // (1) Cons[A] isSubTypeOf ImmutableSLL[A] by extends
+       // (2) ImmutableSLL[A] isSubTypeOf ImmutableSLL[B] by [+A] and [B >: A]
+       // ==> Cons[A] isSubTypeOf Immutable[B]
+       def ::[B >: A](elem: B): ImmutableSLL[B] = new Cons(elem, this)
+     }
+
+
+     // like step-one-further case of recursion
+     class Cons[A](data: A, next: ImmutableSLL[A]) extends ImmutableSLL[A] {
+
+       // a little like the ~def +=(a:A): Seq.this.type~, convinient when combining multiple of this operator.
+       def length: Int = 1 + next.length
+       def apply(n:Int):A = if (n==0) head else next(n - 1)
+       override def isEmpty = false
+       override def head: A = data
+       override def tail: ImmutableSLL[A] = ???
+     }
+
+     // like base case of recursion
+     object MyNil extends ImmutableSLL[Nothing] {
+       def length = 0
+       def apply(n:Int) = throw new IllegalArgumentException("Can't index into MyNil")
+       override def isEmpty = true
+       override def head = throw new IllegalArgumentException("Can't index into MyNil")
+       override def tail = throw new IllegalArgumentException("Can't index into MyNil")
+
+     }
+
+
+   #+END_SRC
+
+** Priority Queue
+   Like a Queue, but has a different nature of methods.
+
+   #+BEGIN_SRC scala
+     // O(1) or O(n)
+     // when use heap instead of array and linked list, O(n) will spped up to O(logn)
+     trait MyPriorityQueue[A] {
+       def dequeue(): A
+       def enqueue(o: A):Unit
+       def isEmpty:Boolean
+       def peek: A
+     }
+    #+END_SRC
+
+*** Priority Queue vs. regular Queue
+   Besides take the ~linked list~ or ~array~ into account, we also should care about the ~sorted~ or ~non-sorted~, this means there are 4 kinds of implementation.
+
+   |             | linked list | array |
+   |-------------+-------------+-------|
+   | sorted      | x           | x     |
+   | non-ordered | x           | x     |
+
+*** example: Sorted Priority Queue
+
+    Element with higher priority should be handled first, and it's ensentially a queue, so the higher the fronter.
+
+    #+BEGIN_QUOTE
+    9    7    4    3    2
+    ^                   ^
+    head                tail
+    higher priority     lower priority
+    #+END_QUOTE
+
+
+*** Time complexity on Soted Pirority vs. Non-sorted Priority
+    |         | non-sorted | sorted |
+    |---------+------------+--------|
+    | dequeue | O(n)       | O(1)   |
+    | enqueue | O(1)       | O(n)   |
+    | isEmpty | O(1)       | O(1)   |
+    | peek    | O(n)       | O(1)   |
+
+    #+BEGIN_QUOTE
+    If sorted, then you can call peek() many times efficiently, because it only O(1).
+    #+END_QUOTE
+
+
+    So, if choose linked list version, you may want the sorted, becasue the method peek() is only O(1), and can be run many times efficiently.
+
+*** Why DLL is better than other linked list
+    When use *soreted* version, means once an element comes in, it should be in the place decided by the order of priority, means that the Priority Queue is an sorted list, and the new element should insert into proper place to maintain the order.
+
+    (1) dequeue() always from the first element
+    (2) enqueue() may happends at any place, you must find the proper location to place the coming element
+
+    becasue of (2), as for the linked list, we may choose the *Mutable Double Lined List*.
+
+*** Function as Constructor argument
+
+    #+BEGIN_SRC scala
+        class SortedDLLPriorityQueue[A : Manifest](lt: (A,A) => Boolean) extends MyPriorityQueue[A] {
+          def enqueue(o: A) {
+            var rover = end.prev
+            /*
+             lt: (A,A)=>Boolean used here
+             ,*/
+            while(rover != end && lt( rover.data , o )) rover = rover.prev
+            val n = new Node(o, rover, rover.next)
+            rover.next.prev = n
+            rover.next = n
+          }
+        }
+    #+END_SRC
+
+    Different ~[A]~, different function to compare the Priority. So, the compare function is an element *type related thing*, you need a separate compare function according to type A.
+
+    Different [A] means different ~SortedDLLPriorityQueue~, so this compare function deserve to be a higher abstraction --- lifted to be an argument.

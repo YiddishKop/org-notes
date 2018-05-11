@@ -1,0 +1,11 @@
+* Synchronization
+
+  [Q] How to get around the thread scheduling by OS?
+
+  [A] *the easiest way* to fix this, is called *synchronization*
+
+      but synchronization has some inevitable drawbacks:
+      1. too much synchronization will make parallelism slower
+      2. 因为 synchronization 每次只允许一个线程访问，所以这就把 parallel 退化为 sequential 了。
+
+  [A] *the good way* is use Futures and Actors --- structure our code in ways that avoid race conditions as much as possible
