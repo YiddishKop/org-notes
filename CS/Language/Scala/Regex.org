@@ -1,0 +1,154 @@
+* Regular Expressions
+** list of patterns supported in java
+
+   [[https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html][Summary of regular-expression constructs]]
+
+
+*** creating regex using method ~r~
+~scala.util.matching.Regex~
+~java.util.regex~
+
+#+BEGIN_SRC scala
+val date = raw"(<regex>)".r
+#+END_SRC
+
+*** ~\~ in regex means ~escape~
+*escape* the following character to another namespace where another means embedded
+
+- ~\d~ : 0~9
+
+*** ~\~ must be embedded in a ~raw~ string.
+
+#+BEGIN_SRC scala
+  // raw and """ are with same meaning
+    val str1 = raw"\d"
+    val str2 = """\d"""
+#+END_SRC
+
+#+BEGIN_SRC scala
+scala> "\d\d"
+<console>:1: error: invalid escape character
+       "\d\d"
+         ^
+<console>:1: error: invalid escape character
+       "\d\d"
+           ^
+scala> """\d\d"""
+res14: String = \d\d
+scala> raw"\d\d"
+
+#+END_SRC
+
+*** create a ~regex~ by ~<String/rawString>.r~
+
+~val date = raw"(<regex>)".r~
+
+*** create a ~regex~ by ~new~
+
+~new scala.util.matching.Regex("""<regex>""", "year", "month", "day")~
+
+
+*** split method is using the regex match to where to split the string
+
+    #+BEGIN_QUOTE
+    Regex means, what kind of things can I see it as a whole, the whole is unsplitable.
+
+    Regex with group, can be used as a match pattern.
+    #+END_QUOTE
+
+    <str>.split(<strOfRegex>) take string(not call ~.r~ method) as parameter, and implicitly call `.r` method on the parameter string to get a regex, by witch split the string who call ~split()~ method
+
+    #+BEGIN_SRC scala
+      val date = raw"(\d{4})-(\d{2})-(\d{2})"
+      val reg = date.r
+      val txt = "sdfsdfsdf2018-05-01sdfsdfsdf"
+      val arr = txt.split(date)
+    #+END_SRC
+** using regular expression
+
+#+BEGIN_SRC scala
+package regex
+
+object RegEx extends App{
+
+  // --------------------
+  val date = raw"(\d{4})-(\d{2})-(\d{2})".r
+  val date(y, m, d) = "2018-08-02"
+  val unanchdate = raw"(\d{4})-(\d{2})-(\d{2})".r.unanchored
+  val unanchdate(uy, um, ud) = "sdf2432018-08-02sdfsdfsdf"
+
+  // --------------------
+  val numbers = "1, -23, 42, 79, 136"
+  val intRegex = raw"[-+]?\d+".r.unanchored
+  ///////////////////////////////////////////////////////////////////
+  // compareing with                                               //
+  // two groups bound there, is better than above, because you can //
+  // extract information from related groups                       //
+  ///////////////////////////////////////////////////////////////////
+  val IntRegex = raw"([-+]?(\d+))".r.unanchored
+
+  // note that Iterator itself is a collection, has the same API methods
+  //////////////////////////////////////////////////
+  // val matchItor  = intRegex.findAllIn(numbers) //
+  //                                              //
+  // while(matchItor.hasNext) {                   //
+  //   println("enter matchItor")                 //
+  //   println(matchItor.next)                    //
+  // }                                            //
+  //////////////////////////////////////////////////
+  for (i <- intRegex.findAllIn(numbers)) println(i)
+
+  // do pattern match by using regex as a pattern
+  for (IntRegex(sym, num) <- IntRegex.findAllIn(numbers)) println(num)
+
+  // --------------------
+  val VarRegEx = """^(\w+)=(\d+), (\w+)=(\d+), (\w+)=(\d+)$""".r
+  //////////////////////////////////////////////////////////////////////
+  // compare with the code below, as an astonishment, it will lead an //
+  // interpolation error                                              //
+  // val VarRegEx = raw"^(\w+)=(\d+), (\w+)=(\d+), (\w+)=(\d+)$".r    //
+  // so ,use """ instead of raw, in daily programming                 //
+  //////////////////////////////////////////////////////////////////////
+  val source = List("2")
+
+  for ( VarRegEx(n1,v1,n2,v2,n3,v3) <- source) println(n1)
+}
+#+END_SRC
+
+Note that:
+1. ~"""~ different with ~raw~, so use ~"""~ instead
+2. *Upper-case front char* and *define group* when using regex as pattern
+3. ~for~ is still the KING even in handling regex
+
+
+** Regex for parsing a polynomial
+
+Note, that if you want to match ~^~ not the *front symbol*, you should give ~\^~
+
+and every symbol you used to building regex, can get its *literal meaning* by ~\<symbol>~
+
+#+BEGIN_SRC scala
+package regex
+// x^4 - 3x^2 - 5x + 4
+object RegexPoly {
+  case class Term(coef:Int, power:Int)
+  def main(args: Array[String]): Unit = {
+    // First Try Fail: val PolyRegex = """\t?[+-]\t?(\d)*(x)?(^)?(\d)*""".r.unanchored
+    val PolyRegex = """([+-]?\d)*x\^?(\d+)?|(\d)+""".r.unanchored
+    val polyWithSpace = "x^4 - 3x^2 - 5x + 4"
+    val poly = polyWithSpace.replaceAll("""\s*""", "")
+
+    for( term @ PolyRegex(cf, pw, num) <- PolyRegex.findAllMatchIn(poly)) println(term)
+    val terms:Iterator[Option[Term]] = for( term @ PolyRegex(cf, pw, num) <- PolyRegex.findAllIn(poly)) yield {
+      term match {
+        case PolyRegex(cf, pw, num) if num != null => Some(Term(num.toInt, 0))
+        case PolyRegex(cf, pw, num) if cf == null && num == null => Some(Term(1, pw.toInt))
+        case PolyRegex(cf, pw, num) if cf != null && pw == null => Some(Term(cf.toInt, 1))
+        case PolyRegex(cf, pw, num) if cf != null && pw != null => Some(Term(cf.toInt, pw.toInt))
+        case _ => None
+      }
+    }
+    for(i<-terms) println(i.getOrElse("No matched Term"))
+  }
+}
+#+END_SRC

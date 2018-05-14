@@ -190,3 +190,135 @@ http://www.brool.com/post/using-mu4e/
 https://emacs-china.github.io/EGO/
 
 ** TODO [#B] This is just a test, so deleted some time
+* Workspace
+
+** TODO [#B] PROG: match and case as parameter
+
+   #+BEGIN_SRC scala
+     import java.util.Calendar
+
+     val date = raw"(\d{4})-(\d{2})-(\d{2})".r
+
+     val dates = "Important dates in history: 2004-01-20, 1958-09-05, 2010-10-06, 2011-07-15"
+
+     val redacted    = date.replaceAllIn(dates, "XXXX-XX-XX")
+     val yearsOnly   = date.replaceAllIn(dates, m => m.group(1))
+
+     val months      = (0 to 11).map {
+       i => val c = Calendar.getInstance;
+            c.set(2014, i, 1);
+            f"$c%tb" }
+
+     val reformatted = date.replaceAllIn(
+       dates,
+       // match can be passed as non-fn para
+       _ match { case date(y,m,d) => f"${months(m.toInt - 1)} $d, $y" })
+   #+END_SRC
+
+   case clause can be passed to fn para;
+   match clasue can be passed to non-fn para;
+
+   *Beautiful these two brothers can hold all the parameter business.*
+
+** TODO [#B] PORG: some strange ERROR about case function
+   #+BEGIN_SRC scala
+     arr.reduceLeft{    // RIGHT
+       (a, b) => if (a>=b) a else b
+     }
+
+     val fn: (Int,Int) => Int = {
+       case (a, b) => if (a>=b) a else b
+     }
+
+     arr.reduceLeft(fn) // RIGHT
+
+     arr.reduceLeft{    // WRONG
+       case (a:Int,b:Int) => if (a>=b) a else b
+     }
+   #+END_SRC
+
+** TODO [#B] compare two snippet codes about the case function
+
+   #+BEGIN_SRC scala
+     val (rainyTmp, rainyDays2) = data.foldLeft(0.0 -> 0) {
+       case ((a, b), tempInfo) if tempInfo.prcp >= 1.0 => (a+tempInfo.tmax, b+1)
+     }
+   #+END_SRC
+
+   #+BEGIN_SRC scala
+     val (rainySum,rainyCount2) = data.foldLeft(0.0 -> 0) {
+       case ((sum, cnt), td) =>
+         if(td.precip < 1.0) (sum, cnt) else (sum + td.tmax, cnt + 1)
+     }
+   #+END_SRC
+
+   The biggest difference is that: *first will lead to MatchError*
+
+   * pattern and  if-guard => small pattern
+   * pattern then if-gurad => same pattern
+
+   So, the first case clause can not match all situation, and will lead *MatchError*
+   the ~pattern and if-guard~ is always used to *ignore* some unrequire element by
+   ~for~ and ~flatMap~.
+
+   #+BEGIN_SRC scala
+     import scala.util.Random
+
+     val arrTup = Array.fill(30)((Random.nextInt(100), Random.nextInt(100)))
+
+     // ignore all elements whose a <= 50
+     for((a,b) <- arrTup
+         if a>50) yield (a,b)
+
+     // ignore all elements whose a <= 50
+     arrTup.flatMap{
+       case (a, b) if a>50 => Seq(a -> b)
+       case _ => Seq.empty
+     }
+
+   #+END_SRC
+
+** TODO [#B] Compare two code snippet about case clause
+
+   #+BEGIN_SRC scala
+     case (a, b) => {
+       val sum = b.foldLeft(0.0){(a,b) => a + b.tmax}
+       (a, sum)
+     }
+   #+END_SRC
+
+   #+BEGIN_SRC scala
+     case (m, days) =>
+           m -> days.foldLeft(0.0)((sum, td) => sum + td.tmax) / days.length
+   #+END_SRC
+
+   It's obviously that, the latter one is better.
+
+   In fact, functional languages are very skilled at dealing with *holographic*
+
+   one part by one part related:
+
+   #+BEGIN_QUOTE
+   (a, b)
+   a -> { some functions about b}
+   #+END_QUOTE
+
+** TODO [#B] new spacemacs hotkey find
+   | C =   | highlight all this 'word' in current buffer |   |
+   | C = e | modify all this 'wrod' same time            |   |
+   | C = / | find this word in project                   |   |
+   | C = f | find this word in file                      |   |
+   | C = b | find this word in buffer                    |   |
+
+** TODO [#B] find new key in spc
+   | C o | jump back |
+
+** TODO [#B] String has a boolean method: start with
+   very useful in data science, usually to filter out or filter in by the data format which ends or starts with
+   something.
+
+** TODO [#B] String methods to chop to get subString is very useful in DS
+   String.drop(3).dropRight(2)
+
+   //  LASBS060000000000003
+   //  ^^^BS0600000000000^^

@@ -176,6 +176,7 @@ Tips*
     google for wkhtmltopdf
 *** how to open debug message in emacs
     =spc t D=
+
 * magit
   Normally, =M-x: magit-init= to init git control in current directory
   then,     =spc g s=         to enter the git-view of stage state.
@@ -732,24 +733,24 @@ Tips*
       #+TBLFM: $3=$2*($1**0.6)
 
       #+BEGIN_SRC python :var delsee=delsee :results output
-print delsee
+        print delsee
       #+END_SRC
 
       #+RESULTS:
       : [[1.3, 0.95, 1.1119612], [1.3, 1.0, 1.1704854], [1.3, 1.1, 1.287534], [1.3, 1.2, 1.4045825]]
       #+BEGIN_SRC python :var fname="delseepy.png" :var delsee=delsee :results file
-import matplotlib.pyplot as plt
-x, y, z = zip(*delsee)
-fig = plt.figure()
-axes = fig.add_subplot(1,1,1)
-axes.plot(y, z, marker='o')
-fig.savefig(fname)
-
-return fname
+        import matplotlib.pyplot as plt
+        x, y, z = zip(*delsee)
+        fig = plt.figure()
+        axes = fig.add_subplot(1,1,1)
+        axes.plot(y, z, marker='o')
+        fig.savefig(fname)
+        return fname
       #+END_SRC
 
       #+RESULTS:
       [[file:]]
+
 *** python in org-babel
     [[file:~/Documents/org-notes/Python/python-x.org]]
 *** Interactive with python
