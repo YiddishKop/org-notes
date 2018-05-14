@@ -226,6 +226,7 @@ Tips*
    3. b b to switch branch
 ** rebase
 ** pull push and send pull request
+   1. p p to push to remote(eg. github)
 ** Misc
 * org mode                                                              :ORG:
 ** org-agenda is your friend
@@ -2071,9 +2072,9 @@ WantedBy=multi-user.target
      2. *C-h v company-bakends*
      3. try company-file and company-ispell, M-x
      4. *C-h C-f* to view the backend implementation
-     | company-frontends | 是指前端補全框架                                                                                            |
+     | company-frontends | 是指前端補全框架                                                                                               |
      | company-backends  | 有很多.其中最后一个,就是前面都匹配不到了,最后一个是 compnay-Deabbre ,他会匹配你当前打开的所有 buffer 中的词项. |
-     |                   | company-File 这是另一个 backend, 是负责输入文件目录.'/' 触发.                                                |
+     |                   | company-File 这是另一个 backend, 是负责输入文件目录.'/' 触发.                                                  |
 **** why my company sucks
 ***** 为什么我的 company 会失效?
       1. 失效如何定位?

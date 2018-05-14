@@ -1,0 +1,96 @@
+* OOAD lec113 Future object methods
+
+** How to combine different Futures
+
+*** firstCompletedOf()() method
+
+    #+BEGIN_SRC scala
+      firstCompletedOf[T](futures: TraversableOnce[Future[T]])
+                      (implicit excutor: ExecutionContext): Future[R]
+
+    #+END_SRC
+
+    Argument of the ~firstCompletedOf()()~ method is ~TraversableOnce~ of Futures --- any collection of Futures on some type T, and it will give back the *Future completed first* upon all Futures in this collection.
+
+    #+BEGIN_SRC scala
+    val pages = List(page1,page2,page3)
+    val firstPage = Future.firstCompletedOf(pages)
+    firstPage.foreach(println)
+    #+END_SRC
+
+    [Q] but why would you want to create a whole bunch of Futures and only deal with the one that completes first ?
+    [A] the answer to that is in applications where for example you’re *getting information from multiple sources and you only need to get it from one to complete your task*, maybe you’re writing a website that is supposed to display is weather information, and you have 3 or 4 source you can get the weather information from, but you only need it from one of them.
+    so you hit 3 or 4 of them and then you take the one that finished first.
+
+
+*** sequence()() method
+
+    #+BEGIN_SRC scala
+    sequence[A, M[X] <: Traversable[X]](in: M[Future[A]])(implicit cbf:CanBuildFrom[M[Future[A]], A, M[A]], executor: ExecutionContext): Future[M[A]]
+    #+END_SRC
+
+    you give a Traversable of Futures, and it gives you back a Future of the Traversable.
+    I had a different Futures that were all inside of some colletion and it will allow me to convert from that collection of Futures of some type to a Future of a collection. It is more likely to be the inverse of the firstCompletedOf method.
+
+    使用 sequence 时一定要注意，这个 collection of Futures 中的所有 Future 必须 确保可以完成，比如这里其中一个网址是 google 在国内访问不了，所以整体 sequence 一直没有返回。
+
+    #+BEGIN_SRC scala
+    val pages = List(page1,page2,page3)
+    val allPages = Future.sequence(pages)
+    allPages.foreach(println)
+    #+END_SRC
+
+
+*** Same and Different
+    |------------------------------------------------------------------------|
+    | different                                                              |
+    |------------------------------------------------------------------------|
+    | - firstCompletedOf() tells which one finishes first                    |
+    | - sequence() wait for them all to complete                             |
+    | - firstCompletedOf: collection of Futures => one Future                |
+    | - sequence: collection of Futures => Future of collection              |
+    |------------------------------------------------------------------------|
+    | same                                                                   |
+    |------------------------------------------------------------------------|
+    | - they’re helpful when you’re retrieving information from other places |
+    | - they're both Non-Blocking call                                       |
+
+
+
+
+
+
+*** Code Snippet
+    get the first 100 chars of three website:
+
+    #+BEGIN_SRC scala
+    val page1 = Future {
+      "Google " + io.Source.fromURL("http://www.google.com").take(100).mkString
+    }
+    val page2 = Future {
+      "Baidu " + io.Source.fromURL("http://www.baidu.com").take(100).mkString
+    }
+    val page3 = Future {
+      "Sina " + io.Source.fromURL("http://www.sina.com").take(100).mkString
+    }
+
+    val pages = List(page1,page2,page3)
+
+    // 因为你也不知道哪个 Future 会先获得值
+    // 所以这个 firstCompletedOf 就显得非常有用了
+    val firstPage = Future.firstCompletedOf(pages)
+    firstPage.foreach(println)
+
+    // what if I want all of 3 pages
+    // 'allPages' is a Future of collection
+    // 所有 Future 必须【确保可以完成】，比如这里其中一个网址是 google
+    // 在国内访问不了，所以整体 sequence 一直没有返回。
+    val allPages = Future.sequence(pages)
+
+    // 同样的可以通过 sequence 函数来获取一个 Future of a collection
+    allPages.foreach(println)
+
+    Thread.sleep(5000)
+
+    #+END_SRC
+

@@ -1,0 +1,142 @@
+* OOAD lec118 Akka and a SImple Actor Example
+** Code Snippet
+   #+BEGIN_SRC scala
+     import akka.actor.{Actor, ActorSystem, Props}
+
+     object SimpleActorExample extends App{
+       class SimpleActor extends Actor{
+         def receive ={
+           case s:String => println("String: " + s)
+           case i:Int => println("Number: " + i)
+           case c:Char => println("Char: " + c)
+         }
+
+         // foo CAN NOT be
+         def foo = println("Normal method")
+       }
+
+       val system = ActorSystem("SimpleSystem")
+       val actor = system.actorOf(Props[SimpleActor], "SimpleActor")
+
+       println("before message")
+       actor ! "Hi there."
+       println("after string")
+       actor ! 42
+       println("after Int")
+       actor ! 'a'
+       println("after char")
+     }
+
+   #+END_SRC
+** Defining an Actor class
+   Actors are implemented by extending the `Actor` base trait and implementing the `receive` method. The `receive` method should define a series of case statements (which has the type `PartialFunction[Any, Unit]`) that defines which messages your Actor can handle, using standard Scala pattern matching, along with the implementation of how the messages should be processed.
+
+
+   #+BEGIN_SRC scala
+     class SimpleActor extends Actor{
+       def receive ={
+         case s:String => println("String: " + s)
+         case i:Int => println("Number: " + i)
+       }
+
+       // foo CAN NOT be access by others
+       def foo = println("Normal method")
+     }
+   #+END_SRC
+
+   Please note that the Akka Actor `receive` message loop is exhaustive(极其详细的), which is different compared to Erlang and the late Scala Actors. This means that you need to provide a pattern match for `all messages that it can accept` and if you want to be able to handle unknown messages then you need to have a default case as in the example above. Otherwise an `akka.actor.UnhandledMessage(message, sender, recipient)`will be published to the `ActorSystem`’s `EventStream`.
+
+   Note further that the return type of the behavior defined above is `Unit`; if the actor shall reply to the received message then this must be done explicitly as explained below.
+
+   The result of the `receive` method is a partial function object, which is stored within the actor as its “initial behavior”, see [[https://doc.akka.io/docs/akka/current/actors.html#become-unbecome][Become/Unbecome]] for further information on changing the behavior of an actor after its construction.
+
+** Build a ~ActorSystem~
+
+   in order to use Akka we need to have our classes for actors, also we have to build something called  `ActorSystem`
+
+*** what is ActorSystem?
+    [[https://d2mxuefqeaa7sj.cloudfront.net/s_D084B666FD35FB9B5FD5449FC77F9611ADD8FC9F2535A05DD341F68CA5EF9F9C_1520757607938_image.png][ActorSystem]]
+
+    An actor system is a hierarchical group of actors which share common configuration, e.g. dispatchers, deployments, remote capabilities and addresses. It is also the entry point for creating or looking up actors.
+
+    Make a `akka.actor.ActorSystem` by call apply method on it, and give `ActorSystem` a name:
+
+    #+BEGIN_SRC scala
+    val system = ActorSystem("SimpleSystem")
+    #+END_SRC
+
+    #+BEGIN_SRC scala
+      def apply(name: String,
+                config:Option[Config] = None,
+                classLoader:Option[ClassLoader] = None,
+                defaultExecutionContext:Option[ExecutionContext] = None):ActorSystem
+    #+END_SRC
+
+    Creates a new ActorSystem with the specified name, the specified ClassLoader if given, otherwise obtains the current ClassLoader by first inspecting the current threads' getContextClassLoader, then tries to walk the stack to find the callers class loader, then falls back to the ClassLoader associated with the ActorSystem class. If an ExecutionContext is given, it will be used as the default executor inside this ActorSystem. If no ExecutionContext is given, the system will fallback to the executor configured under "akka.actor.default-dispatcher.default-executor.fallback". The system will use the passed in config, or falls back to the default reference configuration using the ClassLoader.
+
+    `ActorSystem` has potentially multiple threads and it’s just sitting there waiting to receive messages.
+
+    [[https://s17.postimg.cc/dk1ab43q7/screenshot_104.png][Java Reflection Illustration]]
+
+
+
+** 2 methods to make an Actor object
+   First, we now CANNOT make an `Actor` object directly by `new`
+
+   #+BEGIN_SRC scala
+   // WRONG!!!
+   // val actor = new SimpleActor
+   #+END_SRC
+
+   #+BEGIN_QUOTE
+   Exception in thread "main" akka.actor.ActorInitializationException: You cannot create an instance of [chap20multithreading.SimpleActorExample$SimpleActor] explicitly using the constructor (new).
+   #+END_QUOTE
+
+
+*** method-1: create `actor` on `ActorSystem`
+    #+BEGIN_SRC scala
+    val system = ActorSystem("SimpleSystem")
+    val actor = system.actorOf(Props[SimpleActor], "SimpleActor")
+    #+END_SRC
+
+    [[https://s17.postimg.cc/jkyz8iiq7/screenshot_105.png][The process to create an Actor object]]
+
+*** what is a Props?
+    Props is a configuration object using in creating an Actor; it is immutable, so it is thread-safe and fully shareable.
+
+    #+BEGIN_SRC scala
+    val props = Props.empty
+    val props = Props[MyActor]
+    val props = Props(classOf[MyActor], arg1, arg2)
+
+    val otherProps = props.withDispatcher("dispatcher-id")
+    val otherProps = props.withDeploy(<deployment info>)
+    #+END_SRC
+
+*** method-2 : create Actor object inside of a context inside of system
+    TODO
+
+** How to send message to an Actor
+   [[https://s17.postimg.cc/yi7g9910v/screenshot_106.png][create actor and pass message to it]]
+
+   #+BEGIN_SRC scala
+     println("before message")
+     actor ! "Hi there."
+     println("after string")
+     actor ! 42
+     println("after Int")
+     actor ! 'a'
+     println("after char")
+   #+END_SRC
+
+   #+BEGIN_QUOTE
+   > before message
+   > after string
+   > after Int
+   > String: Hi there.
+   > after char
+   > Number: 42
+   > Chara
+   #+END_QUOTE
+
+   通过这段程序的打印序列，可以看出，actor 对 message 的处理也是 异步 的

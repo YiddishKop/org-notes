@@ -1,0 +1,81 @@
+* OOAD lec 115 Deadlock
+
+  1. synchronization 的第一个缺点：
+     （lec114）downgrade parallel to sequential speed.
+
+  2. synchronization 的第二个缺点：
+     当你多度使用 synchronization 时，容易导致 deadlock — a group of threads waiting for each other.
+
+
+** 不止 parallel collection 会发生 race condition, Future 也会
+
+*** 异步问题
+    count  or calculation  always used parallel loop or parallel collection like:
+
+    #+BEGIN_SRC scala
+    for(i <- (1 to 100).par) {...}
+    #+END_SRC
+
+    but this is not the ONLY way to do couting and calculation.
+
+    #+BEGIN_SRC scala
+    var cnt = 0
+    Future {for(i <- 1 to 1000000) cnt += 1}
+    Future {for(i <- 1 to 1000000) cnt += 1}
+    println(cnt)
+    #+END_SRC
+
+    > 上面代码结果为： cnt = 0
+
+    I’m just using these 2 *Future* to spawn threads that do work as soon as the main thread finishes those will be done.
+
+    #+BEGIN_QUOTE
+    [Q]what spawn means?
+    [A]Spawn in computing refers to a function that loads and executes a new child process. The current process may wait for the child to terminate or may continue to execute concurrent computing.
+    #+END_QUOTE
+
+
+    但是需要注意，因为 Future 本身是 non-blocking 的, asynchonized(异步)的，所以他不会阻塞调用(
+    - 调用 apply
+    - 调用 其他方法：sequence/onCompletedOf
+    )他的线程的运行，这里就是不会阻塞 main thread 的运行，所以上面代码段运行结果过时 print cnt = 0
+
+    如果想要get the result of Future 对 cnt 的计算结果，需要让 main thread 等待 Future 运行完毕，这里可以选择使用 Thread.sleep 方法等待较长一段时间。
+
+    Futures race condition
+
+    1009648
+
+    这是上面代码的运行结果，很明显存在 race condition .
+
+
+
+** Future DeadLock
+
+   整理 Multithreading. BankAccount
+
+   #+BEGIN_SRC scala
+    import collection.mutable
+    var b1 = mutable.Buffer[String]()
+    var b2 = mutable.Buffer[String]()
+
+    def doWork(count: Int): Unit = Thread.sleep(count)
+
+    def useBuffers(buf1: mutable.Buffer[String], buf2: mutable.Buffer[String]): Unit = {
+      buf1.synchronized{
+        doWork(1000)
+        buf2.synchronized{
+          doWork(1000)
+        }
+      }
+    }
+
+    // 写这个 foreach 有什么作用呢，上节课说过，foreach 是异步的执行
+    // 而且只有在 Future 完成之后，才会执行，通过这条语句是否打印(因为 foreach
+    // 不需要返回结果， def foreach(f: (A) ⇒ Unit): Unit) 就可以判断
+    // Future 是否执行完毕。
+    Future { useBuffers(b2,b1) }.foreach( _ => println("call 1 done."))
+
+    Thread.sleep(3000)
+    println("main done")
+   #+END_SRC

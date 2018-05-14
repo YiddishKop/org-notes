@@ -434,3 +434,10 @@ print('DONE: convet2mp3 finished')
 
  Link:   [[file:~/Worklap/test.py::print('DONE:%20convet2mp3%20finished')]]
  File:   /home/yiddi/Worklap/test.py
+** circle and reverse by ~for~ and ~%~ :scala:
+ #+BEGIN_SRC scala
+     for(i <- 0 until data.length-1)
+       tmp(i) = data((i + front)% data.length)
+ #+END_SRC
+ Link:   [[file:e:/org-notes/CS/Language/scala/lec63.org::#+BEGIN_SRC%20scala%20for(i%20<-%200%20until%20data.length-1)%20tmp(i)%20=%20data((i%20+%20front)%25%20data.length)%20#+END_SRC%20%5B%5Bhttps://s9.postimg.cc/fch0suni7/screenshot_110.png%5D%5Bcircle%20and%20reverse%20by%20~for~%20and%20~%25~%5D%5D][Array based Queue]]
+ File:   e:/org-notes/CS/Language/scala/lec63.org
