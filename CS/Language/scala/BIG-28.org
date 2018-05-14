@@ -1,0 +1,555 @@
+* Spark SQL
+  RDD is like the fundamental abstraction of SPARK, SQL is a new way of working with SPARK, and generally recommended for the
+  end-user.
+
+  why we need SQL, because SQL is a *higher-level abstaction* with more *optimization of RDDs*. The power of RDD is it can hold any data,which has the flexible functions apply on them, BUUUT more information and tech details you need to handle:
+
+  | partitions                | need more optimization |
+  | transform vs. action      | need more optimization |
+  | when to cache             | need more information  |
+  | shuffle or not            | need more information  |
+  | type of RDD,what's inside | need more information  |
+
+  SQL and the API gives *more information* you're working with, and it allowes to do many *optimization*, these come from research in *Database*.
+
+** DataFrame and DataSet[T]
+   in original spark.SQL a type called ~DataFrame~, it was kind of a *replacement* as far as the end-user was concerned for an *RDDs*:
+
+   #+BEGIN_SRC scala
+   type DataFrame = Dataset[Row]
+   #+END_SRC
+
+   BUUUT, DataFrame is just "looks" like RDDs, significant different underneath the hood.
+
+*** Row is not type safe, RDDs is type safe
+    which means spark.SQL and DataFrames can not checked at compile time.
+
+    As you can see, *DataFrame* work with Rows, *Row* they hold a row of data in a way that is *not necessarily type safe* and this is one reason why *DataFrame* are somewhat *significant deviation* from the *RDDs* and from kind of the general way that *scala* approaches, scala typically tries to make everything *type safe*
+
+*** DataFrame of SparkSession, RDDs of SparkContext
+
+    BTW, SparkSesion is not the replacement of SparkContext, and you can get the DataFrame's related SparkContext from the SparkSesion
+
+    #+BEGIN_SRC scala
+      val sparkContext: SparkContext
+      //The Spark context associated with this Spark session.
+    #+END_SRC
+
+    | RDD                            | DataFraem                           |                                            |
+    |--------------------------------+-------------------------------------+--------------------------------------------|
+    | type safe                      | not type safe                       |                                            |
+    |--------------------------------+-------------------------------------+--------------------------------------------|
+    | SparkConf.setAppName.setMaster | SparkSession.builder.master.appName |                                            |
+    | -> SparkContext                | -> Builder.getOrCreate              |                                            |
+    |                                | -> SparkSeesion                     |                                            |
+    |--------------------------------+-------------------------------------+--------------------------------------------|
+    |                                |                                     | case class StructType(Array[StructField])  |
+    |                                |                                     | case class StructField(arg1,arg2,arg3,ag4) |
+    |                                |                                     | newscheam: StructType(Array[StructField])  |
+    |--------------------------------+-------------------------------------+--------------------------------------------|
+    | sc.textFile                    | ss.read                             | ss.read                                    |
+    | -> RDD[String]                 |                                     | -> DataFrameReader.schema(StructType)      |
+    |                                |                                     | -> DataFrameReader.option(key, value)      |
+    |--------------------------------+-------------------------------------+--------------------------------------------|
+    |                                | -> DataFrameReader.csv(filePath)    | -> DataFrameReader.csv(filePath)           |
+    |                                | -> DataFrame.show():Unit            | -> DataFrame.show():Unit                   |
+    |--------------------------------+-------------------------------------+--------------------------------------------|
+    |                                | -> DataFrame.schema                 | -> DataFrame.schema                        |
+    |                                | -> StructType.printTreeString:Unit  | -> StructType.printTreeString:Unit         |
+    |--------------------------------+-------------------------------------+--------------------------------------------|
+    | sc.stop                        | bd.stop                             |                                            |
+
+
+    #+BEGIN_SRC scala
+      // SparkSeesion
+      val spark = SparkSession
+        .builder()
+        .master("local[*]")
+        .appName("NOAA Data")
+        .getOrCreate()
+
+      // SparkContext
+      val sc = new SparkContext(new SparkConf()
+                                  .setAppName("Temp Data")
+                                  .setMaster("local[*]"))
+    #+END_SRC
+*** DataFrame.show()
+    #+BEGIN_QUOTE
+    US1MNHN0184,20170101,PRCP,0,,,N,
+    US1MNHN0184,20170101,SNOW,0,,,N,
+    US1MNHN0184,20170101,SNWD,274,,,N,
+    CA1MB000296,20170101,PRCP,0,,,N,
+    US1MNCV0008,20170101,PRCP,0,,,N,
+    US1MNCV0008,20170101,SNOW,0,,,N,
+    ASN00015643,20170101,TMAX,274,,,a,
+    ASN00015643,20170101,TMIN,218,,,a,
+    ASN00015643,20170101,PRCP,2,,,a,
+    US1MISW0005,20170101,PRCP,0,,,N,
+    US1MISW0005,20170101,SNOW,0,,,N,
+    US1MISW0005,20170101,SNWD,0,,,N,
+    ASN00085296,20170101,TMAX,217,,,a,
+    ASN00085296,20170101,TMIN,127,,,a
+    #+END_QUOTE
+
+    DataFrame.show will get a table below:
+
+    #+BEGIN_QUOTE
+    [info] +-----------+--------+----+---+----+----+---+----+
+    [info] |        _c0|     _c1| _c2|_c3| _c4| _c5|_c6| _c7|
+    [info] +-----------+--------+----+---+----+----+---+----+
+    [info] |US1MNHN0184|20170101|PRCP|  0|null|null|  N|null|
+    [info] |US1MNHN0184|20170101|SNOW|  0|null|null|  N|null|
+    [info] |US1MNHN0184|20170101|SNWD|274|null|null|  N|null|
+    [info] |CA1MB000296|20170101|PRCP|  0|null|null|  N|null|
+    [info] |US1MNCV0008|20170101|PRCP|  0|null|null|  N|null|
+    [info] |US1MNCV0008|20170101|SNOW|  0|null|null|  N|null|
+    [info] |ASN00015643|20170101|TMAX|274|null|null|  a|null|
+    [info] |ASN00015643|20170101|TMIN|218|null|null|  a|null|
+    [info] |ASN00015643|20170101|PRCP|  2|null|null|  a|null|
+    [info] |US1MISW0005|20170101|PRCP|  0|null|null|  N|null|
+    [info] |US1MISW0005|20170101|SNOW|  0|null|null|  N|null|
+    [info] |US1MISW0005|20170101|SNWD|  0|null|null|  N|null|
+    [info] |ASN00085296|20170101|TMAX|217|null|null|  a|null|
+    [info] |ASN00085296|20170101|TMIN|127|null|null|  a|null|
+    [info] |ASN00085296|20170101|PRCP|  0|null|null|  a|null|
+    [info] |US1MAMD0069|20170101|PRCP| 56|null|null|  N|null|
+    [info] |ASN00040209|20170101|TMAX|293|null|null|  a|null|
+    [info] |ASN00040209|20170101|TMIN|250|null|null|  a|null|
+    [info] |ASN00040209|20170101|PRCP|  0|null|null|  a|null|
+    [info] |ASN00085280|20170101|TMAX|215|null|null|  a|null|
+    [info] +-----------+--------+----+---+----+----+---+----+
+    #+END_QUOTE
+
+*** DataFrame.schema and option
+
+    customize your own schema, specifing how to read data from souce and how to save it
+                                         ---------------------------     --------------
+                                                 option                       scehma
+                                         ----------------------------------------------
+                                                           drf
+
+    #+BEGIN_QUOTE
+    - df : DataFrame
+    - ss : SparkSession
+    - dfr: DataFrameReader
+
+    ss. *read* => dfr .schema(StructType). => dfr .option() => drf .read => drf . *csv* => df
+    ----------    ---------------------------------------------------------------------    -----
+    ss                                        dfr                                          df
+    #+END_QUOTE
+
+    #+BEGIN_SRC scala
+      object implicits extends SQLImplicits with Serializable
+      // (Scala-specific) Implicit methods available in Scala for converting common Scala objects into DataFrames.
+      def schema: StructType
+        // Returns the schema of this Dataset.
+    #+END_SRC
+
+    ~schema~ gives us more information(~StructType~) about what data is being stored and what it looks like.
+
+**** we can have multiple ~option~ s
+     #+BEGIN_SRC scala
+     val countyData = spark.read.option("header", true).option("delimiter", "\t").csv("data/la.data.64.County")
+     #+END_SRC
+
+
+*** df.select()
+
+    #+BEGIN_SRC scala
+      def select(col: String, cols: String*): DataFrame
+      // Selects a set of columns.
+    #+END_SRC
+
+    Note that this method can used to *produce new column* by the existed columns, in a way of *element-vise* computing.
+
+
+     | sid |     date | tmax | tmin |
+     |-----+----------+------+------|
+     |   1 | 20170101 |   30 |   10 |
+     |   1 | 20170101 |   40 |   10 |
+     |   1 | 20170101 |   32 |   10 |
+     |   1 | 20170101 |   10 |   10 |
+     |   1 | 20170101 |   50 |   10 |
+
+     ~averageTemp2017 = combinedTemps2017.select('sid, 'date, ('tmax + 'tmin)/2)~
+
+     get the table below:
+
+     | sid |     date | (tmax + tmin)/2 |
+     |-----+----------+-----------------|
+     |   1 | 20170101 |              20 |
+     |   1 | 20170101 |              25 |
+     |   1 | 20170101 |              21 |
+     |   1 | 20170101 |              10 |
+     |   1 | 20170101 |              30 |
+
+
+*** DataFrame.limit(n)
+    #+BEGIN_SRC scala
+    def limit(n: Int): Dataset[T]
+    //Returns a new Dataset by taking the first n rows.
+    #+END_SRC
+    Usfull when your dataset is too large, and you want to try your code.
+*** DataFrame.join(df, Seq(column1, column2, ...))
+
+    +-----------+----------+------+
+    |        sid|      date|  tmax|
+    +-----------+----------+------+
+    |ASN00015643|2017-01-01| 218.0|
+    |ASN00085296|2017-01-01| 127.0|
+    |ASN00040209|2017-01-01| 250.0|
+    |CA005030984|2017-01-01|-192.0|
+    +-----------+----------+------+
+
+    +-----------+----------+------+
+    |        sid|      date|  tmin|
+    +-----------+----------+------+
+    |ASN00015643|2017-01-01| 218.0|
+    |ASN00085296|2017-01-01| 127.0|
+    |ASN00040209|2017-01-01| 250.0|
+    |ASN00085280|2017-01-01| 156.0|
+    +-----------+----------+------+
+
+
+    3 methods for joining DataFrames, separately for join one-column or join multiple-columns
+    #+BEGIN_SRC scala
+      def join(right: Dataset[_], usingColumns: Seq[String]): DataFrame
+        //Inner equi-join with another DataFrame using the given columns.
+    #+END_SRC
+
+    #+BEGIN_SRC scala
+      val combinedTemps2017 = tmax2017.join(tmin2017,
+                                            tmax2017("sid") === tmin2017("sid") &&
+                                              tmax2017("date") === tmin2017("date"))
+    #+END_SRC
+
+    *column appending*: code above will give table like *column appending*
+
+    | sid1 | date1 | ... | sid2 | date2 | ... |
+    |------+-------+-----+------+-------+-----|
+    |      |       |     |      |       |     |
+
+
+    #+BEGIN_SRC scala
+      val combinedTemps2017 = tmax2017.join(tmin2017, Seq("sid", "date"))
+    #+END_SRC
+
+    *column mix in*: code above will give table like *mix in*
+
+    | sid | date | ... |
+    |-----+------+-----|
+    |     |      |     |
+
+
+*** DataFrame( or called DataSet[Column])
+    original DataFrame(DataSet[Column])
+    [info] +-----------+----------+-----+-----+
+    [info] |        sid|      data|mtype|value|
+    [info] +-----------+----------+-----+-----+
+    [info] |US1MNHN0184|2017-01-01| PRCP|  0.0|
+    [info] |US1MNHN0184|2017-01-01| SNOW|  0.0|
+    [info] |US1MNHN0184|2017-01-01| SNWD|274.0|
+    [info] |CA1MB000296|2017-01-01| PRCP|  0.0|
+    [info] |US1MNCV0008|2017-01-01| PRCP|  0.0|
+    [info] |US1MNCV0008|2017-01-01| SNOW|  0.0|
+    [info] |ASN00015643|2017-01-01| TMAX|274.0|
+    [info] |ASN00015643|2017-01-01| TMIN|218.0|
+    [info] |ASN00015643|2017-01-01| PRCP|  2.0|
+    [info] |US1MISW0005|2017-01-01| PRCP|  0.0|
+    [info] |US1MISW0005|2017-01-01| SNOW|  0.0|
+    [info] |US1MISW0005|2017-01-01| SNWD|  0.0|
+    [info] |ASN00085296|2017-01-01| TMAX|217.0|
+    [info] |ASN00085296|2017-01-01| TMIN|127.0|
+    [info] |ASN00085296|2017-01-01| PRCP|  0.0|
+    [info] |US1MAMD0069|2017-01-01| PRCP| 56.0|
+    [info] |ASN00040209|2017-01-01| TMAX|293.0|
+    [info] |ASN00040209|2017-01-01| TMIN|250.0|
+    [info] |ASN00040209|2017-01-01| PRCP|  0.0|
+    [info] |ASN00085280|2017-01-01| TMAX|215.0|
+    [info] +-----------+----------+-----+-----+
+*** DataFrame after filter mtype by "TMAX"
+    ~val tmax2017 = data2017.filter('mtype === "TMAX")~
+    [info] +-----------+----------+-----+------+
+    [info] |        sid|      data|mtype| value|
+    [info] +-----------+----------+-----+------+
+    [info] |ASN00015643|2017-01-01| TMAX| 274.0|
+    [info] |ASN00085296|2017-01-01| TMAX| 217.0|
+    [info] |ASN00040209|2017-01-01| TMAX| 293.0|
+    [info] |ASN00085280|2017-01-01| TMAX| 215.0|
+    [info] |CA005030984|2017-01-01| TMAX|-109.0|
+    [info] |CA003076680|2017-01-01| TMAX| -85.0|
+    [info] |CA003072151|2017-01-01| TMAX|-100.0|
+    [info] |CA003031094|2017-01-01| TMAX| -79.0|
+    [info] |ASN00068151|2017-01-01| TMAX| 254.0|
+    [info] |USW00003889|2017-01-01| TMAX| 100.0|
+    [info] |USW00003967|2017-01-01| TMAX|  72.0|
+    [info] |USW00004131|2017-01-01| TMAX| -85.0|
+    [info] |USW00012842|2017-01-01| TMAX| 272.0|
+    [info] |USW00012876|2017-01-01| TMAX| 278.0|
+    [info] |USW00014719|2017-01-01| TMAX|  89.0|
+    [info] |USW00024061|2017-01-01| TMAX| -77.0|
+    [info] |USW00024229|2017-01-01| TMAX|  44.0|
+    [info] |USW00094626|2017-01-01| TMAX|  11.0|
+    [info] |USW00003048|2017-01-01| TMAX| 105.0|
+    [info] |USS0018F01S|2017-01-01| TMAX| -34.0|
+    [info] +-----------+----------+-----+------+
+
+*** DataFrame after filter mtype by "TMIN"
+    val tmin2017 = data2017.filter('mtype === "Tmin")
+    [info] +-----------+----------+-----+------+
+    [info] |        sid|      data|mtype| value|
+    [info] +-----------+----------+-----+------+
+    [info] |ASN00015643|2017-01-01| TMAX| 274.0|
+    [info] |ASN00085296|2017-01-01| TMAX| 217.0|
+    [info] |ASN00040209|2017-01-01| TMAX| 293.0|
+    [info] |ASN00085280|2017-01-01| TMAX| 215.0|
+    [info] |CA005030984|2017-01-01| TMAX|-109.0|
+    [info] |CA003076680|2017-01-01| TMAX| -85.0|
+    [info] |CA003072151|2017-01-01| TMAX|-100.0|
+    [info] |CA003031094|2017-01-01| TMAX| -79.0|
+    [info] |ASN00068151|2017-01-01| TMAX| 254.0|
+    [info] |USW00003889|2017-01-01| TMAX| 100.0|
+    [info] |USW00003967|2017-01-01| TMAX|  72.0|
+    [info] |USW00004131|2017-01-01| TMAX| -85.0|
+    [info] |USW00012842|2017-01-01| TMAX| 272.0|
+    [info] |USW00012876|2017-01-01| TMAX| 278.0|
+    [info] |USW00014719|2017-01-01| TMAX|  89.0|
+    [info] |USW00024061|2017-01-01| TMAX| -77.0|
+    [info] |USW00024229|2017-01-01| TMAX|  44.0|
+    [info] |USW00094626|2017-01-01| TMAX|  11.0|
+    [info] |USW00003048|2017-01-01| TMAX| 105.0|
+    [info] |USS0018F01S|2017-01-01| TMAX| -34.0|
+    [info] +-----------+----------+-----+------+
+*** DataFrame.describe()
+    it will give you many statistical information, a very good way to get a feel of your data ,very convenient.
+    - min
+    - max
+    - average
+    - stdev
+
+    #+BEGIN_QUOTE
+    [info] +-------+-----------+------------------+
+    [info] |summary|        sid|              tmin|
+    [info] +-------+-----------+------------------+
+    [info] |  count|     126171|            126171|
+    [info] |   mean|       null|-58.01841944662402|
+    [info] | stddev|       null|136.90434799836595|
+    [info] |    min|AE000041196|            -733.0|
+    [info] |    max|ZI000067983|             319.0|
+    [info] +-------+-----------+------------------+
+    #+END_QUOTE
+*** df.limit vs. df.drop
+
+    | limit(n)           | delete `n` rows to create a new DataFrame   |
+    | drop("columnName") | delete THE column to create a new DataFrame |
+
+    note that *limit(1000000)* vs *limit(10)* has little influence to the computations speed
+
+*** df.select vs. df.filter vs. df.join
+
+    df.select more like do produce new column by existed column
+
+    def.filter more like "select" by some condition :)
+
+    | sid |     date | tmax | tmin |
+    |-----+----------+------+------|
+    |   1 | 20170101 |   30 |   10 |
+    |   1 | 20170101 |   40 |   10 |
+    |   1 | 20170101 |   32 |   10 |
+    |   1 | 20170101 |   10 |   10 |
+    |   1 | 20170101 |   50 |   10 |
+
+    ~averageTemp2017 = combinedTemps2017.select('sid, 'date, ('tmax + 'tmin)/2)~
+
+    get the table below:
+
+    | sid |     date | (tmax + tmin)/2 |
+    |-----+----------+-----------------|
+    |   1 | 20170101 |              20 |
+    |   1 | 20170101 |              25 |
+    |   1 | 20170101 |              21 |
+    |   1 | 20170101 |              10 |
+    |   1 | 20170101 |              30 |
+
+
+    ~val combinedTemps2017 = tmax2017.join(tmin2017, Seq("sid", "date"))~
+
+    +-----------+----------+------+
+    |        sid|      date|  tmax|
+    +-----------+----------+------+
+    |ASN00015643|2017-01-01| 218.0|
+    |ASN00085296|2017-01-01| 127.0|
+    |ASN00040209|2017-01-01| 250.0|
+    |CA005030984|2017-01-01|-192.0|
+    +-----------+----------+------+
+
+    +-----------+----------+------+
+    |        sid|      date|  tmin|
+    +-----------+----------+------+
+    |ASN00015643|2017-01-01| 218.0|
+    |ASN00085296|2017-01-01| 127.0|
+    |ASN00040209|2017-01-01| 250.0|
+    |ASN00085280|2017-01-01| 156.0|
+    +-----------+----------+------+
+
+    after joining on ("sid", "date")
+
+    | sid |     date | tmax | tmin |
+    |-----+----------+------+------|
+    |   1 | 20170101 |   30 |   10 |
+    |   1 | 20170101 |   40 |   10 |
+    |   1 | 20170101 |   32 |   10 |
+    |   1 | 20170101 |   10 |   10 |
+    |   1 | 20170101 |   50 |   10 |
+
+*** df.stat
+    #+BEGIN_SRC scala
+      def stat: DataFrameStatFunctions
+      // return a DataFrameStatFunctions for working statistic functions support
+    #+END_SRC
+
+
+** StructType
+*** StructType.printTreeString
+
+    ~DataFrame.scheme.printTreeString~ will get tree table below:
+
+    #+BEGIN_QUOTE
+    [info] root
+    [info]  |-- _c0: string (nullable = true)
+    [info]  |-- _c1: string (nullable = true)
+    [info]  |-- _c2: string (nullable = true)
+    [info]  |-- _c3: string (nullable = true)
+    [info]  |-- _c4: string (nullable = true)
+    [info]  |-- _c5: string (nullable = true)
+    [info]  |-- _c6: string (nullable = true)
+    [info]  |-- _c7: string (nullable = true)
+    #+END_QUOTE
+
+*** StructType(Array[StructField])
+    The default schema(StructType) will see all the columns as type of String, but this mabye not what we want.
+
+    Define a schema and some options to tell Spark, what's the StructType inside of this DataFrame
+    1. setup a schema for this DataFrame
+    2. for some non-standard-format columns in source data file, tell Spark I need a special ~DataFrameReader~ to specify what the format is, by ~option("dateFormat", "yyyyMMdd")~
+
+    #+NAME: how to define a schema of StructType
+    #+BEGIN_SRC scala
+      val tschema = StructType(Array( // ONLY select and modify the front 4 columns
+                                 StructField("sid",StringType),
+                                 StructField("date",DateType),
+                                 StructField("mtype",StringType),
+                                 StructField("value",DoubleType)
+                               ))
+      // data2017 is a DataFrame
+      val data2017 = spark.read.schema(tschema).option("dateFormat", "yyyyMMdd").csv("data/2017.csv")
+    #+END_SRC
+
+** Column
+   #+BEGIN_SRC scala
+     // DataFrame.filter
+     def filter(condition: Column): DataSet[T]
+   #+END_SRC
+
+   A *Column* is just a column like its name hint. It's computed based on the data in *DataFrame*.
+
+*** Column construction
+   A new *Column* can be constructed based on the input columns present in a *DataFrame*
+
+   | kinds of Column                             | methods                      |
+   |---------------------------------------------+------------------------------|
+   | a specific column get from binded DataFrame | [DataFrameObj]("columnName") |
+   | a generic column no bind with a DataFrame   | col("columnName")            |
+   | extract a struct field                      | col("columnName.field")      |
+   | scala short hand for a named column         | $"columnName"                |
+   |                                             | 'columnName                  |
+
+   ~'columnName~ will convert to a Column by implicit conversion:
+
+   #+BEGIN_SRC scala
+     val tmax2017 = data2017.filter($"mtype" === "TMAX")
+     val tmin2017 = data2017.filter('mtype === "TMIN")
+   #+END_SRC
+
+*** Column operations
+**** return ~Column~
+
+     good for expression composition, because
+
+     ~Column '+' Column = Column '===' = Column '*' = Column~
+
+    | +   |   | return a new Column |
+    | -   |   | return a new Column |
+    | *   |   | return a new Column |
+    | /   |   | return a new Column |
+    | <   |   | return a new Column |
+    | >   |   | return a new Column |
+    | === |   | return a new Column |
+    | <=> |   | return a new Column |
+    | =!= |   | return a new Column |
+
+    even ~===~ return the Column, BTW, === can be used to ~Any~ type, so, Column === value or Column === Column both right
+
+    ~data2017.filter('mtype === "TMAX")~
+    ~df.filter( df("colA") === df("colB") )~
+
+    // The following are equivalent:
+
+    peopleDf.filter($"age" > 15)
+    peopleDf.where($"age" > 15)
+    peopleDf($"age" > 15)
+
+**** element-vise
+    all these methods are apply to element-vise of two columns
+    like:
+
+    #+BEGIN_SRC scala
+      averageTemp2017 = combinedTemps2017.select('sid, 'date, ('tmax + 'tmin)/2)
+    #+END_SRC
+
+    | sid |     date | tmax | tmin |
+    |-----+----------+------+------|
+    |   1 | 20170101 |   30 |   10 |
+    |   1 | 20170101 |   40 |   10 |
+    |   1 | 20170101 |   32 |   10 |
+    |   1 | 20170101 |   10 |   10 |
+    |   1 | 20170101 |   50 |   10 |
+
+    get the table below:
+
+    | sid |     date | (tmax + tmin)/2 |
+    |-----+----------+-----------------|
+    |   1 | 20170101 |              20 |
+    |   1 | 20170101 |              25 |
+    |   1 | 20170101 |              21 |
+    |   1 | 20170101 |              10 |
+    |   1 | 20170101 |              30 |
+
+** DataFrameStatFunctions
+
+*** from DataFrame to DataFrameStatFunctions
+    #+BEGIN_SRC scala
+      def stat: DataFrameStatFunctions
+      // return a DataFrameStatFunctions for working statistic functions support
+    #+END_SRC
+*** API intro
+   provide some fucntions about *statistics*
+
+   - ~median~ (50%)
+   - ~approxQuantile~ (25%)
+   - ~corr~
+     - correlation coefficient of two column (important for DS area)
+     - helpful for comparing two things to see if they're strongly correlated with
+   - ~cov~
+     - covariance
+   - ~crosstab~
+     - a pair-wise frequency table of the given columns
+
+** org.apache.spark.sql.functions
+   This is an ~object~, huge many methods inside of it.
+   - methods for *aggregation*
+   - methods for *date*
+   - methods for *mathematics*
+   - etc
+
+   So, many time you will ~import org.apache.spark.sql.fucntions._~

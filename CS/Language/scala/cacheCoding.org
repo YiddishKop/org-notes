@@ -1,0 +1,122 @@
+* 1
+
+  #+NAME: build try and extract info
+  #+HEADERS:
+  #+BEGIN_SRC scala
+    import scala.io.StdIn
+    val input:Either[String,Int] = {
+      val ins = 3
+      try Right(ins.toInt) catch { case e: Exception => Left(s"hi, $ins is not a number")}
+    }
+
+    println(input match{
+              case Right(a) => s"input a number $a"
+              case Left(a) => a
+            })
+  #+END_SRC
+
+  #+RESULTS: build try and extract info
+  : import scala.io.StdIn
+  : input: Either[String,Int] = Right(3)
+  : input a number 3
+
+  #+NAME: Right
+  #+BEGIN_SRC scala
+    var x1 = Right(3): Right[String,Int]
+    var x2 = Right(3): Right[Double,Int]
+    val right1 = Right(1)   : Right[Double, Int]
+    val right2 = Right(2)
+    val right3 = Right(3)
+    val left23 = Left(23.0) : Left[Double, Int]
+    val left42 = Left(42.0)
+
+    for {
+      x <- right1.right
+      y <- left42.left  // type at this position: Either[Double, Nothing]
+      z <- left23.left
+    }  yield x //+ y + z
+  #+END_SRC
+
+  #+RESULTS: Right
+  : x1: Right[String,Int] = Right(3)
+  : x2: Right[Double,Int] = Right(3)
+  : right1: Right[Double,Int] = Right(1)
+  : right2: scala.util.Right[Nothing,Int] = Right(2)
+  : right3: scala.util.Right[Nothing,Int] = Right(3)
+  : left23: Left[Double,Int] = Left(23.0)
+  : left42: scala.util.Left[Double,Nothing] = Left(42.0)
+  : res15: scala.util.Either[AnyVal,Int] = Left(1)
+
+** what is strictness of a collection
+   Simply speeking
+   - *non-strict*: pass element-by-element through the line, to produce one *element pertime*
+   - *strict*: pass collection-by-collection through the line, to produce one *collection pertime*
+*** strict collection: collection-by-collection
+  #+NAME: withFilter
+  #+BEGIN_SRC scala
+    var found = false
+    List.range(1,10).filter(_ % 2 ==1 && !found).foreach( x => if(x==5) found=true else println(x))
+  #+END_SRC
+
+  #+RESULTS: withFilter
+  : found: Boolean = false
+  : 1
+  : 3
+  : 7
+  : 9
+
+  #+BEGIN_QUOTE
+  *collection-by-collection*:
+  Things here require every function *CAN NOT pass result to next* until exhausting all the elements of *collection*
+  #+END_QUOTE
+
+*** non-strict collection: element-by-element
+
+  #+NAME: withFilter2
+  #+BEGIN_SRC scala
+    var found = false
+    Stream.range(1,10).filter(_ % 2 == 1 && !found).foreach(x => if (x == 5) found = true else println(x))
+  #+END_SRC
+
+  #+RESULTS: withFilter2
+  : found: Boolean = false
+  : 1
+  : 3
+
+  #+BEGIN_QUOTE
+  *element-by-element*:
+  Things here require every function should *immediately pass result to next* function *once one element* computation is completed
+  #+END_QUOTE
+*** the ambiguous caused by strictness on for comprehasion
+
+    because the for-comprehasion is based on the filter/map/flatMap etc. when we using it in a for block, it will cause some mis-understandings: same appearance different results.
+
+  This caused many problems, because people expected the if to be considered on-demand, instead of being applied to the whole collection beforehand.
+  #+NAME: for with List
+  #+BEGIN_SRC scala
+    for (x <- List.range(1, 10); if x % 2 == 1 && !found) if (x == 5) found = true else println(x)
+  #+END_SRC
+
+  #+RESULTS: for with List
+
+  #+NAME: for with Stream
+  #+BEGIN_SRC scala
+    for (x <- Stream.range(1, 10); if x % 2 == 1 && !found) if (x == 5) found = true else println(x)
+  #+END_SRC
+
+  #+RESULTS: for with Stream
+
+*** withFilter: make collection non-strict
+
+  So, from scala 2.8: ~withFilter~ introduced, wich make a *element-by-element* mechanism, no matter the strictness( strict,means by-collection; non-strict means by-element) of the collection who invocate it.
+
+  #+NAME: withFilter make element-unit
+  #+BEGIN_SRC scala
+    var found = false
+    List.range(1,10).withFilter(_ % 2 == 1 && !found).foreach(x => if (x == 5) found = true else println(x))
+  #+END_SRC
+
+  #+RESULTS: withFilter make element-unit
+  : found: Boolean = false
+  : 1
+  : 3

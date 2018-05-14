@@ -1,0 +1,317 @@
+* Lec 2 Data processing with higher-order methods
+
+** API of Souce, Iterator
+   1. build a *case class* for the columns of data source file you concern
+      1) each *line* will be represented as an *case object*
+      2) why case class, maybe use it as a *pattern* later.
+   2. do some *filtering* to read-in data
+      1) read in and handle it
+         - make non-present value ~Option~ *OR*
+         - give default value to related case class Ctor parameter
+           + in case class definition *OR*
+           + in process of *line to case object*
+      2) throw out everything of line that have a dot
+         throw out means ~Ignore~ using ~flatMap~ and ~for~
+   3. do *transformation* from line to case object
+*** TODO : how to read txt from file
+#+BEGIN_SRC scala
+val source = scala.io.Source.fromFile(<filePath>)
+#+END_SRC
+
+*** TODO : how to get whole text's Iterator by unit of line
+#+BEGIN_SRC scala
+val linIter = source.getLines
+#+END_SRC
+
+*** TODO : how to get 30 lines from front of the whole text's Iteratror
+Note that , ~Iterator~ is a special kind of ~collection~, which can be ONLY traverse
+ONCE( extends from TraversableOnce[T]). It has most API methods of ~collection~:
+- take
+- drop
+- map
+- flatMap
+- etc
+#+BEGIN_SRC scala
+val seq = linIter.take(30).toSeq
+#+END_SRC
+
+*** TODO : not get ~length~ of a iterator
+
+    ~iterator.length~ will consume the ~next~.
+
+#+BEGIN_SRC scala
+  val arr = Array.fill(30)(2)
+  val lines = arr.iterator
+  lines.hasNext // true
+  lines.length  // 30
+  lines.hasNext // false
+#+END_SRC
+
+** how to deal with value non-present in data source file
+   #+BEGIN_SRC scala
+     package standardscala
+
+     /*
+      TODO
+      0. read in dataset, build case class, build your object line by line
+      1. handle the non-present data --- read-in and handle for precip and snow
+      2. handle the non-present data --- ignore the whole line if exist in tave,tmax,tmin
+      3. compute the highest temperature(2good,1bad)
+      4. get number of rainy day and rainy probability(1 methods)
+      5. for all rainy days, get the average high temperature(1good,1better)
+      6. get the average temperature by month
+      ,*/
+
+     case class TempInfo(day:Int,
+                         doy:Int,
+                         month:Int,
+                         year:Int,
+                         prcp:Double,
+                         snow:Double,
+                         tave:Double,
+                         tmax:Double,
+                         tmin:Double)
+
+     object TempInfo extends App{
+       // read in dataset
+
+       // deal with non-present value
+       def toDoubleOrNeg(str:String): Double = {
+         try {
+           str.toDouble
+         } catch {
+           case _:NumberFormatException => -1
+         }
+       }
+
+       // get source from file
+       val src = scala.io.Source.fromFile("/Users/yiddishkop/Worklap/StudyBDAS/MN212142_9392.csv")
+       // get line iterator from source
+       val lines = src.getLines.drop(1)
+
+       // lines is an iterator[String] so data is an iterator[TempInfo]
+       // flatmap maybe the best method to ignore some items of collection who call it.
+       val data = lines.flatMap {
+         line => {
+           val arr = line.split(",'|',|,")
+           if (arr(7) == "." || arr(8) == "." ||arr(9) == ".") Seq.empty
+           else Seq(TempInfo(arr(0).toInt,
+                             arr(1).toInt,
+                             arr(2).toInt,
+                             arr(4).toInt,
+                             toDoubleOrNeg(arr(5)),
+                             toDoubleOrNeg(arr(6)),
+                             arr(7).toDouble,
+                             arr(8).toDouble,
+                             arr(9).toDouble))
+         }
+       }.toArray
+
+       src.close
+
+       data.take(5).foreach(println)
+
+       // compute the highest temperature(2good,1bad)
+
+       // bad 1, traverse 3 time, and build 2 same-size cache data by filter,map.
+       val maxTmax = data.filter(_!= null).map(_.tmax).max
+       println(maxTmax)
+
+       // better 1 : reduceLeft
+       val maxTempInfo = data.reduceLeft((a,b) => if (a.tmax > b.tmax) a else b)
+       println(maxTempInfo)
+
+       // better 2 : sortWith
+       // use Ordering, where must exist implicit conversion from a.tmax.type to Ordering[a.tmax.type]
+       // which pre-defined in Ordering[T]
+       val maxTempInfo2 = data.maxBy { a => a.tmax }
+       println(maxTempInfo2)
+
+       // get number of rainy day and rainy probability
+       val rainyDays = data.count(_.prcp>=1.0)
+       println(s"rainy days: $rainyDays, and rainy probability: ${rainyDays * 100.0/data.length}")
+
+       // for all rainy days, get the average high temperature
+
+       // This is why foldLeft is bettern than reduceLeft, who require the same return type with element itself
+       // reduceLeft: (A,A)=>A composeNext A
+       // foldLeft: (B,A)=>B composeNext A
+       val (rainyTmp, rainyDays2) = data.foldLeft(0.0 -> 0) {
+         case ((a, b), tempInfo) if tempInfo.prcp >= 1.0 => (a+tempInfo.tmax, b+1)
+         case ((a, b), _)                                => (a,b)
+       }
+
+       println(s"There are rainyDays: $rainyDays2, sum together: $rainyTmp, avg tmp:${rainyTmp/rainyDays2}")
+
+       // a worse method: flatMap
+       // use flatMap to ignore the non-rainy days, to get a subset to hold all desire elements
+       val rainyData = data.flatMap {
+         case a if a.prcp >= 1.0 => Seq(a.tmax)
+         case _ => Seq.empty
+       }
+       println(s"The avg tmp:${rainyData.sum/rainyData.length}")
+
+       // get the average temperature by month
+       // get a Map[Int,List[TempInfo]] like(1 -> (tempinfo1, tempinfo2, tempinfo23), 2-> (tempinfo4, tempinfor56))
+       val monthTemp = data.groupBy(_.month)
+       // get Map(month, avgTmax)
+       val monthSeq = monthTemp.map{
+         case (m, l) => m -> {
+           l.foldLeft(0.0) { (a, tmp) => (a + tmp.tmax) } / l.length
+         }
+       }
+       monthSeq.toSeq.sortBy(_._1).foreach(println)
+     }
+
+   #+END_SRC
+   1. read in and handle it
+      1. make non-present value ~Option~ *OR*
+      2. give default value to related case class Ctor parameter
+         1. in case class definition *OR*
+         2. in process of *line to case object*
+   2. throw out the line
+      throw out means ~Ignore~ like codes below
+
+   #+BEGIN_QUOTE
+      Ignoring the elements not fit requirement, 2 methods:
+      1. flatMap(using the hidden mixing operation)
+      2. for(using the hidden pattern match operation)
+   #+END_QUOTE
+
+   #+BEGIN_SRC scala
+     val arr = Array.fill(30)(scala.util.Random.nextInt(100))
+
+     /*
+      Ignoring the elements not fit requirement, 2 methods:
+      1. flatMap(using the hidden mixing operation)
+      2. for(using the hidden pattern match operation)
+      */
+
+     // method 1
+     arr.flatMap{
+       case i if i > 30 => Seq.empty
+       case i           => Seq(i)
+     }
+
+     // method 2
+     for (i <- arr
+          if i < 30) yield i
+   #+END_SRC
+
+
+** Do Sorting
+
+   #+BEGIN_QUOTE
+   you should always try your best to get the result you want ,by *ONLY ONE TRAVERSE*.
+   #+END_QUOTE
+
+   when refer to Ordering or Sorting or compute Max, one key thing should be kept in mind that, you are dealing with BIG DATA, try your best to traverse as least times as you can.
+
+   there are 3 useful methods for compute or ordering:
+   1. map & filter (*VERY BAD*, consume too mem and time)
+   2. reduceLeft or foldLeft
+   3. maxBy, maxWith, sortBy, sortWith
+   
+   #+BEGIN_SRC scala
+     // Then you get the data ,and may ask some question, like:
+     // what is highest temperature
+
+     // BAD method
+     val maxTemp = data.map(_.tmax).max
+     val hotDays = data.filter(_.tmax == maxTemp)
+     println(s"Hot days are ${hotDays.mkString(", ")}")
+
+     /* why bad?
+      BUUUT, drawbacks of code above is that, you do TRAVERSE directly
+      on WHOLE dataset THREE times, and create WHOLE NEW dataset TWO time:
+      Traverse: data.map, data.map.max, data.filter. ===> time consumer
+      New: data.map, data.filter                     ===> memo consumer
+      If size of dataset is very large, this will get down the speed
+      and even lead to "Stack Over Flow"
+     ,*/
+
+     // GOOD method
+     val hotDay = data.maxBy(_.tmax)
+     println(s"Hot day is $hotDay")
+
+     // another GOOD
+     val hotDay2 = data.reduceLeft((d1,d2) => if ( d1.tmax >= d2.tmax ) d1 else d2 )
+     println(s"Hot day is $hotDay2")
+   #+END_SRC
+
+** Do Counting
+   [Q]why using ~x -> y~ instead of ~(x,y)~
+   [A]you see that two ~()~ there :) , some time forgetting will lead a big error.
+
+   #+BEGIN_QUOTE
+   you should always try your best to get the result you want ,by *ONLY ONE TRAVERSE*.
+   #+END_QUOTE
+
+   So, ~map~ and ~filter~ is BAD, forget about them unless you have no choice.
+
+   ~count~ can hold, if do counting without other computation, else ~foldLeft~ and ~flatMap~ are two powerful tool to handle this
+
+   1. count
+   2. foldLeft
+   3. flatMap
+
+** Do something respectively on group
+
+   1. groupBy => map
+   2. grouped => Iterator
+
+   #+BEGIN_SRC scala
+     val arr = Array((1,2,3), (4,2,4), (22,2,2342),(121,1,234),(11,1,111))
+     arr.groupBy(_._2)
+     /*
+      scala.collection.immutable.Map[Int,Array[(Int, Int, Int)]] =
+      Map(2 -> Array((1,2,3), (4,2,4), (22,2,2342)),
+      1 -> Array((121,1,234), (11,1,111)))
+      ,*/
+
+     arr.grouped(2).toArray
+     /*
+      Array[Array[(Int, Int, Int)]] =
+      Array(Array((1,2,3), (4,2,4)),
+            Array((22,2,2342), (121,1,234)),
+            Array((11,1,111)))
+     ,*/
+   #+END_SRC
+
+   groupBy give us back a collection that makes it much easier to work on groupings of values which is often used very significant in the big data framework, eg. Hadoop was completely set up to work with key-value pairs, this key-value pair type of approach to things winds up being significant for a lot of our data analysis in SPARK
+
+** summarization
+   |-------------+-----------------------------+-------------------------------------|
+   | program     | process                     | key-tech                            |
+   |-------------+-----------------------------+-------------------------------------|
+   | pre-process | define case class           |                                     |
+   |             | .csv -> source              | scala.io.Source.fromFile            |
+   |             | source -> iterator          | getLines                            |
+   |             | iterator -> Array[caseObje] | flatMap to filter out unrequirement |
+   |-------------+-----------------------------+-------------------------------------|
+   | computation | max                         | maxBy, reduceLeft                   |
+   |             | count                       | count                               |
+   |             | non-independent variable    | foldLeft, flatMap                   |
+   |             | group related variable      | groupBy -> map((a,b)=>a->{fnOnB}    |
+   |             |                             | -> toSeq.sortBy                     |
+   |-------------+-----------------------------+-------------------------------------|
+
+*** 1. pre-process
+    - define case class
+    - .csv => scala.io.Source.fromFile => source
+    - source => getLines => line iterator[String]
+    - iterator => flatMap to ignore garbage data => array[caseObj]
+*** 2. computation
+**** max:
+     - ~array.reduceLeft~
+     - ~array.maxBy~
+**** count:
+     ~array.count~
+**** none-independent variable:
+     get embedded variable all at once by
+     - ~array.foldLeft~, BAB
+     - ~array.flatMap~, get a subset of requirement elements, get rid of others by its implicit fitering
+**** group related variable
+     1. ~array.groupBy~ , to get a map(group, *listOfCaseObject*)
+     2. ~Map.map{(a,b) => a -> {fn on b}}~, to extract information you want and get another ~Map~
+     3. ~Map.toSeq.sortBy~, the thing sortBy must have some implicit coversion to Ordering[T]

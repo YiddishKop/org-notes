@@ -1,0 +1,117 @@
+* sort
+
+** DONE [SeqLikeObj].sorted
+   CLOSED: [2018-05-04 五 08:31]
+   :LOGBOOK:
+   - State "DONE"       from              [2018-05-04 五 08:31]
+   :END:
+primitive type =>
+implicit conversion def embedded in =>
+~Rich~ version =>
+extends =>
+Ordered =>
+can use sorted
+
+~Int~ =>
+~def rich(i:Int):RichInt~ =>
+~RichInt~ extends Ordered[RichInt] =>
+~RichInt~ obj can be passed to implicit para of sorted
+
+~sorted~ defined in ~SeqLike[A]~
+def sorted[B >: A](implicit ord: Ordering[B]): Repr
+
+Ordered extends Comparable
+Any type can be used as Comparable can be converted to Ordering
+
+RichInt extends Ordered[RichInt] can be used as Comparable can be converted to Ordering
+
+
+** DONE Ordering and Ordered
+   CLOSED: [2018-05-04 五 08:31]
+   :LOGBOOK:
+   - State "DONE"       from              [2018-05-04 五 08:31]
+   :END:
+--------------------
+Ordering can sort elements by MULTIPLE evidences
+Ordered can sort elements by ONE evidence
+Ordered extends Comparable
+Ordering extends Comparator
+
+Any type can be used as Comparable can be converted to Ordering
+
+Define the ancestor method ~compareTo~, any other method like ~>,<,<=,>=~ all call it
+
+primitive type always extends Ordered, they only need ONE evidence to sort
+
+Ordering can have MULTIPLE evidences, this is implemented by convert the iterm of collection, to
+a tuple, Ordering knows how to sort a tuple by its elements respectively, by every elment's type's
+implicit conversion to Ordering.
+
+*** every object of Ordering[T] is a different sorting manner on T
+
+#+BEGIN_QUOTE
+Two methods can produce a new Ordering[S] object, you can pass it as explicit parameter to those methods who need an implicit Ordering type parameter, and by this way you can modify the default sorting manner, defined by the pre-defined implicit def conversion in Ordering[T]'s companion object.
+#+END_QUOTE
+
+1. ~Ordering.by[(T),S]((T)=>S): Ordering[S]~
+2. ~Ordering[T].on((T)=>S): Ordering[S]~
+
+eg. Array of ~Tuple4(String,Int,Char,Double)~ will sort by every element respectively and use the sorting precedency from 1st to 4th. You can modify this sorting manner to precedency: 3rd > 2nd > 4th, no refer to 1st, then you can a *build sorting manner* by:
+
+~Ordering.by[(String,Int,Char,Double),(Char,Int,Double)](a => (a._3, a._2, a._4))~
+
+Ordering companion object has implicit conversions of:
+1. all primitive type
+2. Option
+3. String
+4. Tuple2~9
+
+
+** DONE sortBy and sortWith and sorted
+   CLOSED: [2018-05-04 五 08:31]
+   :LOGBOOK:
+   - State "DONE"       from              [2018-05-04 五 08:31]
+   :END:
+--------------------
+~def sortBy[B](f: (A) ⇒ B)(implicit ord: math.Ordering[B]): Repr~
+~def sortWith(lt: (A, A) ⇒ Boolean): Repr~
+~def sorted[B >: A](implicit ord: math.Ordering[B]): Repr~
+
+** DONE scala.util.Sorting on Array ONLY
+   CLOSED: [2018-05-04 五 09:28]
+   :LOGBOOK:
+   - State "DONE"       from              [2018-05-04 五 09:28]
+   :END:
+--------------------
+
+~def quickSort[K](a: Array[K])(implicit arg0: math.Ordering[K]): Unit~
+
+you can pass in implicit parameter explicitly to modify the default Ordering manner.
+
+2 methods can do this:
+1. Ordering.by[(T),S]((T)=>S): Ordering[S]
+2. Ordering[T].on((T)=>S): Ordering[S]
+
+#+BEGIN_SRC scala
+  val mix = Array(("ni", 323), ("wo", 2323), ("dou", 1111), ("hao", 123))
+
+  // method 1: sortBy , will build a new Array
+  val mixSort = mix.sortBy(a => a)
+
+  import scala.util.Sorting
+  /*
+  Ordering.by[(T),S]((T)=>S): Ordering[S]
+  ,*/
+  // method 2: Sorting.quickSort, will sort on original Array
+  Sorting.quickSort(mix)(Ordering.by[(String,Int),(String,Int)](a=>a))
+
+  /*
+  Ordering[T].on((T)=>S): Ordering[S]
+  ,*/
+  // method 3: Sorting.quickSort, will sort on original Array
+  Sorting.quickSort(mix)(Ordering[(String,Int)].on(a=>a))
+
+
+#+END_SRC
+
+

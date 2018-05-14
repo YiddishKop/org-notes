@@ -1,0 +1,93 @@
+* Parallel Considerations
+
+#+NAME: parallel collection
+#+BEGIN_SRC scala
+  val a = Array(4,2,7,3,9,1)
+  println(a.foldLeft(0)(_+_))
+  // foldLeft : ((((((0+4)+2)+7)+3)+9)+1)
+  println(a.foldRight(0)(_+_))
+  // foldRight: (4+(2+(7+(3+(9+(1+0))))))
+
+  println(a.foldLeft(0)(_-_))
+    // foldLeft : ((((((0-4)-2)-7)-3)-9)-1)
+  println(a.foldRight(0)(_-_))
+  // foldRight: (4-(2-(7-(3-(9-(1-0))))))
+
+  val pa = Array(4,2,7,3,9,1).par
+  Array.fill(10)(pa.fold(0)(_-_)) foreach println
+#+END_SRC
+
+#+RESULTS: parallel collection
+#+begin_example
+a: Array[Int] = Array(4, 2, 7, 3, 9, 1)
+26
+26
+-26
+14
+pa: scala.collection.parallel.mutable.ParArray[Int] = ParArray(4, 2, 7, 3, 9, 1)
+0
+0
+-2
+0
+0
+-16
+-2
+-16
+18
+18
+#+end_example
+
+#+RESULTS:
+: a: Array[Int] = Array(4, 2, 7, 3, 9, 1)
+: 26
+
+This foldRight and foldLeft get the same result, because the ~+~ is associative, it dosen't matter what order we do the operations in. But when we do it in parallel, I'm not going to do things from left to right or from right to left, because that require a sequential order.
+
+keep in mind that ,foldRight and foldLeft are sequential methods, which means the following code is nonsense:
+
+~Array(1,2,3,34).par.foldLeft(0)(_+_)~
+
+this will still work as a sequential order
+
+fold like reduce has a strong constrain on the type, and is a non-sequential order API method.
+
+there is a complex API methods also a non-sequential order API method, called:
+
+~aggregate[S](z: =>S)(seqop: (S, T)=>S, combop: (S, S) =>S): S~
+be done across chunks of our collection, collection will be broke up into chunks, one chunk per thread, then combine the result of all threads, so ~combop~ must be *associative*, chunk inside of each thread using ~seqop~ is some like the smaller version of original problem which used ~foldLeft~.
+
+1. ~(z: =>S)~ is the initial value, just like fold
+2. ~seqop:(S,T)=>S~ sequential operation, just like foldLeft or foldRight
+   1. ~seqop~ used to combine things in a sequential way inside of each chunk.
+   2. *does not have to be associative*, but if it's not you'll get weird results
+   3. do as it's a ~foldLeft~
+3. ~combop: (S,S)=>S~ combine operation
+   1. used to combine different chunks
+   2. *does have to be associative*
+
+this allows us to have the *flexibility* of types of a fold while still potentially having the ability to do things in parallel, means in a random order
+
+#+NAME: how to use aggregate
+#+BEGIN_SRC scala
+  val (rainySum,rainyCount2) = data.foldLeft(0.0 -> 0) { case ((sum, cnt), td) =>
+    if(td.precip < 1.0) (sum, cnt) else (sum + td.tmax, cnt + 1)
+  }
+
+  // a parallel version
+  val (rainySumPar,rainyCountPar) = data.par.aggregate(0.0 -> 0) (
+    { case ((sum, cnt), td) =>
+      if(td.precip < 1.0) (sum, cnt) else (sum + td.tmax, cnt + 1)
+    },
+    { case ((s1, c1),(s2,c2)) =>
+      (s1+s2, c1+c2)
+    })
+#+END_SRC
+
+
+This is an introduction to things we have to pay attention to, because all of the SPARK stuff is going to be done in parallel distributed across many machines.
+
+If we analagous *SPARK* to *aggregate* methods:
+
+1. machines => threads
+2. task inside machines => seqop
+3. task combine outcome of machines => combop

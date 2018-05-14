@@ -1,0 +1,206 @@
+* Spark ML Linear Regression
+
+
+
+** filter vs. select
+
+   what is filter? => filt rows
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    // [info] +-----------+-------+--------+------+--------------------+------------------+----------+ //
+    // [info] |        sid|    lat|     lon|  elev|                name|          location|prediction| //
+    // [info] +-----------+-------+--------+------+--------------------+------------------+----------+ //
+    // [info] |ACW00011604|17.1167|-61.7833|  10.1|ST JOHNS COOLIDGE...|[17.1167,-61.7833]|       665| //
+    // [info] |ACW00011647|17.1333|-61.7833|  19.2|ST JOHNS         ...|[17.1333,-61.7833]|       665| //
+    // [info] |AE000041196| 25.333|  55.517|  34.0|SHARJAH INTER. AI...|   [25.333,55.517]|       275| //
+    // [info] |AEM00041194| 25.255|  55.364|  10.4|DUBAI INTL       ...|   [25.255,55.364]|       275| //
+    // [info] |AEM00041217| 24.433|  54.651|  26.8|ABU DHABI INTL   ...|   [24.433,54.651]|       275| //
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    ===> .filter ( 'prediction === 275)
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    // [info] +-----------+-------+--------+------+--------------------+------------------+----------+ //
+    // [info] |        sid|    lat|     lon|  elev|                name|          location|prediction| //
+    // [info] +-----------+-------+--------+------+--------------------+------------------+----------+ //
+    // [info] |AE000041196| 25.333|  55.517|  34.0|SHARJAH INTER. AI...|   [25.333,55.517]|       275| //
+    // [info] |AEM00041194| 25.255|  55.364|  10.4|DUBAI INTL       ...|   [25.255,55.364]|       275| //
+    // [info] |AEM00041217| 24.433|  54.651|  26.8|ABU DHABI INTL   ...|   [24.433,54.651]|       275| //
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   what is select? => filt columns
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    // [info] +-----------+-------+--------+------+--------------------+------------------+----------+ //
+    // [info] |        sid|    lat|     lon|  elev|                name|          location|prediction| //
+    // [info] +-----------+-------+--------+------+--------------------+------------------+----------+ //
+    // [info] |ACW00011604|17.1167|-61.7833|  10.1|ST JOHNS COOLIDGE...|[17.1167,-61.7833]|       665| //
+    // [info] |ACW00011647|17.1333|-61.7833|  19.2|ST JOHNS         ...|[17.1333,-61.7833]|       665| //
+    // [info] |AE000041196| 25.333|  55.517|  34.0|SHARJAH INTER. AI...|   [25.333,55.517]|       275| //
+    // [info] |AEM00041194| 25.255|  55.364|  10.4|DUBAI INTL       ...|   [25.255,55.364]|       275| //
+    // [info] |AEM00041217| 24.433|  54.651|  26.8|ABU DHABI INTL   ...|   [24.433,54.651]|       275| //
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    ===> .select('sid)
+
+    //////////////////////////
+    // [info] +-----------+ //
+    // [info] |        sid| //
+    // [info] +-----------+ //
+    // [info] |ACW00011604| //
+    // [info] |ACW00011647| //
+    // [info] |AE000041196| //
+    // [info] |AEM00041194| //
+    // [info] |AEM00041217| //
+    //////////////////////////
+** <untyped> ds. withColumn
+   def withColumn(colName: String, col: Column): DataFrame
+   Returns a new Dataset by *adding* a column or *replacing* the existing column that has the same name.
+   column's expression *must only* refer to attributes *supplied* by *this* Dataset. It is an *error* to add a column that refers to some *other* Dataset.
+
+  #+BEGIN_SRC scala
+  // dayofyear is in O.A.S.S.functions
+  val withDOYinfo = clusterData.withColumn("doy", dayofyear('date))
+  #+END_SRC
+
+  and it can add multiple times to add multiple columns
+
+    val withDOYinfo = clusterData
+    .withColumn("doy", dayofyear('date))
+    .withColumn("doySin", sin('doy/365*2*math.Pi)) // day/365 = angle/2pi
+    .withColumn("doyCos", cos('doy/365*2*math.Pi)) // day/365 = angle/2pi
+
+
+** from General Estimator to Specific Estimator
+   Estimator: *LinearRegression*
+
+  val LinearReg = new LinearRegression()
+    .setFeaturesCol("doyTrig")
+    .setLabelCol("value")
+    .setMaxIter(10)
+    .setPredictionCol("pmaxTemp")
+    *.setRegParam(value: Double)*
+
+  and there is an important settings we can do to avoid *overfitting*: *.setRegParam(value: Double)*
+
+** LinearRegressionModel has some good methods
+   when refer to "model", should know it's result transformer of our LinearRegression algo fit our LinearRegression data
+
+   and model is also a transformer
+
+   he has some value member we can println
+
+   println(linearRegModel.coefficients)
+
+
+** modify the prediction result column name
+
+   step 1: in General Estimator to Sepcific Estimator:
+   val LinearReg = new LinearRegression()
+   .setPredictionCol("pmaxTemp")
+
+   step 2: you must apply model to data to produce the prediction result
+   val withLinearFit = linearRegModel.transform(linearRegData)
+
+** cache vs. unpersist
+   def cache(): Dataset.this.type
+   Persist this Dataset with the default storage level (MEMORY_AND_DISK).
+
+   def unpersist(): Dataset.this.type
+   Mark the Dataset as non-persistent, and remove all blocks for it from memory and disk.
+
+
+   for a method you define, maybe the following codes is good:
+
+   #+BEGIN_SRC scala
+     def calcClusterData(df: DataFrame, cluster: Int): Option[ClusterData] = {
+       println("Calc for cluster "+cluster)
+       val filteredData = df.filter('cluster === cluster).cache()
+       val tmaxs = filteredData.filter('measure === "TMAX").cache()
+       val tmins = filteredData.filter('measure === "TMIN").cache()
+       val precips = filteredData.filter('measure === "PRCP").cache()
+       filteredData.unpersist()
+       tmaxs.unpersist()
+       tmins.unpersist()
+       precips.unpersist()
+     }
+   #+END_SRC
+
+** some other usefull methods about row in Dataset
+   def count(): Long
+   Returns the number of *rows* in the Dataset.
+
+   def describe(cols: String*): DataFrame
+   Computes basic statistics for numeric and string columns, including count, mean, stddev, min, and max.
+
+   def first(): T
+   Returns the first *row*.
+
+   def foreach(f: (T) ⇒ Unit): Unit
+   Applies a function f to all *rows*.
+
+   def take(n: Int): Array[T]
+   Returns the first n *rows* in the Dataset.
+
+   def takeAsList(n: Int): List[T]
+   Returns the first n *rows* in the Dataset as a list.
+
+
+** tune the memory of JVM
+   VM arguments: -Xmx16g
+
+
+** when your data is coming from the other transsform
+   In an usual case: we do the following
+
+   *Model fit formated dataset ==> predicted dataset*
+
+   But, if the formatted dataset comes from result of other model or transformer, it maybe empty or null because of encounting some errors or strong conditions
+
+   So:
+
+   *Model fit Option[formated dataset] ==> Option[predicted dataset]*
+
+   then map on this data should change to flatMap
+
+   *val clusterData = (0 until 2000).par.flatMap(i => calcClusterData(joinedData, i)).seq*
+   val clusterDS = spark.createDataset(clusterData)
+
+
+
+** use parallel package in spark
+
+   *val clusterData = (0 until 2000).par.flatMap(i => calcClusterData(joinedData, i)).seq*
+
+   (2 to 2000).par.flatMap(xxx).seq
+
+   Note that:
+   scala> (2 to 2000).seq
+   res8: scala.collection.immutable.IndexedSeq[Int] = Range(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 1...
+   scala> (2 to 2000)
+   res9: scala.collection.immutable.Range.Inclusive = Range(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 1...
+
+** parallel
+
+DataFrameDataFram  is a distributed data structure. It is neither required nor possible to parallelize it. SparkConext.parallelize method is used only to distributed local data structures which reside in the driver memory. You shouldn't be used to distributed large datasets not to mention redistributing RDDs or higher level data structures (like you do in your previous question)
+
+sc.parallelize(trainingData.collect())
+
+** RDD 2  Ds; Ds 2 RDD
+If you want to convert between RDD / Dataframe (Dataset) use methods which are designed to do it:
+
+from DataFrame to RDD:
+
+import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.Row
+import org.apache.spark.rdd.RDD
+
+val df: DataFrame  = Seq(("foo", 1), ("bar", 2)).toDF("k", "v")
+val rdd: RDD[Row] = df.rdd
+form RDD to DataFrame:
+
+val rdd: RDD[(String, Int)] = sc.parallelize(Seq(("foo", 1), ("bar", 2)))
+val df1: DataFrame = rdd.toDF
+// or
+val df2: DataFrame = spark.createDataFrame(rdd) // From 1.x use sqlContext
