@@ -1,0 +1,308 @@
+* DoubleRDDFunctions
+  new DoubleRDDFunctions(self: RDD[Double])
+
+  There are some additional methods that are provided for specific types of RDDs,
+  many of these are provided by classe that have implicit conversions:
+  - ~DoubleRDDFunctions~ class
+
+** some convenient API of statistics
+  if you RDD is a RDD of Double, means T of RDD[T] is a Double, there are some
+  *statistical function* for it. These are provided by ~DoubleRDDFunctions~ , you don't
+  have to explicitly do anything to use DoubleRDDFucntions. Because implicit conversion
+
+  from an RDD to wraps it inside of a DoubleRDDFunctions
+
+** get several statistics at same time
+  if you want to do both a standard deviation and a mean, you could use ~stat()~, because
+  Stdev and mean each one is a separate pass through the data set. ~stat()~ can give you
+  a ~StatCounter~ which can run through the data set and calculates different statistics
+  at the same time.
+
+  def stats(): StatCounter
+  Return a org.apache.spark.util.StatCounter object that captures the mean, variance
+  and count of the RDD's elements in one operation.
+
+** bin up your data
+   two methods you can use, one by bucket range; the other by bucket number
+
+   histogram means *how many* things fall into *each bucket*
+
+   #+BEGIN_QUOTE
+
+      |                                  +---+
+      |               +---+              |   |
+      |               |   |              |   |
+      |     +---+     |   |              |   |
+      |     |   |     |   |              |   |
+      |     |   |     |   |              |   |
+      |     |   |     |   |     +---+    |   |
+      |     |   |     |   |     |   |    |   |
+    --+-----+---+-----+---+-----+---+----+---+----------------
+    Array(   13.3      20        7.6      21.1   )
+
+   #+END_QUOTE
+
+
+   def histogram(buckets: Array[Double], evenBuckets: Boolean = false): Array[Long]
+   Given every bucket boundary, compute a histogram using the provided buckets.
+
+   def histogram(bucketCount: Int): (Array[Double], Array[Long])
+   Given number of buckets, each bucket has same range, compute a histogram of the data
+   using bucketCount number of buckets evenly spaced between the minimum and maximum of the RDD.
+* PairRDDFunctions
+  new PairRDDFunctions(self: RDD[(K, V)])(implicit kt: ClassTag[K], vt: ClassTag[V], ord: Ordering[K] = null)
+
+  - DoubleRDDFunctions handle: RDD[Double]
+  - PairRDDFunctions handle: RDD[(K, V)]
+
+** ~xxxByKey~ methods
+  Special RDD with inside a 2-tuple: key and value. The related concept in scala.collection is Map --
+  resemble the things that you would do. But, with some difference:
+
+  | scala.collection    | spark.PairRDDFunctions   |
+  |---------------------+--------------------------|
+  | key occur ONLY once | no constrain, many times |
+
+  (K,V) this kind of data group type is very basic type grouping, MapReduce of Haddop is just use this.
+
+  #+BEGIN_SRC scala
+  def aggregateByKey[U](zeroValue: U)(seqOp: (U,V)=>U, combOp: (U,U)=>U)(implicit arg0:ClassTag): RDD[(K,U)]
+  #+END_SRC
+  allows you to do normal aggregate type of functionality,but you can ONLY do it on the values that
+  are associated *with a particular key*
+
+  regular aggregate() gives you a vlue for whole RDD, here aggregateByKey() gives you a new RDD[(K,U)]
+  that have one entry for each key.
+
+ |        | RDD[A].aggregate                | RDD[(K, V)].aggregateByKey | RDD[A].fold | RDD[(K, V)].foldByKey |
+ | return | value                           | RDD[(K, U)]                | value       | RDD[(K, V)]           |
+ |--------+---------------------------------+----------------------------+-------------+-----------------------|
+ |        | groupBy(fn:A=>B, p:partitioner) | groupByKey()               |             |                       |
+ |        | RDD[(B, Iterable[A])]           | RDD[(K, Iterable[V])]      |             |                       |
+
+
+ Memo: RDD[A].aggregate() has two fn in one parameter list:
+ 1. chunk:A -> one thread -> ~seqOp~ -> value:U
+ 2. value:U of many threads -> ~combOp~ -> values:U
+
+ RDD[(K,V)] aggregateByKey is some like do regular aggregate on the values has same Key
+
+ #+NAME: aggregateByKey illustration
+ #+BEGIN_QUOTE
+
+                                      seqOp on chunk_n -> result_n
+                            chunk1
+                             +--+    chunk1 in thread1
+                             +--+--------------------\
+                     +-----+/  chunk2                 \
+               key1's|     \---+--+  chunk2 in thread2 \
+               values+-----+\  +--+-----------------------combOp of all results
+                      /      +--+                     /
+                     /       +--+--------------------/
+                    /      +-----+
+    collection of  X-------+     |
+    (key,           \      +-----+
+    listOf(value))   \      key2's values
+                      \
+                       \
+                        +-----+
+                        |     |
+                        +-----+
+                        key3's values
+ #+END_QUOTE
+
+
+** why "xxxByKey" methods so handy
+   ByKey acts like some ruter on plain RDD
+
+
+** ~cogroup~ methods
+   huge methods with same name but different type variable, used to group together multiple RDDs
+
+   #+BEGIN_SRC scala
+     // RDD[(K,V)]
+     def cogroup[W](other: RDD[(K,W)]): RDD[(K, (Iterable[V], Iterable[W]))]
+   #+END_SRC
+
+   accept an RDD with same Key type("K") and different Value type("W" and "V")
+   produce the result PairRDD also has that Key type, and a tuple with
+   ~(all value of this, all values of other)~
+
+** ~groupWith~ methods
+   similar to cogroup methods
+
+** ~xxjoinxx~ methods
+   ~join~: work like the standard *join the database inside*
+   ~rightOuterJoin~: work like the standard *join the database outer right*
+   ~fullOuterJoin~: work like the standard *join the database outer full*
+
+   left vs. right vs. inside vs. outer vs. full
+   - normal join ~RDD[(K,V)].join(RDD[(K,W)]RDD[K, (V,W)]~, *keys must both occur* in this RDD and other RDD
+   - left outer join : ~RDD[K, (V,Option[W])]~, key *must occur in this* RDD, but not need in other RDD
+   - full outer join : ~RDD[K, (Option[V],Option[W])]~, key *not need occur in both* RDD
+
+   #+BEGIN_SRC scala
+     def join[W](other: RDD[(K,V)]): RDD[K, (V, W)]
+   #+END_SRC
+   different from cogroup methods,
+   - cogroup each key will only appear *once* in the output, and iterable of results
+   - join each key will *appear many times*, and one value of results
+*** SourceCode of ~join~
+    #+BEGIN_SRC scala
+      package sparkrdd
+
+      import scalafx.application.JFXApp
+      import org.apache.spark.SparkConf
+      import org.apache.spark.SparkContext
+
+
+      case class Area(code: String, text: String)
+      case class Series(id: String, area:String, measure: String, title: String)
+      case class LAData(id: String, year: Int, period: Int, value: Double)
+
+      object RDDUnemployment extends App{
+        val conf = new SparkConf().setAppName("Temp Data").setMaster("local[*]")
+        val sc = new SparkContext(conf)
+        sc.setLogLevel("WARN")
+
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
+        // la.area -> area_code -> la.series -> series_id -> la.data
+        // la.area
+        // | 0              | 1               | 2         |             3 | 4          |             5 | //
+        // | area_type_code | area_code       | area_text | display_level | selectable | sort_sequence | //
+        // |----------------+-----------------+-----------+---------------+------------+---------------| //
+        // | A              | ST0100000000000 | Alabama   |             0 | T          |             1 | //
+        // | A              | ST0200000000000 | Alaska    |             0 | T          |           146 | //
+        //
+        // la.series
+        // | 0                    | 2               |            3 | 6                 |                 //
+        // | series_id            | area_code       | measure_code | series_title      |                 //
+        // |----------------------+-----------------+--------------+-------------------+                 //
+        // | LASBS060000000000003 | BS0600000000000 |           03 | Unemployment rate |                 //
+        // | LASBS060000000000004 | BS0600000000000 |           04 | Unemployment      |                 //
+        // | LASBS060000000000005 | BS0600000000000 |           05 | Employment        |                 //
+        //                                                                                               //
+        // la.data.30.Minnesota                                                                          //
+        // | 0                    |    1 | 2      |     3 | 4              |                             //
+        // | series_id            | year | period | value | footnote_codes |                             //
+        // |----------------------+------+--------+-------+----------------|                             //
+        // | LASST270000000000003 | 1976 | M01    |   6.0 | s              |                             //
+        // | LASST270000000000003 | 1976 | M02    |   6.0 | s              |                             //
+        //                                                                                               //
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // I would like to know all of both the areas and the series that have a higher average unemployment rate //
+        // in the 1990s than in the 70s 80s or than in other decades.                                             //
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        val areas = sc.textFile("data/la.area").filter(! _.contains("area_type")).map{ line =>
+          val p = line.split("\t").map(_.trim)
+          Area(p(1), p(2))
+        }.cache()
+        areas.take(5) foreach println
+
+        val series= sc.textFile("data/la.series").filter(! _.contains("area_code")).map{ line =>
+          val p = line.split("\t").map(_.trim)
+          Series(p(0), p(2), p(3), p(6))
+        }.cache()
+        series.take(5) foreach println
+
+        val data= sc.textFile("data/la.data.30.Minnesota").filter(! _.contains("year")).map{ line =>
+          val p = line.split("\t").map(_.trim)
+          LAData(p(0), p(1).toInt, p(2).drop(1).toInt, p(3).toDouble)
+        }.cache()
+        data.take(5) foreach println
+
+        /////////////////////////////////////////////////////////////////
+        // 1. get the averate unemp rate of every decades with same id //
+        /////////////////////////////////////////////////////////////////
+        // la.seires.measure_code : 03->unemployment_rate; 04->uneimployment
+        // in la.data.30.Minnesota file, near the back part of lines, has series_id = "xxxxxx04"
+        // which "04" means unemployment, not unemployment rate, so we need some preprocessing: filter
+        val rates = data.filter(_.id.endsWith("03"))
+        // build an PairRDD, with (id,decades) as Key, and unemp_rate as Value, by normal RDD.map
+        val decadeGroups = rates.map( d => (d.id, d.year/10) -> d.value)
+        // aggregateByKey[(K,V)](U)((U,V)=>U, (U,U)=>U): U,  U=sumRate -> numRate
+        val decadeSumAndNum = decadeGroups.aggregateByKey(0.0 -> 0)(
+          {case ((sumRate, numRate), rate) => (sumRate+rate, numRate+1)},
+          {case ((s1, n1),(s2, n2)) => (s1+s2, n1+n2)})
+        decadeSumAndNum.take(5) foreach println
+
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // 2. now I want to regroup this, we have each of these averages with decade they came from and we want  //
+        // the largest decade for each one of the series. we regroup this decadeAverages, then we just by Series //
+        // and we have all the values together.                                                                  //
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // mapValues is efficient, because we do this besed unpon those keys on each Executor
+        // we get a RDD[Double] by mapValues for each Key:(id,decade)
+        val decadeAverages = decadeSumAndNum.mapValues(t => t._1/t._2)
+        decadeAverages.take(5) foreach println
+
+        // step 1.1: now we should shuffle data around, because we would change the Key:(id, decade) to ONLY have the "id" not the "decade".
+        // note that from (a,b),c -> a,(b,c) is an important conversion in DS area.
+        // maxDecade is RDD[(String,(Int,Double))]: (ss_id, (decade, unempAvgRate)))
+        // dec * 10 : 199 * 10 => 1990, some format fix
+        val maxDecade = decadeAverages.map { case ((id, dec), av) => id -> (dec*10, av) }
+          .reduceByKey { case ((d1, a1),(d2, a2)) => if (a1>=a2) (d1,a1) else (d2,a2)}
+
+        // step 1.2
+        // seriesPairs is PairRDD[(String,String)]: (ss_id, ss_title))
+        // from the series data(extract from la.series)
+        val seriesPairs = series.map(s => s.id -> s.title)
+
+        // step 2: now JOIN ENTER!
+        // normal join ~RDD[(K,V)].join(RDD[(K,W)]RDD[K, (V,W)]~, *keys must both occur* in this RDD and other RDD
+        // PairRDD[(String,String)]: (ss_id, ss_title))
+        // join
+        // RDD[(String,(Int,Double))]: (ss_id, (decade, unempAvgRate)))
+        // =>
+        // RDD[(String, (String, (Int,Double)))]: (ss_id, (ss_title, (decade, unempAvgRate)))
+        val joinedMaxDecades = seriesPairs.join(maxDecade)
+        joinedMaxDecades.take(10) foreach println
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // 3. join together with la.area on the area code, and note that area_code is subString of series_id, so //
+        // we should extract related area_code from the result above, joinedMaxDecades. Then join with la.area   //
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // | series_id            | area_code       | measure_code | series_title      |                 //
+        // | LASBS060000000000003 | BS0600000000000 |           03 | Unemployment rate |                 //
+        //      BS0600000000000
+
+        // step 1.1:
+        // areaPair is RDD[(String,String)]: (area_code -> area_text)
+        val areaPairs = areas.map(a => a.code -> a.text)
+
+        // step 1.2:
+        // (ss_id, (ss_title, (decade, unempAvgRate)))
+        // =>
+        // (ss_id, (ss_title, decade, unempAvgRate)))
+        // =>
+        // (area_code, (ss_title, decade, unempAvgRate)))
+        // dataByArea is RDD[(String, (String, Int, Double))]: (area_code, (ss_title, decade, unempAvgRate))
+        val dataByArea = joinedMaxDecades
+          .mapValues { case (a, (b, c)) => (a, b, c) }
+          .map { case (id, t) => id.drop(3).dropRight(2) -> t}
+
+        // step 2:
+        // RDD[(String,String)]: (area_code -> area_text)
+        // join
+        // RDD[(String, (String, Int, Double))]: (area_code, (ss_title, decade, unempAvgRate)))
+        // =>
+        // RDD[(String,    (String,    (String,   Int,    Double)))]:
+        //     (area_code, (area_text, (ss_title, decade, unempAvgRate)))
+        val fullyJoined = areaPairs.join(dataByArea)
+        fullyJoined.take(10) foreach println
+        sc.stop()
+      }
+    #+END_SRC
+
+
+** ~subtractByKey~ method
+   remove the pairs from this RDD, whose key appear in that RDD
+   #+BEGIN_QUOTE
+   this method is very handy, when you don't want any pairs of that RDD, you exclude the pairs
+   whose key is included in that RDD.
+   #+END_QUOTE

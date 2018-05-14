@@ -1,0 +1,8 @@
+* scala.io
+
+several important methods frequently used:
+1. scala.io.Source.fromFile
+2. scala.io.Source.fromInputStream
+3. scala.io.Source.URL
+4. scala.io.StdIn.readLine
+   1. always followed by ~.toInt~

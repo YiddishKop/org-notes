@@ -1,0 +1,309 @@
+* Spark SQL: Typed Datasets, extends [Row] to [T]
+
+  we all know that DataFrame is so power that it almost cover all functionality of pure SQL, but:
+
+  #+BEGIN_QUOTE
+  DataFrame = Dataset[Row]
+  #+END_QUOTE
+
+  Dataset maybe exponentially enhance the power if we use other type of T
+
+  Interact with a dataset that has other type ~[T]~, is different from that of type ~[ROW]~
+
+  API of Dataset, has differernt groups of methods for different type ~[T]~
+
+  | kinds of methods           | return type            |           |
+  |----------------------------+------------------------+-----------|
+  | Actions                    | .                      |           |
+  | Basic Dataset functions    | Dataset with simple T  |           |
+  | streaming                  | .                      |           |
+  | Typed transformations <<<< | Dataset with complex T |           |
+  | Untyped transformations    | Dataset with Row       | DataFrame |
+  | Ungrouped                  | .                      |           |
+
+
+  all the ~Typed transformations~ methods return Dataset with complex T
+
+
+** DataFrame -> DataSet
+   ~df.as[LAData]~ make a DataSet from a DataFrame
+
+   #+BEGIN_SRC scala
+     val countyData = spark
+       .read
+       .option("header", true)
+       .option("delimiter", "\t")
+       .csv("data/la.data.64.County") // this get a DataFrame, next step from df -> ds
+       .as[LAData] // this will lead an error, compiler need more information about type T
+   #+END_SRC
+
+   #+BEGIN_QUOTE
+   [error] You can either add an explicit cast to the input data or choose a higher precision type of the field in the target object;
+   #+END_QUOTE
+
+   but how we specify the type information?
+
+** 3 methods to specify type info, all related to ~schema~
+
+*** method 1: default schema
+
+*** method 2: by ~StructType(StructField)~
+   to specify type means specify how to store our read-in information, which can be defined in a *schema*:
+
+   #+NAME: how to define a schema of StructType
+    #+BEGIN_SRC scala
+      val tschema = StructType(Array( // ONLY select and modify the front 4 columns
+                                 StructField("sid",StringType),
+                                 StructField("date",DateType),
+                                 StructField("mtype",StringType),
+                                 StructField("value",DoubleType)
+                               ))
+      // data2017 is a DataFrame
+      val data2017 = spark.read.schema(tschema).option("dateFormat", "yyyyMMdd").csv("data/2017.csv")
+    #+END_SRC
+
+*** method 3: by ~Encoders~
+
+**** step 1: case class is product type => build a ProductEncoder
+
+    how to build a ProductEncoder:
+    #+BEGIN_SRC scala
+      case class LAData(id: String, year: Int, period: String, value: Double)
+      val countyData = spark
+        .read
+        .schema(Encoders.product[LAData].schema) // specify and give more info about the T
+        .option("header", true)
+        .option("delimiter", "\t")
+        .csv("data/la.data.64.County") // get a DataFrame:Dataset[Row]
+        .as[LAData] // Row -> LAData
+    #+END_SRC
+    Note that, [LAData] is a user-defined type, some like ~type LAData~ clause.
+    ~Encoders.product[LAData])~
+    Invoke ~product~ method by giving the type parameter ~[LAData]~ which is a *product-type* (algebraic data types), return a *ProductEncoder*
+
+    type conversion path:
+    *SparkSeesion ---> DataFrameReader ---> DataFrame ---> Dataset*
+    >              .read               .schema         .as
+    >                                  .option
+
+    definition of Encoders.product method:
+    #+NAME: product() of type Encoders
+    #+BEGIN_SRC scala
+      // An encoder for Scala's product type (*tuples*, *case classes*, etc).
+      def product[T <: Product](implicit arg0: scala.reflect.api.JavaUniverse.TypeTag[T]): Encoder[T]
+    #+END_SRC
+
+**** step 2: create an schema from this ProductEncoder
+     schema ONLY can convert ~T~ to ~Row~, so it ONLY can build a Dataset[Row]=DataFrame
+     A Row is a value of StructType
+
+    #+NAME: schema() of type Encoder
+    #+BEGIN_SRC scala
+      // Returns the schema of encoding this type of object as a *Row*.
+      abstract def schema: StructType
+    #+END_SRC
+
+    ~Encoders.product[LAData]).schema~
+
+** Encoder
+   1. what is an Encoder?
+      Used to convert a *JVM object of type T* to and from the internal *Spark SQL representation*.
+   2. relationship between Dataset and Encoder
+      Encoder map ~T~ of ~Dataset[T]~ to Spark's type
+   3. what is an Encoders?
+      object Encoders. *Holding methods for creating an Encoder*.
+
+
+   For example, given *a class Person with two fields, name (string) and age (int)*, an encoder is used to tell Spark to generate code at runtime to *serialize* the Person object into *a binary structure*. This binary structure often has much lower memory footprint as well as are optimized for efficiency in data processing (e.g. in a *columnar format*)
+
+   |--------------+-------------------------------------------------------------+
+   | T            | a class Person with two fields, name (string) and age (int) |
+   |--------------+-------------------------------------------------------------+
+   | Spark's type | a binary structure: eg. Column                              |
+   |--------------+-------------------------------------------------------------+
+
+*** 2 way to build an Encoder
+**** method 1: implicitly
+Encoders are generally created automatically through *implicits* from a SparkSession
+
+#+BEGIN_SRC scala
+    import spark.implicits._
+    val ds = Seq(1, 2, 3).toDS() // implicitly provided (spark.implicits.newIntEncoder)
+#+END_SRC
+
+**** method 2: explicitly
+*explicitly* created by calling static methods on Encoders.
+
+** org.apache.spark.sql.SQLImplicits
+   SQLImplicits is an abstract class, and inside of which hold bunch of concrete value members and ONE type members:
+   1. implicit class StringToColumn extends AnyRef
+   2. many implicit def(implicit factory) of return Encoder for specific T
+
+
+   #+BEGIN_SRC scala
+     val countyData = spark
+       .read
+       .schema(Encoders.product[LAData].schema)// tell using LAData format to store
+       .option("header", true) // tell that there is header in data file
+       .option("delimiter", "\t") // tell that there is tab between columns
+       .csv("data/la.data.64.County") // this get a DataFrame, next step from df -> ds
+       .as[LAData] // this will lead to error, compiler need more information about T
+   #+END_SRC
+
+
+** some tips unclassify
+
+1. encoder[T] is a type constructor
+1. encoder convert scala's type T to spark's type, encoder.schema convert T to Row;
+2. encoders.product[LAData] build a productencode of LAData
+
+** join and joinWith
+   Note that join on the typed dataset is more challenging operation, because we can not just specify a column to deal with.
+
+   join is untyped transformation, so will get Dataset[Row] -> DataFrame
+   val joined1 = countyData.join(series, "id")
+
+   you see that 2nd parameter can be a string "id" (by implicit String to Column)
+   joinWiht is typed transformation
+** format of join result
+   #+NAME: Dataset[county] . show
+   #+BEGIN_QUOTE
+[info] +--------------------+--------------------+-------+-----+
+[info] |                 sid|                area|measure|title|
+[info] +--------------------+--------------------+-------+-----+
+[info] |LASBS060000000000...| state less Los A...|   null| null|
+[info] |LASBS060000000000...| state less Los A...|   null| null|
+[info] |LASBS060000000000...| state less Los A...|   null| null|
+[info] |LASBS060000000000...| state less Los A...|   null| null|
+[info] |LASBS120000000000...| state less Miami...|   null| null|
+[info] |LASBS120000000000...| state less Miami...|   null| null|
+[info] |LASBS120000000000...| state less Miami...|   null| null|
+   #+END_QUOTE
+
+   #+NAME: Dataset[series] . show
+   #+BEGIN_QUOTE
+[info] +--------------------+---------------+------------+--------------------+
+[info] |                 sid|           area|     measure|               title|
+[info] +--------------------+---------------+------------+--------------------+
+[info] |           series_id|      area_code|measure_code|        series_title|
+[info] |LASBS060000000000003|BS0600000000000|          03|Unemployment Rate...|
+[info] |LASBS060000000000004|BS0600000000000|          04|Unemployment: Bal...|
+[info] |LASBS060000000000005|BS0600000000000|          05|Employment: Balan...|
+[info] |LASBS060000000000006|BS0600000000000|          06|Labor Force: Bala...|
+[info] |LASBS120000000000003|BS1200000000000|          03|Unemployment Rate...|
+   #+END_QUOTE
+
+   #+NAME: county joinWith series on 'id === 'sid
+   #+BEGIN_QUOTE
+[info] +--------------------+--------------------+
+[info] |                  _1|                  _2|
+[info] +--------------------+--------------------+
+[info] |[LAUCN01001000000...|[LAUCN01001000000...|
+[info] |[LAUCN01001000000...|[LAUCN01001000000...|
+[info] |[LAUCN01001000000...|[LAUCN01001000000...|
+[info] |[LAUCN01001000000...|[LAUCN01001000000...|
+   #+END_QUOTE
+
+     joined1.show() // show will not concanate string, so you can println something you want
+    ////////////////////////////////////////////////////////
+    // [info] +--------------------+--------------------+ //
+    // [info] |                  _1|                  _2| //
+    // [info] +--------------------+--------------------+ //
+    // [info] |[LAUCN01001000000...|[LAUCN01001000000...| //
+    // [info] |[LAUCN01001000000...|[LAUCN01001000000...| //
+    ////////////////////////////////////////////////////////
+  /*
+   two question about the appearance of joined1.show different from series.show and county.show
+   1. why give us back the _.1 _.2,
+   because joinWith always return you a tuple.
+   2. why series.show give back a tabulate view
+   because it's just a 'show', not what it's really inside of spark
+   3. why they different?
+   because what we deal with is a typed Dataset, spark ONLY optimize its show ONLY it stand alone without any other like we println an object we do it on the toString methods, when refer to a collecion of objects, we do it on the collections's toString methods, here join two typed Dataset is like this, so it only give a tuple-like format : _.1 _.2 and all information(columns) are seen as _.1 and _.2
+   */
+  println(joined1.first())
+  // [info] (LAData(LAUCN010010000000003,1990,M03,5.8),Series(LAUCN010010000000003,CN0100100000000,03,Unemployment Rate: Autauga County, AL (U)))
+
+
+** typed transform: sample()
+   def sample(withReplacement: boolean, fraction: double): Dataset[T]
+   used to sample from original Dataset[T], by a fraction of rows, and with ( put it back after sampling )or without replacement( dont put it back after sampling )
+
+** 3 methods can tune the format we read in
+   1. schema: by Encoder or StructType(StructField("name", type)), the front n column you want to read, and how to store them
+   2. option: header? delimiter? and other restrict about how to read
+   3. select: select(trim('id) as "id", 'year, 'period, 'value), to do some element-wise operation to certain column
+      - remember that: trim is a function of org.apache.spark.sql.functions, and all the functions it holds have the same invocation format: method("columnNames") different from that( "columnNames" -> "methodName") of RelationalGroupedDataset return by groupBy method, so you should import it first
+** groupBy and groupByKey
+   |-------------------+---------------------------------------------------------+-----------------------------+---+---|
+   | typed Dataset     | joinWith                                                | groupByKey                  |   |   |
+   |                   |                                                         |                             |   |   |
+   |-------------------+---------------------------------------------------------+-----------------------------+---+---|
+   | non-typed Dataset | join                                                    | groupBy                     |   |   |
+   |                   | def join(right: Dataset[_], joinExprs: Column):         | def groupBy(cols: Column*): |   |   |
+   |                   | DataFrame                                               | RelationalGroupedDataset    |   |   |
+   |                   | [[ds_join_df1][join on exprs src]]                                       | [[ds_groupBy_df][groupBy src]]                 |   |   |
+   |                   | def join(right: Dataset[_], usingColumns: Seq[String]): |                             |   |   |
+   |                   | DataFrame                                               |                             |   |   |
+   |                   | [[ds_join_df2][join on columns src]]                                     |                             |   |   |
+   |-------------------+---------------------------------------------------------+-----------------------------+---+---|
+   #+TBLFM:
+
+
+
+
+
+   #+NAME: ds_groupBy_df
+   #+BEGIN_SRC scala
+     // Compute the average for all numeric columns grouped by department.
+     ds.groupBy($"department").avg()
+
+     // Compute the max age and average salary, grouped by department and gender.
+     ds.groupBy($"department", $"gender").agg(Map(
+                                                "salary" -> "avg",
+                                                "age" -> "max"
+                                              ))
+   #+END_SRC
+
+   #+NAME: ds_join_df1
+   #+BEGIN_SRC scala
+     // The following two are equivalent:
+     df1.join(df2, $"df1Key" === $"df2Key")
+     df1.join(df2).where($"df1Key" === $"df2Key")
+   #+END_SRC
+
+   #+NAME: ds_join_df2
+   #+BEGIN_SRC scala
+     // Joining df1 and df2 using the columns "user_id" and "user_name"
+     df1.join(df2, Seq("user_id", "user_name"))
+   #+END_SRC
+
+
+** type `as`ciption
+
+   for typed Dataset, you should always keep in mind that, if the function give back a return type of df.
+   you should add ~as[type]~ as a ascription.
+
+   #+BEGIN_SRC scala
+     val countyLocs = zipData.groupByKey(zd => zd.county -> zd.state).agg(avg('lat).as[Double],
+                                                                          avg('lon).as[Double])
+     val countyData = spark
+       .read
+       .schema(Encoders.product[LAData].schema)// tell using LAData format to store
+       .option("header", true) // tell that there is header in data file
+       .option("delimiter", "\t") // tell that there is tab between columns
+       .csv("data/la.data.64.County") // this get a DataFrame, next step from df -> ds
+       .select(trim('id) as "id", 'year, 'period, 'value)
+       .sample(false, 0.1)
+       .as[LAData] // this will lead to error, compiler need more information about T
+
+     val series2 = spark
+       .read
+       .schema(Encoders.product[Series].schema)// tell using LAData format to store
+       .option("header", true) // tell that there is header in data file
+       .csv("data/la.series") // this get a DataFrame, next step from df -> ds
+       .as[Series] // this will lead to error, compiler need more information about T
+   #+END_SRC
+
+** select is non-typed transform
+   Note that, if you want to do sth select in typed Dataset, should using a map

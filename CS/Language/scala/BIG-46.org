@@ -1,0 +1,128 @@
+* Spark ML Introduction
+  In spark now, there are 2 lib for doing ML:
+  1. ML: org.apache.spark.ml
+     - ml workwith Dataset
+  2. MLLib: org.apache.spark.mllib
+     - mllib workwith RDDs
+
+
+** kmeans
+   - org.apache.spark.ml.clustering.KMeans
+
+** Transformer and Estimator
+   #+BEGIN_QUOTE
+   **Estimator** ---- ( fit() <---- DataFrame )
+   ===>
+   Model( **Transformer** )
+
+   **Transformer** ---- ( transform()<---- DataFrame)
+   ===>
+   new Df = old Df + new column
+   #+END_QUOTE
+
+
+   #+BEGIN_QUOTE
+   **LogisticRegression** ---- ( fit()<---- DataFrame )
+   ===>
+   **LogisticRegressionModel**
+   #+END_QUOTE
+
+** explainParams()
+   #+BEGIN_SRC scala
+     val kMeans = new KMeans().setK(2000)
+     println(kMeans.explainParams())
+   #+END_SRC
+
+   #+BEGIN_QUOTE
+   | featuresCol   | features column name                                                               | (default: features)          |
+   | initMode      | The initialization algorithm. Supported options: 'random' and 'k-means\vert\vert'. | (default: k-means\vert\vert) |
+   | initSteps     | The number of steps for k-means\vert\vert initialization mode. Must be > 0.        | (default: 2)                 |
+   | k             | The number of clusters to create. Must be > 1.                                     | (default: 2, current: 2000)  |
+   | maxIter       | maximum number of iterations (>= 0)                                                | (default: 20)                |
+   | predictionCol | prediction column name                                                             | (default: prediction)        |
+   | seed          | random seed                                                                        | (default: -1689246527)       |
+   | tol           | the convergence tolerance for iterative algorithms (>= 0)                          | (default: 1.0E-4)information |
+   #+END_QUOTE
+
+** specific format of input data set
+   all the algorithms in ML need the data in a specific format, ->
+   1. One column name is "features"
+   2. This "features" column must be spark vector( not scala vector)
+
+
+   So, for every algorithms we need add a column called "features" tobe a spark vector
+
+*** a built-in method VectorAssembler
+    VectorAssembler is a transformer that combines a given list of columns into a singler vector column
+
+    VectorAssembler builds a vector from other columns, the spark vector are specifically numeric, that what we need for clustering, clustering is a *spatial* things.
+
+    #+BEGIN_SRC scala
+    org.apache.spark.ml.feature.VectorAssembler
+    class VectorAssembler extends Transformer with HasInputCols with HasOutputCol with DefaultParamsWritable
+    #+END_SRC
+
+** feature column can not be given name mannully
+   ONLY by the follow way:
+   #+BEGIN_SRC scala
+     val kMeans = new KMeans()
+       .setK(2000)
+       .setFeaturesCol("location") // <<<
+   #+END_SRC
+
+
+  val kMeans = new KMeans().setK(2000).setFeaturesCol("location").setPredictionCol("cluster")
+  val stationClusetModel = kMeans.fit(stationsWithLoc) // fit maybe the last step to build a model
+                                                       // by a given algorithm
+                                                       // algo fit (formatted dataset) => model
+** from General Estimator to Specific Estimator
+  ~val kMeans = new KMeans().setK(2000).setFeaturesCol("location").setPredictionCol("cluster")~
+   many settings you can de, here just list some frequently uesd:
+   1. setK(2000)
+   2. setFeaturesCol("location")
+   3. setPredictionCol("cluster") // default meaningless name "prediction" for all algorithms
+** process summary
+
+   .
+   .                                                                    +--"features" column------+   +--prediction
+   .                                                                    |                         |   |
+   .                               *Transformer*                        |                         |   |
+   .           +----------+        VectorAssembler          +---------+-v-+            +--------+-v-+-v-+
+   .           |  data    +-------------------------------->|  data   |   |------------|  data  |   |   |
+   .           +----------+                                 +---------+---+      ^     +--------+|--+--|+
+   .            *raw data*                                 *formatted data*      |     *predicted|data |*
+   .                                                             .      |        |               |     |
+   .                                                             .      |        |               |     |
+   .                                                             .      |        |               |     |
+   .           *General Estimator* <..............................      |        |               v     v
+   .           KMeans tune                                              |        |        (coordinate, coordinate value)
+   .           settings to produce a                                    |        |               *plot*
+   .               |                                                    |        |
+   .               |                                +-------------------+        |
+   .               v                                |                            |
+   .           *Specific Estimator*                 |                            |
+   .           specific "KMeans" fit  ---------->___v_                           |
+   .                                              |||                            |
+   .                                              |||                            |
+   .                                              |||                            |
+   .                                              VVV                            |
+   .                                           *Transformer* --------------------+
+   .                                            Model
+
+*** some actions
+    for Transformer: *VectorAssembler*
+    - .setInputCols(Array("doySin","doyCos"))
+    - .setOutputCol("doyTrig")
+    - .transform(withDOYinfo)
+    - .cache()
+
+    for Transformer: *LineRegression*
+    - .setFeaturesCol("doyTrig")
+    - .setLabelCol("value")
+    - .setMaxIter(10)
+    - .setPredictionCol("pmaxTemp")
+
+    for Transformer: *KMeans*
+    - .setK(2000)
+    - .setFeaturesCol("location")
+    - .setPredictionCol("cluster")

@@ -1,0 +1,24 @@
+* Spark SQL with SQL
+  ~[SparkSession].sql()~
+  you can use pure the SQL clause inside of this method.
+
+  #+BEGIN_QUOTE
+  1. build a *view* of a DataSet, then you can run SQL directly on it
+  2. wrapped the SQL clause by ~[SparkSession].sql(""" sqlhere  """)~
+  3. you'll get a DataSet
+  #+END_QUOTE
+
+  #+BEGIN_SRC scala
+  // show the simple use of SQL clause directly
+  data2017.createOrReplaceTempView("data2017")
+  val pureSQL = spark.sql("""
+     SELECT sid, data, value as tmax FROM data2017 WHERE mtype="TMAX"
+     """)
+  pureSQL.show()
+  #+END_SRC
+
+
+** pure SQL vs SparkSQL
+   also we both can use them in spark programming, but some difference is:
+   1. pure SQL can very short and clear, BUUT no variable support
+   2. sparkSQL can clear and flexible, BUUT a little verbose and many lines of code

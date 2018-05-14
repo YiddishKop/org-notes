@@ -1,0 +1,81 @@
+* Spark Partitioning
+  One of core concepts of Spark:
+  1. Spark program run on 1 *Master* + 1 cluster of many PCs(*Executors*)
+  2. Master sends out *jobs* to Executors, so *data* is *distributed* across all PCs
+  3. *Partioning*: Spark needs to know *where* the data is to put on different PCs
+
+
+** two methods in ~Partitioner~ class
+
+    ~partitioner~ parameter is type of ~Partitioner~, which only have 2 methods:
+    #+BEGIN_SRC scala
+      abstract def getPartition(key: |Any):Int
+      abstract def numPartitions:Int
+    #+END_SRC
+
+***    abstract def getPartition(*key*: |Any):Int
+    it takes in a key and figures out which machine that data pieces should go on
+
+***    two sub classes of ~Partitioner~ :
+
+***    1. ~HashPartitioner~ as default choice
+       use the hash code of the *key* to calculate what the machine the data pieces should go on
+
+       if you familiar with ~HashMaps~, you should know the idea is putting things in an ordering that appears from the outside to be quite random but given a key you can very very quickly figure out what machine that data piece will be on.
+
+***  2. skipped here
+
+** Why ~xxxByKey~ is much more faster
+  like in ~PairRDDFunctions~:
+
+  #+BEGIN_SRC scala
+    def aggregateByKey[U](zeroValue: U, partitioner: Partitioner)(seqOp: (U, V) ⇒ U, combOp: (U, U) ⇒ U)(implicit arg0: ClassTag[U]): RDD[(K, U)]
+    //|Aggregate the values of each key, using given combine functions and a neutral "zero value".
+  #+END_SRC
+
+  - the parameter "~partitioner~" of these methods, give you the control over *how things are partitioned*.
+
+  - the parameter "~numPartitions~" not list here, allows you to specify *how many different partitions the resulting RDD should be broken up* over, eg. you have 1000000 PCs, you don't want your data set broken into so many pieces, you should specify the ~numPartitions~
+
+
+*** run each partition as local program
+  when refer to ~PairRDDFunctions~, this implies that all of the entries with the same key should be on the same partition. ~PairRDD~'s value with same key will be split into ONE partition. |And that's why all ~xxxByKey~ methods of ~PairRDD~ can run much much faster.
+
+  Eg. ~aggregateByKey()~ all *the data with same key* will be split into ONE partition, *ONE partition* as whole should go into *ONE machine*, so all *PairRDD's data with same key* are in the *S|AME machine*, operation on them is like run a *local program*.
+
+  *you don't have the network traffic loan*, refer to the latency.txt, network traffic is very very slow(a little faster than reading data from disk, much slower than reading data from memory.)
+
+*** map values without shuffle
+    #+BEGIN_SRC scala
+      def mapValues[U](f: (V) ⇒ U): RDD[(K, U)]
+      //Pass each value in the key-value pair RDD through a map function without changing the keys; this also retains the original RDD's partitioning.
+    #+END_SRC
+    mapValues is some like apply normal ~map()~ on the set comprised by each Key's Values
+
+  Some time when you do *normal map* in a nomal RDD or PairRDD, you may don't want to change the key of this value, in this scenario ~mapValues~ of ~PairRDDFunctions~ is much more efficient than normal map of normal RDD, it just create a new PairRDD, with *each mapped new values with same key store in same machine*. Because the key is not changed, so it *desen't have to shuffle data* around on the cluster --- means every machines handle his own data pieces, no shuffle.
+
+  the noraml map of nomal RDD or PairRDD, have or haven't keys, *that data after mapped will go to different machines --- data will be shuffled around.*
+
+  This lack of shuffling and ability to operate on the elements specificlly on particular machine(Executor) make many of the methods of ~PairRDDFunctions~ more optimal.
+
+  #+BEGIN_QUOTE
+  | 0              | 1               | 2         |             3 | 4          |             5 |
+  | area_type_code | area_code       | area_text | display_level | selectable | sort_sequence |
+  |----------------+-----------------+-----------+---------------+------------+---------------|
+  | A              | ST0100000000000 | Alabama   |             0 | T          |             1 |
+  | A              | ST0200000000000 | Alaska    |             0 | T          |           146 |
+
+  | 0                    |    1 | 2      |     3 | 4              |
+  | series_id            | year | period | value | footnote_codes |
+  |----------------------+------+--------+-------+----------------|
+  | LASST270000000000003 | 1976 | M01    |   6.0 | s              |
+  | LASST270000000000003 | 1976 | M02    |   6.0 | s              |
+
+  | 0                    | 2               |            3 | 6                 |
+  | series_id            | area_code       | measure_code | series_title      |
+  |----------------------+-----------------+--------------+-------------------+
+  | LASBS060000000000003 | BS0600000000000 |           03 | Unemployment rate |
+  | LASBS060000000000004 | BS0600000000000 |           04 | Unemployment      |
+  | LASBS060000000000005 | BS0600000000000 |           05 | Employment        |
+
+  #+END_QUOTE

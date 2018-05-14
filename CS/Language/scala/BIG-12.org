@@ -1,0 +1,423 @@
+* Big data and Spark
+
+  MapReduce was an appraoch to dealing with very large data sets, MapReduce aimed at the enviroment make up by clusters of computers.And should *resilient* against that I have to be recover from the situtation when some computers down at some time. That is the way the MapReduce algorithm work:
+
+  - do some processing
+  - save the results off
+  - do more processing based on the results
+  - save the results off
+
+
+  There is a big drawbacks that in hadoop, everytime doing the reduce, it saves the results off to *disk*, and this has a huge influence to the computation speed.
+
+  [[http://i.imgur.com/k0t1e.png][Latency Nubmers Every Programmer Shoud Know]]
+
+  #+BEGIN_QUOTE
+  Latency Comparison Numbers
+  --------------------------
+  L1 cache reference                            0.5 ns
+  Branch mispredict                             5   ns
+  L2 cache reference                            7   ns             14x L1 cache
+  Mutex lock/unlock                            25   ns
+  Main memory reference                       100   ns             20x L2 cache, 200x L1 cache
+  Compress 1K bytes with Zippy              3,000   ns
+  Send 1K bytes over 1 Gbps network        10,000   ns    0.01 ms
+  Read 4K randomly from SSD*              150,000   ns    0.15 ms
+  Read 1 MB sequentially from memory      250,000   ns    0.25 ms
+  Round trip within same datacenter       500,000   ns    0.5  ms
+  Read 1 MB sequentially from SSD*      1,000,000   ns    1    ms  4X memory
+  Disk seek                            10,000,000   ns   10    ms  20x datacenter roundtrip
+  Read 1 MB sequentially from disk     20,000,000   ns   20    ms  80x memory, 20X SSD
+  Send packet CA->Netherlands->CA     150,000,000   ns  150    ms
+
+  Notes
+  -----
+  1 ns = 10-9 seconds
+  1 ms = 10-3 seconds
+  Assuming ~1GB/sec SSD
+  #+END_QUOTE
+
+
+  #+BEGIN_QUOTE
+  HADOOP:
+  Read 1 MB sequentially from disk     20,000,000   ns   20    ms  80x memory, 20X SSD
+  SPARK:
+  Read 1 MB sequentially from memory      250,000   ns    0.25 ms
+  #+END_QUOTE
+
+  This is where SPARK comes in. SPARK does a lot more of its operations in memory. It's still distributed, still has to do communication across the network. BUUUT, SPARK *doesn't save very ofen*, the way that it does this is through *RDD* (resilient distributed data set).
+
+  They both should deal with the same problem, that computer will down, but SPARK deals with it in a *fundamentally different* way than HADOOP, and still allows us to do the majority of our operations in the memory, and only go out to memory occasionally.
+
+
+* Run code on Spark
+
+  SPARK shell
+  -----------
+  #+NAME: start spark-shell by some parameters
+  #+BEGIN_SRC sh
+    spark-shell --master local[*]
+  #+END_SRC
+
+  #+BEGIN_QUOTE
+  Spark context Web UI available at http://192.168.199.134:4040
+  *Spark context* available as '*sc*' (master = local[*], app id = local-1525585118689).
+  *Spark session* available as '*spark*'.
+  #+END_QUOTE
+
+  1. --master : master node
+  2. local : local mode
+  3. [*] : use threads or CPU cores as many as possible.
+
+
+  Then we can do some computation like:
+  #+BEGIN_SRC scala
+    scala> sc.textFile("MN212142_9392.csv")
+    res0: org.apache.spark.rdd.RDD[String] = MN212142_9392.csv MapPartitionsRDD[1] at textFile at <console>:25
+
+    scala> res0.take(5)
+    res1: Array[String] = Array(
+      "Day  ,JD  ,Month  ,State_id  ,Year  ,PRCP (in),SNOW (in),TAVE (F),TMAX (F),TMIN (F) ", "1,335,12,'212142',1895,0,0,12,26,-2 ",
+      "2,336,12,'212142',1895,0,0,-3,11,-16 ",
+      "3,337,12,'212142',1895,0,0,6,11,0 ",
+      "4,338,12,'212142',1895,0,0,2,12,-9 ")
+  #+END_SRC
+
+
+  SPARK program
+  ------------
+  some codes on local, like regular codes in eclipse or emacs
+
+
+  SPARK submit
+  ------------
+  - setup your own spark context
+  - setup a cluster by fat JARs using sbt-assembly, exporting a fat JARs
+  - addSbtPlugin ~sbt-assembly~ to the Project/assembly.sbt
+  - using spark-commit --class ??? target/scala ??? to run those things
+
+  #+BEGIN_SRC sh
+  spark-submit --master local[*] -- class ??? target/scala ???
+  #+END_SRC
+
+* Spark RDDs
+  The use of RDDs has declined with the rise of SPARK SQL, data sets and data frames are kind of used more commonly in SPARK, but RDDs is still helpful to know what's underneath the hood.
+
+
+  process:
+  |    | var   | type         | hwo to get                                    |
+  |----+-------+--------------+-----------------------------------------------|
+  | 1. | conf  | SparkConf    | new SparkConf .-> set app name .-> set master |
+  | 2. | sc    | SparkContext | new SparkContext <- conf                      |
+  | 3. | lines | RDD[String]  | sc.textFile <- parth                          |
+  |    |       |              |                                               |
+
+
+  lines as an RDD follow somewhat different rules than scala collection.
+
+  #+BEGIN_QUOTE
+  Read a text file from HDFS, a local file system (available on all nodes), or any Hadoop-supported file system URI, and return it as an RDD of Strings.
+  #+END_QUOTE
+
+
+  ~RDD[A]~ is a Monad that support ~map,filter,fold,reduce,flatMap,aggregate~, looks like the collection of scala, but they're huge different under the neath.
+
+  From this point of view, *RDD* is a *special collection*
+
+  Just compare:
+
+  #+BEGIN_SRC scala
+    // lines is Iterator[String]
+    val lines = source.getLines().drop(1)
+
+    // lines is RDD[String]
+    val lines = sc.textFile("MN212142_9392.csv").filter(!_.contains("Day"))
+  #+END_SRC
+
+* More about RDD, Transform and Action
+  RDD has 2 separate types of API methods on them:
+**  1. give back OTHER RDD, map,filter,flatMap
+   #+BEGIN_QUOTE
+   ~def map[U](f: (T) ⇒ U)(implicit arg0: ClassTag[U]): RDD[U]~
+   ~def collect[U](f: PartialFunction[T, U])(implicit arg0: ClassTag[U]): RDD[U]~
+   Return an RDD that contains all matching values by applying f.
+  #+END_QUOTE
+
+
+
+  #+BEGIN_QUOTE
+  *All* the operations on the scala *collections* were *Eager*, means return you result as soon as you called them.
+  #+END_QUOTE
+
+  Transform
+  ---------
+  For map of RDD, what it does is transform from one ~Monad~ to another ~Monad~, and in scala this is called *Transform*, and *Transform are lazy*,
+
+  Actually, Transform *is more like a function* than an object, it *ONLY save the recipe*, NOT do it in practice. SPARK transforms are all lazy, so simply calls them will have nothing happen. *This just schedules some code to be run out across the cluster*, it doesn't actually happend until there is an *action*.
+
+  which means that:
+  |        | collection            | RDD                |
+  |--------+-----------------------+--------------------|
+  | filter | eager -> inefficiency | lazy -> efficiency |
+  | map    | eager                 | lazy               |
+
+
+** more about ~collect~
+   #+BEGIN_QUOTE
+   there two collect() method of RDD: one is a *Transform*, the other is an *Action*
+   // Transform
+   def collect[U](f: PartialFunction[T, U])(implicit arg0: ClassTag[U]): RDD[U]
+   Return an RDD that contains all matching values by applying f.
+   // Action
+   def collect(): Array[T]
+   Return an array that contains all of the elements in this RDD.
+   #+END_QUOTE
+
+  *the ~def collect()~ is used to capture all data from other machines(you know RDD may store his data into many machines, so every RDD include build by Transform, all may store in many machines) into master( current machine )*
+
+  *when you do some operation(like sort, plot) in master computer, which require the whole data of some RDD, you should do ~thisRDD.collect()~ to collect all data from other computers, ONLY AFTER THAT, you can do this operation.*
+
+  *the ~def collect(pf)~ acts like it in scala.collection*
+** IMPORTANT NOTE about Transform
+   Two features of *Transform* when it acts like a function, that is the reson why RDD is core concept of SPAR
+   1. because it is (almost)a function, you can pass it to other functions, even to other machines, which make computation move around between computers.
+
+   2. because it is (almost)a function, it's some like *pass by-name*, means whenever its name occur, it will do compute once, it's *not a pass by-value*. More occurance, More times it computes. Huge inefficiency.
+
+   #+BEGIN_SRC scala
+     // RDD[TempData]
+     val data = lines.flatMap { line => ...}
+   #+END_SRC
+
+   eveytime 'data' occur, it will do lines.flatMap one more time:
+
+   #+BEGIN_SRC scala
+    println("=============================" + data.max()(Ordering.by(_.tmax)))
+    println("=============================" + data.reduce((td1, td2) => if(td1.tmax >= td2.tmax) td1 else td2))
+    val maxTemp = data.map(_.tmax).max
+    val hotDays = data.filter(_.tmax == maxTemp)
+   #+END_SRC
+
+**  2. give back sth not a RDD
+     #+BEGIN_QUOTE
+     ~def take(num: Int): Array[T]~
+     ~def collect(): Array[T]~ // different from the collect(pf)
+     Return an array that contains all of the elements in this RDD.
+     collect() is a method convert an RDD to an Array, very useful
+     #+END_QUOTE
+
+     Action
+     ------
+     Action are the methods of Spark that don't return other RDD, Action force some level of computation to actually occur.
+
+
+* API of collection TO API of RDD
+
+  | collcAPI       | RDDAPI    | get round with               |
+  |----------------+-----------+------------------------------|
+  | drop           | X         | filter(!_.contains())        |
+  | maxBy          | X         | max()(Ordering.by(_.tmax))   |
+  | mkString       | X         | collect().mkString           |
+  | par            | X         | [NO NEED] aggregate directly |
+  | length         | X         | count                        |
+  | count(predict) | count()   |                              |
+  | take           | take      |                              |
+  | reduce         | reduce    |                              |
+  | map            | map       |                              |
+  | flatMap        | flatMap   |                              |
+  | filter         | filter    |                              |
+  | aggregate      | aggregate |                              |
+
+  #+BEGIN_SRC scala RDD.groupBy
+    def collect[U](f: PartialFunction[T, U])(implicit arg0: ClassTag[U]): RDD[U]
+    //Return an RDD that contains all matching values by applying f.
+
+    def filter(f: (T) ⇒ Boolean): RDD[T]
+    //Return a new RDD containing only the elements that satisfy a predicate
+
+    def map[U](f: (T) ⇒ U)(implicit arg0: ClassTag[U]): RDD[U]
+    //Return a new RDD by applying a function to all elements of this RDD.
+
+    def flatMap[U](f: (T) ⇒ TraversableOnce[U])(implicit arg0: ClassTag[U]): RDD[U]
+    //Return a new RDD by first applying a function to all elements of this RDD, and then flattening the results.
+
+    def groupBy[K](f: (T) ⇒ K)(implicit kt: ClassTag[K]): RDD[(K, Iterable[T])]
+    //Return an RDD of grouped items. Each group consists of a key and a sequence of elements mapping to that key. The ordering of elements within each group is not guaranteed, and may even differ each time the resulting RDD is evaluated.
+
+    def max()(implicit ord: Ordering[T]): T
+    //Returns the max of this RDD as defined by the implicit Ordering[T].
+
+    def min()(implicit ord: Ordering[T]): T
+    //Returns the min of this RDD as defined by the implicit Ordering[T].
+
+    def reduce(f: (T, T) ⇒ T): T
+    //Reduces the elements of this RDD using the specified commutative and associative binary operator.
+
+    def take(num: Int): Array[T]
+    //Take the first num elements of the RDD.
+
+    def foreach(f: (T) ⇒ Unit): Unit
+    //Applies a function f to all elements of this RDD.
+
+    def fold(zeroValue: T)(op: (T, T) ⇒ T): T
+    //Aggregate the elements of each partition, and then the results for all the partitions, using a given associative function and a neutral "zero value".
+
+    def first(): T
+    //Return the first element in this RDD.
+
+    def cache(): RDD.this.type
+    //Persist this RDD with the default storage level (MEMORY_ONLY).
+
+    def collect(): Array[T]
+    //Return an array that contains all of the elements in this RDD.
+
+    def count(): Long
+    //Return the number of elements in the RDD.
+  #+END_SRC
+
+
+  #+BEGIN_SRC scala
+  ~def collect(): Array[T]~ // different from the collect(pf)
+  //Return an array that contains all of the elements in this RDD. collect() is a method convert an RDD to an Array, very useful
+  #+END_SRC
+
+  #+BEGIN_SRC scala
+  def max()(implicit ord: Ordering[T]): T
+  Returns the max of this RDD as defined by the implicit Ordering[T].
+  #+END_SRC
+  we have 2 choices to make this max() work for our TempData class:
+  1. build an implicit conversion from TempData to Ordering
+  2. build an Ordering object by ~Ordering.by[A,B]~ or ~Ordering[A,B].on~, then passed explicitly in.
+
+
+* The good in collection The BAD in RDD
+
+  #+BEGIN_SRC scala
+    // TOO BAD
+    val data = lines.flatMap { line =>
+      val p = line.split(",")
+      if (p(7)=="."||p(8)=="." || p(9)==".") Seq.empty else
+                                                         Seq(TempData(p(0).toInt,
+                                                                      p(1).toInt,
+                                                                      p(2).toInt,
+                                                                      p(4).toInt,
+                                                                      TempData.toDoubleOrNeg(p(5)),
+                                                                      TempData.toDoubleOrNeg(p(6)),
+                                                                      p(7).toDouble,
+                                                                      p(8).toDouble,
+                                                                      p(9).toDouble))
+    }
+  #+END_SRC
+
+  Very Inefficient.
+
+  Why? Because of the Lazy Transform is (almost)a function, everytime it occur,one more time it computes, it's not a value.
+
+  So, if you use some RDD more often, you should have more technique to deal with it.
+
+  *cache*
+  #+BEGIN_SRC scala
+    def cache(): RDD.this.type
+      //Persist this RDD with the default storage level (MEMORY_ONLY).
+  #+END_SRC
+  cache persist this RDD inside of memory.
+
+  *persist*
+  #+BEGIN_SRC scala
+    def persist(): RDD.this.type
+      // Persist this RDD with the default storage level (MEMORY_ONLY).
+
+    def persist(newLevel: StorageLevel): RDD.this.type
+      // Set this RDD's storage level to persist its values across operations after the first time it is computed.
+  #+END_SRC
+  persist can choose the ~StorageLevel~
+
+  #+NAME: StorageLevel -> org.apache.spark.storage
+  #+BEGIN_SRC scala
+    val DISK_ONLY: StorageLevel
+    val DISK_ONLY_2: StorageLevel
+    val MEMORY_AND_DISK: StorageLevel
+    val MEMORY_AND_DISK_2: StorageLevel
+    val MEMORY_AND_DISK_SER: StorageLevel
+    val MEMORY_AND_DISK_SER_2: StorageLevel
+    val MEMORY_ONLY: StorageLevel
+    val MEMORY_ONLY_2: StorageLevel
+    val MEMORY_ONLY_SER: StorageLevel
+    val MEMORY_ONLY_SER_2: StorageLevel
+    val NONE: StorageLevel
+    val OFF_HEAP: StorageLevel
+  #+END_SRC
+
+  Happy to persisit it on RDD, BUUUT if it's too large you may choose ~MEMORY_AND_DISK~.
+
+  #+BEGIN_SRC scala
+    // GOOD NOW
+    val data = lines.flatMap { line =>
+      val p = line.split(",")
+      if (p(7)=="."||p(8)=="." || p(9)==".") Seq.empty else
+                                                         Seq(TempData(p(0).toInt,
+                                                                      p(1).toInt,
+                                                                      p(2).toInt,
+                                                                      p(4).toInt,
+                                                                      TempData.toDoubleOrNeg(p(5)),
+                                                                      TempData.toDoubleOrNeg(p(6)),
+                                                                      p(7).toDouble,
+                                                                      p(8).toDouble,
+                                                                      p(9).toDouble))
+    }.cache() // just add method to persist the frequently used RDD
+  #+END_SRC
+
+* Lazy filter and Eager filter
+
+  all operations in scala collection are EAGER, it will immediately return; transform in RDD are lazy, it will just *compute in brain not in paper*.
+
+  - filter in scala.collection is inefficient
+  - filter in spark.RDD is efficient
+
+  #+BEGIN_SRC scala
+    // collection.count
+    val rainyCount = data.count(_.precip >= 1.0)
+
+    // RDD.filter.count
+    val rainyCount = data.filter(_.precip >= 1.0).count
+  #+END_SRC
+* Order and No Order
+
+  #+BEGIN_SRC scala
+    monthlyTem.collect.sortBy(_._1) foreach println
+  #+END_SRC
+
+  #+BEGIN_QUOTE
+  [info] (1,16.16281112737921)
+  [info] (2,21.044573643410853)
+  [info] (3,34.81650848432557)
+  [info] (4,52.93286010056197)
+  [info] (5,66.64433135425502)
+  [info] (6,75.19371727748691)
+  [info] (7,80.85272625070264)
+  [info] (8,78.97310170916224)
+  [info] (9,68.98621877691644)
+  [info] (10,55.87532097004279)
+  [info] (11,36.33536029188203)
+  [info] (12,21.44126804415511)
+  #+END_QUOTE
+
+  #+BEGIN_SRC scala
+    monthlyTem.sortBy(_._1) foreach println
+  #+END_SRC
+  #+BEGIN_QUOTE
+  [info] (7,80.85272625070264)
+  [info] (8,78.97310170916224)
+  [info] (9,68.98621877691644)
+  [info] (10,55.87532097004279)
+  [info] (11,36.33536029188203)
+  [info] (12,21.44126804415511)
+  [info] (1,16.16281112737921)
+  [info] (2,21.044573643410853)
+  [info] (3,34.81650848432557)
+  [info] (4,52.93286010056197)
+  [info] (5,66.64433135425502)
+  [info] (6,75.19371727748691)
+  #+END_QUOTE
+
+
