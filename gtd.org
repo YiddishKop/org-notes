@@ -402,3 +402,17 @@ https://emacs-china.github.io/EGO/
 
 ** TODO [#B] define a list-likely type wich can add different stuff :Programming:
 >>>>>>> 9948b14a747309f458e0f323f2cfdcfb6d2736cb
+
+** TODO [#B] cache the copy yank
+   spc r e
+
+** TODO [#B] Latex divide symbol
+  $\dfrac{(x - \mu)}\sigma$
+  $(x - \mu)\div\sigma$
+  $(x - \mu)/\sigma$
+
+  3 symbols can use
+
+  - \dfrac
+  - \div
+  - /

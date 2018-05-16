@@ -133,3 +133,14 @@ address and datestamp.
 Once you create a template file, you have to load it. Call
 =yas-reload-all= 〖menu-bar ▸ yasnippet ▸ yas/Reload everything〗.
 
+** summary
+   1. Each file may end with the suffix *.yasnippet*
+   2. each file's name, *up to the first period, defines the abbrev*.
+      For example: you might have these files:
+      #+BEGIN_EXAMPLE
+      doctype.xhml1
+      doctype.xhtml1_1
+      doctype.xhtml1_strict
+      doctype.xhtml1_transitional
+      #+END_EXAMPLE
+

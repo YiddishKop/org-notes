@@ -1,6 +1,0 @@
-
-            
-
-            <p>Is there a way to reopen the last <code>helm</code> buffer including minibuffer content and cursor position ? This would be especially convenient, when using <code>helm-find-files</code> to navigate remote filesystems.</p>
-
-        

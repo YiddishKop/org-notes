@@ -710,7 +710,6 @@ Tips*
       #+END_SRC
 
       #+RESULTS:
-      : 10
       -------------------------------------
       #+HEADERS: :classname HelloWorld :cmdline "-cp ."
       #+BEGIN_SRC java :results output :exports both

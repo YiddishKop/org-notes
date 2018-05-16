@@ -1,2 +1,0 @@
-<p>Today's system update was mostly infrastructure changes and security fixes, but there's one big visible change -- we now support Python 3.6!</p>
-<p>The new version is only available for accounts using the new dangermouse image, so if you'd like to be switched over and get not just the latest Python, but also new shiny versions of all of our installed system images, just send us a message using the "Send feedback" link.</p>

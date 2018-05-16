@@ -1,8 +1,0 @@
-
-            
-
-            <p>I've got a script that generates some output. Some parts of the output are cyrillic letters, and they cause my <code>ansi-term</code> to break - I guess they are treated as control characters(they are displayed like <code>\320\272</code>, and this makes me restart the ansi-term hoping it won't happen again(that I skip this part of output). However, this isn't a fix, but a hack.</p>
-
-<p>How can I make these characters appear correctly/not break my con</p>
-
-        

@@ -1,0 +1,51 @@
+* Z scores( standardised scores)
+  use them for *comparing two different observations*, from *two different data sets*.
+  Z scores represent how far either side of a mean a particular observed value *in unit of standard deviation* in that data set actually is.
+
+  $z=\dfrac{(x - \mu)}\sigma$
+
+.             ^                         |
+.             |                         |
+.             |                      ...|....
+.             |                    ..   |   ...
+.             |                   .     |     ..
+.             |                  .      |       ..
+.             |                 ..      |        ..
+.             |                 .       |          .
+.             |               .         |           .
+.             |             ..          |            ..
+.             |          ...            |             ..
+.             |        ..               |               ..
+.             |      ..                 |                ...
+.             |   ...                   |                   ....
+.             | ..                                              ..
+.          ---+---------------------------------------------------->
+.             |                         $\overline{x}$
+.
+
+
+
+** Exercise
+*** Exercise 1
+Suppose the heights of adult *females* is normally distributed with a *mean of 66* inches and a standard *deviation of 1.75* inches.
+Suppose that the heights of adult *males* is normally distributed with a *mean of 70* inches and a standard *deviation of 2.2* inches.
+Jill is *70 inches* tall and Jack is *75 inches* tall. *Which person is taller relative to those of their same gender*?
+
+Jill:
+
+$z=\dfrac{(x-\mu)}\sigma=\dfrac{(77-66)}{1.75}=2.29$
+
+Jack:
+
+$z=\dfrac{(x-\mu)}\sigma=\dfrac{(75-70)}{2.2}=2.27$
+
+Relatively speaking, Jill is taller than Jack because her standard score is greater
+
+*** Exercise 2
+
+[[http://www.z-table.com/uploads/2/1/7/9/21795380/7807141_orig.png][negative z find left]]
+
+[[http://www.z-table.com/][using z-table to find the probability]]
+
+1. compute z
+2. find the probability of this z related in z-table

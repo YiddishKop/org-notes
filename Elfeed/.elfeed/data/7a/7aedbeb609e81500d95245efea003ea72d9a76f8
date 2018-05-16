@@ -1,6 +1,0 @@
-
-            
-
-            <p>Sometimes I use <code>ansi-term</code> in emacs instead of directly using my shell. When I do this, it is not an infrequent occurrence that I forget where I am and call <code>emacs someFile</code>, which freezes the terminal window and doesn't let me start a new emacs process when I exit (I am using <code>emacsclient</code>). Is there a way to make invocations of emacs in <code>ansi-term</code> instead open the file? Or some other way to unfreeze this? The only solution I have found is to <code>kill</code> the server process.</p>
-
-        

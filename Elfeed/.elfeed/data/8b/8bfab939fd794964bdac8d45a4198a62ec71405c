@@ -1,8 +1,0 @@
-
-            
-
-            <p>Running <code>M-x hl-line-mode</code> enables highlighting for the current buffer.</p>
-
-<p>How can i set highlighting current line to be enabled in <code>init.el</code>? </p>
-
-        
