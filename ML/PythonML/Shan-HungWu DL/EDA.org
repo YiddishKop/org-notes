@@ -1,0 +1,209 @@
+* EDA
+Exploratory Data Analysis (EDA) is an *important and recommended first step* of Machine Learning (prior to the training of a machine learning model that are more commonly seen in research papers).
+EDA includes two steps:
+
+1. exploration
+   In the exploration step, you "explore" the data, usually by visualizing them in different ways, to discover some characteristics of data.
+2. exploitation
+   in the exploitation step, you use the identified characteristics to figure out the next things to explore.
+3. repeate step 1 and 2 until you fill good.
+
+
+** Visualizing the important characteristics of Dataset
+
+#+NAME: visualizingData
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  import pandas as pd
+  df = pd.read_csv('http://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data', header=None)
+  print (df.size)
+  print (df.shape)
+  print (df.columns)
+  print (type(df))
+  df.columns=['Class label'      , 'Alcohol'             , 'Malic acid', 'Ash'           ,
+              'Alcalinity of ash', 'Magnesium'           , 'Total phenols'               ,
+              'Flavanoids'       , 'Nonflavanoid phenols', 'Proanthocyanins'             ,
+              'Color intensity'  , 'Hue'                 , '0D280/0D315 of diluted wines',
+              'Proline']
+  X = df.drop('Class label', 1)
+  print (type(X))
+  y = df['Class label']
+  print(df.head())
+#+END_SRC
+
+#+RESULTS: visualizingData
+#+begin_example
+2492
+(178, 14)
+Int64Index([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], dtype='int64')
+<class 'pandas.core.frame.DataFrame'>
+<class 'pandas.core.frame.DataFrame'>
+   Class label  Alcohol  Malic acid   Ash  Alcalinity of ash  Magnesium  \
+0            1    14.23        1.71  2.43               15.6        127
+1            1    13.20        1.78  2.14               11.2        100
+2            1    13.16        2.36  2.67               18.6        101
+3            1    14.37        1.95  2.50               16.8        113
+4            1    13.24        2.59  2.87               21.0        118
+
+   Total phenols  Flavanoids  Nonflavanoid phenols  Proanthocyanins  \
+0           2.80        3.06                  0.28             2.29
+1           2.65        2.76                  0.26             1.28
+2           2.80        3.24                  0.30             2.81
+3           3.85        3.49                  0.24             2.18
+4           2.80        2.69                  0.39             1.82
+
+   Color intensity   Hue  0D280/0D315 of diluted wines  Proline
+0             5.64  1.04                          3.92     1065
+1             4.38  1.05                          3.40     1050
+2             5.68  1.03                          3.17     1185
+3             7.80  0.86                          3.45     1480
+4             4.32  1.04                          2.93      735
+#+end_example
+
+As we can see, showing data *row-by-row* with their column names *does not help* us get the *big picture* and characteristics of data.
+
+- pd.read_csv ===> DataFrame obj
+- df.columns  ===> Attributes of DataFrame
+- df.drop     ===> return a new DataFrame without 1st row
+
+** pairwise join distributions
+
+*Join distributions* of any pair of columns/attributes/variables/features by using *pairplot* function offered by *seaborn*, based on *matplotlib*
+
+#+NAME: joinDistri
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  import os
+  import matplotlib.pyplot as plt
+  import seaborn as sns
+
+  sns.set(style='whitegrid', context='notebook')
+
+  sns.pairplot(df, hue='Class label', size=2.5)
+  plt.tight_layout()
+
+  if not os.path.exists('./output'):
+      os.makedirs('./output')
+  plt.savefig('./output/fig-wine-scatter.png', dpi=300)
+  plt.show()
+#+END_SRC
+
+#+RESULTS: joinDistri
+
+This affects things like the size of the *labels, lines, and other elements of the plot*, but not the overall style.
+The base context is “notebook”, and the other contexts are *“paper”, “talk”, and “poster”*, which are version of the notebook
+parameters scaled by *.8, 1.3, and 1.6*, respectively.
+
+- sns.set(stype, context)
+- sns.pairplot(df, hue='class labe', size=2.5)
+    - data : Tidy (long-form) *dataframe* where each *column* is a *variable* and each *row* is an *observation*.
+    - hue  : string (variable name), optional. Variable(usually use ~label~) in dataset to map plot aspects to different colors.
+    - size : scalar, optional. Height (in inches) of each facet.
+  *pairplot* will give you the *join Distribution image* of *every two features*
+
+- plt.tight_layout()
+- plt.savefig('path', dpi)
+
+
+** the usage of join distributions and pairplot.
+    *Find the relationship between every two features*.
+two important dataset characteristics you should first find:
+1. whether ~two features~ exist ~linear relationship~.
+2. whether ceratin ~one feature~ is ~Normal distribution~ on ~label~
+
+** Correlation Matrix
+pair-wise distributions maybe overwhelming, and consume too much time when you have a lot of variable(~features~), and a lot of oberservation(~datapoints~)
+
+Correlation Matrix ENTER!
+The correlation matrix gives a more concise view of the relationship between variables
+Some models, such the linear regression, assume that the explanatory variables are linearly correlated to the target variable.
+A heatmap of correlations can help us select variables supporting this assumption.
+
+#+NAME: znormalize
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  import numpy as np
+  from sklearn.preprocessing import StandardScaler
+
+  print(type(X))
+  sc = StandardScaler()
+  print (type(sc))
+  Z = sc.fit_transform(X)
+  print (type(Z))
+  R = np.dot(Z.T, Z) / df.shape[0]
+  print (type(R))
+  sns.set(font_scale=1.5)
+  ticklabels = [s for s in X.columns]
+  print(ticklabels)
+
+  hm = sns.heatmap(R,
+                   cbar=True,
+                   square=True,
+                   yticklabels=ticklabels,
+                   xticklabels=ticklabels)
+
+  plt.tight_layout()
+  plt.savefig('./output/fig-wine-corr.png', dpi=300)
+  plt.show()
+
+  sns.reset_orig()
+#+END_SRC
+
+#+RESULTS: znormalize
+: <class 'pandas.core.frame.DataFrame'>
+: <class 'sklearn.preprocessing.data.StandardScaler'>
+: <class 'numpy.ndarray'>
+: <class 'numpy.ndarray'>
+: ['Alcohol', 'Malic acid', 'Ash', 'Alcalinity of ash', 'Magnesium', 'Total phenols', 'Flavanoids', 'Nonflavanoid phenols', 'Proanthocyanins', 'Color intensity', 'Hue', '0D280/0D315 of diluted wines', 'Proline']
+
+
+*** Standardization
+(X - mean)/std
+
+.             feature_1 feature_2 feature_3
+.
+. point 1 ===> [[ 1.,      -1.,      2.],
+. point 2 ===>  [ 2.,       0.,      0.],
+. point 3 ===>  [ 0.,       1.,     -1.]]
+.
+. mean    ===>    1         0        1/3
+.
+. eg, std of feature1 = sqrt( ((1-1)^2 + (2-1)^2 + (0-1)^2)/3 )
+.
+
+standardization =
+
+
+
+
+#+NAME: testPreprocessing
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  from sklearn import preprocessing
+  import numpy as np
+
+  X = np.array([[1., -1.,  2.],
+                [2.,  0.,  0.],
+                [0.,  1., -1.]])
+  X_scaled = preprocessing.scale(X)
+  print( X_scaled )
+  print( X_scaled.mean(axis=0) )
+  print( X_scaled.std(axis=0) )
+
+  scaler = preprocessing.StandardScaler().fit(X)
+  print(scaler)
+  # scaler.mean_
+  # scaler.std_
+  print (scaler.transform(X))
+#+END_SRC
+
+#+RESULTS: testPreprocessing
+: [[ 0.         -1.22474487  1.33630621]
+:  [ 1.22474487  0.         -0.26726124]
+:  [-1.22474487  1.22474487 -1.06904497]]
+: [0. 0. 0.]
+: [1. 1. 1.]
+: StandardScaler(copy=True, with_mean=True, with_std=True)
+: [[ 0.         -1.22474487  1.33630621]
+:  [ 1.22474487  0.         -0.26726124]
+:  [-1.22474487  1.22474487 -1.06904497]]

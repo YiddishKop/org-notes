@@ -1,0 +1,1890 @@
+* Numpy
+
+|   |  0 |  1 |  2 |  3 | 4  |
+|---+----+----+----+----+----|
+| 0 |  1 | 23 |  1 | 34 |  4 |
+| 1 |  9 |  2 |  4 |  0 |  9 |
+| 2 |  8 | 23 | 10 |  2 |  3 |
+| 3 |  4 |  8 |  7 | 28 | 27 |
+| 4 | 39 | 21 | 29 | 30 | 32 |
+| 5 | 78 | 33 | 21 | 19 | 20 |
+| 6 | 29 | 21 | 12 |  1 |  2 |
+
+
+
+** Array initializer
+
+#+NAME: numpyRelated
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  import numpy as np
+
+  a=np.array([1,2,3])
+  print(type(a), a.shape, a[0], a[1], a[2])
+  a[0] = 5
+  print (a)
+
+  b=np.array([[1,2,3], [4,5,6]])
+  print (b)
+  print (b.shape)
+
+  a = np.zeros((2,2))
+  print (a)
+
+  b = np.ones((1,2))
+  print (b)
+
+  c = np.full((2,2), 7)
+  print (c)
+
+  d = np.eye(2)
+  print (d)
+
+  e = np.random.random((2,2))
+  print (e)
+#+END_SRC
+
+#+RESULTS: numpyRelated
+#+begin_example
+<class 'numpy.ndarray'> (3,) 1 2 3
+[5 2 3]
+[[1 2 3]
+ [4 5 6]]
+(2, 3)
+[[0. 0.]
+ [0. 0.]]
+[[1. 1.]]
+[[7 7]
+ [7 7]]
+[[1. 0.]
+ [0. 1.]]
+[[0.43711228 0.82973462]
+ [0.67481687 0.61315307]]
+#+end_example
+
+- np.array([x,x,x],[x,x,x]) is some like Array(1,2,3) in scala
+- np.zeros((num,num)) is some like Array.fill(0)(3) in scala
+- np.ones((num,num)) is some like Array.fill(1)(3) in scala
+- np.full((num,num), x) is some like Array.fill(1)(3) in scala
+- np.eye(2) is same as above
+- np.random.random((2,2)) is some like Array.fill(1)(random.nextInt(100))
+- inside of [] are elements
+- inside of () is shape
+
+** Array Indexing
+   #+NAME: arrayIndex-1
+   #+HEADER: :session
+   #+BEGIN_SRC python :results output
+     import numpy as np
+     a = np.array([[1,2,3,4], [5,6,7,8], [9,10,11,12]])
+     b = a[:2, 1:3]
+     print(b)
+
+     print (a[0, 1])
+     b[0, 0] = 77
+     print (a[0, 1])
+
+     print(a)
+     row_r1 = a[1, :]
+     row_r2 = a[1:2, :]
+     row_r3 = a[[1], :]
+     print (row_r1, row_r1.shape)
+     print (row_r2, row_r2.shape)
+     print (row_r3, row_r3.shape)
+
+     col_r1 = a[:, 1]
+     col_r2 = a[:, 1:2]
+     print (col_r1, col_r1.shape)
+     print (col_r2, col_r2.shape)
+   #+END_SRC
+
+   #+RESULTS: arrayIndex-1
+   #+begin_example
+   Python 3.6.4 |Anaconda, Inc.| (default, Jan 16 2018, 18:10:19)
+   [GCC 7.2.0] on linux
+   Type "help", "copyright", "credits" or "license" for more information.
+   [[2 3]
+    [6 7]]
+   2
+   77
+   [[ 1 77  3  4]
+    [ 5  6  7  8]
+    [ 9 10 11 12]]
+   [5 6 7 8] (4,)
+   [[5 6 7 8]] (1, 4)
+   [[5 6 7 8]] (1, 4)
+   [77  6 10] (3,)
+   [[77]
+    [ 6]
+    [10]] (3, 1)
+   python.el: native completion setup loaded
+   #+end_example
+
+   >>>>>>>>>>> Interpretation of code
+
+  |    | 0 | 1* | 2* |  3 |
+  |    | / |  < |  > |    |
+  |----+---+----+----+----|
+  | 0* | 1 |  2 |  3 |  4 |
+  | 1* | 5 |  6 |  7 |  8 |
+  |----+---+----+----+----|
+  | 2  | 9 | 10 | 11 | 12 |
+
+  ==> a[0, 1] = 2
+
+  | 2 | 3 |
+  | 6 | 7 |
+
+  ==> b[0, 0] = 77
+
+  | 77 | 3 |
+  |  6 | 7 |
+
+  ==> a[0, 1] = 77
+
+  |    | 0 | 1* | 2* |  3 |
+  |    | / |  < |  > |    |
+  |----+---+----+----+----|
+  | 0* | 1 | 77 |  3 |  4 |
+  | 1* | 5 |  6 |  7 |  8 |
+  |----+---+----+----+----|
+  | 2  | 9 | 10 | 11 | 12 |
+
+  so you can see, when you create an array and slicing is make
+  - *locate* some *anchor* at original matrix
+  - NOT *build* a *new* sub-matrix
+
+  so you can see, if index of column or row is a *x* not *x:y*, then it will *reduce to an n-1 rank* tensor,
+  - a[:, 1] is an array: rank-1
+  - a[1, :] is an array: rank-1
+  - a[[1], :] is an matrix, only has a row: rank-2
+  - a[:, [1]] is an matrix, only has a column: rank-2
+
+
+#+NAME: numpyRelated-2
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  a = np.array([[1,2],[3,4],[5,6]])
+  print (a[[0,1,2],[0,1,0]])
+  print (np.array([a[0,0], a[1,1], a[2,0]]))
+
+  print (a[[0,0],[1,1]])
+  print (np.array([a[0,1], a[0,1]]))
+#+END_SRC
+
+#+RESULTS: numpyRelated-2
+: [1 4 5]
+: [1 4 5]
+: [2 2]
+: [2 2]
+
+  |   |  0 |  1 |
+  |---+----+----|
+  | 0 | 1* |  2 |
+  | 1 |  3 | 4* |
+  | 2 | 5* |  6 |
+  |---+----+----|
+
+- a[[xxx],[yyy]] = np.array(a[x,y], a[x,y], a[x,y])
+
+** operation on array is element-wise
+#+name: oparray
+#+header: :session
+#+begin_src python :results output
+  a = np.array([[1,2], [3,4], [5,6]])
+  bool_idx = (a > 2)
+  print (bool_idx)
+
+  int_idx = (a + 2)
+  print (int_idx)
+#+end_src
+
+#+results: oparray
+: [[false false]
+:  [ true  true]
+:  [ true  true]]
+: [[3 4]
+:  [5 6]
+:  [7 8]]
+
+- arr > 2 => arr.filter(_ > 2) => array of boolean
+- arr + 2 => arr.map(_ + 2) => arr of int
+
+** reduce rank by filter
+#+name: filterarr
+#+header: :session
+#+begin_src python :results output
+  a = np.array([[1,2], [3,4], [5,6]])
+  bool_idx = (a > 2)
+  print (bool_idx)
+
+  int_idx = (a + 2)
+  print (int_idx)
+
+  print(a[bool_idx])
+  print(a[(a>2)])
+  print(a[(a%2==0)])
+#+end_src
+
+#+RESULTS: filterarr
+: [[False False]
+:  [ True  True]
+:  [ True  True]]
+: [[3 4]
+:  [5 6]
+:  [7 8]]
+: [3 4 5 6]
+: [3 4 5 6]
+: [2 4 6]
+
+- a[(a > 2)] => arr.filter(_ > 2).flatmap(_)
+- arr > 2 => arr.filter(_ > 2) => array of boolean
+- arr + 2 => arr.map(_ + 2) => arr of int
+
+
+** Datatypes
+#+NAME: datatypesnp
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  x = np.array([1,2])
+  y = np.array([1.0,2.0])
+  z = np.array([1,2], dtype=np.int64)
+
+  print (x.dtype, y.dtype, z.dtype)
+#+END_SRC
+
+#+RESULTS: datatypesnp
+: int64 float64 int64
+
+** Array Math
+
+#+NAME: arrAdd
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  x = np.array([[1,2], [3,4]], dtype=np.float64)
+  y = np.array([[5,6], [7,8]], dtype=np.float64)
+
+  print(x+y)
+  print(np.add(x,y))
+  print(x-y)
+  print(np.subtract(x,y))
+#+END_SRC
+
+#+RESULTS: arrAdd
+: [[ 6.  8.]
+:  [10. 12.]]
+: [[ 6.  8.]
+:  [10. 12.]]
+: [[-4. -4.]
+:  [-4. -4.]]
+: [[-4. -4.]
+:  [-4. -4.]]
+
+#+RESULTS: arrMath
+: [[ 6.  8.]
+:  [10. 12.]]
+: [[ 6.  8.]
+:  [10. 12.]]
+
+[[1,2], [ 3, 4]]
+[[5,6], [ 7, 8]]  +
+-------------------
+[[6,8], [10,12]]
+
+[[ 1, 2], [ 3, 4]]
+[[ 5, 6], [ 7, 8]]  -
+-------------------
+[[-4,-4], [-4,-4]]
+
+- '+/-//' on np array is element-wise: x +/- y = np.add/subtract/divide(x,y)
+- 'dot' is inner product of vector
+- '*' is element-wise multiplication
+
+#+NAME: dotMat
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  x = np.array([[1,2], [3,4]])
+  y = np.array([[5,6], [7,8]])
+
+  v = np.array([9, 10])
+  w = np.array([11, 12])
+
+  print (v.dot(w))
+  print (np.dot(v, w))
+  print (x.dot(v))
+  print (np.dot(x, v))
+  print (x.dot(y))
+  print (np.dot(x, y))
+#+END_SRC
+
+#+RESULTS: dotMat
+: 219
+: 219
+: [29 67]
+: [29 67]
+: [[19 22]
+:  [43 50]]
+: [[19 22]
+:  [43 50]]
+
+*** sum by axis
+#+NAME: sumbyaxis
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  x=np.array([[1,2], [3,4]])
+
+  print (np.sum(x))
+  print (np.sum(x, axis = 0))
+  print (np.sum(x, axis = 1))
+#+END_SRC
+
+#+RESULTS: sumbyaxis
+: 10
+: [4 6]
+: [3 7]
+
+
+- arr + arr is element-wise; np.add(x,y) is element-wise
+- np.sum(x) is sum all elements
+- np.sum(x, axis=0)
+
+..................> 1
+. | 1 | 2 | 3 |
+. | 3 | 4 | 7 |
+. |---+---+---|
+. | 4 | 6 |   |
+v
+0
+
+
+*** transpose a matrix
+#+NAME: transMatrix
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  print (x)
+  print (x.T)
+#+END_SRC
+
+#+RESULTS: transMatrix
+: [[1 2]
+:  [3 4]]
+: [[1 3]
+:  [2 4]]
+
+
+** Broadcasting: from element-wise to row-wise
+
+*** row-wise by for loop is slow
+#+NAME: broadCasting
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  x= np.array([[1,2,3], [4,5,6], [7,8,9], [10,11,12]])
+  v= np.array([1,0,1])
+  y= np.empty_like(x)
+  for i in range(4):
+      y[i, :] = x[i, :] + v
+  print (y)
+#+END_SRC
+
+#+RESULTS: broadCasting
+: [[ 2  2  4]
+:  [ 5  5  7]
+:  [ 8  8 10]
+:  [11 11 13]]
+
+
+| [ 1  2  3] | [1 0 1] | [2, 2, 4]    |
+| [ 4  5  6] | [1 0 1] | [5, 5, 7]    |
+| [ 7  8  9] | [1 0 1] | [8, 8, 10]   |
+| [10 11 12] | [1 0 1] | [11, 11, 13] |
+#+TBLFM: $3=$1+$2
+
+|------------------+------------------------------------------------------------------|
+| copy shape       |                                                                  |
+|------------------+------------------------------------------------------------------|
+| empty_like(arr): | method to build an same-shape matrix full-filled *random number* |
+| ones_like (arr)  | method to build an same-shape matrix full-filled *1*             |
+| zeros_like (arr) | method to build an same-shape matrix full-filled *0*             |
+|------------------+------------------------------------------------------------------|
+| give shape       |                                                                  |
+|------------------+------------------------------------------------------------------|
+| empty(shape)     | new uninitialized array.                                         |
+| ones(shape)      | new array setting values to one.                                 |
+| zeros(shape)     | new array setting values to zero.                                |
+|------------------+------------------------------------------------------------------|
+
+
+*** element-wise by build a same shape matrix is fast
+#+NAME: broadCasting2
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  vv= np.tile(v, (4,1))
+  print (vv)
+  y = x+vv
+  print (y)
+#+END_SRC
+
+#+RESULTS: broadCasting2
+: [[1 0 1]
+:  [1 0 1]
+:  [1 0 1]
+:  [1 0 1]]
+: [[ 2  2  4]
+:  [ 5  5  7]
+:  [ 8  8 10]
+:  [11 11 13]]
+
+- tile(v, (num1,num2)) : see v as a unit, build a matrix by num1 times v as row, num2 times v as column
+eg. tile(v, (3,4))
+
+| v | v | v |              |   | [1,0,1,1,0,1,1,0,1] |
+| v | v | v |              |   | [1,0,1,1,0,1,1,0,1] |
+| v | v | v | if v=[1,0,1] | = | [1,0,1,1,0,1,1,0,1] |
+| v | v | v |              |   | [1,0,1,1,0,1,1,0,1] |
+
+compare with two methods of implementing row-wise plus
+method 1:
+1. extract row, by empty_like()
+2. row + row
+method 2:
+1. build a matrix, by tile()
+2. matrix + matix
+
+
+| [ 1  2  3] |   | [1 0 1] |   | [2, 2, 4]    |
+| [ 4  5  6] | + | [1 0 1] | = | [5, 5, 7]    |
+| [ 7  8  9] |   | [1 0 1] |   | [8, 8, 10]   |
+| [10 11 12] |   | [1 0 1] |   | [11, 11, 13] |
+#+TBLFM: $5=$1+$3
+
+| [ 1  2  3] | + [1 0 1] | = [2, 2, 4]    |
+| [ 4  5  6] | + [1 0 1] | = [5, 5, 7]    |
+| [ 7  8  9] | + [1 0 1] | = [8, 8, 10]   |
+| [10 11 12] | + [1 0 1] | = [11, 11, 13] |
+#+TBLFM: $3=[2, 2, 4]
+
+
+*** matrix + row/column = row/column-wise
+by the method 1 above, python has expand this as an syantax sugar:
+
+matrix ~+~ array = row-wise ~+~ array
+
+#+NAME: rowWisePlus1
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  x = np.array([[1,2,3], [4,5,6], [7,8,9], [10, 11, 12]])
+  v = np.array([1, 0, 1])
+  y = x + v  # Add v to each row of x using broadcasting
+  print (y)
+#+END_SRC
+
+#+RESULTS: rowWisePlus
+: [[ 2  2  4]
+:  [ 5  5  7]
+:  [ 8  8 10]
+:  [11 11 13]]
+
+
+#+NAME: rowWisePlus2
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  v = np.array([1,2,3])
+  w = np.array([4,5])
+  print (np.reshape(v, (3,1)) * w)
+  x= np.array([[1,2,3], [4,5,6]])
+  print (x+v)
+  print ((x.T + w).T)
+  print (x+ np.reshape(w, (2,1)))
+  print (x* 2)
+#+END_SRC
+
+#+RESULTS: rowWisePlus2
+#+begin_example
+[[ 4  5]
+ [ 8 10]
+ [12 15]]
+[[2 4 6]
+ [5 7 9]]
+[[ 5  6  7]
+ [ 9 10 11]]
+[[ 5  6  7]
+ [ 9 10 11]]
+[[ 2  4  6]
+ [ 8 10 12]]
+#+end_example
+
+. np.reshape(v, (3,1)) * w:
+---------------------------------------------
+.                   v: 3*1  w: 1*2  = 3*2
+.                     |1|             |4 | 5 |
+. | 1 | 2 | 3 | . T = |2| * |4|5|   = |8 | 10|
+.                     |3|             |12| 15|
+
+. x + v
+---------------------------------------------
+. | 1 | 2 | 3 |                  |2 | 4 |6 |
+. | 4 | 5 | 6 | + |1 |2 |3 |  =  |5 | 7 |9 |
+.
+
+. x.T +  w  = ----- .T =
+---------------------------------------------
+. 1 4         5, 9       5, 6, 7
+. 2 5 + 4 5 = 6, 10 .T = 9,10,11
+. 3 6         7, 11
+
+
+** Summarization
+- matrix + row    = row-wise    plus
+- matrix + column = column-wise plus
+
+- tile(v, shape) : is copy v as unit to build a matrix with shape
+- empty_like(matrix) : is a random matrix
+- reshape(v, shape) : is somelike transpose v to other form
+
+Note that:
+1. dot ONLY has one meanning, M dot M = sum of *element-2-element* product = value
+2. '*' has many meanning according to the differnt thing who following
+    column * row => Matrix product, eg. 3*1 * 1*3 = 3*3
+    M * val => *element-wise* every element of M multiply with val
+    M * row/column => *row/column-wise* product, and each row/column product is also *element-wise*
+
+
+* Numpy intro by scipy 2017
+[[https://www.youtube.com/watch?v=lKcwuPnSHIQ&t=2839s][Introduction to Numerical Computing with NumPy scipy 2017 tutorial]]
+
+#+BEGIN_QUOTE
+in juypter note book:
+1. %matplotlib inline
+#+END_QUOTE
+
+** difference between numpy and python
+   Numpy is implemented by c language, you don't need to care about what it behave in python.like:
+
+   python: will *NOT declare* type of elements in array
+   numpy : will *declare*     type of elements in array
+
+   this is more like the type-safe language:
+   - Array[ ~Int~ ](1,2,3,3,4)
+   - np.array([1,2,3,3,4], dtype= ~'int8'~)
+
+   python: 1 / 0: ERROE
+   numpy : array / 0: WARNING, and get some infinite symbol
+
+   python: integers are *arbitrarily large*, python will *allocate more and more* memory to holding this value
+   numpy : integers are *fixed in size*, it will ONLY *KEEP* the bits fitting the size declared, and *IGNORE* the redundent bits
+
+   np.nan == np.nan # False
+   np.isnan(np.nan) # True
+   Note that ~nan~ means undefined, so they don't have type, they are not comparable, two undefined things must be not equall.
+   So, If you want to *filter out* the ~nan~ by *equall boolean operation* is *impossible*: ~arr.filter(_ != nan) //WRONG~
+   but you can do it by ~isnan()~ : ~arr.filter(!_ isnana) //RIGHT~
+
+   #+NAME: narray1
+   #+HEADER: :session
+   #+BEGIN_SRC python :results output
+     a = np.array([-1, 0, 1, 100], dtype='int8')
+     print(a)
+   #+END_SRC
+
+   #+RESULTS: narray1
+   : [ -1   0   1 100]
+
+*** range vs np.arange
+
+from code below we can see that: *building a np.arange() is 10x faster than python built-in range()*
+
+- ~python.range()~ returns an *dynamically-resizing* *linked-list of pointers*
+  - means when you retrieve some item of this array, you will traverse the linked-list first ,then follow the *pointer* to find the object it point to
+  - every element(pointer) of this `array` will be checked and do some method transform to *make sure type-safe*, for everytime you do sth like ~ele1+ele2~
+- ~numpy.arange()~ returns an *non-resized dense* *array of objects*
+  - there is no double look-up, or triple look-up
+  - `array` in numpy is *fixed* to the size 64-bit for integer, or for 32-bit float, when do ~ele1 + ele2~ *no type-safe checking* operation executed.
+  - `array` in numpy is somelike the type-safe language like scala, with defaultly declare the type
+- ~python.list~ is *hetergereas* (multiple type elements) and *resized*.
+- ~numpy.array~ is *homogeneous* (same type elements) and *fixed*
+
+
+#+NAME: test_list
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  # normal way python to create a list of number
+  def test_list() :
+      return list(range(1000))
+  def sum_test_list() :
+      return sum(list(range(1000)))
+  # numpy way
+  import numpy as np
+  def test_array() :
+      return np.arange(1000)
+  def sum_test_array() :
+      return sum(np.arange(1000))
+  # get time consumption
+  import timeit
+  print(timeit.timeit(test_list))
+  print(timeit.timeit(test_array))
+  print(timeit.timeit(sum_test_list))
+  print(timeit.timeit(sum_test_array))
+#+END_SRC
+
+#+RESULTS: test_list
+: 9.801971782006149
+: 1.1378583570040064
+: 14.511466812000435
+: 65.05813833899447
+
+*** divide by zero
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      #1 / 0 # ERROR
+      print(a / 0) # array of INFINITE, WARNING
+    #+END_SRC
+
+*** power of any nubmer
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      print(100 ** 2)
+      print(100 ** 50)
+      print(a ** 2)
+    #+END_SRC
+
+    #+RESULTS:
+    : 10000
+    : 10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    : [ 1  0  1 16]
+
+*** type conversion of array of numpy
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      b = a.astype('float32')
+      print(b)
+      print(b / 0)
+    #+END_SRC
+
+    #+RESULTS:
+    : [ -1.   0.   1. 100.]
+    : [-inf  nan  inf  inf]
+
+*** nan in numpy
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      print(np.nan == np.nan) # False
+      print(np.isnan(np.nan)) # True
+    #+END_SRC
+
+    #+RESULTS:
+    : False
+    : True
+
+
+*** some methods to build an numpy array
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  np.zeros
+  np.ones
+  np.empty
+  print (np.empty((2,2)))
+#+END_SRC
+
+#+RESULTS:
+: [[-inf  nan]
+:  [ inf  inf]]
+
+this is whatever left over in the memory addresss before it became my numpy array.
+
+** how to retrieve the element of array of numpy
+   #+HEADER: :session
+   #+BEGIN_SRC python :results output
+     print(a)
+   #+END_SRC
+
+   #+RESULTS:
+   : [ -1   0   1 100]
+
+*** indexing
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      print(a[0])
+      print(a[-1])
+
+    #+END_SRC
+
+    #+RESULTS:
+    : -1
+    : 100
+
+*** slicing
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      print(a[0:2])
+      print(a[:2])
+      print(a[::2])
+
+    #+END_SRC
+
+    #+RESULTS:
+    : [-1  0]
+    : [-1  0]
+    : [-1  1]
+
+*** set value
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      ### array of numpy is changeable
+      print(a[-1])
+      print(a)
+
+    #+END_SRC
+
+    #+RESULTS:
+    : 100
+    : [ -1   0   1 100]
+
+*** 2-D array by reshape
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      b = np.arange(12).reshape(4,3)
+      print(b)
+
+    #+END_SRC
+
+*** retrieve element of 2-D
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      print ( a.shape )
+      print ( b.shape )
+      print ( b[2, 2])
+
+    #+END_SRC
+
+*** retrieve sub-matrix of 2-D
+    when do ~retrieve sub-matrix~ what you really do is to *slicing two index array in two direction*, which are vertical and horizon
+
+
+    .  ~arr[1:3, -1:] = [[5],[8]]~
+    .
+    .                               [-1:]
+    .                                 |
+    .                                 v
+    .                |      0    1    2
+    .               -+--------------------->
+    .                |
+    .               0|   |  0 |  1 |  2  |
+    .         ....> 1|   |  3 |  4 |  5 *|
+    .  [1:3]  ....> 2|   |  6 |  7 |  8 *|
+    .               3|   |  9 | 10 | 11  |
+    .                |
+    .                v
+
+
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      print ( b[:2, :2])
+      #### collapse to lower dimension array
+      print ( b[1:3, -1])
+      #### NO collapse to lower dimension array
+      print ( b[1:3, [-1]])
+      #### or
+      print ( b[1:3, -2:])
+
+    #+END_SRC
+
+    #+RESULTS:
+
+*** diff: (2,) and (2,1)
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      print ( np.array([[2],[3]]).shape ) # (2,1)
+      print ( np.array([2]).shape )       # (2, )
+
+    #+END_SRC
+
+*** 3-D array by reshape
+
+    3-D array: shape = (2, 3, 4)
+    .
+    .                                       4
+    .                                       .
+    .                                       .
+    .                                   ..........
+    .                                   v  v  v  v
+    .
+    .                        [ >[     [ 0  1  2  3]
+    .                         .       [ 4  5  6  7]
+    .                        .        [ 8  9 10 11]]
+    .      2  ................
+    .                         .>[ ..> [12 13 14 15]
+    .                             ..> [16 17 18 19]
+    .      3  ......................> [20 21 22 23]]]
+    .
+
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      c = np.arange(24).reshape(2, 3, 4)
+      print (c)
+      print (c[1, 1, 1])
+      #### collapse to lower dimension array
+      print (c[0, :, :])
+      print (c[1, 0, :])
+      #### NO collapse to lower dimension array
+      print (c[:1, :, :])
+    #+END_SRC
+
+    #+RESULTS:
+    #+begin_example
+    [[[ 0  1  2  3]
+      [ 4  5  6  7]
+      [ 8  9 10 11]]
+
+     [[12 13 14 15]
+      [16 17 18 19]
+      [20 21 22 23]]]
+    17
+    [[ 0  1  2  3]
+     [ 4  5  6  7]
+     [ 8  9 10 11]]
+    [12 13 14 15]
+    [[[ 0  1  2  3]
+      [ 4  5  6  7]
+      [ 8  9 10 11]]]
+    #+end_example
+
+*** flat the array to 1-D
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      print ( c.flatten() )
+    #+END_SRC
+*** more complex sub-matrix operation
+#+NAME: 2-DArrayOperation
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  a = np.arange(25).reshape(5,5)
+  print( a )
+  print( a[4, :])
+  print( a[1:-1:2, 0:4:2])
+  print( a[[1, 3], [0, 2]])
+  print( a[:, 1::2])
+#+END_SRC
+
+#+RESULTS: 2-DArrayOperation
+#+begin_example
+[[ 0  1  2  3  4]
+ [ 5  6  7  8  9]
+ [10 11 12 13 14]
+ [15 16 17 18 19]
+ [20 21 22 23 24]]
+[20 21 22 23 24]
+[[ 5  7]
+ [15 17]]
+[ 5 17]
+[[ 1  3]
+ [ 6  8]
+ [11 13]
+ [16 18]
+ [21 23]]
+#+end_example
+
+*** fancy indexing
+    #+NAME: indexing
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      a = np.arange(4)
+      print(a)
+      print (a[[0, 1, 3]])
+
+      print (b)
+      print (b[[0, 2], [2, 0]])
+
+      print(c)
+      print(c[[0, 1], [1, 1], [2, 1]])
+      print(c[[0, 1], [1], [2]])
+    #+END_SRC
+
+    #+RESULTS: indexing
+    #+begin_example
+    [0 1 2 3]
+    [0 1 3]
+    [[ 0  1  2]
+     [ 3  4  5]
+     [ 6  7  8]
+     [ 9 10 11]]
+    [2 6]
+    [[[ 0  1  2  3]
+      [ 4  5  6  7]
+      [ 8  9 10 11]]
+
+     [[12 13 14 15]
+      [16 17 18 19]
+      [20 21 22 23]]]
+    [ 6 17]
+    [ 6 18]
+    #+end_example
+
+*** diff slicing and fancy indexing
+  ~a[1:-1:2, 0:4:2] = [[ 5  7], [15 17]]~
+.
+.               |      |
+.              v|     v|
+.               |      |
+.           [[ 0|  1  2|  3  4]
+.     >      [ 5|  6  7|  8  9]
+.    -----------+------+------------
+.            [10| 11 12| 13 14]
+.     >      [15| 16 17| 18 19]
+.    -----------+------+------------
+.            [20| 21 22| 23 24]]
+.               |      |
+
+
+
+  ~a[[1, 3], [0, 2]] = [ 5 17 ]~
+.
+.               |      |
+.              v|     v|
+.               |      |
+.           [[ 0|  1  2|  3  4]
+.     >      [ 5|  6  7|  8  9]
+.    -----------+      |
+.            [10  11 12| 13 14]
+.     >      [15  16 17| 18 19]
+.    ------------------+
+.            [20  21 22  23 24]]
+.
+
+*** fancy indexing math operation on numpy array
+
+    | operation | numpy         | scala               |
+    |-----------+---------------+---------------------|
+    | map       | arr > 16      | arr.map(_ > 16)     |
+    | filter    | arr[ arr>16 ] | arr.filter (_ > 16) |
+    |           |               |                     |
+
+    #+NAME: mathOperation
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      print (c)
+      print (c > 16) # map
+      print (c[ c>16 ]) # filter
+    #+END_SRC
+
+    #+RESULTS: mathOperation
+    #+begin_example
+    [[[ 0  1  2  3]
+      [ 4  5  6  7]
+      [ 8  9 10 11]]
+
+     [[12 13 14 15]
+      [16 17 18 19]
+      [20 21 22 23]]]
+    [[[False False False False]
+      [False False False False]
+      [False False False False]]
+
+     [[False False False False]
+      [False  True  True  True]
+      [ True  True  True  True]]]
+    [17 18 19 20 21 22 23]
+    #+end_example
+
+*** diff normal indexing and fancy indexing mathOperation
+Note that:
+~fancy indexing~ is slower, it will try his best to avoiding copy, but *not ensure that*.
+~normal indexing~ and ~slicing~ on numpy.array are faster, they *will not* copy any data around in memory.
+
+#+NAME: diffindexing
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  ### normal indexing and slicing
+  print (c)
+  d= c[:, 1:2, 1:3]
+  print (d)
+  print (d.flags) # OWNDATA:False
+
+  ### fancy indexing math operation
+  e = c[ c>16 ]
+  print (e)
+  print (e.flags) # OWNDATA:True
+#+END_SRC
+
+#+RESULTS: diffindexing
+#+begin_example
+[[[    0     1     2     3]
+  [    4 10000     6     7]
+  [    8     9    10    11]]
+
+ [[   12    13    14    15]
+  [   16    17    18    19]
+  [   20    21    22    23]]]
+[[[10000     6]]
+
+ [[   17    18]]]
+  C_CONTIGUOUS : False
+  F_CONTIGUOUS : False
+  OWNDATA : False
+  WRITEABLE : True
+  ALIGNED : True
+  WRITEBACKIFCOPY : False
+  UPDATEIFCOPY : False
+(96, 32, 8)
+[10000    17    18    19    20    21    22    23]
+  C_CONTIGUOUS : True
+  F_CONTIGUOUS : True
+  OWNDATA : True
+  WRITEABLE : True
+  ALIGNED : True
+  WRITEBACKIFCOPY : False
+  UPDATEIFCOPY : False
+#+end_example
+
+**** ~arr.flags~ whether array hold data or not
+~OWNDATA~
+This flag is about whether this array (means ~d~ here) control its own data. ~False~ means
+it has *not created any data*. This could be *good for efficiency*, because copying data in memory is very expensive.
+But *bad for safety*.
+
+~OWNDATA : False~ : slicing and normal indexing
+  - good for efficiency
+  - bad for safety.
+
+
+~OWNDATA : True~ : fancy indexing and math Operation
+  - bad for efficiency
+  - good for safety.
+
+**** risky of not hold data
+BUT, this also risky:
+>>>> whatever you change in ~d~ will also change in ~c~
+
+#+NAME: changeind
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  f = np.arange(25).reshape(5,5)
+  print (f)
+  d = f[:, 1:2]
+  d[0, 0] = 10000
+  print (f)
+#+END_SRC
+
+#+RESULTS: changeind
+#+begin_example
+[[ 0  1  2  3  4]
+ [ 5  6  7  8  9]
+ [10 11 12 13 14]
+ [15 16 17 18 19]
+ [20 21 22 23 24]]
+[[    0 10000     2     3     4]
+ [    5     6     7     8     9]
+ [   10    11    12    13    14]
+ [   15    16    17    18    19]
+ [   20    21    22    23    24]]
+#+end_example
+**** what is numpy.array underneath the hood
+
+     . x.strides = (3, 1)
+     .
+     .       [[1, 2, 3],
+     .        [4, 5, 6],
+     .        [7, 8, 9]]
+     .
+     .        [ 1  2  3  4  5  6  7  8  9]
+     .          ^  ^  ^        ^        ^
+     .          |  |  ||       ||       ||     skip 3 elements/step
+     .          |  |
+     .          |  |
+     .         skip 1 element/step
+
+     NumPy array with any shape inside of computer is *a long line of number*, ~reshap~ is just a trick to make it *looks like* a multiple dimension array,
+
+     #+NAME: numpyArrayIndeep
+     #+HEADER: :session
+     #+BEGIN_SRC python :results output
+       print (c.strides)
+     #+END_SRC
+
+     #+RESULTS: numpyArrayIndeep
+     : (96, 32, 8)
+
+     #+NAME: whatIsStrides
+     #+HEADER: :session
+     #+BEGIN_SRC python :results output
+       ### The question:
+       ###        at which byte, in x.data dose the item x[1,2] begin
+       x = np.array([[1, 2, 3],
+                     [4, 5, 6],
+                     [7, 8, 9]], dtype=np.int8)
+       y = np.array([[[1, 2, 3],
+                      [4, 5, 6],
+                      [7, 8, 9]],
+                     [[1, 2, 3],
+                      [4, 5, 6],
+                      [7, 8, 9]]], dtype=np.int8)
+       print (str(x.data))
+
+       ### The answer:
+       ###        strides: the number of bytes to jump to find the next element
+       ###        1 stride per dimension
+       print (x.strides) # 2-D array will get tuple-2
+       print (y.strides) # 3-D array will get tuple-3
+       byte_offset = 3*1 + 1*2 # x[1,2]
+       print (x.flat[byte_offset])
+       print (x[1, 2])
+     #+END_SRC
+
+     #+RESULTS: whatIsStrides
+     : <memory at 0x7f62191f1708>
+     : (3, 1)
+     : (9, 3, 1)
+     : 6
+     : 6
+
+
+     . x.strides = (3, 1)
+     .
+     .       [[1, 2, 3],
+     .        [4, 5, 6],
+     .        [7, 8, 9]]
+     .
+     .        [ 1  2  3  4  5  6  7  8  9]
+     .          ^  ^  ^        ^        ^
+     .          |  |  ||       ||       ||     skip 3 elements/step
+     .          |  |
+     .          |  |
+     .         skip 1 element/step
+
+**** methods to create a new Array or not
+     some methods to create a new Array and a header and some strides: ~OWNDATA:True~
+     1. np.arange()
+     2. np.zeros()
+     3. np.ones()
+     4. np.empty()
+
+     some methods NOT to create a new Array and ONLY a header and some strides: ~OWNDATA:False~
+     1. arr.T
+     2. arr.reshape
+     3. slicing
+     4. normal indexing (special slicing)
+
+     *maybe* create a new Array
+     1. fancy slicing and mask
+
+.     >>> some methods to *create a new Array and a header and some strides*:
+.     Header                          Array
+.     +------------------+            +-----+-----+-----+----+----+----+----+----------
+.     |  header ---------|----------> |     |     |     |    |    |    |    |  ......
+.     |  shape           |            +-----+-----+-----+----+----+----+----+----------
+.     |  strides         |             ^
+.     +------------------+             |
+.                                      |
+.     >>> some methods *NOT* to create |a new array but *ONLY a header and some strides*:
+.                                      |
+.     +-----------------+              |
+.     |  header --------+--------------+
+.     |  shape          |
+.     |  strides        |
+.     +-----------------+
+
+** Mathematical operation and Reduction operations
+   ~Mathematical operation~ returns an array of the *same* size and shape.
+   - addtion
+   ~Reduction operation~ returns an array of the *smaller* size and shape.
+   - np.sum(arr, axis)
+   - np.mean(arr)))
+   - np.mean(arr)))
+   - np.std(arr))
+   - np.var(arr))
+   - np.max(arr))
+   - np.min(arr))
+   - np.argmax(arr)) # the location of max item
+   - np.argmin(arr)) # the location of min item
+   - np.unravel_index(index_num, arr_shape) # get well-formated index
+
+*** mean,std,var,max,argmax,unravel_index
+ #+NAME: usefulReductionAPI
+ #+HEADER: :session
+ #+BEGIN_SRC python :results output
+ calc_return_path = 'Numpy-Tutorial-SciPyConf-2017-master/exercises/calc_return/aapl_2008_close_values.csv'
+ prices = loadtxt(calc_return_path, usecols=[1], delimiter=",")
+
+ print (np.mean(prices))
+ print (np.std(prices))
+ print (np.var(prices))
+ print (np.max(prices))
+ print (np.min(prices))
+ print (np.argmin(prices))
+
+ ## for a 2-D array, argmin/max will return the index of flattern 2-D array
+ print (b)
+ print (np.argmax(b)) # 11
+ ## you can unravel this index to get the well-formated index you want
+ print (np.unravel_index(np.argmax(b), b.shape))
+ #+END_SRC
+
+ #+RESULTS: usefulReductionAPI
+ #+begin_example
+ 141.97901185770752
+ 33.665494483022535
+ 1133.3655187864208
+ 194.93
+ 80.49
+ 225
+ [[ 0  1  2]
+  [ 3  4  5]
+  [ 6  7  8]
+  [ 9 10 11]]
+ 11
+ (3, 2)
+ #+end_example
+
+*** sum by axis
+#+NAME: sumByAxis.
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  print (h)
+  h = h.astype('float64')  # nan must be in float type
+  h[2, 3] = np.nan
+  print (h)
+  print (h + 5)          # nan will still be nan
+  print ( np.sum(h) )    # nan propagate to any mathematical operation
+                         # 1 + 2 + 3 + 5 + nan + 7 + 8 + ... = nan
+  print ( np.sum(h, axis = 0))
+  print ( np.sum(h, axis = 1))
+#+END_SRC
+
+#+RESULTS: sumByAxis.
+#+begin_example
+[[ 0.  1.  2.  3.  4.]
+ [ 5.  6.  7.  8.  9.]
+ [10. 11. 12. nan 14.]
+ [15. 16. 17. 18. 19.]
+ [20. 21. 22. 23. 24.]]
+[[ 0.  1.  2.  3.  4.]
+ [ 5.  6.  7.  8.  9.]
+ [10. 11. 12. nan 14.]
+ [15. 16. 17. 18. 19.]
+ [20. 21. 22. 23. 24.]]
+[[ 5.  6.  7.  8.  9.]
+ [10. 11. 12. 13. 14.]
+ [15. 16. 17. nan 19.]
+ [20. 21. 22. 23. 24.]
+ [25. 26. 27. 28. 29.]]
+nan
+[ 10.  35.  nan  85. 110.]
+[50. 55. 60. nan 70.]
+#+end_example
+
+
+** broadCasting rule
+   when mathematical operation applied to two different shapes, broadcasting will happen
+*** 1. make sure the shape match('match' means can be match after scaling by [1,n])
+.    |  0 |  1 |  2 |  3 |  4 |
+.    |  5 |  6 |  7 |  8 |  9 |
+.    | 10 | 11 | 12 | 13 | 14 |  +  | 0 | 1 | 2 | 3 | 4 |
+.    | 15 | 16 | 17 | 18 | 19 |     ---------------------
+.    | 20 | 21 | 22 | 23 | 24 |                |
+.                                              |
+.                                              v
+.
+.                         apply broadcasting rule: scaling(copy) to same match
+.
+.                                              |
+.                                              |
+.                                              v
+.    |  0 |  1 |  2 |  3 |  4 |     | 0 | 1 | 2 | 3 | 4 |
+.    |  5 |  6 |  7 |  8 |  9 |     | 0 | 1 | 2 | 3 | 4 |
+.    | 10 | 11 | 12 | 13 | 14 |  +  | 0 | 1 | 2 | 3 | 4 |
+.    | 15 | 16 | 17 | 18 | 19 |     | 0 | 1 | 2 | 3 | 4 |
+.    | 20 | 21 | 22 | 23 | 24 |     | 0 | 1 | 2 | 3 | 4 |
+.
+.=================================================================================
+.
+.    | 0 | 1 | 2 | 3 | 4 |  +  | 0 |
+.                              | 1 |
+.                              | 2 |
+.                              | 3 |
+.                              | 4 |
+.
+.    ---------------------     -----
+.             |                  |
+.             |                  |
+.             v                  v
+.
+.    apply broadcasting rule: scaling(copy) to same match
+.
+.             |                  |
+.             |                  |
+.             v                  v
+.
+.    | 0 | 1 | 2 | 3 | 4 |  +  | 0 | 0 | 0 | 0 | 0 |
+.    | 0 | 1 | 2 | 3 | 4 |     | 1 | 1 | 1 | 1 | 1 |
+.    | 0 | 1 | 2 | 3 | 4 |     | 2 | 2 | 2 | 2 | 2 |
+.    | 0 | 1 | 2 | 3 | 4 |     | 3 | 3 | 3 | 3 | 3 |
+.    | 0 | 1 | 2 | 3 | 4 |     | 4 | 4 | 4 | 4 | 4 |
+.
+
+**** codes illustration
+ #+HEADER: :session
+ #+BEGIN_SRC python :results output
+   h = np.arange(25).reshape(5,5)
+   print (h)
+ #+END_SRC
+
+ #+RESULTS:
+ : [[ 0  1  2  3  4]
+ :  [ 5  6  7  8  9]
+ :  [10 11 12 13 14]
+ :  [15 16 17 18 19]
+ :  [20 21 22 23 24]]
+
+ #+HEADER: :session
+ #+BEGIN_SRC python :results output
+   # matrix + scalar
+   print (h + 4)                                     # broadcasting happen
+ #+END_SRC
+
+ #+RESULTS:
+ : [[ 4  5  6  7  8]
+ :  [ 9 10 11 12 13]
+ :  [14 15 16 17 18]
+ :  [19 20 21 22 23]
+ :  [24 25 26 27 28]]
+
+ #+HEADER: :session
+ #+BEGIN_SRC python :results output
+   # matrix + bad-shape-array = matrix
+   print (h + np.arange(7))                          # ERROR, shape mismatch
+   print (h + np.arange(10))                         # ERROR, shape mismatch
+ #+END_SRC
+
+ #+RESULTS:
+ : Traceback (most recent call last):
+ :   File "<stdin>", line 1, in <module>
+ :   File "/tmp/babel-32610Fla/python-326106fk", line 2, in <module>
+ :     print (h + np.arange(7))                          # ERROR, shape mismatch
+ : ValueError: operands could not be broadcast together with shapes (5,5) (7,)
+
+ #+HEADER: :session
+ #+BEGIN_SRC python :results output
+   # matrix + row/column = matrix + matrix
+   print (h + np.arange(5))                          # broadcasting happen
+   print (h + np.arange(5).reshape(5,1))             # broadcasting happen
+ #+END_SRC
+
+ #+RESULTS:
+ #+begin_example
+ [[ 0  2  4  6  8]
+  [ 5  7  9 11 13]
+  [10 12 14 16 18]
+  [15 17 19 21 23]
+  [20 22 24 26 28]]
+ [[ 0  1  2  3  4]
+  [ 6  7  8  9 10]
+  [12 13 14 15 16]
+  [18 19 20 21 22]
+  [24 25 26 27 28]]
+ #+end_example
+
+ #+HEADER: :session
+ #+BEGIN_SRC python :results output
+   # row + column = matrix + matrix
+   print (np.arange(5).reshape(5,1) + np.arange(5))  # broadcasting happen
+   print (np.arange(5) + np.arange(5).reshape(5,1))  # broadcasting happen
+ #+END_SRC
+
+ #+RESULTS:
+ #+begin_example
+ [[0 1 2 3 4]
+  [1 2 3 4 5]
+  [2 3 4 5 6]
+  [3 4 5 6 7]
+  [4 5 6 7 8]]
+ [[0 1 2 3 4]
+  [1 2 3 4 5]
+  [2 3 4 5 6]
+  [3 4 5 6 7]
+  [4 5 6 7 8]]
+ #+end_example
+
+
+
+*** 2. mathematical operations is applied element-wise
+*** 3. nan is float and *propagate* like virus
+    Once you have one nan element in array, all mathematical operation on array will get a nan
+**** codes illustration
+    #+NAME: nanTestPropagate
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      print (h)
+      h = h.astype('float64')  # nan must be in float type
+      h[2, 3] = np.nan
+      print (h)
+      print (h + 5)          # nan will still be nan
+      print ( np.sum(h) )    # nan propagate to any mathematical operation
+                             # 1 + 2 + 3 + 5 + nan + 7 + 8 + ... = nan
+    #+END_SRC
+
+    #+RESULTS: nanTest
+    #+begin_example
+    [[ 0.  1.  2.  3.  4.]
+     [ 5.  6.  7.  8.  9.]
+     [10. 11. 12. nan 14.]
+     [15. 16. 17. 18. 19.]
+     [20. 21. 22. 23. 24.]]
+    [[ 0.  1.  2.  3.  4.]
+     [ 5.  6.  7.  8.  9.]
+     [10. 11. 12. nan 14.]
+     [15. 16. 17. 18. 19.]
+     [20. 21. 22. 23. 24.]]
+    [[ 5.  6.  7.  8.  9.]
+     [10. 11. 12. 13. 14.]
+     [15. 16. 17. nan 19.]
+     [20. 21. 22. 23. 24.]
+     [25. 26. 27. 28. 29.]]
+    nan
+    #+end_example
+
+** Exercise in this youtube tutorial
+*** exercise of fancy indexing and mask
+    (1) create the array below
+    (2) extract the elements indicated by '<-'
+    (3) extract all the numbers divisible by 3 using boolean mask.
+
+
+    |  0 | 1<- |    2 |     3 |     4 |
+    |  5 |   6 | 7 <- |     8 |     9 |
+    | 10 |  11 |   12 | 13 <- |    14 |
+    | 15 |  16 |   17 |    18 | 19 <- |
+    | 20 |  21 |   22 |    23 |    24 |
+
+
+    #+NAME: retrieveByFancyIndexing
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      g = np.arange(25).reshape(5,5)
+      gg = g[[0,1,2,3],[1,2,3,4]]
+
+      print (gg) # extract by fancy indexing.
+      print (g[ g%3==0 ]) # extract by boolean mask.
+    #+END_SRC
+
+    #+RESULTS: retrieveByFancyIndexing
+    : [ 1  7 13 19]
+    : [ 0  3  6  9 12 15 18 21 24]
+
+*** exercise of "dow_selection"
+    #+NAME: dow_selection
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      """
+      Dow Selection
+      -------------
+
+      Topics: Boolean array operators, sum function, where function, plotting.
+
+      The array 'dow' is a 2-D array with each row holding the
+      daily performance of the Dow Jones Industrial Average from the
+      beginning of 2008 (dates have been removed for exercise simplicity).
+      The array has the following structure::
+
+             OPEN      HIGH      LOW       CLOSE     VOLUME      ADJ_CLOSE
+             13261.82  13338.23  12969.42  13043.96  3452650000  13043.96
+             13044.12  13197.43  12968.44  13056.72  3429500000  13056.72
+             13046.56  13049.65  12740.51  12800.18  4166000000  12800.18
+             12801.15  12984.95  12640.44  12827.49  4221260000  12827.49
+             12820.9   12998.11  12511.03  12589.07  4705390000  12589.07
+             12590.21  12814.97  12431.53  12735.31  5351030000  12735.31
+
+      0. The data has been loaded from a .csv file for you.
+      1. Create a "mask" array that indicates which rows have a volume
+         greater than 5.5 billion.
+      2. How many are there?  (hint: use sum).
+      3. Find the index of every row (or day) where the volume is greater
+         than 5.5 billion. hint: look at the where() command.
+
+      Bonus
+      ~~~~~
+
+      1. Plot the adjusted close for *every* day in 2008.
+      2. Now over-plot this plot with a 'red dot' marker for every
+         day where the volume was greater than 5.5 billion.
+
+      See :ref:`dow-selection-solution`.
+      """
+
+      from numpy import loadtxt, sum, where
+      import matplotlib.pyplot as plt
+      # Constants that indicate what data is held in each column of
+      # the 'dow' array.
+      OPEN = 0
+      HIGH = 1
+      LOW = 2
+      CLOSE = 3
+      VOLUME = 4
+      ADJ_CLOSE = 5
+
+      dow_exercise_path = 'Numpy-Tutorial-SciPyConf-2017-master/exercises/dow_selection/dow.csv'
+
+      # 0. The data has been loaded from a .csv file for you.
+
+      # 'dow' is our NumPy array that we will manipulate.
+      dow = loadtxt(dow_exercise_path, delimiter=',')
+
+      # 1. Create a "mask" array that indicates which rows have a volume
+      #    greater than 5.5 billion.
+      dow_volumn = dow[:, 4]
+      mask = dow_volumn > 5500000000
+
+      # 2. How many are there?  (hint: use sum).
+      print ( np.sum(mask) )
+
+      # 3. Find the index of every row (or day) where the volume is greater
+      #    than 5.5 billion. hint: look at the where() command.
+      print ( np.where(mask) )
+
+      # BONUS:
+      # a. Plot the adjusted close for EVERY day in 2008.
+      # b. Now over-plot this plot with a 'red dot' marker for every
+      #    day where the volume was greater than 5.5 billion.
+      dow_adjclose = dow[:, ADJ_CLOSE]
+      csv_size = dow_adjclose.size
+      print (csv_size)
+
+      plt.figure()
+      plt.plot( dow_adjclose, 'b-')
+      plt.show
+      # plt.plot( )
+    #+END_SRC
+
+    #+RESULTS: dow_selection
+    #+begin_example
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+      File "/tmp/babel-32610Fla/python-32610suy", line 53, in <module>
+        dow = loadtxt(dow_exercise_path, delimiter=',')
+      File "/home/yiddi/anaconda3/envs/tensorflow/lib/python3.6/site-packages/numpy/lib/npyio.py", line 917, in loadtxt
+        fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)
+      File "/home/yiddi/anaconda3/envs/tensorflow/lib/python3.6/site-packages/numpy/lib/_datasource.py", line 260, in open
+        return ds.open(path, mode, encoding=encoding, newline=newline)
+      File "/home/yiddi/anaconda3/envs/tensorflow/lib/python3.6/site-packages/numpy/lib/_datasource.py", line 616, in open
+        raise IOError("%s not found." % path)
+    OSError: Numpy-Tutorial-SciPyConf-2017-master/exercises/dow_selection/dow.csv not found.
+    #+end_example
+
+*** exercise of "calc_return"
+    #+NAME: calc_return
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      """
+      Calc return
+      ===========
+
+      For a given stock, the return is connected to its close price p by
+
+               p(t) - p(t-1)
+      ret(t) = -------------
+                   p(t-1)
+
+      The close price for Apple stock for all business days in 2008 is loaded for you
+      from the data file `aapl_2008_close_values.csv`.
+
+      1. Use these values to compute the corresponding daily return for every
+      business day of that year (except the first one).
+
+      2. Plot these returns, converted to percentages, over the course of the year.
+      On the same plot, draw a red line at 0.
+
+      Note: a for loop is neither necessary nor recommended for this calculation
+
+      Bonus
+      ~~~~~
+      3. There is some blank space in the plot made in question 2 because by default,
+      matplotlib displays plots with a range along the x axis that is larger than the
+      highest x coordinate. Use IPython to learn about matplotlib's `plt.xlim` function
+      and make the limits of your plot tighter.
+      """
+      from __future__ import print_function
+      from numpy import arange, loadtxt, zeros
+      import matplotlib.pyplot as plt
+
+      calc_return_path = 'Numpy-Tutorial-SciPyConf-2017-master/exercises/calc_return/aapl_2008_close_values.csv'
+      prices = loadtxt(calc_return_path, usecols=[1], delimiter=",")
+
+      #          p(t) - p(t-1)
+      # ret(t) = -------------
+      #              p(t-1)
+
+      # 1. Use these values to compute the corresponding daily return for every
+      # business day of that year (except the first one).
+      forth = prices[:-1]
+      back = prices[1:]
+      ret = (back - forth)/forth
+      print (ret)
+
+      # 2. Plot these returns, converted to percentages, over the course of the year.
+      # On the same plot, draw a red line at 0.
+      plt.plot(ret*100)
+      plt.show
+
+      # 3. There is some blank space in the plot made in question 2 because by default,
+      # matplotlib displays plots with a range along the x axis that is larger than the
+      # highest x coordinate. Use IPython to learn about matplotlib's `plt.xlim` function
+      # and make the limits of your plot tighter.
+      # TODO
+
+    #+END_SRC
+
+    #+RESULTS: calc_return
+    #+begin_example
+    [ 4.61917471e-04 -7.63350946e-02 -1.33851708e-02 -3.59716280e-02
+      4.75912409e-02 -7.69230769e-03 -2.99404561e-02  3.52655047e-02
+     -5.44803669e-02 -5.56081401e-02  7.83011776e-03  2.92125054e-03
+     -3.54486862e-02 -1.06463634e-01 -2.49514633e-02 -4.12241888e-02
+      0.00000000e+00  1.17683255e-02  4.86544017e-03  2.40581026e-02
+     -1.18942080e-02 -1.57009346e-02 -1.73946069e-02 -5.68954855e-02
+     -6.22950820e-03  3.49719565e-02  3.16385081e-02 -3.54577057e-02
+      3.63607240e-02 -1.49922720e-02 -2.22030441e-02 -1.96581882e-02
+      1.34228188e-02 -1.84138265e-02 -1.71137074e-02  2.34388080e-03
+     -4.92734258e-03  3.19765002e-02  5.65224463e-02 -3.76414441e-02
+     -2.63157895e-02  2.37410663e-02 -1.04317124e-03 -2.85966744e-02
+      1.09154056e-02 -2.09406953e-02  6.39986632e-02 -1.03651355e-02
+      1.51551218e-02 -1.03954979e-02  9.47792433e-04  4.80549199e-02
+     -2.37163078e-02  2.77627824e-02  4.69723118e-02  1.03920304e-02
+      2.89402752e-02 -3.31586930e-02  1.96791444e-02  3.42633382e-03
+      4.20209059e-02 -1.36427473e-02  2.79340972e-02  9.69593035e-03
+      1.83564149e-02 -1.95650779e-02 -9.15990578e-03  2.05361859e-02
+     -4.79456487e-02  4.34959902e-03  4.06008932e-03  3.58538887e-02
+      5.13988289e-03  4.23975662e-02  4.42126180e-02 -4.73358706e-02
+      1.67915106e-02  3.71416293e-02  4.67621641e-03  1.47881930e-02
+      1.63144450e-02 -6.28391888e-03  3.47801092e-02  5.22222222e-03
+      2.09461700e-02  1.04476804e-02 -2.18043502e-02  1.35275754e-02
+     -8.69988112e-03  2.56745707e-02  9.56632653e-03 -1.94777848e-02
+      1.86298722e-02 -1.11210668e-02 -2.14262872e-02  1.25272331e-02
+     -4.14739107e-02 -6.39766541e-03  2.32702626e-02  2.90335044e-02
+      3.11108727e-03 -1.71113844e-03  1.10343350e-02 -1.40397351e-02
+     -3.92262225e-03 -9.71030911e-04  2.28954047e-02 -2.00073906e-02
+     -2.17086835e-02  2.21904080e-02 -2.60180995e-02 -4.17565400e-02
+     -5.13678864e-03  2.59325869e-02  2.59556661e-02 -1.47715372e-02
+      1.20279720e-02 -3.11221669e-02 -1.20385691e-02  5.19750520e-04
+      2.38961039e-02 -5.14685157e-02  1.08760252e-02 -1.55799871e-02
+      4.32393693e-02 -3.72108999e-02  1.15352598e-02  2.96261462e-02
+      2.50627997e-02 -2.95182400e-02  1.36585366e-02 -2.29292872e-02
+      7.53273844e-03 -2.43846331e-02  1.86866305e-02 -5.78670216e-03
+     -3.87637507e-02  6.90281562e-03 -2.56780324e-02  2.61696087e-02
+     -4.34861061e-02  1.94302962e-02 -4.76190476e-02  1.73575130e-02
+      1.78253119e-02 -5.81686265e-03 -1.44070462e-02 -2.18945487e-02
+      4.83586765e-02  2.20991036e-02 -3.77611304e-03  3.65592713e-02
+      2.36508405e-02  1.82645771e-02  1.45419567e-02  1.11544897e-04
+     -1.99643096e-02 -1.99157847e-03 -1.06049376e-02  1.33118193e-02
+     -8.81483167e-03  1.43439096e-02 -2.39832570e-02  6.31700956e-03
+      5.93181295e-03 -5.32432587e-03 -2.42316105e-02 -1.97015278e-02
+      4.63325110e-03 -3.43794921e-02 -6.45081255e-03 -1.41091272e-02
+     -3.95136778e-02 -4.61497890e-04  6.85970582e-03 -2.43039633e-02
+     -5.76070901e-02 -3.41977771e-03 -8.61452674e-02  4.89712900e-02
+      5.08613618e-02 -6.99737421e-02 -3.21251431e-02  1.47429833e-02
+      2.50174812e-02 -2.79693777e-02 -1.79195259e-01  7.98023941e-02
+     -3.99436917e-02 -8.26612903e-02 -3.02697303e-02  1.10229731e-02
+     -9.15019360e-02  7.06594886e-03 -1.16939526e-02  9.08271355e-02
+      1.39049587e-01 -5.60493379e-02 -5.88970023e-02  4.02246044e-02
+     -4.40671312e-02  1.06776181e-02 -7.06013816e-02  5.88042409e-02
+      1.40394343e-02 -1.88333503e-02 -4.45113094e-02  8.49169291e-02
+      4.64417976e-02  6.20755619e-02 -3.10698847e-02 -5.85556278e-03
+      3.76776365e-02 -6.92855212e-02 -4.06582769e-02 -8.67810293e-03
+     -2.40228013e-02 -1.15769712e-02 -4.90661602e-02  7.01287173e-02
+     -6.42886769e-02 -2.32712766e-02  2.00816882e-02 -4.02624847e-02
+     -6.72152045e-02  2.59659585e-02  1.25575200e-01 -2.31307154e-02
+      4.62555066e-02 -2.45263158e-02 -4.03582605e-02  3.98065895e-02
+      3.70931113e-02 -4.68196038e-02  2.83338803e-02  6.08510638e-02
+      3.40954673e-03 -1.84889067e-02 -3.26850626e-02  3.44210526e-02
+     -3.58196805e-02  7.17678100e-03 -6.57026092e-02  3.02826380e-03
+      6.37370010e-03 -4.73333333e-02  7.46442734e-03 -1.55128502e-02
+      9.05456256e-03  9.32292274e-03 -3.69472347e-03 -1.08934987e-02]
+    #+end_example
+*** exercise of "wind_statistics"
+#+NAME: wind_statistics
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  """
+  Wind Statistics
+  ----------------
+
+  Topics: Using array methods over different axes, fancy indexing.
+
+  1. The data in 'wind.data' has the following format::
+
+          61  1  1 15.04 14.96 13.17  9.29 13.96  9.87 13.67 10.25 10.83 12.58 18.50 15.04
+          61  1  2 14.71 16.88 10.83  6.50 12.62  7.67 11.50 10.04  9.79  9.67 17.54 13.83
+          61  1  3 18.50 16.88 12.33 10.13 11.17  6.17 11.25  8.04  8.50  7.67 12.75 12.71
+
+     The first three columns are year, month and day.  The
+     remaining 12 columns are average windspeeds in knots at 12
+     locations in Ireland on that day.
+
+     Use the 'loadtxt' function from numpy to read the data into
+     an array.
+
+  2. Calculate the min, max and mean windspeeds and standard deviation of the
+     windspeeds over all the locations and all the times (a single set of numbers
+     for the entire dataset).
+
+  3. Calculate the min, max and mean windspeeds and standard deviations of the
+     windspeeds at each location over all the days (a different set of numbers
+     for each location)
+
+  4. Calculate the min, max and mean windspeed and standard deviations of the
+     windspeeds across all the locations at each day (a different set of numbers
+     for each day)
+
+  5. Find the location which has the greatest windspeed on each day (an integer
+     column number for each day).
+
+  6. Find the year, month and day on which the greatest windspeed was recorded.
+
+  7. Find the average windspeed in January for each location.
+
+  You should be able to perform all of these operations without using a for
+  loop or other looping construct.
+
+  Bonus
+  ~~~~~
+
+  1. Calculate the mean windspeed for each month in the dataset.  Treat
+     January 1961 and January 1962 as *different* months. (hint: first find a
+     way to create an identifier unique for each month. The second step might
+     require a for loop.)
+
+  2. Calculate the min, max and mean windspeeds and standard deviations of the
+     windspeeds across all locations for each week (assume that the first week
+     starts on January 1 1961) for the first 52 weeks. This can be done without
+     any for loop.
+
+  Bonus Bonus
+  ~~~~~~~~~~~
+
+  Calculate the mean windspeed for each month without using a for loop.
+  (Hint: look at `searchsorted` and `add.reduceat`.)
+
+  Notes
+  ~~~~~
+
+  These data were analyzed in detail in the following article:
+
+     Haslett, J. and Raftery, A. E. (1989). Space-time Modelling with
+     Long-memory Dependence: Assessing Ireland's Wind Power Resource
+     (with Discussion). Applied Statistics 38, 1-50.
+
+
+  See :ref:`wind-statistics-solution`.
+  """
+
+  from numpy import loadtxt
+  RPT = 3
+  VAL = 4
+  ROS = 5
+  KIL = 6
+  SHA = 7
+  BIR = 8
+  DUB = 9
+  CLA = 10
+  MUL = 11
+  CLO = 12
+  BEL = 13
+  MAL = 14
+
+  ##################################################################
+  # 1. Use the 'loadtxt' function from numpy to read the data into #
+  #    an array.                                                   #
+  ##################################################################
+  wind_path = 'Numpy-Tutorial-SciPyConf-2017-master/exercises/wind_statistics/wind.data'
+  date_winds = np.loadtxt(wind_path)
+  winds = date_winds[:, 3:]
+  date = date_winds[:, :3]
+  print (date_winds.shape)
+  print (winds.shape)
+
+  #################################################################################
+  # 2. Calculate the min, max and mean windspeeds and standard deviation of the
+  #    windspeeds over all the locations and all the times (a single set of numbers
+  #    for the entire dataset).
+  #################################################################################
+  print ( np.min(winds) )
+  print ( np.max(winds) )
+  print ( np.mean(winds) )
+  print ( np.std(winds) )
+
+  ################################################################################
+  # 3. Calculate the min, max and mean windspeeds and standard deviations of the #
+  #    windspeeds at each location over all the days (a different set of numbers #
+  #    for each location)                                                        #
+  ################################################################################
+  print ( np.min(winds, axis=0) )
+  print ( np.max(winds, axis=0) )
+  print ( np.mean(winds, axis=0) )
+  print ( np.std(winds, axis=0) )
+
+  ##################################################################################
+  # 4. Calculate the min, max and mean windspeed and standard deviations of the        #
+  #    windspeeds across all the locations at each day (a different set of numbers #
+  #    for each day)                                                               #
+  ##################################################################################
+  print ( np.min(winds, axis=1).shape )
+  print ( np.max(winds, axis=1).shape)
+  print ( np.mean(winds, axis=1).shape )
+  print ( np.std(winds, axis=1).shape )
+
+  #################################################################################
+  # 5. Find the location which has the greatest windspeed on each day (an integer #
+  #    column number for each day).                                               #
+  #################################################################################
+  print ( np.argmax(winds, axis=1).shape )
+
+  ###############################################################################
+  # 6. Find the year, month and day on which the greatest windspeed was recorded. #
+  ###############################################################################
+  print ( date[np.unravel_index( np.argmax(winds), (winds.shape) )[0] ] )
+
+  ###############################################################
+  # 7. Find the average windspeed in January for each location. #
+  ###############################################################
+  jan_date_winds = date_winds[ date_winds[:, 1] == 1 ]
+  jan_winds = jan_date_winds[:, 3:]
+  print (jan_date_winds.shape)
+  print (jan_winds.shape)
+  print ( np.mean(jan_winds, axis=0 ))
+#+END_SRC
+
+#+RESULTS: wind_statistics
+#+begin_example
+(6574, 15)
+(6574, 12)
+[[ 0  1  2  3  4]
+ [ 5  6  7  8  9]
+ [10 11 12 13 14]
+ [15 16 17 18 19]
+ [20 21 22 23 24]]
+[[ 0  1  2  3  4]
+ [10 11 12 13 14]
+ [20 21 22 23 24]]
+[ 2.  7. 12. 17. 22.]
+[ 0  5 10 15 20]
+[ 4  9 14 19 24]
+[0 0 0 0 0]
+[4 4 4 4 4]
+0.0
+42.54
+10.22837377040868
+5.603840181095793
+[0.67 0.21 1.5  0.   0.13 0.   0.   0.   0.   0.04 0.13 0.67]
+[35.8  33.37 33.84 28.46 37.54 26.16 30.37 31.08 25.88 28.21 42.38 42.54]
+[12.36371463 10.64644813 11.66010344  6.30627472 10.45688013  7.09225434
+  9.7968345   8.49442044  8.49581838  8.70726803 13.121007   15.59946152]
+[5.61918301 5.26820081 5.00738377 3.60513309 4.93536333 3.96838126
+ 4.97689374 4.49865783 4.16746101 4.50327222 5.83459319 6.69734719]
+(6574,)
+(6574,)
+(6574,)
+(6574,)
+(6574,)
+[66. 12.  2.]
+(558, 15)
+(558, 12)
+[14.86955197 12.92166667 13.29962366  7.19949821 11.67571685  8.05483871
+ 11.81935484  9.5094086   9.54320789 10.05356631 14.55051971 18.02876344]
+#+end_example

@@ -2,7 +2,12 @@
   use them for *comparing two different observations*, from *two different data sets*.
   Z scores represent how far either side of a mean a particular observed value *in unit of standard deviation* in that data set actually is.
 
-  $z=\dfrac{(x - \mu)}\sigma$
+  Two important formulas about Z-scores:
+
+(1) $z=\dfrac{(x - \mu)}\sigma$
+
+(2) $z=\dfrac{(\overline{x} - \mu)}{\sigma/\sqrt{n}}$
+
 
 .             ^                         |
 .             |                         |
@@ -49,3 +54,95 @@ Relatively speaking, Jill is taller than Jack because her standard score is grea
 
 1. compute z
 2. find the probability of this z related in z-table
+
+
+* P value
+
+** Formula of P value
+  $H_{0} : \mu = \mu_0$
+
+  $H_{a} : \mu > \mu_0$
+
+  $Z = \dfrac{(\overline{X}-\mu_0)}{\sigma/\sqrt{n}}$
+
+  $Z=\dfrac{(x - \mu)}\sigma$
+
+
+.
+.                                   95%          : *confidence interval*
+.                                   1 - 0.95 = $\alpha$ : *significance level*
+.
+.                                       |
+.                                       |
+.                                    ...|....
+.                                  ..   |   ...
+.                                 .     |     ..
+.                                .      |       ..
+.                               ..      |        ..
+.                               .       |          .
+.                             .         |           .
+.                           ..          |            ..
+.                        ...            |             ..
+.   *rejection region* |.               |               ..|      *rejection region*
+.              \     ..|                |                .|.    /
+.               \ .....|                |                 |..../
+.               .......|                                  |.......
+.          ------------+----------------------------------+-------->
+.                                      $\overline{x}$
+.                  -1.96                                  1.96
+.             *critical value*                         *critical value*
+.
+.                                  z score = 2.6
+
+
+$Z = \dfrac{(\overline{X}-\mu_0)}{\sigma/\sqrt{n}}$
+
+confidence interval = $\overline{X} \pm Z_{\alpha/2}\dfrac{\sigma}{\sqrt{n}}$
+
+$z=\dfrac{(x - \mu)}\sigma$
+
+#+BEGIN_QUOTE
+  H0 : In every experiment, there is *NO effect or difference* between groups that the researchers are testing
+  H1 : In every experiment, there is *an effect or difference* between groups that the researchers are testing.
+  How to understand the ~p-value = 0.04~ !!!
+  *Assuming that the vaccine had no effect, you’d obtain the observed difference or more in 4%
+  of studies due to random sampling error.*
+  就是我假设样本与群体无差,那么所有的差别都是由于随机取样造成的.
+  P values evaluate how well the sample data support the devil’s advocate argument that the null hypothesis is true.
+  #+END_QUOTE
+
+[[http://blog.minitab.com/blog/adventures-in-statistics-2/how-to-correctly-interpret-p-values][very good interpretation about p-value]]
+
+** Example-1
+Example:
+The packet says that each 200g packet of choconutties contains 70g of peanuts or more.
+Halen can't open up all the packets to check, so she want to use a statistic test on a sample of the packets.
+
+$H_0$ is called H "nought" is the thing we're trying to provide evidence against.
+for Helen, the $H_0$ is that the choconutties are as they should be:
+The mean or average weight of peanuts in the packet is >= 70g
+
+The alternative hypothesis is called $H_1$ or $H_a$, is what we're trying to prove:
+the peanuts of packets is < 70g, for Helen, this is what he against.
+
+  - significance level: $\alpha=0.05$
+  - if p-value < $\alpha$, she reject $H_0$
+
+Helen choose 20 from 400 packets of Choco-nutties, to weight the peanuts.
+- if all the values were < 70g with means of 30g for instance. then H0 is fail
+
+Now, the average = 68.7g, and the p-value = 0.18.
+
+which means:
+
+The probability of getting a mean of 68.7 or less, from a sample of this size(and variation) is *18%*.
+If the mean weight of the peanuts in the population is 70 grams or more
+
+  - significance level: $\alpha=0.05$
+  - if p-value < $\alpha$, she reject $H_0$
+
+0.18 > 0.05, $H_0$ can not be rejected
+
+p-value > significance level ===> *no* evidence to *reject* $H_0$
+p-value < significance level ===> *has* evidence to *reject* $H_0$
+

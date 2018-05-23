@@ -416,3 +416,29 @@ https://emacs-china.github.io/EGO/
   - \dfrac
   - \div
   - /
+
+** TODO [#B] In ~visual~ state of vim some stange and useful hot key
+
+*** 1. wrap selected text by <s> in ~visual~ state
+   | [visual] s + anychar | you will get 'anychar[selectedtext]anychar' |
+
+   eg: you want to wrap 'love' with '*', you will do these steps:
+   1. enter ~visual~ state by ~v~;
+   2. make 'love' be the selected;
+   3. press <s> then press <shift + 8>
+
+   love -----select,<s>,<shift+8>-----> *love*
+   you will get *love* !
+
+
+*** 2. other hot-key to wrap
+| [visual] s + f + input | input(selected)           |
+| [visual] s + t + input | <input>(selected)</input> |
+| [visual] s + b         | (selected)                |
+
+   eg: you want to wrap 'love' with '*', you will do these steps:
+   1. enter ~visual~ state by ~v~;
+   2. make 'love' be the selected;
+   3. press <s + f> then input 'hello' => 'hello(love)'
+   3. press <s + b> then input 'hello' => '(love)'
+   3. press <s + t> then input 'hello' => '<hello>love</hello>'
