@@ -2,7 +2,7 @@
 
 https://github.com/matplotlib/AnatomyOfMatplotlib.git
 
-* part-1 : Figures_Subplots_and_layouts
+* part-I : Figures_Subplots_and_layouts
 ** OO-manner to plot (heavy way but good for complex situation)
 *** backends
  This is why mlpt is so successful, it has multiple *backends*, some like the JVM works for cross-platform.
@@ -240,9 +240,22 @@ want axes, we only need plotting somthing.
    ~fig=plt.figure() + ax=fig.add_subplot(111) ===> fig,ax=plt.subplots()~
 
 ** Exercise 1.1
+    ~for ax, y, name in zip(axes, [y1, y2, y3], names):~
+
+    - axes is a 3 elements np.array;
+    - [y1,y2,y3] is a 3 elements array, also each y is an array same size with x;
+    - names is a 3 elemnts array;
+
+    This usage of ~for ... in zip~ is some like the ~pattern match in for~ in
+    scala. Extract each item in this 3-Tuple.
+
    #+BEGIN_SRC ipython :session :exports both :results raw drawer
      import numpy as np
      import matplotlib.pyplot as plt
+
+     # this style make image more fittable
+     plt.style.use('classic')
+
      x = np.linspace(0, 10, 100)
      y1, y2, y3 = np.cos(x), np.cos(x+1), np.cos(x+3)
      names = ['Signal 1', 'Signal 2', 'Signal 3']
@@ -255,6 +268,48 @@ want axes, we only need plotting somthing.
 
    #+RESULTS:
    :RESULTS:
-   # Out[67]:
-   [[file:./obipy-resources/17284F5R.png]]
+   # Out[129]:
+   [[file:./obipy-resources/17284gER.png]]
    :END:
+
+** misc tools
+*** zip() vs. itertools.zip_longest()
+    .            [1,   2,   3,   4]
+    .            [4,   5,   6]          zip
+    . --------------------------------------
+    . iterator   (1,4)(2,5)(3,6)
+    .
+    .
+    .            [1,   2,   3,   4]
+    .            [4,   5,   6]          zip_longest
+    . ---------------------------------------------
+    . iterator   (1,4)(2,5)(3,6)(4,None)
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      import itertools
+      x = [1,2,3,4]
+      y = [4,5,6]
+      zipped = zip(x, y)
+      list( zipped )
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[75]:
+    : [(1, 4), (2, 5), (3, 6)]
+    :END:
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      longest_zipped = itertools.zip_longest(x, y)
+      list( longest_zipped )
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[76]:
+    : [(1, 4), (2, 5), (3, 6), (4, None)]
+    :END:
+
+*** np.linspace() vs. np.arange()
+    np.linspace(start, stop, num=50)
+    np.arange(start, stop, step)
