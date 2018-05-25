@@ -1,0 +1,18 @@
+* Sample vs. Global
+  Global, expected value : $E[X]=\sum{x*P(x)}$
+  Sample, sample mean    : $\overline{x}_j=\dfrac{1}{N}\sum^{N}_{i=1}{x_i}$
+
+
+  Global, standard deviation: $\sigma(X)=\sqrt{Var(X)}$
+  Sample, standard deviation: $s=\sqrt{\dfrac{\sum_{}^{}{(x_i-\overline{x})^2}}{N-1}}$
+
+  $\mu$ is the mean of the population.
+  $\sigma$ is the standard deviation of the population.
+
+
+  $Var(X)=E[(X-\mu)^2]$
+  $Var(X)=\sum_{i=1}^{n}{p_i*(x_i-\mu)^2}$
+  $Var(X)=\dfrac{1}{n^2}\sum^{n}_{i=1}\sum^{n}_{j=1}{\dfrac{1}{2}(x_i-x_j)^2}$
+
+
+  $s^2=\dfrac{\sum(x_i-\overline{x})^2}{N-1}$

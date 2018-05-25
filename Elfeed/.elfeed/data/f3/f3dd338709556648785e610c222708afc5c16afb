@@ -1,8 +1,0 @@
-
-            
-
-            <p>This is a follow-up question to <a href="http://emacs.stackexchange.com/q/31396/2264">Can I instruct ispell to insert LocalWords in a different file?</a>.</p>
-
-<p>So now that I've got a way to use a separate file for my local dictionary, is there any way to move the words in my file to <code>.dir-locals.el</code> automatically?</p>
-
-        

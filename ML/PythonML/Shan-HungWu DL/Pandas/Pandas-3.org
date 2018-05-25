@@ -1,0 +1,390 @@
+#+TITLE: Group by, part-vii
+#+OPTIONS: toc:4
+#+TOC: headlines 4
+
+
+* group by, part-VII
+** read in the data from gapminder.tsv by setup para ~delimiter~
+   #+HEADER: :session
+   #+BEGIN_SRC python :results output
+     import pandas as pd
+     file_path = '/home/yiddi/worklap/PythonML/Shan-HungWu DL/Pandas/scipy-2017-tutorial-pandas/data/'
+     gapminder = pd.read_csv(file_path+'gapminder.tsv', delimiter='\t')
+     print ( gapminder )
+   #+END_SRC
+
+   #+RESULTS:
+   #+begin_example
+   country continent  year  lifeExp       pop    gdpPercap
+   0     Afghanistan      Asia  1952   28.801   8425333   779.445314
+   1     Afghanistan      Asia  1957   30.332   9240934   820.853030
+   2     Afghanistan      Asia  1962   31.997  10267083   853.100710
+   3     Afghanistan      Asia  1967   34.020  11537966   836.197138
+   4     Afghanistan      Asia  1972   36.088  13079460   739.981106
+   5     Afghanistan      Asia  1977   38.438  14880372   786.113360
+   6     Afghanistan      Asia  1982   39.854  12881816   978.011439
+   7     Afghanistan      Asia  1987   40.822  13867957   852.395945
+   8     Afghanistan      Asia  1992   41.674  16317921   649.341395
+   9     Afghanistan      Asia  1997   41.763  22227415   635.341351
+   10    Afghanistan      Asia  2002   42.129  25268405   726.734055
+   11    Afghanistan      Asia  2007   43.828  31889923   974.580338
+   12        Albania    Europe  1952   55.230   1282697  1601.056136
+   13        Albania    Europe  1957   59.280   1476505  1942.284244
+   14        Albania    Europe  1962   64.820   1728137  2312.888958
+   15        Albania    Europe  1967   66.220   1984060  2760.196931
+   16        Albania    Europe  1972   67.690   2263554  3313.422188
+   17        Albania    Europe  1977   68.930   2509048  3533.003910
+   18        Albania    Europe  1982   70.420   2780097  3630.880722
+   19        Albania    Europe  1987   72.000   3075321  3738.932735
+   20        Albania    Europe  1992   71.581   3326498  2497.437901
+   21        Albania    Europe  1997   72.950   3428038  3193.054604
+   22        Albania    Europe  2002   75.651   3508512  4604.211737
+   23        Albania    Europe  2007   76.423   3600523  5937.029526
+   24        Algeria    Africa  1952   43.077   9279525  2449.008185
+   25        Algeria    Africa  1957   45.685  10270856  3013.976023
+   26        Algeria    Africa  1962   48.303  11000948  2550.816880
+   27        Algeria    Africa  1967   51.407  12760499  3246.991771
+   28        Algeria    Africa  1972   54.518  14760787  4182.663766
+   29        Algeria    Africa  1977   58.014  17152804  4910.416756
+   ...       ...   ...      ...       ...          ...
+   1674  Yemen, Rep.      Asia  1982   49.113   9657618  1977.557010
+   1675  Yemen, Rep.      Asia  1987   52.922  11219340  1971.741538
+   1676  Yemen, Rep.      Asia  1992   55.599  13367997  1879.496673
+   1677  Yemen, Rep.      Asia  1997   58.020  15826497  2117.484526
+   1678  Yemen, Rep.      Asia  2002   60.308  18701257  2234.820827
+   1679  Yemen, Rep.      Asia  2007   62.698  22211743  2280.769906
+   1680       Zambia    Africa  1952   42.038   2672000  1147.388831
+   1681       Zambia    Africa  1957   44.077   3016000  1311.956766
+   1682       Zambia    Africa  1962   46.023   3421000  1452.725766
+   1683       Zambia    Africa  1967   47.768   3900000  1777.077318
+   1684       Zambia    Africa  1972   50.107   4506497  1773.498265
+   1685       Zambia    Africa  1977   51.386   5216550  1588.688299
+   1686       Zambia    Africa  1982   51.821   6100407  1408.678565
+   1687       Zambia    Africa  1987   50.821   7272406  1213.315116
+   1688       Zambia    Africa  1992   46.100   8381163  1210.884633
+   1689       Zambia    Africa  1997   40.238   9417789  1071.353818
+   1690       Zambia    Africa  2002   39.193  10595811  1071.613938
+   1691       Zambia    Africa  2007   42.384  11746035  1271.211593
+   1692     Zimbabwe    Africa  1952   48.451   3080907   406.884115
+   1693     Zimbabwe    Africa  1957   50.469   3646340   518.764268
+   1694     Zimbabwe    Africa  1962   52.358   4277736   527.272182
+   1695     Zimbabwe    Africa  1967   53.995   4995432   569.795071
+   1696     Zimbabwe    Africa  1972   55.635   5861135   799.362176
+   1697     Zimbabwe    Africa  1977   57.674   6642107   685.587682
+   1698     Zimbabwe    Africa  1982   60.363   7636524   788.855041
+   1699     Zimbabwe    Africa  1987   62.351   9216418   706.157306
+   1700     Zimbabwe    Africa  1992   60.377  10704340   693.420786
+   1701     Zimbabwe    Africa  1997   46.809  11404948   792.449960
+   1702     Zimbabwe    Africa  2002   39.989  11926563   672.038623
+   1703     Zimbabwe    Africa  2007   43.487  12311143   469.709298
+
+   [1704 rows x 6 columns]
+   #+end_example
+** ~Series/DataFrame.aggregate()~
+   #+BEGIN_SRC python
+     DataFrame.aggregate(func, axis=0, *args, **kwargs)
+     # func:
+     #       function
+     #       list of functions
+     #       dict of column names -> functions
+   #+END_SRC
+
+*** apply on Series
+    Functions you want to apply, forms a *list/dict* as para ~funcs~ in ~.aggregate(funcs=...)~ .
+    this function will return a DataFrame, each function create a new column in result DataFrame.
+
+    if aggregate takse a dict of (key='colName': value=fn), it will *apply certain funcion on certain column*
+    if not 'colName' not exist in DataFrame who call ~aggregate~, it will create a new one with *column name* given by ~dict.key~
+
+
+    The code here, is ~Series.aggregate({dict})~ so all funcions all applied element-wisely on this column, and create 3 column.
+
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      multi_agg = gapminder.groupby('continent')['lifeExp'].aggregate({
+          'ncount' : np.count_nonzero,
+          'mean' : np.mean,
+          'std' : np.std
+      }).rename(columns = {'ncount': 'count',
+                           'mean' : 'avg',
+                           'std' : 'std_dev'
+      }).reset_index()
+      print ( multi_agg )
+    #+END_SRC
+
+*** apply on DataFrame
+    ~DataFrame.aggregate({dict})~ *can apply different function on different row*.
+
+** gropy by + mathematical operation
+   - count
+   - siez
+   - mean
+   - std
+   - min
+   - quantile( q=0.25 )
+   - max
+   - sum
+   - var
+   - sem
+   - describe <<< : important! This method will give you the [count, mean, std, min, 25%, 50%, 75%, max] of the column value for each row
+   - first
+   - last
+   - nth
+
+*** using built-in mathematical function for Series
+
+**** groupby + mean()
+     #+HEADER: :session
+     #+BEGIN_SRC python :results output
+       print ( type(gapminder.groupby('year')) )
+       gapminder.groupby('year')['lifeExp'].mean()
+     #+END_SRC
+
+**** loc_filter + mean()
+     #+NAME: create a filter to find the mean of lifeExp of 1952(<-- filter here)
+     #+HEADER: :session
+     #+BEGIN_SRC python :results output
+       y1952 = gapminder.loc[gapminder['year'] == 1952, :]
+       print ( y1952['lifeExp'] )
+       print ( y1952['lifeExp'].mean() )
+     #+END_SRC
+
+     #+RESULTS: create a filter to find the mean of lifeExp of 1952(<-- filter here)
+     #+begin_example
+     0       28.801
+     12      55.230
+     24      43.077
+     36      30.015
+     48      62.485
+     60      69.120
+     72      66.800
+     84      50.939
+     96      37.484
+     108     68.000
+     120     38.223
+     132     40.414
+     144     53.820
+     156     47.622
+     168     50.917
+     180     59.600
+     192     31.975
+     204     39.031
+     216     39.417
+     228     38.523
+     240     68.750
+     252     35.463
+     264     38.092
+     276     54.745
+     288     44.000
+     300     50.643
+     312     40.715
+     324     39.143
+     336     42.111
+     348     57.206
+              ...
+     1344    30.331
+     1356    60.396
+     1368    64.360
+     1380    65.570
+     1392    32.978
+     1404    45.009
+     1416    64.940
+     1428    57.593
+     1440    38.635
+     1452    41.407
+     1464    71.860
+     1476    69.620
+     1488    45.883
+     1500    58.500
+     1512    41.215
+     1524    50.848
+     1536    38.596
+     1548    59.100
+     1560    44.600
+     1572    43.585
+     1584    39.978
+     1596    69.180
+     1608    68.440
+     1620    66.071
+     1632    55.088
+     1644    40.412
+     1656    43.160
+     1668    32.548
+     1680    42.038
+     1692    48.451
+     Name: lifeExp, Length: 142, dtype: float64
+     49.057619718309866
+     #+end_example
+
+**** groupby + describe()
+     #+NAME: give you some statistics number of lifeExp on each row
+     #+HEADER: :session
+     #+BEGIN_SRC python :results output
+       print ( gapminder.groupby('year')['lifeExp'].describe() )
+     #+END_SRC
+
+     #+RESULTS: give you some statistics number of lifeExp on each row
+     #+begin_example
+     count       mean        std     min       25%      50%       75%     max
+     year
+     1952  142.0  49.057620  12.225956  28.801  39.05900  45.1355  59.76500  72.670
+     1957  142.0  51.507401  12.231286  30.332  41.24750  48.3605  63.03675  73.470
+     1962  142.0  53.609249  12.097245  31.997  43.46850  50.8810  65.23450  73.680
+     1967  142.0  55.678290  11.718858  34.020  46.03375  53.8250  67.41950  74.160
+     1972  142.0  57.647386  11.381953  35.400  48.50025  56.5300  69.24750  74.720
+     1977  142.0  59.570157  11.227229  31.220  50.47550  59.6720  70.38250  76.110
+     1982  142.0  61.533197  10.770618  38.445  52.94000  62.4415  70.92125  77.110
+     1987  142.0  63.212613  10.556285  39.906  54.94075  65.8340  71.87725  78.670
+     1992  142.0  64.160338  11.227380  23.599  56.12175  67.7030  72.58250  79.360
+     1997  142.0  65.014676  11.559439  36.087  55.63375  69.3940  74.16975  80.690
+     2002  142.0  65.694923  12.279823  39.193  55.52225  70.8255  75.45925  82.000
+     2007  142.0  67.007423  12.073021  39.613  57.16025  71.9355  76.41325  82.603
+     #+end_example
+
+*** using user-define function by ~agg(user_defined_fn)~, other than the built-in
+    #+BEGIN_SRC python
+      DataFrame.aggregate(func, axis=0, *args, **kwargs)
+      # func:
+      #       function
+      #       list of functions
+      #       dict of column names -> functions
+    #+END_SRC
+**** using function of numpy
+     #+HEADER: :session
+     #+BEGIN_SRC python :results output
+       import numpy as np
+       agg_mean = gapminder.groupby('continent')['lifeExp'].agg(np.mean)
+       agg_std = gapminder.groupby('continent')['lifeExp'].agg(np.mean)
+       print ( agg_mean )
+       print ( agg_std )
+     #+END_SRC
+
+     #+RESULTS:
+     #+begin_example
+     continent
+     Africa      48.865330
+     Americas    64.658737
+     Asia        60.064903
+     Europe      71.903686
+     Oceania     74.326208
+     Name: lifeExp, dtype: float64
+     continent
+     Africa      48.865330
+     Americas    64.658737
+     Asia        60.064903
+     Europe      71.903686
+     Oceania     74.326208
+     Name: lifeExp, dtype: float64
+     #+end_example
+
+**** using ONE user_defined_fn
+     #+HEADER: :session
+     #+BEGIN_SRC python :results output
+       def my_mean(values):
+           n = len( values )
+           s= np.sum(values)
+           return s/n
+
+       my_mean_life = gapminder.groupby('continent')['lifeExp'].agg(my_mean)
+       print ( my_mean_life )
+     #+END_SRC
+
+     #+RESULTS:
+     : continent
+     : Africa      48.865330
+     : Americas    64.658737
+     : Asia        60.064903
+     : Europe      71.903686
+     : Oceania     74.326208
+     : Name: lifeExp, dtype: float64
+
+**** using MULTIPLE user_defined_fn
+     Functions you want to apply, forms a *list/dict* as para ~funcs~ in ~.aggregate(funcs=...)~ .
+     this function will return a DataFrame, each function create a new column in result DataFrame.
+
+     if aggregate takse a dict of (key='colName': value=fn), it will *apply certain funcion on certain column*
+     if not 'colName' not exist in DataFrame who call ~aggregate~, it will create a new one with *column name* given by ~dict.key~
+
+     The code here, is ~Series.aggregate({dict})~ so all funcions all applied element-wisely on this column, and create 3 column.
+     ~DataFrame.aggregate({dict})~ can apply different function on different row.
+     #+HEADER: :session
+     #+BEGIN_SRC python :results output
+       multi_agg = gapminder.groupby('continent')['lifeExp'].aggregate({
+           'ncount' : np.count_nonzero,
+           'mean' : np.mean,
+           'std' : np.std
+       }).rename(columns = {'ncount': 'count',
+                            'mean' : 'avg',
+                            'std' : 'std_dev'
+       }).reset_index()
+       print ( multi_agg )
+       print ( type(multi_agg ) )
+     #+END_SRC
+
+     #+RESULTS:
+     : continent  count        avg    std_dev
+     : 0    Africa  624.0  48.865330   9.150210
+     : 1  Americas  300.0  64.658737   9.345088
+     : 2      Asia  396.0  60.064903  11.864532
+     : 3    Europe  360.0  71.903686   5.433178
+     : 4   Oceania   24.0  74.326208   3.795611
+     : <class 'pandas.core.frame.DataFrame'>
+
+** apply() vs. aggregate() vs. transform
+
+   |                  | apply(fn)                          | aggregate(fn) | transform(fn)      |
+   |------------------+------------------------------------+---------------+--------------------|
+   | on df            | fn on each row/col                 | <""           | fn on each element |
+   | on series        | fn on each element                 | <""           | fn on each element |
+   | on groupedDf     | fn on each row/col of each groupe  | <""           | fn on each element |
+   | on groupedSeries | fn on each element of row of group | <""           | fn on each element |
+
+
+*** apply vs. aggregate
+    apply() and aggregate() are used on ~groupedDataFrame~ or ~groupedSeries~
+    #+BEGIN_QUOTE
+
+apply() vs. aggregate()
+
+df -> groupby -> groupedDf -> ['colName'] -> groupedCol -> ~apply(fn)~ =>
+Series(
+fn(colGrp1),
+fn(colGrp2),
+fn(colGrp3),
+...
+)
+
+df -> groupby -> groupedDf -> ['colName'] -> groupedCol -> ~aggregate({fn1, fn2})~ =>
+DataFrame(
+series( fn1(colGrp1), fn2(colGrp2), ...),
+series( fn2(colGrp1), fn2(colGrp2), ...)
+)
+
+    #+END_QUOTE
+
+*** apply vs. transform
+
+    #+NAME: df.transform, is a element-wise version of apply
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      dfx = pd.DataFrame( np.random.randn(10, 3),
+                          columns=['A', 'B', 'C'],
+                          index = pd.date_range('1/1/2000', periods=10))
+      transformed_dfx = dfx['A'].transform(lambda x: (x-x.mean())/x.std())
+      print ( transformed_dfx)
+    #+END_SRC
+
+    #+RESULTS: df.transform, is a element-wise version of apply
+    #+begin_example
+    2000-01-01    0.649323
+    2000-01-02    1.490414
+    2000-01-03    0.782475
+    2000-01-04   -0.204436
+    2000-01-05   -1.812279
+    2000-01-06   -1.231838
+    2000-01-07    0.240099
+    2000-01-08   -0.694474
+    2000-01-09    0.558441
+    2000-01-10    0.222276
+    Freq: D, Name: A, dtype: float64
+    #+end_example

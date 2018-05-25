@@ -1,0 +1,95 @@
+* SciPy
+** Image Operations
+
+*** Image resize and recolor
+#+NAME: readImage1
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  import numpy as np
+  from scipy.misc import imread, imsave, imresize
+  img = imread('data/chenhongqi3.jpg')
+  print(img.dtype, img.shape)
+  img_recolor = img * [1, 0.95, 0.9]
+  imsave('data/chenRecolor.jpg', img_recolor)
+  img_resize = imresize(img_recolor, (300,300))
+  imsave('data/chenRecolResize.jpg', img_resize)
+#+END_SRC
+
+#+RESULTS: readImage1
+: uint8 (1920, 1280, 3)
+
+| resize  | imresize         |
+| recolor | img = imread     |
+|         | img * row/column |
+
+*** Distance between Points
+
+**** pdist
+*scipy.spatial.distance.pdist*
+input a matrix, return Euclidean dist of all rows
+
+#+NAME: distpt
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  import numpy as np
+  from scipy.spatial.distance import pdist, squareform
+  x= np.array([[0, 1], [1, 0], [2, 0]])
+  print(x)
+
+  # Euclidean distance between allrows of x
+  print(pdist(x, 'euclidean'))
+  d= squareform(pdist(x, 'euclidean'))
+  print (d)
+#+END_SRC
+
+#+RESULTS: distpt
+: [[0 1]
+:  [1 0]
+:  [2 0]]
+: [1.41421356 2.23606798 1.        ]
+: [[0.         1.41421356 2.23606798]
+:  [1.41421356 0.         1.        ]
+:  [2.23606798 1.         0.        ]]
+
+how is the result computed
+
+row 0 dist row 0 ===> result[0,0]
+row 0 dist row 1 ===> result[0,1]
+row 0 dist row 2 ===> result[0,2]
+row 1 dist row 0 ===> result[1,0]
+row 1 dist row 1 ===> result[1,1]
+row 1 dist row 2 ===> result[1,2]
+row 2 dist row 0 ===> result[2,0]
+row 2 dist row 1 ===> result[2,1]
+row 2 dist row 2 ===> result[2,2]
+---------------------------------------------
+d[i,j] = x[i,:] dist x[j,:], for x,y = 0 to 3
+
+**** cdist
+*scipy.spatial.distance.cdist*
+input 2 collections of points, compute every point from 1st collection to all points of 2nd collection
+
+Note that, you can not apply ~squareform~ on the result of ~cdist~, it's not an symmetric matrix
+
+#+NAME: cdist
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  from scipy.spatial.distance import cdist, squareform
+  y1=np.array([[0, 1], [1, 0], [2, 0]])
+  y2=np.array([[3, 4], [4, 2], [2, 0]])
+
+  c = cdist(y1, y2, 'euclidean')
+  print (c)
+#+END_SRC
+
+#+RESULTS: cdist
+: [[4.24264069 4.12310563 2.23606798]
+:  [4.47213595 3.60555128 1.        ]
+:  [4.12310563 2.82842712 0.        ]]
+
+.                [0,1]    [1,0]    [2,0]
+.                 |
+.                 +---------+--------+
+.                 v         v        v
+.                [3,4]    [4,2]    [2,0]
+.result index    (0,0)    (0,1)    (0,2)

@@ -1,8 +1,0 @@
-
-            
-
-            <p>When Emacs starts, it reports a non-existent file is removed from recentf. However, that removal was never saved to the <code>recentf-save-file</code>: the next time Emacs starts, the same removal is reported again. How can I ask Emacs to actually save that removal to the actual file?</p>
-
-<p>Note: I'm using Emacs server and client.</p>
-
-        

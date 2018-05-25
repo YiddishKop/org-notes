@@ -1,0 +1,238 @@
+* Basic python
+** org babel
+#+BEGIN_SRC python :results output :session 
+x = 3
+print('Two plus two is')
+2+1
+#+END_SRC
+
+#+RESULTS:
+: Two plus two is
+: 
+: 
+
+#+BEGIN_SRC python :results output
+t, f = True, False
+print (type(t))
+#+END_SRC
+
+#+RESULTS:
+: <class 'bool'>
+
+** String related
+#+BEGIN_SRC python :results output
+  s = "hello"
+  print (s.capitalize())
+  print (s.upper())
+  print (s.rjust(7))
+  print (s.center(7))
+  print (s.replace('l', '(ell'))
+  print ('    world   '.strip())
+#+END_SRC
+
+#+RESULTS:
+: Hello
+: HELLO
+:   hello
+:  hello 
+: he(ell(ello
+: world
+
+#+NAME: for
+#+HEADER: :session :var x=0
+#+BEGIN_SRC python :results output
+  animals = ['cat','dog','monkey']
+  for animal in animals:
+    print (animal)
+#+END_SRC
+
+#+RESULTS: for
+: cat
+: dog
+: monkey
+: 
+: 
+
+** list 
+#+NAME: forCompre
+#+HEADER: :session  
+#+BEGIN_SRC python :results output
+  nums = [0,1,2,3,4]
+  even_squares = [x ** 2 for x in nums if x % 2 == 0]
+  print (even_squares)
+#+END_SRC
+
+#+RESULTS: forCompre
+: [0, 4, 16]
+: 
+: 
+
+** dict
+*** build and delete
+#+NAME: dictMethod
+#+HEADER: :session  
+#+BEGIN_SRC python :results output
+  d = {'cat':'cute', 'dog':'furry'}
+  print(d['cat'])
+  print('cat' in d)
+  d['fish'] = 'wet'
+  print (d['fish'])
+  print (d.get('monkey', 'N/A'))
+  print (d.get('fish', 'N/A'))
+  del (d['fish'])
+#+END_SRC
+
+#+RESULTS: dictMethod
+: cute
+: True
+: wet
+: N/A
+: wet
+: 
+
+dict can be seen as improved version of array, index can be any type but with same access manner
+dict.get(1st, 2nd) is somelike the ~getOrElse~ if 1st element not exist, will return 2nd
+del (dict[elem]) will *delete* this element from dict
+
+- for key in dict ; for key,val in dict.items()
+- del (dict[key])
+- dict.get(val, else)
+
+  
+***  dict and for
+
+#+NAME: dictFor
+#+HEADER: :session  
+#+BEGIN_SRC python :results output
+  d = { 'person':2, 'cat':4, 'spider':8 }
+  for animal in d:
+      legs = d[animal]
+      print ('A %s had %d legs' % (animal, legs))
+
+  for animal, legs in d.items():
+      print ('A %s has %d legs' % (animal, legs))
+#+END_SRC
+
+#+RESULTS: dictFor
+: A person had 2 legs
+: A cat had 4 legs
+: A spider had 8 legs
+: A person has 2 legs
+: A cat has 4 legs
+: A spider has 8 legs
+: 
+: 
+
+
+for `key` in dict
+for `key`, `value` in dict.items()
+
+
+***  dict and forCompre
+
+#+NAME: dictForCompre
+#+HEADER: :session  
+#+BEGIN_SRC python :results output
+  nums = [0, 1, 2, 3, 4]
+  even_num_to_squre = {x: x ** 2 for x in nums if x % 2 == 0}
+  print (even_num_to_squre)
+#+END_SRC
+
+#+RESULTS: dictForCompre
+: {0: 0, 2: 4, 4: 16}
+: 
+: 
+
+- `:` means map
+- the comman for comprehension manner shared by collection type
+  1. fn(elem) *for* elem *in* collec *if* 
+
+** Sets
+#+NAME: sets
+#+HEADER: :session  
+#+BEGIN_SRC python :results output
+  animals = {'cat', 'dog'}
+  print ( 'cat' in animals )
+  print ( 'dog' in animals )
+
+  animals.add( 'fish' )
+  print ( 'fish' in animals )
+  print ( len(animals) )
+
+  for idx, animal in enumerate( animals ):
+      print ( '#%d: %s' % (idx + 1, animal))
+
+  from math import sqrt
+  print ({int(sqrt(x)) for x in range(30)})
+#+END_SRC
+
+#+RESULTS: sets
+#+begin_example
+True
+True
+True
+3
+#1: dog
+#2: cat
+#3: fish
+{0, 1, 2, 3, 4, 5}
+#+end_example
+
+- for elem in set: NO ORDER
+- set.add
+- elem in set
+- len(set)
+
+
+
+** Tuples
+#+NAME: tuple
+#+HEADER: :session  
+#+BEGIN_SRC python :results output
+  d = { (x, x+1): x for x in range(10) }
+  t = (5, 6)
+  print (type(t))
+  print (d[t])
+  print (d[(1,2)])
+#+END_SRC
+
+#+RESULTS: tuple
+: <class 'tuple'>
+: 5
+: 1
+: 
+: 
+
+- tuple can be key of dict
+
+** Classes
+#+NAME: class
+#+HEADER: :session  
+#+BEGIN_SRC python :results output
+  class Greeter: 
+      def __init__( self, name ):
+          self.name = name
+
+      def greet(self, loud=False):
+          if loud:
+              print ('HELLO, %s!' % self.name.upper())
+          else:
+              print ('Hello, %s' % self.name)
+
+  g = Greeter('Fred')
+  g.greet()
+  g.greet(loud=True)
+#+END_SRC
+
+#+RESULTS: class
+: Hello, Fred
+: HELLO, FRED!
+: 
+: 
+
+
+** manner of for comprehension
+- the comman for comprehension manner shared by collection type
+  1. fn(elem) *for* elem *in* collec *if* 
+
+

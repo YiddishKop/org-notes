@@ -1,0 +1,3355 @@
+# Local Variables:
+# org-emphasis-alist: (("*" bold) ("/" italic) ("_" underline) ("=" org-verbatim verbatim) ("~" org-code verbatim) ("+" (:strike-through nil)))
+# End:
+
+* Intro to pandas, part-I
+#+NAME: readInData
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  import pandas as pd
+  print (pandas.__version__)
+
+  # the read_csv is default separate columns inside of file by ',' , this can be modified by 2nd parameter
+  gap_path = '/home/yiddi/worklap/PythonML/Shan-HungWu DL/Pandas/scipy-2017-tutorial-pandas/data/gapminder.tsv'
+
+  df = pd.read_csv(gap_path, delimiter='\t')
+  print (df)
+  print (type(df))
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+0.20.3
+          country continent  year  lifeExp       pop    gdpPercap
+0     Afghanistan      Asia  1952   28.801   8425333   779.445314
+1     Afghanistan      Asia  1957   30.332   9240934   820.853030
+2     Afghanistan      Asia  1962   31.997  10267083   853.100710
+3     Afghanistan      Asia  1967   34.020  11537966   836.197138
+4     Afghanistan      Asia  1972   36.088  13079460   739.981106
+5     Afghanistan      Asia  1977   38.438  14880372   786.113360
+6     Afghanistan      Asia  1982   39.854  12881816   978.011439
+7     Afghanistan      Asia  1987   40.822  13867957   852.395945
+8     Afghanistan      Asia  1992   41.674  16317921   649.341395
+9     Afghanistan      Asia  1997   41.763  22227415   635.341351
+10    Afghanistan      Asia  2002   42.129  25268405   726.734055
+11    Afghanistan      Asia  2007   43.828  31889923   974.580338
+12        Albania    Europe  1952   55.230   1282697  1601.056136
+13        Albania    Europe  1957   59.280   1476505  1942.284244
+14        Albania    Europe  1962   64.820   1728137  2312.888958
+15        Albania    Europe  1967   66.220   1984060  2760.196931
+16        Albania    Europe  1972   67.690   2263554  3313.422188
+17        Albania    Europe  1977   68.930   2509048  3533.003910
+18        Albania    Europe  1982   70.420   2780097  3630.880722
+19        Albania    Europe  1987   72.000   3075321  3738.932735
+20        Albania    Europe  1992   71.581   3326498  2497.437901
+21        Albania    Europe  1997   72.950   3428038  3193.054604
+22        Albania    Europe  2002   75.651   3508512  4604.211737
+23        Albania    Europe  2007   76.423   3600523  5937.029526
+24        Algeria    Africa  1952   43.077   9279525  2449.008185
+25        Algeria    Africa  1957   45.685  10270856  3013.976023
+26        Algeria    Africa  1962   48.303  11000948  2550.816880
+27        Algeria    Africa  1967   51.407  12760499  3246.991771
+28        Algeria    Africa  1972   54.518  14760787  4182.663766
+29        Algeria    Africa  1977   58.014  17152804  4910.416756
+...       ...   ...      ...       ...          ...
+1674  Yemen, Rep.      Asia  1982   49.113   9657618  1977.557010
+1675  Yemen, Rep.      Asia  1987   52.922  11219340  1971.741538
+1676  Yemen, Rep.      Asia  1992   55.599  13367997  1879.496673
+1677  Yemen, Rep.      Asia  1997   58.020  15826497  2117.484526
+1678  Yemen, Rep.      Asia  2002   60.308  18701257  2234.820827
+1679  Yemen, Rep.      Asia  2007   62.698  22211743  2280.769906
+1680       Zambia    Africa  1952   42.038   2672000  1147.388831
+1681       Zambia    Africa  1957   44.077   3016000  1311.956766
+1682       Zambia    Africa  1962   46.023   3421000  1452.725766
+1683       Zambia    Africa  1967   47.768   3900000  1777.077318
+1684       Zambia    Africa  1972   50.107   4506497  1773.498265
+1685       Zambia    Africa  1977   51.386   5216550  1588.688299
+1686       Zambia    Africa  1982   51.821   6100407  1408.678565
+1687       Zambia    Africa  1987   50.821   7272406  1213.315116
+1688       Zambia    Africa  1992   46.100   8381163  1210.884633
+1689       Zambia    Africa  1997   40.238   9417789  1071.353818
+1690       Zambia    Africa  2002   39.193  10595811  1071.613938
+1691       Zambia    Africa  2007   42.384  11746035  1271.211593
+1692     Zimbabwe    Africa  1952   48.451   3080907   406.884115
+1693     Zimbabwe    Africa  1957   50.469   3646340   518.764268
+1694     Zimbabwe    Africa  1962   52.358   4277736   527.272182
+1695     Zimbabwe    Africa  1967   53.995   4995432   569.795071
+1696     Zimbabwe    Africa  1972   55.635   5861135   799.362176
+1697     Zimbabwe    Africa  1977   57.674   6642107   685.587682
+1698     Zimbabwe    Africa  1982   60.363   7636524   788.855041
+1699     Zimbabwe    Africa  1987   62.351   9216418   706.157306
+1700     Zimbabwe    Africa  1992   60.377  10704340   693.420786
+1701     Zimbabwe    Africa  1997   46.809  11404948   792.449960
+1702     Zimbabwe    Africa  2002   39.989  11926563   672.038623
+1703     Zimbabwe    Africa  2007   43.487  12311143   469.709298
+
+[1704 rows x 6 columns]
+<class 'pandas.core.frame.DataFrame'>
+#+end_example
+
+#+NAME: getInfoOfDataFrame
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  # shape is attribute, not method
+  print (df.shape)
+  # info() will give you the infomation about the dataframe
+  print (df.info())
+
+  # pull row/column from dataframe
+  df['country']
+#+END_SRC
+
+#+RESULTS: getInfoOfDataFrame
+#+begin_example
+(1704, 6)
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1704 entries, 0 to 1703
+Data columns (total 6 columns):
+country      1704 non-null object
+continent    1704 non-null object
+year         1704 non-null int64
+lifeExp      1704 non-null float64
+pop          1704 non-null int64
+gdpPercap    1704 non-null float64
+dtypes: float64(2), int64(2), object(2)
+memory usage: 80.0+ KB
+None
+#+end_example
+
+*** pull out columns
+    ONE row and column you pull out from a DataFrame is of ~pandas.core.series.Series~ type
+    Multiple rows and columns you pull out from a DataFrame is of ~pandas.core.frame.DataFrame~ type
+#+NAME: pullOutColumnBybrackets
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  # pull row/column from dataframe
+  # pull one column: you get Series type
+  # df['country'] and df.country
+  country_df = df['country']
+  # print(country_df)
+  # print (df.country)
+  print (type(df['country']))
+  print (type(df.country))
+
+  # pull multiple column: you get DataFrame type
+  # df.head() get the forth 4 row of this DataFrame
+  multitest = df[['country', 'continent', 'year']].head()
+  print (multitest)
+  print (type(multitest))
+
+  # to see an the columns of a df
+  print (df.columns)
+#+END_SRC
+
+#+NAME: deleteColumnBydel
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  # method 1: del
+  del df['country']
+  # def df.country # ERROR, not work
+  print (df.columns)
+#+END_SRC
+
+#+NAME: deleteColumnBydrop
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  # method 2: drop
+  # inplace parameter will make it disapear in orginial df
+  # df.drop('continent', axis=1, inplace=True)
+  # make inplace parameter False(default) will not apply directly in orginial
+  df.drop('continent', axis=1)
+  print (df.columns)
+#+END_SRC
+
+drop( 'row/col Name', axis=0 )  ===> drop row
+drop( 'row/col Name', axis=1 )  ===> drop column
+
+*** pull out rows
+    ONE row and column you pull out from a DataFrame is of ~pandas.core.series.Series~ type
+    Multiple rows and columns you pull out from a DataFrame is of ~pandas.core.frame.DataFrame~ type
+**** pull out ONE row
+#+NAME: pullOutRowsByloc
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  df = pd.read_csv(gap_path, delimiter='\t')
+  print (type(df.loc[0]))
+  print (df.loc[0])
+  print (df.loc[99])
+  # print (df.loc[-1]) # ERROR, '-1' is not a label
+#+END_SRC
+
+#+RESULTS: pullOutRowsByloc
+#+begin_example
+<class 'pandas.core.series.Series'>
+country      Afghanistan
+continent           Asia
+year                1952
+lifeExp           28.801
+pop              8425333
+gdpPercap        779.445
+Name: 0, dtype: object
+country      Bangladesh
+continent          Asia
+year               1967
+lifeExp          43.453
+pop            62821884
+gdpPercap       721.186
+Name: 99, dtype: object
+#+end_example
+
+~loc~ will ONLY pull out the rows which is *labeled*, default the DataFrame object will label each line by 0 to last lines number
+we can index the row like an slicing in python list, use ~iloc~ instead
+
+- ~loc[i]~: i is the *label* of DataFrame
+  - sort will not change the *label*, be careful when you use ~loc[i]~ after sorting
+- ~iloc[i]~: i is the *location* of row of DataFrame
+  - sort will change the *location*, be careful when you use ~iloc[i]~ after sorting
+
+#+NAME: pullOutRowsByiloc
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  print (type(df.iloc[0]))
+  print (df.iloc[0])
+  print (df.iloc[-1])  # RIGHT, '-1' is a location
+#+END_SRC
+
+#+RESULTS: pullOutRowsByiloc
+: country  lifeExp    gdpPercap
+: 0    Afghanistan   28.801   779.445314
+: 99    Bangladesh   43.453   721.186086
+: 999     Mongolia   51.253  1226.041130
+
+#+NAME: pullOutRowsByix(deprecated)
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+print (df.ix[0])
+#+END_SRC
+
+#+RESULTS: pullOutRowsByix(deprecated)
+: country      Afghanistan
+: continent           Asia
+: year                1952
+: lifeExp           28.801
+: pop              8425333
+: gdpPercap        779.445
+: Name: 0, dtype: object
+
+**** pull out MANY row
+#+NAME: pullOutMultiRowsByix
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+print (type(df.ix[[0, 99, 999]]))
+print (df.ix[[0, 99, 999]])
+#+END_SRC
+
+#+RESULTS: pullOutMultiRowsByix
+: <class 'pandas.core.frame.DataFrame'>
+:          country continent  year  lifeExp       pop    gdpPercap
+: 0    Afghanistan      Asia  1952   28.801   8425333   779.445314
+: 99    Bangladesh      Asia  1967   43.453  62821884   721.186086
+: 999     Mongolia      Asia  1967   51.253   1149500  1226.041130
+:          country  lifeExp       pop
+: 0    Afghanistan   28.801   8425333
+: 99    Bangladesh   43.453  62821884
+: 999     Mongolia   51.253   1149500
+
+*** pull out sub-dataframe
+    #+NAME: pullOutSubDFByixAndlocUsing lable
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+    print (df.ix[[0, 99, 999], ['country', 'lifeExp', 'pop']])
+    print (df.loc[[0, 99, 999], ['country', 'lifeExp', 'pop']])
+    #+END_SRC
+
+    #+RESULTS: pullOutSubDFByixAndlocUsing lable
+    : country  lifeExp       pop
+    : 0    Afghanistan   28.801   8425333
+    : 99    Bangladesh   43.453  62821884
+    : 999     Mongolia   51.253   1149500
+    :          country  lifeExp       pop
+    : 0    Afghanistan   28.801   8425333
+    : 99    Bangladesh   43.453  62821884
+    : 999     Mongolia   51.253   1149500
+
+    #+NAME: pullOutSubDFByilocUsinglocation
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+
+      print (df.iloc[[0, 99, 999], [0, 3, 5]]) # RIGHT, location
+    #+END_SRC
+
+    #+RESULTS: pullOutSubDFByilocUsinglocation
+    :
+    : country  lifeExp    gdpPercap
+    : 0    Afghanistan   28.801   779.445314
+    : 99    Bangladesh   43.453   721.186086
+    : 999     Mongolia   51.253  1226.041130
+
+    #+NAME: using labeled data in iloc is ERROR
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      print (df.iloc[[0, 99, 999], ['country', 'lifeExp', 'pop']]) # ERROR, no label
+
+    #+END_SRC
+
+    #+RESULTS: use labeled data in iloc is ERROR
+    #+begin_example
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+      File "/home/yiddi/anaconda3/envs/tensorflow/lib/python3.6/site-packages/pandas/core/indexing.py", line 1325, in __getitem__
+        return self._getitem_tuple(key)
+      File "/home/yiddi/anaconda3/envs/tensorflow/lib/python3.6/site-packages/pandas/core/indexing.py", line 1662, in _getitem_tuple
+        self._has_valid_tuple(tup)
+      File "/home/yiddi/anaconda3/envs/tensorflow/lib/python3.6/site-packages/pandas/core/indexing.py", line 189, in _has_valid_tuple
+        if not self._has_valid_type(k, i):
+      File "/home/yiddi/anaconda3/envs/tensorflow/lib/python3.6/site-packages/pandas/core/indexing.py", line 1599, in _has_valid_type
+        return self._is_valid_list_like(key, axis)
+      File "/home/yiddi/anaconda3/envs/tensorflow/lib/python3.6/site-packages/pandas/core/indexing.py", line 1655, in _is_valid_list_like
+        (arr.max() >= l or arr.min() < -l)):
+      File "/home/yiddi/anaconda3/envs/tensorflow/lib/python3.6/site-packages/numpy/core/_methods.py", line 26, in _amax
+        return umr_maximum(a, axis, None, out, keepdims)
+    TypeError: cannot perform reduce with flexible type
+    #+end_example
+
+*** mathematicall operation on row/column/subDF
+    row/column are type of ~Series~
+    - <Series>.mean()
+    rows/columns/subDF are type of ~DataFrame~
+
+    #+NAME: mathOnColumn
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      le_mean = df['lifeExp'].mean()
+      print (le_mean)
+    #+END_SRC
+
+    #+RESULTS: mathOnColumn
+    : 59.474439366197174
+
+*** slicing and boolean index as filter in loc
+    do same thing with the ~mask~ in Numpy
+    ~g[ g[3] % 3 == 0 ]~
+
+    ~df.loc[ df['lifeExp'] > le_mean, : ]~
+    means get the subDF,
+    - whose row's lifeExp value must larger than le_mean;
+    - whose column has no constraint
+
+    #+NAME: slicing and boolean index to get subDF
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      df.loc[ df['lifeExp'] > le_mean, : ]
+    #+END_SRC
+
+    #+RESULTS: slicing and boolean index to get subDF
+    #+begin_example
+    country continent  year  lifeExp       pop     gdpPercap
+    14               Albania    Europe  1962   64.820   1728137   2312.888958
+    15               Albania    Europe  1967   66.220   1984060   2760.196931
+    16               Albania    Europe  1972   67.690   2263554   3313.422188
+    17               Albania    Europe  1977   68.930   2509048   3533.003910
+    18               Albania    Europe  1982   70.420   2780097   3630.880722
+    19               Albania    Europe  1987   72.000   3075321   3738.932735
+    20               Albania    Europe  1992   71.581   3326498   2497.437901
+    21               Albania    Europe  1997   72.950   3428038   3193.054604
+    22               Albania    Europe  2002   75.651   3508512   4604.211737
+    23               Albania    Europe  2007   76.423   3600523   5937.029526
+    30               Algeria    Africa  1982   61.368  20033753   5745.160213
+    31               Algeria    Africa  1987   65.799  23254956   5681.358539
+    32               Algeria    Africa  1992   67.744  26298373   5023.216647
+    33               Algeria    Africa  1997   69.152  29072015   4797.295051
+    34               Algeria    Africa  2002   70.994  31287142   5288.040382
+    35               Algeria    Africa  2007   72.301  33333216   6223.367465
+    48             Argentina  Americas  1952   62.485  17876956   5911.315053
+    49             Argentina  Americas  1957   64.399  19610538   6856.856212
+    50             Argentina  Americas  1962   65.142  21283783   7133.166023
+    51             Argentina  Americas  1967   65.634  22934225   8052.953021
+    52             Argentina  Americas  1972   67.065  24779799   9443.038526
+    53             Argentina  Americas  1977   68.481  26983828  10079.026740
+    54             Argentina  Americas  1982   69.942  29341374   8997.897412
+    55             Argentina  Americas  1987   70.774  31620918   9139.671389
+    56             Argentina  Americas  1992   71.868  33958947   9308.418710
+    57             Argentina  Americas  1997   73.275  36203463  10967.281950
+    58             Argentina  Americas  2002   74.340  38331121   8797.640716
+    59             Argentina  Americas  2007   75.320  40301927  12779.379640
+    60             Australia   Oceania  1952   69.120   8691212  10039.595640
+    61             Australia   Oceania  1957   70.330   9712569  10949.649590
+    ...       ...   ...      ...       ...           ...
+    1629             Uruguay  Americas  1997   74.223   3262838   9230.240708
+    1630             Uruguay  Americas  2002   75.307   3363085   7727.002004
+    1631             Uruguay  Americas  2007   76.384   3447496  10611.462990
+    1634           Venezuela  Americas  1962   60.770   8143375   8422.974165
+    1635           Venezuela  Americas  1967   63.479   9709552   9541.474188
+    1636           Venezuela  Americas  1972   65.712  11515649  10505.259660
+    1637           Venezuela  Americas  1977   67.456  13503563  13143.950950
+    1638           Venezuela  Americas  1982   68.557  15620766  11152.410110
+    1639           Venezuela  Americas  1987   70.190  17910182   9883.584648
+    1640           Venezuela  Americas  1992   71.150  20265563  10733.926310
+    1641           Venezuela  Americas  1997   72.146  22374398  10165.495180
+    1642           Venezuela  Americas  2002   72.766  24287670   8605.047831
+    1643           Venezuela  Americas  2007   73.747  26084662  11415.805690
+    1651             Vietnam      Asia  1987   62.820  62826491    820.799445
+    1652             Vietnam      Asia  1992   67.662  69940728    989.023149
+    1653             Vietnam      Asia  1997   70.672  76048996   1385.896769
+    1654             Vietnam      Asia  2002   73.017  80908147   1764.456677
+    1655             Vietnam      Asia  2007   74.249  85262356   2441.576404
+    1661  West Bank and Gaza      Asia  1977   60.765   1261091   3682.831494
+    1662  West Bank and Gaza      Asia  1982   64.406   1425876   4336.032082
+    1663  West Bank and Gaza      Asia  1987   67.046   1691210   5107.197384
+    1664  West Bank and Gaza      Asia  1992   69.718   2104779   6017.654756
+    1665  West Bank and Gaza      Asia  1997   71.096   2826046   7110.667619
+    1666  West Bank and Gaza      Asia  2002   72.370   3389578   4515.487575
+    1667  West Bank and Gaza      Asia  2007   73.422   4018332   3025.349798
+    1678         Yemen, Rep.      Asia  2002   60.308  18701257   2234.820827
+    1679         Yemen, Rep.      Asia  2007   62.698  22211743   2280.769906
+    1698            Zimbabwe    Africa  1982   60.363   7636524    788.855041
+    1699            Zimbabwe    Africa  1987   62.351   9216418    706.157306
+    1700            Zimbabwe    Africa  1992   60.377  10704340    693.420786
+
+    [895 rows x 6 columns]
+    #+end_example
+
+
+** group and aggregate statistics
+
+*** groupby + index + mean
+   *Split the data into different parts.*
+   *groupby return a DataFrameGroupBy object*
+   *pull out rows/columns from a DataFrameGroupBy object is same with DataFrame*
+   *pull out rows/columns from a DataFrameGroupBy object return a SeriesGroupBy*
+   *Series.mean/std/max get a value*
+   *SeriesGroupBy.mean/std/max get a Series(some like a list)*
+
+   *DataFrameGroupBy is a group of DataFrame*
+   *SeriesGroupBy is a group of Series*
+
+
+   - ~groupby(<fn(element)>)~ => ~pandas.core.groupby.DataFrameGroupBy~
+     will get all rows with same ~fn(element)~ value
+
+   - scala has a similar method called ~groupBy(<fn(element)>)~,
+     will give back a map whose *key* is ~fn(element)~ grouped by,
+     and *value* are all elements with same ~fn(element)~ value
+
+#+NAME: groupBy1ColumnIndex1Column
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  # gourby 1 column, indexing 1 column
+  print ( type (df.groupby('year')['lifeExp']))
+  print ( type (df.groupby('year')['lifeExp'].mean()))
+#+END_SRC
+
+#+RESULTS: groupBy1ColumnIndex1Column
+: <class 'pandas.core.groupby.SeriesGroupBy'>
+: <class 'pandas.core.series.Series'>
+
+#+NAME: groupBy1ColumnIndex2Column
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  # gourby 1 column, indexing 2 column
+  print ( type (df.groupby('year')['lifeExp', 'gdpPercap']))
+  print ( type (df.groupby('year')['lifeExp', 'gdpPercap'].mean()))
+#+END_SRC
+
+#+RESULTS: groupBy1ColumnIndex2Column
+: <class 'pandas.core.groupby.DataFrameGroupBy'>
+: <class 'pandas.core.frame.DataFrame'>
+
+#+NAME: groupBy2ColumnIndex2Column
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  # gourby 2 column, indexing 2 column
+  print ( type (df.groupby(['year', 'continent'])['lifeExp', 'gdpPercap']))
+  print ( type (df.groupby(['year', 'continent'])['lifeExp', 'gdpPercap'].mean()))
+  print ( df.groupby(['year', 'continent'])['lifeExp', 'gdpPercap'])
+  print ( df.groupby(['year', 'continent'])['lifeExp', 'gdpPercap'].mean().reset_index())
+#+END_SRC
+
+#+RESULTS: groupBy2ColumnIndex2Column
+#+begin_example
+lifeExp    gdpPercap
+year continent
+1952 Africa     39.135500  1252.572466
+     Americas   53.279840  4079.062552
+     Asia       46.314394  5195.484004
+     Europe     64.408500  5661.057435
+    year continent    lifeExp     gdpPercap
+0   1952    Africa  39.135500   1252.572466
+1   1952  Americas  53.279840   4079.062552
+2   1952      Asia  46.314394   5195.484004
+3   1952    Europe  64.408500   5661.057435
+4   1952   Oceania  69.255000  10298.085650
+5   1957    Africa  41.266346   1385.236062
+6   1957  Americas  55.960280   4616.043733
+7   1957      Asia  49.318544   5787.732940
+8   1957    Europe  66.703067   6963.012816
+9   1957   Oceania  70.295000  11598.522455
+10  1962    Africa  43.319442   1598.078825
+11  1962  Americas  58.398760   4901.541870
+12  1962      Asia  51.563223   5729.369625
+13  1962    Europe  68.539233   8365.486814
+14  1962   Oceania  71.085000  12696.452430
+15  1967    Africa  45.334538   2050.363801
+16  1967  Americas  60.410920   5668.253496
+17  1967      Asia  54.663640   5971.173374
+18  1967    Europe  69.737600  10143.823757
+19  1967   Oceania  71.310000  14495.021790
+20  1972    Africa  47.450942   2339.615674
+21  1972  Americas  62.394920   6491.334139
+22  1972      Asia  57.319269   8187.468699
+23  1972    Europe  70.775033  12479.575246
+24  1972   Oceania  71.910000  16417.333380
+25  1977    Africa  49.580423   2585.938508
+26  1977  Americas  64.391560   7352.007126
+27  1977      Asia  59.610556   7791.314020
+28  1977    Europe  71.937767  14283.979110
+29  1977   Oceania  72.855000  17283.957605
+30  1982    Africa  51.592865   2481.592960
+31  1982  Americas  66.228840   7506.737088
+32  1982      Asia  62.617939   7434.135157
+33  1982    Europe  72.806400  15617.896551
+34  1982   Oceania  74.290000  18554.709840
+35  1987    Africa  53.344788   2282.668991
+36  1987  Americas  68.090720   7793.400261
+37  1987      Asia  64.851182   7608.226508
+38  1987    Europe  73.642167  17214.310727
+39  1987   Oceania  75.320000  20448.040160
+40  1992    Africa  53.629577   2281.810333
+41  1992  Americas  69.568360   8044.934406
+42  1992      Asia  66.537212   8639.690248
+43  1992    Europe  74.440100  17061.568084
+44  1992   Oceania  76.945000  20894.045885
+45  1997    Africa  53.598269   2378.759555
+46  1997  Americas  71.150480   8889.300863
+47  1997      Asia  68.020515   9834.093295
+48  1997    Europe  75.505167  19076.781802
+49  1997   Oceania  78.190000  24024.175170
+50  2002    Africa  53.325231   2599.385159
+51  2002  Americas  72.422040   9287.677107
+52  2002      Asia  69.233879  10174.090397
+53  2002    Europe  76.700600  21711.732422
+54  2002   Oceania  79.740000  26938.778040
+55  2007    Africa  54.806038   3089.032605
+56  2007  Americas  73.608120  11003.031625
+57  2007      Asia  70.728485  12473.026870
+58  2007    Europe  77.648600  25054.481636
+59  2007   Oceania  80.719500  29810.188275
+#+end_example
+
+~.reset_index()~ used to flatten the index, this is important to keep *different expression compatible*
+things return by ~.reset_index~ can be used as source to other expression
+
+before using ~.reset_index~
+---------------------------
+                  lifeExp     gdpPercap
+year continent
+1952 Africa     39.135500   1252.572466
+     Americas   53.279840   4079.062552
+     Asia       46.314394   5195.484004
+     Europe     64.408500   5661.057435
+     Oceania    69.255000  10298.085650
+
+after using ~.reset_index~
+---------------------------
+    year continent    lifeExp     gdpPercap
+0   1952    Africa  39.135500   1252.572466
+1   1952  Americas  53.279840   4079.062552
+2   1952      Asia  46.314394   5195.484004
+3   1952    Europe  64.408500   5661.057435
+4   1952   Oceania  69.255000  10298.085650
+5   1957    Africa  41.266346   1385.236062
+
+*** Illustration of groupby + index + mean 1
+. df.groupby('year')
+. =================
+. Afghanistan	Asia	1952	28.801	8425333	779.4453145--------->|Afghanistan	Asia	1952 ...    |
+. Afghanistan	Asia	1957	30.332	9240934	820.8530296          |Albania	    Europe	1952 ...    |
+. ...                                                                |Angola	    Africa	1952 ...    |
+. Albania	Europe	1952	55.23	1282697	1601.056136------------->|Australia	    Oceania	1952 ...    |
+. Albania	Europe	1957	59.28	1476505	1942.284244                     ^               ^
+. ...                                                                       |               |
+. Angola	Africa	1952	30.015	4232095	3520.610273---------------------+               |
+. Angola	Africa	1957	31.999	4561361	3827.940465				                        |
+. ...                                                                                       |
+. Australia	Oceania	1952	69.12	8691212	10039.59564-------------------------------------+
+. Australia	Oceania	1957	70.33	9712569	10949.64959
+
+
+. df.groupby('year')                              ['year']       .  mean()
+. ==================================================================================
+.            DataFrameGroupBy                   SeriesGroupBy       Series
+.                  |                                 |                |
+.                  v                                 v                v
+.  |-------------+---------+------+-----|
+.  |group1                              |
+.  |-------------+---------+------+-----|         +------+
+.  | Afghanistan | Asia    | 1952 | ... |         | 1952 |         +------+
+.  | Albania	 | Europe  | 1952 | ... |         | 1952 |  =====> | 1952 |
+.  | Angola		 | Africa  | 1952 | ... |         | 1952 |         |      |
+.  | Australia	 | Oceania | 1952 | ... |         | 1952 |         |      |
+.  |-------------+---------+------+-----|         +------+         |      |
+.  |group2                              |                          |      |
+.  |-------------+---------+------+-----|  ===>   +------+         |      |
+.  | Afghanistan | Asia    | 1957 | ... |         | 1957 |         |      |
+.  | Albania     | Europe  | 1957 | ... |         | 1957 |  =====> | 1957 |
+.  | Angola      | Africa  | 1957 | ... |         | 1957 |         |      |
+.  | Australia   | Oceania | 1957 | ... |         | 1957 |         |      |
+.  |-------------+---------+------+-----|         +------+         |      |
+.  |group3                              |                          |      |
+.  |-------------+---------+------+-----|         +------+         |      |
+.  | Afghanistan | Asia    | 1959 | ... |         | 1959 |         |      |
+.  | Albania     | Europe  | 1959 | ... |         | 1959 |  =====> | 1959 |
+.  | Angola      | Africa  | 1959 | ... |         | 1959 |         +------+
+.  | Australia   | Oceania | 1959 | ... |         | 1959 |
+.  |-------------+---------+------+-----|         +------+
+.  | ...         | ....    |  ... | ... |         |  ... |
+
+*** Illustration of groupby + index + mean 2
+
+   *DataFrame* --groupby--> *DataFrameGroupBy* --[indexRow/Column]-->         *SeriesGroupBy*    --mean--> *Series*
+   ............................................--[indexMultiRows/Columns] --> *DataFrameGroupBy* --mean--> *DataFrame*
+
+.     DataFrame               DataFrameGroupBy          SeriesGroupBy or  DataFrameGroupBy           Series        or            DataFrame
+.
+.                                +----------+                ++               +-----+
+.                                |          |                ||               |     |
+.                                |          |                ||               |     |              ++  ++               +-----+   +-----+-
+.  +------------------+          |          |                ||               |     |              ++  ++               +-----+   +-----+
+.  |                  |          +----------+                ++               +-----+                  ++                         +-----+
+.  |                  |          +----------+                ++               +-----+                  ++                         +-----+
+.  |                  | groupby  |          |   indexing     ||    or         |     |    mean      ++  ++               +-----+   +-----+
+.  |                  +--------->|          |  -------->     ||               |     |  -------->   ++                   +-----+
+.  |                  |          +----------+                ++               +-----+
+.  |                  |          +----------+                ++               +-----+
+.  |                  |          |          |                ||               |     |              ++                   +-----+
+.  +------------------+          |          |                ||               |     |              ++                   +-----+
+.                                |          |                ||               |     |
+.                                +----------+                ++               +-----+
+.                                +----------+                ++               +-----+
+.                                |          |                ||               |     |              ++                   +-----+
+.                                |          |                ||               |     |              ++                   +-----+
+.                                |          |                ||               |     |
+.                                +----------+                ++               +-----+
+.
+
+*** reset_index
+    ~.reset_index()~ used to flatten the index, this is important to keep *different expression compatible*
+    things return by ~.reset_index~ can be used as source DataFrame to other expression.
+
+    before using ~.reset_index~, this is a ~Series~
+    ---------------------------
+    lifeExp     gdpPercap
+    year continent
+    1952 Africa     39.135500   1252.572466
+    Americas   53.279840   4079.062552
+    Asia       46.314394   5195.484004
+    Europe     64.408500   5661.057435
+    Oceania    69.255000  10298.085650
+
+    after using ~.reset_index~, this is a ~DataFrame~
+    ---------------------------
+    year continent    lifeExp     gdpPercap
+    0   1952    Africa  39.135500   1252.572466
+    1   1952  Americas  53.279840   4079.062552
+    2   1952      Asia  46.314394   5195.484004
+    3   1952    Europe  64.408500   5661.057435
+    4   1952   Oceania  69.255000  10298.085650
+    5   1957    Africa  41.266346   1385.236062
+
+
+    #+NAME: whatIsReset_index
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      print ("--------bad format---------")
+      before_reset = df.groupby(['year', 'continent'])['lifeExp', 'gdpPercap'].mean()[:5]
+      print ( before_reset )
+      print ( type(before_reset ) )
+      print ("\n")
+      print ("--------good format---------")
+      after_reset= df.groupby(['year', 'continent'])['lifeExp', 'gdpPercap'].mean().reset_index()[:5]
+      print ( after_reset )
+      print ( type(after_reset ) )
+    #+END_SRC
+
+    #+RESULTS: whatIsReset_index
+    #+begin_example
+    --------bad format---------
+                      lifeExp     gdpPercap
+    year continent
+    1952 Africa     39.135500   1252.572466
+         Americas   53.279840   4079.062552
+         Asia       46.314394   5195.484004
+         Europe     64.408500   5661.057435
+         Oceania    69.255000  10298.085650
+    <class 'pandas.core.frame.DataFrame'>
+
+
+    --------good format---------
+       year continent    lifeExp     gdpPercap
+    0  1952    Africa  39.135500   1252.572466
+    1  1952  Americas  53.279840   4079.062552
+    2  1952      Asia  46.314394   5195.484004
+    3  1952    Europe  64.408500   5661.057435
+    4  1952   Oceania  69.255000  10298.085650
+    <class 'pandas.core.frame.DataFrame'>
+    #+end_example
+
+*** groupby + index + nunique
+    *nunique = number of unique*
+
+    *count the number of non-duplicate items of each group after indexing.*
+
+    In this example, you can get how many contries in each continent in this file.
+
+#+NAME: groupbyAndGetUnique
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+df.groupby('continent')['country'].nunique()
+#+END_SRC
+
+#+RESULTS: groupbyAndGetUnique
+: continent
+: Africa      52
+: Americas    25
+: Asia        33
+: Europe      30
+: Oceania      2
+: Name: country, dtype: int64
+
+*** groupby + indexing + mean + plot
+#+NAME: groupbyAndPlot
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  gyle = df.groupby('year')['lifeExp'].mean()
+  print (gyle)
+  import matplotlib.pyplot as plt
+  gyle.plot()
+  plt.show()
+#+END_SRC
+
+#+RESULTS: groupbyAndPlot
+#+begin_example
+year
+1952    49.057620
+1957    51.507401
+1962    53.609249
+1967    55.678290
+1972    57.647386
+1977    59.570157
+1982    61.533197
+1987    63.212613
+1992    64.160338
+1997    65.014676
+2002    65.694923
+2007    67.007423
+Name: lifeExp, dtype: float64
+#+end_example
+
+*** groupby + indexing + mean + output_to_file
+    ONLY DataFrame has API ~to_csv~, ~to_exel~, ~to_sql~ ..., and everytime you want to safe DF to file,
+    you should ~reset_index()~ to convert a bad-formatted ~Series~ to a well-formatted ~DataFrame~.
+
+    setup the parameter of .to_csv ~index=False~ will not display the index number in output file.
+
+    #+NAME: saveDataFrameToFile
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      gyle = df.groupby('year')['lifeExp'].mean() # Series
+      new_df = gyle.reset_index() # Series --reset_index--> DataFrame
+      new_df.to_csv('./Pandas/output/lifeExp_by_year.csv')
+      new_df.to_csv('./Pandas/output/lifeExp_by_year_noIndex.csv', index=False)
+    #+END_SRC
+
+    #+RESULTS: saveDataFrameToFile
+
+** odo : shapeshifting for your data
+   [[http://odo.pydata.org/en/latest/][By this package of python]], you can convert your data from/to almost any format
+** Pandas.DataFrame vs. Numpy.array
+|------------------------------------------------+---------------------------------------|
+| DataFrame has label and location               | array ONLY has location               |
+| pull out row is different from pull out column | same with pull out row and column     |
+| DON'T support slicing                          | support slicing                       |
+|------------------------------------------------+---------------------------------------|
+| - column: <df_name>['rowName1', 'rowName2']    | - column: <arr_name>[:, location-num] |
+| - row: <df_name>.loc[lable-num]                | - row: <arr_name>[locaion-num, :]     |
+| - row: <df_name>.iloc[location-num]            | - subDF: <arr_name>[[1:-1:2], [1:14]] |
+| - subDF: <df_name>.ix[[label-num],['rowName']] | - support mask, some like fiter       |
+|------------------------------------------------+---------------------------------------|
+| filter : df[ df['year'] > 1990 ]               | filter : arr[ arr[:,2] >= 30 ]        |
+
+
+| df.ix[[0, 99, 999], ['country', 'lifeExp', 'pop']] | arr[[0,1,2,3], [1,2,3,4]] |
+|----------------------------------------------------+---------------------------|
+| : country  lifeExp       pop                       | [ 1  7 13 19]             |
+| : 0    Afghanistan   28.801   8425333              |                           |
+| : 99    Bangladesh   43.453  62821884              |                           |
+| : 999     Mongolia   51.253   1149500              |                           |
+|----------------------------------------------------+---------------------------|
+|                                                    | arr[[0:4], [1:5]]         |
+|----------------------------------------------------+---------------------------|
+|                                                    | . 1  . 2 . 3 . 4 .        |
+|                                                    | . 6  . 7 . 8 . 9 .        |
+|                                                    | . 11 .12 . 13. 14.        |
+|                                                    | . 16 .17 . 18. 19.        |
+
+** loc vs. iloc vs. ix vs. df[]
+
+   | method                 | return type      | interpretation                       |
+   |------------------------+------------------+--------------------------------------|
+   | df[]                   | Series           | ONLY for column; label-based         |
+   | df.loc[]               | Series/DataFrame | for DataFrame;   label-based         |
+   | df.ix[]                | Series/DataFrame | for DataFrame;   label-based         |
+   | df.iloc[]              | Series/DataFrame | for DataFrame;   location-based      |
+   |------------------------+------------------+--------------------------------------|
+   | df[0]                  | ERROR            | ERROR                                |
+   | df['year']             | Series           | df[] can ONLY used to access columns |
+   |                        |                  | df[] is also *label-based*           |
+   |------------------------+------------------+--------------------------------------|
+   | df.loc[0]              | Series           | get 1st row                          |
+   | df.ix[0]               | Series           | get 1st row                          |
+   | df.iloc[0]             | Series           | get 1st row                          |
+   |------------------------+------------------+--------------------------------------|
+   | df.loc[1:3]            | DataFrame        | get 1 ~ 3 rows                       |
+   | df.ix[1:3]             | DataFrame        | get 1 ~ 3 rows                       |
+   | df.iloc[1:3]           | DataFrame        | *get 1 ~ 2 rows*                     |
+   |------------------------+------------------+--------------------------------------|
+   | df.loc[1:3, 1:3]       | ERROR            | ERROR                                |
+   | df.ix[1:3, 1:3]        | ERROR            | ERROR                                |
+   | df.iloc[1:3, 1:3]      | DataFrame        | *get row1~2,column1~2*               |
+   |------------------------+------------------+--------------------------------------|
+   | df.loc[1:3, ['year']]  | DataFrame        | get row1~3,column'year'              |
+   | df.ix[1:3, ['year']]   | DataFrame        | get row1~3,column'year'              |
+   | df.iloc[1:3, ['year']] | ERROR            | ERROR                                |
+   |------------------------+------------------+--------------------------------------|
+   | df.loc[1:3, 'year']    | Series           | get row1~3,column'year'              |
+   | df.ix[1:3, 'year']     | Series           | get row1~3,column'year'              |
+   | df.iloc[1:3, 1]        | Series           | get row1~3,column'year'              |
+
+
+   #+NAME: locVSilocVSix
+   #+HEADER: :session
+   #+BEGIN_SRC python :results output
+     # print ( df.ix[0] )
+     # print ( df.loc[0] )
+     # print ( df.iloc[0] )
+     # print ( df.ix[1:3] )
+     # print ( df.loc[1:3] )
+     # print ( df.iloc[1:3] )
+     # print ( df.loc[1:3, ['year']] )
+   #+END_SRC
+
+   #+RESULTS: locVSilocVSix
+   : country      Afghanistan
+   : continent           Asia
+   : year                1957
+   : lifeExp           30.332
+   : pop              9240934
+   : gdpPercap        820.853
+   : Name: 1, dtype: object
+
+* Assemble, part-II
+  Dataset are in different files, you should assemble them together before do data analysis.
+  sometimes you should do analysis on many separate file, like *time series analysis*, *log file analysis*.
+
+** concatenate separate dataframes as rows
+   ~concat(axis=0)~ axis=0 is default, if column name miss match, automaticlly fit ~NaN~
+   #+NAME: step-1: read files which should be assembled
+   #+HEADER: :session
+   #+BEGIN_SRC python :results output
+     import pandas as pd
+     file_path = '/home/yiddi/worklap/PythonML/Shan-HungWu DL/Pandas/scipy-2017-tutorial-pandas/data/'
+     df1 = pd.read_csv(file_path+'concat_1.csv')
+     df2 = pd.read_csv(file_path+'concat_2.csv')
+     df3 = pd.read_csv(file_path+'concat_3.csv')
+     print (df1)
+     print (df2)
+     print (df3)
+   #+END_SRC
+
+   #+RESULTS: step-1: read files which should be assembled
+   #+begin_example
+   A   B   C   D
+   0  a0  b0  c0  d0
+   1  a1  b1  c1  d1
+   2  a2  b2  c2  d2
+   3  a3  b3  c3  d3
+       A   B   C   D
+   0  a4  b4  c4  d4
+   1  a5  b5  c5  d5
+   2  a6  b6  c6  d6
+   3  a7  b7  c7  d7
+        A    B    C    D
+   0   a8   b8   c8   d8
+   1   a9   b9   c9   d9
+   2  a10  b10  c10  d10
+   3  a11  b11  c11  d11
+   #+end_example
+
+
+*** concate([df1,def2,...]) + loc
+    ~concat()~ don't require files match each other, they don't have to be in the same order.
+    ~concat()~ will keep the label of each rows given by there orginial file
+    so you can use ~loc[labelNum]~ to index them
+    when you want the 1st row of the concatenated DataFrame, you should use ~iloc[locationNum]~
+    #+NAME: step-2.1: concatenate data row-wise to get bad-labeled DataFrame
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      row_concat = pd.concat([df1, df2, df3])
+      print (row_concat)
+      print (type(row_concat))
+      print (row_concat.loc[0]) # pull out all rows labled `0`
+      print (row_concat.iloc[0])# pull out 1st row
+    #+END_SRC
+
+    #+RESULTS: step-2.1: concatenate data row-wise to get bad-labeled DataFrame
+    #+begin_example
+    A    B    C    D
+    0   a0   b0   c0   d0
+    1   a1   b1   c1   d1
+    2   a2   b2   c2   d2
+    3   a3   b3   c3   d3
+    0   a4   b4   c4   d4
+    1   a5   b5   c5   d5
+    2   a6   b6   c6   d6
+    3   a7   b7   c7   d7
+    0   a8   b8   c8   d8
+    1   a9   b9   c9   d9
+    2  a10  b10  c10  d10
+    3  a11  b11  c11  d11
+    <class 'pandas.core.frame.DataFrame'>
+        A   B   C   D
+    0  a0  b0  c0  d0
+    0  a4  b4  c4  d4
+    0  a8  b8  c8  d8
+    A    a0
+    B    b0
+    C    c0
+    D    d0
+    Name: 0, dtype: object
+    #+end_example
+
+*** Illustration of concate + loc
+    . >>>>> pd.concat([df1,df2,df3]).loc[0]
+    .
+    .     +-------------> labels given by original file
+    .     |                                  |
+    .     |                                  |
+    .   |*0*|  a0   b0   c0   d0             |
+    .   | 1 |  a1   b1   c1   d1         loc[0]
+    .   | 2 |  a2   b2   c2   d2             |
+    .   | 3 |  a3   b3   c3   d3             +---------->       A   B   C   D
+    .   |*0*|  a4   b4   c4   d4                          |0|  a0  b0  c0  d0
+    .   | 1 |  a5   b5   c5   d5                          |0|  a4  b4  c4  d4
+    .   | 2 |  a6   b6   c6   d6                          |0|  a8  b8  c8  d8
+    .   | 3 |  a7   b7   c7   d7
+    .   |*0*|  a8   b8   c8   d8
+    .   | 1 |  a9   b9   c9   d9
+    .   | 2 | a10  b10  c10  d10
+    .   | 3 | a11  b11  c11  d11
+*** concate + reset_index
+    #+NAME: step-2.2: reset_index after concatenation to get well-labeled DataFrame
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      print (row_concat.reset_index())
+    #+END_SRC
+
+    #+RESULTS: step-2.2: reset_index after concatenation to get well-labeled DataFrame
+    #+begin_example
+    index    A    B    C    D
+    0       0   a0   b0   c0   d0
+    1       1   a1   b1   c1   d1
+    2       2   a2   b2   c2   d2
+    3       3   a3   b3   c3   d3
+    4       0   a4   b4   c4   d4
+    5       1   a5   b5   c5   d5
+    6       2   a6   b6   c6   d6
+    7       3   a7   b7   c7   d7
+    8       0   a8   b8   c8   d8
+    9       1   a9   b9   c9   d9
+    10      2  a10  b10  c10  d10
+    11      3  a11  b11  c11  d11
+    #+end_example
+*** concate + Series + DataFrame = bad-formatted df
+    #+NAME: make a new Series(think it as a column), with given values
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      new_row = pd.Series(['n1', 'n2', 'n3', 'n4'])
+      print (new_row)
+    #+END_SRC
+
+    #+RESULTS: sdfsdf
+    #+begin_example
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+      File "/tmp/babel-32610Fla/python-32610khl", line 2, in <module>
+        site = pd.read_csv('./scipy-2017-tutorial-pandas/data/survey_site.csv')
+      File "/home/yiddi/anaconda3/envs/tensorflow/lib/python3.6/site-packages/pandas/io/parsers.py", line 655, in parser_f
+        return _read(filepath_or_buffer, kwds)
+      File "/home/yiddi/anaconda3/envs/tensorflow/lib/python3.6/site-packages/pandas/io/parsers.py", line 405, in _read
+        parser = TextFileReader(filepath_or_buffer, **kwds)
+      File "/home/yiddi/anaconda3/envs/tensorflow/lib/python3.6/site-packages/pandas/io/parsers.py", line 764, in __init__
+        self._make_engine(self.engine)
+      File "/home/yiddi/anaconda3/envs/tensorflow/lib/python3.6/site-packages/pandas/io/parsers.py", line 985, in _make_engine
+        self._engine = CParserWrapper(self.f, **self.options)
+      File "/home/yiddi/anaconda3/envs/tensorflow/lib/python3.6/site-packages/pandas/io/parsers.py", line 1605, in __init__
+        self._reader = parsers.TextReader(src, **kwds)
+      File "pandas/_libs/parsers.pyx", line 394, in pandas._libs.parsers.TextReader.__cinit__ (pandas/_libs/parsers.c:4209)
+      File "pandas/_libs/parsers.pyx", line 710, in pandas._libs.parsers.TextReader._setup_parser_source (pandas/_libs/parsers.c:8873)
+    FileNotFoundError: File b'./scipy-2017-tutorial-pandas/data/survey_site.csv' does not exist
+    #+end_example
+
+    #+NAME: (bad-formatted)concatenate Series with DataFrame
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      pd.concat([df1, new_row])
+    #+END_SRC
+
+    #+RESULTS: (bad-formatted)concatenate Series with DataFrame
+    : A    B    C    D    0
+    : 0   a0   b0   c0   d0  NaN
+    : 1   a1   b1   c1   d1  NaN
+    : 2   a2   b2   c2   d2  NaN
+    : 3   a3   b3   c3   d3  NaN
+    : 0  NaN  NaN  NaN  NaN   n1
+    : 1  NaN  NaN  NaN  NaN   n2
+    : 2  NaN  NaN  NaN  NaN   n3
+    : 3  NaN  NaN  NaN  NaN   n4
+
+*** concate + DataFrame + DataFrame = well-formatted df
+    when you want to concatenate user-defined row to an dataframe, you must specify *the same column-label*.
+    when you using ~pd.DataFrame(1st, 2nd)~ to create your own df, you should specify 2nd para.
+
+    #+NAME: make a new DataFrame(one row df), with given values and columns labels
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      new_row_2 = pd.DataFrame([['n1', 'n2', 'n3', 'n4']], columns = ['A', 'B', 'C', 'D'])
+      print (new_row_2)
+    #+END_SRC
+
+    #+RESULTS: make a new DataFrame(one row df), with given values and columns labels
+    : A   B   C   D
+    : 0  n1  n2  n3  n4
+
+    #+NAME: (well-formatted)concatenate DataFrame with DataFrame
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      pd.concat( [df1, new_row_2] )
+    #+END_SRC
+
+    #+RESULTS: (well-formatted)concatenate DataFrame with DataFrame
+    : A   B   C   D
+    : 0  a0  b0  c0  d0
+    : 1  a1  b1  c1  d1
+    : 2  a2  b2  c2  d2
+    : 3  a3  b3  c3  d3
+    : 0  n1  n2  n3  n4
+
+*** concate + DataFrame + shape-mis-match DataFrame = automaticlly ~NaN~
+    will automaticlly add-in ~NaN~, for mis-match location
+    #+NAME: shape mis match will add `NaN` automaticlly
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      new_row_3 = pd.DataFrame([['n1', 'n2', 'n4']], columns = ['A', 'B', 'D'])
+      print (pd.concat([df1, new_row_3]))
+    #+END_SRC
+
+    #+RESULTS: shape mis match will add `NaN` automaticlly
+    : A   B    C   D
+    : 0  a0  b0   c0  d0
+    : 1  a1  b1   c1  d1
+    : 2  a2  b2   c2  d2
+    : 3  a3  b3   c3  d3
+    : 0  n1  n2  NaN  n4
+** concatenate separate dataframes as columns
+*** concate(axis=1) + loc/iloc/ix/df[]
+    Almost the same with concatenation as rows, the ONLY difference is ~concat(..., axis=1)~
+    #+NAME: concatenate files as columns
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      col_concat = pd.concat([df1, df2, df3], axis = 1)
+      print ( col_concat )
+      print ( col_concat['A'] )
+      print ( col_concat.loc[:,['A']] )
+      print ( col_concat.ix[:,'A'] )
+      print ( col_concat.iloc[1, 0:3] )
+    #+END_SRC
+
+    #+RESULTS: concatenate files as columns
+    #+begin_example
+    A   B   C   D   A   B   C   D    A    B    C    D
+    0  a0  b0  c0  d0  a4  b4  c4  d4   a8   b8   c8   d8
+    1  a1  b1  c1  d1  a5  b5  c5  d5   a9   b9   c9   d9
+    2  a2  b2  c2  d2  a6  b6  c6  d6  a10  b10  c10  d10
+    3  a3  b3  c3  d3  a7  b7  c7  d7  a11  b11  c11  d11
+        A   A    A
+    0  a0  a4   a8
+    1  a1  a5   a9
+    2  a2  a6  a10
+    3  a3  a7  a11
+        A   A    A
+    0  a0  a4   a8
+    1  a1  a5   a9
+    2  a2  a6  a10
+    3  a3  a7  a11
+        A   A    A
+    0  a0  a4   a8
+    1  a1  a5   a9
+    2  a2  a6  a10
+    3  a3  a7  a11
+    A    a1
+    B    b1
+    C    c1
+    Name: 1, dtype: object
+    #+end_example
+*** reset the column-label by ~df.columns~ attribute
+    #+NAME: reset the column-label
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      df1.columns = ['A', 'B', 'C', 'D']
+      df2.columns = ['A', 'D', 'E', 'F']
+      print ( df1 )
+      print ( df2 )
+      print ( pd.concat([df1, df2]) )
+    #+END_SRC
+
+    #+RESULTS: reset the column-label
+    #+begin_example
+    A   B   C   D
+    0  a0  b0  c0  d0
+    1  a1  b1  c1  d1
+    2  a2  b2  c2  d2
+    3  a3  b3  c3  d3
+        A   D   E   F
+    0  a4  b4  c4  d4
+    1  a5  b5  c5  d5
+    2  a6  b6  c6  d6
+    3  a7  b7  c7  d7
+        A    B    C   D    E    F
+    0  a0   b0   c0  d0  NaN  NaN
+    1  a1   b1   c1  d1  NaN  NaN
+    2  a2   b2   c2  d2  NaN  NaN
+    3  a3   b3   c3  d3  NaN  NaN
+    0  a4  NaN  NaN  b4   c4   d4
+    1  a5  NaN  NaN  b5   c5   d5
+    2  a6  NaN  NaN  b6   c6   d6
+    3  a7  NaN  NaN  b7   c7   d7
+    #+end_example
+*** reset the row-label by ~df.index~ attribute
+    #+NAME: reset the row-label
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      df1.index = [0, 2, 5, 7]
+      print ( df1 )
+      print ( pd.concat([df1, df2], axis=1) )
+    #+END_SRC
+
+    #+RESULTS: reset the row-label
+    #+begin_example
+    A   B   C   D
+    0  a0  b0  c0  d0
+    2  a1  b1  c1  d1
+    5  a2  b2  c2  d2
+    7  a3  b3  c3  d3
+         A    B    C    D    A    D    E    F
+    0   a0   b0   c0   d0   a4   b4   c4   d4
+    1  NaN  NaN  NaN  NaN   a5   b5   c5   d5
+    2   a1   b1   c1   d1   a6   b6   c6   d6
+    3  NaN  NaN  NaN  NaN   a7   b7   c7   d7
+    5   a2   b2   c2   d2  NaN  NaN  NaN  NaN
+    7   a3   b3   c3   d3  NaN  NaN  NaN  NaN
+    #+end_example
+
+*** join differet files like SQL
+    Note that, *join* in pandas is NOT *join* in SQL, *merge* in pandas is same with *join* in SQL.
+    #+NAME: step-1: read every file as DataFrame obj in memory
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      survey_path = '/home/yiddi/worklap/PythonML/Shan-HungWu DL/Pandas/scipy-2017-tutorial-pandas/data/'
+      person = pd.read_csv(survey_path + 'survey_person.csv')
+      site = pd.read_csv(survey_path + 'survey_site.csv')
+      survey = pd.read_csv(survey_path + 'survey_survey.csv')
+      visited = pd.read_csv(survey_path + 'survey_visited.csv')
+    #+END_SRC
+
+
+    #+NAME: ste-2: subset certain data sets
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      visited_subset = visited.iloc[[0,2,6], :]
+      print ( site )
+      print ( visited_subset)
+    #+END_SRC
+
+    #+RESULTS: ste-2: subset certain data sets
+    : name    lat    long
+    : 0   DR-1 -49.85 -128.57
+    : 1   DR-3 -47.15 -126.72
+    : 2  MSK-4 -48.87 -123.40
+    :    ident   site       dated
+    : 0    619   DR-1  1927-02-08
+    : 2    734   DR-3  1939-01-07
+    : 6    837  MSK-4  1932-01-14
+
+    #+NAME: step-3: do some merge on one key(column)
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      o2o = pd.merge(site, visited_subset, left_on='name', right_on='site')
+      print ( o2o )
+    #+END_SRC
+
+    #+RESULTS: step-3: do some merge
+    : name    lat    long  ident   site       dated
+    : 0   DR-1 -49.85 -128.57    619   DR-1  1927-02-08
+    : 1   DR-3 -47.15 -126.72    734   DR-3  1939-01-07
+    : 2  MSK-4 -48.87 -123.40    837  MSK-4  1932-01-14
+
+    .Illustration of merge(join)
+    .
+    .pd.merge(site, visted_subset, left_on='name', right_on='site')
+    .                              -------------   --------------
+    .
+    .          |                                   |
+    .          v                                   v
+    .         name    lat    long   |     ident   site        dated
+    .     0   DR-1 -49.85 -128.57   |  0    619   DR-1  1927-02-080
+    .     1   DR-3 -47.15 -126.72   |  2    734   DR-3  1939-01-071
+    .     2  MSK-4 -48.87 -123.40   |  6    837  MSK-4  1932-01-142
+    .
+    . =====> mergeto :  *both keys(columns) of right and left, are kept in result df*
+    .
+    .         *name*    lat    long  ident   *site*       dated
+    .     0   *DR-1* -49.85 -128.57    619   *DR-1*  1927-02-08
+    .     1   *DR-3* -47.15 -126.72    734   *DR-3*  1939-01-07
+    .     2  *MSK-4* -48.87 -123.40    837  *MSK-4*  1932-01-14
+    .
+
+    #+NAME: step-3.2: do some merge on multiple keys(columns)
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      m2m = pd.merge(site, visited_subset, left_on=['name', 'long'], right_on=['site', 'dated'])
+      print ( o2o )
+    #+END_SRC
+
+    #+RESULTS: step-3.2: do some merge on multiple keys(columns)
+    : Empty DataFrame
+    : Columns: [name, lat, long, ident, site, dated]
+    : Index: []
+
+    #+NAME: sdf23
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      m = site.merge(visited, left_on='name', right_on='site')
+      print (m)
+    #+END_SRC
+
+    #+RESULTS: sdf23
+    : name    lat    long  ident   site       dated
+    : 0   DR-1 -49.85 -128.57    619   DR-1  1927-02-08
+    : 1   DR-1 -49.85 -128.57    622   DR-1  1927-02-10
+    : 2   DR-1 -49.85 -128.57    844   DR-1  1932-03-22
+    : 3   DR-3 -47.15 -126.72    734   DR-3  1939-01-07
+    : 4   DR-3 -47.15 -126.72    735   DR-3  1930-01-12
+    : 5   DR-3 -47.15 -126.72    751   DR-3  1930-02-26
+    : 6   DR-3 -47.15 -126.72    752   DR-3         NaN
+    : 7  MSK-4 -48.87 -123.40    837  MSK-4  1932-01-14
+
+. Illustration of merge(join)
+.
+.         +-------+--------+---------+   +-------+-------+------------+
+.         | name  |    lat |    long |   | ident | site  |      dated |
+.         | DR-1  | -49.85 | -128.57 |   |   619 | DR-1  | 1927-02-08 |
+.         | DR-3  | -47.15 | -126.72 |   |   622 | DR-1  | 1927-02-10 |
+.         | MSK-4 | -48.87 |  -123.4 |   |   734 | DR-3  | 1939-01-07 |
+.         |       |        |         |   |   735 | DR-3  | 1930-01-12 |
+.         |       |        |         |   |   751 | DR-3  | 1930-02-26 |
+.         |       |        |         |   |   752 | DR-3  |            |
+.         |       |        |         |   |   837 | MSK-4 | 1932-01-14 |
+.         |       |        |         |   |   844 | DR-1  | 1932-03-22 |
+.
+.
+.             +-------------------------------------+
+.             v                                     |
+.         | DR-1  | -49.85 | -128.57 |       619 | DR-1  | 1927-02-08 |
+.          |  ^                              622 | DR-1  | 1927-02-10 |
+.          |  +--------------------------------------
+.          |
+.          |  *many right match left, left will copy many times itself*
+.          |
+.          v
+.          0   *DR-1* -49.85 -128.57    619   DR-1  1927-02-08
+.          1   *DR-1* -49.85 -128.57    622   DR-1  1927-02-10
+
+
+
+. Illustration of merge(join)
+.
+.         +-------+--------+---------+   +-------+-------+------------+
+.         | name  |    lat |    long |   | ident | site  |      dated |
+.         +-------+--------+---------+   +-------+-------+------------+
+.         | DR-1  | -49.85 | -128.57 |   |   619 | DR-1  | 1927-02-08 |
+.         | DR-3  | -47.15 | -126.72 |   |   622 | DR-1  | 1927-02-10 |
+.         | MSK-4 | -48.87 |  -123.4 |   |   734 | DR-3  | 1939-01-07 |
+.         |       |        |         |   |   735 | DR-3  | 1930-01-12 |
+.         |       |        |         |   |   751 | DR-3  | 1930-02-26 |
+.         |       |        |         |   |   752 | DR-3  |        ----+----+
+.         |       |        |         |   |   837 | MSK-4 | 1932-01-14 |    |
+.         |       |        |         |   |   844 | DR-1  | 1932-03-22 |    |
+.                                                                          |
+. =====> merge to:                                                         | *missing value will*
+.                                                                          | *change to ~NaN~ automaticlly*
+.         +-------------------------------------------------------+        |
+.         | name  |    lat |    long | ident |  site |      dated |        |
+.         +-------------------------------------------------------+        |
+.     0   | DR-1  | -49.85 | -128.57 |   619 |  DR-1 | 1927-02-08 |        |
+.     1   | DR-1  | -49.85 | -128.57 |   622 |  DR-1 | 1927-02-10 |        |
+.     2   | DR-1  | -49.85 | -128.57 |   844 |  DR-1 | 1932-03-22 |        |
+.     3   | DR-3  | -47.15 | -126.72 |   734 |  DR-3 | 1939-01-07 |        |
+.     4   | DR-3  | -47.15 | -126.72 |   735 |  DR-3 | 1930-01-12 |        |
+.     5   | DR-3  | -47.15 | -126.72 |   751 |  DR-3 | 1930-02-26 |        |
+.     6   | DR-3  | -47.15 | -126.72 |   752 |  DR-3 |      *NaN* |<-------+
+
+*** build a DataFrame from ~dict~ of python
+    Note that, every ~items~ of ~dict~ represent a ~column~ of ~DataFrame~
+#+NAME: build a DataFrame from dict
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  df1 = pd.DataFrame({
+       'a' : [1,1,1,2,2], # column_name and column_values
+       'b' : [10,20,30,40,50]
+  })
+  df2 = pd.DataFrame({
+       'a1' : [1,1,2,2,3], # column_name and column_values
+       'b1' : [100,200,300,400,500]
+  })
+  df1_merge_df2 = df1.merge(df2, left_on='a', right_on='a1')
+  print (df1)
+  print (df2)
+  print ( df1_merge_df2 )
+#+END_SRC
+
+#+RESULTS: build a DataFrame from dict
+#+begin_example
+a   b
+0  1  10
+1  1  20
+2  1  30
+3  2  40
+4  2  50
+   a1   b1
+0   1  100
+1   1  200
+2   2  300
+3   2  400
+4   3  500
+   a   b  a1   b1
+0  1  10   1  100
+1  1  10   1  200
+2  1  20   1  100
+3  1  20   1  200
+4  1  30   1  100
+5  1  30   1  200
+6  2  40   2  300
+7  2  40   2  400
+8  2  50   2  300
+9  2  50   2  400
+#+end_example
+*** check the duplicates after concatenation
+    using ~DataFrame.duplicated('columnname')~ to check whether there are duplicate.
+#+NAME: check the duplicate
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  print ( df1.duplicated('a') )
+  print ( df1_merge_df2.duplicated('a') )
+#+END_SRC
+#+RESULTS: check the duplicate
+#+begin_example
+0    False
+1     True
+2     True
+3    False
+4     True
+dtype: bool
+0    False
+1     True
+2     True
+3     True
+4     True
+5     True
+6    False
+7     True
+8     True
+9     True
+dtype: bool
+#+end_example
+* handle missing value NaN, part-III
+** missing value default representation: ~np.NaN~
+  #+NAME: missing values representation
+  #+HEADER: :session
+  #+BEGIN_SRC python :results output
+    from numpy import NaN, NAN, nan
+    print ( nan == True )
+    print ( nan == False )
+    print ( nan == nan )
+  #+END_SRC
+
+  #+NAME: missing value default representation--NaN
+  #+HEADER: :session
+  #+BEGIN_SRC python :results output
+    visited = pd.read_csv(survey_path + 'survey_visited.csv')
+    print ( visited )
+  #+END_SRC
+
+  #+RESULTS: missing value default representation--NaN
+  : ident   site       dated
+  : 0    619   DR-1  1927-02-08
+  : 1    622   DR-1  1927-02-10
+  : 2    734   DR-3  1939-01-07
+  : 3    735   DR-3  1930-01-12
+  : 4    751   DR-3  1930-02-26
+  : 5    752   DR-3         NaN
+  : 6    837  MSK-4  1932-01-14
+  : 7    844   DR-1  1932-03-22
+
+** missing value checking: ~pd.isnull(df)~
+  #+NAME: check whether there is missing values
+  #+HEADER: :session
+  #+BEGIN_SRC python :results output
+    print ( pd.isnull(nan) )
+    print ( pd.isnull(42)  )
+    print ( pd.isnull(survey) ) # return a boolean df with same shape
+                                # 'True', if missing; 'Fale' if not.
+  #+END_SRC
+
+  #+RESULTS: check whether there is missing values
+  #+begin_example
+  True
+  False
+      taken  person  quant  reading
+  0   False   False  False    False
+  1   False   False  False    False
+  2   False   False  False    False
+  3   False   False  False    False
+  4   False   False  False    False
+  5   False   False  False    False
+  6   False   False  False    False
+  7   False   False  False    False
+  8   False    True  False    False
+  9   False    True  False    False
+  10  False   False  False    False
+  11  False   False  False    False
+  12  False   False  False    False
+  13  False   False  False    False
+  14  False   False  False    False
+  15  False   False  False    False
+  16  False   False  False    False
+  17  False   False  False    False
+  18  False   False  False    False
+  19  False   False  False    False
+  20  False   False  False    False
+  #+end_example
+
+** missing value default representation change by read_csv(na_values)
+     In many AI algorithms, you should give some *predefined value* instead of ~NaN~ to missing value.
+     you can achieve this by ~na_values~ parameter of ~pd.read_csv()~ method.
+#+NAME: change the default representation of missing value
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  visited = pd.read_csv(survey_path + 'survey_visited.csv')
+  survey = pd.read_csv(survey_path + 'survey_survey.csv')
+  vs = visited.merge(survey, left_on='ident', right_on='taken')
+  print ( vs )
+#+END_SRC
+
+#+RESULTS: change the default representation of missing value
+#+begin_example
+ident   site       dated  taken person quant  reading
+0     619   DR-1  1927-02-08    619   dyer   rad     9.82
+1     619   DR-1  1927-02-08    619   dyer   sal     0.13
+2     622   DR-1  1927-02-10    622   dyer   rad     7.80
+3     622   DR-1  1927-02-10    622   dyer   sal     0.09
+4     734   DR-3  1939-01-07    734     pb   rad     8.41
+5     734   DR-3  1939-01-07    734   lake   sal     0.05
+6     734   DR-3  1939-01-07    734     pb  temp   -21.50
+7     735   DR-3  1930-01-12    735     pb   rad     7.22
+8     735   DR-3  1930-01-12    735    NaN   sal     0.06
+9     735   DR-3  1930-01-12    735    NaN  temp   -26.00
+10    751   DR-3  1930-02-26    751     pb   rad     4.35
+11    751   DR-3  1930-02-26    751     pb  temp   -18.50
+12    751   DR-3  1930-02-26    751   lake   sal     0.10
+13    752   DR-3         NaN    752   lake   rad     2.19
+14    752   DR-3         NaN    752   lake   sal     0.09
+15    752   DR-3         NaN    752   lake  temp   -16.00
+16    752   DR-3         NaN    752    roe   sal    41.60
+17    837  MSK-4  1932-01-14    837   lake   rad     1.46
+18    837  MSK-4  1932-01-14    837   lake   sal     0.21
+19    837  MSK-4  1932-01-14    837    roe   sal    22.50
+20    844   DR-1  1932-03-22    844    roe   rad    11.25
+#+end_example
+
+** count the non-missing values
+     ~df.info()~ can give you the *number* of ~non-null~ value of each column
+
+#+NAME: count the non-null values of each columns
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  ebola = pd.read_csv( survey_path + 'ebola_country_timeseries.csv')
+  print ( ebola.info() )
+#+END_SRC
+
+#+RESULTS: count the non-null values of each columns
+#+begin_example
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 122 entries, 0 to 121
+Data columns (total 18 columns):
+Date                   122 non-null object
+Day                    122 non-null int64
+Cases_Guinea           93 non-null float64
+Cases_Liberia          83 non-null float64
+Cases_SierraLeone      87 non-null float64
+Cases_Nigeria          38 non-null float64
+Cases_Senegal          25 non-null float64
+Cases_UnitedStates     18 non-null float64
+Cases_Spain            16 non-null float64
+Cases_Mali             12 non-null float64
+Deaths_Guinea          92 non-null float64
+Deaths_Liberia         81 non-null float64
+Deaths_SierraLeone     87 non-null float64
+Deaths_Nigeria         38 non-null float64
+Deaths_Senegal         22 non-null float64
+Deaths_UnitedStates    18 non-null float64
+Deaths_Spain           16 non-null float64
+Deaths_Mali            12 non-null float64
+dtypes: float64(16), int64(1), object(1)
+memory usage: 17.2+ KB
+None
+#+end_example
+
+** count the different values on each row/column
+   ~series.value_counts()~ can give you the *number* of occurence of each value of a column/row.
+   the result is a *sorted series*, top the most frequent value and in *descending* order.
+   you can choose to count the ~NaN~ value by giving the ~drop=False~ parameter
+
+   #+NAME: count number of occurence of value of column
+   #+HEADER: :session
+   #+BEGIN_SRC python :results output
+     print ( ebola['Cases_Guinea'].value_counts().head()             )
+     print ( ebola['Cases_Guinea'].value_counts(dropna=False).head() ) # take NaN into account
+     # count NaN in this row/column
+   #+END_SRC
+
+   #+RESULTS: count number of occurence of value of column
+   #+begin_example
+   86.0      3
+   112.0     2
+   390.0     2
+   495.0     2
+   2597.0    1
+   Name: Cases_Guinea, dtype: int64
+   NaN       29
+    86.0      3
+    495.0     2
+    112.0     2
+    390.0     2
+   Name: Cases_Guinea, dtype: int64
+   88
+   [2776. 2775. 2769.   nan 2730. 2706. 2695. 2630. 2597. 2571. 2416. 2292.
+    2164. 2134. 2047. 1971. 1919. 1878. 1760. 1731. 1667. 1906. 1553. 1540.
+    1519. 1472. 1350. 1298. 1199. 1157. 1074. 1022. 1008.  942.  936.  899.
+     861.  812.  771.  648.  607.  579.  543.  519.  510.  506.  495.  485.
+     472.  460.  427.  415.  410.  411.  406.  409.  408.  412.  413.  390.
+     398.  351.  344.  328.  291.  281.  258.  248.  233.  236.  235.  231.
+     226.  224.  218.  208.  203.  197.  168.  159.  158.  151.  143.  127.
+     122.  112.  103.   86.   49.]
+   <class 'pandas.core.frame.DataFrame'>
+   RangeIndex: 122 entries, 0 to 121
+   Data columns (total 18 columns):
+   Date                   122 non-null object
+   Day                    122 non-null int64
+   Cases_Guinea           93 non-null float64
+   Cases_Liberia          83 non-null float64
+   Cases_SierraLeone      87 non-null float64
+   Cases_Nigeria          38 non-null float64
+   Cases_Senegal          25 non-null float64
+   Cases_UnitedStates     18 non-null float64
+   Cases_Spain            16 non-null float64
+   Cases_Mali             12 non-null float64
+   Deaths_Guinea          92 non-null float64
+   Deaths_Liberia         81 non-null float64
+   Deaths_SierraLeone     87 non-null float64
+   Deaths_Nigeria         38 non-null float64
+   Deaths_Senegal         22 non-null float64
+   Deaths_UnitedStates    18 non-null float64
+   Deaths_Spain           16 non-null float64
+   Deaths_Mali            12 non-null float64
+   dtypes: float64(16), int64(1), object(1)
+   memory usage: 17.2+ KB
+   None
+   #+end_example
+
+** missing value default representation change by fillna(val)
+     ~fillna(val)~ will produce a new dataframe with all ~NaN~ changed to ~val~
+
+#+NAME: change default missing value 'NaN' with fixed value
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  print (ebola.head())
+  ebola2 = ebola.fillna(0)
+  print (ebola2.head())
+#+END_SRC
+
+** missing value default representation change by fillna(method)
+   ~fillna(method)~ will produce a new dataframe with all ~NaN~ changed by methods:
+   - ~fillna( method='ffill' )~ : make ~NaN~ equall to the *upper(forward) one in the same column*
+   - Note that ~ffill~ will make the ~NaN~ on the first row still ~NaN~ (no upper value in the same column)
+   - ~fillna( method='bfill' )~ : make ~NaN~ equall to the *backer(backward) one in the same column*
+   - Note that ~ffill~ will make the ~NaN~ on the first row still ~NaN~ (no upper value in the same column)
+
+   #+NAME: change default missing value 'NaN' with method
+   #+HEADER: :session
+   #+BEGIN_SRC python :results output
+     print (ebola.iloc[1:5, 1:4])
+     ebola2 = ebola.fillna(0)
+     print (ebola2.iloc[1:5, 1:4])
+     ebola3 = ebola.fillna(method='ffill')
+     print (ebola3.iloc[1:5, 1:4])
+     ebola4 = ebola.fillna(method='bfill')
+     print (ebola4.iloc[1:5, 1:4])
+   #+END_SRC
+
+   #+RESULTS: change default missing value 'NaN' with method
+   #+begin_example
+   Day  Cases_Guinea  Cases_Liberia
+   1  288        2775.0            NaN
+   2  287        2769.0         8166.0
+   3  286           NaN         8157.0
+   4  284        2730.0         8115.0
+      Day  Cases_Guinea  Cases_Liberia
+   1  288        2775.0            0.0
+   2  287        2769.0         8166.0
+   3  286           0.0         8157.0
+   4  284        2730.0         8115.0
+      Day  Cases_Guinea  Cases_Liberia
+   1  288        2775.0            NaN
+   2  287        2769.0         8166.0
+   3  286        2769.0         8157.0
+   4  284        2730.0         8115.0
+      Day  Cases_Guinea  Cases_Liberia
+   1  288        2775.0         8166.0
+   2  287        2769.0         8166.0
+   3  286        2730.0         8157.0
+   4  284        2730.0         8115.0
+   #+end_example
+** handling the ~NaN~ before mathematicall operation
+   because ~NaN +-*/ anyvalue = NaN~ , ~NaN~ propagate like a virus.
+   so, you should hande the ~NaN~ first, then you can do some computation on the whole df or series.
+
+   ~sum()~ method will see the ~NaN~ as zero by default, you can fix this by setup False the ~sikpna~ parameter.
+
+   #+NAME: handle NaN first, then do some computation
+   #+HEADER: :session
+   #+BEGIN_SRC python :results output
+     print (ebola['Cases_Guinea'].sum( skipna=False))
+     print (ebola2['Cases_Guinea'].sum(skipna=False))
+     print (ebola3['Cases_Guinea'].sum(skipna=False))
+     print (ebola4['Cases_Guinea'].sum(skipna=False))
+   #+END_SRC
+
+   #+RESULTS: handle NaN first, then do some computation
+   : nan
+   : 84729.0
+   : 124895.0
+   : 122627.0
+
+** Illustration of ~fillna(val)~ and ~fillna(method=ffill)~ and ~fillna(method=bfill)~
+   Day  Cases_Guinea  Cases_Liberia
+   1  288        2775.0
+   2  287        2769.0
+   3  286           NaN
+   4  284        2730.0
+
+   ~ebola2 = ebola.fillna(0)~
+   --------------------------
+   Day  Cases_Guinea
+   1  288        2775.0
+   2  287        2769.0
+   3  286   >>>>>>> NaN = 0.0 <<<<<<<     *a fixed value by fillna(0)*
+   4  284        2730.0
+
+   ~ebola3 = ebola.fillna(method='ffill')~
+   ---------------------------------------
+   Day  Cases_Guinea
+   1  288        2775.0
+   2  287        2769.0 <---
+   3  286   >>>>>>> NaN = 2769.0 <<<<<<<  *a non-fixed value equall to upper one*
+   4  284        2730.0
+
+   ~ebola4 = ebola.fillna(method='bfill')~
+   ---------------------------------------
+   Day  Cases_Guinea
+   1  288        2775.0
+   2  287        2769.0
+   3  286   >>>>>>> NaN = 2730.0 <<<<<<<  *a non-fixed value equall to backer one*
+   4  284        2730.0 <---
+
+** replace A,B and C with NaN
+   ~df.replace(1st, 2nd)~ is a general method to do replacement:
+   - ~1st~, is the *list* of all values in ~df~ you want to replace.
+   - ~2nd~, is the *value* you want to replace with(here is the ~NaN~).
+   #+NAME: replace specified many values with NaN
+   #+HEADER: :session
+   #+BEGIN_SRC python :results output
+     before_replace_df = pd.DataFrame({
+          'a' : [1.0, 2.0, 88, 99],
+          'b' : [3.0, NaN, 999, 5]
+     })
+     print (before_replace_df)
+     after_replace_df = before_replace_df.replace(to_replace=[88, 99, 5], value=NaN)
+     print (after_replace_df)
+   #+END_SRC
+
+   #+RESULTS: replace specified many values with NaN
+   #+begin_example
+   a      b
+   0   1.0    3.0
+   1   2.0    NaN
+   2  88.0  999.0
+   3  99.0    5.0
+        a      b
+   0  1.0    3.0
+   1  2.0    NaN
+   2  NaN  999.0
+   3  NaN    NaN
+   #+end_example
+
+** nunique() vs. unique() vs. value_coutns() vs. info()
+
+| method:             | return:                                                        |
+|---------------------+----------------------------------------------------------------|
+| df/series.nunique   | *number* of *unique* value                                       |
+| series.unique       | list all *unique* values                                       |
+| series.value_counts | list all *occurence time* of *unique* values in descend ordering |
+| df.info             | number of *non-null* values                                    |
+
+#+NAME: nunique() vs. unique() vs. value_counts() vs. info()
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  print ( ebola['Cases_Guinea'].value_counts().head()             )
+  print ( ebola['Cases_Guinea'].value_counts(dropna=False).head() ) # take NaN into account
+                                                                    # count NaN in this row/column
+  print ( ebola['Cases_Guinea'].nunique()                         ) # give you number of unique(one value count one time) value
+  print ( ebola['Cases_Guinea'].unique()                          )
+  print ( ebola.info()                                            )
+#+END_SRC
+* Tidy Data, part-IV
+[[http://vita.had.co.nz/papers/tidy-data.pdf][paper of Tidy Data]]
+[[https://youtu.be/rz3_FDVt9eg%0A][author's video on youtube]]
+
+#+BEGIN_QUOTE
+Reference of paper: What is a tidy data.
+1. Each variable forms a column;
+2. Each observation forms a row;
+3. Each type of observation unit forms a table.
+#+END_QUOTE
+
+** tidy your data
+   Tidying your data is very different from presenting your data,
+   if your data is tidy you can do transformation very quickly
+
+*** non-tidy, exp1: enumerate all the sub-range as column name
+
+   here pew.csv is not clean data set, because
+   'religion  <$10k  $10-20k  $20-30k  $30-40k  $40-50k  $50-75k  $75-100k  $100-150k  >150k  Don't know/refused'
+   the column name is the variable, they are somelike value, a bad-format variable name like "<$10k"
+
+#+NAME: non-tidy data
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  pew = pd.read_csv(file_path + 'pew.csv')
+  print ( pew )
+#+END_SRC
+
+#+RESULTS: non-tidy data
+#+begin_example
+religion  <$10k  $10-20k  $20-30k  $30-40k  $40-50k  \
+0                  Agnostic     27       34       60       81       76
+1                   Atheist     12       27       37       52       35
+2                  Buddhist     27       21       30       34       33
+3                  Catholic    418      617      732      670      638
+4        Don’t know/refused     15       14       15       11       10
+5          Evangelical Prot    575      869     1064      982      881
+6                     Hindu      1        9        7        9       11
+7   Historically Black Prot    228      244      236      238      197
+8         Jehovah's Witness     20       27       24       24       21
+9                    Jewish     19       19       25       25       30
+10            Mainline Prot    289      495      619      655      651
+11                   Mormon     29       40       48       51       56
+12                   Muslim      6        7        9       10        9
+13                 Orthodox     13       17       23       32       32
+14          Other Christian      9        7       11       13       13
+15             Other Faiths     20       33       40       46       49
+16    Other World Religions      5        2        3        4        2
+17             Unaffiliated    217      299      374      365      341
+
+    $50-75k  $75-100k  $100-150k  >150k  Don't know/refused
+0       137       122        109     84                  96
+1        70        73         59     74                  76
+2        58        62         39     53                  54
+3      1116       949        792    633                1489
+4        35        21         17     18                 116
+5      1486       949        723    414                1529
+6        34        47         48     54                  37
+7       223       131         81     78                 339
+8        30        15         11      6                  37
+9        95        69         87    151                 162
+10     1107       939        753    634                1328
+11      112        85         49     42                  69
+12       23        16          8      6                  22
+13       47        38         42     46                  73
+14       14        18         14     12                  18
+15       63        46         40     41                  71
+16        7         3          4      4                   8
+17      528       407        321    258                 597
+#+end_example
+
+**** make horizontal spreading vertical by ~pd.melt~
+     ~melt~ make horizon vertically
+     #+NAME: meltxxxxx
+     #+HEADER: :session
+     #+BEGIN_SRC python :results output
+       melted_data = pd.melt(frame=pew, id_vars='religion')
+       melted_data2 = pd.melt(frame=pew, id_vars='religion', var_name='income', value_name='count')
+       print ( pew )
+       print ( melted_data2 )
+     #+END_SRC
+
+     #+RESULTS: meltxxxxx
+     #+begin_example
+     religion  <$10k  $10-20k  $20-30k  $30-40k  $40-50k  \
+     0                  Agnostic     27       34       60       81       76
+     1                   Atheist     12       27       37       52       35
+     2                  Buddhist     27       21       30       34       33
+     3                  Catholic    418      617      732      670      638
+     4        Don’t know/refused     15       14       15       11       10
+     5          Evangelical Prot    575      869     1064      982      881
+     6                     Hindu      1        9        7        9       11
+     7   Historically Black Prot    228      244      236      238      197
+     8         Jehovah's Witness     20       27       24       24       21
+     9                    Jewish     19       19       25       25       30
+     10            Mainline Prot    289      495      619      655      651
+     11                   Mormon     29       40       48       51       56
+     12                   Muslim      6        7        9       10        9
+     13                 Orthodox     13       17       23       32       32
+     14          Other Christian      9        7       11       13       13
+     15             Other Faiths     20       33       40       46       49
+     16    Other World Religions      5        2        3        4        2
+     17             Unaffiliated    217      299      374      365      341
+
+         $50-75k  $75-100k  $100-150k  >150k  Don't know/refused
+     0       137       122        109     84                  96
+     1        70        73         59     74                  76
+     2        58        62         39     53                  54
+     3      1116       949        792    633                1489
+     4        35        21         17     18                 116
+     5      1486       949        723    414                1529
+     6        34        47         48     54                  37
+     7       223       131         81     78                 339
+     8        30        15         11      6                  37
+     9        95        69         87    151                 162
+     10     1107       939        753    634                1328
+     11      112        85         49     42                  69
+     12       23        16          8      6                  22
+     13       47        38         42     46                  73
+     14       14        18         14     12                  18
+     15       63        46         40     41                  71
+     16        7         3          4      4                   8
+     17      528       407        321    258                 597
+                         religion              income  count
+     0                   Agnostic               <$10k     27
+     1                    Atheist               <$10k     12
+     2                   Buddhist               <$10k     27
+     3                   Catholic               <$10k    418
+     4         Don’t know/refused               <$10k     15
+     5           Evangelical Prot               <$10k    575
+     6                      Hindu               <$10k      1
+     7    Historically Black Prot               <$10k    228
+     8          Jehovah's Witness               <$10k     20
+     9                     Jewish               <$10k     19
+     10             Mainline Prot               <$10k    289
+     11                    Mormon               <$10k     29
+     12                    Muslim               <$10k      6
+     13                  Orthodox               <$10k     13
+     14           Other Christian               <$10k      9
+     15              Other Faiths               <$10k     20
+     16     Other World Religions               <$10k      5
+     17              Unaffiliated               <$10k    217
+     18                  Agnostic             $10-20k     34
+     19                   Atheist             $10-20k     27
+     20                  Buddhist             $10-20k     21
+     21                  Catholic             $10-20k    617
+     22        Don’t know/refused             $10-20k     14
+     23          Evangelical Prot             $10-20k    869
+     24                     Hindu             $10-20k      9
+     25   Historically Black Prot             $10-20k    244
+     26         Jehovah's Witness             $10-20k     27
+     27                    Jewish             $10-20k     19
+     28             Mainline Prot             $10-20k    495
+     29                    Mormon             $10-20k     40
+     ..                       ...                 ...    ...
+     150                    Hindu               >150k     54
+     151  Historically Black Prot               >150k     78
+     152        Jehovah's Witness               >150k      6
+     153                   Jewish               >150k    151
+     154            Mainline Prot               >150k    634
+     155                   Mormon               >150k     42
+     156                   Muslim               >150k      6
+     157                 Orthodox               >150k     46
+     158          Other Christian               >150k     12
+     159             Other Faiths               >150k     41
+     160    Other World Religions               >150k      4
+     161             Unaffiliated               >150k    258
+     162                 Agnostic  Don't know/refused     96
+     163                  Atheist  Don't know/refused     76
+     164                 Buddhist  Don't know/refused     54
+     165                 Catholic  Don't know/refused   1489
+     166       Don’t know/refused  Don't know/refused    116
+     167         Evangelical Prot  Don't know/refused   1529
+     168                    Hindu  Don't know/refused     37
+     169  Historically Black Prot  Don't know/refused    339
+     170        Jehovah's Witness  Don't know/refused     37
+     171                   Jewish  Don't know/refused    162
+     172            Mainline Prot  Don't know/refused   1328
+     173                   Mormon  Don't know/refused     69
+     174                   Muslim  Don't know/refused     22
+     175                 Orthodox  Don't know/refused     73
+     176          Other Christian  Don't know/refused     18
+     177             Other Faiths  Don't know/refused     71
+     178    Other World Religions  Don't know/refused      8
+     179             Unaffiliated  Don't know/refused    597
+
+     [180 rows x 3 columns]
+     #+end_example
+
+*** Illustration of ~pd.melt~
+     ~melt~ make horizon vertically
+
+#+BEGIN_QUOTE
+     | <$10k | $10-20k | $20-30k | $30-40k | $40-50k | $50-75k | $75-100k | $100-150k | >150k |
+     |-------+---------+---------+---------+---------+---------+----------+-----------+-------|
+     | ...   | ...     | ...     | ...     | ...     | ...     | ...      | ...       | ...   |
+
+     ~pd.melt~
+
+     | variable |
+     |----------|
+     | <$10k    |
+     | <$10k    |
+     | <$10k    |
+     | <$10k    |
+     | ...      |
+     | $10-20k  |
+     | $10-20k  |
+     | $10-20k  |
+     | $10-20k  |
+     | ...      |
+     | $20-30k  |
+     | $20-30k  |
+     | $20-30k  |
+     | $20-30k  |
+#+END_QUOTE
+
+
+#+BEGIN_QUOTE 4 steps of melt
+1. ~id_vars~ keep the column unchanged
+2. add a new column called ~variable~
+3. column_name copy n times as value of this new column
+4. change orginial column to name ~value~
+#+END_QUOTE
+
+#+BEGIN_QUOTE
+. ~melted_data = pd.melt(frame=pew, id_vars='religion', var_name='income', value_name='count')~
+.                                   ---------.--------  ---------.------   ---------.-------
+.                                            |                   |                  |
+.               +----------------------------+  1. ~id_vars~ keep| the column unchan|ged
+.               |                                                |                  |
+.               v                                                |                  |
+.  |   | religion           | <$10k |                            |                  |
+.  |---+--------------------+-------|                            |                  |
+.  | 0 | Agnostic           |    27 |                            |                  |
+.  | 1 | Atheist            |    12 |                            |                  |
+.  | 2 | Buddhist           |    27 |                            |                  |
+.  | 3 | Catholic           |   418 |                            |                  |
+.  | 4 | Don’t know/refused |    15 |                            |                  |
+.  | 5 | Evangelical Prot   |   575 |                            |                  |
+.                                                                |                  |
+.                                 +------------ 2. add a new colu|mn called ~variabl|e~
+.                                 v             2.1 you can set/ its name by para ~v|ar_name~
+.  |   | religion           | variable  | <$10k |                                   |
+.  |---+--------------------+-----------+-------|                                   |
+.  | 0 | Agnostic           |           |    27 |                                   |
+.  | 1 | Atheist            |           |    12 |                                   |
+.  | 2 | Buddhist           |           |    27 |                                   |
+.  | 3 | Catholic           |           |   418 |                                   |
+.  | 4 | Don’t know/refused |           |    15 |                                   |
+.  | 5 | Evangelical Prot   |           |   575 |                                   |
+.  | 6 | Hindu              |           |     1 |                                   |
+.                                                                                   |
+.                                    +--------- 3. column_name copy n times as value| of this new column
+.                                    |                                              |
+.  |   | religion           | variabl|e | <$10k |                                   |
+.  |---+--------------------+--------+--+-------|                                   |
+.  | 0 | Agnostic           | <$10k <|  |    27 |                                   |
+.  | 1 | Atheist            | <$10k     |    12 |                                   |
+.  | 2 | Buddhist           | <$10k     |    27 |                                   |
+.  | 3 | Catholic           | <$10k     |   418 |                                   |
+.  | 4 | Don’t know/refused | <$10k     |    15 |                                   |
+.  | 5 | Evangelical Prot   | <$10k     |   575 |                                   |
+.  | 6 | Hindu              | <$10k     |     1 |                                   |
+.  #+TBLNAME: pew_after_melt                                                        |
+.                                                                                   |
+.                                           +-- 4. change orginial column to name ~v|alue~
+.                                           v   4.1 you can set/ its name by para ~value_name~
+.  |   | religion           | variable  | value |
+.  |---+--------------------+-----------+-------|
+.  | 0 | Agnostic           | <$10k     |    27 |
+.  | 1 | Atheist            | <$10k     |    12 |
+.  | 2 | Buddhist           | <$10k     |    27 |
+.  | 3 | Catholic           | <$10k     |   418 |
+.  | 4 | Don’t know/refused | <$10k     |    15 |
+.  | 5 | Evangelical Prot   | <$10k     |   575 |
+.  | 6 | Hindu              | <$10k     |     1 |
+#+END_QUOTE
+*** non-tidy, exp2: enumerate all the time-period as column name
+#+NAME: time-period as column name
+#+HEADER: :session
+#+BEGIN_SRC python :results output
+  billboard = pd.read_csv(file_path + 'billboard.csv')
+  print (billboard.head())
+#+END_SRC
+
+#+RESULTS: time-period as column name
+#+begin_example
+year        artist                    track  time date.entered  wk1   wk2  \
+0  2000         2 Pac  Baby Don't Cry (Keep...  4:22   2000-02-26   87  82.0
+1  2000       2Ge+her  The Hardest Part Of ...  3:15   2000-09-02   91  87.0
+2  2000  3 Doors Down               Kryptonite  3:53   2000-04-08   81  70.0
+3  2000  3 Doors Down                    Loser  4:24   2000-10-21   76  76.0
+4  2000      504 Boyz            Wobble Wobble  3:35   2000-04-15   57  34.0
+
+    wk3   wk4   wk5  ...   wk67  wk68  wk69  wk70  wk71  wk72  wk73  wk74  \
+0  72.0  77.0  87.0  ...    NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN
+1  92.0   NaN   NaN  ...    NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN
+2  68.0  67.0  66.0  ...    NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN
+3  72.0  69.0  67.0  ...    NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN
+4  25.0  17.0  17.0  ...    NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN
+
+   wk75  wk76
+0   NaN   NaN
+1   NaN   NaN
+2   NaN   NaN
+3   NaN   NaN
+4   NaN   NaN
+
+[5 rows x 81 columns]
+#+end_example
+
+**** make horizontal spreading vertical by ~pd.melt~
+     ~melt~ make horizon vertically
+     #+NAME: handle the time-period as column name
+     #+HEADER: :session
+     #+BEGIN_SRC python :results output
+       billboard_after_melt= pd.melt(billboard,
+               id_vars=['year', 'artist', 'track', 'time', 'date.entered'],
+               var_name='week',
+               value_name='rank')
+       print (billboard_after_melt)
+     #+END_SRC
+
+     #+RESULTS: handle the time-period as column name
+     #+begin_example
+     year                artist                    track  time date.entered  \
+     0      2000                 2 Pac  Baby Don't Cry (Keep...  4:22   2000-02-26
+     1      2000               2Ge+her  The Hardest Part Of ...  3:15   2000-09-02
+     2      2000          3 Doors Down               Kryptonite  3:53   2000-04-08
+     3      2000          3 Doors Down                    Loser  4:24   2000-10-21
+     4      2000              504 Boyz            Wobble Wobble  3:35   2000-04-15
+     5      2000                  98^0  Give Me Just One Nig...  3:24   2000-08-19
+     6      2000               A*Teens            Dancing Queen  3:44   2000-07-08
+     7      2000               Aaliyah            I Don't Wanna  4:15   2000-01-29
+     8      2000               Aaliyah                Try Again  4:03   2000-03-18
+     9      2000        Adams, Yolanda            Open My Heart  5:30   2000-08-26
+     10     2000         Adkins, Trace                     More  3:05   2000-04-29
+     11     2000   Aguilera, Christina  Come On Over Baby (A...  3:38   2000-08-05
+     12     2000   Aguilera, Christina            I Turn To You  4:00   2000-04-15
+     13     2000   Aguilera, Christina        What A Girl Wants  3:18   1999-11-27
+     14     2000          Alice Deejay         Better Off Alone  6:50   2000-04-08
+     15     2000           Allan, Gary  Smoke Rings In The D...  4:18   2000-01-22
+     16     2000                 Amber                   Sexual  4:38   1999-07-17
+     17     2000             Anastacia           I'm Outta Love  4:01   2000-04-01
+     18     2000         Anthony, Marc              My Baby You  3:59   2000-09-16
+     19     2000         Anthony, Marc           You Sang To Me  3:50   2000-02-26
+     20     2000                 Avant            My First Love  4:28   2000-11-04
+     21     2000                 Avant                Separated  4:13   2000-04-29
+     22     2000                 BBMak                Back Here  3:35   2000-04-29
+     23     2000  Backstreet Boys, The        Shape Of My Heart  3:49   2000-10-14
+     24     2000  Backstreet Boys, The  Show Me The Meaning ...  3:54   2000-01-01
+     25     2000  Backstreet Boys, The                  The One  3:46   2000-05-27
+     26     2000          Badu, Erkyah                 Bag Lady  5:03   2000-08-19
+     27     2000              Baha Men     Who Let The Dogs Out  3:17   2000-07-22
+     28     2000      Barenaked Ladies                 Pinch Me  3:46   2000-09-09
+     29     2000            Beenie Man          Girls Dem Sugar  4:17   2000-10-21
+     ...                   ...                      ...   ...          ...
+     24062  2000          Thomas, Carl                Emotional  4:31   2000-11-25
+     24063  2000          Thomas, Carl                   I Wish  3:50   2000-03-25
+     24064  2000          Thomas, Carl              Summer Rain  4:57   2000-09-23
+     24065  2000         Tippin, Aaron                Kiss This  2:53   2000-08-26
+     24066  2000                 Train            Meet Virginia  3:55   1999-10-09
+     24067  2000           Trick Daddy                  Shut Up  4:17   2000-05-20
+     24068  2000                 Trina                Pull Over  2:58   2000-09-09
+     24069  2000         Tritt, Travis       Best Of Intentions  4:15   2000-08-19
+     24070  2000               Tuesday                   I Know  4:06   2000-12-30
+     24071  2000          Urban, Keith          Your Everything  4:10   2000-07-15
+     24072  2000                 Usher            Pop Ya Collar  3:36   2000-11-04
+     24073  2000          Vassar, Phil                  Carlene  4:07   2000-03-04
+     24074  2000          Vassar, Phil  Just Another Day In ...  3:54   2000-09-30
+     24075  2000      Vertical Horizon      Everything You Want  4:01   2000-01-22
+     24076  2000      Vertical Horizon             You're A God  3:45   2000-08-26
+     24077  2000             Vitamin C  Graduation (Friends ...  4:23   2000-04-15
+     24078  2000             Vitamin C                 The Itch  3:30   2000-12-02
+     24079  2000          Walker, Clay        Live, Laugh, Love  4:06   1999-12-04
+     24080  2000          Walker, Clay        The Chain Of Love  5:03   2000-04-15
+     24081  2000      Wallflowers, The              Sleepwalker  3:29   2000-10-28
+     24082  2000              Westlife           Swear It Again  4:07   2000-04-01
+     24083  2000      Williams, Robbie                   Angels  3:56   1999-11-20
+     24084  2000           Wills, Mark              Back At One  4:00   2000-01-15
+     24085  2000        Worley, Darryl  When You Need My Lov...  3:35   2000-06-17
+     24086  2000         Wright, Chely                   It Was  3:51   2000-03-04
+     24087  2000           Yankee Grey     Another Nine Minutes  3:10   2000-04-29
+     24088  2000      Yearwood, Trisha          Real Live Woman  3:55   2000-04-01
+     24089  2000       Ying Yang Twins  Whistle While You Tw...  4:19   2000-03-18
+     24090  2000         Zombie Nation            Kernkraft 400  3:30   2000-09-02
+     24091  2000       matchbox twenty                     Bent  4:12   2000-04-29
+
+            week  rank
+     0       wk1  87.0
+     1       wk1  91.0
+     2       wk1  81.0
+     3       wk1  76.0
+     4       wk1  57.0
+     5       wk1  51.0
+     6       wk1  97.0
+     7       wk1  84.0
+     8       wk1  59.0
+     9       wk1  76.0
+     10      wk1  84.0
+     11      wk1  57.0
+     12      wk1  50.0
+     13      wk1  71.0
+     14      wk1  79.0
+     15      wk1  80.0
+     16      wk1  99.0
+     17      wk1  92.0
+     18      wk1  82.0
+     19      wk1  77.0
+     20      wk1  70.0
+     21      wk1  62.0
+     22      wk1  99.0
+     23      wk1  39.0
+     24      wk1  74.0
+     25      wk1  58.0
+     26      wk1  67.0
+     27      wk1  99.0
+     28      wk1  77.0
+     29      wk1  72.0
+     ...   ...
+     24062  wk76   NaN
+     24063  wk76   NaN
+     24064  wk76   NaN
+     24065  wk76   NaN
+     24066  wk76   NaN
+     24067  wk76   NaN
+     24068  wk76   NaN
+     24069  wk76   NaN
+     24070  wk76   NaN
+     24071  wk76   NaN
+     24072  wk76   NaN
+     24073  wk76   NaN
+     24074  wk76   NaN
+     24075  wk76   NaN
+     24076  wk76   NaN
+     24077  wk76   NaN
+     24078  wk76   NaN
+     24079  wk76   NaN
+     24080  wk76   NaN
+     24081  wk76   NaN
+     24082  wk76   NaN
+     24083  wk76   NaN
+     24084  wk76   NaN
+     24085  wk76   NaN
+     24086  wk76   NaN
+     24087  wk76   NaN
+     24088  wk76   NaN
+     24089  wk76   NaN
+     24090  wk76   NaN
+     24091  wk76   NaN
+
+     [24092 rows x 7 columns]
+     #+end_example
+*** non-tidy, exp3: enumerate all the age-range as column name
+    some time you want to handle the ~Series~ as a ~String~, and surely you can do this by ~Series.str~ ,this also generate a Series, which is compatible to combine with
+    other expression, require a Series.
+
+
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      tb = pd.read_csv(file_path + 'tb.csv')
+      print ( tb )
+    #+END_SRC
+
+    #+RESULTS:
+    #+begin_example
+    iso2  year  m04   m514   m014   m1524   m2534   m3544   m4554  m5564  \
+    0      AD  1989  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    1      AD  1990  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    2      AD  1991  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    3      AD  1992  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    4      AD  1993  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5      AD  1994  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    6      AD  1996  NaN    NaN    0.0     0.0     0.0     4.0     1.0    0.0
+    7      AD  1997  NaN    NaN    0.0     0.0     1.0     2.0     2.0    1.0
+    8      AD  1998  NaN    NaN    0.0     0.0     0.0     1.0     0.0    0.0
+    9      AD  1999  NaN    NaN    0.0     0.0     0.0     1.0     1.0    0.0
+    10     AD  2000  NaN    NaN    0.0     0.0     1.0     0.0     0.0    0.0
+    11     AD  2001  NaN    NaN    0.0     NaN     NaN     2.0     1.0    NaN
+    12     AD  2002  NaN    NaN    0.0     0.0     0.0     1.0     0.0    0.0
+    13     AD  2003  NaN    NaN    0.0     0.0     0.0     1.0     2.0    0.0
+    14     AD  2004  NaN    NaN    0.0     0.0     0.0     1.0     1.0    0.0
+    15     AD  2005  0.0    0.0    0.0     0.0     1.0     1.0     0.0    0.0
+    16     AD  2006  0.0    0.0    0.0     1.0     1.0     2.0     0.0    1.0
+    17     AD  2007  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    18     AD  2008  0.0    0.0    0.0     0.0     0.0     0.0     1.0    0.0
+    19     AE  1980  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    20     AE  1981  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    21     AE  1982  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    22     AE  1983  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    23     AE  1984  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    24     AE  1985  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    25     AE  1986  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    26     AE  1987  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    27     AE  1988  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    28     AE  1989  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    29     AE  1990  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    ...   ...  ...    ...    ...     ...     ...     ...     ...    ...
+    5739   ZM  2008  NaN    NaN  101.0  1120.0  3244.0  2094.0   737.0  299.0
+    5740   ZW  1980  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5741   ZW  1981  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5742   ZW  1982  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5743   ZW  1983  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5744   ZW  1984  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5745   ZW  1985  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5746   ZW  1986  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5747   ZW  1987  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5748   ZW  1988  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5749   ZW  1989  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5750   ZW  1990  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5751   ZW  1991  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5752   ZW  1992  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5753   ZW  1993  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5754   ZW  1994  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5755   ZW  1995  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5756   ZW  1996  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5757   ZW  1997  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5758   ZW  1998  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5759   ZW  1999  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5760   ZW  2000  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5761   ZW  2001  NaN    NaN    NaN     NaN     NaN     NaN     NaN    NaN
+    5762   ZW  2002  NaN    NaN  191.0   600.0  2548.0  1662.0   744.0  315.0
+    5763   ZW  2003  NaN    NaN  133.0   874.0  3048.0  2228.0   981.0  367.0
+    5764   ZW  2004  NaN    NaN  187.0   833.0  2908.0  2298.0  1056.0  366.0
+    5765   ZW  2005  NaN    NaN  210.0   837.0  2264.0  1855.0   762.0  295.0
+    5766   ZW  2006  NaN    NaN  215.0   736.0  2391.0  1939.0   896.0  348.0
+    5767   ZW  2007  6.0  132.0  138.0   500.0  3693.0     0.0   716.0  292.0
+    5768   ZW  2008  NaN    NaN  127.0   614.0     0.0  3316.0   704.0  263.0
+
+         ...   f04   f514   f014   f1524   f2534   f3544  f4554  f5564    f65   fu
+    0    ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN  
+    1    ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    2    ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    3    ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    4    ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5    ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    6    ...   NaN    NaN    0.0     1.0     1.0     0.0    0.0    1.0    0.0  NaN
+    7    ...   NaN    NaN    0.0     1.0     2.0     3.0    0.0    0.0    1.0  NaN
+    8    ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    9    ...   NaN    NaN    0.0     0.0     0.0     1.0    0.0    0.0    0.0  NaN
+    10   ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    11   ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    12   ...   NaN    NaN    0.0     1.0     0.0     0.0    0.0    0.0    0.0  NaN
+    13   ...   NaN    NaN    0.0     1.0     1.0     1.0    0.0    0.0    0.0  NaN
+    14   ...   NaN    NaN    0.0     0.0     1.0     0.0    0.0    0.0    0.0  NaN
+    15   ...   0.0    0.0    0.0     1.0     1.0     1.0    0.0    0.0    0.0  0.0
+    16   ...   0.0    0.0    0.0     0.0     1.0     0.0    1.0    0.0    0.0  0.0
+    17   ...   NaN    NaN    NaN     NaN     1.0     NaN    1.0    NaN    NaN  NaN
+    18   ...   0.0    0.0    0.0     0.0     0.0     1.0    1.0    0.0    0.0  0.0
+    19   ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    20   ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    21   ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    22   ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    23   ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    24   ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    25   ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    26   ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    27   ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    28   ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    29   ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    ...   ...    ...    ...     ...     ...     ...    ...    ...    ...  ...
+    5739 ...   NaN    NaN  165.0  1246.0  2062.0  1114.0  498.0  187.0  115.0  0.0
+    5740 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5741 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5742 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5743 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5744 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5745 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5746 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5747 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5748 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5749 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5750 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5751 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5752 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5753 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5754 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5755 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5756 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5757 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5758 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5759 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5760 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5761 ...   NaN    NaN    NaN     NaN     NaN     NaN    NaN    NaN    NaN  NaN
+    5762 ...   NaN    NaN  222.0   914.0  2185.0  1095.0  421.0  140.0   65.0  NaN
+    5763 ...   NaN    NaN  180.0  1232.0  2856.0  1480.0  565.0  225.0  114.0  NaN
+    5764 ...   NaN    NaN  225.0  1140.0  2858.0  1565.0  622.0  214.0  111.0  NaN
+    5765 ...   NaN    NaN  269.0  1136.0  2242.0  1255.0  578.0  193.0  603.0  NaN
+    5766 ...   NaN    NaN  237.0  1020.0  2424.0  1355.0  632.0  230.0   96.0  NaN
+    5767 ...   7.0  178.0  185.0   739.0  3311.0     0.0  553.0  213.0   90.0  NaN
+    5768 ...   NaN    NaN  145.0   840.0     0.0  2890.0  467.0  174.0  105.0  0.0
+
+    [5769 rows x 22 columns]
+    #+end_example
+
+    | m04  | male 0 ~ 4 years old    |
+    | m514 | male 5 ~ 14 years old   |
+    | ...  | ...                     |
+    | f04  | female 0 ~ 4 years old  |
+    | f514 | female 5 ~ 14 years old |
+
+
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      ebola_non_tidy = pd.read_csv(file_path + 'ebola_country_timeseries.csv')
+      print ( ebola_non_tidy )
+    #+END_SRC
+
+    #+RESULTS:
+    #+begin_example
+    Date  Day  Cases_Guinea  Cases_Liberia  Cases_SierraLeone  \
+    0      1/5/2015  289        2776.0            NaN            10030.0
+    1      1/4/2015  288        2775.0            NaN             9780.0
+    2      1/3/2015  287        2769.0         8166.0             9722.0
+    3      1/2/2015  286           NaN         8157.0                NaN
+    4    12/31/2014  284        2730.0         8115.0             9633.0
+    5    12/28/2014  281        2706.0         8018.0             9446.0
+    6    12/27/2014  280        2695.0            NaN             9409.0
+    7    12/24/2014  277        2630.0         7977.0             9203.0
+    8    12/21/2014  273        2597.0            NaN             9004.0
+    9    12/20/2014  272        2571.0         7862.0             8939.0
+    10   12/18/2014  271           NaN         7830.0                NaN
+    11   12/14/2014  267        2416.0            NaN             8356.0
+    12    12/9/2014  262           NaN         7797.0                NaN
+    13    12/7/2014  260        2292.0            NaN             7897.0
+    14    12/3/2014  256           NaN         7719.0                NaN
+    15   11/30/2014  253        2164.0            NaN             7312.0
+    16   11/28/2014  251           NaN         7635.0                NaN
+    17   11/23/2014  246        2134.0            NaN             6599.0
+    18   11/22/2014  245           NaN         7168.0                NaN
+    19   11/18/2014  241        2047.0         7082.0             6190.0
+    20   11/16/2014  239        1971.0            NaN             6073.0
+    21   11/15/2014  238           NaN         7069.0                NaN
+    22   11/11/2014  234        1919.0            NaN             5586.0
+    23   11/10/2014  233           NaN         6878.0                NaN
+    24    11/9/2014  232        1878.0            NaN             5368.0
+    25    11/8/2014  231           NaN         6822.0                NaN
+    26    11/4/2014  227           NaN         6619.0             4862.0
+    27    11/3/2014  226        1760.0            NaN                NaN
+    28    11/2/2014  225        1731.0            NaN             4759.0
+    29   10/31/2014  222           NaN         6525.0                NaN
+    ..          ...  ...           ...            ...                ...
+    92    5/23/2014   62         258.0           12.0                0.0
+    93    5/12/2014   51         248.0           12.0                0.0
+    94    5/10/2014   49         233.0           12.0                0.0
+    95     5/7/2014   46         236.0           13.0                0.0
+    96     5/5/2014   44         235.0           13.0                0.0
+    97     5/3/2014   42         231.0           13.0                0.0
+    98     5/1/2014   40         226.0           13.0                0.0
+    99    4/26/2014   35         224.0            NaN                0.0
+    100   4/24/2014   33           NaN           35.0                0.0
+    101   4/23/2014   32         218.0            NaN                0.0
+    102   4/22/2014   31           NaN            NaN                0.0
+    103   4/21/2014   30           NaN           34.0                NaN
+    104   4/20/2014   29         208.0            NaN                NaN
+    105   4/17/2014   26         203.0           27.0                NaN
+    106   4/16/2014   25         197.0           27.0                NaN
+    107   4/15/2014   24           NaN            NaN               12.0
+    108   4/14/2014   23         168.0            NaN                NaN
+    109   4/11/2014   20         159.0           26.0                2.0
+    110    4/9/2014   18         158.0           25.0                2.0
+    111    4/7/2014   16         151.0           21.0                2.0
+    112    4/4/2014   13         143.0           18.0                2.0
+    113    4/1/2014   10         127.0            8.0                2.0
+    114   3/31/2014    9         122.0            8.0                2.0
+    115   3/29/2014    7         112.0            7.0                NaN
+    116   3/28/2014    6         112.0            3.0                2.0
+    117   3/27/2014    5         103.0            8.0                6.0
+    118   3/26/2014    4          86.0            NaN                NaN
+    119   3/25/2014    3          86.0            NaN                NaN
+    120   3/24/2014    2          86.0            NaN                NaN
+    121   3/22/2014    0          49.0            NaN                NaN
+
+         Cases_Nigeria  Cases_Senegal  Cases_UnitedStates  Cases_Spain  \
+    0              NaN            NaN                 NaN          NaN   
+    1              NaN            NaN                 NaN          NaN
+    2              NaN            NaN                 NaN          NaN
+    3              NaN            NaN                 NaN          NaN
+    4              NaN            NaN                 NaN          NaN
+    5              NaN            NaN                 NaN          NaN
+    6              NaN            NaN                 NaN          NaN
+    7              NaN            NaN                 NaN          NaN
+    8              NaN            NaN                 NaN          NaN
+    9              NaN            NaN                 NaN          NaN
+    10             NaN            NaN                 NaN          NaN
+    11             NaN            NaN                 NaN          NaN
+    12             NaN            NaN                 NaN          NaN
+    13            20.0            1.0                 4.0          1.0
+    14             NaN            NaN                 NaN          NaN
+    15            20.0            1.0                 4.0          1.0
+    16             NaN            NaN                 NaN          NaN
+    17            20.0            1.0                 4.0          1.0
+    18             NaN            NaN                 NaN          NaN
+    19            20.0            1.0                 4.0          1.0
+    20            20.0            1.0                 4.0          1.0
+    21             NaN            NaN                 NaN          NaN
+    22            20.0            1.0                 4.0          1.0
+    23             NaN            NaN                 NaN          NaN
+    24            20.0            1.0                 4.0          1.0
+    25             NaN            NaN                 NaN          NaN
+    26            20.0            1.0                 4.0          1.0
+    27             NaN            NaN                 NaN          NaN
+    28            20.0            1.0                 4.0          1.0
+    29             NaN            NaN                 NaN          NaN
+    ..             ...            ...                 ...          ...
+    92             NaN            NaN                 NaN          NaN
+    93             NaN            NaN                 NaN          NaN
+    94             NaN            NaN                 NaN          NaN
+    95             NaN            NaN                 NaN          NaN
+    96             NaN            NaN                 NaN          NaN
+    97             NaN            NaN                 NaN          NaN
+    98             NaN            NaN                 NaN          NaN
+    99             NaN            NaN                 NaN          NaN
+    100            NaN            NaN                 NaN          NaN
+    101            NaN            NaN                 NaN          NaN
+    102            NaN            NaN                 NaN          NaN
+    103            NaN            NaN                 NaN          NaN
+    104            NaN            NaN                 NaN          NaN
+    105            NaN            NaN                 NaN          NaN
+    106            NaN            NaN                 NaN          NaN
+    107            NaN            NaN                 NaN          NaN
+    108            NaN            NaN                 NaN          NaN
+    109            NaN            NaN                 NaN          NaN
+    110            NaN            NaN                 NaN          NaN
+    111            NaN            NaN                 NaN          NaN
+    112            NaN            NaN                 NaN          NaN
+    113            NaN            NaN                 NaN          NaN
+    114            NaN            NaN                 NaN          NaN
+    115            NaN            NaN                 NaN          NaN
+    116            NaN            NaN                 NaN          NaN
+    117            NaN            NaN                 NaN          NaN
+    118            NaN            NaN                 NaN          NaN
+    119            NaN            NaN                 NaN          NaN
+    120            NaN            NaN                 NaN          NaN
+    121            NaN            NaN                 NaN          NaN
+
+         Cases_Mali  Deaths_Guinea  Deaths_Liberia  Deaths_SierraLeone  \
+    0           NaN         1786.0             NaN              2977.0   
+    1           NaN         1781.0             NaN              2943.0
+    2           NaN         1767.0          3496.0              2915.0
+    3           NaN            NaN          3496.0                 NaN
+    4           NaN         1739.0          3471.0              2827.0
+    5           NaN         1708.0          3423.0              2758.0
+    6           NaN         1697.0             NaN              2732.0
+    7           NaN            NaN          3413.0              2655.0
+    8           NaN         1607.0             NaN              2582.0
+    9           NaN         1586.0          3384.0              2556.0
+    10          NaN            NaN          3376.0                 NaN
+    11          NaN         1525.0             NaN              2085.0
+    12          NaN            NaN          3290.0                 NaN
+    13          7.0         1428.0             NaN              1768.0
+    14          NaN            NaN          3177.0                 NaN
+    15          7.0         1327.0             NaN              1583.0
+    16          NaN            NaN          3145.0                 NaN
+    17          7.0         1260.0             NaN              1398.0
+    18          NaN            NaN          3016.0                 NaN
+    19          6.0         1214.0          2963.0              1267.0
+    20          5.0         1192.0             NaN              1250.0
+    21          NaN            NaN          2964.0                 NaN
+    22          4.0         1166.0             NaN              1187.0
+    23          NaN            NaN          2812.0                 NaN
+    24          1.0         1142.0             NaN              1169.0
+    25          NaN            NaN          2836.0                 NaN
+    26          1.0            NaN          2766.0              1130.0
+    27          NaN         1054.0             NaN                 NaN
+    28          1.0         1041.0             NaN              1070.0
+    29          NaN            NaN          2697.0                 NaN
+    ..          ...            ...             ...                 ...
+    92          NaN          174.0            11.0                 0.0
+    93          NaN          171.0            11.0                 0.0
+    94          NaN          157.0            11.0                 0.0
+    95          NaN          158.0            11.0                 0.0
+    96          NaN          157.0            11.0                 0.0
+    97          NaN          155.0            11.0                 0.0
+    98          NaN          149.0            11.0                 0.0
+    99          NaN          143.0             NaN                 0.0
+    100         NaN            NaN             NaN                 0.0
+    101         NaN          141.0             NaN                 0.0
+    102         NaN            NaN             NaN                 0.0
+    103         NaN            NaN            11.0                 NaN
+    104         NaN          136.0             6.0                 NaN
+    105         NaN          129.0             NaN                 NaN
+    106         NaN          122.0            13.0                 NaN
+    107         NaN            NaN             NaN                 NaN
+    108         NaN          108.0             NaN                 NaN
+    109         NaN          106.0            13.0                 2.0
+    110         NaN          101.0            12.0                 2.0
+    111         NaN           95.0            10.0                 2.0
+    112         NaN           86.0             7.0                 2.0
+    113         NaN           83.0             5.0                 2.0
+    114         NaN           80.0             4.0                 2.0
+    115         NaN           70.0             2.0                 NaN
+    116         NaN           70.0             3.0                 2.0
+    117         NaN           66.0             6.0                 5.0
+    118         NaN           62.0             NaN                 NaN
+    119         NaN           60.0             NaN                 NaN
+    120         NaN           59.0             NaN                 NaN
+    121         NaN           29.0             NaN                 NaN
+
+         Deaths_Nigeria  Deaths_Senegal  Deaths_UnitedStates  Deaths_Spain  \
+    0               NaN             NaN                  NaN           NaN   
+    1               NaN             NaN                  NaN           NaN
+    2               NaN             NaN                  NaN           NaN
+    3               NaN             NaN                  NaN           NaN
+    4               NaN             NaN                  NaN           NaN
+    5               NaN             NaN                  NaN           NaN
+    6               NaN             NaN                  NaN           NaN
+    7               NaN             NaN                  NaN           NaN
+    8               NaN             NaN                  NaN           NaN
+    9               NaN             NaN                  NaN           NaN
+    10              NaN             NaN                  NaN           NaN
+    11              NaN             NaN                  NaN           NaN
+    12              NaN             NaN                  NaN           NaN
+    13              8.0             0.0                  1.0           0.0
+    14              NaN             NaN                  NaN           NaN
+    15              8.0             0.0                  1.0           0.0
+    16              NaN             NaN                  NaN           NaN
+    17              8.0             0.0                  1.0           0.0
+    18              NaN             NaN                  NaN           NaN
+    19              8.0             0.0                  1.0           0.0
+    20              8.0             0.0                  1.0           0.0
+    21              NaN             NaN                  NaN           NaN
+    22              8.0             0.0                  1.0           0.0
+    23              NaN             NaN                  NaN           NaN
+    24              8.0             0.0                  1.0           0.0
+    25              NaN             NaN                  NaN           NaN
+    26              8.0             0.0                  1.0           0.0
+    27              NaN             NaN                  NaN           NaN
+    28              8.0             0.0                  1.0           0.0
+    29              NaN             NaN                  NaN           NaN
+    ..              ...             ...                  ...           ...
+    92              NaN             NaN                  NaN           NaN
+    93              NaN             NaN                  NaN           NaN
+    94              NaN             NaN                  NaN           NaN
+    95              NaN             NaN                  NaN           NaN
+    96              NaN             NaN                  NaN           NaN
+    97              NaN             NaN                  NaN           NaN
+    98              NaN             NaN                  NaN           NaN
+    99              NaN             NaN                  NaN           NaN
+    100             NaN             NaN                  NaN           NaN
+    101             NaN             NaN                  NaN           NaN
+    102             NaN             NaN                  NaN           NaN
+    103             NaN             NaN                  NaN           NaN
+    104             NaN             NaN                  NaN           NaN
+    105             NaN             NaN                  NaN           NaN
+    106             NaN             NaN                  NaN           NaN
+    107             NaN             NaN                  NaN           NaN
+    108             NaN             NaN                  NaN           NaN
+    109             NaN             NaN                  NaN           NaN
+    110             NaN             NaN                  NaN           NaN
+    111             NaN             NaN                  NaN           NaN
+    112             NaN             NaN                  NaN           NaN
+    113             NaN             NaN                  NaN           NaN
+    114             NaN             NaN                  NaN           NaN
+    115             NaN             NaN                  NaN           NaN
+    116             NaN             NaN                  NaN           NaN
+    117             NaN             NaN                  NaN           NaN
+    118             NaN             NaN                  NaN           NaN
+    119             NaN             NaN                  NaN           NaN
+    120             NaN             NaN                  NaN           NaN
+    121             NaN             NaN                  NaN           NaN
+
+         Deaths_Mali
+    0            NaN  
+    1            NaN  
+    2            NaN  
+    3            NaN  
+    4            NaN  
+    5            NaN  
+    6            NaN  
+    7            NaN
+    8            NaN
+    9            NaN
+    10           NaN
+    11           NaN
+    12           NaN
+    13           6.0
+    14           NaN
+    15           6.0
+    16           NaN
+    17           6.0
+    18           NaN
+    19           6.0
+    20           5.0
+    21           NaN
+    22           3.0
+    23           NaN
+    24           1.0
+    25           NaN
+    26           1.0
+    27           NaN
+    28           1.0
+    29           NaN
+    ..           ...
+    92           NaN
+    93           NaN
+    94           NaN
+    95           NaN
+    96           NaN
+    97           NaN
+    98           NaN
+    99           NaN
+    100          NaN
+    101          NaN
+    102          NaN
+    103          NaN
+    104          NaN
+    105          NaN
+    106          NaN
+    107          NaN
+    108          NaN
+    109          NaN
+    110          NaN
+    111          NaN
+    112          NaN
+    113          NaN
+    114          NaN
+    115          NaN
+    116          NaN
+    117          NaN
+    118          NaN
+    119          NaN
+    120          NaN
+    121          NaN
+
+    [122 rows x 18 columns]
+    #+end_example
+
+**** tidy operation step 1: ~Series.str + melt = get new column~
+
+     ~Series.str~ can be used to *access the values of the series as strings* and apply several methods to it. These can be accessed like ~Series.str.<function/property>~.
+
+     ~Series.str~ make you handle Series *like* a string, *BUUUUT, it's still a Series-like thing*.
+
+     #+BEGIN_QUOTE Illustration of ~Series.str~
+     . ~Series~ ---.str---> ~StringMethods~ ---<.strmethod>---> ~Series~
+     .                      *NOT a String*      .split()
+     .                                          .swapcase()
+     .                                          .upper()
+     .                                          .lower()
+     .                                          .get(num)
+
+     Note that, ~Series.str.split()~ is still a Series, although it has *a list of string inside*, you can get each string
+     by ~Series.str.split().str.get(index)~
+     #+END_QUOTE
+
+
+     #+HEADER: :session
+     #+BEGIN_SRC python :results output
+       ebola_tidy = pd.melt(ebola_non_tidy, id_vars=['Date', 'Day'], var_name='cd_country', value_name='count')
+       splitted_contry_list = ebola_tidy['cd_country'].str.split('_') # handle Series like a string, it's still a Series
+       print ( type (ebola_tidy['cd_country'].str ))
+       print ( type (splitted_contry_list )) # type is Series
+       print ( splitted_contry_list )
+       status_values = splitted_contry_list.str.get(0)
+       country_values = splitted_contry_list.str.get(1)
+       print ( type(status_values) )
+     #+END_SRC
+
+     #+RESULTS:
+     #+begin_example
+     <class 'pandas.core.strings.StringMethods'>
+     <class 'pandas.core.series.Series'>
+     0       [Cases, Guinea]
+     1       [Cases, Guinea]
+     2       [Cases, Guinea]
+     3       [Cases, Guinea]
+     4       [Cases, Guinea]
+     5       [Cases, Guinea]
+     6       [Cases, Guinea]
+     7       [Cases, Guinea]
+     8       [Cases, Guinea]
+     9       [Cases, Guinea]
+     10      [Cases, Guinea]
+     11      [Cases, Guinea]
+     12      [Cases, Guinea]
+     13      [Cases, Guinea]
+     14      [Cases, Guinea]
+     15      [Cases, Guinea]
+     16      [Cases, Guinea]
+     17      [Cases, Guinea]
+     18      [Cases, Guinea]
+     19      [Cases, Guinea]
+     20      [Cases, Guinea]
+     21      [Cases, Guinea]
+     22      [Cases, Guinea]
+     23      [Cases, Guinea]
+     24      [Cases, Guinea]
+     25      [Cases, Guinea]
+     26      [Cases, Guinea]
+     27      [Cases, Guinea]
+     28      [Cases, Guinea]
+     29      [Cases, Guinea]
+                  ...
+     1922     [Deaths, Mali]
+     1923     [Deaths, Mali]
+     1924     [Deaths, Mali]
+     1925     [Deaths, Mali]
+     1926     [Deaths, Mali]
+     1927     [Deaths, Mali]
+     1928     [Deaths, Mali]
+     1929     [Deaths, Mali]
+     1930     [Deaths, Mali]
+     1931     [Deaths, Mali]
+     1932     [Deaths, Mali]
+     1933     [Deaths, Mali]
+     1934     [Deaths, Mali]
+     1935     [Deaths, Mali]
+     1936     [Deaths, Mali]
+     1937     [Deaths, Mali]
+     1938     [Deaths, Mali]
+     1939     [Deaths, Mali]
+     1940     [Deaths, Mali]
+     1941     [Deaths, Mali]
+     1942     [Deaths, Mali]
+     1943     [Deaths, Mali]
+     1944     [Deaths, Mali]
+     1945     [Deaths, Mali]
+     1946     [Deaths, Mali]
+     1947     [Deaths, Mali]
+     1948     [Deaths, Mali]
+     1949     [Deaths, Mali]
+     1950     [Deaths, Mali]
+     1951     [Deaths, Mali]
+     Name: cd_country, Length: 1952, dtype: object
+     <class 'pandas.core.series.Series'>
+     #+end_example
+
+**** tidy operation step 2: assign new column to original dataframe
+     1. add this Series as a new column to original dataframe:
+        ~df['columnName'] = Series~
+
+     #+HEADER: :session
+     #+BEGIN_SRC python :results output
+       ebola_tidy['status'] = status_values
+       ebola_tidy['country'] = country_values
+       print (ebola_tidy)
+     #+END_SRC
+
+     #+RESULTS:
+     #+begin_example
+     Date  Day    cd_country   count  status country
+     0       1/5/2015  289  Cases_Guinea  2776.0   Cases  Guinea
+     1       1/4/2015  288  Cases_Guinea  2775.0   Cases  Guinea
+     2       1/3/2015  287  Cases_Guinea  2769.0   Cases  Guinea
+     3       1/2/2015  286  Cases_Guinea     NaN   Cases  Guinea
+     4     12/31/2014  284  Cases_Guinea  2730.0   Cases  Guinea
+     5     12/28/2014  281  Cases_Guinea  2706.0   Cases  Guinea
+     6     12/27/2014  280  Cases_Guinea  2695.0   Cases  Guinea
+     7     12/24/2014  277  Cases_Guinea  2630.0   Cases  Guinea
+     8     12/21/2014  273  Cases_Guinea  2597.0   Cases  Guinea
+     9     12/20/2014  272  Cases_Guinea  2571.0   Cases  Guinea
+     10    12/18/2014  271  Cases_Guinea     NaN   Cases  Guinea
+     11    12/14/2014  267  Cases_Guinea  2416.0   Cases  Guinea
+     12     12/9/2014  262  Cases_Guinea     NaN   Cases  Guinea
+     13     12/7/2014  260  Cases_Guinea  2292.0   Cases  Guinea
+     14     12/3/2014  256  Cases_Guinea     NaN   Cases  Guinea
+     15    11/30/2014  253  Cases_Guinea  2164.0   Cases  Guinea
+     16    11/28/2014  251  Cases_Guinea     NaN   Cases  Guinea
+     17    11/23/2014  246  Cases_Guinea  2134.0   Cases  Guinea
+     18    11/22/2014  245  Cases_Guinea     NaN   Cases  Guinea
+     19    11/18/2014  241  Cases_Guinea  2047.0   Cases  Guinea
+     20    11/16/2014  239  Cases_Guinea  1971.0   Cases  Guinea
+     21    11/15/2014  238  Cases_Guinea     NaN   Cases  Guinea
+     22    11/11/2014  234  Cases_Guinea  1919.0   Cases  Guinea
+     23    11/10/2014  233  Cases_Guinea     NaN   Cases  Guinea
+     24     11/9/2014  232  Cases_Guinea  1878.0   Cases  Guinea
+     25     11/8/2014  231  Cases_Guinea     NaN   Cases  Guinea
+     26     11/4/2014  227  Cases_Guinea     NaN   Cases  Guinea
+     27     11/3/2014  226  Cases_Guinea  1760.0   Cases  Guinea
+     28     11/2/2014  225  Cases_Guinea  1731.0   Cases  Guinea
+     29    10/31/2014  222  Cases_Guinea     NaN   Cases  Guinea
+     ...  ...           ...     ...     ...     ...
+     1922   5/23/2014   62   Deaths_Mali     NaN  Deaths    Mali
+     1923   5/12/2014   51   Deaths_Mali     NaN  Deaths    Mali
+     1924   5/10/2014   49   Deaths_Mali     NaN  Deaths    Mali
+     1925    5/7/2014   46   Deaths_Mali     NaN  Deaths    Mali
+     1926    5/5/2014   44   Deaths_Mali     NaN  Deaths    Mali
+     1927    5/3/2014   42   Deaths_Mali     NaN  Deaths    Mali
+     1928    5/1/2014   40   Deaths_Mali     NaN  Deaths    Mali
+     1929   4/26/2014   35   Deaths_Mali     NaN  Deaths    Mali
+     1930   4/24/2014   33   Deaths_Mali     NaN  Deaths    Mali
+     1931   4/23/2014   32   Deaths_Mali     NaN  Deaths    Mali
+     1932   4/22/2014   31   Deaths_Mali     NaN  Deaths    Mali
+     1933   4/21/2014   30   Deaths_Mali     NaN  Deaths    Mali
+     1934   4/20/2014   29   Deaths_Mali     NaN  Deaths    Mali
+     1935   4/17/2014   26   Deaths_Mali     NaN  Deaths    Mali
+     1936   4/16/2014   25   Deaths_Mali     NaN  Deaths    Mali
+     1937   4/15/2014   24   Deaths_Mali     NaN  Deaths    Mali
+     1938   4/14/2014   23   Deaths_Mali     NaN  Deaths    Mali
+     1939   4/11/2014   20   Deaths_Mali     NaN  Deaths    Mali
+     1940    4/9/2014   18   Deaths_Mali     NaN  Deaths    Mali
+     1941    4/7/2014   16   Deaths_Mali     NaN  Deaths    Mali
+     1942    4/4/2014   13   Deaths_Mali     NaN  Deaths    Mali
+     1943    4/1/2014   10   Deaths_Mali     NaN  Deaths    Mali
+     1944   3/31/2014    9   Deaths_Mali     NaN  Deaths    Mali
+     1945   3/29/2014    7   Deaths_Mali     NaN  Deaths    Mali
+     1946   3/28/2014    6   Deaths_Mali     NaN  Deaths    Mali
+     1947   3/27/2014    5   Deaths_Mali     NaN  Deaths    Mali
+     1948   3/26/2014    4   Deaths_Mali     NaN  Deaths    Mali
+     1949   3/25/2014    3   Deaths_Mali     NaN  Deaths    Mali
+     1950   3/24/2014    2   Deaths_Mali     NaN  Deaths    Mali
+     1951   3/22/2014    0   Deaths_Mali     NaN  Deaths    Mali
+
+     [1952 rows x 6 columns]
+     #+end_example
+
+*** Series.str model
+**** a general method using ~series.str~ + ~df.melt~
+     A general method to use ~Series.str~ is :
+     1. handle Series as a String to get a new better Seires:
+        ~Series~ ---.str---> ~StringMethods~ ---<.strmethod>---> ~Series~
+     2. add this Series as a new column to original dataframe:
+        ~df['columnName'] = Series~
+
+     #+BEGIN_QUOTE  Illustration of str + melt
+     .   df [column] .str -----stringLikeMethod-----> new Series
+     .                                                     |
+     .                                                     |
+     .                                                     v
+     .                                 df ['giveName'] = _____
+     #+END_QUOTE
+**** combine multiple ~.str~ model expressions
+     ~Series.str~ can be used to *access the values of the series as strings* and *apply several methods* to it.
+     These can be accessed like ~Series.str.<function/property>~.
+
+     you can *combine multiple expression*, because the head and tail of a ~.str~ model are both ~Series~ object.
+     #+BEGIN_QUOTE Illustration of ~Series.str~
+     . ~Series~ ---.str---> ~StringMethods~ ---[.strmethod]---> ~Series~ ---.str---> ~StringMethods~ etc.
+     .    |                  *NOT a String*     .split()           |
+     .    |                                     .swapcase()        |
+     .    v                                     .upper()           v
+     .  *head*                                  .lower()    *tail* and another *head*
+     .                                          .get(num)
+
+     Note that, ~Series.str.split()~ is still a Series, although it has *a list of string inside*, you can get each string
+     by ~Series.str.split().str.get(index)~
+     #+END_QUOTE
+
+**** ~.str.split('_', expand=True)~
+     |------------------------------+-----------|
+     | method                       | return    |
+     |------------------------------+-----------|
+     | .str.split('_')              | Series    |
+     | .str.split('_', expand=True) | DataFrame |
+     |------------------------------+-----------|
+
+
+     ~split('_', expand=True)~: get a ~DataFrame~ with *two separate string* inside, each as a column
+                0       1
+     0      Cases  Guinea
+     1      Cases  Guinea
+     2      Cases  Guinea
+     3      Cases  Guinea
+     4      Cases  Guinea
+     5      Cases  Guinea
+     6      Cases  Guinea
+     7      Cases  Guinea
+     8      Cases  Guinea
+
+     ~split('_')~: get a ~Series~ with *list of strings* inside, whole as a column
+     0       [Cases, Guinea]
+     1       [Cases, Guinea]
+     2       [Cases, Guinea]
+     3       [Cases, Guinea]
+     4       [Cases, Guinea]
+     5       [Cases, Guinea]
+     6       [Cases, Guinea]
+     7       [Cases, Guinea]
+     8       [Cases, Guinea]
+
+
+     #+HEADER: :session
+     #+BEGIN_SRC python :results output
+       # variable_split = ebola_tidy['cd_country'].str.split('_')
+       variable_split = ebola_tidy['cd_country'].str.split('_', expand=True)
+       print ( type(variable_split) )
+       # print (variable_split)
+       variable_split.columns = ['status1', 'country1']
+       # print (variable_split)
+       print ( variable_split.head() )
+       print ( ebola_tidy.head() )
+       ebola_clean1 = pd.concat([ebola_tidy, variable_split], axis=1)
+       ebola_clean2 = pd.concat([ebola_tidy, variable_split])
+       print ( ebola_clean1.head(10) )
+       print ( ebola_clean1.tail(10) )
+       print ( ebola_clean2.head(10) )
+       print ( ebola_clean2.tail(10) )
+     #+END_SRC
+
+     #+RESULTS:
+     #+begin_example
+     <class 'pandas.core.frame.DataFrame'>
+       status1 country1
+     0   Cases   Guinea
+     1   Cases   Guinea
+     2   Cases   Guinea
+     3   Cases   Guinea
+     4   Cases   Guinea
+              Date  Day    cd_country   count status country
+     0    1/5/2015  289  Cases_Guinea  2776.0  Cases  Guinea
+     1    1/4/2015  288  Cases_Guinea  2775.0  Cases  Guinea
+     2    1/3/2015  287  Cases_Guinea  2769.0  Cases  Guinea
+     3    1/2/2015  286  Cases_Guinea     NaN  Cases  Guinea
+     4  12/31/2014  284  Cases_Guinea  2730.0  Cases  Guinea
+              Date  Day    cd_country   count status country status1 country1
+     0    1/5/2015  289  Cases_Guinea  2776.0  Cases  Guinea   Cases   Guinea
+     1    1/4/2015  288  Cases_Guinea  2775.0  Cases  Guinea   Cases   Guinea
+     2    1/3/2015  287  Cases_Guinea  2769.0  Cases  Guinea   Cases   Guinea
+     3    1/2/2015  286  Cases_Guinea     NaN  Cases  Guinea   Cases   Guinea
+     4  12/31/2014  284  Cases_Guinea  2730.0  Cases  Guinea   Cases   Guinea
+     5  12/28/2014  281  Cases_Guinea  2706.0  Cases  Guinea   Cases   Guinea
+     6  12/27/2014  280  Cases_Guinea  2695.0  Cases  Guinea   Cases   Guinea
+     7  12/24/2014  277  Cases_Guinea  2630.0  Cases  Guinea   Cases   Guinea
+     8  12/21/2014  273  Cases_Guinea  2597.0  Cases  Guinea   Cases   Guinea
+     9  12/20/2014  272  Cases_Guinea  2571.0  Cases  Guinea   Cases   Guinea
+                Date  Day   cd_country  count  status country status1 country1
+     1942   4/4/2014   13  Deaths_Mali    NaN  Deaths    Mali  Deaths     Mali
+     1943   4/1/2014   10  Deaths_Mali    NaN  Deaths    Mali  Deaths     Mali
+     1944  3/31/2014    9  Deaths_Mali    NaN  Deaths    Mali  Deaths     Mali
+     1945  3/29/2014    7  Deaths_Mali    NaN  Deaths    Mali  Deaths     Mali
+     1946  3/28/2014    6  Deaths_Mali    NaN  Deaths    Mali  Deaths     Mali
+     1947  3/27/2014    5  Deaths_Mali    NaN  Deaths    Mali  Deaths     Mali
+     1948  3/26/2014    4  Deaths_Mali    NaN  Deaths    Mali  Deaths     Mali
+     1949  3/25/2014    3  Deaths_Mali    NaN  Deaths    Mali  Deaths     Mali
+     1950  3/24/2014    2  Deaths_Mali    NaN  Deaths    Mali  Deaths     Mali
+     1951  3/22/2014    0  Deaths_Mali    NaN  Deaths    Mali  Deaths     Mali
+              Date    Day    cd_country   count country country1 status status1
+     0    1/5/2015  289.0  Cases_Guinea  2776.0  Guinea      NaN  Cases     NaN
+     1    1/4/2015  288.0  Cases_Guinea  2775.0  Guinea      NaN  Cases     NaN
+     2    1/3/2015  287.0  Cases_Guinea  2769.0  Guinea      NaN  Cases     NaN
+     3    1/2/2015  286.0  Cases_Guinea     NaN  Guinea      NaN  Cases     NaN
+     4  12/31/2014  284.0  Cases_Guinea  2730.0  Guinea      NaN  Cases     NaN
+     5  12/28/2014  281.0  Cases_Guinea  2706.0  Guinea      NaN  Cases     NaN
+     6  12/27/2014  280.0  Cases_Guinea  2695.0  Guinea      NaN  Cases     NaN
+     7  12/24/2014  277.0  Cases_Guinea  2630.0  Guinea      NaN  Cases     NaN
+     8  12/21/2014  273.0  Cases_Guinea  2597.0  Guinea      NaN  Cases     NaN
+     9  12/20/2014  272.0  Cases_Guinea  2571.0  Guinea      NaN  Cases     NaN
+          Date  Day cd_country  count country country1 status status1
+     1942  NaN  NaN        NaN    NaN     NaN     Mali    NaN  Deaths
+     1943  NaN  NaN        NaN    NaN     NaN     Mali    NaN  Deaths
+     1944  NaN  NaN        NaN    NaN     NaN     Mali    NaN  Deaths
+     1945  NaN  NaN        NaN    NaN     NaN     Mali    NaN  Deaths
+     1946  NaN  NaN        NaN    NaN     NaN     Mali    NaN  Deaths
+     1947  NaN  NaN        NaN    NaN     NaN     Mali    NaN  Deaths
+     1948  NaN  NaN        NaN    NaN     NaN     Mali    NaN  Deaths
+     1949  NaN  NaN        NaN    NaN     NaN     Mali    NaN  Deaths
+     1950  NaN  NaN        NaN    NaN     NaN     Mali    NaN  Deaths
+     1951  NaN  NaN        NaN    NaN     NaN     Mali    NaN  Deaths
+     #+end_example
+
+**** how to rename the column name of a dataframe
+
+                0       1
+     0      Cases  Guinea
+     1      Cases  Guinea
+     2      Cases  Guinea
+     3      Cases  Guinea
+     4      Cases  Guinea
+     5      Cases  Guinea
+
+     ~variable_split.columns = ['status1', 'country1']~
+
+          status1 country1
+     0      Cases   Guinea
+     1      Cases   Guinea
+     2      Cases   Guinea
+     3      Cases   Guinea
+     4      Cases   Guinea
+*** non-tidy, exp4: enumerate all days in a month as column name
+    this dataset *list all days from d1 to d31* as column name for each month, not tidy
+
+    id  year  month element    d1    d2    d3    d4    d5    d6  ...   \
+    0   MX17004  2010      1    tmax   NaN   NaN   NaN   NaN   NaN   NaN  ...
+    1   MX17004  2010      1    tmin   NaN   NaN   NaN   NaN   NaN   NaN  ...
+    2   MX17004  2010      2    tmax   NaN  27.3  24.1   NaN   NaN   NaN  ...
+    3   MX17004  2010      2    tmin   NaN  14.4  14.4   NaN   NaN   NaN  ...
+
+    we should clean the format to make the
+    1. melt all columns *d1 to d31* as values of column *day*
+    2. *tmax* and *tmin* the *column name*
+**** 0. read in dataset to be a dataframe
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      weather = pd.read_csv(file_path + 'weather.csv')
+      print ( weather )
+    #+END_SRC
+
+    #+RESULTS:
+    #+begin_example
+    id  year  month element    d1    d2    d3    d4    d5    d6  ...   \
+    0   MX17004  2010      1    tmax   NaN   NaN   NaN   NaN   NaN   NaN  ...
+    1   MX17004  2010      1    tmin   NaN   NaN   NaN   NaN   NaN   NaN  ...
+    2   MX17004  2010      2    tmax   NaN  27.3  24.1   NaN   NaN   NaN  ...
+    3   MX17004  2010      2    tmin   NaN  14.4  14.4   NaN   NaN   NaN  ...
+    4   MX17004  2010      3    tmax   NaN   NaN   NaN   NaN  32.1   NaN  ...
+    5   MX17004  2010      3    tmin   NaN   NaN   NaN   NaN  14.2   NaN  ...
+    6   MX17004  2010      4    tmax   NaN   NaN   NaN   NaN   NaN   NaN  ...
+    7   MX17004  2010      4    tmin   NaN   NaN   NaN   NaN   NaN   NaN  ...
+    8   MX17004  2010      5    tmax   NaN   NaN   NaN   NaN   NaN   NaN  ...
+    9   MX17004  2010      5    tmin   NaN   NaN   NaN   NaN   NaN   NaN  ...
+    10  MX17004  2010      6    tmax   NaN   NaN   NaN   NaN   NaN   NaN  ...
+    11  MX17004  2010      6    tmin   NaN   NaN   NaN   NaN   NaN   NaN  ...
+    12  MX17004  2010      7    tmax   NaN   NaN  28.6   NaN   NaN   NaN  ...
+    13  MX17004  2010      7    tmin   NaN   NaN  17.5   NaN   NaN   NaN  ...
+    14  MX17004  2010      8    tmax   NaN   NaN   NaN   NaN  29.6   NaN  ...
+    15  MX17004  2010      8    tmin   NaN   NaN   NaN   NaN  15.8   NaN  ...
+    16  MX17004  2010     10    tmax   NaN   NaN   NaN   NaN  27.0   NaN  ...
+    17  MX17004  2010     10    tmin   NaN   NaN   NaN   NaN  14.0   NaN  ...
+    18  MX17004  2010     11    tmax   NaN  31.3   NaN  27.2  26.3   NaN  ...
+    19  MX17004  2010     11    tmin   NaN  16.3   NaN  12.0   7.9   NaN  ...
+    20  MX17004  2010     12    tmax  29.9   NaN   NaN   NaN   NaN  27.8  ...
+    21  MX17004  2010     12    tmin  13.8   NaN   NaN   NaN   NaN  10.5  ...
+
+        d22   d23  d24   d25   d26   d27   d28   d29   d30   d31
+    0   NaN   NaN  NaN   NaN   NaN   NaN   NaN   NaN  27.8   NaN
+    1   NaN   NaN  NaN   NaN   NaN   NaN   NaN   NaN  14.5   NaN
+    2   NaN  29.9  NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN
+    3   NaN  10.7  NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN
+    4   NaN   NaN  NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN
+    5   NaN   NaN  NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN
+    6   NaN   NaN  NaN   NaN   NaN  36.3   NaN   NaN   NaN   NaN
+    7   NaN   NaN  NaN   NaN   NaN  16.7   NaN   NaN   NaN   NaN
+    8   NaN   NaN  NaN   NaN   NaN  33.2   NaN   NaN   NaN   NaN
+    9   NaN   NaN  NaN   NaN   NaN  18.2   NaN   NaN   NaN   NaN
+    10  NaN   NaN  NaN   NaN   NaN   NaN   NaN  30.1   NaN   NaN
+    11  NaN   NaN  NaN   NaN   NaN   NaN   NaN  18.0   NaN   NaN
+    12  NaN   NaN  NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN
+    13  NaN   NaN  NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN
+    14  NaN  26.4  NaN  29.7   NaN   NaN   NaN  28.0   NaN  25.4
+    15  NaN  15.0  NaN  15.6   NaN   NaN   NaN  15.3   NaN  15.4
+    16  NaN   NaN  NaN   NaN   NaN   NaN  31.2   NaN   NaN   NaN
+    17  NaN   NaN  NaN   NaN   NaN   NaN  15.0   NaN   NaN   NaN
+    18  NaN   NaN  NaN   NaN  28.1  27.7   NaN   NaN   NaN   NaN
+    19  NaN   NaN  NaN   NaN  12.1  14.2   NaN   NaN   NaN   NaN
+    20  NaN   NaN  NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN
+    21  NaN   NaN  NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN
+
+    [22 rows x 35 columns]
+    #+end_example
+
+**** 1. melt all columns *d1 to d31* as values of column *day*
+     #+HEADER: :session
+     #+BEGIN_SRC python :results output
+       weather_melt = pd.melt(weather, id_vars=['id', 'year', 'month', 'element'], var_name='day', value_name='temp')
+       print ( weather_melt.head() )
+     #+END_SRC
+
+     #+RESULTS:
+     : id  year  month element day  temp
+     : 0  MX17004  2010      1    tmax  d1   NaN
+     : 1  MX17004  2010      1    tmin  d1   NaN
+     : 2  MX17004  2010      2    tmax  d1   NaN
+     : 3  MX17004  2010      2    tmin  d1   NaN
+     : 4  MX17004  2010      3    tmax  d1   NaN
+**** 2. *tmax* and *tmin* the *column name*
+     para ~index~ of ~pd.pivot_table()~  is like the para ~id_vars~ of ~pd.melt()~, specifying the column you don't want change
+     #+HEADER: :session
+     #+BEGIN_SRC python :results output
+       weather_tidy = weather_melt.pivot_table(index=['id', 'year', 'month', 'day'], columns='element', values='temp').reset_index()
+       print ( weather_tidy )
+     #+END_SRC
+
+     #+RESULTS:
+     #+begin_example
+     element       id  year  month  day  tmax  tmin
+     0        MX17004  2010      1   d1   NaN   NaN
+     1        MX17004  2010      1  d10   NaN   NaN
+     2        MX17004  2010      1  d11   NaN   NaN
+     3        MX17004  2010      1  d12   NaN   NaN
+     4        MX17004  2010      1  d13   NaN   NaN
+     5        MX17004  2010      1  d14   NaN   NaN
+     6        MX17004  2010      1  d15   NaN   NaN
+     7        MX17004  2010      1  d16   NaN   NaN
+     8        MX17004  2010      1  d17   NaN   NaN
+     9        MX17004  2010      1  d18   NaN   NaN
+     10       MX17004  2010      1  d19   NaN   NaN
+     11       MX17004  2010      1   d2   NaN   NaN
+     12       MX17004  2010      1  d20   NaN   NaN
+     13       MX17004  2010      1  d21   NaN   NaN
+     14       MX17004  2010      1  d22   NaN   NaN
+     15       MX17004  2010      1  d23   NaN   NaN
+     16       MX17004  2010      1  d24   NaN   NaN
+     17       MX17004  2010      1  d25   NaN   NaN
+     18       MX17004  2010      1  d26   NaN   NaN
+     19       MX17004  2010      1  d27   NaN   NaN
+     20       MX17004  2010      1  d28   NaN   NaN
+     21       MX17004  2010      1  d29   NaN   NaN
+     22       MX17004  2010      1   d3   NaN   NaN
+     23       MX17004  2010      1  d30  27.8  14.5
+     24       MX17004  2010      1  d31   NaN   NaN
+     25       MX17004  2010      1   d4   NaN   NaN
+     26       MX17004  2010      1   d5   NaN   NaN
+     27       MX17004  2010      1   d6   NaN   NaN
+     28       MX17004  2010      1   d7   NaN   NaN
+     29       MX17004  2010      1   d8   NaN   NaN
+     ..           ...   ...    ...  ...   ...   ...
+     311      MX17004  2010     12  d10   NaN   NaN
+     312      MX17004  2010     12  d11   NaN   NaN
+     313      MX17004  2010     12  d12   NaN   NaN
+     314      MX17004  2010     12  d13   NaN   NaN
+     315      MX17004  2010     12  d14   NaN   NaN
+     316      MX17004  2010     12  d15   NaN   NaN
+     317      MX17004  2010     12  d16   NaN   NaN
+     318      MX17004  2010     12  d17   NaN   NaN
+     319      MX17004  2010     12  d18   NaN   NaN
+     320      MX17004  2010     12  d19   NaN   NaN
+     321      MX17004  2010     12   d2   NaN   NaN
+     322      MX17004  2010     12  d20   NaN   NaN
+     323      MX17004  2010     12  d21   NaN   NaN
+     324      MX17004  2010     12  d22   NaN   NaN
+     325      MX17004  2010     12  d23   NaN   NaN
+     326      MX17004  2010     12  d24   NaN   NaN
+     327      MX17004  2010     12  d25   NaN   NaN
+     328      MX17004  2010     12  d26   NaN   NaN
+     329      MX17004  2010     12  d27   NaN   NaN
+     330      MX17004  2010     12  d28   NaN   NaN
+     331      MX17004  2010     12  d29   NaN   NaN
+     332      MX17004  2010     12   d3   NaN   NaN
+     333      MX17004  2010     12  d30   NaN   NaN
+     334      MX17004  2010     12  d31   NaN   NaN
+     335      MX17004  2010     12   d4   NaN   NaN
+     336      MX17004  2010     12   d5   NaN   NaN
+     337      MX17004  2010     12   d6  27.8  10.5
+     338      MX17004  2010     12   d7   NaN   NaN
+     339      MX17004  2010     12   d8   NaN   NaN
+     340      MX17004  2010     12   d9   NaN   NaN
+
+     [341 rows x 6 columns]
+     #+end_example
+*** what is ~pd.pivot_table~
+    ~pivot_table~ is some *reverse* process of ~melt~:
+    1. you choose the column as para ~columns~ of ~pivot_table~ as the pivot, which means create new columns according to all different values of this column.
+       eg. column *element* has 2 different values 'tmax' and 'tmin', so you add two columns 'tmax' and 'tmin'.
+    2. you choose the column as para ~values~ of ~pivot_table~ as the values of new column from 1st step.
+       eg. column *temp*, all of value of this column should be the value of the new column 'tmax' and 'tmin'
+
+    ~pivot_table(index=['id', 'year', 'month', 'day'], columns='element', values='temp')~
+    #+BEGIN_QUOTE Illustration of pivot_table
+    .         id  year  month day  temp          element
+    . 0  MX17004  2010      1  d1   NaN---+         tmax
+    . 1  MX17004  2010      1  d1   NaN---|------+  tmin
+    . 2  MX17004  2010      2  d1   NaN   |      |  tmax
+    . 3  MX17004  2010      2  d1   NaN   |      |  tmin
+    . 4  MX17004  2010      3  d1   NaN   |      |  tmax
+    .                                     |      |
+    .                                     |      |
+    .         id  year  month  day  tmax  |      |    tmin
+    . 0  MX17004  2010      1   d1   NaN<-|      |->  NaN
+    . 1  MX17004  2010      1  d10   NaN              NaN
+    . 2  MX17004  2010      1  d11   NaN              NaN
+    . 3  MX17004  2010      1  d12   NaN              NaN
+    . 4  MX17004  2010      1  d13   NaN              NaN
+    . 5  MX17004  2010      1  d14   NaN              NaN
+    . 6  MX17004  2010      1  d15   NaN              NaN
+    . 7  MX17004  2010      1  d16   NaN              NaN
+    . 8  MX17004  2010      1  d17   NaN              NaN
+    . 9  MX17004  2010      1  d18   NaN              NaN
+    #+END_QUOTE
+    Note that,
+    1. pivot_table makes *2* columns disappear, from one of *2* extract the new columns, from the other extract the new values of new columns.
+    2. pivot_table makes *many* columns be created, the exact number decided by how many different values in the old column which you extract new columns.
+*** pivot_table and melt
+    These *two* methods are the most important tools in handling the tidy-data. They can solve almost *80%* of your data cleaning problems.
+* Data types, part-V
+** intro Category data type
+  *category* in result of ~df.info()~ is a data type, looks like a *String* type, but essentially vary hugely.
+  #+BEGIN_QUOTE
+  <class 'pandas.core.frame.DataFrame'>
+  RangeIndex: 244 entries, 0 to 243
+  Data columns (total 7 columns):
+  total_bill    244 non-null float64
+  tip           244 non-null float64
+  sex           244 non-null *category* <<<
+  smoker        244 non-null *category* <<<
+  day           244 non-null *category* <<<
+  time          244 non-null *category* <<<
+  size          244 non-null int64
+  dtypes: category(4), float64(2), int64(1)
+  memory usage: 7.2 KB
+  #+END_QUOTE
+  *category* data type will save a lot of memory.
+
+
+  #+HEADER: :session
+  #+BEGIN_SRC python :results output
+    import seaborn as sns
+    tips = sns.load_dataset('tips')
+    print ( tips.head() )
+    print ( tips.info() )
+  #+END_SRC
+
+  #+RESULTS:
+  #+begin_example
+  total_bill   tip     sex smoker  day    time  size
+  0       16.99  1.01  Female     No  Sun  Dinner     2
+  1       10.34  1.66    Male     No  Sun  Dinner     3
+  2       21.01  3.50    Male     No  Sun  Dinner     3
+  3       23.68  3.31    Male     No  Sun  Dinner     2
+  4       24.59  3.61  Female     No  Sun  Dinner     4
+  werwer
+  <class 'pandas.core.frame.DataFrame'>
+  RangeIndex: 244 entries, 0 to 243
+  Data columns (total 7 columns):
+  total_bill    244 non-null float64
+  tip           244 non-null float64
+  sex           244 non-null category
+  smoker        244 non-null category
+  day           244 non-null category
+  time          244 non-null category
+  size          244 non-null int64
+  dtypes: category(4), float64(2), int64(1)
+  memory usage: 7.2 KB
+  None
+  #+end_example
+
+*** type conversion when do operations on column
+
+    #+BEGIN_QUOTE
+  <<<< total_bill   *float64*
+  change to
+  >>>> total_bill   *object*
+  #+END_QUOTE
+
+  how dose this happen.
+
+  ~tips_sub_miss.loc[[1, 3, 5, 6], 'total_bill'] = 'missing'~
+
+  because you modify some value of `total_bill` from double to String, so this column will make itself the *lowest comman type*: ~object~
+
+  #+HEADER: :session
+  #+BEGIN_SRC python :results output
+    # pd.Categorical()
+    tips['total_bill_str'] = tips['total_bill'].astype(str) # type conversion happen
+    tips.info()
+    tips_sub_miss = tips.head(10)
+    tips_sub_miss.loc[[1, 3, 5, 6], 'total_bill'] = 'missing'
+    print ( tips_sub_miss )
+    print ( tips_sub_miss.info() )
+  #+END_SRC
+
+  #+RESULTS:
+  #+begin_example
+  <class 'pandas.core.frame.DataFrame'>
+  RangeIndex: 244 entries, 0 to 243
+  Data columns (total 8 columns):
+  total_bill        244 non-null float64
+  tip               244 non-null float64
+  sex               244 non-null category
+  smoker            244 non-null category
+  day               244 non-null category
+  time              244 non-null category
+  size              244 non-null int64
+  total_bill_str    244 non-null object
+  dtypes: category(4), float64(2), int64(1), object(1)
+  memory usage: 9.1+ KB
+    total_bill   tip     sex smoker  day    time  size total_bill_str
+  0      16.99  1.01  Female     No  Sun  Dinner     2          16.99
+  1    missing  1.66    Male     No  Sun  Dinner     3          10.34
+  2      21.01  3.50    Male     No  Sun  Dinner     3          21.01
+  3    missing  3.31    Male     No  Sun  Dinner     2          23.68
+  4      24.59  3.61  Female     No  Sun  Dinner     4          24.59
+  5    missing  4.71    Male     No  Sun  Dinner     4          25.29
+  6    missing  2.00    Male     No  Sun  Dinner     2           8.77
+  7      26.88  3.12    Male     No  Sun  Dinner     4          26.88
+  8      15.04  1.96    Male     No  Sun  Dinner     2          15.04
+  9      14.78  3.23    Male     No  Sun  Dinner     2          14.78
+  <class 'pandas.core.frame.DataFrame'>
+  RangeIndex: 10 entries, 0 to 9
+  Data columns (total 8 columns):
+  total_bill        10 non-null object
+  tip               10 non-null float64
+  sex               10 non-null category
+  smoker            10 non-null category
+  day               10 non-null category
+  time              10 non-null category
+  size              10 non-null int64
+  total_bill_str    10 non-null object
+  dtypes: category(4), float64(1), int64(1), object(2)
+  memory usage: 920.0+ bytes
+  None
+  #+end_example
+
+*** how to do type conversion on column
+    - ~series.astype(<type name>)~
+    - ~pd.to_numeric(seriesRef, errors='3 choices'))~
+      - ~errors = 'raise'~, raise the errors when encount some uncompatible conversions
+      - ~errors = 'ignore'~, when encounting mistake, just stop conversion and don't raise errors
+      - ~errors = 'coerse'~, do conversion despite whatever happen
+
+    #+HEADER: :session
+    #+BEGIN_SRC python :results output
+      # pd.to_numeric( tips_sub_miss['total_bill'], errors='raise')
+      # pd.to_numeric( tips_sub_miss['total_bill'], errors='ignore')
+      xxx = pd.to_numeric( tips_sub_miss['total_bill'], errors='coerce')
+      print ( xxx )
+    #+END_SRC
+
+    #+RESULTS:
+    #+begin_example
+    0    16.99
+    1      NaN
+    2    21.01
+    3      NaN
+    4    24.59
+    5      NaN
+    6      NaN
+    7    26.88
+    8    15.04
+    9    14.78
+    Name: total_bill, dtype: float64
+    #+end_example
