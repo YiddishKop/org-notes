@@ -272,44 +272,44 @@ want axes, we only need plotting somthing.
    [[file:./obipy-resources/17284gER.png]]
    :END:
 
-** misc tools
-*** zip() vs. itertools.zip_longest()
-    .            [1,   2,   3,   4]
-    .            [4,   5,   6]          zip
-    . --------------------------------------
-    . iterator   (1,4)(2,5)(3,6)
-    .
-    .
-    .            [1,   2,   3,   4]
-    .            [4,   5,   6]          zip_longest
-    . ---------------------------------------------
-    . iterator   (1,4)(2,5)(3,6)(4,None)
+* misc tools
+** zip() vs. itertools.zip_longest()
+   .            [1,   2,   3,   4]
+   .            [4,   5,   6]          zip
+   . --------------------------------------
+   . iterator   (1,4)(2,5)(3,6)
+   .
+   .
+   .            [1,   2,   3,   4]
+   .            [4,   5,   6]          zip_longest
+   . ---------------------------------------------
+   . iterator   (1,4)(2,5)(3,6)(4,None)
 
-    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
-      import itertools
-      x = [1,2,3,4]
-      y = [4,5,6]
-      zipped = zip(x, y)
-      list( zipped )
-    #+END_SRC
+   #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+     import itertools
+     x = [1,2,3,4]
+     y = [4,5,6]
+     zipped = zip(x, y)
+     list( zipped )
+   #+END_SRC
 
-    #+RESULTS:
-    :RESULTS:
-    # Out[75]:
-    : [(1, 4), (2, 5), (3, 6)]
-    :END:
+   #+RESULTS:
+   :RESULTS:
+   # Out[75]:
+   : [(1, 4), (2, 5), (3, 6)]
+   :END:
 
-    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
-      longest_zipped = itertools.zip_longest(x, y)
-      list( longest_zipped )
-    #+END_SRC
+   #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+     longest_zipped = itertools.zip_longest(x, y)
+     list( longest_zipped )
+   #+END_SRC
 
-    #+RESULTS:
-    :RESULTS:
-    # Out[76]:
-    : [(1, 4), (2, 5), (3, 6), (4, None)]
-    :END:
+   #+RESULTS:
+   :RESULTS:
+   # Out[76]:
+   : [(1, 4), (2, 5), (3, 6), (4, None)]
+   :END:
 
-*** np.linspace() vs. np.arange()
-    np.linspace(start, stop, num=50)
-    np.arange(start, stop, step)
+** np.linspace() vs. np.arange()
+   np.linspace(start, stop, num=50)
+   np.arange(start, stop, step)

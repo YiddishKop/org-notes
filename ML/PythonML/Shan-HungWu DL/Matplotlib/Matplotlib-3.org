@@ -164,7 +164,7 @@
     cax = fig.add_axes([0.27, 0.8, 0.5, 0.05])
     fig.colorbar(
     im,                      # <- which image or contour you want to add a colorbar
-    cax=cax,                 # <- colorbar itself is a subplot, how it looks like
+    cax=cax,                 # <- colorbar itself is a axes, how it looks like
     orientation='horizontal' # <- orientation of value and color displays
     )
 
@@ -188,7 +188,7 @@
 .
 #+END_QUOTE
 
-**** colorbar outside the image
+**** colorbar inside the image
     #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
       from matplotlib.cbook import get_sample_data
 
@@ -205,7 +205,17 @@
     [[file:./obipy-resources/17284Um1.png]]
     :END:
 
-**** colorbar inside the image
+**** colorbar outside the image
+     when you want define the location and size of colorbar, you must give it a
+     *axes*, and make it the para ~cax~ of ~imshow()~:
+     1. create a figure
+     2. create several+1 axes
+        1. fig, axes = plt.subplots(nrows, ncols, figsize)
+        2. bar_axes = fig.add_axes([l,b,w,h])
+     3. several axes for imshow of different value array
+        1. for i, dt in dataset: axes[i].imshow(dt)
+     4. 1 for colorbar
+        1. plt.colorbar(im, cax=bar_axes)
      #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
        fig, ax = plt.subplots()
 
@@ -233,6 +243,7 @@
 | shared kwargs |                                                            |
 |---------------+------------------------------------------------------------|
 | cmap          | the colormap used to display the input values              |
+|               | - gist_earth; seismic                                      |
 |---------------+------------------------------------------------------------|
 | vmin          | minimum data value correspond to 'bottom' of colormap      |
 |---------------+------------------------------------------------------------|
@@ -242,6 +253,44 @@
 |               | default is linear scaling between vmin and vmax, but other |
 |               | norms are ok, eg lognorm, powernorm                        |
 |---------------+------------------------------------------------------------|
+
+**** with out vmin vmax
+#+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+  import numpy as np
+  import matplotlib.pyplot as plt
+  from matplotlib.cbook import get_sample_data
+  data = np.load(get_sample_data('axes_grid/bivariate_normal.npy'))
+
+  fig, ax = plt.subplots()
+  im = ax.imshow(data, cmap='seismic', interpolation='nearest')
+  fig.colorbar(im)
+  plt.show()
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[31]:
+[[file:./obipy-resources/46265CY.png]]
+:END:
+
+**** with vmin vmax
+#+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+  import numpy as np
+  import matplotlib.pyplot as plt
+  from matplotlib.cbook import get_sample_data
+  data = np.load(get_sample_data('axes_grid/bivariate_normal.npy'))
+
+  fig, ax = plt.subplots()
+  im = ax.imshow(data, cmap='seismic', vmin= -2.0, vmax=2.0, interpolation='nearest')
+  fig.colorbar(im)
+  plt.show()
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[32]:
+[[file:./obipy-resources/4626GNe.png]]
+:END:
 
 *** pcolor(pcolormesh) vs. imshow vs. scatter
 
@@ -268,7 +317,7 @@
 ** Artist
    Take the bar graph as example, if we want draw the bars below the horizontal
    line with different color. We will need to catch the *Artist* object. Any
-   thing you can see in a Matplotlib figure/axes/line/bar/etc is an *Artist*
+   thing you can see in a Matplotlib *figure/axes/line/bar/etc* is an *Artist*
    object. And every *Artist* have ~set(...)~ method, when you need do some
    specific settings for certain *line,bar,path,etc*, you will need it.
 
@@ -361,7 +410,154 @@ Other similar *Artist*, not in this illustration:
      plt.show()
    #+END_SRC
 
-** misc tools
+** Exercise 2.1
+*** exercise of ~fill~ and ~bar~ graph
+   #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+     import numpy as np
+     import matplotlib.pyplot as plt
+     np.random.seed(1)
+
+     # Generate data
+     y_raw = np.random.randn(1000).cumsum() + 15
+     x_raw = np.linspace(0, 24, y_raw.size)
+
+     # Get averages of every 100 samples
+     x_pos = x_raw.reshape(-1, 100).min(axis=1)
+     y_avg = y_raw.reshape(-1, 100).mean(axis=1)
+     y_err = y_raw.reshape(-1, 100).ptp(axis=1)
+
+     bar_width = x_pos[1] - x_pos[0]
+
+     # Make a made up future prediction with a fake condition
+     x_pred = np.linspace(0, 30)
+     y_max_pred = y_avg[0] + y_err[0] + 2.3*x_pred
+     y_min_pred = y_avg[0] - y_err[0] + 1.2*x_pred
+
+     # Just so you don't. have to guess the colors ...
+     barcolor, linecolor, fillcolor = 'wheat', 'salmon', 'lightblue'
+
+     # DONE
+     fig, axes= plt.subplots()
+     bars = axes.bar(x_pos, height=y_avg, width=bar_width, yerr=y_err, color=barcolor)
+     lines = axes.plot(x_raw, y_raw, color=linecolor)
+     regions = axes.fill_between(x_pred, y_max_pred, y_min_pred, color=fillcolor)
+     axes.set(xlim=[0, 30], ylim=[0, 100], title='Future Projection of Attitdes', ylabel='Snarkiness (snark units)', xlabel='Minutes since class began')
+
+     plt.show()
+   #+END_SRC
+
+   #+RESULTS:
+   :RESULTS:
+   # Out[107]:
+   [[file:./obipy-resources/17284c5A.png]]
+   :END:
+
+24/1000 = 0.24
+x_raw: 0, 0.24, 0.48, 0.72, 0.96, 1.2 ... 24 : 1000
+
+reshape to 10 * 1000
+...... 100
+......-------------------------------
+row-0: 0, 0.24, 0.48, 0.72, 0.96, 1.2  ====.min ===>
+row-1: 0, 0.24, 0.48, 0.72, 0.96, 1.2
+row-2: 0, 0.24, 0.48, 0.72, 0.96, 1.2
+row-3: 0, 0.24, 0.48, 0.72, 0.96, 1.2
+row-0: 0, 0.24, 0.48, 0.72, 0.96, 1.2
+row-0: 0, 0.24, 0.48, 0.72, 0.96, 1.2
+row-0: 0, 0.24, 0.48, 0.72, 0.96, 1.2
+row-0: 0, 0.24, 0.48, 0.72, 0.96, 1.2
+row-8: 0, 0.24, 0.48, 0.72, 0.96, 1.2
+row-9: 0, 0.24, 0.48, 0.72, 0.96, 1.2
+
+x_pos.shape= (10,)
+y_avg.shape= (10,) mean of row
+y_err.shape= (10,) range max-min of row
+
+          num=50
+........ ------
+x_pred = 0 ~ 30
+
+y_max_pred =
+** Exercise 2.2
+   colorbar with vmin and vmax
+   #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+     import numpy as np
+     import matplotlib.pyplot as plt
+     np.random.seed(1)
+
+     plt.style.use('classic')
+
+     # Generate random data
+     data1 = np.random.random((10, 10))
+     data2 = 2 * np.random.random((10,10))
+     data3 = 3 * np.random.random((10,10))
+
+     # set up figure and axes
+     fig, axes = plt.subplots(ncols=3, figsize=plt.figaspect(0.5))
+     fig.tight_layout()
+     cax = fig.add_axes([0.25, 0.1, 0.55, 0.03]) # add axes for colorbar
+
+     # DONE
+     im1, im2, im3 = [ axes[i].imshow(dt, cmap='seismic', vmin=0.0, vmax=3.0, interpolation='nearest') for i, dt in enumerate([data1, data2, data3])]
+     plt.colorbar(im1, cax = cax, orientation='horizontal')
+     plt.show()
+   #+END_SRC
+
+   #+RESULTS:
+   :RESULTS:
+   # Out[55]:
+   [[file:./obipy-resources/4626zUf.png]]
+   :END:
+
+* misc tools
+** python
+*** for in zip() vs. for in enumerate()
+#+BEGIN_QUOTE
+.
+.                | arr |     dt1   dt2   dt3
+.                |-----|    +--+  +--+  +--+
+.                |   4 |    | 1|  | 2|  | 3|
+.                |   5 |    +--+  +--+  +--+
+.                |   6 |
+.                -------    ----------------
+. ~zip~ ==>(     [4,5,6]  ,     [1,2,3]     )
+.                   i              dt
+.                   4     +        1
+.                   5     +        2
+.                   6     +        3
+.
+.
+.                   dt1   dt2   dt3                         | arr |
+.                  +--+  +--+  +--+                         |-----|
+.                  | 1|  | 2|  | 3|                   /---->|   4 |
+.                  +--+  +--+  +--+                   |/--->|   5 |
+. ~enumerate~ => enumerateObj (can index it)          ||/-->|   6 |
+.                    dt                 i             |||
+.                     1         +       0 ------------/||
+.                     2         +       1 -------------/|
+.                     3         +       2 --------------/
+.
+#+END_QUOTE
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      dt1, dt2, dt3 = 1, 2, 3
+      arr = np.array([4, 5, 6])
+      result_arr = np.random.randn(3)
+      print (result_arr)
+      for i, dt in enumerate([dt1, dt2, dt3]):
+          result_arr[i] = arr[i] + dt
+      print (result_arr[i])
+      for res, ele, dt in zip(result_arr, arr, [dt1, dt2, dt3]):
+          res = ele + dt
+      print (res)
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[70]:
+    :END:
+
+** numpy
 *** numpy.cumsum(arr, dtype, axis)
    Return the cumulative sum of the elements along a given axis.
 
@@ -462,11 +658,32 @@ Other similar *Artist*, not in this illustration:
     # Out[98]:
     :END:
 *** numpy.random
-1. np.random.seed(num) : setup the random number generator
-2. np.random.randn(10) : create an array of random number, with 10-elements inside
-3. np.random.randint(num_start, num_stop) : create an random integer in range [start, stop]
+1. np.random.seed(num)
+   : setup the random number generator
+2. np.random.randn(10)
+   : create an array of random number, with 10-elements inside
+3. np.random.randint(num_start, num_stop)
+   : create a random integer in range [start, stop]
+4. np.random.random((row_num, column_num))
+   : create an multiple dimension (row_num*column_num) array of random double in (0,1)
 
-*** [matplotlib]figure.add_axes
+#+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+np.random.random((2,10))
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[34]:
+#+BEGIN_EXAMPLE
+  array([[0.44688024, 0.25058039, 0.31516404, 0.65540106, 0.60013046,
+  0.25673085, 0.44849235, 0.62245202, 0.75876794, 0.01955568],
+  [0.49521851, 0.48317782, 0.0923694 , 0.3201248 , 0.87163057,
+  0.82611117, 0.95797277, 0.98415232, 0.85615723, 0.32127401]])
+#+END_EXAMPLE
+:END:
+
+** matplotlib
+*** plt.figure().add_axes
     ~fig.add_axes([l,b,w,h])~ is a more flexible version than ~fig.add_subplot()~
     add_axes(*args, **kwargs)
 
@@ -500,71 +717,181 @@ Other similar *Artist*, not in this illustration:
 [[file:./obipy-resources/17284gLF.png]]
 :END:
 
-** Exercise 2.1
-*** exercise of ~fill~ and ~bar~ graph
-   #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
-     import numpy as np
-     import matplotlib.pyplot as plt
-     np.random.seed(1)
+*** plt.figure()
+  F = plt.figure(1, (4.5, 4.5))
+  F = plt.figure("1", (4.5, 4.5))
+*** ImageGrid()
+    figure -> imagegrid -> locatableAxes -> imshow
 
-     # Generate data
-     y_raw = np.random.randn(1000).cumsum() + 15
-     x_raw = np.linspace(0, 24, y_raw.size)
+    1. create a Figure
+       - specify the id or window's title
+       - specify the size of window
+    2. create a ImageGrid(collection of locatable Axes)
+       - on this figure
+       - do partition on figure and specify the location to hold imagegrid
+       - do partition on imagegrid, each part is a locatable axes
+    3. prepare the data in the form of np.array
+       - path or iobuffer = get_sample_data from mlp.sample_data
+       - np.array = np.load()
+    4. map np.array to colormap by imshow on each locatable axes
 
-     # Get averages of every 100 samples
-     x_pos = x_raw.reshape(-1, 100).min(axis=1)
-     y_avg = y_raw.reshape(-1, 100).mean(axis=1)
-     y_err = y_raw.reshape(-1, 100).ptp(axis=1)
+#+BEGIN_QUOTE
+.
+. [id = ~1~ ]
+. +------------------------------------+
+. |                default             |
+. |------------------------------------|
+. |                                    |\
+. |                                    | +
+. |                                    | |
+. |                                    | |
+. |                                    | |
+. |                                    | | 4.5                | F = plt.figure(1, (4.5, 4.5))
+. |                                    | |
+. |                                    | |
+. |                                    | |
+. |                                    | |
+. |                                    | |
+. |                                    | +
+. |                                    |/
+. +------------------------------------+
+.  \----------------------------------/
+.                  4.5
+.
+.
+. +------------------------------------+                       | grid = ImageGrid(F, 211,  # similar to subplot(111)
+. |                default         +---+--- nrows_ncols=(1,3)  |                  nrows_ncols=(1, 3),
+. |-------------------------------/----|                       |                  axes_pad=0.1,
+. |.-----------+-----------+-----+----.|                       |                  add_all=True,
+. ||           |           |          ||                       |                  label_mode="L",
+. ||           |           |          ||                       |                  )
+. ||   white   |   white   |   white  ||  subplot(2,1,1)
+. || locatable | locatable | locatable||
+. ||   axes    |   axes    |   axes   ||                       # ~grid = ImageGrid(F, 211,  # similar to subplot(111)~
+. |+-----------+-----------+----------+|                       # F -> add ImageGrid on figure 'F' at *location*:
+. ||                                  ||                       # 1 -> 2 row
+. ||                                  ||                       # 1 -> 1 column
+. ||                                  ||                       # 1 -> *index* of rowNum * colNum = 1
+. ||                                  ||
+. ||                                \ ||
+. |.---------------------------------\.|
+. .-----------------------------------\.
+.                                      \  subplot(2,1,2)
+.
+.
+. +------------------------------------+                      | im1 = Z
+. |                default             |                      | im2 = Z[:, :10]
+. |------------------------------------|                      | im3 = Z[:, 10:]
+. |.------------------+----------+----.|                      | vmin, vmax = Z.min(), Z.max()
+. || im1         ..   | im2      |im3 ||                      | for i, im in enumerate([im1, im2, im3]):
+. ||    ..........    |   ..     | .  ||                      |     print (i, im)
+. ||    .... ...      |    ...   | .. ||                      |     ax = grid[i]
+. ||    ........      |       .  |    ||                      |     print ( "ax type: ")
+. ||    .             |       .  |    ||                      |     print (type(ax) )
+. |+------------------+----------+----+|                      |     ax.imshow(im,
+. ||                                  ||                      |               origin="lower",
+. ||                                  ||                      |               vmin=vmin, vmax=vmax,
+. ||                                  ||                      |               interpolation="nearest")
+. ||                                  ||
+. ||                                  ||                      # imshow will give different locatable axes
+. |.----------------------------------.|                      # different size according to nparray size,
+. .------------------------------------.                      # and different image according to imshow
+.
+#+END_QUOTE
 
-     bar_width = x_pos[1] - x_pos[0]
+#+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+  import matplotlib.pyplot as plt
+  from mpl_toolkits.axes_grid1 import ImageGrid
 
-     # Make a made up future prediction with a fake condition
-     x_pred = np.linspace(0, 30)
-     y_max_pred = y_avg[0] + y_err[0] + 2.3*x_pred
-     y_min_pred = y_avg[0] - y_err[0] + 1.2*x_pred
+  def get_demo_image():
+      import numpy as np
+      from matplotlib.cbook import get_sample_data
+      f = get_sample_data("axes_grid/bivariate_normal.npy", asfileobj=False)
+      z = np.load(f)
+      # z is a numpy array of 15x15
+      return z, (-3, 4, -4, 3)
 
-     # Just so you don't. have to guess the colors ...
-     barcolor, linecolor, fillcolor = 'wheat', 'salmon', 'lightblue'
+  F = plt.figure(1, (4.5, 4.5))
+  grid = ImageGrid(F, 111,  # similar to subplot(111)
+                   nrows_ncols=(1, 3),
+                   axes_pad=0.1,
+                   add_all=True,
+                   label_mode="L",
+                   )
+  Z, extent = get_demo_image()  # demo image
 
-     # DONE
-     fig, axes= plt.subplots()
-     bars = axes.bar(x_pos, height=y_avg, width=bar_width, yerr=y_err, color=barcolor)
-     lines = axes.plot(x_raw, y_raw, color=linecolor)
-     regions = axes.fill_between(x_pred, y_max_pred, y_min_pred, color=fillcolor)
-     axes.set(xlim=[0, 30], ylim=[0, 100], title='Future Projection of Attitdes', ylabel='Snarkiness (snark units)', xlabel='Minutes since class began')
+  im1 = Z
+  im2 = Z[:, :10]
+  im3 = Z[:, 10:]
+  vmin, vmax = Z.min(), Z.max()
+  for i, im in enumerate([im1, im2, im3]):
+      print (i, im)
+      ax = grid[i]
+      print ( "ax type: ")
+      print (type(ax) )
+      ax.imshow(im, origin="lower", vmin=vmin,
+                vmax=vmax, interpolation="nearest")
 
-     plt.show()
-   #+END_SRC
+  plt.draw()
+  plt.show()
+#+END_SRC
 
-   #+RESULTS:
-   :RESULTS:
-   # Out[107]:
-   [[file:./obipy-resources/17284c5A.png]]
-   :END:
+#+RESULTS:
+:RESULTS:
+# Out[28]:
+[[file:./obipy-resources/4626s4R.png]]
+:END:
+*** plt.subplots()
+plt.subplots(
+1. nrows=1,                   #<- number of rows in figure
+2. ncols=1,                   #<- number of columns in figure
+3. figsize=plt.figaspect(0.5) #<- figaspect will return a tuple
+)
 
-24/1000 = 0.24
-x_raw: 0, 0.24, 0.48, 0.72, 0.96, 1.2 ... 24 : 1000
+*** plt.figaspect(ratioBetweenHeightAndWidth)
+.
+.              tall / wide = 0.5
+.                   |
+.                   v
+.    plt.figaspect(0.5) will return a tuple (default_size, default_size*0.5)
+.                                            ------------  ----------------
+.                                            figwidth      figheight
+.
+*** ax.imshow(arr, vmin, vmax, interpolation)
+    interpolation='nearest' will make the unit size(1,1) the same color.
 
-reshape to 10 * 1000
-...... 100
-......-------------------------------
-row-0: 0, 0.24, 0.48, 0.72, 0.96, 1.2  ====.min ===>
-row-1: 0, 0.24, 0.48, 0.72, 0.96, 1.2
-row-2: 0, 0.24, 0.48, 0.72, 0.96, 1.2
-row-3: 0, 0.24, 0.48, 0.72, 0.96, 1.2
-row-0: 0, 0.24, 0.48, 0.72, 0.96, 1.2
-row-0: 0, 0.24, 0.48, 0.72, 0.96, 1.2
-row-0: 0, 0.24, 0.48, 0.72, 0.96, 1.2
-row-0: 0, 0.24, 0.48, 0.72, 0.96, 1.2
-row-8: 0, 0.24, 0.48, 0.72, 0.96, 1.2
-row-9: 0, 0.24, 0.48, 0.72, 0.96, 1.2
+**** interpolation
+#+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+  # figure and n+1 ax
+  fig, axes = plt.subplots(
+      nrows=2,
+      ncols=3,
+      figsize=plt.figaspect(0.5)
+  )
+  cax = fig.add_axes([0.2, 0.01, 0.6, 0.01])
 
-x_pos.shape= (10,)
-y_avg.shape= (10,) mean of row
-y_err.shape= (10,) range max-min of row
+  # get data in form of np.array
+  data1 = np.random.random((10,10))
+  data2 = 2*np.random.random((10,10))
+  data3 = 3*np.random.random((10,10))
+  data4 = np.random.random((10,10))
+  data5 = 2*np.random.random((10,10))
+  data6 = 3*np.random.random((10,10))
 
-          num=50
-........ ------
-x_pred = 0 ~ 30
+  # interpolation='nearest'
+  for ax,dt in zip(axes[0,:], [data1, data2, data3]):
+      im = ax.imshow(dt, vmin=0.0, vmax=3.0, interpolation='nearest')
 
-y_max_pred =
+  # without interpolation
+  for ax,dt in zip(axes[1,:], [data4, data5, data6]):
+      im2 = ax.imshow(dt, vmin=0.0, vmax=3.0)
+
+  plt.colorbar(im, cax=cax, orientation='horizontal')
+  plt.show()
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[69]:
+[[file:./obipy-resources/46264g2.png]]
+:END:
