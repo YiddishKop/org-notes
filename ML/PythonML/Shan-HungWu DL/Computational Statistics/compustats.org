@@ -1,0 +1,24 @@
+
+* Statistical inference
+
+using data from a sample to infer information about a population.
+
+Example: drug testing.
+#+BEGIN_QUOTE
+50 parients got a new pain-killer; 50 similar patients got an older drug.
+Mean self-reported pain scores were 4.1 for new drug and 4.5 for old drug.
+#+END_QUOTE
+
+Statistical inference address:
+1. how can we *estimate* the difference in effect of the drugs
+2. how can we quantify the *precision* of that estimate
+3. Is it possible that the apparent difference is *due to chance*
+
+Effect size:
+usually a single number, ideally comparable across studies.
+
+Confidence interval and/or standard error:
+quantifies the *precision* of the estimate.
+
+p-value:
+indicates *whether* the apparent effect might be *due to chance*.

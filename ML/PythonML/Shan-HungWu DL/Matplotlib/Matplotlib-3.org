@@ -129,7 +129,6 @@
 *** stackplot graph
     1. stackplot
 
-
 ** 2D Arrays and Images
    1. ax.imshow(data, ...) : Colormapped or RGB arrays
    2. pcolor/pcolormesh : Colormapped 2D arrays

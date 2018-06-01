@@ -1,0 +1,18 @@
+#+TITLE: Interpolation and Extrapolation
+
+
+* what is interpolation and extrapolation
+
+https://www.youtube.com/watch?v=c4_MJg_c49k
+
+
+interpolation is give a x between dataset's min_x and max_x and using the
+predict function( have got from the dataset) to predict the y of this x.
+
+extrapolation is give a x out the range of dataset's min_x and max_x and using
+the predict function( have got from the dataset) to predict the y of this x.
+
+who is better, of course the interpolation is better.
+
+because we don't know whether the function will change dramatically out the
+range of dataset.

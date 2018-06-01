@@ -1203,8 +1203,6 @@ WantedBy=multi-user.target
       6) reboot, DONE
    :END:
 
-
-
 * ubuntu
 ** how to install source-code-pro font
    Ubuntu 14.04:

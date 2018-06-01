@@ -1,0 +1,1197 @@
+#+TITLE: Effect size
+
+* Part I, Effect size #1
+  #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+    from __future__ import print_function, division
+
+    import numpy
+    import scipy.stats
+
+    import matplotlib.pyplot as pyplot
+
+    from ipywidgets import interact, interactive, fixed
+    import ipywidgets as widgets
+
+    # seed the random number generator so we all get the same results
+    numpy.random.seed(17)
+
+    # some nice colors from http://colorbrewer2.org/
+    COLOR1 = '#7fc97f'
+    COLOR2 = '#beaed4'
+    COLOR3 = '#fdc086'
+    COLOR4 = '#ffff99'
+    COLOR5 = '#386cb0'
+
+    %matplotlib inline
+  #+END_SRC
+  #+RESULTS:
+  :RESULTS:
+  # Out[129]:
+  :END:
+** summarization
+   >>>> If we have known the parameter of the distribution: $\mu, \sigma$
+*** what's this org note
+    Alternatives for comparing distributions:
+    - overlap
+    - misclassification rate
+    - probability of superiority
+    - cohen's effect size
+
+    Cohen's effect size: symmetric, standardized, comparable across studies
+
+*** how to plot a known distribution
+   #+BEGIN_QUOTE yiddi
+   If you want to see what's this distributions looks like, you should follow:
+   1. get ~rv~
+      - find the *distribution* you want in ~scipy.stats~, eg ~scipy.stats.norm~, ~scipy.stats.chi2~
+      - pass in the ~mean~ and ~std~, to get ~rv~ of this distribution.
+   2. compute ~(pdf(x), x)~
+      - sampling uniformly number(eg,100) of ~x~ around the ~mean~ by several ~std~ distance forth and back
+      - using ~rv.pdf(x)~ to compute ~pdf~ value for each ~x~, to get number(eg,100) of pairs ~(pdf(x),x)~
+   3. plotting
+      - plot the pairs getting from step-2.
+
+   If you want to smaple from some specified distribution, you should follow:
+   1. get ~rv~
+   2. generate ~ndarray~ (eg, 1000) of samples
+      - by ~rvs(1000)~  from this distribution
+   3. compute statistics
+      - ndarray.mean(), ndarray.std()
+   #+END_QUOTE
+
+*** the draw backs of difference of means
+   why using difference of means is bad to describe the difference of two distributions.
+   #+BEGIN_QUOTE yiddi
+   On average, men are 14--15 centimeters taller. For some applications, that would
+   be a good way to describe the difference, but there are a few problems:
+
+   1. Without knowing more about the *distributions* (like the standard deviations)
+      it's hard to interpret *whether* a difference like 15 cm is a *lot or not*.
+   2. The magnitude of the difference depends on the *units* of measure, making it
+      hard to *compare across different studies*.
+   #+END_QUOTE
+
+*** ways to quantify the difference between distributions
+   #+BEGIN_QUOTE
+   There are many ways to *express the difference between distributions* An
+     1. *difference in the means*
+     2. *relative percentage of the mean*.
+        -. difference_in_means is huge or tiny relative to male_sample mean.
+        -. difference_in_means is huge or tiny relative to female_sample mean.
+     3. *how much they overlap*.
+     4. *overlap -> misclassification rate*
+     5. *overlap -> probability of superiority*
+     6. *cohen's distance*
+   #+END_QUOTE
+
+** absolute difference vs. relative difference
+*** absolute difference in means
+**** backgroud, higher is male, lower is female
+   To explore statistics that quantify *effect size*, we'll look at the
+   difference in height between men and women. I used data from the Behavioral
+   Risk Factor Surveillance System (BRFSS) to estimate the mean and standard
+   deviation of height in cm for adult women and men in the U.S.
+
+**** produce two ~rv~ by give ~std~ and ~mean~ to ~scipy.stats.<distribution>~
+   Use ~scipy.stats.norm~ to represent the distributions. The result of this
+   function is an ~rv~ (random variable of certain distribution) object.
+
+   $Norm(\mu_1,\sigma_1) = Norm(178, 7.7)$
+   #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+     mu1, sig1 = 178, 7.7
+     male_height = scipy.stats.norm(mu1, sig1)
+   #+END_SRC
+
+   #+RESULTS:
+   :RESULTS:
+   # Out[136]:
+   :END:
+
+   $Norm(\mu_2,\sigma_2) = Norm(163, 7.3)$
+   #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+     mu2, sig2 = 163, 7.3
+     female_height = scipy.stats.norm(mu2, sig2)
+   #+END_SRC
+
+   #+RESULTS:
+   :RESULTS:
+   # Out[137]:
+   :END:
+
+**** produce the (x, pdf(x)) pairs for plotting
+   The following function evaluates the normal (Gaussian) probability density
+   function (PDF) within 4 std distance around the mean: $[\mu-4\sigma,
+   \mu+4\sigma]$.
+
+   It takes and ~rv~ object and returns ~a pair of NumPy arrays~, which used for
+   plotting latter.
+
+   #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+     def eval_pdf(rv, num=4):
+         mean, std = rv.mean(), rv.std()
+         print (mean, std)
+
+         #<- move 4*std distance forth and back around mean, to sample 100 points uniformly.
+         xs = numpy.linspace(mean - num*std, mean + num*std, 100) #<- x
+         ys = rv.pdf(xs)                                          #<- pdf(x)
+         return xs, ys
+   #+END_SRC
+
+   #+RESULTS:
+   :RESULTS:
+   # Out[151]:
+   :END:
+
+**** plot two distributions by samples
+    Here's what the two distributions look like.
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      xs, ys = eval_pdf(male_height)
+      pyplot.plot(xs, ys, label='male', linewidth=4, color=COLOR2)
+
+      xs, ys = eval_pdf(female_height)
+      pyplot.plot(xs, ys, label='female', linewidth=4, color=COLOR3)
+      pyplot.xlabel('height (cm)')
+    #+END_SRC
+
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[152]:
+    : Text(0.5,0,'height (cm)')
+    [[file:./obipy-resources/23471D9D.png]]
+    :END:
+
+**** sample(~rvs~) 1000 points from the two ~rv~
+    Let's *assume* for now that those are the *true distributions for the population*.
+
+    I'll use ~rvs~ to *generate random samples from the population distributions*.
+    Note that these are *totally random*, *totally representative* samples, with *no
+    measurement error*!
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      # both are `ndarray` with same shape (1000,)
+      male_sample = male_height.rvs(1000)
+      female_sample = female_height.rvs(1000)
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[150]:
+    :END:
+
+    Both samples are NumPy arrays. Now we can compute sample statistics like the
+    mean and standard deviation.
+
+**** compute the std and mean as true distribution
+    $Norm(\mu_1,\sigma_1) = Norm(178, 7.7)$  <- population mean and std
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      mean1, std1 = male_sample.mean(), male_sample.std() #<- sample mean and std
+      mean1, std1
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[140]:
+    [[file:./obipy-resources/234712rJ.png]]
+    :END:
+
+    The sample mean is close to the population mean, but not exact, as expected.
+
+    $Norm(\mu_2,\sigma_2) = Norm(163, 7.3)$ <- population mean and std
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      mean2, std2 = female_sample.mean(), female_sample.std() #<- sample mean and std
+      mean2, std2
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[141]:
+    [[file:./obipy-resources/23471D2P.png]]
+    :END:
+
+    And the results are similar for the female sample.
+
+**** express the difference of distributions by difference in means
+    Now, there are many ways to describe the magnitude of the difference between
+    these distributions. An obvious one is the difference in the means:
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      difference_in_means = male_sample.mean() - female_sample.mean()
+      difference_in_means # in cm
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[142]:
+    [[file:./obipy-resources/23471QAW.png]]
+    :END:
+
+**** why using difference of means is bad to describe the difference of two distributions.
+    #+BEGIN_QUOTE yiddi
+    On average, men are 14--15 centimeters taller. For some applications, that would
+    be a good way to describe the difference, but there are a few problems:
+
+    1. Without knowing more about the *distributions* (like the standard deviations)
+       it's hard to interpret *whether* a difference like 15 cm is a *lot or not*.
+    2. The magnitude of the difference depends on the *units* of measure, making it
+       hard to *compare across different studies*.
+    #+END_QUOTE
+
+*** relative percentage of difference
+    There are a number of ways to *quantify the difference between distributions*. A
+    simple option is to *express the difference as a percentage of the mean*.
+
+    - difference_in_means is huge or tiny relative to male_sample mean.
+    - difference_in_means is huge or tiny relative to female_sample mean.
+
+    what is the relative difference in means, expressed as a percentage?
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      # diff_perctg_mean = difference_in_means/male_sample.mean() - difference_in_means/female_sample.mean()
+      # diff_perctg_mean
+      diff_perctg_male_mean = difference_in_means/male_sample.mean() * 100
+      diff_perctg_female_mean = difference_in_means/female_sample.mean() * 100
+      print (diff_perctg_male_mean)
+      print (diff_perctg_female_mean)
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[156]:
+    :END:
+
+** relative difference vs. overlap
+*** overlap
+   An alternative way to *express the difference between distributions* is to
+   see *how much they overlap*. To define overlap, we choose a threshold between
+   the two means. The simple threshold is the midpoint between the means:
+**** choose the threshold
+   #+BEGIN_QUOTE
+   .
+   .  $threshold_1 = (\mu_1 + \mu_2)/2$
+   .                                    .the mean of ~mu1~ and ~mu2~,
+   .                                    |and if number of male_sample not same with female_sample
+   .                                    |this mean should change to ~weighted mean~
+   .                        ....        |
+   .                      .   |  .      |  ........|.....
+   .                    .     |   .     |.         |      .
+   .                   .      |    .   .|          |        .
+   .                  .       |     . . |          |         .
+   .                 .        |      .. |          |          .
+   .                .         |     .   |.         |            .
+   .               .          |    .    | .        |             .
+   .                          |   .     |   ..     |               .
+   .              ----------------------*---------------------------->
+   .                         $\mu_1$                  $\mu_2$
+   .                                    |
+   .                               1st-kind threshold
+   .
+   .
+   .  $threshold_2 =  (\sigma_1\mu_2 + \sigma_2\mu_1) / (\sigma_1+\sigma_2)$
+   .
+   .                                 .the cross point of two ~pdf~
+   .                        ....     |
+   .                      .   |  .   |    ........|.....
+   .                    .     |   .  |  .         |      .
+   .                   .      |    . | .          |        .
+   .                  .       |     .|.           |         .
+   .                 .        |      *.           |          .
+   .                .         |     .|  .         |            .
+   .               .          |    . |   .        |             .
+   .                          |   .  |     ..     |               .
+   .              -------------------*------------------------------->
+   .                         $\mu_1$                  $\mu_2$
+   .                                 |
+   .                               2st-kind threshold
+   .
+   .
+   .  $relativeDiff_{male} = overlapNum_{male} / sampleNum_{male}$
+   .  $relativeDiff_{female} = overlapNum_{female} / sampleNum_{female}$
+   .
+   .                                         ....        |
+   .                               female  .   |  .      | ........|..... male
+   .                                     .     |   .     |.        |      .
+   .                                    .      |    .   .|         |        .
+   .                                   .       |     . . |         |         .
+   .                                  .        |      .. |         |          .
+   .                                 .         |     .   |.        |            .
+   . this is the number of male     .          |    . threshold    |             .                   this is the number of female
+   . miss-classified to female                 |   .     v   ..    |               .                 miss-classified to male
+   . if judge sex by hight         -.--------------------*-------------------------.---->            if judge sex by hight
+   .         |                      .              ------------      *overlap regio.n*                       |
+   .         |                      .              |     |    |                    .                         |
+   .         +----->   how many *sam.ple_male*     ------ =====       how many *sam.ple_female*   <----------.
+   .                   in this regio.n                 .    .        in this region.
+   .                                .                  .    v                      .
+   .                                ===========================     compare with nu.mber of all *sample_female*
+   .                                                   .                           .           |
+   .                                                   v                           .           |
+   .                   compare with number         ---------------------------------           |
+   .                   of all *sample_male*                                                    |
+   .                          |                                                                |
+   .                          v                                                                v
+   .                    relative differentce by ( respective overlap number  / respective whole sample number )
+   .
+   #+END_QUOTE
+
+   one kind of threshold:  $threshold = (\mu_1 + \mu_2)/2$
+   #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+     simple_thresh = (mean1 + mean2) / 2
+     simple_thresh
+   #+END_SRC
+
+   #+RESULTS:
+   :RESULTS:
+   # Out[157]:
+   [[file:./obipy-resources/23471dYE.png]]
+   :END:
+
+   A better, but slightly more complicated threshold is the place where the PDFs
+   cross.
+
+   aother kind of threshold: $threshold =  (\sigma_1\mu_2 + \sigma_2\mu_1) / (\sigma_1+\sigma_2)$
+   #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+     thresh = (std1 * mean2 + std2 * mean1) / (std1 + std2)
+     thresh
+   #+END_SRC
+
+   #+RESULTS:
+   :RESULTS:
+   # Out[158]:
+   [[file:./obipy-resources/23471qiK.png]]
+   :END:
+
+**** threshold2 is similar to pooled std in cohen's effect size
+     threshold1 is average of mean; threshold2 is some like the weighted average
+     of mean; pooled std is weighted average of std.
+
+     $threshold_2 =  (\sigma_1\mu_2 + \sigma_2\mu_1) / (\sigma_1+\sigma_2)$
+
+     $threshold_2 = \frac {\sigma_1\mu_2} {\sigma_1+\sigma_2} + \frac {\sigma_2\mu_1} {\sigma_1+\sigma_2}$
+
+
+     $s_{pooled} = \sqrt{\frac{(n_1-1) s^2_1 + (n_2-1) s^2_2 + ... + (n_k-1)s^2_k}{n_1+n_2+...+n_k - k}}$
+
+
+     $s_{pooled} = \sqrt{\frac{(n_1-1)}{n_1+n_2+...+n_k - k} s^2_1 + \frac{(n_2-1)}{n_1+n_2+...+n_k - k} s^2_2 + ...}$
+
+*** the ~miss-classification rate~
+    Concentrate on miss-classified part of overlap
+
+    Judging the sex by hight: "the higher is male".
+    1. randomly pick one man from male group
+    2. randomly pick one woman from female group
+    3. misc them, then judge the sex by hight
+    4. what is the miss-classification rate
+
+    This is what's called miss-classification rate.
+
+    #+BEGIN_QUOTE
+    I you get two distributions that are wildly different and practically
+    ~nobody in between~, then *you can tell me which group you're in*,
+    miss-classification rate is 0%
+
+    .
+    .               .......                              .....
+    .            ....   | ..                         .....  |..
+    .           ..      |  ..                       ..      | ...
+    .          ..       |   ..                     ..       |   ..
+    .         ..        |    ..                  ...        |    ..
+    .        ..         |     ..                ..          |     ..
+    .        .          |      ..              ..           |      ..
+    .       ------------+-----------------------------------+-------------->
+    .
+
+    If there's a lot of overlap, then the miss-classification rate would be high.
+
+    .
+    .               ....|..  ..|..
+    .            ....   | ...  | .
+    .           ..     .|....  | ..
+    .          ..    .. |   .. |  ....
+    .         ..   ..   |    ..|     ..
+    .        ..   ..    |     .|      ..
+    .        .   ..     |      |.      ..
+    .       ------------+----------------->
+    .
+    #+END_QUOTE
+
+    here is the simple way to compute the ~miss-classification~ rate
+
+    In this example, there's not much difference between the two thresholds.
+    Now we can count how many men are below the threshold:
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      male_below_thresh = sum(male_sample < thresh)
+      male_below_thresh
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[159]:
+    : 157
+    :END:
+
+    And how many women are above it:
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      female_above_thresh = sum(female_sample > thresh)
+      female_above_thresh
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[160]:
+    : 138
+    :END:
+
+    The "overlap" is the area under the curves that ends up on the wrong side of
+    the threshold.
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      male_overlap = male_below_thresh / len(male_sample)
+      female_overlap = female_above_thresh / len(female_sample)
+      male_overlap, female_overlap
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[161]:
+    [[file:./obipy-resources/234713sQ.png]]
+    :END:
+
+    In practical terms, you might report the fraction of people who would be
+    misclassified if you tried to use height to guess sex, which is the average
+    of the male and female overlap rates:
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      misclassification_rate = (male_overlap + female_overlap) / 2
+      misclassification_rate
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[162]:
+    [[file:./obipy-resources/23471E3W.png]]
+    :END:
+
+*** the probability of superiority
+    Concentrate on *well-classified part of overlap*
+
+    Judging the sex by hight: "the higher is male".
+    1. randomly pick one man from male group
+    2. randomly pick one woman from female group
+    3. misc them, then judge the sex by hight
+    4. what is the *well-classification* rate
+
+    This is what's called "*probability of superiority*",in this context it's
+    the probability that a randomly-chosen man is taller than a randomly-chosen
+    woman.
+
+    Suppose I choose a man and a woman at random. What is the probability that
+    the man is taller?
+
+    HINT: You can zip the two samples together and count the number of pairs
+    where the male is taller, or use NumPy array operations.
+
+    #+NAME: The answer I think is right
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      count = 0
+      for i in male_sample:
+          count = count + female_sample[female_sample<i].size
+          print (count)
+          count / (male_sample.size * female_sample.size)
+    #+END_SRC
+
+    but the answer given by profesor is below:
+    #+NAME: The standard answer given by professor.
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      # both are right
+      sum(x > y for x, y in zip(male_sample, female_sample)) / len(male_sample)
+      (male_sample > female_sample).mean()
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[172]:
+    [[file:./obipy-resources/23471RIR.png]]
+    :END:
+
+*** advantages of ~mis-classification rate~ and ~probability of superiority~
+    Overlap (or misclassification rate) and "probability of superiority" have two
+    good properties:
+    #+BEGIN_QUOTE
+    1. As probabilities, they don't depend on units of measure, so they are comparable
+    between studies.
+
+    2. They are expressed in operational terms, so a reader has a sense of what
+    practical effect the difference makes.
+    #+END_QUOTE
+
+** Cohen's effect size + pooled std
+   There is one other common way to express the difference between
+   distributions. Cohen's $d$ is the *difference in means*, standardized by
+   *dividing by the standard deviation*. --- How many std one means should shift
+   to get to another means. Here's the math notation:
+
+   $d = \frac{\bar{x}_1 - \bar{x}_2} s$
+
+   where $s$ is the pooled standard deviation:
+
+   $s = \sqrt{\frac{n_1 s^2_1 + n_2 s^2_2}{n_1+n_2}}$
+
+*** Cohen's $d$ has a few nice properties:
+    #+BEGIN_QUOTE
+    1. Because mean and standard deviation have the same units, their ratio is
+    dimensionless, so we can compare $d$ across different studies.
+
+    2. In fields that commonly use $d$, people are calibrated to know what values
+    should be considered big, surprising, or important.
+
+    3. Given $d$ (and the assumption that the distributions are normal), you can
+    compute mis-classification rate, overlap, superiority, and related statistics.
+    #+END_QUOTE
+
+    In summary, the best way to report effect size depends on the audience and your
+    goals. There is often a tradeoff between summary statistics that have good
+    technical properties and statistics that are meaningful to a general audience.
+
+*** cohen's $d$ in numpy
+    n1 + n2 is the number of degrees of freedom of pooled std.
+    Here's a function that computes it:
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      def CohenEffectSize(group1, group2):
+          """Compute Cohen's d.
+
+          group1: Series or NumPy array
+          group2: Series or NumPy array
+
+          returns: float
+          """
+          diff = group1.mean() - group2.mean()
+
+          n1, n2 = len(group1), len(group2)
+          var1 = group1.var()
+          var2 = group2.var()
+
+          pooled_var = (n1 * var1 + n2 * var2) / (n1 + n2)
+          d = diff / numpy.sqrt(pooled_var)
+          return d
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[281]:
+    :END:
+
+    Computing the denominator is a little complicated; in fact, people have proposed
+    several ways to do it. This implementation uses the "pooled standard deviation",
+    which is a weighted average of the standard deviations of the two groups.
+
+    And here's the result for the difference in height between men and women.
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      CohenEffectSize(male_sample, female_sample)
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[282]:
+    [[file:./obipy-resources/23471SQM.png]]
+    :END:
+
+    Most people don't have a good sense of how big $d=1.9$ is, so let's make a
+    visualization to get calibrated.
+
+*** comput mis-classification rate and probability of superiority
+    Here's a function that encapsulates the code we already saw for computing
+    overlap and probability of superiority.
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      def overlap_superiority(control, treatment, n=1000):
+          """Estimates overlap and superiority based on a sample.
+
+          control: scipy.stats rv object
+          treatment: scipy.stats rv object
+          n: sample size
+          """
+          control_sample = control.rvs(n)
+          treatment_sample = treatment.rvs(n)
+          thresh = (control.mean() + treatment.mean()) / 2
+
+          control_above = sum(control_sample > thresh)
+          treatment_below = sum(treatment_sample < thresh)
+          overlap = (control_above + treatment_below) / n
+
+          superiority = (treatment_sample > control_sample).mean()
+          return overlap, superiority
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[283]:
+    :END:
+
+*** plot the cohen's $d$ under normal distribution
+    Here's the function that takes Cohen's $d$, plots normal distributions with the
+    given effect size, and prints their overlap and superiority.
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      def plot_pdfs(ax,cohen_d=2):
+          """Plot PDFs for distributions that differ by some number of stds.
+
+          cohen_d: number of standard deviations between the means
+          """
+          control = scipy.stats.norm(0, 1)            #<- mean=0, std=1
+          treatment = scipy.stats.norm(cohen_d, 1)    #<- mean=2, std=1
+          xs, ys = eval_pdf(control)                  #<- sampling 1000 points(x,y) in [mean-4std, mean+4std] of control group;
+          ax.fill_between(xs, ys, label='control', color=COLOR3, alpha=0.7)
+
+          xs, ys = eval_pdf(treatment)                #<- sampling 1000 points(x,y) in [mean-4std, mean+4std] of experiment group;
+          ax.fill_between(xs, ys, label='treatment', color=COLOR2, alpha=0.7)
+
+          o, s = overlap_superiority(control, treatment)
+          ax.text(0, 0.05, 'overlap ' + str(o))
+          ax.text(0, 0.15, 'superiority ' + str(s))
+          # pyplot.show()
+          # print('overlap', o)
+          # print('superiority', s)
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[319]:
+    :END:
+
+    Here's an example that demonstrates the function:
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      fig,ax = plt.subplots()
+      plot_pdfs(ax, 2)
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[320]:
+    [[file:./obipy-resources/23471hVs.png]]
+    :END:
+
+    #+BEGIN_QUOTE
+    And an interactive widget you can use to visualize what different values of $d$
+    mean:
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      slider = widgets.FloatSlider(min=0, max=4, value=2)
+      interact(plot_pdfs, cohen_d=slider)
+      None
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    0 - 162298c6-fe68-4315-8d7a-d3266da53653
+    :END:
+
+    #+END_QUOTE
+
+*** plot different cohen's $d$
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      fig, axes = plt.subplots(nrows = 1, ncols = 3, figsize=(20,5))
+      plot_pdfs(axes[0], 1)
+      plot_pdfs(axes[1], 2)
+      plot_pdfs(axes[2], 3)
+      axes[0].set_label('df=1')
+      axes[1].set_label('df=2')
+      axes[2].set_label('df=3')
+      plt.show()
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[322]:
+    [[file:./obipy-resources/23471gpB.png]]
+    :END:
+
+* Misc tools
+** Statistics
+*** variance and standard deviation
+    var = $S^2$
+    std = $S$
+*** smaple std is unbiased estmation of population std
+    $Var(X) = E(X^2) - [E(X)]^2$
+
+    variance of x = x square's expectation - x's expectation's square
+
+    E of linear combination of x = linear combination of E of x
+    $E(\sum{X_i}) = \sum{E(X_i)}$
+    $E(cX) = cE(X)$
+*** degrees of freedom
+    https://www.youtube.com/watch?v=VIlVWeUQ0vs
+    https://www.youtube.com/watch?v=9ONRMymR2Eg
+
+    d.f. : the amount of values within a system that are free to vary.
+
+*** simple cohen's d
+    https://www.youtube.com/watch?v=tTgouKMz-eI
+    1. control group and experimental group
+    2. small/medium/large effect: cohen's d ∈  [-infinite , 0.2], (0.2, 0.5], [0.5, +infinite]
+    3. cohen's d is distance of two distributions measured in std
+
+*** what is pooled standard deviation
+    https://www.youtube.com/watch?v=xsltS41PZW0
+    https://www.youtube.com/watch?v=DM_zf85PYic
+
+**** backgroud, what is pooled std used for
+     When refering to "determin precision", means "repeatability", "with-in-lab
+     long-term reproducibility". It's important to make many parallel
+     measurements and in fact, the more we make, the better estimate of
+     precision we get.
+
+     Some experiment is not easy to make many parallel meansurements especially
+     not within a short time area, for example, chemical experiment.
+
+     If it's impossible to make many repreated measurements with the same
+     sample. Then precision can be estimated during longer time in the form of
+     pooled standard deviation
+
+     Statistical tool: pooled standard deviation ENTER!
+
+**** usage of pooled std
+     Note that: the stds at divisor should similar with each other, if not,
+     pooled std give less meanning.
+
+     can be used for:
+     - repreatability
+     - within-lab reproducibility
+
+**** formuala of pooled std
+     #+BEGIN_QUOTE
+     $s_{pooled} = \sqrt{\frac{(n_1-1) s^2_1 + (n_2-1) s^2_2 + ... + (n_k-1)s^2_k}{n_1+n_2+...+n_k - k}}$
+
+     $n_k$ is number of measurements for sample k
+     $s_k$ is the k-th sample we do experiment.
+     $n_1+n_2+...+n_k - k$ is the degrees of freedom
+
+     #+END_QUOTE
+
+**** some interpretations about pooled std
+     1. Pooled std is a *weighted mean* of all samples' std:
+        $s_{pooled} = \sqrt{\frac{(n_1-1) s^2_1 + (n_2-1) s^2_2 + ... + (n_k-1)s^2_k}{n_1+n_2+...+n_k - k}}$
+        $s_{pooled} = \sqrt{\frac{(n_1-1)}{n_1+n_2+...+n_k - k} s^2_1 + \frac{(n_2-1)}{n_1+n_2+...+n_k - k} s^2_2 + ...}$
+
+     2. *MANY... ONE...* simulate *ONE... MANY...*.
+        using many samples' several meansurements simulate ONE sample's many times
+        meansurements
+
+**** why pooled std maybe better than normal std
+     1. maybe pooled is better than regular.
+        slightly changes in samples will be counted in the pooled std.
+        in some level this is more reliable than we do many experiments using ONE sample.
+        because we take some unstable properties of this kind of sample into account in pooled std.
+        this is the formula we take the many stds' average.
+
+     2. maybe pooled is better than regular.
+        we may collect our samples in different days, and do experiments in different days too.
+        then we take average, we can get some average situtation in our lab, instrument we do
+        experiment may good or not so good. It takes *enviroment* and *time-range* into account.
+
+     3. In contrast, ONE sample, MANY experiments, in ONE day. maybe not so reliable, for future use.
+
+**** example of using pooled std
+     Note, that here what followed is a youtube lecture video called
+     <<Estimation uncertainty in chemical analysis>>, means doing the experiment
+     using one sample
+
+     if we choose the '$n_k$' of *pooled std* properly, we can get a more clealy
+     comparing with *normal std*, assume:
+     - we get 4 sample in 4 days
+       - 1st day, 1st sample, do 4 meansurements
+       - 2st day, 2st sample, do 3 meansurements
+       - 3st day, 3st sample, do 5 meansurements
+       - 4st day, 4st sample, do 2 meansurements
+     - $n_1+n_2+...+n_k - k = 4+3+5+2-4=10$ degrees of freedom
+     - this degrees of freedom is equall to the freedom of doing 11 times of
+       meansurements on the same ONE sample
+
+       #+BEGIN_QUOTE
+       .
+       .   sample
+       .      ^
+       .      |
+       .      |
+       .     4.                           **
+       .      |
+       .      |
+       .     3.                   ***
+       .      |                   **
+       .      |
+       .     2.            **
+       .      |             *
+       .      |
+       .     1.     **
+       .      |     **
+       .      |
+       .    --+------.------.------.------.------------>
+       .      |      1      2      3      4    days
+
+       #+END_QUOTE
+
+** Numpy
+*** np.random.permutation(x)
+    np.random.permutation(x) x can be number or array-like
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      np.random.permutation(10) # <- a random ndarray with 0 ~ 9 inside
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[167]:
+    : array([9, 2, 7, 6, 5, 3, 4, 8, 1, 0])
+    :END:
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      np.random.permutation([1,2,3,4,5,6]) # <- random permutation with elements given as array
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[168]:
+    : array([1, 5, 2, 3, 6, 4])
+    :END:
+*** np.random.shuffle()
+    shuffle 的参数只能是 array_like，而 permutation 除了 array_like 还可以是 int 类
+    型，如果是 int 类型，那就随机打乱 numpy.arange(int)。shuffle 返回 None，这点尤其
+    要注意，也就是说没有返回值，而 permutation 则返回打乱后的 array。
+
+    | np.random.shuffle(x)            | np.random.permutation(x)                   |
+    |---------------------------------+--------------------------------------------|
+    | in-place(change original array) | out-place(return a new random-order array) |
+    | x ONLY allow array-like         | x both array-like and int                  |
+*** np.sum(booleanArray)
+    ~np.sum(booleanArray)~ will count the number of ~True~ value, means:
+    - ~True~ as 1.
+    - ~False~ as 0.
+
+    #+BEGIN_QUOTE
+    .     [1,   2,   3,   4,   5]  > 3
+    .   = [F,   F,   F,   T,   T]
+    .
+    .     np.sum ([F,   F,   F,   T,   T])
+    .   = np.sum ([0,   0,   0,   1,   1])
+    .   = 1 + 1
+    .   = 2
+    #+END_QUOTE
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      arrInt = np.array([1,2,3,4,5])
+      arrIntLargeThan30 = np.sum(arrInt > 3)
+      arrIntLargeThan30
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[186]:
+    : 2
+    :END:
+
+*** booleanArray.mean()
+    When apply mathematical operation on boolean array, NumPy always think ~True~ as ~1~,  ~False~ as ~0~
+    #+BEGIN_QUOTE
+    .     [1,   2,   3,   4,   5]  > 3
+    .   = [F,   F,   F,   T,   T]
+    .
+    .     [F,   F,   F,   T,   T].mean()
+    .   = [0,   0,   0,   1,   1].mean()
+    .   = 2 / 5
+    .   = 0.4
+    #+END_QUOTE
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      arr_int = np.array([1,2,3,4,5])
+      print ( arr_int > 3 )
+      print((arr_int > 3).mean())
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[185]:
+    :END:
+*** permutation and combination in numpy
+**** do permutation using numpy
+     np.random.permutation(x)
+     #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+       np.random.permutation(10) # <- a random ndarray with 0 ~ 9 inside
+     #+END_SRC
+
+     #+RESULTS:
+     :RESULTS:
+     # Out[167]:
+     : array([9, 2, 7, 6, 5, 3, 4, 8, 1, 0])
+     :END:
+
+     #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+       np.random.permutation([1,2,3,4,5,6]) # <- random permutation with elements given as array
+     #+END_SRC
+
+     #+RESULTS:
+     :RESULTS:
+     # Out[168]:
+     : array([1, 5, 2, 3, 6, 4])
+     :END:
+
+**** do combination using np.itertools.product
+     two methods in numpy can do combination:
+     1. cartesian ~product~ : itertools.product(arr1, arr2, arr3)
+     2. ~meshgrid~ or ~mgrid~ : [[file:~/org-notes/ML/PythonML/Shan-HungWu%20DL/Matplotlib/Matplotlib-4.org::*np.mgrid%20vs.%20meshgrid%20vs.%20ogrid][np.mgrid vs. meshgrid vs. ogrid]]
+
+     method-1:
+     #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+       from numpy import *
+       import itertools
+       %timeit np.array([x for x in itertools.product(arange(2), arange(3))])
+       [x for x in itertools.product(arange(2), arange(3))]
+     #+END_SRC
+
+     #+RESULTS:
+     :RESULTS:
+     # Out[226]:
+     : [(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2)]
+     :END:
+**** do combination using np.meshgrid + np.dstack.reshape
+     two methods in numpy can do combination:
+     1. cartesian ~product~ : itertools.product(arr1, arr2, arr3)
+     2. ~meshgrid~ or ~mgrid~ : [[file:~/org-notes/ML/PythonML/Shan-HungWu%20DL/Matplotlib/Matplotlib-4.org::*np.mgrid%20vs.%20meshgrid%20vs.%20ogrid][np.mgrid vs. meshgrid vs. ogrid]]
+
+     method-2:
+     #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+       xarr, yarr = np.meshgrid(np.arange(0,5), np.arange(5,9))
+       comb = np.dstack((xarr, yarr)).reshape(-1, 2) # <- will keep the last dimension to 2
+       #    and leave the other dimensions
+       #    computed automatically by numpy
+       print (comb)
+     #+END_SRC
+
+     #+RESULTS:
+     :RESULTS:
+     # Out[280]:
+     :END:
+
+*** stack vs. dstack vs. vstack vs. hstack vs concatnate
+**** the 3 perspective to see all stack methods
+     There are 3 component, by which can judge the action of various kinds of 'stack'
+     methods:
+     1. *see: until which level see as whole ( comma',')*
+     2. *direction: vertical or horizontal*
+     3. *manner: append or insert*
+
+     [NOTE] stack methods all take in *tuple of array* as parameter
+
+     |                      | stack_0((A,B))                       | stack_1((A,B))     | vstack((A,B))        | hstack ((A,B))     | dstack ((A,B))                  |
+     |----------------------+--------------------------------------+--------------------+----------------------+--------------------+---------------------------------|
+     | priciple of format   | change line whenever see ','         | <""                | <""                  | <""                | <""                             |
+     |----------------------+--------------------------------------+--------------------+----------------------+--------------------+---------------------------------|
+     | see                  | see A(orB) 1st-level comma as [_,_,] | <""                | <""                  | <""                | 3rd level comma:[[[,],[,]]]     |
+     | direction            | A v+ B                               | A h+ B             | A v+ B               | A h+ B             | A h+ B                          |
+     | manner               | insert                               | insert             | append               | append             | append                          |
+     |                      | at whole level [A,B]                 | at 1st comma level | at whole level [A,B] | at 1st comma level | at 3rd comma level              |
+     |----------------------+--------------------------------------+--------------------+----------------------+--------------------+---------------------------------|
+     | perspective          | [,,] v+ [,,] => [[],[]]              | <""                | [,,] v+ [,,]=> [,,]  | <""                | [[[,],]] + [[[,],]] => [[[,],]] |
+     |----------------------+--------------------------------------+--------------------+----------------------+--------------------+---------------------------------|
+     | create new dimension | create                               | create             | no                   | no                 | no                              |
+
+**** 4 stacks principle
+     #+NAME: how 4 stacks compute
+     #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+       sts0 = np.stack(([[1,2],[3,4]], [[5,6],[7,8]]), axis=0)
+       sts1 = np.stack(([[1,2],[3,4]], [[5,6],[7,8]]), axis=1)
+       stv = np.vstack(([[1,2],[3,4]], [[5,6],[7,8]]))
+       sth = np.hstack(([[1,2],[3,4]], [[5,6],[7,8]]))
+       print( sts0)
+       print( sts1)
+       print( stv )
+       print( sth )
+     #+END_SRC
+
+     #+BEGIN_QUOTE  stack_0 stack_1 vstack hstack
+     . the lowest level Array is unit, do stack
+     .
+     .                /  stack_0
+     .               |    [A, + [C,      [[A,           [[[1 2],
+     .               |     B]    D] ===>   B],    ===>    [3 4]],
+     .               |                    [C,            [[5 6],
+     .               |                     D]]            [7 8]]]
+     .               |
+     .   A:          |
+     .   [[1,2],     |    stack_1
+     .    [3,4]]     |    [A, + [C,       [[A,          [[[1 2]
+     .   B:       -->|     B]    D] ===>    C],   ===>    [5 6]]
+     .   [[5,6],     |                     [B,           [[3 4]
+     .    [7,8]]     |                      D]]           [7 8]]]
+     .               |
+     .               |
+     .               |    vstack
+     .               |                    [A,           [[1 2]
+     .               |    [A, + [C,        B,            [3 4]
+     .               |     B]    D] ===>   C,     ===>   [5 6]
+     .               |                     D]            [7 8]]
+     .               |
+     .               |
+     .               |    hstack
+     .               |    [A, + [C,      [AC,           [[1 2 5 6]
+     .                \   B]    D] ===>  BD]     ====>  [3 4 7 8]]
+     .
+     #+END_QUOTE
+
+**** dstack principle
+     #+NAME: how dstack(A,B) compute
+     #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+       stx = np.dstack(([[1,2],[3,4]], [[5,6],[7,8]]))
+       stxx = np.dstack(([[[1],[2]],[[3],[4]]], [[[5],[6]],[[7],[8]]]))
+       print(stx)
+       print(stxx)
+     #+END_SRC
+     #+BEGIN_QUOTE dstack
+     .
+     .   A:
+     .   [[1,2],        [[[1],                [[[5],           [[[1,5],
+     .    [3,4]]  ===>    [2]],      h+         [6]],   ===>     [2,6]],
+     .   B:              [[3],     (append     [[7],            [[3,7],
+     .   [[5,6],          [4]]]     at 3rd      [8]]]            [4,8]]]
+     .    [7,8]]                    level)
+     .
+     #+END_QUOTE
+
+**** 5 stacks method's result's shape
+     #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+       st1=np.dstack(([1,2,3], [4,5,6]))         # 1*3,1*3=1*3*2
+       st2=np.stack(([1,2,3], [4,5,6]), axis=0)  # 1*3,1*3=2*3
+       st22=np.stack(([1,2,3], [4,5,6]), axis=1) # 1*3,1*3=3*2
+       st3=np.hstack(([1,2,3], [4,5,6]))         # 1*3,1*3=6
+       st4=np.vstack(([1,2,3], [4,5,6]))         # 1*3,1*3=2*3
+       st5=np.concatenate(([1,2,3], [4,5,6]))    # 1*3,1*3=6
+       print (st1.shape)
+       print (st2.shape)
+       print (st22.shape)
+       print (st3.shape)
+       print (st4.shape)
+       print (st5.shape)
+       print (st1)
+       print (st2)
+       print (st22)
+       print (st3)
+       print (st4)
+       print (st5)
+     #+END_SRC
+
+
+
+*** numpy.tile(A,B) vs. numpy.repeat(A,B)
+**** np.title(A,B)
+     ~tile(A, B)~
+     - *A,B don't need* to be same shape.see A as an unit and create a B using A as
+       unit.
+
+     #+BEGIN_QUOTE title(A, B)
+     .
+     .                                     shape(2,5,1)
+     .           tile([1,2], [2,5,1])      [[[___],       [[[1, 2],
+     .         +------------------------->   [___],         [1, 2],
+     .         |                             [___],         [1, 2],
+     .      [1,2]                            [___],         [1, 2],
+     .                                       [___]],  ==>   [1, 2]],
+     .                                      [[___],        [[1, 2],
+     .                                       [___],         [1, 2],
+     .                                       [___],         [1, 2],
+     .                                       [___],         [1, 2],
+     .                                       [___]]])       [1, 2]]]
+
+     .                                     shape(2,5,3)
+     .           tile([1,2], [2,5,3])      [[[___,___,___],      [[[1, 2, 1, 2, 1, 2],
+     .         +------------------------->   [___,___,___],        [1, 2, 1, 2, 1, 2],
+     .         |                             [___,___,___],        [1, 2, 1, 2, 1, 2],
+     .      [1,2]                            [___,___,___],        [1, 2, 1, 2, 1, 2],
+     .                                       [___,___,___]],  ==>  [1, 2, 1, 2, 1, 2]],
+     .                                      [[___,___,___],       [[1, 2, 1, 2, 1, 2],
+     .                                       [___,___,___],        [1, 2, 1, 2, 1, 2],
+     .                                       [___,___,___],        [1, 2, 1, 2, 1, 2],
+     .                                       [___,___,___],        [1, 2, 1, 2, 1, 2],
+     .                                       [___,___,___]]])      [1, 2, 1, 2, 1, 2]]]
+     .
+     #+END_QUOTE
+
+**** np.repeat(A,B)
+     ~repeat(A, B)~
+     - if B is a number, copy each element of A B times.
+     - if B is an array, A,B must be same shape. copy each elemnt of A by time at
+       related location of elemnt of B times.
+
+     #+BEGIN_QUOTE
+     .
+     .               copy  '2'    '5' times
+     .                      |      |
+     .                      v      v
+     . [1,2] ---- repeat([1,2], [2,5]) ---->  [1,1,2,2,2,2,2]
+     .                    ^      ^             --- ---------
+     .                    |      |
+     .              copy '1'    '2'  times
+
+     #+END_QUOTE
+
+     #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+       rpt1 = np.tile([1,2], 4)
+       rpt2 = np.repeat([1,2], 4)
+       rpt3 = np.tile([1,2], [2,5])
+       rpt31 = np.tile([1,2], [2,5,1])  # create a [2,5,3]-shape array,using unit [1,2]
+       rpt32 = np.tile([1,2], [2,5,3])  # create a [2,5,3]-shape array,using unit [1,2]
+       rpt4 = np.repeat([1,2], [2,5])   # copy 1,2 respectively 2,5,1 times.
+       rpt1, rpt2, rpt3, rpt31, rpt32 ,rpt4
+     #+END_SRC
+
+     #+RESULTS:
+     :RESULTS:
+     # Out[250]:
+     #+BEGIN_EXAMPLE
+       (array([1, 2, 1, 2, 1, 2, 1, 2]),
+       array([1, 1, 1, 1, 2, 2, 2, 2]),
+       array([[1, 2, 1, 2, 1, 2, 1, 2, 1, 2],
+       [1, 2, 1, 2, 1, 2, 1, 2, 1, 2]]),
+       array([[[1, 2],
+       [1, 2],
+       [1, 2],
+       [1, 2],
+       [1, 2]],
+
+       [[1, 2],
+       [1, 2],
+       [1, 2],
+       [1, 2],
+       [1, 2]]]),
+       array([[[1, 2, 1, 2, 1, 2],
+       [1, 2, 1, 2, 1, 2],
+       [1, 2, 1, 2, 1, 2],
+       [1, 2, 1, 2, 1, 2],
+       [1, 2, 1, 2, 1, 2]],
+
+       [[1, 2, 1, 2, 1, 2],
+       [1, 2, 1, 2, 1, 2],
+       [1, 2, 1, 2, 1, 2],
+       [1, 2, 1, 2, 1, 2],
+       [1, 2, 1, 2, 1, 2]]]),
+       array([1, 1, 2, 2, 2, 2, 2]))
+     #+END_EXAMPLE
+     :END:
+
+** Matplotlib
+*** plt.fill_between(alpha=0.7)
+    ~alpha~ here is the transparency
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      fig, axes = plt.subplots()
+      xspc = np.linspace(-10, 20, 1000)
+      yspc1 = xspc**2 + 2*xspc + 1
+      yspc2 = 15*xspc + 1
+      axes.fill_between(xspc,yspc1, color = 'lightblue', alpha=0.5) # <- alpha here is the transparency
+      axes.fill_between(xspc,yspc2, color = 'grey', alpha=0.5)      # <- alpha here is the transparency
+      axes.set_xlim(-10, 20)
+      plt.show()
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[302]:
+    [[file:./obipy-resources/23471tlf.png]]
+    :END:

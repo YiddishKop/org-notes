@@ -1,0 +1,1421 @@
+#+TITLE: Quantifying precision
+
+* Part II: Quantifying precision
+** background
+I have measure the effect size and I'm going to tell you that the Cohen's effect
+size is 2, or I'm going to tell you that the LOR(log odds ratio) is 0.8, and you
+want to know *how good is my estimate*.
+
+Suppose you want to know the distribution of weight for adults in U.S. you do a
+telephone survey using random numbers from the phone book. whoever answers the
+phone, you ask for their weight and write down the answer.
+
+And then, ask what could possibly go wrong. Maybe this stastical experimental
+has the following drawbacks:
+1. Lier.
+2. Work at Home.
+3. Not have a phone at home.
+   | sampling bias    | measurement error      | random error                |
+   |------------------+------------------------+-----------------------------|
+   | hard to quantify | sometimes quantifiable | relatively easy to quantify |
+
+   It's common to discuss the first two qualitatively, and quantify the third
+
+   Random error is but one of 20 threats to learning from data.Disproportionate
+   attention because it is the ONLY threat can be math-modeled.
+
+*** Smapling bias
+Ideally the sample should be representative,
+
+- representative means every person in the population in this case U.S. adults
+  *should have an equal probability* of being in the sample.
+- in contrast, if they have *different probability depending on what groups*
+  they belong to then that's not a representative sample.
+- the thing you try to measure is correlated with that group membership then the
+  results you get will be *bias*
+
+Or if some groups are oversampled, there should be no relationshp between group
+membership and what you measure.
+
+*** measurement error
+1. clothes and shoes.
+2. uncalibrated scale.
+3. misremembered.
+4. misreproted.
+5. misrecorded.
+6. miscoded(kg or lb, 999=NA or other).
+
+*** random error
+This is just the fact that you collected a sample rather than the whole population.
+eg. If you only call 3 people, they are just all 3 heavy people.
+
+** summary
+#+BEGIN_QUOTE
+.  >>>> Final Target: how precise the estimate is
+.
+.  >>>> three faces affect precise of estimate
+.     1. sampling bias
+.     2. measure error
+.     3. random error <<< how to handle this, to enlarge the precision of estimate.
+.
+.  If we know true distribution:
+.  1. sample from ~true~ distribution for many times, ~rv.rvs(1000)~
+.  2. compare the distributions of the statistics(mean, std) of the mean of all groups.
+.
+.  If we don't know true distribution:
+.  1. samples --> model --> smapling distribution  <<< using resampling model, bootstrapping
+.  2. sample from ~sampling~ distribution for many times,  <<< samples itself. ~np.random.choice(samples, (1000,1))~
+.  3. compare the distributions of the statistics(mean, std) of the mean of all groups.
+
+#+END_QUOTE
+
+#+BEGIN_QUOTE
+what have we learned
+
+One way to quantify variablity is to run lots of simulated experiments and
+compute sample statistics.
+
+The distribution of sampling statistics is the sampling distribution, which we
+can use to compute SE and CI.
+
+modeling and simulation
+
+Use the sample to make a model of the population.
+
+Use the model to simulate more experiments.
+#+END_QUOTE
+** Random Sampling, how to quantify the uncertainty of the estimate
+   #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+     from __future__ import print_function, division
+
+     import numpy
+     import scipy.stats
+
+     import matplotlib.pyplot as pyplot
+
+     from ipywidgets import interact, interactive, fixed
+     import ipywidgets as widgets
+
+     # seed the random number generator so we all get the same results
+     numpy.random.seed(18)
+
+     # some nicer colors from http://colorbrewer2.org/
+     COLOR1 = '#7fc97f'
+     COLOR2 = '#beaed4'
+     COLOR3 = '#fdc086'
+     COLOR4 = '#ffff99'
+     COLOR5 = '#386cb0'
+
+     %matplotlib inline
+   #+END_SRC
+
+   #+RESULTS:
+   :RESULTS:
+   # Out[323]:
+   :END:
+*** background
+    Suppose we want to *estimate the average weight* of men and women in the
+    U.S. And we want to *quantify the uncertainty of the estimate*. One approach
+    is to *simulate many experiments* and see *how much* the *results vary* from
+    one experiment to the next.
+
+    I'll
+
+    1.start with the unrealistic assumption that we know the actual distribution of
+    weights in the population.
+    2.then I'll show how to solve the problem without that assumption.
+
+*** Standard deviation ~std~ vs. Standard error ~se~
+    https://www.youtube.com/watch?v=3UPYpOLeRJg
+    https://www.youtube.com/watch?v=uIHFbMn8SBc
+
+    our target is to estimate the $\mu$, from central limits theorem, we can
+    see that the mean of sample distribution is good, but we should collect
+    sample first, what kind of or what range of sample that we collect can make our  ---
+    the "confidence" interval.
+
+    As smaple size increase, the values of $\bar{x}$ will have less variation
+    and therefore will be closer to $\mu$ , and will give a ~more precise
+    approximation~ of our population mean.
+
+    we alwasy do ONLY ONE experiment, so we want the average value from this
+    experiment as more precision as it can be to close to the true mean of
+    population. what we need to do. we need to make its distribution *as thin
+    as possible and as near as possible to true mean*, this is why we want
+    small ~se~.
+
+    In another way to say, if we only can sample one value from a distribution
+    and want that value should be as near as possible to mean of this
+    distribution, it's obviously want this distribution is thin around the
+    mean, by that we have higher probability sample a colser value to the mean.
+
+
+    Standard deviation: Summary statistics that describes a population. The SD
+    of adult male height is 7.7 cm
+
+    Standard error: Quantifies the *precision of an estimate*. The mean adult
+    height in the BRFSS sample is 178.5024 cm. The SE of this estimate is
+    0.00034 cm. ( my uncertainty due to random sampling is very small )
+
+    se of the mean which quantifies the precision of the mean, it's a meansure
+    of *how far* your *sample mean* is likely to be *from* the *true mean* of
+    the population.
+
+    std: variability of our data
+    se : precision of our data
+
+*** Part One, if know the true distribution
+**** get the ~rv~ by ~scipy.stats.lognorm~
+    Based on data from the BRFSS, I found that the distribution of weight in ~kg~ for
+    women in the U.S. is well modeled by a ~lognormal distribution~ with the following
+    parameters:
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      weight = scipy.stats.lognorm(0.23, 0, 70.8)
+      weight.mean(), weight.std()
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[324]:
+    [[file:./obipy-resources/23471hjU.png]]
+    :END:
+
+**** draw the distribution
+    Here's what that distribution looks like:
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      xs = numpy.linspace(20, 160, 100)
+      ys = weight.pdf(xs)
+      pyplot.plot(xs, ys, linewidth=4, color=COLOR1)
+      pyplot.xlabel('weight (kg)')
+      pyplot.ylabel('PDF')
+      None
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[325]:
+    [[file:./obipy-resources/23471uta.png]]
+    :END:
+
+**** draw samples by ~rv.rvs(sampleNum)~
+    make_sample draws a random sample from this distribution. The result is a NumPy
+    array.
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      def make_sample(n=100):
+          sample = weight.rvs(n)
+          return sample
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[327]:
+    :END:
+
+**** check the std and mean of samples with them of population
+    Here's an example with n=100. The mean and std of the sample are close to the
+    mean and std of the population, but not exact.
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      sample = make_sample(n=100)
+      sample.mean(), sample.std()
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[328]:
+    [[file:./obipy-resources/2347173g.png]]
+    :END:
+
+    We want to estimate the *average weight* in the population, so the "sample
+    statistic" we'll use is the ~mean~:
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      def sample_stat(sample):
+          return sample.mean()
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[329]:
+    :END:
+
+**** simulate 1000 times experiments, each time collecting 100 samples
+#+BEGIN_QUOTE
+.
+.       ..|..  lognorm(0.23, 0, 70.8)
+.      .. |   ..
+.     ..  |     ...  --------------------------------+
+.     ----+---------                                 | ~1000 group * 100 values~ => ~1000 group * 1 mean~
+.                                                    |
+.            1             2              3          |     4                 5                                1000
+.            +-------------+--------------+----------+-----+-----------------+---------------------------------+
+.            |             |              |                |                 |                                 |
+.            | .rvs(100)   | .rvs(100)    | .rvs(100)      | .rvs(100)       | .rvs(100)       .......         | .rvs(100)
+.            v             v              v                v                 v                                 v
+.
+.         /  ||            ||             ||               ||                ||                                ||
+.         |  ||            ||             ||               ||                ||                                ||
+.  (100,)<|  ||            ||             ||               ||                ||                                ||
+.         |  ||            ||             ||               ||                ||                                ||
+.         |  ||            ||             ||               ||                ||                                ||
+.         \  ||            ||             ||               ||                ||                                ||
+.
+.            |             |              |                |                 |                                 |
+.            | .mean       | .mean        | .mean          | .mean           | .mean             .......       | .mean
+.            v             v              v                v                 v                                 v
+.           value         value          value           value             value                              value
+.
+.           \-----------------------------------------------------------------------------------------------------/
+.                                                          v
+.                                                   ndarray: (1000,) each element is a mean
+.
+#+END_QUOTE
+    One iteration of "the experiment" is to collect a sample of 100 women and
+    compute their average weight.
+
+    We can simulate running this experiment many times, and collect a list of sample
+    statistics. The result is a NumPy array.
+
+    This function will return a ndarray of means with shape = (1000,)
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      def compute_sampling_distribution(n=100, iters=1000):
+          stats = [sample_stat(make_sample(n)) for i in range(iters)]
+          return numpy.array(stats)
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[330]:
+    :END:
+
+    The next line runs the simulation 1000 times and puts the results in
+    sample_means:
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      sample_means = compute_sampling_distribution(n=100, iters=1000)
+      print ( sample_means.shape )
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[341]:
+    :END:
+
+**** draw the 1000 means' histogram
+    Let's look at *the distribution of the sample means*. This distribution
+    shows how much the results vary from one experiment to the next.
+
+    Remember that this distribution is not the same as the distribution of
+    weight in the population. This is the distribution of results across
+    repeated imaginary experiments.
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      pyplot.hist(sample_means, color=COLOR5)
+      pyplot.xlabel('sample mean (n=100)')
+      pyplot.ylabel('count')
+      None
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[345]:
+    [[file:./obipy-resources/23471vnt.png]]
+    :END:
+
+    The mean of the sample means is close to the actual population mean, which is
+    nice, but not actually the important part.
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      sample_means.mean()
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[333]:
+    [[file:./obipy-resources/23471VMt.png]]
+    :END:
+
+**** weigh the stability of the means by the ~std~ of 1000 means, Central Limit Theorem
+    The standard deviation of the sample means quantifies the variability from one
+    experiment to the next, and reflects the precision of the estimate.
+
+    This quantity is called the "standard error".
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      std_err = sample_means.std()
+      std_err
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[334]:
+    [[file:./obipy-resources/23471iWz.png]]
+    :END:
+
+**** compute the confidence interval by ~np.percentile(arr, [percentage1, percentage2.])~
+    We can also use the distribution of sample means to compute a "~90% confidence
+    interval~", which contains 90% of the experimental results:
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      conf_int = numpy.percentile(sample_means, [5, 95])
+      conf_int
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[335]:
+    : array([69.92149384, 75.40866638])
+    :END:
+
+    Now we'd like to see what happens as we vary the sample size, n. The following
+    function takes n, runs 1000 simulated experiments, and summarizes the results.
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      def plot_sampling_distribution(ax, n, xlim=None):
+          """Plot the sampling distribution.
+
+          n: sample size
+          xlim: [xmin, xmax] range for the x axis
+          """
+          sample_stats = compute_sampling_distribution(n, iters=1000) #<- get 1000 means of n samples.
+          se = numpy.std(sample_stats)                                #<- get the std of this 1000 values
+          ci = numpy.percentile(sample_stats, [5, 95])                #<- get a confidence interval
+                                                                      #   tuple represent the lower
+                                                                      #   bound 5% and upper bound 95%
+          ax.hist(sample_stats, color=COLOR2)
+          ax.set_xlabel('sample statistic')
+          ax.set_xlim(xlim)
+          text(ax, 0.03, 0.95, 'CI [%0.2f %0.2f]' % tuple(ci)) # 'CI' --- confidence interval
+          text(ax, 0.03, 0.85, 'SE %0.2f' % se)                # 'SE' --- std
+
+      def text(ax, x, y, s):
+          """Plot a string at a given location in axis coordinates.
+
+          x: coordinate
+          y: coordinate
+          s: string
+          """
+          #ax = pyplot.gca()                       #<- get the current axes object
+          ax.text(x, y, s,
+                      horizontalalignment='left',
+                      verticalalignment='top',
+                      transform=ax.transAxes)
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[381]:
+    :END:
+
+    Here's a test run with n=100:
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      fig, axes = plt.subplots(nrows=1, ncols=4, figsize=(20,5))
+      plot_sampling_distribution(axes[0], 100)
+      plot_sampling_distribution(axes[1], 100)
+      plot_sampling_distribution(axes[2], 300)
+      plot_sampling_distribution(axes[3], 400)
+      plt.show()
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[382]:
+    [[file:./obipy-resources/23471KE1.png]]
+    :END:
+
+    Now we can use interact to run plot_sampling_distribution with different values
+    of n. Note: xlim sets the limits of the x-axis so the figure doesn't get
+    rescaled as we vary n.
+
+    #+BEGIN_QUOTE
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      def sample_stat(sample):
+          return sample.mean()
+
+      slider = widgets.IntSlider(min=10, max=1000, value=100)
+      interact(plot_sampling_distribution, n=slider, xlim=fixed([55, 95]))
+      None
+    #+END_SRC
+    #+END_QUOTE
+
+**** other sample statistics
+
+     This framework works with any other quantity we want to estimate. By changing
+     ~sample_stat~, you can compute the SE and CI for any sample statistic.
+
+     Exercise 1: Fill in ~sample_stat~ below with any of these statistics:
+
+     - Standard deviation of the sample. ~smaples.std()~
+     - Coefficient of variation, which is the sample standard deviation divided by
+       the sample standard mean. ~sample.std()/samples.mean()~
+     - Min or Max ~samples.max~
+     - Median (which is the 50th percentile) ~np.percentile(smaples, 50)~
+     - 10th or 90th percentile. ~np.percentile(smaples, [10,90])~
+     - Interquartile range (IQR), which is the difference between the 75th and 25th
+       percentiles. ~[25v, 75v] = np.percentile(smaples, [25,75]); 75v-25v~
+
+     NumPy array methods you might find useful include
+
+     - std,
+     - min,
+     - max,
+     - percentile.
+
+     Depending on the results, you might want to adjust xlim.
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      def sample_stat(sample):
+          return sample.mean()
+    #+END_SRC
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      def sample_stat(sample):
+          # TODO: replace the following line with another sample statistic
+          return sample.mean()
+
+    #+END_SRC
+
+     STOP HERE
+     We will regroup and discuss before going on.
+
+*** Part Two, if we don't know the distribution
+
+**** summary
+#+BEGIN_QUOTE
+.  >>>> Final Target: how precise the estimate is
+.
+.  >>>> three faces affect precise of estimate
+.     1. sampling bias
+.     2. measure error
+.     3. random error <<< how to handle this, to enlarge the precision of estimate.
+.
+.  If we know true distribution:
+.  1. sample from ~true~ distribution for many times, ~rv.rvs(1000)~
+.  2. compare the distributions of the statistics(mean, std) of the mean of all groups.
+.
+.  if we don't know true distribution:
+.  1. samples --> model --> smapling with replacement;     <<< using resampling model, bootstrapping
+.  2. sample from ~sampling~ distribution for many times;  <<< samples itself. ~np.random.choice(samples, (1000,1))~
+.  3. compare the distributions of the statistics(mean, std) of the mean of all groups.
+.
+.  Summary:
+.  1. use the sample to model the population;
+.  2. use the model to generate new samples;
+.  3. compute the sampling distribution of whatever statistic you want.
+.  4. report se(std) or ci(confidence interval), or both
+#+END_QUOTE
+
+**** content
+    So far we have shown that if we know the actual distribution of the population,
+    we can compute the sampling distribution for any sample statistic, and from that
+    we can compute SE and CI.
+
+    But *in real life we don't know the actual distribution of the population*. If we
+    did, we wouldn't be doing statistical inference in the first place!
+
+    In real life, we *use the sample to build a model of the population distribution*,
+    then *use the model to generate the sampling distribution*. A simple and popular
+    way to do that is "*resampling*," which means we *use the sample itself as a model*
+    of the population distribution and draw samples from it.
+
+    Before we go on, I want to collect some of the code from Part One and organize
+    it as a class. This class represents a framework for computing sampling
+    distributions.
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+          def text(x, y, s):
+              """Plot a string at a given location in axis coordinates.
+              x: coordinate
+              y: coordinate
+              s: string
+              """
+              ax = pyplot.gca()       #<- get the current axes object
+              pyplot.text(x, y, s,
+                  horizontalalignment='left',
+                  verticalalignment='top',
+                  transform=ax.transAxes)
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[409]:
+    :END:
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      class Resampler(object):
+          """Represents a framework for computing sampling distributions."""
+
+          def __init__(self, sample, xlim=None):
+              """Stores the actual sample."""
+              self.sample = sample
+              self.n = len(sample)
+              self.xlim = xlim
+
+          def resample(self):
+              """Generates a new sample by choosing from the original
+              sample with replacement.
+              """
+              new_sample = numpy.random.choice(self.sample, self.n, replace=True) #<- sample with replacement
+              return new_sample
+
+          def sample_stat(self, sample):
+              """Computes a sample statistic using the original sample or a
+              simulated sample.
+              """
+              return sample.mean()
+
+          def compute_sampling_distribution(self, iters=1000):
+              """Simulates many experiments and collects the resulting sample
+              statistics.
+              """
+              stats = [self.sample_stat(self.resample()) for i in range(iters)]
+              return numpy.array(stats)
+
+          def plot_sampling_distribution(self):
+              """Plots the sampling distribution."""
+              sample_stats = self.compute_sampling_distribution()
+              se = sample_stats.std()
+              ci = numpy.percentile(sample_stats, [5, 95])
+
+              pyplot.hist(sample_stats, color=COLOR2)
+              pyplot.xlabel('sample statistic')
+              pyplot.xlim(self.xlim)
+              text(0.03, 0.95, 'CI [%0.2f %0.2f]' % tuple(ci))
+              text(0.03, 0.85, 'SE %0.2f' % se)
+              pyplot.show()
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[410]:
+    :END:
+
+    The following function instantiates a Resampler and runs it.
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      def interact_func(n, xlim):
+          sample = weight.rvs(n)
+          resampler = Resampler(sample, xlim=xlim)
+          resampler.plot_sampling_distribution()
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[411]:
+    :END:
+
+    Here's a test run with n=100
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      interact_func(n=100, xlim=[50, 100])
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[412]:
+    [[file:./obipy-resources/23471KSd.png]]
+    :END:
+
+    Now we can use interact_func in an interaction:
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      slider = widgets.IntSlider(min=10, max=1000, value=100)
+      interact(interact_func, n=slider, xlim=fixed([50, 100]))
+      None
+    #+END_SRC
+
+    Exercise 2: write a new class called ~StdResampler~ that inherits from ~Resampler~
+    and overrides ~sample_stat~ so it computes the ~standard deviation~ of the resampled
+    data.
+
+    # Solution goes here
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      class StdResampler(Resampler):
+          def __init__(self, sample, xlim=None):
+              """Stores the actual sample."""
+              self.sample = sample
+              self.n = len(sample)
+              self.xlim = xlim
+          def sample_stat(self, sample):
+              """Computes a sample statistic using the original sample or a
+              simulated sample.
+              """
+              # print (sample.std())
+              return sample.std()
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[435]:
+    :END:
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      def interact_func2(n, xlim):
+          sample = weight.rvs(n)
+          std_resampler = StdResampler(sample, xlim=xlim)
+          std_resampler.plot_sampling_distribution()
+
+      interact_func2(n=100, xlim=[10, 30])
+
+      print ( StdResampler.__dict__ )
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[436]:
+    [[file:./obipy-resources/23471Yke.png]]
+    :END:
+
+
+    #+BEGIN_QUOTE
+    When your StdResampler is working, you should be able to interact with it:
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      slider = widgets.IntSlider(min=10, max=1000, value=100)
+      interact(interact_func2, n=slider, xlim=fixed([0, 100]))
+      None
+    #+END_SRC
+    #+END_QUOTE
+
+*** Part Three
+    We can extend this framework to compute SE and CI for a difference in means.
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      # For example, men are heavier than women on average.
+      # Here's the women's distribution again (from BRFSS data):
+      female_weight = scipy.stats.lognorm(0.23, 0, 70.8)
+      female_weight.mean(), female_weight.std()
+
+      # And here's the men's distribution:
+      male_weight = scipy.stats.lognorm(0.20, 0, 87.3)
+      male_weight.mean(), male_weight.std()
+
+      # I'll simulate a sample of 100 men and 100 women:
+      female_sample = female_weight.rvs(100)
+      male_sample = male_weight.rvs(100)
+
+      # The difference in means should be about 17 kg,
+      # but will vary from one random sample to the next:
+      male_sample.mean() - female_sample.mean()
+    #+END_SRC
+
+    Here's the function that computes Cohen's effect size again:
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      def CohenEffectSize(group1, group2):
+          """Compute Cohen's d.
+
+          group1: Series or NumPy array
+          group2: Series or NumPy array
+
+          returns: float
+          """
+          diff = group1.mean() - group2.mean()
+
+          n1, n2 = len(group1), len(group2)
+          var1 = group1.var()
+          var2 = group2.var()
+
+          pooled_var = (n1 * var1 + n2 * var2) / (n1 + n2)
+          d = diff / numpy.sqrt(pooled_var)
+          return d
+    #+END_SRC
+
+    The difference in weight between men and women is about 1 standard deviation:
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      CohenEffectSize(male_sample, female_sample)
+    #+END_SRC
+
+    Now we can write a version of the Resampler that computes the sampling
+    distribution of d .
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      class CohenResampler(Resampler):
+          def __init__(self, group1, group2, xlim=None):
+              self.group1 = group1
+              self.group2 = group2
+              self.xlim = xlim
+
+          def resample(self):
+              n, m = len(self.group1), len(self.group2)
+              group1 = numpy.random.choice(self.group1, n, replace=True)
+              group2 = numpy.random.choice(self.group2, m, replace=True)
+              return group1, group2
+
+          def sample_stat(self, groups):
+              group1, group2 = groups
+              return CohenEffectSize(group1, group2)
+    #+END_SRC
+
+    Now we can instantiate a CohenResampler and plot the sampling distribution.
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      resampler = CohenResampler(male_sample, female_sample)
+      resampler.plot_sampling_distribution()
+    #+END_SRC
+
+    This example demonstrates an advantage of the *computational framework* over
+    mathematical analysis. Statistics like Cohen's d , which is the ratio of other
+    statistics, are relatively difficult to analyze. But with a computational
+    approach, all sample statistics are equally "easy".
+
+    One note on vocabulary: what I am calling "*resampling*" here is a specific kind
+    of resampling called "*bootstrapping*". Other techniques that are also considering
+    resampling include *permutation tests*, which we'll see in the next section, and
+    "jackknife" resampling. You can read more at
+    http://en.wikipedia.org/wiki/Resampling_(statistics).
+
+* Misc tools
+** Statistics
+*** Coefficient of Variation
+    https://www.youtube.com/watch?v=Lz9qTUzTp28
+
+coefficient of variation is a way to let you compare two data sets to tell you
+which one has ~more spread compare to their mean~. The standard deviation does
+tell you what has ~more spread~.
+
+when you compare the spread of two datasets each has a *different mean*, the way
+you really get a good sense of which one is more spread out is to calculate
+the *coefficient of variation*.
+
+$c.v. = \frac{s}{\bar{x}} * 100$
+
+this formula gives you the *percentage*.
+
+**** eg.
+| N.H. #1:           | N.H. #2:           |
+|--------------------+--------------------|
+| X1.mean = $120,000 | X2.mean = $900,000 |
+| X1.std  = $2,000   | X2.std  = $10,000  |
+
+[Q]: whose spread is larger
+
+[A]:
+take std into account:
+===> X1.std = 2,000 ~<~ X2.std = 10,000
+
+BUUUUT,because the datasets is different in mean, so we should use ~coefficient
+of variation~ instead of using respective ~std~
+
+take coefficient of variation:
+===> c.v. = X1.std/X1.mean * 100 = 1.66%
+===> c.v. = X2.std/X2.mean * 100 = 1.11%
+===> c.v. #1 ~>~ c.v. #2
+
+N.H. #1 is spread 1.66% about its mean;
+N.H. #2 is spread 1.11% about its mean;
+
+N.H. #1 spread out larger
+*** Central Limit Theorem
+https://www.youtube.com/watch?v=Pujol1yC1_A
+
+**** introduction
+#+BEGIN_QUOTE
+The sample mean will be approximately normally distributed for
+large sample sizes, regardless of the distribution from which we
+are sampling.
+
+As the sample size *increases*, the sample distribution of smaple means
+will *be more and more like Noraml distribution*.
+
+As the sample size *increases*, the std of sample distribution of smaple means
+will *decrease*
+#+END_QUOTE
+
+
+The *mean* of the *sampling distribution* of the *sample mean* is equal to the
+population mean : $\mu_{\bar{X}}=\mu$
+
+The standard deviation of the sampling distribution of $\bar_{X}$ is equal
+to $\sigma_{\bar{X}}=\frac{\sigma}{\sqrt{n}}$
+
+**** Central Limit Theorem and Z-score
+$\frac{\bar{X}-\mu}{\sigma/\sqrt{n}} \rightarrow N(0,1), \hspace{0.1cm}as \hspace{0.1cm}{n \rightarrow \infty}$
+
+Z-score is $\frac{x-\mu}{\sigma}$, and if the distribution we want to talk about is
+the distribution of the sampling distribution of mean, then:
+
+$Z-score = \frac{x-\mu}{\sigma} =\frac{\bar{X}-\mu_{\bar{X}}}{\sigma_{\bar{X}}} = \frac{\bar{X}-\mu}{\sigma/\sqrt{n}}$
+
+
+**** why it's important
+Many statistics have distributions that are approximately normal for large
+sample sizes, even when we are sampling from a distribution that is not normal.
+
+We can often use well-developed statistical inference procedures that are based
+on a normal distribution, even if we are sampling from a population that is not
+normal, provided we have a large sample size.
+
+**** eg
+
+*** from central limit theorem to sampling distribution of smaple mean
+https://www.youtube.com/watch?v=FXZ2O1Lv-KE
+https://www.khanacademy.org/math/ap-statistics/sampling-distribution-ap/sampling-distribution-mean/v/sampling-distribution-example-problem
+
+**** Theorem
+#+BEGIN_QUOTE
+The sample mean will be approximately normally distributed for
+large sample sizes, regardless of the distribution from which we
+are sampling.
+
+As the sample size *increases*, the sample distribution of smaple means
+will *be more and more like Noraml distribution*.
+
+As the sample size *increases*, the std of sample distribution of smaple means
+will *decrease*
+#+END_QUOTE
+
+**** in numpy
+     #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+       import numpy as np
+       from scipy.stats import norm
+       import matplotlib.pyplot as plt
+       fig, ax = plt.subplots(1,1)
+
+       # get skew and kurt
+       mean, var, skew, kurt = norm.stats(moments='mvsk')
+       print (mean, var, skew, kurt)
+
+       # plot the pdf
+       x= np.linspace(norm.ppf(0.01),
+                      norm.ppf(0.99),
+                      100)
+       ax.plot(x,
+               norm.pdf(x),
+               'r-',
+               lw=5,
+               alpha=0.6,
+               label = 'norm pdf')
+
+       # compare with the standard pdf plot
+       rv = norm()
+       ax.plot(x,
+               rv.pdf(x),
+               'k-',
+               lw=2,
+               label='frozen pdf')
+
+       # check the accuracy of cdf and pdf
+       vals = norm.ppf([0.001, 0.5, 0.999])
+       np.allclose([0.001, 0.5, 0.999], norm.cdf(vals))
+
+       # generate random numbers and compare the histogram
+       r = norm.rvs(size = 1000)
+
+       ax.hist(r,
+               normed=True,
+               histtype='stepfilled',
+               alpha=0.2)
+
+       ax.legend(loc='best', frameon=False)
+       plt.show()
+     #+END_SRC
+
+     #+RESULTS:
+     :RESULTS:
+     # Out[447]:
+     [[file:./obipy-resources/23471fAs.png]]
+     :END:
+
+**** how to use the sampling distribution of sample mean.
+When a population is normally distributed, the sampling distribution of the
+sample mean $\bar{x}$ will also be normal regardless of sample size.
+
+When a population is *not* normally distributed, the sampling distribution of the
+sample mean $\bar{x}$ *depends on the sample size*.
+
+ - Sample means coming from large samples (n≥30, is greater than or equal
+   to, 30) will be normally distributed,
+
+ - Sample means coming from small samples (n<30, is less than, 30) may not
+   necessarily be normal.
+
+**** Illustration of sampling distribution of sample mean
+#+BEGIN_QUOTE
+. original distribution
+.                                             ...
+.                                           ... ....
+.                              ...         .. |    .
+.                             .. ..       ..  |    ....
+.                             .   ...   ...   |       ....
+.                            ..     .....     |          ....
+.                            .                |             ....
+.                            -----------------+------------------
+. -------------------------------.            .
+. sampling 5 each time           |            .
+. can compute its mean           |            .
+. these means and their frequency|            .
+. has a normal distribution      |            .
+. -------------------------------.            .
+.                           .....    .....    .  .....     .....    .....    .....
+.                             |        |      .    |         |        |        |
+.                             v        v      .    v         v        v        v
+.                mean:        *        *      .    *         *        *        *
+.                                             .
+. -------------------------------.            .
+. the large size of smapling     |            .
+. the more it similar to normal  |            .
+. distribution                   |            .
+.      sample size n = 5         |            .
+. -------------------------------.            |
+.                                             |
+.                                           # # #
+.                                        #  # | # # #
+.                                     #  #  # | # # # #
+.                         --------------------+--------------------
+. -------------------------------.            .
+. as size of smapling increase   |            .
+. the ~std~ of smaple            |            .
+. distribution of sample mean    |            .
+. will ~decrease~                |            .
+.      sample size n = 15        |            .
+. -------------------------------.            #
+.                                            ###
+.                                           # | #
+.                                          ## | ##
+.                                         ### | ###
+.                         --------------------+--------------------
+.
+#+END_QUOTE
+**** skew distribution
+#+BEGIN_QUOTE
+     positive skew --- tail at positive
+
+.                                    ...
+.                                 ..     ...
+.                               ..          ...
+.                               .               ..
+.                              .             |     ....
+.                             ..             |          .
+.                             .              |            ..
+.                            ..              |               ...
+.                            .               |                   ....
+.                            ----------------+----------------------->
+
+     negative skew --- tail at negative
+
+.
+.
+.                                            |         ...
+.                                            |      ..    ...
+.                                            | ...          ..
+.                                         ...|                ..
+.                                    ...     |                 ..
+.                              ....          |                   .
+.                            ..              |                    ..
+.                            ----------------+----------------------->
+#+END_QUOTE
+
+**** kurtosis distribution
+
+#+BEGIN_QUOTE
+positive kurtosis: larger range tail and higher peek
+.
+.                                           |
+.                                           |
+.                                        ---+--\
+.                                       /   |   |
+.                                       |...|...|
+.                                     ..|   |   |..
+.                                   ... |   |   | ...
+.                                 ...   |   |   |   ...
+.                               ...     |   |   |     ....
+.                       /---------------+   |   +-------------------\
+.                   /---    ...             |               ...      \
+.                 --       ..               |                 ...     -----
+.                         --------------------------------------
+
+negative kurtosis: smaller range tail and lower peek
+.
+.                                            |
+.                                            |
+.                                         ---+--\
+.                                        /   |   |
+.                                        |...|...|
+.                                      ..|   |   |..
+.                                   #####################
+.                                  #..   |   |   |   ... #
+.                               ...#     |   |   |     ..#..
+.                       /----------#-----+   |   +-------#------------\
+.                   /---    ...    #         |           #    ...      \
+.                 --       ..      #         |           #      ...     -----
+.                         --------------------------------------
+
+#+END_QUOTE
+** Matplotlib
+*** plt.hist(arr)
+   ~n, bins, patches = plt.hist(arr)~
+
+#+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+  dtarr = np.random.random(100)*10
+  fig, ax = plt.subplots()
+  n, bins, patches = ax.hist(dtarr) #<- return
+                                    #        n: array of number elements of each bins
+                                    #     bins: each bins range
+                                    #  patches: ONE patch is a 2D artist with a face color and an edge color.
+  print(n, bins, patches)
+  plt.show()
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[354]:
+[[file:./obipy-resources/2347184n.png]]
+:END:
+
+*** plt.gca()
+   ax = pyplot.gca() #<- get the current axes object
+
+*** plt.text(x, y, s, horizontalalignment, verticalalignment, transform)
+    x, y : scalars
+
+    The position to place the text. By default, this is in data coordinates. The
+    coordinate system can be changed using the transform parameter.
+
+    s : str
+
+    The text.
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      fig, ax = plt.subplots()
+      plt.text(0.1, 0.5, "hellow yidd",
+                  horizontalalignment='left',
+                  verticalalignment='top',
+                  transform=ax.transAxes)
+      plt.show()
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[359]:
+    [[file:./obipy-resources/234718_b.png]]
+    :END:
+
+*** plt.hist()
+**** plt.hist(histtype='bar')
+    - ‘bar’ is a traditional bar-type histogram. If multiple data are given the
+      bars are arranged side by side.
+    - ‘barstacked’ is a bar-type histogram where multiple data are stacked on
+      top of each other.
+    - ‘step’ generates a lineplot that is by default unfilled.
+    - ‘stepfilled’ generates a lineplot that is by default filled.
+
+    bar: 横向并排
+    barstacked: 纵向累加
+    step: 横向重叠,颜色透明
+    stepfilled: 横向重叠,颜色覆盖
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      fig, ax = plt.subplots(nrows = 1, ncols=4, figsize = (16,4))
+      arr1= np.random.randint(0, 14, 100)
+      arr2= np.random.randint(5, 14, 100)
+      arr3= np.random.randint(8, 10, 100)
+      arr_seq = [arr1, arr2, arr3]
+      print(arr)
+      histtypes = ['bar', 'barstacked', 'step', 'stepfilled']
+      ax_index = range(0,5)
+      for i in zip(ax_index, histtypes):
+          print (i)
+          ax[i[0]].hist(arr_seq, histtype=i[1])
+      plt.show()
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[468]:
+    [[file:./obipy-resources/23471H8V.png]]
+    :END:
+
+** Numpy
+*** np.random.choice(a,size,replace,p)
+    | np.random.choice | do random sampling from the given array                   |
+    |------------------+-----------------------------------------------------------|
+    | a                | 1-D array-like or int, where random sample generated from |
+    | size             | output shape, int or tuple                                |
+    | replace          | boolan, with or without replacement                       |
+    | p                | 1-D array-like, the probability of each element of ~a~    |
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      sampling_arr = np.random.choice(5, 3, p=[0.1, 0,  0.3, 0.6, 0])
+      print ( sampling_arr )
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[385]:
+    :END:
+
+*** np.random.*
+
+|                | methods                            | description                                                      |
+|----------------+------------------------------------+------------------------------------------------------------------|
+| 2 distribution | rand(d0, d1, ..., dn)              | Return a samples from the “ ~uniform~ ” distribution.            |
+|                | randn(d0, d1, ..., dn)             | Return a samples from the “ ~standard normal~ ” distribution.    |
+|----------------+------------------------------------+------------------------------------------------------------------|
+| all uniform    | random_sample([size])              | Return random floats in the half-open interval [0.0, 1.0).       |
+|                | random([size])                     | Return random floats in the half-open interval [0.0, 1.0).       |
+|                | ranf([size])                       | Return random floats in the half-open interval [0.0, 1.0).       |
+|                | sample([size])                     | Return random floats in the half-open interval [0.0, 1.0).       |
+|----------------+------------------------------------+------------------------------------------------------------------|
+| int            | randint(low[, high, size, dtype])  | Return random integers from low (inclusive) to high (exclusive). |
+|                | random_integers(low[, high, size]) | Random integers of type np.int between low and high, inclusive.  |
+|----------------+------------------------------------+------------------------------------------------------------------|
+| sampling       | choice(a[, size, replace, p])      | Generates a random sample from a given 1-D array                 |
+|----------------+------------------------------------+------------------------------------------------------------------|
+|                | bytes(length)                      | Return random bytes.                                             |
+
+
+#+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+  rand_r = np.random.rand(4,2)                               #<- [0.0, 1.0)
+  random_r = np.random.random((4,2))                         #<- [0.0, 1.0)
+
+  random_sample_r = np.random.random_sample((4,2))           #<- [0.0, 1.0)
+  ranf_r = np.random.ranf((4,2))                             #<- [0.0, 1.0)
+  sample_r = np.random.sample((4,2))                         #<- [0.0, 1.0)
+  randn_r = np.random.randn(4,2)                             #<- [0.0, 1.0)
+
+  randint_r = np.random.randint(1, 10, (4,2))                #<- [low high)
+  randintergers_r = np.random.random_integers(1, 10, (4,2))
+
+  choice_r = np.random.choice(3, 3, p=[0.1, 0.1, 0.8])
+  print (rand_r, random_r, random_sample_r, ranf_r, sample_r)
+  print (randn_r, randint_r, randintergers_r, choice_r)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[390]:
+:END:
+
+*** np.percentile(arr, [percentage])
+   np.percentile(1D_ndarray, [5,95])
+
+   Compute the qth percentile of the data along the specified axis.
+
+   Returns the qth percentile(s) of the array elements.
+
+#+BEGIN_QUOTE
+.
+.   np.percentile(1D_ndarray, [5,95]) = ~[6.112, 7.982]~
+.
+.                       |
+.                     ..|..
+.                  ...  |  ...
+.                ...    |    ...
+.              ...      |      ...
+.             ..        |       ..
+.           |..         |         ..|
+.          .|.          |          .|.
+.       ..  |           |           |...
+.           |           |           |
+.         --|-----------+-----------|---->
+.           5%                     95%
+.
+.           ^                       ^
+.           ~6.112~                   ~7.982~
+.
+.  np.percentile will sort and find the element of given *1D_array*
+.  which at the given *percentage of location*, here the given
+.  percentage location is ~5%~ and ~95%~
+#+END_QUOTE
+
+*** np.isclose(arr-like, arr-like,rtol,atol) vs. np.allclose(arr-like,arr-like,rtol,atol)
+https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.allclose.html
+https://docs.scipy.org/doc/numpy/reference/generated/numpy.isclose.html#numpy.isclose
+
+    they're almost same, the only difference:
+    - np.isclose => bool_array
+    - np.allclose => bool
+
+    #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+      bool = np.allclose([1,2,3],[1,2,3])
+      bool_arr = np.isclose([1,2,3],[1,2,3])
+      print ( bool, bool_arr )
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[453]:
+    :END:
+
+** Scipy
+*** scipy.stats.<distribution>.cdf, pdf, ppf
+   http://192.168.199.102:5443/read/69/pdf
+   http://eric.univ-lyon2.fr/~ricco/tanagra/fichiers/en_Tanagra_Calcul_P_Value.pdf
+
+   x ---> cdf ---> cumulative probability of (-inf, x)
+   cumulative probability of (-inf, x) ---> ppf ---> x
+
+
+   <distribution> = ~norm~, ~t~, ~chi2~, ~f~
+
+   scipy.stats.<distribution>.cdf(_x_,        loc, scale)
+   scipy.stats.<distribution>.pdf(_arr-like_, loc, scale)
+   scipy.stats.<distribution>.ppf(_prob_,     loc, scale)
+
+   - mean = ~loc~   = default 0
+   - std  = ~scale~ = default 1
+
+**** cdf: give x return probability
+   x ---> cdf ---> cumulative probability of (-inf, x)
+   cumulative probability of (-inf, x) ---> ppf ---> x
+
+   CDF of the standard normal distribution (μ = 0 and σ = 1). Probability of
+   less than x = 1.65 is equal to 0.9505285
+
+   ~scipy.stats.norm.cdf()~ has default mean= ~loc~ =0, std= ~scale~ =1
+
+   #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+     import scipy.stats as stats
+     stats.norm.cdf(1.65, loc = 0, scale = 1)
+   #+END_SRC
+
+   #+RESULTS:
+   :RESULTS:
+   # Out[448]:
+   [[file:./obipy-resources/23471sKy.png]]
+   :END:
+
+.  |                    0.9505285
+.  |             ....  /
+.  |         ........./.
+.  |       ........../....|
+.  |     .................|.
+.  |    ..................|  .
+.  |   ...................|   .
+.  |  ....................|    .
+.  | .....................|     .
+. -+---------------+------+------------
+.                  0      ^ x = 1.65
+
+**** ppf: give probability return x
+   x ---> cdf ---> cumulative probability of (-inf, x)
+   cumulative probability of (-inf, x) ---> ppf ---> x
+
+   PPF (q) of the standard normal distribution for the probability (1 – α) =
+   0.95
+
+   #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+   stats.norm.ppf(0.95, loc =0, scale = 1)
+   #+END_SRC
+
+   #+RESULTS:
+   :RESULTS:
+   # Out[451]:
+   [[file:./obipy-resources/234714oN.png]]
+   :END:
+
+.  |
+.  |             ....
+.  |         .         .
+.  |       .             .
+.  |     .                 .     α = 0.05
+.  |    .    1 - α = 0.95   |.  /
+.  |   .                    |../
+.  |  .                     |...
+.  | .                      |....
+. -+---------------+--------+----------
+.                  0        ^ q = 1.644854
+
+**** compute right tailed p-value by ~cdf~ or ~sf~
+   Calculation of the p-value for the standard normal distribution in a right
+   tailed test. The probability of more than z = 2.1 is equal to 0.01786442
+
+   sf = 1 - cdf
+   #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+   1 - stats.norm.cdf(2.1)
+   stats.norm.sf(2.1)
+   #+END_SRC
+
+   #+RESULTS:
+   :RESULTS:
+   # Out[449]:
+   [[file:./obipy-resources/23471eUB.png]]
+   :END:
+
+.  |
+.  |             ....
+.  |         .         .
+.  |       .             .  |
+.  |     .                 .|     p-value = 0.01786442
+.  |    .                   |.  /
+.  |   .                    |../
+.  |  .                     |...
+.  | .                      |....
+. -+---------------+--------+----------
+.                  0        ^ z = 2.1
+.
+. because the std=1 mean=0, so, z = x
+.
+
+**** compute two tailed p-value by ~cdf~
+   Calculation of the p-value for the standard normal distribution in a twotailed
+   test. The probability of more than z = 2.1 in absolute value is equal
+   to 0.03572884
+
+   #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+   2 * (1 - stats.norm.cdf(2.1))
+   #+END_SRC
+
+   #+RESULTS:
+   :RESULTS:
+   # Out[450]:
+   [[file:./obipy-resources/23471reH.png]]
+   :END:
+
+.           p-value = 0.01786442 * 2
+.  |
+.  |             ....
+.  |         .         .
+.  |     |  .             .  |
+.  |     |.                 .|
+.  |    .|                   |.
+.  |   ..|                   |..
+.  |  ...|                   |...
+.  | ....|                   |....
+. -+-----+---------+---------+----------
+.   -2.1 ^         0         ^ 2.1
+
+**** generating data from distribution
+     Generating random numbers from standard normal distribution N(μ=0,σ=1)
+
+     ~stats.norm.rvs(loc=0,scale=1, size=1, random_state = none)~
+
+*** two methods to compute confidence interval
+**** if you know the distribution
+if you know the distribution using ppf
+   #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+     ci = stats.norm.ppf([0.025, 0.975])
+     ci
+   #+END_SRC
+
+   #+RESULTS:
+   :RESULTS:
+   # Out[473]:
+   : array([-1.95996398,  1.95996398])
+   :END:
+
+.  |
+.  |             ....
+.  |         .         .
+.  |     |  .             .  |
+.  |     |.                 .|
+.  |    .|                   |.
+.  |   ..|                   | .
+.  |  ...|                   |  .
+.  | ../.|                   |   .
+. -+--/--+---------+---------+----------
+.    2.5%
+
+.  |
+.  |             ....
+.  |          ...........
+.  |       ...............   |
+.  |     ....................|
+.  |    .....................|.
+.  |   ......................| .
+.  |  ........\..............|  .
+.  | ..........\.............|   .
+. -+-----+------\--+---------+----------
+.                 97.5%
+
+**** if you don't know the distribution
+     if you don't know the distribution, and ONLY have a list of data
+     using ~np.percentile(arr_data, [2.5,97.5])~

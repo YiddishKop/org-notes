@@ -55,9 +55,7 @@ Relatively speaking, Jill is taller than Jack because her standard score is grea
 1. compute z
 2. find the probability of this z related in z-table
 
-
 * P value
-
 ** Formula of P value
   $H_{0} : \mu = \mu_0$
 
@@ -99,7 +97,6 @@ $Z = \dfrac{(\overline{X}-\mu_0)}{\sigma/\sqrt{n}}$
 
 confidence interval = $\overline{X} \pm Z_{\alpha/2}\dfrac{\sigma}{\sqrt{n}}$
 
-$z=\dfrac{(x - \mu)}\sigma$
 
 #+BEGIN_QUOTE
   H0 : In every experiment, there is *NO effect or difference* between groups that the researchers are testing

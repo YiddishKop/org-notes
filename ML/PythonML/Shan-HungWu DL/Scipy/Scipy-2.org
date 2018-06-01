@@ -1,0 +1,20 @@
+#+TITLE: Scipy
+
+* xxx
+  #+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+%matplotlib inline
+  #+END_SRC
+
+  #+RESULTS:
+  :RESULTS:
+  # Out[71]:
+  :END:
+
+#+BEGIN_SRC ipython :session :exports both :async t :results raw drawer
+!conda info
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[72]:
+:END:

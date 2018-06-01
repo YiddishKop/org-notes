@@ -104,7 +104,6 @@ parameters scaled by *.8, 1.3, and 1.6*, respectively.
 - plt.tight_layout()
 - plt.savefig('path', dpi)
 
-
 ** the usage of join distributions and pairplot.
     *Find the relationship between every two features*.
 two important dataset characteristics you should first find:

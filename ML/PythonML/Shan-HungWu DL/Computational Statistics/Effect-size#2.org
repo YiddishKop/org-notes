@@ -1,0 +1,221 @@
+#+TITLE: Effect size
+
+* Effect size #2, difference in proportions
+*** background
+Of the children who avoided peanut, ~17%~ developed peanut allergy by the age 5
+years; Remarkably, only ~3%~ of the children who were randomized to eating the
+peanut snack developed allergy by age 5.
+
+Therefore, in high-risk infants, sustained consumption of peanut beginning in
+the first 11 months of life was highly effective in preventing the development
+of peanut allergy.
+
+Using ONLY ONE number to tell me, what's the effect was.
+
+cohen's d = (mean1 - mean2)/s
+s = pooled std
+
+experiment group: %3 or 17%
+control group: %17 or 3%
+
+you can say, sustained consumption of peanut will give 14% of reduction on
+peanut allergy.
+
+Boundary between experiment group and control group is not clear, so both
+direction is OK.
+
+BUUUT, percetage difference is not a clear concept to describe the difference.
+
+%17 to %3, 14/17 = %83, consumption of peanut decrease allergy rate by 83
+percent.
+
+%3 to %17, 14/3 = %467, avoiding of peanut increase allergy rate by 467 percent.
+
+*** From probability to Odds Ratio(OR)
+(odds and probability can change to each other)
+
+p1 = 0.03
+p2 = 0.17
+
+odds = p / ( 1- p )
+
+o1 = 0.0309
+o2 = 0.2048
+
+OR = o1/o2 = 0.151
+
+eating peanuts decreases allergy rates (OR=0.15)
+
+eating peanuts decreases allergy rates (OR=6.6)
+
+*** From Odds Ratio(OR) to Log Odds Ratio(LOR)
+(advantage is ~symmetric~)
+
+eating peanuts decreases allergy rates (LOR= ~-0.82~)
+
+eating peanuts decreases allergy rates (LOR= ~0.82~)
+
+professor says that, if I can make everyone in th world use LOR, I will do it.
+
+*** The advantages of LOR
+
+   If you dive into information theory, LOR is a measure of information content
+   if you tell me what the treatment was, that'll tell me how to do a Bayesian
+   update about how much I should believe you get a peanut allergy and then add
+   up if you apply several different treatments that have long odds ratios of
+   one ,two and three. The total of all of those treatments is six at least if I
+   assume that they're independent.
+
+*** Different express ways:
+
+| Treatment          | Diff in rate | percent chage | Odds ratio | Log Odds ratio |
+|--------------------+--------------+---------------+------------+----------------|
+| administer peanuts | -14 points   |          -83% |       0.15 |          -0.82 |
+| withhold peanuts   | +14 points   |         +467% |        6.6 |          +0.82 |
+
+Tradoff from these ways:
+1. Choose a measure of effect size that is meaningful in context.
+2. The estimated effect size is the most important result. Everything else is auxiliary.
+3. Standardized measures are comparable across studies(sometimes violate rule#1).
+
+* Misc tools
+** Statistics
+*** Odds vs. Probability
+    https://www.youtube.com/watch?v=Vu4x2DKn12g
+
+.
+.                  # successes                    # you want
+.  probability = ---------------------------- = -------------------
+.                  # total possible outcomes      # total
+.
+.
+.                  # favorable                    # you want
+.   odds favor = ---------------------------- = -------------------
+.                  # unfavorable                  # you don't want
+.
+.
+.                  # unfavorable                  # you don't want
+. odds against = ---------------------------- = -------------------
+.                  # favorable                    # you want
+.
+
+eg.
+.
+.    you want to know probability and odds *favor* of getting "*" from bucket.
+.
+.                                           3
+.    ---+           +---               p = --- = 1/2
+.       |  *  *  *  |                       6
+.       |   ^  ^    |
+.       |     #     |                       3
+.       +-----------+                odd = --- = 1
+.                                           3
+
+.    you want to know probability and odds *against* of getting "#" from bucket.
+.
+.                                           5
+.    ---+           +---               p = ---
+.       |  *  *  *  |                       6
+.       |   ^  ^    |
+.       |     #     |                       5
+.       +-----------+                odd = --- = 5
+.                                           1
+*** TODO Odds and Bayes
+https://www.youtube.com/watch?v=Ql2jEJ-6e-Y
+
+Log Odds Rate is the Bayes factor; Bayes factor is a measure of the information content.
+
+.
+.
+|               | Disease Positive | Disease Negative |
+|---------------+------------------+------------------|
+| Test Positive | A:true pos       | B: false pos     |
+| Test Negative | C:true neg       | D: true neg      |
+
+.
+.            P(B|A) * P(A)
+.  P(A|B) = ------------------
+.                 P(B)
+.
+.  A: have fake itis
+.  B: given +ve test result
+.
+.
+.
+.  LR                   the probability that a test is correct        positive
+.  Likelihood Ratio = ------------------------------------------- = ---------------
+.                       the probability that it is incorrect          negative
+.
+.
+.  LR+                             sensitivity
+.  Positive Likelihood Ratio = --------------------
+.                                1 - specificity
+.
+.
+.  LR-                           1 - sensitivity
+.  Negative Likelihood Ratio = --------------------
+.                                   specificity
+.
+.
+.
+.  Bayes Theorem:
+.  Post-test odds = Pre-test odds * LR
+.
+
+eg.
+|               | Disease Positive | Disease Negative |
+|---------------+------------------+------------------|
+| Test Positive | A:true pos       | B: false pos     |
+| Test Negative | C:true neg       | D: true neg      |
+
+|               |  Disease Positive | Disease Negative  |
+|---------------+-------------------+-------------------|
+| Test Positive |               610 | 13,212            |
+| Test Negative |               118 | 127,344           |
+|---------------+-------------------+-------------------|
+|               | sensitivity=83.8% | specificity=90.6% |
+
+.
+.  LR+                             sensitivity         0.838
+.  Positive Likelihood Ratio = -------------------- = -------- = 8.9
+.                                1 - specificity       0.094
+
+.  LR-                           1 - sensitivity
+.  Negative Likelihood Ratio = -------------------- = 0.18
+.                                   specificity
+.
+.  0.5% of women in population will have breast cancer;
+.
+.             0.005
+.    Odds = --------- = 0.005
+.             0.995
+.
+.  In statistics, pretest odds is almost the same with the prtest probability.
+
+.  Bayes Theorem:
+.  Post-test odds = Pre-test odds * LR+
+.                 = 0.005 * 8.9
+.                 = 0.045
+.     probability = Odds/(1+Odds)
+.                 = 0.045/(1+0.045)
+.                 = 4.3%
+.
+.  means that if you have a +ve result of cancer test, you ONLY have a probability of 4.3% to really get a cancer.
+.
+.  If your doctor find the shadow in your mammograms(乳房照), then the pre-test probability is 30% not 0.5%
+.
+.             0.3
+.    Odds = ------- = 0.43
+.             0.7
+.
+.  Bayes Theorem:
+.  Post-test odds = Pre-test odds * LR+
+.                 = 0.43 * 8.9
+.                 = 3.8
+.     probability = Odds/(1+Odds)
+.                 = 3.8/(1+3.8)
+.                 = 79%
+.
+.  means that if you have a +ve result of cancer test, you ALMOST have a probability of 79% to really get a cancer.
+.
+.  This is why mammograms is an important tool.

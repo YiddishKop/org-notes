@@ -442,3 +442,6 @@ https://emacs-china.github.io/EGO/
    3. press <s + f> then input 'hello' => 'hello(love)'
    3. press <s + b> then input 'hello' => '(love)'
    3. press <s + t> then input 'hello' => '<hello>love</hello>'
+
+** TODO [#B] Only edit content of current headline in a new buffer
+   hotkey: C-x n s
